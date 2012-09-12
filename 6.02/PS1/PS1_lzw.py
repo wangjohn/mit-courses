@@ -66,7 +66,6 @@ def uncompress(filename):
         None.
     """
     # defining constants
-    MAX_TABLE_SIZE = 2**16
     OUTPUT_FILE_NAME = "decompressed_file"
 
     # initialize everything
@@ -75,26 +74,31 @@ def uncompress(filename):
     lzw_table = initialize_lzw_table(False)
     output = array.array("B")
     counter = 256
-    previous_index = 0
+    previous_index = get_two_byte_integer(compressed_message[0], compressed_message[1]) 
+    write_decompressed_to_output(lzw_table[previous_index], output)
 
     # read through the compressed message, performing decompression
     i = 2
-    while i < len(compressed_message) - 1:
+    while i < len(compressed_message)-1:
         current_index = get_two_byte_integer(compressed_message[i], compressed_message[i+1])
         i += 2
-
+        
         if lzw_table.has_key(current_index):
             entry = lzw_table[current_index]
+            lzw_table[counter] = (lzw_table[previous_index] + [entry[0]]) 
         else:
             entry = lzw_table[previous_index]
-            entry += entry[0]
-        for char in entry:
-            output.append(ord(char))
-        lzw_table[counter] = (lzw_table[previous_index] + entry) 
+            entry.append(entry[0])
+            lzw_table[counter] = entry
+        write_decompressed_to_output(entry, output)
         counter += 1
         previous_index = current_index
     output.write(open(OUTPUT_FILE_NAME, "wb"))
 
+
+def write_decompressed_to_output(entry, output):
+    for char in entry:
+        output.append(ord(char))
 
 def get_two_byte_integer(bottom_half, top_half):
     return bottom_half + top_half*256
