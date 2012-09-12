@@ -17,7 +17,7 @@ def compress(filename):
     
     # define constants like output file name and max table size
     MAX_TABLE_SIZE = 2**16
-    OUTPUT_FILE_NAME = 'compressed_output'
+    OUTPUT_FILE_NAME = filename + '.zl'
 
     # open the file and initialize the table and output
     f = open(filename, 'rb')
