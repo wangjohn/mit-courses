@@ -74,27 +74,25 @@ def uncompress(filename):
     compressed_message = array.array('B', f.read())
     lzw_table = initialize_lzw_table(False)
     output = array.array("B")
-    current_message = []
     counter = 256
+    previous_index = 0
 
     # read through the compressed message, performing decompression
-    i = 0
+    i = 2
     while i < len(compressed_message) - 1:
         current_index = get_two_byte_integer(compressed_message[i], compressed_message[i+1])
-        print current_index
         i += 2
 
         if lzw_table.has_key(current_index):
-            for char in lzw_table[current_index]:
-                output.append(ord(char))
-            if current_message + lzw_table[current_index] in lzw_table.values():
-                current_message += lzw_table[current_index]
-            else:
-                lzw_table[counter] = current_message + lzw_table[current_index]
-                counter += 1
-                current_message = lzw_table[current_index]
+            entry = lzw_table[current_index]
         else:
-            print 'unhandled case found', current_index, compressed_message[i-2], compressed_message[i-1]
+            entry = lzw_table[previous_index]
+            entry += entry[0]
+        for char in entry:
+            output.append(ord(char))
+        lzw_table[counter] = (lzw_table[previous_index] + entry) 
+        counter += 1
+        previous_index = current_index
     output.write(open(OUTPUT_FILE_NAME, "wb"))
 
 
