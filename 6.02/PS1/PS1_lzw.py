@@ -4,8 +4,6 @@ from optparse import OptionParser
 import struct
 import array
 
-
-
 def compress(filename):
     """
     Compresses a file using the LZW algorithm and saves output in another file.
@@ -42,13 +40,13 @@ def compress(filename):
     write_to_table(lzw_table, current_message, output)
     output.write(open(OUTPUT_FILE_NAME, 'wb'))
 
-def initialize_lzw_table(compression=True):
+def initialize_lzw_table(compress=True):
     lzw_table = {}
     for i in xrange(256):
-        if compression:
+        if compress:
             lzw_table[chr(i)] = i
         else:
-            lzw_table[i] = i
+            lzw_table[i] = [chr(i)]
     return lzw_table
 
 def write_to_table(lzw_table, message, output):
@@ -68,7 +66,7 @@ def uncompress(filename):
     """
     # defining constants
     MAX_TABLE_SIZE = 2**16
-    OUTPUT_FILE_NAME = filename + '.zl'
+    OUTPUT_FILE_NAME = "decompressed_file"
 
     # initialize everything
     f = open(filename, 'rb')
@@ -80,15 +78,23 @@ def uncompress(filename):
 
     # read through the compressed message, performing decompression
     i = 0
-    while i < len(compressed_message):
+    while i < len(compressed_message) - 1:
         current_index = get_two_byte_integer(compressed_message[i], compressed_message[i+1])
+        print current_index
         i += 2
-        output.append(lzw_table[current_index])
 
-        if lzw_table.has_key("".join(current_message) + [chr(compressed_message[i])]):
-            current_message.append(chr(compressed_message[i]))
-        else:
-            write_to_table(lzw_table, current_message, compressed_message[i])
+        if lzw_table.has_key(current_index):
+            print current_index
+            for char in lzw_table[current_index]:
+                output.append(ord(char))
+            if current_message + lzw_table[current_index] in lzw_table.values():
+                current_message += lzw_table[current_index]
+            else:
+                lzw_table[counter] = current_message + lzw_table[current_index]
+                counter += 1
+                current_message = lzw_table[current_index]
+    output.write(open(OUTPUT_FILE_NAME, "wb"))
+
 
 def get_two_byte_integer(bottom_half, top_half):
     return bottom_half + top_half*256
