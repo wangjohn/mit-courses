@@ -22,9 +22,7 @@ def compress(filename):
     # open the file and initialize the table and output
     f = open(filename, 'rb')
     input_message = array.array("B", f.read())
-    lzw_table = {}
-    for i in xrange(256):
-        lzw_table[chr(i)] = i
+    lzw_table = initialize_lzw_table(True)
     output = array.array("B")
     current_message = []
     counter = 256
@@ -42,8 +40,16 @@ def compress(filename):
                 raise "This file needs more than 2**16 entries"
             current_message = [chr(input_message[i])]
     write_to_table(lzw_table, current_message, output)
-    print output
     output.write(open(OUTPUT_FILE_NAME, 'wb'))
+
+def initialize_lzw_table(compression=True):
+    lzw_table = {}
+    for i in xrange(256):
+        if compression:
+            lzw_table[chr(i)] = i
+        else:
+            lzw_table[i] = i
+    return lzw_table
 
 def write_to_table(lzw_table, message, output):
     decimal = lzw_table["".join(message)]
@@ -60,6 +66,32 @@ def uncompress(filename):
     Returns:
         None.
     """
+    # defining constants
+    MAX_TABLE_SIZE = 2**16
+    OUTPUT_FILE_NAME = filename + '.zl'
+
+    # initialize everything
+    f = open(filename, 'rb')
+    compressed_message = array.array('H', f.read())
+    lzw_table = initialize_lzw_table(False)
+    output = array.array("B")
+    current_message = []
+    counter = 256
+
+    # read through the compressed message, performing decompression
+    i = 0
+    while i < len(compressed_message):
+        current_index = get_two_byte_integer(compressed_message[i], compressed_message[i+1])
+        i += 2
+        output.append(lzw_table[current_index])
+
+        if lzw_table.has_key("".join(current_message) + [chr(compressed_message[i])]):
+            current_message.append(chr(compressed_message[i]))
+        else:
+            write_to_table(lzw_table, current_message, compressed_message[i])
+
+def get_two_byte_integer(bottom_half, top_half):
+    return bottom_half + top_half*256
 
 if __name__ == '__main__':
     parser = OptionParser()
