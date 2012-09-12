@@ -15,7 +15,8 @@ def compress(filename):
     
     # define constants like output file name and max table size
     MAX_TABLE_SIZE = 2**16
-    OUTPUT_FILE_NAME = filename + '.zl'
+    OUTPUT_FILE_NAME = 'compressed_output'
+    #OUTPUT_FILE_NAME = filename + '.zl'
 
     # open the file and initialize the table and output
     f = open(filename, 'rb')
@@ -70,7 +71,7 @@ def uncompress(filename):
 
     # initialize everything
     f = open(filename, 'rb')
-    compressed_message = array.array('H', f.read())
+    compressed_message = array.array('B', f.read())
     lzw_table = initialize_lzw_table(False)
     output = array.array("B")
     current_message = []
@@ -84,7 +85,6 @@ def uncompress(filename):
         i += 2
 
         if lzw_table.has_key(current_index):
-            print current_index
             for char in lzw_table[current_index]:
                 output.append(ord(char))
             if current_message + lzw_table[current_index] in lzw_table.values():
@@ -93,6 +93,8 @@ def uncompress(filename):
                 lzw_table[counter] = current_message + lzw_table[current_index]
                 counter += 1
                 current_message = lzw_table[current_index]
+        else:
+            print 'unhandled case found', current_index, compressed_message[i-2], compressed_message[i-1]
     output.write(open(OUTPUT_FILE_NAME, "wb"))
 
 
