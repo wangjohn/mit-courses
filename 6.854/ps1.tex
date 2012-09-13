@@ -79,20 +79,40 @@ We are left to show that cutting nodes only after losing $k$ children makes dele
 
 \section{Problem 3}
 
-On tradeoffs in the heap operations
+On tradeoffs in the heap operations.
 
 \begin{prob}
 Let $P$ be a priority queue that performs insert, delete-min, and merge in $O(\log n)$ time, and performs make-heap in $O(n)$ time where $n$ is the size of the resulting  priority queue. Show that $P$ can be modified to perform insert in $O(1)$ amortized time, without affecting the cost of delete-min or merge (i.e. $O(\log n)$ amortized time). Assume that the priority queue does not support an efficient decrease-key operation.
 \end{prob}
 
 \begin{sol}
+We will store a linked list $L$ of priority queues. The original priority queue $P$ will be at the front of the linked list. When performing an insert, we will create a new priority queue and append it to $L$. When merging a new priority queue $P_{new}$, we first consolidate all of the priority queues which are not $P$, hence all the priority queues which are single nodes and have been created by an insert, and create an auxiliary priority queue $P_a$. Next, we merge $P_a$ with $P$ so that the entire data structure is now composed of a single heap $P$. Then, we merge the new priority queue $P_{new}$ with the existing queue $P$. To perform a delete-min, we first consolidate all of the roots into a single priority queue. This can be done with the same routine used in merge, i.e. creating a priority queue of the singular roots and merging that auxiliary priority queue with $P$. Then, delete min can be performed on $P$ in the usual manner.
 
+To analyze this data structure, we will introduce a potential function $\Phi = \text{\# of roots}$. The real cost of an insert is just a constant $O(1)$, and the change in potential is 1, so $a_i = O(1)$ for insert. To examine merge and delete-min, we will first examine the consolidation subroutine. In the consolidation subroutine, a make-heap operation is performed on all single-node roots. The real cost of the make-heap is $O(c)$, where $c$ is the number of single-node roots. The merge part of the consolidation requires $O(\log n)$ real cost. The change in potential is given by $-c$, since there are now $c$ fewer roots. Thus, the amortized cost of the consolidation subroutine is $O(\log n) + c - c = O(\log n)$. This means that the merge operation, which will merge another tree in $O(\log n)$ (and won't affect the potential), will cost $O(\log n) + O(\log n) = O(\log n)$ amortized time. The delete-min operation will perform a merge, then a regular delete-min from the priority queue $P$, which will take $O(\log n) + O(\log n) = O(\log n)$ amortized time.
+
+Thus, we have created a data structure will allows insert in $O(1)$ but retains the amortized cost of delete-min and merge.
 \end{sol}
 
-
+\begin{prob}
+Using the above technique, show that even binary heaps can be modified to support insert in $O(1)$ amortized time while maintaining an $O(\log n)$ time bound for delete-min. Note that binary heaps do not support merge in $O(\log n)$ time.
+\end{prob}
 
 \begin{sol}
+We will start out with a linked list $L$ of priority queues as before. When we insert a node, we will simply create a new root and append it to $L$. We will also keep a priority queue $Q$ which holds the roots of all other priority queues, and at first it will only contain the root of $P$. To perform delete-min, we will first perform a make-heap on all of the single-node roots, and insert the new heap's root into $Q$. After the new heap's root has been inserted into $Q$, we perform a delete-min on $Q$, then a delete-min on the tree which was the root of $Q$.
 
+We will use a potential function $\Phi = \text{\# of roots}$ for the analysis. Insert requires amortized time $a_i = 1 + 1$, since it requires $1$ in real cost to create a new node and the potential changes by $1$. For delete-min, we first perform a make-heap on all of the single-node roots. Let's say that there exist $c$ single-node roots, then the make heap requires $O(c)$ time. Inserting the heap into $Q$ will require $O(\log n)$ time, since $Q$ has a maximum size of $n$ and therefore a maximum depth of $O(\log n)$. Delete-min on $Q$ also requires $O(\log n)$. The next delete-min on the resulting heap requires $O(\log n)$ time it must also be of size $O(n)$, and hence height $O(\log n)$. The total amortized cost of delete-min is therefore $a_i = 3 O(\log n) + c - c = O(\log n)$. 
+
+We have therefore achieved insert in $O(1)$ amortized time and delete-min in $O(\log n)$ time for a binary heap.
+\end{sol}
+
+\section{Problem 5}
+
+\begin{prob}
+Show how to use the techniques of persistent data structures to preprocess a tree in $O(n \log n)$ time so as to allow LCA queries to be answer in $O(\log n)$ time. Aim for a simple solution here, even if you solve part (b). 
+\end{prob}
+
+\begin{sol}
+We will use a persistent version of the offline algorithm given in the problem. First, we associate with each node an extra field "name" and process the nodes of $T$ is post order. However, we will make the tree into a persistent data structure by keeping a timestamped log in a fat node and using path copying for each union find we use. 
 \end{sol}
 
 \end{document}
