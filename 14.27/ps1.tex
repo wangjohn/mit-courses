@@ -1,0 +1,57 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{14.27 \\
+Economics of E-Commerce \\
+Problem Set 1}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1}
+
+\begin{prob}
+Suppose that demand in an industry is given by:
+\begin{eqnarray}
+\log(Q) = a + b \log(P)
+\end{eqnarray}
+with $b < 0$.  What is the price elasticity of demand? What markup (Lerner index) would a firm with a positive marginal cost choose?  What happens if the firm is selling information or some other product with zero marginal cost? Comment on the practical importance of this conclusion.
+\end{prob}
+\begin{sol}
+First, we know that price elasticity is given by $\frac{dQ/Q}{dP/P}$ which becomes $\frac{d \log Q}{d \log P} = b$. Therefore, price elasticity of demand is $b$. Since we know that a firm with a positive marginal cost will have a lerner index equal to $-Q P'(Q)/P(Q) = 1/\epsilon$, we know that a firm would have a markup of $1/b$. If the firm is selling a product with zero marginal cost, then they will maximize:
+\begin{eqnarray}
+\max_{Q} P(Q)*Q 
+\end{eqnarray}
+Since $P(Q) = e^{-a/b} Q^{1/b}$, we see that $P'(Q) = \frac{e^{-a/b}Q^{\frac{1}{b} - 1}}{b}$, so that first order conditions give:
+\begin{eqnarray}
+\frac{e^{-a/b}Q^{\frac{1}{b} - 1}}{b} Q + e^{-a/b} Q^{\frac{1}{b}} &=& 0 \\
+e^{-a/b}Q^{\frac{1}{b}} ( \frac{1}{b} + 1) = 0
+\end{eqnarray}
+Since the firm has no marginal cost, the firm can extract as much profit as 
+\end{sol}
+
+\end{document}
