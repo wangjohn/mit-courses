@@ -74,7 +74,15 @@ a_i &=& 1 + c + c + \frac{2(1 -(k-1)(c-1))}{k-1}\\
 
 Thus, when $k=2$, the cost for insert is $5$, whereas when $k > 2$, the cost for insert is less than $5$. Thus, the change improves the amortized cost of decrease key to a better constant.
 
-We are left to show that cutting nodes only after losing $k$ children makes delete-min more expensive. 
+We are left to show that cutting nodes only after losing $k$ children makes delete-min more expensive. We know that the real cost of delete min will be the number of roots $r$ plus the maximum degree possible for the root. Since the potential function is only changed by the number of roots, we see that $\Delta \Phi = \text{max degree} - r$. Therefore, we see that the amortized cost is simply $a_i = O(\text{ \# of roots }$.
+
+Now to find the maximum degree, we need to consider node $x$ with children $y_0, y_1, \ldots, y_i$ in the order they were added. We know $y_i$ becomes a child of $x$ during consolidation and the degree of $x$ is at least $i - 1$ because $y_0, \ldots, y_{i-1}$ were already children of $x$. This means that $y_i$'s degree could only have decreased by $k-1$ before it gets cut so that $deg(y_i) \geq i-1 - (k-1) = i-k$. This means we can find a lower bound for the maximum degree, using $S_m$ where $S_m$ is the minimum number of nodes in a degree $m$ subtree. This means:
+\begin{eqnarray}
+S_m &\geq& \sum_{i=k}^m S_{i-k} \\
+S_m - S_{m-1} &\geq& \sum_{i=k}^m S_{i-k} - \sum_{i=k}^{m-1} S_{i-k} = S_{m-k}
+\end{eqnarray}
+
+Since $S_m - S_{m-1} = S_{m-k}$, we find that characterisitc polynomial can be written as $x^k - x^{k-1} = x^0$ or $x^k - x^{k-1} - 1 = 0$. When $k=2$, we have $x^2 - x - 1 = 0$ so that $x_1 = \phi$. However, when $k > 2$, we have $x_2 < \phi$ so that $\log_{x_1}(n) < \log_{x_2}(n)$. Since we know that the maximum degree when $k=2$ is less than the maximum degree when $k>2$, we see that delete-min has worse constants in the case when $k>2$. 
 \end{sol}
 
 \section{Problem 3}
@@ -113,6 +121,12 @@ Show how to use the techniques of persistent data structures to preprocess a tre
 
 \begin{sol}
 We will use a persistent version of the offline algorithm given in the problem. First, we associate with each node an extra field "name" and process the nodes of $T$ is post order. However, we will make the tree into a persistent data structure by keeping a timestamped log in a fat node and using path copying for each union find we use. 
+
+Thus, as we perform union-find operations in the preprocessing stage, we will be using path compression and fat nodes to store previous changes in the "name" attribute. This means that find will take $O(\log t)$ to find the correct tree to use and an additional $O(\log n)$ to find the node in that particular tree. Thus, there is a total real cost of $O(\log t) + O(\log n)$ to perform a find operation. To construct the data structure, we will have a real cost of $O(\log n)$ for each find and union operation, since find takes $O(\log n)$ and dominates the union operation. This means that preprocessing costs $O(\log n)$ per node. Since there are a total of $n$ find operations in the sequence, we will have $O(n \log n)$ cost for the preprocessing. 
+
+We will use the potential function $\Phi = \text{\# live nodes}$. Thus, the amortized time of find will be $a_i = O(\log t) + O(\log n) = O(\log n)$ because $t = O(n)$ as only one operation is done for each node in the preprocessing phase. Thus, we see that find will require $O(\log n)$ time. Next, we know that the preprocessing time will require $O(n)$ times the cost of make set, union, and find on a node. Since each of these costs $O(\log n)$ time in a union-find data structure, we see that the preprocessing time is $O(n)$.
+
+This means that we can perform LCA queries in $O(\log n)$ and preprocess the tree in $O(n \log n)$ time.
 \end{sol}
 
 \end{document}
