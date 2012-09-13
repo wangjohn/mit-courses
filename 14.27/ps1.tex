@@ -9,6 +9,7 @@
 \usepackage{theorem}
 \usepackage{verbatim}
 \usepackage{tikz}
+\usepackage{hyperref}
 \usetikzlibrary{shapes,arrows}
 
 \newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
@@ -46,12 +47,126 @@ First, we know that price elasticity is given by $\frac{dQ/Q}{dP/P}$ which becom
 \begin{eqnarray}
 \max_{Q} P(Q)*Q 
 \end{eqnarray}
-Since $P(Q) = e^{-a/b} Q^{1/b}$, we see that $P'(Q) = \frac{e^{-a/b}Q^{\frac{1}{b} - 1}}{b}$, so that first order conditions give:
+Since $P(Q) = e^{-a/b} Q^{1/b}$, we see that the firm can increase profits infinitely by simply increasing $Q$, as long as $b$ is positive. Since the firm has no marginal cost, the firm can extract as much profit as it wants. Markup is no longer a well-defined metric here because there is no marginal cost. 
+
+Practically speaking, this means that if a firm can produce a product without any marginal cost, then it can derive potentially infinite economic profit (as long as there is enough demand for the product). Thus, each product is sells will be pure profit. Selling information would then be extremely valuable for a firm, since it brings in pure profit.
+\end{sol}
+
+\section{Problem 2}
+
+\begin{prob}
+You have recently found that your true calling in life is as the leader of a post punk revival band.  Unfortunately, the mainstream music industry leaders don’t fully appreciate your unique sound and so you find yourself without a record deal.  You thus turn to the internet to sell your new album yourself.  Since you have already written and recorded your album, your only marginal cost of sending it out is the time of the person who fills the order and the credit card processing, which totals about \$1.  To try to figure out your profit maximizing price, you conduct an experiment choosing a random price in the range from \$1 to \$10 every day for three months.  You obtain the data found on the 14.27 website.  
+
+Perform an econometric study to determine what price you would set to maximize your profits?  If it was feasible to charge different prices on weekdays and weekends would you want to do so?
+\end{prob}
+
+\begin{sol}
+First we will perform an econometric analysis to find the demand curve. We will use a linear regression to find the coefficients on different covariates and determine how they affect the quantity of goods sold. Performing an OLS regression, we find the following demand function:
 \begin{eqnarray}
-\frac{e^{-a/b}Q^{\frac{1}{b} - 1}}{b} Q + e^{-a/b} Q^{\frac{1}{b}} &=& 0 \\
-e^{-a/b}Q^{\frac{1}{b}} ( \frac{1}{b} + 1) = 0
+Q = 2055.26 - 267.27P
 \end{eqnarray}
-Since the firm has no marginal cost, the firm can extract as much profit as 
+Where $Q$ is the quantity of albums sold and $P$ is the price of each album. We assume that we will set a single price throughout the entire week, so we do not include the day of the week in this regression. 
+
+To maximize profits, we want to optimize $\max_{P} Q(P)P - c(Q(P))$. Since the maginal cost is simply $1$ per album, this optimization is the same as $\max_{Q} Q(P)P - Q(P)$. Substituting our estimated demand function, we get $\max_{P} (2055.26 - 267.27P)(P-1)$. First order conditions imply:
+\begin{eqnarray}
+2055.26 - 534.54P &=& 0 \\
+3.84 &=& P
+\end{eqnarray}
+
+In this case, we predict that the firm will sell quantity $Q = 2055.26 - 267.27*3.84 = 1029$ albums and will therefore make a profit of $Q(P)(P-1) = 1029(\$2.84) = \$2922$ each day. 
+
+To examine day of the week effects, we shall include $D$ (the day of the week), in our regression. Regression, we find the following coefficients (where each of the covariates are statistically significant):
+\begin{eqnarray}
+Q = 1645.64 + 114.61D - 276.06P
+\end{eqnarray}
+
+Now, if it were feasible to set prices differently on weekdays vs. weekends, we would want to do so. Let us consider the weekdays $D=3,\ldots,7$. The average weekday will have a quantity demanded of:
+\begin{eqnarray}
+Q = \left( \sum_{i=3}^7 1645.64 + 114.61i - 276.06P \right) \frac{1}{5} = 2218.69 - 276.06P
+\end{eqnarray}
+
+Maximizing the profit based on weekdays would correspond to $\max_{P} (2218.69 -276.06 P)(P-1)$. First order conditions give us $2218.69 = 534.54P$ so that $P= \$4.15$ on the weekdays. This corresponds to $Q = 1073$ albums sold and a profit of $1073(\$4.15 - \$1) = \$3380.08$. 
+
+The average weekend demand will be given by:
+\begin{eqnarray}
+Q = \left( \sum_{i=1}^2 1645.64 + 114.61i - 276.06P \right) \frac{1}{2} = 1817.56 - 276.06P
+\end{eqnarray}
+
+The maximization problem is $\max_{P} (1817.56 - 276.06P)(P-1)$ so that we obtain through first order conditions $P = \$3.29$. This means we have $Q = 909$ albums sold on weekends for a profit of $909(\$3.29 - \$1) = \$2082.35$. 
+
+Thus, the average profit throughout the week will be given by
+\begin{eqnarray}
+\frac{1}{7} \left( 5(\$3380.08) + 2(\$2082.35) \right) = \$3009.30
+\end{eqnarray}
+
+Since this is higher than our previous average daily profit of \$2922, it would be to our advantage to charge different prices during the weekends and weekdays.
+\end{sol}
+
+\section{Problem 3}
+
+\begin{prob}
+Get on the internet and find the best price you can for renting a compact size car through the Hertz website to be picked up at the Los Angeles, California (Airport code: LAX) airport on September 17 and returned there on September 24.  Please limit the number of minutes spent searching to the day of the month on which you were born, e.g. 1 minute if you were born on November 1 or 14 minutes if you were born on September 14.
+
+(If you were born very early in the month and can’t get any price in your allotted time that’s OK)
+
+Pick another country at random and pretend that’s where you’re from.  What happens to your rental car price?
+
+How much does it add to the price if you want a child safety seat?
+\end{prob}
+
+\begin{sol}
+I was able to find a Kia Rio to rent for \$207.82 per week in under the allotted time (2 minutes). When I chose another country (Helsinki, Finland), the price of my rental car shot up dramatically to \$450.95 per week.
+
+Obtaining a child seat increases the price by \$83.93 for the rental. 
+
+All of these can be thought of as a form of price discrimination. For instance, if you are from Finland, it is very likely that you are a tourist and out to spend money. Moreover, if you are getting a child seat, it's likely that you are middle-aged and have a steady flow of income and can afford to pay a higher price. These types of price discrimination allow Hertz to charge a markup for different items, and the markup is most likely higher than marginal cost.
+\end{sol}
+
+\section{Problem 4}
+
+\begin{prob}
+Pick a product at random from the attached list. Try to find out its current market share and whether its market share rank has changed since 1983.
+\end{prob}
+
+\begin{sol}
+I chose to examine the market share of Coca-cola soft drinks. In 1923 and 1983, it was the top brand for soft-drinks in terms of market share. As of 2008, Coca-cola still retains a 42.7\% market share in the United States, with the closest competitor begin PepsiCo with a market share of 30.8\%.\footnote{See \url{http://www.beverage-digest.com/pdf/top-10_2009.pdf}}
+
+It seems like Coca-Cola Co. has been able to retain a huge amount of market share for a long period of time. This type of branding serves as a "transportation cost" in Hotelling's linear city model and allows Coca-Cola to charge prices above marginal cost. However, it is clear that competitors, such as PepsiCo are attempting to gain entry into the market, just as the circular city model would predict.
+\end{sol}
+
+\section{Problem 5}
+\begin{prob}
+Go to the census bureau’s web site and look at the list of industry reports available there from the 1997 census of manufactures: \url{http://www.census.gov/prod/www/abs/ec1997manu-ind.html}
+
+Pick two industries from the list that sound interesting. Look in the reports to see how many large plants there are in the industry, e.g. how many plants are needed to account for 50\% of the industry’s output? In the table that breaks down establishments by size look at the difference between the value of shipments and the sum of the cost of materials and wages. What does this suggest about the difference between price and marginal cost? How does this difference compare across the different sizes of establishments?
+
+Do the two industries you picked look similar or different? If they are different, speculate about why this might be the case.
+\end{prob}
+\begin{sol}
+The first industry I chose was Tortilla manufacturing. Only 30 firms account for 50\% of the industry's output. The industry has a total of 236 establishments, so only 12\% of the firms account for a large amount of the output. The industry, then, is skewed toward larger firms.
+
+On average, the ratio of the value of shipments to the sum of the cost of materials and wages is about 1.7. Naively, then, there is a markup of about 1.7 over the marginal cost of goods. As the establishments get larger, the markup gets smaller. The smallest establishments have a markup of around 1.79 while the largest establishments have a markup of 1.64. 
+
+The second industry I examined was the Retail Bakeries industry. About 1400 of the 7120 firms(20\% of the firms) account for half of the output. The industry is still skewed towards larger firms, but not as much as Tortilla manufacturing.
+
+The smallest firms have a ratio of about 1.25 between the value of shipments and the sum of the cost of materials and wages. As firms get larger, the ratio shrinks until the largest firms have a ratio of about 1.12. Just like Tortilla manufacturing, larger firms have smaller markups. 
+
+The two industries tend to look pretty similar. Both industries are concentrated fairly heavily towards larger firms, and the markups in both industries tend to shrink as the firms get larger. However, the Retail Bakeries industry tends to have smaller markups, possibly because there are more firms overall in that industry, which would tend to increase competition.
+\end{sol}
+
+\section{Problem 6}
+
+Suppose two firms (1 and 2) are located at opposite endpoints of a city, modeled as a line of unit length with firm 1 at $x = 0$ and firm 2 at $x = 1$. Suppose there is a continuum of consumers is uniformly distributed across the line with unit mass. Consumers have utility of $v_i - t d – p_i$ for $i = 1, 2$ if they purchase one unit of a product from “firm $i$” located a distance $d$ away from them. They receive zero utility if they don’t purchase a product and will buy from at most one firm. Assume that both $v_1$ and $v_2$ are large enough so that consumers prefer to purchase the good in equilibrium.
+
+\begin{prob}
+Write down the equations that determine the demand for firm 1’s product as a function of the two firms’ prices. Use this to determine firm 1’s profit function and to find the price $p_1$ that maximized firm 1’s profits holding $p_2$ fixed. Solve firm 1 and firm 2’s profit maximization equations simultaneously to find the Nash equilibrium.  
+\end{prob}
+
+\begin{prob}
+Now suppose that one of the firms (say firm 2) is an Internet company and therefore the consumer is not required to travel to buy the product.  Thus the utility of buying from firm 2 is simply v2 – p2. Repeat the steps in Part A to find the new Nash equilibrium. Briefly discuss any similarities and differences between the equilibria. 
+\end{prob}
+
+\begin{sol}
 \end{sol}
 
 \end{document}
