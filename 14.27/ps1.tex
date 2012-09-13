@@ -162,11 +162,50 @@ Suppose two firms (1 and 2) are located at opposite endpoints of a city, modeled
 Write down the equations that determine the demand for firm 1’s product as a function of the two firms’ prices. Use this to determine firm 1’s profit function and to find the price $p_1$ that maximized firm 1’s profits holding $p_2$ fixed. Solve firm 1 and firm 2’s profit maximization equations simultaneously to find the Nash equilibrium.  
 \end{prob}
 
+\begin{sol}
+We know that in equilibrium, a consumer will be indifferent to firms 1 and 2 if he is located at location $x$ and the following is true:
+\begin{eqnarray}
+P_1 + tx = P_2 + t(1-x)
+\end{eqnarray}
+
+Reordering this equation, this means that firm 1's demand is given by
+\begin{eqnarray}
+x = \frac{P_2 - P_1 + t}{2t}
+\end{eqnarray}
+
+Now, firm 1's profit function will be (assuming there is no fixed cost):
+\begin{eqnarray}
+\pi^1(P_1, P_2) = (P_1 - c)(P_2 - P_1 + t) \frac{1}{2t}
+\end{eqnarray}
+
+Solving using first order conditions, we find that $P_2 + c + t - 2P_1 = 0$ so that we can symetrically find the prices for firms 1 and 2 which will maximize their profits:
+\begin{eqnarray}
+P_1^* &=& \frac{P_2^* + c + t}{2} \\
+P_2^* &=& \frac{P_1^* + c + t}{2}
+\end{eqnarray}
+
+Solving these symmetric equations, we find $P_1^* = P_2^* = c + t$ and so profits are given by $\pi^1 = \pi^2 = t/2$. 
+
+\end{sol}
+
 \begin{prob}
-Now suppose that one of the firms (say firm 2) is an Internet company and therefore the consumer is not required to travel to buy the product.  Thus the utility of buying from firm 2 is simply v2 – p2. Repeat the steps in Part A to find the new Nash equilibrium. Briefly discuss any similarities and differences between the equilibria. 
+Now suppose that one of the firms (say firm 2) is an Internet company and therefore the consumer is not required to travel to buy the product.  Thus the utility of buying from firm 2 is simply $v_2 - P_2$. Repeat the steps in Part A to find the new Nash equilibrium. Briefly discuss any similarities and differences between the equilibria. 
 \end{prob}
 
 \begin{sol}
+We know that a consumer located a position $x$ will be indifferent between purchasing from firm 1 and 2 when the following is true:
+\begin{eqnarray}
+P_1 + tx = P_2
+\end{eqnarray}
+
+Since there is no extra cost associated with travelling and buying from firm 2. In this case, we find that $x = \frac{P_2 - P_1}{t}$. The profit function for firm 1 is then given by:
+\begin{eqnarray}
+\pi^1(P_1, P_2) = (P_1 - c)(P_2 - P_1)\frac{1}{t}
+\end{eqnarray}
+
+Solving for first order conditions, we find that $P_2 - 2P_1 + c = 0$ so that $P_1 = \frac{1}{2} (P_2 + c)$. Similarly, since the profit function is the same for firm 2, we find that $P_2 = \frac{1}{2} (P_1 + c)$. Solving this system of simultaneous equations, we obtain: $P_1^* = P_2^* = c$. Therefore, we see that profits are $\pi^1 = \pi^2 = 0$. 
+
+In this problem, the markup that both firms had due to transportation costs has been eliminated and both firms are now charging marginal cost for their product. This means that, in equilibrium, a single disruptive firm can destroy every other firms' markups. 
 \end{sol}
 
 \end{document}
