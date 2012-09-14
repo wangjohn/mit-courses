@@ -74,27 +74,24 @@ def uncompress(filename):
     lzw_table = initialize_lzw_table(False)
     output = array.array("B")
     counter = 256
-    previous_index = get_two_byte_integer(compressed_message[0], compressed_message[1]) 
-    write_decompressed_to_output(lzw_table[previous_index], output)
+    current_message = lzw_table[get_two_byte_integer(compressed_message[0], compressed_message[1])]
+    write_decompressed_to_output(current_message, output)
 
     # read through the compressed message, performing decompression
     i = 2
-    while i < len(compressed_message)-1:
+    while i < len(compressed_message):
         current_index = get_two_byte_integer(compressed_message[i], compressed_message[i+1])
         i += 2
         
         if lzw_table.has_key(current_index):
             entry = lzw_table[current_index]
-            lzw_table[counter] = (lzw_table[previous_index] + [entry[0]]) 
         else:
-            entry = lzw_table[previous_index]
-            entry.append(entry[0])
-            lzw_table[counter] = entry
+            entry = (current_message + [current_message[0]])
         write_decompressed_to_output(entry, output)
+        lzw_table[counter] = (current_message + [entry[0]])
         counter += 1
-        previous_index = current_index
+        current_message = entry
     output.write(open(OUTPUT_FILE_NAME, "wb"))
-
 
 def write_decompressed_to_output(entry, output):
     for char in entry:
