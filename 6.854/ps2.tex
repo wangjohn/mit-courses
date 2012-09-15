@@ -58,7 +58,9 @@ Now from the same starting tree, show the final structure after splaying the lea
 \end{prob}
 
 \begin{sol}
+Starting the the only leaf of the tree $x$, we will perform zig-zigs on the way up to the root. For notation, we will say $x$ is the leaf (minimum element), $x'$ is the parent of the leaf (second smallest element), and $x''$ is the parent of $x'$, etc. After the first zig-zig, we see that everything except the last three nodes have been untouched, but $x$ is now the child of $x'''$. Moreover, $x$ has a right child of $x'$ and $x'$ has a right child of $x''$. 
 
+Performing another zig-zig operation, the $x'$ to $x''$ chain will become the left subtree to $x'''$. Moreover, $x'''$ will have a right child of $x''''$.  
 \end{sol}
 
 \newpage
