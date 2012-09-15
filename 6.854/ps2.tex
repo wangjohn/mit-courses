@@ -74,7 +74,10 @@ Given the theorem about access time in splay trees, it is tempting to conjecture
 \begin{sol}
 We will start by showing how we can use splay operations to make a specified node into a leaf. First, let us take an arbitrary node $x$ which is in some tree $T$. To make $x$ descend down the tree, we will splay the left and right child of $x$. Doing these splays will decrease the depth of the children, but increase the depth of $x$, sending it closer towards being a leaf. We perform this recursively until $x$ has no more children. At this point, $x$ has become a leaf. 
 
-Now, assume we have tree $T$ which we want to restructure into $T'$. We first will find all the leaves of $T'$ using BFS. Then, we will perform a series of recursive splay operations on the nodes in $T$ which correspond to the leaves of $T'$ to make them leaves. Notice that once a node$y$ has become a leaf, no splay operation will be able to $y$ an internal node unless we specifically splay $y$. Therefore, it is possibly to reorganize $T$ such that $T$ has the same leaves as $T'$. 
+Now, assume we have tree $T$ which we want to restructure into $T'$. We first will find all the leaves of $T'$ using BFS. Then, we will perform a series of recursive splay operations on the nodes in $T$ which correspond to the leaves of $T'$ to make them leaves. Notice that once a node $y$ has become a leaf, no splay operation will be able to change $y$ into an internal node unless we specifically splay $y$. Therefore, it is possible to reorganize $T$ such that $T$ has the same leaves as $T'$. 
+
+Once $T$ has the same leaves as $T'$, we must reorganize the internal nodes of $T$. 
+
 \end{sol}
 
 \newpage
