@@ -54,13 +54,27 @@ A series of $n/2$ operations that splay the deepest leaf will therefore cost $O(
 \end{sol}
 
 \begin{prob}{1-b}
-Now from the same starting tree, show the final structure after splaying the leaf with (zig-zig) double rotations. Explain how this splay has made much more progresss than single rotations in improving the tree.
+Now from the same starting tree, show the final structure after splaying the leaf with (zig-zig) double rotations. Explain how this splay has made much more progress than single rotations in improving the tree.
 \end{prob}
 
 \begin{sol}
 Starting the the only leaf of the tree $x$, we will perform zig-zigs on the way up to the root. For notation, we will say $x$ is the leaf (minimum element), $x'$ is the parent of the leaf (second smallest element), and $x''$ is the parent of $x'$, etc. After the first zig-zig, we see that everything except the last three nodes have been untouched, but $x$ is now the child of $x'''$. Moreover, $x$ has a right child of $x'$ and $x'$ has a right child of $x''$. 
 
-Performing another zig-zig operation, the $x'$ to $x''$ chain will become the left subtree to $x'''$. Moreover, $x'''$ will have a right child of $x''''$.  
+Performing another zig-zig operation, the $x'$ to $x''$ chain will become the left subtree to $x'''$. Moreover, $x'''$ will have a right child of $x''''$. In order to see the generalized behavior, we will call $A$ the right subtree of $x$. Note that $x$ has no left child at all. Now, $x$ is the left child of its parent $y$, and $y$ is also a left child of its parent, $z$. Thus, performing a zig-zig operation will bring $x$ to the top of $y$ and $z$. Thus, $x$ will have a right child $y$ and no left child, while $y$ has a right child of $z$ and a left child of $A$. 
+
+It is now clear that zig-zig operation will bring $x$ up higher in the tree while adding the chain of $y$ and $z$ to the right subtree of $x$. Additionally, $y$'s left child will now be $x$'s previous subtree. 
+
+Once the splay of $x$ is finished, each node on the left-most path from the root will have a right child. Thus, we see that using the zig-zig operation, the splay will decrease the depth of the tree by a multiplicative factor of $2$. In the previous case, the depth after a single splay was $n-1$, while now the depth is $n/2$, which is clearly much improved.
+\end{sol}
+
+\begin{prob}{1-c}
+Given the theorem about access time in splay trees, it is tempting to conjecture that splaying does not create trees in which it would take a long time to find an item. Show that this conjecture is false by showing that for large enough $n$, it is possible to restructure any binary tree on $n$ nodes into any other binary tree on $n$ nodes by a sequence of splay operations. Conclude that it is possible to make a sequence of requests that cause the splay tree to achieve any desired shape.
+\end{prob}
+
+\begin{sol}
+We will start by showing how we can use splay operations to make a specified node into a leaf. First, let us take an arbitrary node $x$ which is in some tree $T$. To make $x$ descend down the tree, we will splay the left and right child of $x$. Doing these splays will decrease the depth of the children, but increase the depth of $x$, sending it closer towards being a leaf. We perform this recursively until $x$ has no more children. At this point, $x$ has become a leaf. 
+
+Now, assume we have tree $T$ which we want to restructure into $T'$. We first will find all the leaves of $T'$ using BFS. Then, we will perform a series of recursive splay operations on the nodes in $T$ which correspond to the leaves of $T'$ to make them leaves. Notice that once a node$y$ has become a leaf, no splay operation will be able to $y$ an internal node unless we specifically splay $y$. Therefore, it is possibly to reorganize $T$ such that $T$ has the same leaves as $T'$. 
 \end{sol}
 
 \newpage
