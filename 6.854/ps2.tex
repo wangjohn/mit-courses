@@ -118,7 +118,24 @@ The new data structure will have two sets of trees for each $S_k$ in the previou
 
 Now, in order to insert a node $x$ into the structure, we will start with $S_1$ and check if the access frequency of $x$ is greater than the minimum access frequency in $S_i$. If it is, we insert $x$ into $S_i$ and check the size of $S_i$ (assume we keep a counter on each tree so that this takes constant time). If $S_i > 2^{2^i}$, then we delete the minimum element of $S_i$. 
 
-If $S_l$ is the final tree so that $l = \log \log n$, and we delete the minimum element of $S_l$, a new search tree $S_{l+1}$ needs to be created with all the previous elements of 
+If $S_l$ is the final tree so that $l = \log \log n$, and we delete the minimum element of $S_l$, a new search tree $S_{l+1}$ needs to be created with all the previous elements. $S_{l+1}$ will be of maximum size $2^{2^{l+1}}$ and have all the keys in the data structure. Now we must show that insert has an amortized cost of $O(\log n)$. 
+
+Let use define a potential function $\Phi = 2^{l+1}(R - 2^{2^{l-1}})$, where $R$ is the number of elements in $S_l$. Inserting a node, and possibly deleting a node, at each level costs $\sum_{i=1}^l O(\log 2^{2^{i}}) = \sum_{i=1}^l O(2^i) = O(2^{\log \log n + 1}) = O(\log n)$ with a change in potential of $2^{2^{l}} = \log n$. However, creating a new level has real cost of $O(n \log n)$, since there are $n$ elements which need to be inserted. This occurs only when there are $2^{2^l}$ nodes in $S_l$, however, so the change in is $2^{l+1}(2^{2^l} - 2^{2^{l-1}}) = n \log n$, which pays for the cost of creating a new level.
+
+Thus, we see that insert can be accomplished in $O(\log n)$ time, and time for a search is unaffected.
+\end{sol}
+
+\begin{prob}{2-c}
+Improve your solution to work even if the frequency of access is not given during the insert. Your data structure now matches the static optimality theorem of splay trees.
+\end{prob}
+
+\begin{sol}
+From problem 2-b, recall that we were keeping track of the access frequencies at each level $S_i$. Now, whenever an item $x$ is queried or inserted, we will update the access frequencies at a cost of $O(\log S^i)$ for each level $i$. Also, we will check whether the new access frequencies (of the inserted or queried item) is greater than the minimum access frequency in $S_{i-1}$. If it is, we shall delete the minimum access frequency node in $S_{i-1}$ and insert $x$ into $S_{i-1}$. Notice that the cost of performing these operations is the same as an insert, which was analyzed in the previous section. Thus, queries and inserts will still require $O(\log n)$ amortized time. 
+\end{sol}
+
+\begin{prob}{2-d}
+\end{prob}
+\begin{sol}
 \end{sol}
 
 \end{document}
