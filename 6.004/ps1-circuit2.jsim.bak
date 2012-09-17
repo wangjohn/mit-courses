@@ -1,0 +1,27 @@
+* circuit for Lab#1, parts C thru F
+.include "/mit/6.004/jsim/nominal.jsim"
+* 2-input NAND: inputs are A and B, output is Z
+.subckt nand2 a b z
+MPD1 z a 1 0 NENH sw=8 sl=1
+MPD2 1 b 0 0 NENH sw=8 sl=1
+MPU1 z a vdd vdd PENH sw=10 sl=1
+MPU2 z b vdd vdd PENH sw=10 sl=1
+.ends
+* INVERTER: input is A, output is Z
+.subckt inv a z
+MPD1 z a 0 0 NENH sw=16 sl=1
+MPU1 z a vdd vdd PENH sw=16 sl=1
+.ends
+
+
+* dc analysis to create VTC
+Xtest vin vin vout nand2
+Vin vin 0 0v
+
+
+Vol vol 0 0.3v
+Voh voh 0 3v
+// make measurements easier!
+// see part (D)
+.dc Vin 0 3.3 .005
+.plot vin vout voh vol

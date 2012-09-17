@@ -1,0 +1,9 @@
+* plot Ids vs. Vds for 5 different Vgs values
+.include "/mit/6.004/jsim/nominal.jsim"
+Vmeter vds drain 0v
+Vds vds 0 0v
+Vgs gate 0 0v
+* N-channel mosfet used for our test
+M1 drain gate 0 0 NENH W=1.2u L=600n
+.dc Vds 0 5 .1 Vgs 0 5 1
+.plot I(Vmeter)
