@@ -48,6 +48,8 @@ The resulting tree has a root of $a$, a left child of $root(t_1)$ and a right ch
 Note that we performed four operations: insert $a$, insert $b$, delete-min, decrease-key. Thus, we see that after $n$ of these operations, we will have a tree of length $n/4 = \Omega(n)$. 
 \end{sol}
 
+\newpage 
+
 \section{Problem 2}
 
 \begin{prob}
@@ -85,6 +87,7 @@ S_m - S_{m-1} &\geq& \sum_{i=k}^m S_{i-k} - \sum_{i=k}^{m-1} S_{i-k} = S_{m-k}
 Since $S_m - S_{m-1} = S_{m-k}$, we find that characterisitc polynomial can be written as $x^k - x^{k-1} = x^0$ or $x^k - x^{k-1} - 1 = 0$. When $k=2$, we have $x^2 - x - 1 = 0$ so that $x_1 = \phi$ is the dominant root. However, when $k > 2$, we have $x_2 < \phi$ as the dominant root so that $\log_{x_1}(n) < \log_{x_2}(n)$. Since we know that the maximum degree when $k=2$ is less than the maximum degree when $k>2$, we see that delete-min has worse constants in the case when $k>2$. 
 \end{sol}
 
+\newpage 
 \section{Problem 3}
 
 On tradeoffs in the heap operations.
@@ -113,6 +116,7 @@ We will use a potential function $\Phi = \text{\# of roots}$ for the analysis. I
 We have therefore achieved insert in $O(1)$ amortized time and delete-min in $O(\log n)$ time for a binary heap.
 \end{sol}
 
+\newpage 
 \section{Problem 4}
 
 \begin{prob}
@@ -120,15 +124,38 @@ Keeping a mark bit around in Fibonacci heaps may be wasteful. Suppose that inste
 \end{prob}
 
 \begin{sol}
-We will use a potential function $\Phi = \text{\# of modified mark bits}$. Each node will receive a modified mark bit if a child has been cut, but the cut was not cascading up to that node. All modified mark bits will be cleared when that node is cut. Note that modified mark bits will not be kept on the actual data structure, but will only be used for analysis. Now let us examine the runtime on the Fibonacci heap when $p=.5$ is the probability of cascading the cut to the parent. The runtimes of insert and merge will be unaffected by the change, since cuts are not performed for these two operations.
+We will use a potential function with two parts. The first part will be the usual number of roots, and the second part will be initiated at 0 and will have the following formula for updating it whenever a coin flip for cascading is made:
+\begin{equation}
+\Delta \Phi_2 = \left\{
+    \begin{array}{c l}
+        +1/(1-p) & \text{no cascading} \\
+        -1/p & \text{cascading} 
+    \end{array}
+\right\}
+\end{equation}
 
-However, for decrease-key, we will perform a cut and either 1) cascade up to the parents or 2) not cascade up the parents, with each possibility having probability $p=0.5$. In the first case, let us say the cut cascades up and cuts $c$ nodes. Then 
+Here $p$ denotes the probability of cascading. Now let us examine the runtime on the Fibonacci heap when $p$ is the probability of cascading the cut to the parent. The runtimes of insert and merge will be unaffected by the change, since cuts are not performed for these two operations.
 
-NOTE TO SELF: we should look at the expected cost of insert, i.e. the potential in expectation will be 0 or something like that.
+However, for decrease-key, we will cascade up $c$ nodes, then there must be an event where the coin flip decides not to cascade up the last node. For each node we cascade up, there will be a real cost of $1$ to make the cut, and also a decrease in potential of $1/p$. Thus, the amortized cost of each cascade upwards is $1 - 1/p$. At the end, when the coin flip decides not to cascade up anymore, the final non-cascade will require a real cost of $1$ and the potential will increase by $1/(1-p)$. Thus the amortized cost of last non-cascade will be $1 + 1/(1-p)$. Let us say we cascade up $c$ nodes, then stop. The cost of a decrease-key will then be $c \left( 1 - \frac{1}{1-p} \right) + \left(1 + \frac{1}{1-p} \right)$.
 
-N/A
+In order to find the expected amortized cost of decrease-key, we need to know the expected value of $c$. However, this is easy to calculate since we know $p$, the probability of cascading the cut to the parent. Thus, $E(c) = 1/p$ and we can rewrite our amortized cost of decrease-key as:
+\begin{eqnarray}
+\frac{1}{p} \left( 1 - \frac{1}{1-p} \right) + \left(1 + \frac{1}{1-p} \right)
+\end{eqnarray}
+
+In the case of $p = 1/2$ we can see that the expected amortized runtime of decrease-key will be 1. We can also figure out the cost for larger values of $p$. Differentiating, we see that the cost is an increasing function with respect to $p$:
+\begin{eqnarray}
+\frac{d a_i}{dp} = - \frac{1}{p^2} + \frac{2}{p^3} + \frac{1}{(1-p)^2}
+\end{eqnarray}
+
+This follows because $0 < p < 1$ so that $p^2 > p^3 > 0 $ so that $\frac{1}{p^2} < \frac{2}{p^3}$. Thus, $\frac{d a_i}{dp} > 0$ and the cost for decrease-key will increase as $p$ rises. We have shown the first half of the problem--if $p > 50 \%$, then the time for decrease-key increases. We are left to show that the time for delete-min will decrease.
+
+We know that the real cost of delete min will be the number of roots $r$ plus the maximum degree possible for the root. Since the potential function is only changed by the number of roots, we see that $\Delta \Phi = - r$. Therefore, we see that the amortized cost is simply $a_i = \# of roots $. Now to find the expected degree, we need to consider node $x$ with children $y_0, y_1, \ldots, y_i$ in the order they were added. We know $y_i$ becomes a child of $x$ during consolidation and the degree of $x$ is at least $i - 1$ because $y_0, \ldots, y_{i-1}$ were already children of $x$. This means that $y_i$'s degree would only have decreased by $1/p$ in expectation before it gets cut so that $deg(y_i) \geq i-1 - (1/p) = i-(1/p)$. This means we can find a lower bound for the expected maximum degree, using $S_m$ where $S_m$ is the minimum number of nodes in a degree $m$ subtree. This is the same argument as in problem 2, but now we set $k = 1/p$. 
+
+Thus, the constant which is exponentiated will be the largest root of the characteristic polynomial $x^{1/p} - x^{(1/p) - 1} - 1 = 0$. As $1/p$ increases, it is clear that the largest root $x$ will decrease (by the discussion from problem 2). Therefore, we see that the number of roots is given by $O(\log_{x}(n))$, so that the cost of delete-min is also $O(\log_{x}(n))$. Sicne $x$ increases as $p$ increases, we see that the constants for delete-min will be improved as the probability of cascading increases.
 \end{sol}
 
+\newpage 
 \section{Problem 5}
 
 \begin{prob}
