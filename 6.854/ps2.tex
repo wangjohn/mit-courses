@@ -134,8 +134,20 @@ From problem 2-b, recall that we were keeping track of the access frequencies at
 \end{sol}
 
 \begin{prob}{2-d}
+Make your data structure satisfy the working set theorem on splay trees. Ignore the static optimality condition.
 \end{prob}
+
 \begin{sol}
+We need to show that the cost of performing $m$ accesses on a set of $n$ items is given by $O(n \log n + \sum_{j=1}^m \log t(j)$ where $t(j)$ is the number of distinct elements accessed between access $j$ and the previous time the same element was accessed. In order to do this, we change the structure so that instead of holding the most frequently accessed items, we shall hold the most recently accessed items in the second set of trees at each level. Queries and inserts will work in the same manner as before, and will still have amortized cost of $O(\log n)$. 
+
+To show that the working set theorem is satisfied, we will look at the cost of a series of $m$ accesses on $n$ items. First, we know that to build the structure requires $n \log n$ time. Next, we know that as soon as a query is performed on node $x$, it will be placed into $S_1$ and will slowly move into $S_2, S_3, \ldots$ as other nodes are queried. After $t(j)$ accesses, node $x$ will be in level $S_{\log \log t(j)}$. Thus, a series of $m$ accesses after the structure is built will cost:
+\begin{eqnarray}
+\sum_{j=1}^m \left( \sum_{i=1}^{\log \log t(j)} O(\log 2^{2^{i}}) \right) &=& \sum_{j=1}^m \left( \sum_{i=1}^{\log \log t(j)} O{2^i} \right) \\
+&=& \sum_{j=1}^m \left( O(2^{\log \log t(j)}) \right) \\
+&=& \sum_{j=1}^m \log t(j)
+\end{eqnarray}
+
+Thus, the total cost of $m$ accesses (including the cost to create the data structure, is $O(n \log n + \sum_{j=1}^m \log t(j))$ which is what we wanted to show.
 \end{sol}
 
 \end{document}
