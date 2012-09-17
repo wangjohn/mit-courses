@@ -159,7 +159,7 @@ To show that the working set theorem is satisfied, we will look at the cost of a
 &=& \sum_{j=1}^m \log t(j)
 \end{eqnarray}
 
-Thus, the total cost of $m$ accesses (including the cost to create the data structure, is $O(n \log n + \sum_{j=1}^m \log t(j))$ which is what we wanted to show.
+Thus, the total cost of $m$ accesses (including the cost to create the data structure), is $O(n \log n + \sum_{j=1}^m \log t(j))$ which is what we wanted to show.
 \end{sol}
 
 \newpage
@@ -167,6 +167,33 @@ Thus, the total cost of $m$ accesses (including the cost to create the data stru
 
 \begin{prob}{3}
 Describe a data structure that represents an ordered list of elements under the following three types of operations: 1) access(k): return the $k$th element of the list (in its current order) 2) insert(k,x): insert $x$ (a new element) after the $k$th element in the current version of the list 3) reverse(i,j): reverse the order of the $i$th throgh $j$th elements. Each operation should run in $O(\log n)$ amortized time, where $n$ is the current number of elements in the list. The list starts out empty.
+\end{prob}
+
+\begin{sol}
+
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{4-a}
+As in class, a double rotation will involve 3 nodes on the search path: $x$, its parent $y$, and its grandparent $z$. Call this triple biased if over $9/10$ of $z$'s descendants are below $x$, and balanced otherwise. Argue that along the given search path there can be at most $O(\log n)$ balanced triples.
+\end{prob}
+\begin{sol}
+Let us suppose we achieve a path with the maximum number of balanced triples possible. This occurs when we go on a path where each $x$ node has $9/10 - \epsilon$ of $z$'s descendants, where $\epsilon > 0$ is a small constant. The length of this path is then $O(\log_{9/10-\epsilon}n)$ since there are at most $O(\log_{9/10 - \epsilon}n)$ times that one can move down towards the $x$ in the recursion. We know that this is equivalent to $O(\log n)$, which shows that even in the worst possible case, there cannot be more than $O(\log n)$ balanced triples in a search path.
+\end{sol}
+
+\begin{prob}{4-b}
+Argue that when a biased triple is rotated, the potential decreases by a constant, paying for the rotation. Do so by observing that rank of $x$ only increases by a small constant, while the ranks of $y$ or $z$ decrease by a significantly larger constant. Do this for both the zig-zig and zig-zag rotations.
+\end{prob}
+\begin{sol}
+We shall start off with the zig-zig rotation for a biased triple. In this rotation, $x$ becomes the new root of the subtree, exchanging positions with $z$. Here $x$ retains its left subtree $A$, and $y$ obtains $x$'s right subtree $B$ as its new left subtree. Moreover, $z$ gains the right subtree $C$ of $y$ as its left subtree. If the triple is biased, then $9/10$ of the nodes are concentrated in subtrees $A$ and $B$. Thus, the rank of $x$ will only change by less than $n/10$. However, $z$ will lose both $A$ and $B$ and its rank will fall by at least $9n/10$ and $y$ will lose some potential as well, since it no longer has $A$. Thus, we see that the change in potential is something along the order of $\log n/10 - \log 9n/10 = \log 1/9$. Thus, we see the potential decreases by a negative constant which is enough to pay for the biased rotation of cost $1 < | \log 1/9 |$. 
+
+For the zig-zag rotation, we have $x$ with left and right children $B$ and $C$ respectively, $y$ with left and right child $A$ and $x$ respectively, and $z$ with left and right children $y$ and $D$. The rotation sends $x$ to the root, with $y$ and $z$ as its left and right children. The children for $y$ are $A$ and $B$ and the children of $z$ are $C$ and $D$. Now we see that $x$ only gains a constant amount of weight, since it already held more than $9n/10$ of the nodes. Thus, its weight can only increase by at most $n/10$. As for $z$ and $y$, the increase in size is distributed across $B$ and $C$. However it is distributed, the nodes $y$ and $z$ lose at least $9n/20$ in weight in total. This means the change in potential is $\log n/10 - \log 9n/20 = \log 2/9$. We still see that the $1 < |\log 2/9|$ which allows us to pay for the zig-zag rotation with the change in potential.
+\end{sol}
+
+\begin{prob}{4-c}
+
 \end{prob}
 
 \begin{sol}
