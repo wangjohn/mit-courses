@@ -131,6 +131,18 @@ Improve your solution to work even if the frequency of access is not given durin
 
 \begin{sol}
 From problem 2-b, recall that we were keeping track of the access frequencies at each level $S_i$. Now, whenever an item $x$ is queried or inserted, we will update the access frequencies at a cost of $O(\log S^i)$ for each level $i$. Also, we will check whether the new access frequencies (of the inserted or queried item) is greater than the minimum access frequency in $S_{i-1}$. If it is, we shall delete the minimum access frequency node in $S_{i-1}$ and insert $x$ into $S_{i-1}$. Notice that the cost of performing these operations is the same as an insert, which was analyzed in the previous section. Thus, queries and inserts will still require $O(\log n)$ amortized time. 
+
+To show that this data structure now satisfies the static optimality theorem, we need to show that if an item $x$ is accessed $p_x m$ times, then the total access time is $O(\sum_{x} m p_x \log 1/p_x)$. After $t$ total accesses, the cost of a query on item $x$, using the logic used in problem 2-a, will be at most the inverse of the current probability of access (or $\lambda(x,t)/t$ where $\lambda(x,t)$ is the total number of accesses for item $x$ after $t$ total acesses). This means the cost of a query is $O(t/\lambda(x,t))$. For $m$ total items, we have a cost of $\sum_{t=1}^m O(t/\lambda(x,t))$. Simplifying, we obtain:
+\begin{eqnarray}
+\sum_{t=1}^m \log \frac{t}{\lambda(x,t)} &=& \log \frac{t}{\prod_{t=1}^m \lambda(x,t)} \\
+&=& \log \frac{m!}{\prod_{x}(p_x m)!} \\
+&=& \log \frac{m^{m}}{\prod_{x}(p_x m)^{p_x m}} \\
+&=& m \log m + \sum_{x} m p_x \log \frac{1}{p_xm} \\
+&=& m \log m + \sum_{x} m p_x \log \frac{1}{p_x} - \sum_x m p_x \log m \\
+&=& \sum_{x} m p_x \log \frac{1}{p_x}
+\end{eqnarray}
+
+Where we have used sterling's approximation for factorials that $n! \approx c\sqrt{n}(n/e)^n$ so that $n! = O(n^n)$, and we have also used the fact that $\sum_{x} m p_x \log m = m \log m$ since $\sum_{x} p_x = 1$. Therefore, we see that our data structure matches the static optimality theorem.
 \end{sol}
 
 \begin{prob}{2-d}
@@ -148,6 +160,17 @@ To show that the working set theorem is satisfied, we will look at the cost of a
 \end{eqnarray}
 
 Thus, the total cost of $m$ accesses (including the cost to create the data structure, is $O(n \log n + \sum_{j=1}^m \log t(j))$ which is what we wanted to show.
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{3}
+Describe a data structure that represents an ordered list of elements under the following three types of operations: 1) access(k): return the $k$th element of the list (in its current order) 2) insert(k,x): insert $x$ (a new element) after the $k$th element in the current version of the list 3) reverse(i,j): reverse the order of the $i$th throgh $j$th elements. Each operation should run in $O(\log n)$ amortized time, where $n$ is the current number of elements in the list. The list starts out empty.
+\end{prob}
+
+\begin{sol}
+
 \end{sol}
 
 \end{document}

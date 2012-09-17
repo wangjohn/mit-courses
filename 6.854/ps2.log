@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  16 SEP 2012 22:43
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  17 SEP 2012 02:07
 entering extended mode
  %&-line parsing enabled.
 **ps2.tex
@@ -692,18 +692,29 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [3]
+Underfull \vbox (badness 8132) has occurred while \output is active []
+
+
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[4] (./ps2.aux) ) 
+[4]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[5]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[6] (./ps2.aux) ) 
 Here is how much of TeX's memory you used:
  15246 strings out of 495061
  281315 string characters out of 1182621
- 401691 words of memory out of 3000000
+ 403690 words of memory out of 3000000
  17957 multiletter control sequences out of 15000+50000
  11104 words of font info for 46 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 56i,8n,56p,720b,189s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,8n,56p,720b,192s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
 /share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texm
@@ -716,9 +727,9 @@ e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-tex
 live/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/t
 ype1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/
 amsfonts/symbols/msam10.pfb>
-Output written on ps2.pdf (4 pages, 153337 bytes).
+Output written on ps2.pdf (6 pages, 161013 bytes).
 PDF statistics:
- 70 PDF objects out of 1000 (max. 8388607)
+ 76 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
