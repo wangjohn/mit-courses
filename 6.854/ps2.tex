@@ -193,11 +193,20 @@ For the zig-zag rotation, we have $x$ with left and right children $B$ and $C$ r
 \end{sol}
 
 \begin{prob}{4-c}
-
+Argue that when a balanced triple is rotated, the potential increases by at most $2(r(z) - r(x))$.
 \end{prob}
 
 \begin{sol}
+We shall start with a zig-zig rotation and label the nodes and subtrees as in lecture. The change in potential is given by $\Delta \Phi = r'(x) + r'(y) +r'(z) - (r(x) + r(y) + r(z))$. First, we know that $r'(x) = r(z)$ because they change places at the root, so their ranks must be the same. Moreover, we know that $r(y) > r(x)$ since $x$ is a child of $y$. Therefore we have the simplification:
+\begin{eqnarray}
+\Delta \Phi &\leq& r'(y) + r'(z) - r(x) - r(x) \\
+ &\leq& r(z) + r(z) - r(x) - r(x) \\
+ &=& 2(r(z) - r(x))
+\end{eqnarray}
 
+Where the second step came from the fact that $z$ was the root so that $r(z) > r'(y)$ and $r(z) > r'(z)$. This shows what we wanted for the zig-zig operation. 
+
+Now, for the zig-zag operation, we again assume the notation is the same as from class. Since we know that $r(z) = r'(x)$ as they are both roots, we can obtain $\Delta \Phi = r'(y) + r'(z) - r(x) - r(y)$. Moreover, since $y$ is the parent of $x$, we know that $r(y) > r(x)$ so that $\Delta \Phi \leq r'(y) + r'(z) - r(x) - r(x)$. Finally, we know that $r(z) \geq r'(y)$ and $r(z) \geq r'(z)$ since $z$ was the root in the original tree. This gives us $\Delta \Phi \leq 2(r(z) - r(x))$. Thus, whenever a balanced triple is rotated, the potential increases by at most $2(r(z) - r(x))$. 
 \end{sol}
 
 \end{document}
