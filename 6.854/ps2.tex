@@ -209,4 +209,33 @@ Where the second step came from the fact that $z$ was the root so that $r(z) > r
 Now, for the zig-zag operation, we again assume the notation is the same as from class. Since we know that $r(z) = r'(x)$ as they are both roots, we can obtain $\Delta \Phi = r'(y) + r'(z) - r(x) - r(y)$. Moreover, since $y$ is the parent of $x$, we know that $r(y) > r(x)$ so that $\Delta \Phi \leq r'(y) + r'(z) - r(x) - r(x)$. Finally, we know that $r(z) \geq r'(y)$ and $r(z) \geq r'(z)$ since $z$ was the root in the original tree. This gives us $\Delta \Phi \leq 2(r(z) - r(x))$. Thus, whenever a balanced triple is rotated, the potential increases by at most $2(r(z) - r(x))$. 
 \end{sol}
 
+\begin{prob}{4-d}
+Conclude that enough potential falls out of the system to pay for all the biased rotations, while the real work and amount of potential introduced by the balanced rotation is $O(\log n)$, which thus bounds the amortized cost.
+\end{prob}
+
+\begin{sol}
+First, we know from 4-b that if there is a biased rotation, the cost of the rotation will be paid for by the decrease in potential. Now, if there is an unbiased rotation, then we know that the real cost is $1$ and the potential increases by at most $2(r(z) - r(x))$. The total cost of a series of balanced rotations will be:
+\begin{eqnarray}
+\sum_{i=1}^{\log n} 2 ( r(z_i) - r(x_i))
+\end{eqnarray}
+
+Where $x_i$ and $z_i$ correspond to the $x$ and $z$ of a rotation during the $i$th rotation. Notice that since these are balanced rotations, there cannot be more than $\log n$ of them in a single search path. Moreover, notice that $r(z_i) = r(x_{i+1})$ because $x$ replaces $z$ as the root of the subtree. This implies that the above sum telescopes so that the cost of a series of unbiased rotations in a search path is at most
+\begin{eqnarray}
+2(r(z_{\log n}) - r(x_1)) &=& 2(r(Z) - r(x_1))
+\end{eqnarray}
+
+Where $Z$ is the root of the entire tree. Using a weight of $w=1$ for each node, we see that $r(Z) = \log n$ so that the total amortized cost of the unbiased rotations is $O(\log n)$.
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{5}
+The slowest part of multi-level-bucket heaps was the scan for the next nonempty bucket in a block. Suppose that instead of maintaining the set of a block's nonempty buckets in an array, you kept it in a standard binary heap (note this adds no data structural complexity since we already have the necessary array handy). Discuss how the runtimes of operations would change. By balancing parameters, argue that you can implement a heap with amortized runtimes of $O(\sqrt{\log C})$ for insert, decrease key, and delete-min, yielding a shortest paths algorthim with runtime $O((m+n) \sqrt{\log C})$. 
+\end{prob}
+
+\begin{sol}
+
+\end{sol}
+
 \end{document}
