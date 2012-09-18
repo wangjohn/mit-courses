@@ -72,13 +72,15 @@ Given the theorem about access time in splay trees, it is tempting to conjecture
 \end{prob}
 
 \begin{sol}
-THIS IS INCORRECT!!!!
 We will start by showing how we can use splay operations to make a specified node into a leaf. First, let us take an arbitrary node $x$ which is in some tree $T$. To make $x$ descend down the tree, we will splay the left and right child of $x$. Doing these splays will decrease the depth of the children, but increase the depth of $x$, sending it closer towards being a leaf. We perform this recursively until $x$ has no more children. At this point, $x$ has become a leaf. 
 
-Now, assume we have tree $T$ which we want to restructure into $T'$. We first will find all the leaves of $T'$ using BFS. Then, we will perform a series of recursive splay operations on the nodes in $T$ which correspond to the leaves of $T'$ to make them leaves. Notice that once a node $y$ has become a leaf, no splay operation will be able to change $y$ into an internal node unless we specifically splay $y$. Therefore, it is possible to reorganize $T$ such that $T$ has the same leaves as $T'$. 
+We will now use induction to show that a tree of any desired shape can be made. We shall start with $n=4$. From the diagrams below, it is clear that a set of splays can achieve any tree configuration with $n=4$ nodes.
 
-Once $T$ has the same leaves as $T'$, we must reorganize the internal nodes of $T$. 
+Now, we will use a couple of observations. If a node $x$ is a leaf, then any splays not on $x$ will not affect the leaf status of $x$. This is clear because both zig-zig and zig-zag rotations only change the position of the subtrees $A, B, C,$ and $D$. Therefore, if there is a rotation done in the splay, $x$ will remain a leaf since the subtrees will be unchanged. 
 
+The next observation to make is that if $T$ is a tree and $T'$ (with the same nodes at $T$) has internal nodes and structure which are exactly the same as $T$, then moving the corresponding leaves of $T$ to be leaves in $T'$ will set $T = T'$. Let us imagine $T'$ is in the state where all the internal nodes are in the same orientation as in $T$. This will uniquely define a set of leaves since the tree is a search tree. Imagine $y$ is being moved down to a leaf and suppose by contradiction that $y$ could be placed in two places. If this were the case, then $y$ would be a child of two distinct nodes $j_1$ and $j_2$. We can set $j_1 < j_2$ without loss of generality, and we know that there must be some ordering defined for $y$. We can have $y < j_1 < j_2$ or $j_1 < y < j_2$ or $j_1 < j_2 < y$. For the first case, $y$ can only be the left child of $j_1$, since being the left child of $j_2$ would imply that $j_1 < j_2$ should be in the left subtree of $j_2$. In the second case, if $y$ cannot be both a right child of $j_1$ and a left child of $j_2$. If $y$ is less than the least common ancestor of $j_1$ and $j_2$, then $y$ will be a left child of $j_1$, otherwise it will be a right child of $j_2$. The final case is the same as the first case but with right and left switched. Thus, we see that it is impossible for $y$ to have two distinct positions in the tree. 
+
+This shows that a leaf's position is uniquely defined once the internal nodes of a tree have already been set. This implies that $T' = T$ if each leaf in $T$ is made a leaf in $T'$. We use our induction hypothesis now to assume that we can convert a tree $T$ of size $n$ into a reconfiguration $T'$ of the same size. Then we can also do the same for a tree of size $n+1$ by first performing rotations to make the inner nodes of $T'$ the same as the inner nodes of $T$ (which can be done since leaves do not change the effect of splay operations), then making the leaves of $T$ into the leaves of $T'$ as well. Thus, it is possible to make a sequence of requests that causes the splay tree to achieve any desired shape.
 \end{sol}
 
 \newpage
@@ -89,7 +91,7 @@ Once $T$ has the same leaves as $T'$, we must reorganize the internal nodes of $
 Show that the above tree structure is asymptotically comparable to the optimal static tree in terms of the total time to process the access sequence.
 \end{prob}
 
-\begin{sol}
+uc\begin{sol}
 First, we note that searching for node $v$ in tree $S_k$ requires $O(\log 2^{2^k})$ time since the $S_k$ has $2^{2^k}$ nodes. Now, if $v$ is the $l$th most frequent element, then it will be first found in tree $S_k$ where $2^{2^{k-1}} < l < 2^{2^{k}}$. Thus, we see that $2^k < \log l$ so that $k < \log \log l$. The total search time is therefore:
 \begin{eqnarray}
 \sum_{i=1}^{\log \log l} O(\log 2^{2^i}) = \sum_{i=1}^{\log \log i} O(2^i)
