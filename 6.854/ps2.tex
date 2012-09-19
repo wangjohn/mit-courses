@@ -72,7 +72,7 @@ Given the theorem about access time in splay trees, it is tempting to conjecture
 \end{prob}
 
 \begin{sol}
-We will start by showing how we can use splay operations to make a specified node into a leaf. First, let us take an arbitrary node $x$ which is in some tree $T$. To make $x$ descend down the tree, we will splay the left and right child of $x$. Doing these splays will decrease the depth of the children, but increase the depth of $x$, sending it closer towards being a leaf. We perform this recursively until $x$ has no more children. At this point, $x$ has become a leaf. 
+We will start by showing how we can use splay operations to make a specified node into a leaf. First, we make the tree $T$ into a left chain (i.e. a tree with only left children from the root). This can be done by splaying the nodes in $T$ in descending order. Now, to make $x$ a leaf, we take $x$'s grandchild and splay it. Since a zig-zig operation will be invoked, $x$ will be moved to a leaf position with no child, and will be the child of $x$'s previous child. Thus, $x$ is now a leaf. If $x$ does not have a grandchild, we make the tree $T$ into a right chain (i.e. a tree with only right children from the root) by splaying the nodes in ascending order. Once this is done, we splay $x$'s grandchild and the same analysis can be done to show that $x$ will become a leaf. This works for trees of size $n \geq 4$. If $x$ is already a leaf when $T$ is in a chain, then there is no need to splay anything.
 
 We will now use induction to show that a tree of any desired shape can be made. We shall start with $n=4$. From the diagrams below, it is clear that a set of splays can achieve any tree configuration with $n=4$ nodes.
 
@@ -247,26 +247,6 @@ The slowest part of multi-level-bucket heaps was the scan for the next nonempty 
 \end{prob}
 
 \begin{sol}
-We will use a multi-level-bucket heap as before, but each of the arrays will also have a copy of a standard binary heap. Note that maintaining the original array will not cost extra since all operations can be performed in $O(1)$ time once the element is found in the binary heap. Each heap $A$ will be keyed on the the following function for each node $x$:
-\begin{equation}
-f(A, x) = \left\{ \begin{array}{l c}
-x.value & \text{if $x$ is non-empty} \\
-(C + 1)(x.value+1) & \text{else} 
-\end{array}
-\right\}
-\end{equation}
-
-Where $x.value$ is the index of bucket $x$. This function means that the minimum element $x_m$ will be the element with the lowest key such that $x_m$ is non-empty. In other words, it is the first bucket with an entry in it. Since $x.value < C + 1$, we know that $(C+1)(x.value + 1)$ will always be greater than anything less than $C$, so that $x.value < (C+1)(y.value + 1)$ for all $x$ and $y$. This means that if a node $x$ is empty, it will have a higher key than a non-empty node. 
-
-This means that delete-min can be performed much faster than before. First, the node is removed from the second level of the bucket heap. This takes $O(\log b)$ time since the second level is now a binary heap containing $b$ elements. We decrement the counter of items in the second level, and if it falls to zero, we must perform a decrease key on the binary heap (setting $f(A,x)$ to the correct value) in the first level which takes $O(\log C/b)$ since there are $C/b$ buckets in the first level of the heap. Also, we must find a new minimum element. This will take $O(1)$ time by simply performing a find-min query on the first-level, then another find-min in the second level. Since $f(A,x)$ was defined so that the minimum non-empty bucket is produced by a find-min on the min-heap, we can do these operations in constant time.
-
-If the delete-min did not remove all the items from the bucket, we can perform a find-min inside of that bucket. The keys are arranged according to $f(A,x)$ so that the minimum element that is non-empty is returned. This gives us the min of the entire data structure. Taking these two cases into account, we see that delete-min costs $O(\log b) + O(\log C/b)$ time. 
-
-Insertion is done by first finding the correct top-level bucket for the inserted node $x$. If $x$'s top level bucket is empty, we must perform a decrease-key on the binary heap and reset the $f(A,x)$ value, costing $O(\log C/b)$ time. We do the same for the second level bucket, and perform a decrease-key on the second level binary heap and an insert into the original array. This costs an additional $O(\log b)$. Thus, insert requires $O(\log b + \log C/b)$ time.
-
-Decrease-key is performed by by deleting an element from the data structure, then reinserting the element with an updated key value. The delete operation will cost $O(\log b)$ to delete from the second-level heap and $O(\log C/b)$ to update the top level heap (if deletion causes the second level bucket to become empty). Insertion is the same as above, so the total cost is $O(\log b + \log C/b)$. Now, if we set $\log b = \log C/b$, we find that $b = \sqrt{C}$ will minimize the cost of each operation. Each operation will therefore require $O(\log \sqrt{C})$ running time.
-
-For shortest paths, we perform $n$ inserts, $m$ decrease-keys, and $n$ delete-mins. Since we only need to use $C$ buckets at any given time, we can perform shortest paths in $(n + m + n)(O(\log \sqrt{C}) = O((n+m)\log \sqrt{C})$. 
 \end{sol}
 
 \end{document}
