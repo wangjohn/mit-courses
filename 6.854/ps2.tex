@@ -247,6 +247,23 @@ The slowest part of multi-level-bucket heaps was the scan for the next nonempty 
 \end{prob}
 
 \begin{sol}
+For each level in the multi-level-bucket heap, we will include a binary heap along with the usual array. The binary heap will be keyed on the following function:
+\begin{equation}
+f(A,x) = \left\{ \begin{array}{l c}
+x.key & \text{if $x$ is nonempty} \\
+(C+1)*(x.key + 1) & \text{else}
+\end{array} \right\}
+\end{equation}
+
+This function means that the minimum element $x_m$ will be the element with the lowest key such that $x_m$ is non-empty, or (if the bucket is empty) will be the element with the lowest key. In other words, it is the first block in the bucket with an entry in it. Since $x.key < C + 1$, we know that $(C+1)(x.key + 1)$ will always be greater than anything less than $C$, so that $x.key < (C+1)(y.key + 1)$ for all $x$ and $y$. This means that if a node $x$ is empty, it will always have a higher key than a non-empty node. It also means that if $x$ is empty and is the minimum element in a bucket, then the bucket must be empty.
+
+Now, let our multi-level bucket heap have $k$ levels, each with arrays of $\Delta$ bins. To perform an insert, we will have to go down to the heap at the $k$th level and insert $x$ into the heap. First, suppose that we are inserting into a bucket which is nonempty. We do need need to insert anything into that heap, and to get to the next bucket requires only $O(1)$ time since we still have our array of bins, allowing for $O(1)$ access to the next bucket. At some point, however, we may reach an empty bucket. In this case, we can initialize a new heap in time $O(1)$ with our new element in the heap. If we reach the last level, we will need to insert into the heap and change the bit in the final array. This requires $O(\log \Delta)$ time to insert into the heap of size $\Delta$. Thus, the total time for insert is $O(k) + O(\log \Delta)$ since we move down $k$ levels at a cost of $O(1)$, and we perform an insert on only one level at maximum, requiring $O(\log \Delta)$ runtime. 
+
+For delete-min, we will first find the min in $O(1)$ through a stored global min in the structure (updated whenever anything is inserted for $O(1)$ cost). Next, we delete it from its heap in $O(\log \Delta)$ and set it's bit in the bottom level to 0 in $O(1)$. Next, we move up levels looking for a non-empty array. We can tell immediately if the array is non-empty by checking the minimum element in the heap, and seeing if it is an empty element or not. If the min element is empty, then the entire array is empty (using the logic from our function $f(A,x)$ from above). Once we reach a level with a non-empty array, we find the minimum element in this level's heap and move down until we again reach the bottom level of our data structure. We set the new global minimum as this node. This requires $O(\log \Delta + k)$ time in total, since we perform $O(1)$ operations at each level, and we go through $2k$ levels. 
+
+Finally, decrease-key is simply a delete and an insert operation. The delete operation has the same analysis as the delete-min, so we know that decrease-key costs $O(\log \Delta + k)$ since both delete-min and insert have this runtime. 
+
+To find the optimal value of $k$, we set $\log \Delta = k$. Since we know that $\Delta = C^{1/k}$, we have $\frac{1}{k} \log C = k$ or $\log C = k^2$. This implies that $k = \sqrt{\log C}$, which means each of the delete-min, insert, and decrease-key operations cost $O(\sqrt{\log C})$. 
 \end{sol}
 
 \end{document}
