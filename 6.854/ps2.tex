@@ -22,7 +22,7 @@
 Problem Set 2\\
 \vspace{0.25cm}
 {\bfseries John Wang} \\
-Collaborators:
+Collaborators: Ryan Liu, Varun Ganesan, Jason Hoch
 \end{center}
 \vspace{0.5cm}
 }
@@ -172,7 +172,17 @@ Describe a data structure that represents an ordered list of elements under the 
 \end{prob}
 
 \begin{sol}
+We will create a splay tree and augment its nodes. For each node $x$, we will have $x.left$ as the left child, $x.right$ as the right child, $x.reverse$ as a reversal bit, $x.pseudoleft$ and $x.pseudoright$ as reversal children, and $x.size$ as a count of the number of nodes in a subtree rooted at $x$. 
 
+We will use $x.size$ as a proxy for the order of element $x$ inside of the list. We will update $x.size$ during all splay tree operations without any extra asymptotic time. This is because each rotation will only affect the size of 3 nodes. Each of these three nodes can have their size recomputed by using $x.left.size + x.right.size + 1$. Since the subtrees of each of these nodes does not change during a rotation, we can be sure that the new size for each of the nodes will be correct. Since we perform a constant number of operations for a constant number of nodes on each rotation, $splay(x)$ will still cost $O(\log n)$ amortized time. 
+
+We shall also update $x.reverse$ during rotations. The reverse bit dictates which child is $x.pseudoleft$ and which is $x.pseudoright$. If the reverse bit is set, then $x.pseudoright = x.left$ and vice versa. To update $x.reverse$ during rotations, we can use the fact that $x.reverse = \sum_{k} k.reverse \pmod{2}$ for all $k$ which are the descendants of $x$ which have been modified. Using this formula for rotations in the reversal of bits means that the traversal of the tree will be preserved, as long as we enter the tree through $x.pseudoleft$ then $x$ itself before we go through $x.pseudoright$. Since $x.reverse$ can be calculated in a constant number of steps, due to the fact that subtrees of $x$, $y$, and $z$ do not change during rotations, the splay operation still costs $O(\log n)$ amortized time.
+
+To perform $access(k)$, we start at the root $r$ and look at $r.left.size$. If $k = r.left.size + 1$ then we return the root. If $k > r.left.size + 1$, then we set the right child of the root as the new $r$ and set $k$ equal to $k - r.left.size - 1$. If $k < r.left.size$, then we set $r = r.left$ and look for $k$. We perform this recursively until we find the $k$th element. This requires $O(\log n)$ amortized time. 
+
+To perform $insert(k,x)$, we perform an insert into the splay tree, which should have runtime of $O(\log n)$, and we make sure to update all our augmented data. Since we first split the tree on $x$, we can update the augmented data in $O(1)$ time, then merge it back and update the new root in $O(1)$ time. This means that insert should still have a runtime of $O(\log n)$. 
+
+Finally, to perform $reverse(i,j)$, we must split at element $i$ to form two trees $T', T$. Then we split $T$ again at element $j$ to form $T'', T'''$. We know that $T''$ will be composed of only elements which are less than $j$ and greater than $i$. Thus, we can update the root of $T''$ and change its reverse bit in order to reverse all elements between $i$ and $j$. Then, we merge $T''$ with $T'''$ and then $T'$ with the new structure to obtain $T$ with elements $i$ through $j$ reverse. This also costs $O(\log n)$ amortized time because each split costs $O(\log n)$. 
 \end{sol}
 
 \newpage
@@ -237,7 +247,26 @@ The slowest part of multi-level-bucket heaps was the scan for the next nonempty 
 \end{prob}
 
 \begin{sol}
+We will use a multi-level-bucket heap as before, but each of the arrays will also have a copy of a standard binary heap. Note that maintaining the original array will not cost extra since all operations can be performed in $O(1)$ time once the element is found in the binary heap. Each heap $A$ will be keyed on the the following function for each node $x$:
+\begin{equation}
+f(A, x) = \left\{ \begin{array}{l c}
+x.value & \text{if $x$ is non-empty} \\
+(C + 1)(x.value+1) & \text{else} 
+\end{array}
+\right\}
+\end{equation}
 
+Where $x.value$ is the index of bucket $x$. This function means that the minimum element $x_m$ will be the element with the lowest key such that $x_m$ is non-empty. In other words, it is the first bucket with an entry in it. Since $x.value < C + 1$, we know that $(C+1)(x.value + 1)$ will always be greater than anything less than $C$, so that $x.value < (C+1)(y.value + 1)$ for all $x$ and $y$. This means that if a node $x$ is empty, it will have a higher key than a non-empty node. 
+
+This means that delete-min can be performed much faster than before. First, the node is removed from the second level of the bucket heap. This takes $O(\log b)$ time since the second level is now a binary heap containing $b$ elements. We decrement the counter of items in the second level, and if it falls to zero, we must perform a decrease key on the binary heap (setting $f(A,x)$ to the correct value) in the first level which takes $O(\log C/b)$ since there are $C/b$ buckets in the first level of the heap. Also, we must find a new minimum element. This will take $O(1)$ time by simply performing a find-min query on the first-level, then another find-min in the second level. Since $f(A,x)$ was defined so that the minimum non-empty bucket is produced by a find-min on the min-heap, we can do these operations in constant time.
+
+If the delete-min did not remove all the items from the bucket, we can perform a find-min inside of that bucket. The keys are arranged according to $f(A,x)$ so that the minimum element that is non-empty is returned. This gives us the min of the entire data structure. Taking these two cases into account, we see that delete-min costs $O(\log b) + O(\log C/b)$ time. 
+
+Insertion is done by first finding the correct top-level bucket for the inserted node $x$. If $x$'s top level bucket is empty, we must perform a decrease-key on the binary heap and reset the $f(A,x)$ value, costing $O(\log C/b)$ time. We do the same for the second level bucket, and perform a decrease-key on the second level binary heap and an insert into the original array. This costs an additional $O(\log b)$. Thus, insert requires $O(\log b + \log C/b)$ time.
+
+Decrease-key is performed by by deleting an element from the data structure, then reinserting the element with an updated key value. The delete operation will cost $O(\log b)$ to delete from the second-level heap and $O(\log C/b)$ to update the top level heap (if deletion causes the second level bucket to become empty). Insertion is the same as above, so the total cost is $O(\log b + \log C/b)$. Now, if we set $\log b = \log C/b$, we find that $b = \sqrt{C}$ will minimize the cost of each operation. Each operation will therefore require $O(\log \sqrt{C})$ running time.
+
+For shortest paths, we perform $n$ inserts, $m$ decrease-keys, and $n$ delete-mins. Since we only need to use $C$ buckets at any given time, we can perform shortest paths in $(n + m + n)(O(\log \sqrt{C}) = O((n+m)\log \sqrt{C})$. 
 \end{sol}
 
 \end{document}
