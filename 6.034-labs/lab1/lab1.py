@@ -17,7 +17,7 @@ from production import IF, AND, OR, NOT, THEN, forward_chain
 #    2. the consequent
 #    3. both
 
-ANSWER_1 = '1'
+ANSWER_1 = '2'
 
 # A rule-based system about Monty Python's "Dead Parrot" sketch
 # uses the following rules:
@@ -37,7 +37,7 @@ ANSWER_1 = '1'
 
 # Will this system produce the datum 'Polly is pining for the
 # fjords'?  Answer 'yes' or 'no'.
-ANSWER_2 = 'yes'
+ANSWER_2 = 'no'
 
 # Which rule contains a programming error? Answer '1' or '2'.
 ANSWER_3 = '2'
@@ -73,7 +73,7 @@ ANSWER_4 = '1'
 
 # Which rule fires second?
 
-ANSWER_5 = '2'
+ANSWER_5 = '0'
 
 
 # Problem 1.3.1: Poker hands
@@ -90,7 +90,7 @@ poker_data = ( 'two-pair beats pair',
 # which poker hands beat which, transitively. For example, it
 # should be able to deduce that a three-of-a-kind beats a pair,
 # because a three-of-a-kind beats two-pair, which beats a pair.
-transitive_rule = IF( AND('two-pair beats pair', 'three-of-a-kind beats two-pair'), THEN() )
+transitive_rule = IF( AND('(?x) beats (?y)', '(?y) beats (?z)'), THEN('(?x) beats (?z)') )
 
 # You can test your rule like this:
 # print forward_chain([transitive_rule], poker_data)
@@ -114,7 +114,16 @@ TEST_RESULTS_TRANS2 = forward_chain([transitive_rule],
 
 # Then, put them together into a list in order, and call it
 # family_rules.
-family_rules = [ ]                    # fill me in
+family_rules = [
+    IF(AND('(?x) is a male', '(?y) is the parent of (?x)'), THEN('(?x) is the son of (?y)')),
+    IF(AND('(?x) is a female', '(?y) is the parent of (?x)'), THEN('(?x) is the daughter of (?y)')),
+    IF(AND('(?x) is a male', '(?x) is the parent of (?y)'), THEN('(?x) is the mother of (?y)')),
+    IF(AND('(?x) is a female', '(?x) is the parent of (?y)'), THEN('(?x) is the father of (?y)')),
+    IF(AND('(?x) is the parent of (?y)', '(?x) is the parent of (?z)', '(?y) is a male'), THEN('(?y) is the brother of (?z)')),
+    IF(AND('(?x) is the parent of (?y)', '(?x) is the parent of (?z)', '(?y) is a female'), THEN('(?y) is the sister of (?z)')),
+    IF(AND('(?x) is the parent of (?y)', '(?z) is the parent of (?w)', OR('(?x) is the brother of (?z)', '(?x) is the sister of (?z)')), THEN('(?y) is the cousin of (?w)')),
+    IF(AND('(?x) is the parent of (?y)', '(?y) is the parent of (?z)'), THEN(AND('(?x) is the grandparent of (?z)', '(?z) is the grandchild of (?x)')))
+]   
 
 # Some examples to try it on:
 # Note: These are used for testing, so DO NOT CHANGE
