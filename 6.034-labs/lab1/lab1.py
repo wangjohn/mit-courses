@@ -115,14 +115,20 @@ TEST_RESULTS_TRANS2 = forward_chain([transitive_rule],
 # Then, put them together into a list in order, and call it
 # family_rules.
 family_rules = [
-    IF(AND('(?x) is a male', '(?y) is the parent of (?x)'), THEN('(?x) is the son of (?y)')),
-    IF(AND('(?x) is a female', '(?y) is the parent of (?x)'), THEN('(?x) is the daughter of (?y)')),
-    IF(AND('(?x) is a male', '(?x) is the parent of (?y)'), THEN('(?x) is the mother of (?y)')),
-    IF(AND('(?x) is a female', '(?x) is the parent of (?y)'), THEN('(?x) is the father of (?y)')),
-    IF(AND('(?x) is the parent of (?y)', '(?x) is the parent of (?z)', '(?y) is a male'), THEN('(?y) is the brother of (?z)')),
-    IF(AND('(?x) is the parent of (?y)', '(?x) is the parent of (?z)', '(?y) is a female'), THEN('(?y) is the sister of (?z)')),
-    IF(AND('(?x) is the parent of (?y)', '(?z) is the parent of (?w)', OR('(?x) is the brother of (?z)', '(?x) is the sister of (?z)')), THEN('(?y) is the cousin of (?w)')),
-    IF(AND('(?x) is the parent of (?y)', '(?y) is the parent of (?z)'), THEN(AND('(?x) is the grandparent of (?z)', '(?z) is the grandchild of (?x)')))
+    IF(AND('male (?x)', 'parent (?y) (?x)'), THEN('son (?x) (?y)')),
+    IF(AND('female (?x)', 'parent (?y) (?x)'), THEN('daughter (?x) (?y)')),
+    IF(AND('male (?x)', 'parent (?x) (?y)'), THEN('father (?x) (?y)')),
+    IF(AND('female (?x)', 'parent (?x) (?y)'), THEN('mother (?x) (?y)')),
+    IF(AND('father (?x) (?y)', 'male (?y)'), THEN('son (?y) (?x)')),
+    IF(AND('father (?x) (?y)', 'female (?y)'), THEN('daughter (?y) (?x)')),
+    IF(AND('mother (?x) (?y)', 'male (?y)'), THEN('son (?y) (?x)')),
+    IF(AND('mother (?x) (?y)', 'female (?y)'), THEN('daughter (?y) (?x)')),
+    IF(AND('parent (?x) (?y)', 'parent (?x) (?z)', 'male (?y)', NOT('same-identity (?y) (?z)')), THEN('brother (?y) (?z)')),
+    IF(AND('parent (?x) (?y)', 'parent (?x) (?z)', 'female (?y)', NOT('same-identity (?y) (?z)')), THEN('sister (?y) (?z)')),
+    IF(AND('parent (?x) (?y)', 'parent (?z) (?w)', OR('brother (?x) (?z)', 'sister (?x) (?z)')), THEN('cousin (?y) (?w)')),
+    IF(AND('parent (?x) (?y)', 'parent (?z) (?w)', OR('brother (?x) (?z)', 'sister (?x) (?z)')), THEN('cousin (?w) (?y)')),
+    IF(AND('parent (?x) (?y)', 'parent (?y) (?z)'), THEN('grandparent (?x) (?z)')),
+    IF(AND('parent (?x) (?y)', 'parent (?y) (?z)'), THEN('grandchild (?z) (?x)')),
 ]   
 
 # Some examples to try it on:
@@ -176,7 +182,7 @@ black_family_cousins = [
     if "cousin" in x ]
 
 # To see if you found them all, uncomment this line:
-# print black_family_cousins
+print black_family_cousins
 
 # To debug what happened in your rules, you can set verbose=True
 # in the function call above.
