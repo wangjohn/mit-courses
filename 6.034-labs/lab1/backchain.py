@@ -15,13 +15,29 @@ from zookeeper import ZOOKEEPER_RULES
 
 
 def backchain_to_goal_tree(rules, hypothesis):
-    matcihypothesis
+    print hypothesis
     for rule in rules:
-        consequent = rule.consequent
-        populate(consequent, 
-        print consequent
-        if match(consequent, hypothesis): 
-            return consequent
+        consequent = rule.consequent()
+        for expr in consequent:
+            bindings = match(expr, hypothesis)
+            if bindings:
+                antecedent = rule.antecedent()
+                if isinstance(antecedent, str):
+                    return antecedent
+                else:
+                    statements = [populate(ante_expr, bindings) for ante_expr in antecedent]
+                    secondary_results = []
+                    for statement in statements:
+                        secondary_results.append(backchain_to_goal_tree(rules, statement))
+                    return create_statement(results, antecedent)
+    print 'finished ' + hypothesis
+    return results
+
+def create_statement(statements, rule):
+    if isinstance(rule, AND):
+        return AND(statements)
+    elif isinstance(rule, OR):
+        return OR(statements)
 
 # Here's an example of running the backward chainer - uncomment
 # it to see it work:
