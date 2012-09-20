@@ -1,0 +1,331 @@
+time = 0.0
+Shape:
+X        
+ X       
+  X      
+   X     
+         
+     X   
+      X  
+       X 
+        X
+Matrix:
+(0,0=vdd) 0.0, 1.0, true
+(1,1=b) 0.0, 1.0, true
+(2,2=c) 0.0, 1.0, true
+(3,3=a) 0.0, 1.0, true
+(5,5=i(vdd)) 0.0, 1.0, true
+(6,6=i(winputs#1)) 0.0, 1.0, true
+(7,7=i(winputs#2)) 0.0, 1.0, true
+(8,8=i(winputs#0)) 0.0, 1.0, true
+Source vector:
+(0) 0.0, 0.0
+(1) 0.0, 0.0
+(2) 0.0, 0.0
+(3) 0.0, 0.0
+(4) 0.0, 0.0
+(5) 0.0, 0.0
+(6) 0.0, 0.0
+(7) 0.0, 0.0
+(8) 0.0, 0.0
+time = 0.0
+Shape:
+X              
+ X             
+  X            
+   X           
+X  -X          
+X  -XX--XX     
+-     -        
+-      -       
+X  -   -XX     
+X     --XX     
+      -   XX   
+   -  -   XX   
+            X  
+-  -         X 
+              X
+Matrix:
+(0,0=vdd) 0.0, 1.0, true
+(1,1=b) 0.0, 1.0, true
+(2,2=c) 0.0, 1.0, true
+(3,3=a) 0.0, 1.0, true
+(4,0=vdd) 0.0, -2.0E-12, true
+(4,3=a) 0.0, 0.0, false
+(4,4=z) 0.0, 4.0E-12, true
+(5,0=vdd) 0.0, 8.0E-12, true
+(5,3=a) 0.0, 0.0, false
+(5,4=z) 0.0, -2.0E-12, true
+(5,5=i(vdd)) 0.0, 1.0, true
+(5,6=xtest.f) 0.0, 0.0, false
+(5,7=xtest.vds) 0.0, 0.0, false
+(5,8=xtest.xg0.2) 0.0, -3.0E-12, true
+(5,9=xtest.xg0.1) 0.0, -3.0E-12, true
+(6,0=vdd) 0.0, 0.0, false
+(6,6=xtest.f) 0.0, 0.0, false
+(7,0=vdd) 0.0, 0.0, false
+(7,7=xtest.vds) 0.0, 0.0, false
+(8,0=vdd) 0.0, -3.0E-12, true
+(8,3=a) 0.0, 0.0, false
+(8,7=xtest.vds) 0.0, 0.0, false
+(8,8=xtest.xg0.2) 0.0, 4.0E-12, true
+(8,9=xtest.xg0.1) 0.0, -1.0E-12, true
+(9,0=vdd) 0.0, -3.0E-12, true
+(9,6=xtest.f) 0.0, 0.0, false
+(9,7=xtest.vds) 0.0, 0.0, false
+(9,8=xtest.xg0.2) 0.0, -1.0E-12, true
+(9,9=xtest.xg0.1) 0.0, 4.0E-12, true
+(10,6=xtest.f) 0.0, 0.0, false
+(10,10=xtest.xg1.2) 0.0, 4.0E-12, true
+(10,11=xtest.xg1.1) 0.0, -2.0E-12, true
+(11,3=a) 0.0, 0.0, false
+(11,6=xtest.f) 0.0, 0.0, false
+(11,10=xtest.xg1.2) 0.0, -2.0E-12, true
+(11,11=xtest.xg1.1) 0.0, 5.9999999999999995E-12, true
+(12,12=i(winputs#1)) 0.0, 1.0, true
+(13,0=vdd) 0.0, 0.0, false
+(13,3=a) 0.0, 0.0, false
+(13,13=i(winputs#2)) 0.0, 1.0, true
+(14,14=i(winputs#0)) 0.0, 1.0, true
+Source vector:
+(0) 0.0, 0.0
+(1) 0.0, 0.0
+(2) 0.0, 0.0
+(3) 0.0, 0.0
+(4) 0.0, 0.0
+(5) 0.0, 0.0
+(6) 0.0, 0.0
+(7) 0.0, 0.0
+(8) 0.0, 0.0
+(9) 0.0, 0.0
+(10) 0.0, 0.0
+(11) 0.0, 0.0
+(12) 0.0, 0.0
+(13) 0.0, 0.0
+(14) 0.0, 0.0
+time = 0.0
+Shape:
+X             
+ X            
+  X           
+   X          
+X   X -       
+X---XX-XX     
+-     -       
+X --   XX     
+X- -   XX     
+ - -     XX   
+ ---     XX   
+--         X  
+-  -        X 
+- -          X
+Matrix:
+(0,0=vdd) 0.0, 1.0, true
+(1,1=b) 0.0, 1.0, true
+(2,2=c) 0.0, 1.0, true
+(3,3=a) 0.0, 1.0, true
+(4,0=vdd) 0.0, -2.0E-12, true
+(4,4=z) 0.0, 4.0E-12, true
+(4,6=xtest.f) 0.0, 0.0, false
+(5,0=vdd) 0.0, 8.0E-12, true
+(5,1=b) 0.0, 0.0, false
+(5,2=c) 0.0, 0.0, false
+(5,3=a) 0.0, 0.0, false
+(5,4=z) 0.0, -2.0E-12, true
+(5,5=i(vdd)) 0.0, 1.0, true
+(5,6=xtest.f) 0.0, 0.0, false
+(5,7=xtest.xg0.2) 0.0, -3.0E-12, true
+(5,8=xtest.xg0.1) 0.0, -3.0E-12, true
+(6,0=vdd) 0.0, 0.0, false
+(6,6=xtest.f) 0.0, 0.0, false
+(7,0=vdd) 0.0, -3.0E-12, true
+(7,2=c) 0.0, 0.0, false
+(7,3=a) 0.0, 0.0, false
+(7,7=xtest.xg0.2) 0.0, 4.0E-12, true
+(7,8=xtest.xg0.1) 0.0, -1.0E-12, true
+(8,0=vdd) 0.0, -3.0E-12, true
+(8,1=b) 0.0, 0.0, false
+(8,3=a) 0.0, 0.0, false
+(8,7=xtest.xg0.2) 0.0, -1.0E-12, true
+(8,8=xtest.xg0.1) 0.0, 4.0E-12, true
+(9,1=b) 0.0, 0.0, false
+(9,3=a) 0.0, 0.0, false
+(9,9=xtest.xg1.2) 0.0, 4.0E-12, true
+(9,10=xtest.xg1.1) 0.0, -2.0E-12, true
+(10,1=b) 0.0, 0.0, false
+(10,2=c) 0.0, 0.0, false
+(10,3=a) 0.0, 0.0, false
+(10,9=xtest.xg1.2) 0.0, -2.0E-12, true
+(10,10=xtest.xg1.1) 0.0, 5.9999999999999995E-12, true
+(11,0=vdd) 0.0, 0.0, false
+(11,1=b) 0.0, 0.0, false
+(11,11=i(winputs#1)) 0.0, 1.0, true
+(12,0=vdd) 0.0, 0.0, false
+(12,3=a) 0.0, 0.0, false
+(12,12=i(winputs#2)) 0.0, 1.0, true
+(13,0=vdd) 0.0, 0.0, false
+(13,2=c) 0.0, 0.0, false
+(13,13=i(winputs#0)) 0.0, 1.0, true
+Source vector:
+(0) 0.0, 0.0
+(1) 0.0, 0.0
+(2) 0.0, 0.0
+(3) 0.0, 0.0
+(4) 0.0, 0.0
+(5) 0.0, 0.0
+(6) 0.0, 0.0
+(7) 0.0, 0.0
+(8) 0.0, 0.0
+(9) 0.0, 0.0
+(10) 0.0, 0.0
+(11) 0.0, 0.0
+(12) 0.0, 0.0
+(13) 0.0, 0.0
+time = 0.0
+Shape:
+X             
+ X            
+  X           
+   X          
+X   X -       
+X-- XX-XX     
+-     -       
+X -   -XX     
+X-    -XX     
+ -       XX   
+ --      XX   
+--         X  
+            X 
+- -          X
+Matrix:
+(0,0=vdd) 0.0, 1.0, true
+(1,1=b) 0.0, 1.0, true
+(2,2=c) 0.0, 1.0, true
+(3,3=a) 0.0, 1.0, true
+(4,0=vdd) 0.0, -2.0E-12, true
+(4,4=z) 0.0, 4.0E-12, true
+(4,6=xtest.f) 0.0, 0.0, false
+(5,0=vdd) 0.0, 8.0E-12, true
+(5,1=b) 0.0, 0.0, false
+(5,2=c) 0.0, 0.0, false
+(5,4=z) 0.0, -2.0E-12, true
+(5,5=i(vdd)) 0.0, 1.0, true
+(5,6=xtest.f) 0.0, 0.0, false
+(5,7=xtest.xg0.2) 0.0, -3.0E-12, true
+(5,8=xtest.xg0.1) 0.0, -3.0E-12, true
+(6,0=vdd) 0.0, 0.0, false
+(6,6=xtest.f) 0.0, 0.0, false
+(7,0=vdd) 0.0, -3.0E-12, true
+(7,2=c) 0.0, 0.0, false
+(7,6=xtest.f) 0.0, 0.0, false
+(7,7=xtest.xg0.2) 0.0, 4.0E-12, true
+(7,8=xtest.xg0.1) 0.0, -1.0E-12, true
+(8,0=vdd) 0.0, -3.0E-12, true
+(8,1=b) 0.0, 0.0, false
+(8,6=xtest.f) 0.0, 0.0, false
+(8,7=xtest.xg0.2) 0.0, -1.0E-12, true
+(8,8=xtest.xg0.1) 0.0, 4.0E-12, true
+(9,1=b) 0.0, 0.0, false
+(9,9=xtest.xg1.2) 0.0, 4.0E-12, true
+(9,10=xtest.xg1.1) 0.0, -2.0E-12, true
+(10,1=b) 0.0, 0.0, false
+(10,2=c) 0.0, 0.0, false
+(10,9=xtest.xg1.2) 0.0, -2.0E-12, true
+(10,10=xtest.xg1.1) 0.0, 5.9999999999999995E-12, true
+(11,0=vdd) 0.0, 0.0, false
+(11,1=b) 0.0, 0.0, false
+(11,11=i(winputs#1)) 0.0, 1.0, true
+(12,12=i(winputs#2)) 0.0, 1.0, true
+(13,0=vdd) 0.0, 0.0, false
+(13,2=c) 0.0, 0.0, false
+(13,13=i(winputs#0)) 0.0, 1.0, true
+Source vector:
+(0) 0.0, 0.0
+(1) 0.0, 0.0
+(2) 0.0, 0.0
+(3) 0.0, 0.0
+(4) 0.0, 0.0
+(5) 0.0, 0.0
+(6) 0.0, 0.0
+(7) 0.0, 0.0
+(8) 0.0, 0.0
+(9) 0.0, 0.0
+(10) 0.0, 0.0
+(11) 0.0, 0.0
+(12) 0.0, 0.0
+(13) 0.0, 0.0
+time = 0.0
+Shape:
+X             
+ X            
+  X           
+   X          
+X   X -       
+X-- XX-XX     
+-     -       
+X -   -XX     
+X-    -XX     
+ -    -  XX   
+ --   -  XX   
+--         X  
+            X 
+- -          X
+Matrix:
+(0,0=vdd) 0.0, 1.0, true
+(1,1=b) 0.0, 1.0, true
+(2,2=c) 0.0, 1.0, true
+(3,3=a) 0.0, 1.0, true
+(4,0=vdd) 0.0, -2.0E-12, true
+(4,4=z) 0.0, 4.0E-12, true
+(4,6=xtest.f) 0.0, 0.0, false
+(5,0=vdd) 0.0, 8.0E-12, true
+(5,1=b) 0.0, 0.0, false
+(5,2=c) 0.0, 0.0, false
+(5,4=z) 0.0, -2.0E-12, true
+(5,5=i(vdd)) 0.0, 1.0, true
+(5,6=xtest.f) 0.0, 0.0, false
+(5,7=xtest.xg0.2) 0.0, -3.0E-12, true
+(5,8=xtest.xg0.1) 0.0, -3.0E-12, true
+(6,0=vdd) 0.0, 0.0, false
+(6,6=xtest.f) 0.0, 0.0, false
+(7,0=vdd) 0.0, -3.0E-12, true
+(7,2=c) 0.0, 0.0, false
+(7,6=xtest.f) 0.0, 0.0, false
+(7,7=xtest.xg0.2) 0.0, 4.0E-12, true
+(7,8=xtest.xg0.1) 0.0, -1.0E-12, true
+(8,0=vdd) 0.0, -3.0E-12, true
+(8,1=b) 0.0, 0.0, false
+(8,6=xtest.f) 0.0, 0.0, false
+(8,7=xtest.xg0.2) 0.0, -1.0E-12, true
+(8,8=xtest.xg0.1) 0.0, 4.0E-12, true
+(9,1=b) 0.0, 0.0, false
+(9,6=xtest.f) 0.0, 0.0, false
+(9,9=xtest.xg1.2) 0.0, 4.0E-12, true
+(9,10=xtest.xg1.1) 0.0, -2.0E-12, true
+(10,1=b) 0.0, 0.0, false
+(10,2=c) 0.0, 0.0, false
+(10,6=xtest.f) 0.0, 0.0, false
+(10,9=xtest.xg1.2) 0.0, -2.0E-12, true
+(10,10=xtest.xg1.1) 0.0, 5.9999999999999995E-12, true
+(11,0=vdd) 0.0, 0.0, false
+(11,1=b) 0.0, 0.0, false
+(11,11=i(winputs#1)) 0.0, 1.0, true
+(12,12=i(winputs#2)) 0.0, 1.0, true
+(13,0=vdd) 0.0, 0.0, false
+(13,2=c) 0.0, 0.0, false
+(13,13=i(winputs#0)) 0.0, 1.0, true
+Source vector:
+(0) 0.0, 0.0
+(1) 0.0, 0.0
+(2) 0.0, 0.0
+(3) 0.0, 0.0
+(4) 0.0, 0.0
+(5) 0.0, 0.0
+(6) 0.0, 0.0
+(7) 0.0, 0.0
+(8) 0.0, 0.0
+(9) 0.0, 0.0
+(10) 0.0, 0.0
+(11) 0.0, 0.0
+(12) 0.0, 0.0
+(13) 0.0, 0.0

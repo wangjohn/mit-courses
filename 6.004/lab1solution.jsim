@@ -1,0 +1,20 @@
+* Lab 1 Checkoff
+.include "/mit/6.004/jsim/nominal.jsim"
+.include "/mit/6.004/jsim/lab1checkoff.jsim"
+
+* INVERTER: input is A, output is Z 
+.subckt inv a z 
+MPD1 z a 0 0 NENH sw=16 sl=1 
+MPU1 z a vdd vdd PENH sw=16 sl=1 
+.ends
+
+.subckt F A B C Z
+*po = pre-output, nm = nfet mid net, pm = pfet mid net
+Xinvo d Z inv
+MPD1 d A e 0 NENH sw=8 sl=1
+MPD2 e B 0 0 NENH sw=8 sl=1
+MPD3 d C 0 0 NENH sw=8 sl=1
+MPU1 vdd A f vdd PENH sw=8 sl=1
+MPU2 vdd B f vdd PENH sw=8 sl=1
+MPU3 f C d vdd PENH sw=8 sl=1
+.ends

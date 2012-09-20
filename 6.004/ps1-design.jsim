@@ -1,0 +1,26 @@
+.include "/mit/6.004/jsim/nominal.jsim"
+.include "/mit/6.004/jsim/lab1checkoff.jsim"
+
+.subckt inverter a z
+MPD1 z a 0 0 NENH sw=8 sl=1
+MPU1 z a vdd vdd PENH sw=8 sl=1
+.ends
+
+.subckt pulldown a b c z
+MPD1 z a 2 0 NENH sw=8 sl=1
+MPD2 2 b 0 0 NENH sw=8 sl=1
+MPD3 z c 0 0 NENH sw=8 sl=1
+.ends
+
+.subckt pullup a b c z
+MPU1 vdd a 2 vdd PENH sw=8 sl=1
+MPU2 vdd b 2 vdd PENH sw=8 sl=1
+MPU3 2 c z vdd PENH sw=8 sl=1
+.ends
+
+.subckt F A B C Z
+Xinvo Y Z inverter
+Xg1 A B C Y pulldown
+Xg2 A B C Y pullup
+.ends
+
