@@ -182,9 +182,6 @@ black_family_cousins = [
     forward_chain(family_rules, black_data, verbose=False) 
     if "cousin" in x ]
 
-# To see if you found them all, uncomment this line:
-print black_family_cousins
-
 # To debug what happened in your rules, you can set verbose=True
 # in the function call above.
 
@@ -229,7 +226,7 @@ from backchain import backchain_to_goal_tree
 ##; Section 3: Survey ##
 # Please answer these questions inside the double quotes.
 
-HOW_MANY_HOURS_THIS_PSET_TOOK = ''
-WHAT_I_FOUND_INTERESTING = ''
-WHAT_I_FOUND_BORING = ''
+HOW_MANY_HOURS_THIS_PSET_TOOK = '5'
+WHAT_I_FOUND_INTERESTING = 'I found the backchaining algorithm pretty interesting, especially the different cases involved in the algorithm.'
+WHAT_I_FOUND_BORING = 'I did not like the family rules, it seemed like a fruitless endeavor and didnt really teach me much.'
 
