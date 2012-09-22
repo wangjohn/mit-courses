@@ -13,25 +13,28 @@ from zookeeper import ZOOKEEPER_RULES
 # specific to a particular rule set.  The backchainer will be
 # tested on things other than ZOOKEEPER_RULES.
 
+#(IF(AND('a (?x)', 'b (?x)'), THEN('c d(?x) e')), IF(OR('(?y) f e', '(?y) g'), THEN('h (?y) j')), IF(AND('h c d j', 'h i j'), THEN('zot')), IF((?z) i, THEN('i (?z)')))
+
 
 def backchain_to_goal_tree(rules, hypothesis):
-    print hypothesis
+    results = [hypothesis]
     for rule in rules:
         consequent = rule.consequent()
         for expr in consequent:
             bindings = match(expr, hypothesis)
-            if bindings:
+            if bindings or expr == hypothesis:
                 antecedent = rule.antecedent()
                 if isinstance(antecedent, str):
-                    return antecedent
+                    new_hypothesis = populate(antecedent, bindings)
+                    results.append(backchain_to_goal_tree(rules, new_hypothesis))
+                    results.append(new_hypothesis)
                 else:
                     statements = [populate(ante_expr, bindings) for ante_expr in antecedent]
-                    secondary_results = []
+                    new_results = []
                     for statement in statements:
-                        secondary_results.append(backchain_to_goal_tree(rules, statement))
-                    return create_statement(results, antecedent)
-    print 'finished ' + hypothesis
-    return results
+                        new_results.append(backchain_to_goal_tree(rules, statement))
+                    results.append(create_statement(new_results, antecedent))
+    return simplify(OR(results))
 
 def create_statement(statements, rule):
     if isinstance(rule, AND):
@@ -41,4 +44,4 @@ def create_statement(statements, rule):
 
 # Here's an example of running the backward chainer - uncomment
 # it to see it work:
-print backchain_to_goal_tree(ZOOKEEPER_RULES, 'opus is a penguin')
+# print backchain_to_goal_tree(ZOOKEEPER_RULES, 'opus is a penguin')
