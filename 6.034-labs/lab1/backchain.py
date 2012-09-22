@@ -15,7 +15,6 @@ from zookeeper import ZOOKEEPER_RULES
 
 
 def backchain_to_goal_tree(rules, hypothesis):
-    print hypothesis
     for rule in rules:
         consequent = rule.consequent()
         for expr in consequent:
@@ -30,8 +29,7 @@ def backchain_to_goal_tree(rules, hypothesis):
                     for statement in statements:
                         secondary_results.append(backchain_to_goal_tree(rules, statement))
                     return create_statement(results, antecedent)
-    print 'finished ' + hypothesis
-    return results
+    print 'reached end'
 
 def create_statement(statements, rule):
     if isinstance(rule, AND):
