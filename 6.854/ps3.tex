@@ -1,0 +1,64 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{framed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+
+\newcommand{\makenewtitle}{
+\begin{center}
+{\huge \bfseries 6.854 Advanced Algorithms} \\
+Problem Set 2\\
+\vspace{0.25cm}
+{\bfseries John Wang} \\
+Collaborators:
+\end{center}
+\vspace{0.5cm}
+}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\begin{document}
+\makenewtitle
+\begin{prob}{1}
+\end{prob}
+
+\begin{sol}
+\end{sol}
+
+\makenewtitle
+
+\begin{prob}{2}
+Our Van Emde Boas construction gave a high-speed priority queue, but with a little more work it can turn into a high-speed ``binary search tree''. Augment the Van Emde Boas priority queue to track the maximum as well as the minimum of its elements, and use the augmentation to support the following operations on integers in the range $\{0,1,2,\ldots, u-1\}$ in $O(\log \log u)$ worst-case time each and $O(u)$ space total: 1) $Find(x, Q)$, $Predecessor(x, Q)$, and $Successor(x,Q)$. 
+\end{prob}
+
+\begin{sol}
+First let us define some notation. We will call the array of the high bits $Q.top$ and the array of arrays of the low bits $Q.bottom$. Additionally, we will assume that there are two functions $high(x)$ and $low(x)$ which will find the top and bottom bits respectively of an integer $x$. We also will have a function $combine(low(x), high(x)) = x$ which can combine the low and high bits back together into $x$. 
+
+To perform a find operation, we will use a find operation. If $x$ is the minimum or maximum of the current queue, return it. Next, examine $Q.bottom[high(x)]$ and check if the bin at position $low(x)$ is nonempty. If it is, we recurse on $Find(x, Q.bottom[high(x)][low(x)])$. We stop until we have found the minimum or maximum of the current sub-queue, or if we have found an empty element in one of the bins we are checking (and return null). The runtime is given by $T(b) = 1 + T(b/2) = O(\log b)$, and since $b$ is the size of the bucket, we can set $b = \log u$ so that the find costs $O(\log \log u)$.
+
+To perform the predecessor operation, we will again use a recursive structure. To begin, $Predecessor(x, Q)$ will return $Q.maximum$ if $x > Q.maximum$ and will return null if $x < Q.mininum$. Otherwise, it will call $R = Predecessor(low(x), Q.bottom[high(x)])$, which will search to see if there is any smaller element inside of the $Q.bottom[high(x)]$ array than $x$. If there is, then we will return $R$ as the result. If there is not, then we must go to the next higher level in $Q.top$ and perform $S = Predecessor(high(x), Q.top)$. If $S$ is not null, then we can take the maximum element in $S$ and return $combine(S.maximum, high(x))$. If $S$ is null, then we must take the minimum element in $Q$ since there is no smaller element in any of the bins. This operation requires $T(b) = 1 + T(b/2) = O(\log b)$ time. This is because we will only perform successive $Predecessor$ operations if the previous $Predecessor$ operation returned null, which implies that the operation stopped at the second level of the recursive call. This means that any $Predecessor$ operation that returns null can return in $O(1)$ time. Therefore, in the worst case, only one ``deep'' $Predecessor$ call is made which costs $T(b/2)$. Thus, the operation requires $O(\log \log u)$ time.  
+
+For the successor operation, we do the same thing as in predecessor, except we will switch $Q.maximum$ with $Q.minimum$ and vice versa, and also exchange $Successor(x, Q)$ whenever $Predecessor(x,Q)$ is called. Thus, we can use the same analysis and show that successor also runs in $O(\log \log u)$ time.
+
+
+\end{sol}
+
+\end{document}
