@@ -90,8 +90,40 @@ Moreover, we are only using two van Emde Boas structures at any given time, each
 
 \newpage
 \makenewtitle
-\begin{prob}{3}
+\begin{prob}{4-a}
+Suppose a random function (i.e., all function values are uniformly random and mutually independent) is used to map each item to buckets. Give a good upper bound on the expected number of collisions (i.e., the number of pairs of items that are placed in the same bucket).
 \end{prob}
 \begin{sol}
+For the $k$th inserted item, we know that the number of items inserted into slots is $k-1$. Therefore, when inserting the $k$th item, the probability that both slots that it should be inserted into are occupied is $\left( \frac{k-1}{n^{1.5}} \right)^2$, since the probability that just one of them is filled is $\frac{k-1}{n^{1.5}}$. 
+
+Now, when we insert $n$ items, the expected number of collisions will be given by
+\begin{eqnarray}
+\sum_{i=1}^{n-1} \left( \frac{i}{n^{1.5}} \right)^2 &=& \frac{1}{n^3} \sum_{i=1}^{n-1} i^2 \\
+&=& \frac{(n-1)(2n-1)}{6n^2} \\
+&=& \frac{2n^2 - 3n + 1}{6n^2}
+\end{eqnarray}
+
+Since we know that $1 - 3n < 0$ for all $n \geq 1$, we can say that the expected number of collisions is less than $1/3$. Therefore, We have $O(1)$ expected number of collisions.
 \end{sol}
+
+\begin{prob}{4-b}
+Argue that bashing can be implemented efficiently, with the same expected outcome, using the ideas from 2-universal hashing.
+\end{prob}
+
+\begin{sol}
+Let $H$ be a 2-universal hash family. We will use two hash functions for the two arrays, where each array is of size $kn^{1.5}$ ($k$ will be determined later). The probability that item $i$ collides with item $j$ in one of the arrays will be $\frac{1}{kn^{1.5}}$, since there are $kn^{1.5}$ slots available. Now, the probability that item $i$ collides with any other item in one of the arrays will be $\sum_{j=1}^n \frac{1}{kn^{1.5}} = \frac{n}{kn^{1.5}} = \frac{1}{k \sqrt{n}}$. 
+
+Therefore, the probability that item $i$ has a collision in both of the arrays will be $\left( \frac{1}{k \sqrt{n}} \right)^2$. The expected number of collisions is therefore given by
+\begin{eqnarray}
+\sum_{i=1}^n \left( \frac{1}{k\sqrt{n}} \right)^2 &=& \frac{1}{n} \sum_{i=1}^n \frac{1}{k^2} \\
+&=& \frac{1}{n} \frac{n}{k^2} \\
+&=& \frac{1}{k^2}
+\end{eqnarray}
+
+If we set $k=2$, then we can make the expected number of collisions to be $1/4$. Therefore, there must exist a set of 2 hash functions in $H$ for which every item is placed in an empty bucket. Since every set of items $i$ and $j$ will get a set of functions which perfectly place the items into empty buckets, we have discovered a family of hash functions which will allow us to perform perfect hashing on the bi-bucket hashing. Moreover, since $H$ has size which is $O(n^2)$, we know that we can implement bashing efficiently.
+\end{sol}
+
+\begin{prob}{4-c}
+
+\end{prob}
 \end{document}
