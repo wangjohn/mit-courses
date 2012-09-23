@@ -42,6 +42,15 @@ Devise a way to avoid initializing large arrays. More specifically, develop a da
 \end{prob}
 
 \begin{sol}
+We will use two arrays of size $n$. The first, $S$ will be a summary array, and the second $F$, will physically store the items in the array. When init is called, we will find two blocks in memory which are both $n$ units in length. These blocks of memory need not be cleared, but they should not overlap with memory which is currently being used. We shall assume this requires $O(1)$ time.
+
+We shall have a counter of the number of items inserted into the queue, which will be initialized at 0. Whenever someone calls $set(i,x)$, we shall first set $S[i] = counter$, then set $F[counter] = StorageObj(S[i], x)$, and finally increment the counter. Here, $StorageObj(k, x)$ will be an object with a pointer to $k$ and will store $x$ in its memory. On the object, we can check $StorageObj.pointer()$ which will return a pointer to $k$, or we can check $StorageObj.data()$ which will return $x$. 
+
+To perform $get(i)$, we first look at $S[i]$ and see if anything is in this bin. If there is not, then we know we have not set $i$, and so we return null (regardless of what junk was in there before). If there is an item in the bin, it could either have been junk or it could actually have been set. To check, we first see if $S[i] < counter$. If not, then we know $S[i]$ is junk, so we can return null. Otherwise, we have to check and go to $F[S[i]]$ and see if there is a storage object initialized in it with the property that $StorageObj.pointer() == S[i]$. If this is true, then we can return $StorageObj.data()$. 
+
+It is clear our data structure uses $O(n)$ space since there are two arrays of $n$ size, and also that it takes $O(1)$ time for initialization. Moreover, each operation requires $O(1)$ time. We only need to show that regardless of what garbage was in the memory slots before, we will still be able to achieve the correct performance. 
+
+Notice that if we ever set an item, we will always return it correctly. Thus, the only way anything can go wrong is if we have not yet set an item, and we return some junk. This can only possibly happen if somehow, $S[i]$ was already set so that $F[S[i]]$ had some $StorageObj$ which a poitner back to $S[i]$. This is unlikely to happen, but if it does (possibly because an array occupied this location previously), we can be sure that we will return the correct answer. This is because, up to the current counter, all items in $F[0], F[1], \ldots, F[counter]$ will have been set correctly. Thus, if we always check that $S[i] < counter$, then we can be sure that $F[S[i]]$ has already been set correctly, and that there is no way we will make a mistake.
 \end{sol}
 
 \newpage
