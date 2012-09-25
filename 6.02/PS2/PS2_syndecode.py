@@ -22,6 +22,18 @@ def equal(a, b):
 # corresponding to the k decoded *message* bits.  We return codeword[:k] 
 # in the template; you can preserve that, or change it as you wish.
 def syndrome_decode(codeword, n, k, G):
+    # first compute the matrix H
+    p_transpose = G[:,(k):n].T
+    iden_matrix = identity(n-k, int)
+    h_matrix = concatenate((p_transpose, iden_matrix), axis=1)
+
+    codeword.shape = n,1
+    # next compute the syndrome result
+    syndrome_result = mod2(h_matrix*codeword)
+
+    # find the matching syndrome then add it to the codeword to get the result
+    new_word = codeword[:k] + syndrome
+
     ## YOUR CODE HERE
     return codeword[:k]
 
