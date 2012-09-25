@@ -33,20 +33,25 @@ def syndrome_decode(codeword, n, k, G):
 
     # find the matching syndrome then add it to the codeword to get the result
     possible_syndrome_results = compute_all_syndrome_results(h_matrix,n)
-    error_syndrome = [0 for i in xrange(n)]
+    error_syndrome = array([0 for i in xrange(n)])
+    error_syndrome.shape = n,1
+    found_error = False
     for i in xrange(len(possible_syndrome_results)):
-        print possible_syndrome_results[i], syndrome_result
         if equal(possible_syndrome_results[i], syndrome_result):
             error_syndrome[i] = 1
+            found_error = True
             break
-    new_word = mod2(codeword + error_syndrome)
+    if found_error:
+        new_word = mod2(codeword + error_syndrome)
+        return new_word[:k].flatten()
+    else:
+        return codeword[:k]
 
-    return new_word[:k]
 
 def compute_all_syndrome_results(h_matrix, n):
     results = []
     for i in xrange(n):
-        new_array = [0 for i in xrange(n)]
+        new_array = [0 for j in xrange(n)]
         new_array[i] = 1
         error_vector = array(new_array)
         error_vector.shape = n,1
