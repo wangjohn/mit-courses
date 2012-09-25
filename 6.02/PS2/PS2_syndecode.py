@@ -32,10 +32,26 @@ def syndrome_decode(codeword, n, k, G):
     syndrome_result = mod2(h_matrix*codeword)
 
     # find the matching syndrome then add it to the codeword to get the result
-    new_word = codeword[:k] + syndrome
+    possible_syndrome_results = compute_all_syndrome_results(h_matrix,n)
+    error_syndrome = [0 for i in xrange(n)]
+    for i in xrange(len(possible_syndrome_results)):
+        print possible_syndrome_results[i], syndrome_result
+        if equal(possible_syndrome_results[i], syndrome_result):
+            error_syndrome[i] = 1
+            break
+    new_word = mod2(codeword + error_syndrome)
 
-    ## YOUR CODE HERE
-    return codeword[:k]
+    return new_word[:k]
+
+def compute_all_syndrome_results(h_matrix, n):
+    results = []
+    for i in xrange(n):
+        new_array = [0 for i in xrange(n)]
+        new_array[i] = 1
+        error_vector = array(new_array)
+        error_vector.shape = n,1
+        results.append(mod2(h_matrix*error_vector))
+    return results
 
 if __name__ == '__main__':
     # (7,4,3) Hamming code
