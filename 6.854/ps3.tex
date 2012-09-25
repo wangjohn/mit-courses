@@ -128,6 +128,10 @@ Conclude an algorithm with linear expected time (ignoring array initialization) 
 \end{prob}
 
 \begin{sol}
+We know that bashing can be implemented efficiently using a 2-universal hash. Thus, we can take the algorithm for finding a 2-universal hash function and adapt it here. We shall pick $p$ where $n < p \leq 2n$, then choose $a,b$ uniformly at random such that $a < p$ and $b<p$. We use these three parameters to create the hash function $f(x) = (ax + b \mod{p}) \mod{s}$. 
 
+Using the analysis from above (and from the analysis in class that $f(x)$ is pairwise independent), we know that randomly selecting $a$ and $b$ will give us an expected value of $1/4$ collisions. If we select $a,b$ $t$ times, the probability that none of them are perfect bash functions is $(1/4)^t$. This means that if we keep selecting two sets of $a$ and $b$ until we get $f_1(x)$ and $f_2(x)$ which form perfect bash functions, we will expect to have $\frac{1}{3/4} = 4/3$ tries. Thus, we only need to perform the operation for selecting $a,b$ an expected constant number of times. Moreover, we can check if $f_1(x)$ and $f_2(x)$ are perfect by performing $f_1(i)$ and $f_2(i)$ for all $i$ in the set, to get a check in time $O(n)$. Therefore, we have an expected number of $4n/3$ operations, or $O(n)$ time for identifying a perfect bash function.
+
+This shows that we can identify a perfect bash function with linear expected time. The size of the description of the resulting hash function will be $O(1)$ in size. However, the hash family is of size $O(n^2)$. 
 \end{sol}
 \end{document}
