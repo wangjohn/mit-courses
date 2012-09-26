@@ -1,0 +1,81 @@
+.include "/mit/6.004/jsim/nominal.jsim"
+.include "/mit/6.004/jsim/lab2checkoff.jsim"
+.include "/mit/6.004/jsim/8clocks.jsim"
+
+.options vih=2.6 vil=0.6
+
+.subckt ADDER4 a3 a2 a1 a0 b3 b2 b1 b0 s4 s3 s2 s1 s0
+* remember the node named "0" is the ground node
+* nodes c0 through c3 are internal to the ADDER module
+Xbit0 a0 b0 0 s0 c0 FA
+Xbit1 a1 b1 c0 s1 c1 FA
+Xbit2 a2 b2 c1 s2 c2 FA
+Xbit3 a3 b3 c2 s3 s4 FA
+.ends
+
+* FA: full adder module, input is C0, A, B, output is S and C1
+.subckt FA Cin A B S C0
+Xxor1 A B 1 xor
+Xxor2 Cin 1 S xor
+Xnand1 A B 2 nand
+Xnand2 B Cin 3 nand
+Xnand3 A Cin 4 nand
+Xnand4 2 3 4 C0 nand3
+.ends
+
+*Xtest clk1 clk2 z xor
+*.tran 40ns
+*.plot clk1 
+*.plot clk2
+*.plot z
+
+.subckt xor A B Z
+Xnand0 A B C and
+Xnor0 A B D nor
+Xor0 C D E or
+Xinv0 E Z inv
+.ends
+
+* OR: input is A and B, output is F
+.subckt or A B F
+Xnor0 A B C nor
+Xinv0 C F inv 
+.ends
+
+* NOR: input is A and B, output is F
+.subckt nor A B F
+MPU1 vdd A 1 vdd PENH sw=4 sl=1
+MPU2 1 B F vdd PENH sw=4 sl=1
+MPD1 0 B F 0 NENH sw=4 sl=1
+MPD2 0 A F 0 NENH sw=4 sl=1
+.ends
+
+* AND: input is A and B, output is F
+.subckt and A B F
+Xnand0 A B C nand
+Xinv0 C F inv
+.ends
+
+* NAND: input is A and B, output is F
+.subckt nand A B F
+MPU1 vdd A F vdd PENH sw=4 sl=1
+MPU2 vdd B F vdd PENH sw=4 sl=1
+MPD1 0 A 2 0 NENH sw=4 sl=1
+MPD2 2 B F 0 NENH sw=4 sl=1
+.ends
+
+* 3Input Nand: input is A, B, C, and output is F
+.subckt nand3 A B C F
+MPU1 vdd A F vdd PENH sw=4 sl=1
+MPU2 vdd B F vdd PENH sw=4 sl=1
+MPU3 vdd C F vdd PENH sw=4 sl=1
+MPD1 0 A 1 0 NENH sw=4 sl=1
+MPD2 1 B 2 0 NENH sw=4 sl=1
+MPD3 2 C F 0 NENH sw=4 sl=1
+.ends
+
+* INVERTER: input is A, output is Z 
+.subckt inv a z 
+MPD1 z a 0 0 NENH sw=16 sl=1 
+MPU1 z a vdd vdd PENH sw=16 sl=1 
+.ends
