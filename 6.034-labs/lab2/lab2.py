@@ -115,8 +115,12 @@ def beam_search(graph, start, goal, beam_width):
 ## This function takes in a graph and a list of node names, and returns
 ## the sum of edge lengths along the path -- the total distance in the path.
 def path_length(graph, node_names):
-    raise NotImplementedError
-
+    length = 0
+    for i in xrange(len(node_names)-1):
+        node1 = node_names[i]
+        node2 = node_names[i+1]
+        length += graph.get_edge(node1, node2).length
+    return length 
 
 def branch_and_bound(graph, start, goal):
     raise NotImplementedError
