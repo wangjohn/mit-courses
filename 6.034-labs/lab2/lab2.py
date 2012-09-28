@@ -69,7 +69,7 @@ def hill_climbing(graph, start, goal):
     if len(queue) > 0:
         return queue[0]
     else:
-        return '' 
+        return [] 
 
 def add_to_dictlist(dictionary, key, value):
     if key in dictionary:
@@ -83,8 +83,32 @@ def add_to_dictlist(dictionary, key, value):
 ## The k top candidates are to be determined using the 
 ## graph get_heuristic function, with lower values being better values.
 def beam_search(graph, start, goal, beam_width):
-    raise NotImplementedError
-
+    queue = { graph.get_heuristic(start, goal): [[start]]}
+    made_progress = True
+    while len(queue) > 0 and made_progress:
+        top_k_distances = sorted(queue)[:beam_width]
+        k = 0
+        current_paths = []
+        for distance in top_k_distances:
+            for path in queue[distance]:
+                if k < beam_width:
+                    current_paths.append(path)
+                    k += 1
+                else:
+                    break
+                    break
+        made_progress = False
+        queue = {}
+        for path in current_paths:
+            current_node = path[-1]
+            for node in graph.get_connected_nodes(current_node):
+                if node == goal:
+                    return path + [node]
+                if node not in path:
+                    made_progress = True
+                    add_to_dictlist(queue, graph.get_heuristic(node, goal), path + [node])
+    return []
+     
 ## Now we're going to try optimal search.  The previous searches haven't
 ## used edge distances in the calculation.
 
