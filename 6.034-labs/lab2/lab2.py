@@ -137,7 +137,30 @@ def branch_and_bound(graph, start, goal):
     return []
     
 def a_star(graph, start, goal):
-    raise NotImplementedError
+    import heapq
+    queue = []
+    heapq.heapify(queue)
+    heapq.heappush(queue, (graph.get_heuristic(start, goal), [start]))
+    extended_set = {start: graph.get_heuristic(start, goal)}
+    while len(queue) > 0:
+        current_path = heapq.heappop(queue)[1]
+        current_node = current_path[-1]
+        if current_node == goal:
+             return current_path
+        for node in graph.get_connected_nodes(current_node):
+            if node not in current_path:
+                new_path = current_path + [node]
+                new_path_length = path_length(graph, new_path) + graph.get_heuristic(node, goal)
+                if node in extended_set:
+                    if new_path_length < extended_set[node]:
+                        for i in xrange(len(queue)):
+                            if queue[i][1][-1] == node:
+                                queue[i] = (new_path_length, new_path)
+                else:
+                    extended_set[node] = new_path_length
+                    heapq.heappush(queue, (new_path_length, new_path))
+        queue.sort(key=lambda tup: tup[0])
+    return []
 
 
 ## It's useful to determine if a graph has a consistent and admissible
