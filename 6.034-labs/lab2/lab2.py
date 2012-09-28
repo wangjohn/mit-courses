@@ -200,8 +200,11 @@ def is_admissible(graph, goal):
     return True
 
 def is_consistent(graph, goal):
-    raise NotImplementedError
+    for edge in graph.edges:
+        if edge.length < abs(graph.get_heuristic(edge.node1, goal) - graph.get_heuristic(edge.node2, goal)):
+            return False
+    return True
 
-HOW_MANY_HOURS_THIS_PSET_TOOK = ''
-WHAT_I_FOUND_INTERESTING = ''
-WHAT_I_FOUND_BORING = ''
+HOW_MANY_HOURS_THIS_PSET_TOOK = '2.25'
+WHAT_I_FOUND_INTERESTING = 'Implementing A* was really cool. I liked doing a lot of the implementation for the algorithms.'
+WHAT_I_FOUND_BORING = 'I thought this was really interesting, so I didnt find anything very boring.'
