@@ -162,6 +162,30 @@ def a_star(graph, start, goal):
         queue.sort(key=lambda tup: tup[0])
     return []
 
+def dijkstras(graph, start):
+    queue = [(0, start)]
+    distances = {start: 0}
+    parents = {start: None}
+    finished_set = {}
+    while len(queue) > 0:
+        tup = queue.pop(0)
+        current_node = tup[1]
+        original_distance = tup[0]
+        finished_set[current_node] = True
+        for node in graph.get_connected_nodes(current_node):
+           if node not in finished_set:
+               new_distance = original_distance + graph.get_edge(current_node, node).length
+               if node in distances:
+                   if new_distance < distances[node]:
+                       distances[node] = new_distance
+                       parents[node] = current_node
+                       queue.append((new_distance, node))
+               else:
+                   distances[node] = new_distance
+                   parents[node] = current_node
+                   queue.append((new_distance, node))
+        queue.sort(key=lambda tup: tup[0])
+    return (distances, parents)
 
 ## It's useful to determine if a graph has a consistent and admissible
 ## heuristic.  You've seen graphs with heuristics that are
@@ -169,7 +193,11 @@ def a_star(graph, start, goal):
 ## consistent, but not admissible?
 
 def is_admissible(graph, goal):
-    raise NotImplementedError
+    distances, parents = dijkstras(graph, goal)
+    for node in graph.nodes:
+        if distances[node] < graph.get_heuristic(node, goal):
+            return False
+    return True
 
 def is_consistent(graph, goal):
     raise NotImplementedError
