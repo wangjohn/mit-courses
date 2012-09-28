@@ -123,8 +123,19 @@ def path_length(graph, node_names):
     return length 
 
 def branch_and_bound(graph, start, goal):
-    raise NotImplementedError
-
+    paths = [(0, [start])]
+    while len(paths) > 0:
+        current_path = paths.pop(0)[1]
+        current_node = current_path[-1]
+        for node in graph.get_connected_nodes(current_node):
+            if node not in current_path:
+                new_path = current_path + [node]
+                if node == goal:
+                    return new_path
+                paths.append((path_length(graph, new_path), new_path))
+        paths.sort(key=lambda tup: tup[0])
+    return []
+    
 def a_star(graph, start, goal):
     raise NotImplementedError
 
