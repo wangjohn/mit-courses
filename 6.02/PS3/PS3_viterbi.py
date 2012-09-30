@@ -117,7 +117,7 @@ class ViterbiDecoder:
         
         message = []
         for state in path:
-            message.append(state // 2)
+            message.append(state >> (self.K-2))
         return message[1:]
 
     # Figure out what the transmitter sent from info in the
