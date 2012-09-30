@@ -1,0 +1,50 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.854 \\
+Advanced Algorithms \\
+Problem Set 4}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+Collaborators: 
+
+\section{Problem 1}
+
+\begin{prob}
+Consider a second-level table, that in the static case uses $f(s) = O(s^2)$ space to store $s$ items. We gave a construction of such a table that succeeds with probability $1/2$. Suppose that we take the following approach to insertions: if inserting the $s$th item violates perfection of the table, repeatedly build a table of size $f(2s)$ until you get a perfect one. Show that when $s$ items are inserted (one at a time, with rebuilds as necessary) the expected total cost of all the rebuilds is $O(s)$. 
+\end{prob}
+
+\begin{sol}
+
+\end{sol}
+
+\newpage 
+\maketitle
+
+\end{document}
