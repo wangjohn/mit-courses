@@ -172,6 +172,40 @@ From $s$ to $t$, there is a maximum flow of 1. From $t$ to $u$ there is a maximu
 \newpage
 \makenewtitle
 
+\begin{prob}{4-a}
+Suppose all people are initially in a single room $s$, and that the building has a single exit $t$. Show how to use maximum flow to find a fastest way to get everyone out of the building.
+\end{prob}
+\begin{sol}
+We will create an auxiliary graph $G'$ where each node in $G'$ represents a room at a given time step. Here $v(t) \in G'$ will represent the node $v \in G$ at time step $t$. For each node in $G$, there will be $tT$ corresponding nodes in the graph $G$, where $T$ is the total number of timesteps.
+
+To compute the edges and capacities of $G'$, we will start at timestep $t=0$. For each edge $(v,w)$ in $G$, we will create an edge from $v(0)$ to $w(1)$ in graph $G'$ with capacity $c$. We will also create an edge from $v(0)$ to $v(1)$ for each node $v$ so that people can stay in the same room. We will then increment the timestep to $t=1$, and create edges from $v(1)$ to $w(2)$ for each path $(v,w)$ in $G$, and edges from $v(1)$ to $v(2)$ for each node $v \in G$. This will continue until we reach timestep $T$. 
+
+We now have a graph detailing all the possible paths through the rooms in time $T$. To check if it is possible in $T$ time, we look at the maximum flow from the original source vertex $s(0)$ and the final exit vertex $t(T)$. If the flows are the same, then it is possible to get everyone out of the building in $T$ time. 
+
+To figure out the shortest possible time, try $T=2^{k}$ for $k=1,2,\ldots$ until everyone can get out of the building. Then binary search on $T \in [2^{k-1}, 2^{k}]$ until we find the lowest possible $T$. This requires $O(\log T_{f})$ tries, where $T_f$ is the fastest possible time.
+\end{sol}
+
+\begin{prob}{4-b}
+Show that the same technique can be used when people are initially in multiple locations and there are multiple exits.
+\end{prob}
+\begin{sol}
+We will use the exact same algorithm. However, we will start by augmenting the original graph $G$ with two super nodes $s^*$ and $t^*$. Here $s^*$ will have edges leading to each of the starting locations $l$. The edges to the starting locations $(s^*, l)$ will have capacity equal to the number of people starting at $l$. The super node for the sink will be $t^*$ and each exit location $q$ will have an edge $(q, t^*)$ with unlimited capacity.
+
+Running the algorithm will now give the fastest way to get out of the building for multiple sinks and exits by using $s^*$ as the starting vertex and $t^*$ as the exit vertex in the algorithm provided in part $a$. This works because each starting location will get its correct number of people, allowing the flow algorithm to proceed normally.
+\end{sol}
+
+\begin{prob}{4-c}
+Generalize the approach to where different corridors have different (integral) transit times.
+\end{prob}
+\begin{sol}
+In this algorithm, transit times will affect which states in time $t$ that we can connect to. We again start at timestep $t=0$ and proceed in the following manner. At timestep $t$, for each edge in $(v,w) \in G$, we will create an edge in the auxiliary graph $G'$ from $v(t)$ to $w(t+j)$ of capacity $c$, where $j$ is the transit time of the corridor, if there exists a corridor from $v$ to $w$. We will also create an edge from $v(t)$ to $v(t+1)$ with infinite capacity to allow people to stay in a room.
+
+The rest of the algorithm remains the same, and changing the transit times means that now, it takes $j$ time steps before people can arrive at room $w$. Notice that in $G'$, the corridor from $v$ to $w$ will be blocked off for $j$ timesteps as people are attempting to pass through, which allows us to deal with different transit times for each corridor. 
+\end{sol}
+
+\newpage
+\makenewtitle
+
 \begin{prob}{5-a}
 Argue that the running time of Dial's algorithm is $O(m+D)$ where $D$ is the maximum distance, and that the algorithm still works if some edges have length 0.
 \end{prob}
@@ -211,6 +245,20 @@ The length of the shortest paths under $l^d$ is therefore $-d_u + \sum_{i=1}^n l
 Devise a scaling algorithm for shortest paths. Use the reduced edge lengths and Dial's bucketing algorithm to keep the task of shifting in a new bit sample.
 \end{prob}
 \begin{sol}
+Notice that in our proof that the reduced length function still represented a valid metric for the edge lengths, we only needed to show that $d_w \leq d_v + l_{vw}$ so that all edge lengths were non-negative. If this is the case, then part $c$ follows with the same proof as before. Therefore, we can define $d_{u}^i$ as $d_u \gg i$, or $d_u$ right shifted $i$ bits, and $l_{vw}^i$ as $l_{vw} \gg i$ (again $l_{vw}$ right shifted $i$ bits). 
 
+Since $d_{w} \leq d_v + l_{vw}$ in our original edge lengths and distances, we can see that right shifting the bits does not affect the fact that $d_{w}^i \leq d_{v}^i + l_{vw}^i$ which means that this is a valid metric for the edge lengths. Therefore, we can use the following algorithmi.
+
+First, set $l_{vw}^{\log C + 1} = 0$ and $d_{v}^{\log C + 1} = 0$ for all $v$ and $w$ which are nodes in the graph. Next, set $l_{vw}^{\log C}$ as $l_{vw} \gg \log C$ and compute the reduced lengths using $l_{vw}^d = l_{vw} + d_v - d_w$ where $d$ is defined as the previous step's distance function. We then compute new distances based on these lengths using Dial's algorithm. We continue until we have made $\log C$ steps and have reached $l_{vw}^1$ and $d_{v}^1$. By this time, the correct distances will have been computed, and we know that the shortests paths will have been found. This is because in each step, the current graph $G'$ based on the reduced length function will have the same shortest paths as those in the original graph $G$, as shown in part $c$ of the problem.
+
+Thus, the algorithm performs $\log C$ steps of Dial's algorithm. Notice that at each step, the distance of each of the shortest paths is bounded by $0$ from our analysis in part $c$. This means that the maximum distance is 0 in the reduced graph and therefore $n$ in the original graph, so that the total work done during each step of Dial's algorithm is $O(m+n) = O(m)$. The total time of the algorithm is therefore $O(m \log C)$. 
 \end{sol}
+
+\begin{prob}{5-e}
+Is base 2 scaling the best possible or can you achieve (slightly) better running time by scaling with a different base?
+\end{prob}
+\begin{sol}
+If we use base $k$, then there will be $\log_{k}C$ iterations of Dial's algorithm. During each iteration, the maximum distance is bounded by $nk$ so that the total time for Dial's is given by $m + nk$ at each step. Solving for the minimum value of $k$, we find that we can set $b = m/n$ and we can achieve a running time of $O(m \log_{m/n} C)$ for the entire algorithm, which is better than the base $k=2$ case. 
+\end{sol}
+
 \end{document}
