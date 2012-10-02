@@ -20,4 +20,8 @@ summary(result_base)
 summary(result_2)
 summary(result_3)
 
+callaway_data = read.csv("ps2_scraped_data_callway.csv", header=TRUE, sep=";")
+callaway_final_buyer = callaway_data[callaway_data$final_buyer=='True',]
+
+hist(callaway_final_buyer$unit_price, main="Callaway Tour Golf Balls", xlab="Price Per Dozen")
     

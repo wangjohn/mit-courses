@@ -41,13 +41,98 @@ I will be looking at the golf ball markets on eBay. I will be searching for ``Ti
 For the Titleist balls, there were 417 listings in the past 15 days, which means that there will be roughly 800 listings of this specific product each month on eBay. Note that simply searching for ProV1 golf balls yields about $5000$ results, but these are may not necessarily be new balls still in the manufacturer's packaging. I also found another auction site \url{http://www.golfbids.net/} which was auctioning off Titlesit ProV1 balls. This auction site was more geared towards buyers who were specifically in the golf ball market. It seems that the golfbids site would be able to retain more buyers, since it seems like it attempts to form a longer term relationship with buyers and allow them to continually buy golf balls from the site. However, eBay is much easier to find on Google search (finding golfbids took a couple of minutes), so simply that may make the volume of golf ball purchases on eBay larger than the volume on golfbids. However, golfbids does have a legitimate chance of overthrowing eBay as the volume leader if they are able to credibly advertise their site, and show serious golfers that they should go back to golfbids.
 
 \begin{figure}[h!]
-\includegraphics[width=6in]{unit_price_histogram.png}
+\includegraphics[width=2.5in]{unit_price_histogram.png}
 \end{figure}
 
 The standard devition of the unit price of a dozen Titleist balls was \$8.61, with an average price of \$34.74. This standard deviation is extremely large, considering that the goods are almost identical. Examining the histogram of the prices below, we can see, however, that part of the large standard deviation is due to a couple of auctions which sold the golf balls extremely cheaply. There was a cohort of people who sold these balls for prices averaging \$10 for a dozen balls. However, even removing all products sold at prices cheaper than \$20, our new standard deviation is still \$6.95 with a mean of \$35.80. This shows that the large standard deviation is fueled both by cheap sellers, and by a large disparity of prices in general.
 
-For the Callaway balls
+\begin{figure}[h!]
+\includegraphics[width=2.5in]{unit_price_histogram_callaway.png}
+\end{figure}
 \end{prob}
+
+For the Callaway balls, the same general patterns occured. The variance was \$9.58 and the mean price was \$21.86, which means the Callaway balls had even more variance than the Titleist balls. There were 334 listings in the past 15 days, so probably about 650 listings per month. The higher variance of Callaway balls could possibly be explained by the fact that Titleist balls are more popular. In fact, Titleist balls are considered higher quality than Callaway balls, which is reflected in the average price. Possibly more people buy Callaway balls second hand, so fewer people are willing to pay a high price for them, whereas people are willing to pay a premium for the brand name of Titleist balls.
+
+Now, if we look at the other information we have collected, we can examine whether buyer or seller reputation affects the unit price of a dozen Titleist Golf Balls. We will only examine auctions which closed and for which the product sold. We will also drop any items for which we do not have buyer or seller reputation data (many of the auctions are private). This brings us down to 65 observations in our data. We will use two covariates which represent the eBay feedback score (larger numbers mean a higher number of people have given positive feedback). These feedback scores are provided for both sellers and buyers. The results of the following regression $price\_per\_dozen_i = \alpha buyer\_score_i + \beta seller\_score_i + \epsilon$ are given below:
+
+\begin{verbatim}
+    Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+    -12.910   -3.426   -0.530    1.939   44.455  
+    
+    Coefficients:
+    Estimate Std. Error t value Pr(>|t|)    
+        (Intercept)   3.561e+01  1.037e+00  34.359  < 2e-16 ***
+        buyer_score  -7.229e-04  2.594e-03  -0.279    0.781    
+        seller_score -6.341e-05  1.038e-05  -6.108 6.96e-08 ***
+        ---
+        Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+    
+    (Dispersion parameter for gaussian family taken to be 53.76805)
+    
+        Null deviance: 5400.4  on 65  degrees of freedom
+        Residual deviance: 3387.4  on 63  degrees of freedom
+    (11 observations deleted due to missingness)
+        AIC: 455.22
+    
+        Number of Fisher Scoring iterations: 2
+\end{verbatim}
+
+Thus, we can see that as sellers get more positive feedback, they tend to sell their products for a lower price on average. The same holds true for buyers, but the effect is not statistically significant. For sellers, this could be the case possibly because more experienced sellers are aware of the true value of the product, and believes that everyone else is overpricing. The other idea is that more experienced sellers will attempt to undercut other sellers in order to get repeat business. A final hypothesis is that experienced sellers sell in bulk, which may lower transaction costs and thus the price per unit. Performing the same regression with more covariates will help us illuminate this even more. Below, we have added controls for the percentage of letters in the title which are capital letters, and the number of annoying punctuation marks seen in the title. Annoying punctuation marks are considered anything in the set $\{!,?,*\}$.
+
+\begin{verbatim}
+    Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+    -20.294   -3.526   -0.157    2.228   39.026  
+    
+    Coefficients:
+    Estimate Std. Error t value Pr(>|t|)    
+        (Intercept)                  3.549e+01  1.609e+00  22.064  < 2e-16 ***
+        buyer_score                 -2.633e-04  2.598e-03  -0.101   0.9196    
+        seller_score                -6.218e-05  1.038e-05  -5.991 1.21e-07 ***
+        percentage_capitals         -2.065e+00  3.564e+00  -0.579   0.5644    
+        number_annoying_punctuation  8.080e-01  4.716e-01   1.713   0.0917 .  
+        ---
+        Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+    
+    (Dispersion parameter for gaussian family taken to be 52.81622)
+    
+        Null deviance: 5400.4  on 65  degrees of freedom
+        Residual deviance: 3221.8  on 61  degrees of freedom
+    (11 observations deleted due to missingness)
+        AIC: 455.91
+    
+        Number of Fisher Scoring iterations: 2
+\end{verbatim}
+
+The same general results hold, and suppliers tend to sell for a lower unit price as they are more experienced. An interesting phenomenon is that more annoying punctuation tends to increase the price of an item. This may be evidence that annoying punctuation draws attention to a title. However, it may also be a remnant of self-selection bias, where people who use annoying punctuation tend to price higher in general.
+
+Another interesting regression one can run is how the feedback score of sellers and buyers affects the bids that people make on an item. Data on the history of edge auction was collected, so that we have information on the bids that did not end up winning. If we look at the difference between the bid price and the final auction price, we can create a new distance variable $d_a$. This is a proxy for how close a bid is to actually purchasing the item. If we regress $d_a$ with the buyer and seller scores, we also find some interesting results. 
+
+\begin{verbatim}
+    Deviance Residuals: 
+    Min       1Q   Median       3Q      Max  
+    -29.502  -26.092  -15.493    5.065  184.716  
+
+    Coefficients:
+    Estimate Std. Error t value Pr(>|t|)    
+        (Intercept)   2.952e+01  1.832e+00  16.113  < 2e-16 ***
+        buyer_score  -3.390e-03  3.488e-03  -0.972  0.33146    
+        seller_score -5.772e-05  1.890e-05  -3.054  0.00235 ** 
+        ---
+        Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+
+    (Dispersion parameter for gaussian family taken to be 1664.808)
+
+        Null deviance: 1054361  on 625  degrees of freedom
+        Residual deviance: 1037175  on 623  degrees of freedom
+    (278 observations deleted due to missingness)
+        AIC: 6424.8
+
+        Number of Fisher Scoring iterations: 2
+\end{verbatim}
+
+We can see from above that a higher buyer score tends to decrease the difference between the final price and the current bid, making you closer to winning the auction. However, the effect is not statistically significant. 
 
 \section{Problem 4}
 

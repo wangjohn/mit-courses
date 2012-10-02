@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  1 OCT 2012 17:39
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  2 OCT 2012 01:12
 entering extended mode
  %&-line parsing enabled.
 **ps2.tex
@@ -799,39 +799,154 @@ LaTeX Info: Redefining \pageref on input line 32.
 \openout5 = `ps2.out'.
 
 \AtBeginShipoutBox=\box63
- <ebay_vs_amazon.png, id=10, 811.03pt x 308.15125pt>
-File: ebay_vs_amazon.png Graphic file (type png)
+ <unit_price_histogram.png, id=15, 481.8pt x 481.8pt>
+File: unit_price_histogram.png Graphic file (type png)
 
-<use ebay_vs_amazon.png>
-<online_shopping_vs_auction.png, id=11, 794.97pt x 305.14pt>
-File: online_shopping_vs_auction.png Graphic file (type png)
+<use unit_price_histogram.png>
+<unit_price_histogram_callaway.png, id=17, 481.8pt x 481.8pt>
+File: unit_price_histogram_callaway.png Graphic file (type png)
 
-<use online_shopping_vs_auction.png>
+<use unit_price_histogram_callaway.png>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./ebay_vs_amazon.png>]
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./unit_price_histogram.p
+ng>]
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[2 <./online_shopping_vs_auction.png>] (./ps2.aux) ) 
+[2 <./unit_price_histogram_callaway.png>]
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ˜ in font cmtt10!
+Missing character: There is no â in font cmtt10!
+Missing character: There is no € in font cmtt10!
+Missing character: There is no ™ in font cmtt10!
+
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[3] <ebay_vs_amazon.png, id=42, 811.03pt x 308.15125pt>
+File: ebay_vs_amazon.png Graphic file (type png)
+
+<use ebay_vs_amazon.png>
+<online_shopping_vs_auction.png, id=43, 794.97pt x 305.14pt>
+File: online_shopping_vs_auction.png Graphic file (type png)
+
+<use online_shopping_vs_auction.png>
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[4 <./ebay_vs_amazon.png> <./online_shopping_vs_auction.png>]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[5] (./ps2.aux) ) 
 Here is how much of TeX's memory you used:
- 18330 strings out of 495061
- 328504 string characters out of 1182621
- 462205 words of memory out of 3000000
- 20968 multiletter control sequences out of 15000+50000
- 9342 words of font info for 39 fonts, out of 3000000 for 9000
+ 18352 strings out of 495061
+ 328952 string characters out of 1182621
+ 470204 words of memory out of 3000000
+ 20983 multiletter control sequences out of 15000+50000
+ 10359 words of font info for 44 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 56i,6n,56p,917b,315s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/
-public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
-fonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
-7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/s
-hare/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ps2.pdf (2 pages, 108400 bytes).
+ 56i,7n,56p,1178b,432s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx1
+0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></us
+r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/tex
+mf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/f
+onts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/p
+ublic/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on ps2.pdf (5 pages, 181790 bytes).
 PDF statistics:
- 51 PDF objects out of 1000 (max. 8388607)
- 6 named destinations out of 1000 (max. 500000)
- 31 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 91 PDF objects out of 1000 (max. 8388607)
+ 10 named destinations out of 1000 (max. 500000)
+ 49 words of extra memory for PDF output out of 10000 (max. 10000000)
 
