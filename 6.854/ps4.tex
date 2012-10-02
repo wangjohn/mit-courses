@@ -20,7 +20,7 @@
     Problem Set 2\\
     \vspace{0.25cm}
     {\bfseries John Wang} \\
-    Collaborators:
+    Collaborators: Jason Hoch
     \end{center}
     \vspace{0.5cm}
 }
@@ -53,12 +53,25 @@ Consider a second-level table, that in the static case uses $f(s) = O(s^2)$ spac
 \begin{sol}
 Let us examine the insertion cost of a table when we attempt to insert $k$ items in a table of size $k^2$. The probability of collision of the $i$th element inserted is $i/k^2$ since there are $k^2$ different bins. Notice that since $i \leq k$, we can upper bound this probability by $1/k$. Since there are $k$ insertions, the expected number of collisions is $k/k = 1$. Notice that if there is a collision, then we will have to rebuild the table. Therefore, upon inserting $k$ items, we expect to have a single collision. A table rebuild of size $2k$ will require $2k$ time to build and insert all of the elements. 
 
-Thus, if we start our table at size $2$ and we have a series of $s$ insertions, then we will expect to rebuild the table after every $2^i$ insertions for $i \in \{1,2, \ldots, \lg s\}$. Each of these table rebuilds requires $2 2^i = 2^{i+1}$ time. Therefore, the total cost is given by
+Thus, if we start our table at size $2$ and we have a series of $s$ insertions, then we will expect to rebuild the table after every $2^i$ insertions for $i \in \{1,2, \ldots, \lg s\}$. Each of these table rebuilds requires $2* 2^i = 2^{i+1}$ time. Therefore, the total cost is given by
 \begin{eqnarray}
-\sum_{i=1}^{\lg s} 2^{i+1} = 2^{\lg s + 2} = 4 2^{\lg s} = O(s)
+\sum_{i=1}^{\lg s} 2^{i+1} = 2^{\lg s + 2} = 4* 2^{\lg s} = O(s)
 \end{eqnarray}
 
 Therefore, we see that the total expected cost of all the rebuilds is $O(s)$, just as we wanted to show.
+\end{sol}
+
+\begin{prob}{1-b}
+Let $s_i$ be the number of items in bucket $i$ in the second level table. Make a similar modification for the top level: any time the table on $n$ items has bucket sizes $s_i$ violating the requirement that $\sum s_i^2 = O(n)$, we rebuild the top table and all the second level tables. Show the expected total time is $O(n)$ when $n$ items are inserted.
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
+\begin{prob}{1-c}
+Now consider deletions. When an item is deleted, we can simply mark it as deleted without removing it (and if it reinserted, unmark the deletion). This makes deletion cheap. But if there are many deletions, the table might end up using much more space than it needs, which could mess up the amortized bounds of the previous parts. To fix this, we can rebuild the hash table any time the number of holes (items marked deleted) exceeds half the total items in the table. Show that this cleanup works does not change (can be charged against) the aortized $O(1)$ cost of insertions.
+\end{prob}
+\begin{sol}
 \end{sol}
 
 \newpage 
