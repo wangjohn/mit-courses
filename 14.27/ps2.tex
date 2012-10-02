@@ -36,7 +36,17 @@ Problem Set 2}
 \section{Problem 3}
 
 \begin{prob}
+I will be looking at the golf ball markets on eBay. I will be searching for ``Titleist ProV1 Golf Ball New 1 Dozen'' and ``Callaway Tour Golf Ball New 1 Dozen''. Both of these searches are looking for a very specific brand of golf ball, and only for a dozen of them. The searches turned up results with more than a dozen balls, in these cases I examined the price per dozen of these balls. I wrote a python script to scrape the information from eBay's website for these golf balls.
 
+For the Titleist balls, there were 417 listings in the past 15 days, which means that there will be roughly 800 listings of this specific product each month on eBay. Note that simply searching for ProV1 golf balls yields about $5000$ results, but these are may not necessarily be new balls still in the manufacturer's packaging. I also found another auction site \url{http://www.golfbids.net/} which was auctioning off Titlesit ProV1 balls. This auction site was more geared towards buyers who were specifically in the golf ball market. It seems that the golfbids site would be able to retain more buyers, since it seems like it attempts to form a longer term relationship with buyers and allow them to continually buy golf balls from the site. However, eBay is much easier to find on Google search (finding golfbids took a couple of minutes), so simply that may make the volume of golf ball purchases on eBay larger than the volume on golfbids. However, golfbids does have a legitimate chance of overthrowing eBay as the volume leader if they are able to credibly advertise their site, and show serious golfers that they should go back to golfbids.
+
+\begin{figure}[h!]
+\includegraphics[width=6in]{unit_price_histogram.png}
+\end{figure}
+
+The standard devition of the unit price of a dozen Titleist balls was \$8.61, with an average price of \$34.74. This standard deviation is extremely large, considering that the goods are almost identical. Examining the histogram of the prices below, we can see, however, that part of the large standard deviation is due to a couple of auctions which sold the golf balls extremely cheaply. There was a cohort of people who sold these balls for prices averaging \$10 for a dozen balls. However, even removing all products sold at prices cheaper than \$20, our new standard deviation is still \$6.95 with a mean of \$35.80. This shows that the large standard deviation is fueled both by cheap sellers, and by a large disparity of prices in general.
+
+For the Callaway balls
 \end{prob}
 
 \section{Problem 4}
