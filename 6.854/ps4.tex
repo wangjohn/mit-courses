@@ -42,9 +42,7 @@ Problem Set 4}
 
 \begin{document}
 
-\maketitle
-
-Collaborators: 
+\makenewtitle
 
 \begin{prob}{1-a}
 Consider a second-level table, that in the static case uses $f(s) = O(s^2)$ space to store $s$ items. We gave a construction of such a table that succeeds with probability $1/2$. Suppose that we take the following approach to insertions: if inserting the $s$th item violates perfection of the table, repeatedly build a table of size $f(2s)$ until you get a perfect one. Show that when $s$ items are inserted (one at a time, with rebuilds as necessary) the expected total cost of all the rebuilds is $O(s)$. 
@@ -69,9 +67,14 @@ Let $s_i$ be the number of items in bucket $i$ in the second level table. Make a
 \end{sol}
 
 \begin{prob}{1-c}
-Now consider deletions. When an item is deleted, we can simply mark it as deleted without removing it (and if it reinserted, unmark the deletion). This makes deletion cheap. But if there are many deletions, the table might end up using much more space than it needs, which could mess up the amortized bounds of the previous parts. To fix this, we can rebuild the hash table any time the number of holes (items marked deleted) exceeds half the total items in the table. Show that this cleanup works does not change (can be charged against) the aortized $O(1)$ cost of insertions.
+Now consider deletions. When an item is deleted, we can simply mark it as deleted without removing it (and if it reinserted, unmark the deletion). This makes deletion cheap. But if there are many deletions, the table might end up using much more space than it needs, which could mess up the amortized bounds of the previous parts. To fix this, we can rebuild the hash table any time the number of holes (items marked deleted) exceeds half the total items in the table. Show that this cleanup works does not change (can be charged against) the amortized $O(1)$ cost of insertions.
 \end{prob}
 \begin{sol}
+Let us use the potential function $\Phi = 2 \text{\# holes}$. Now, there are two functions that we will analyze: delete and cleanup. For delete, all we have to do is mark an item as deleted, which requires constant work. However, marking the item as deleted increases the potential by 2. Thus, the amortized runtime of delete is $a_i = 1 + 2 = 3 = O(1)$. 
+
+Now, let us examine cleanup. We know that we will rebuild a table only when the number of holes is less than half the size of the table. Let $s$ be the size of the current table. Then we see that cleanup requires $s/2$ expected time to build the table and check if there are any collisions. It requires another $s/2$ cost to insert the items. The potential decreases by $s$, however, since we lose at least $s/2$ holes. This means that the amortized time of cleanup is $a_i = s - s = O(1)$. 
+
+Therefore, we see that deletions require $O(1)$ amortized time.
 \end{sol}
 
 \newpage 

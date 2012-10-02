@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  2 OCT 2012 01:26
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  2 OCT 2012 01:49
 entering extended mode
  %&-line parsing enabled.
 **ps4.tex
@@ -684,30 +684,30 @@ ABD: EveryShipout initializing macros
 \MPnumerator=\count136
 \everyMPtoPDFconversion=\toks49
 ) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [2]
-Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [3]
-Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [4]
-Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [5]
-Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [6] (./ps4.aux) ) 
 Here is how much of TeX's memory you used:
  15391 strings out of 495061
  284109 string characters out of 1182621
- 402786 words of memory out of 3000000
+ 402797 words of memory out of 3000000
  18102 multiletter control sequences out of 15000+50000
  11104 words of font info for 46 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
@@ -720,14 +720,13 @@ onts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/p
 ublic/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
 ts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/shar
-e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/public/a
-msfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symb
-ols/msam10.pfb>
-Output written on ps4.pdf (6 pages, 182564 bytes).
+e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/t
+ype1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/
+amsfonts/symbols/msam10.pfb>
+Output written on ps4.pdf (6 pages, 168064 bytes).
 PDF statistics:
- 80 PDF objects out of 1000 (max. 8388607)
+ 76 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
