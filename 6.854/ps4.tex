@@ -49,14 +49,11 @@ Consider a second-level table, that in the static case uses $f(s) = O(s^2)$ spac
 \end{prob}
 
 \begin{sol}
-Let us examine the insertion cost of a table when we attempt to insert $k$ items in a table of size $k^2$. The probability of collision of the $i$th element inserted is $i/k^2$ since there are $k^2$ different bins. Notice that since $i \leq k$, we can upper bound this probability by $1/k$. Since there are $k$ insertions, the expected number of collisions is $k/k = 1$. Notice that if there is a collision, then we will have to rebuild the table. Therefore, upon inserting $k$ items, we expect to have a single collision. A table rebuild of size $2k$ will require $2k$ time to build and insert all of the elements. 
+Let us look at the second-level table after $s$ items have already been inserted. We want to find out the number of rehashes that we did. To do this, we will look at inserting items $s/2$ through items $s$. Let us say we have just rehashed the table before we insert the $s/2$ item. Then we know that the size of the table is $(2s/2)^2 = s^2$. We know that the probability that items $i$ and $j$ collide is $1/s^2$. This means that the expected number of collisions is ${ s \choose 2 } 1/s^2 \leq \frac{s^2}{2 s^2} = \frac{1}{2}$.
 
-Thus, if we start our table at size $2$ and we have a series of $s$ insertions, then we will expect to rebuild the table after every $2^i$ insertions for $i \in \{1,2, \ldots, \lg s\}$. Each of these table rebuilds requires $2* 2^i = 2^{i+1}$ time. Therefore, the total cost is given by
-\begin{eqnarray}
-\sum_{i=1}^{\lg s} 2^{i+1} = 2^{\lg s + 2} = 4* 2^{\lg s} = O(s)
-\end{eqnarray}
+The number of rehashes $h$ we have to do, then is 0 times the probability of no collisions times $\frac{1}{2}$ times the number of rehashes we have to do if we do rehash. This can be written as $h = \frac{1}{2} 0 + \frac{1}{2} ( 1 + h)$, so that we find $h = 1$. Thus, we only expect to rehash a constant number of times when we insert items $s/2$ to $s$. 
 
-Therefore, we see that the total expected cost of all the rebuilds is $O(s)$, just as we wanted to show.
+The total amount of work for the rehash is the number of items in the data structure, which is $s$. Therefore, we can use this argument recursively for items from $s/4$ to $s/2$, etc. This gives us the expression of the total amount of work: $\sum_{i=1}^{\log s} 2^i = 2^{\lg s} = O(s)$. Thus, we expect to do $O(s)$ work for all of the rebuilds.
 \end{sol}
 
 \begin{prob}{1-b}
