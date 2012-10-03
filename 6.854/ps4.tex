@@ -63,7 +63,25 @@ Therefore, we see that the total expected cost of all the rebuilds is $O(s)$, ju
 Let $s_i$ be the number of items in bucket $i$ in the second level table. Make a similar modification for the top level: any time the table on $n$ items has bucket sizes $s_i$ violating the requirement that $\sum s_i^2 = O(n)$, we rebuild the top table and all the second level tables. Show the expected total time is $O(n)$ when $n$ items are inserted.
 \end{prob}
 \begin{sol}
+First, we will prove that we can rehash the entire table in $O(k)$ time, where $k$ is the current number of elements in the table. Let $p$ be the probability that choose a new hash function from the universal hash is successful. We know it requires $ck$ time to rehash (for some constant $c$) and check if it is successful. Thus, we have a running time of $T(k) = p ck + (1-p) T(k)$ for the entire series of rehashes (we keep picking new hash functions and testing them until one of them works). Thus, we can solve for $T(k)$ and we find that $p T(k) = p ck $ so that $T(k) = O(k)$.
 
+Now, we want to prove that if there are originally $k$ elements in the data structure, then while inserting another $k$ elements so that there are a total of $2k$ elements in the data structure, we will only expected $O(1)$ rehashing operations. We can see this by looking at the expected amount of space in the secondary arrays. We know that when there are $2k$ elements, we have expected $4k - 1$ space used up in the secondary arrays (by the analysis of the space of secondary arrays given in class). This means that $E[\sum s_i^2] = 4k - 1$ where $s_i$ is the size of the $i$th bucket. 
+
+Now we can use Markov's inequality to bound the probability of rehash $P(\sum s_i^2 \geq kc )$:
+\begin{eqnarray}
+P(\sum s_i^2 \geq kc ) &\leq& \frac{1}{kc} E[\sum s_i^2] \\
+&=& \frac{4k - 1}{kc} \\
+&\leq& \frac{4}{c}
+\end{eqnarary}
+
+We can use this to find the expected number of collisions $h$. We know that with probability $1 - \frac{4}{c}$, we will have no collisions. However, we know that with probability $\frac{4}{c}$, we will have one or more collisions. Thus, we find:
+\begin{eqnarray}
+h &\leq& \frac{c - 4}{c} 0 + \frac{4}{c} ( 1 + h) \\
+h \left( \frac{c - 4}{4} \right) &\leq& 1 \\
+h &\leq& \frac{4}{c-4}
+\end{eqnarray}
+
+Since we can pick $c > 4$ and we know that $c$ is a constant, we find that the expected number of collisions is $h = O(1)$. This means that the total expected work done is $O(k)$ after $k$ insertions, since each rehash requires $O(k)$ time and we only expect a constant number of them. After $n$ insertions then, we would expect to have done $O(n)$ work.
 \end{sol}
 
 \begin{prob}{1-c}
