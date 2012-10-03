@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  3 OCT 2012 03:11
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  3 OCT 2012 03:25
 entering extended mode
  %&-line parsing enabled.
 **ps2.tex
@@ -818,22 +818,23 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[2] <unit_price_histogram.png, id=37, 481.8pt x 481.8pt>
+[2]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[3 <./ps2_analytical_graph.png>]
+<unit_price_histogram.png, id=44, 481.8pt x 481.8pt>
 File: unit_price_histogram.png Graphic file (type png)
 
 <use unit_price_histogram.png>
-<unit_price_histogram_callaway.png, id=38, 481.8pt x 481.8pt>
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[4 <./unit_price_histogram.png>]
+<unit_price_histogram_callaway.png, id=52, 481.8pt x 481.8pt>
 File: unit_price_histogram_callaway.png Graphic file (type png)
 
 <use unit_price_histogram_callaway.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Overfull \vbox (4.51111pt too high) has occurred while \output is active []
-
-
-[3 <./ps2_analytical_graph.png> <./unit_price_histogram.png>]
 Missing character: There is no â in font cmtt10!
 Missing character: There is no € in font cmtt10!
 Missing character: There is no ˜ in font cmtt10!
@@ -868,7 +869,7 @@ Missing character: There is no ™ in font cmtt10!
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[4 <./unit_price_histogram_callaway.png>]
+[5 <./unit_price_histogram_callaway.png>]
 Missing character: There is no â in font cmtt10!
 Missing character: There is no € in font cmtt10!
 Missing character: There is no ˜ in font cmtt10!
@@ -933,11 +934,11 @@ Missing character: There is no ™ in font cmtt10!
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[5] <ebay_vs_amazon.png, id=55, 811.03pt x 308.15125pt>
+[6] <ebay_vs_amazon.png, id=62, 811.03pt x 308.15125pt>
 File: ebay_vs_amazon.png Graphic file (type png)
 
 <use ebay_vs_amazon.png>
-<online_shopping_vs_auction.png, id=56, 794.97pt x 305.14pt>
+<online_shopping_vs_auction.png, id=63, 794.97pt x 305.14pt>
 File: online_shopping_vs_auction.png Graphic file (type png)
 
 <use online_shopping_vs_auction.png>
@@ -948,19 +949,19 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[6 <./ebay_vs_amazon.png>]
+[7 <./ebay_vs_amazon.png>]
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[7 <./online_shopping_vs_auction.png>] (./ps2.aux) ) 
+[8 <./online_shopping_vs_auction.png>] (./ps2.aux) ) 
 Here is how much of TeX's memory you used:
- 18399 strings out of 495061
- 329668 string characters out of 1182621
+ 18403 strings out of 495061
+ 329713 string characters out of 1182621
  473106 words of memory out of 3000000
  21018 multiletter control sequences out of 15000+50000
  11573 words of font info for 48 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 56i,13n,56p,1178b,450s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,13n,56p,1178b,446s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/f
 onts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/
 public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
@@ -975,9 +976,9 @@ pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/sh
 are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share/texmf-texlive/fonts
 /type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ps2.pdf (7 pages, 240492 bytes).
+Output written on ps2.pdf (8 pages, 245541 bytes).
 PDF statistics:
- 121 PDF objects out of 1000 (max. 8388607)
- 16 named destinations out of 1000 (max. 500000)
+ 129 PDF objects out of 1000 (max. 8388607)
+ 20 named destinations out of 1000 (max. 500000)
  38 words of extra memory for PDF output out of 10000 (max. 10000000)
 

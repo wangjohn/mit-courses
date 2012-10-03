@@ -116,17 +116,17 @@ Analyze the relation between C.-F. as a function of $N$, the number of bidders. 
 \end{prob}
 
 \begin{sol}
-We want to analyze $\sqrt[N]{\frac{1}{N+1}} \left(\frac{N}{N+1}\right) - \frac{N-1}{2(N+1)}$. The firm will choose to use a posted price when the left half of the expression is greater than the right half. This occurs when:
+We want to analyze $\sqrt[N]{\frac{1}{N+1}} \left(\frac{N}{N+1}\right) - \frac{N-1}{2(N+1)}$. The firm will choose to use a posted price when the left half of the expression is greater than the expected profits from the auction given in part $E$. This occurs when:
 \begin{eqnarray}
-\sqrt[N]{\frac{1}{N+1}} \left(\frac{N}{N+1}\right) &>& \frac{N-1}{2(N+1)} \\
-\frac{N}{(N-1)(N+1)^{1/N}} &>& \frac{1}{2} \\
+\sqrt[N]{\frac{1}{N+1}} \left(\frac{N}{N+1}\right) &>& \frac{N-1}{(N+1)} \\
+\frac{N}{(N-1)(N+1)^{1/N}} &>& 1 \\
 \end{eqnarray}
 
 \begin{figure}[h!]
 \includegraphics[width=3in]{ps2_analytical_graph.png}
 \end{figure}
 
-This occurs for all values of $N$ greater than 1. Below is a plot of the graph of $\frac{N}{(N-1)(N+1)^{1/N}}$, and it is clear that the firm will always choose the posted price for any non-negative number of buyers. Therefore, the firm will always lose out, since the auction provides larger profits for the firm. We therefore see that the firm will lose out by choosing the fixed price. 
+This occurs for all values of $N$ greater than 1 (the expression approaches 1 from above as $N \to \infty$). Below is a plot of the graph of $\frac{N}{(N-1)(N+1)^{1/N}}$, and it is clear that the firm will always choose the posted price for any non-negative number of buyers. Therefore, the firm will always lose out, since the auction provides larger profits for the firm. We therefore see that the firm will lose out by choosing the fixed price. 
 \end{sol}
 
 \begin{prob}{b-A}
@@ -174,7 +174,7 @@ Find $E[\pi^{auction} (F')]$, the expected profits from the auction from the poi
 This is no different than above, so we find $\frac{N-1}{N+1}$. 
 \end{sol}
 
-\begin{prob}{a-F}
+\begin{prob}{b-F}
 Find $E[\pi^{auction}(F)]$, the actual expected profits from the auction.
 \end{prob}
 \begin{sol}
@@ -188,8 +188,50 @@ E[\pi^{auction}(F)] &=& \int_0^2 N(N-1) (1 - x/2)(x/2)^{N-2} (x/2) dx \\
 \end{eqnarray}
 \end{sol}
 
+\begin{prob}{b-Subpart}
+Analyze the relation between C.-F. as a function of $N$, the number of bidders. It may be useful to create a table as we did in class plotting the value for different values of $N$. Identify when the firm chooses to use a posted price vs an auction: does that always work out well for the firm?
+\end{prob}
+
+\begin{sol}
+We perform the same analysis as above, but we now have the expression $\sqrt[N]{\frac{1}{N+1}} \left( \frac{N}{N+1} \right) - \frac{2(N-1)}{N+1}$ which we are examining. The firm will still always prefer to use the posted price, but this won't work out well for the firm when $N$ is large, because the profit from the auction will outpace the profit of the fixed price sale.
+\end{sol}
+
+\newpage
+
+\begin{prob}{2-a}
+Pick a firm that was an early pioneer or market leader in a market, but which has now lost its leadership position. See what you can find out about the firm and why it lost its lead. How does your explanation relate to explanations given in class for why pioneers may tend to fall behind?
+\end{prob}
+
+\begin{sol}
+I choose to examine Myspace, a social networking site which was extremely popular in the early 2000s. Now, Myspace only has 25 million unique users compared to Facebook's 1 billion. In 2002, Myspace clearly dominated the market, but it was not able to hold onto this lead.
+
+Several effects played a role in Myspace's decline. First, teenagers who were the largest user base of Myspace started to migrate towards Facebook. Facebook's new website was cleaner, less cluttered, and had more useful features than Myspace's site. Moreover, a user of Facebook did not need to know html, css, or javascript in order to modify his or her page. This lowered the barriers to creating a Facebook site and made it relatively easier to start a Myspace account. Moreover, Myspace began to gain a reputation of a "seedy" or "sketchy" website, used mostly by older people. This stereotype hurt Myspace's teenage user base, who started migrating over to Facebook possibly because of a cleaner design.
+
+Another factor that played a role in Myspace's decline was the lack of product development. Much of Myspace's development team was focused on launching as many new and different products as possible. However, attempting to create such a wide breadth of products meant that each individual product was substandard and was not often used. Also, few users knew where to look in order to find such a diverse grouping of products. 
+
+These two factors echo some of the reasons heard in class about why first movers don't necessarily have an advantage. First movers are not shielded from the fact that they still need to innovate in their field. Being the first mover does not give a firm much intrinsic value over its competitors if that firm is unable to keep up with change. Also, Myspace's largest user base was being stolen by Facebook largely due to shifting dynamics. Social networks have very few barriers to entry. The major barrier is to achieve critical mass with the number of users, something that Facebook was able to do with college students. 
+\end{sol}
+
+\begin{prob}{2-b}
+Now repeat the above but with a firm that was an early pioneer or market leader that has kept its leadership position. How does it maintain its position? Is it getting farther out in front or are new entrants catching up? Do you think it will be able to continue to maintain its position for the long term in this industry?
+\end{prob}
+\begin{sol}
+It is natural to proceed to analyze the persistence of Facebook in the social networking realm. So far, Facebook has grown dramatically and now over a seventh of the world's population is considered active on Facebook. 
+
+Much of the reason it has kept its leadership position is sheer social momentum. With so many people constantly joining Facebook, and with the expectation from friends, family, and coworkers that one at least have an account on Facebook, it is difficult to ignore the trend of joining. However, this is not the only reason Facebook has gained dominance (since Myspace also was able to achieve this). 
+
+In fact, Facebook has been constantly innovating with a highly intelligent group of software engineers. Facebook's Timeline feature was released and rolled out to all users earlier this year. Product innovations, like group events, chat, group chat, and celebrity pages have constantly kept users on their feet.
+
+A final reason Facebook has been able to maintain such a great position in the social networking world is because it has good visual appeal and design. 
+
+I predict that Facebook will be a dominant force in the immediate future. This assertion rests solely upon the social momentum that it has. It is difficult for a billion users to stop using Facebook spontaneously.
+
+However, I don't believe in the long term that Facebook will be able to hold onto its status. There are few products that Facebook offers that cannot be provided by another website. Currently, all of Facebook's features could be replicated by someone else. It might take someone else years to do so, but it could conceivably be done. 
+\end{sol}
+\newpage
+
 \begin{prob}{3}
-Blah
+What is the variance in sales price? Does this amount of dispersion seem reasonable for selling identical goods? Pick one product of the two and run a regression to examine whether sellers with higher reputation ratings sell their goods for higher prices and whether buyers who are more experienced buy at lower prices.
 \end{prob}
 
 \begin{sol}
