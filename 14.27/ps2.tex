@@ -9,11 +9,21 @@
 \usepackage{theorem}
 \usepackage{verbatim}
 \usepackage{tikz}
+\usepackage{framed}
 \usepackage{hyperref}
 \usetikzlibrary{shapes,arrows}
 
-\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
-\newenvironment{prob}{{\bfseries Problem:}}
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 14.27 Economics of E-Commerce} \\
+    Problem Set 2\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} 
+    \end{center}
+    \vspace{0.5cm}
+}
 
 \bibliographystyle{plain}
 
@@ -23,19 +33,107 @@
 \textheight = 690pt
 
 %--------Meta Data: Fill in your info------
-\title{14.27 \\
-Economics of E-Commerce \\
-Problem Set 2}
-
-\author{John Wang}
-
 \begin{document}
 
-\maketitle
+\makenewtitle
 
-\section{Problem 3}
+\begin{prob}{a-A}
+Find $P^*(F')$, the optimal price the firm will charge under biased beliefs.
+\end{prob}
 
-\begin{prob}
+\begin{sol}
+The firm attempts to maximize expected profits, where the firm can either receive 0 if no seller is willing to buy for a price of $P$, or the firm receives $P$. Thus, the firm attempts to maximize $E[\pi | P] = P \cdot Pr[\max V_i \geq P]  = P (1 - CDF(P)) = P ( 1 - P^N)$. Taking the first order conditions, we see that $\frac{\delta \pi}{\delta P} = 1 - (N+1) P^N$. Solving for $P$ by setting the derivative equal to zero, we find that $P^*(F') = \sqrt[N]{\frac{1}{N+1}}$. 
+\end{sol}
+
+\begin{prob}{a-B}
+Find $P^*(F)$, the optimal price the firm will charge under correct beliefs.
+\end{prob}
+
+\begin{sol}
+We will use the same logic as before, except that this time we note that the CDF of the function is now $x/(1/2) = 2x$. Therefore, we obtain:
+\begin{eqnarray}
+E[ \pi | P] = P ( 1 - (2P)^N) &=& P ( 1- 2^N P^N) \\
+\frac{ \delta \pi}{\delta P} &=& 1 - (N+1) 2^N P^N \\
+P^*(F) &=& \frac{1}{2} \sqrt[N]{\frac{1}{N+1}}
+\end{eqnarray}
+
+Using the same process as before.
+\end{sol}
+
+\begin{prob}{a-C}
+Find $E_{F'}[\pi^{posted}(F')]$, the expected profits of the posted price under biased beliefs from the point of view of the firm.
+\end{prob}
+
+\begin{sol}
+Here, we can find $E_{F'}[\pi^{posted}(F')]$ by using our price with the expected probability we computed in the first part. We know that $E_{F'}[\pi^{posted}(F')] = P ( 1 - P^N)$, so we simply substitute for the $P^* = \sqrt[n]{\frac{1}{N+1}}$ that we obtained in the first part.
+\begin{eqnarray}
+E_{F'}[\pi^{posted}(F')] &=& P ( 1 - P^N) \\ 
+&=& \sqrt[N]{\frac{1}{N+1}} \left( \frac{N}{N+1} \right)
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{a-D}
+Find $E_{F}[\pi^{posted}(F')]$, the expected profits of the posted price under biased beliefs but from the point of view of what will actually happen.
+\end{prob}
+\begin{sol}
+In this case, we want to find $E_{F}[\pi^{posted}(F')] = P(1- CDF(P))$. However, we know that $CDF(P) = 2P$ by our previous arguments. This means that we have the following expression:
+\begin{eqnarray}
+E_{F}[\pi^{posted}(F')] &=& \sqrt[N]{\frac{1}{N+1}} \left( 1 - \left(2 \sqrt[N]{\frac{1}{N+1}} \right)^N \right) \\
+&=& \sqrt[N]{\frac{1}{N+1}} \left( 1 - \frac{2^N}{N+1} \right)
+\end{eqnarray}
+
+However, this only occurs when $\sqrt[N]{\frac{1}{N+1}} < \frac{1}{2}$ because otherwise $CDF(P) = 0$. We see that $\sqrt[N]{\frac{1}{N+1}}$ is an increasing function and that $N=1$ already has $\sqrt[N]{\frac{1}{N+1}} = 1/2$. Therefore, we see that no non-negative integer values of $N$ will satisfy $\sqrt[N]{\frac{1}{N+1}} < \frac{1}{2}$. This means that no one will buy the product, and the profits will just be 0.
+\end{sol}
+
+\begin{prob}{a-E}
+Find $E[\pi^{auction} (F')]$, the expected profits from the auction from the point of view of the firm. 
+\end{prob}
+\begin{sol}
+The firm expects the buyers to have a distribution of $u[0,1]$. Since the pdf of the $k$th order statistic is $\frac{N!}{(k-1)!(N-k)!} x^k (1-x)^{N-k}$, we can find the expected profit by integrating:
+\begin{eqnarray}
+E[\pi^{auction} (F')] &=& \int_0^1 N(N-1) (1-x)x^{N-2} x dx \\
+&=& \frac{N(N-1)}{N} - \frac{N(N-1)}{N+1} \\
+&=& \frac{N-1}{N+1}
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{a-F}
+Find $E[\pi^{auction}(F)]$, the actual expected profits from the auction.
+\end{prob}
+\begin{sol}
+Here, we use the same form for the probability distribution function, but we substitute $CDF(x) = 2x$ for $x$. We have the following:
+\begin{eqnarray}
+E[\pi^{auction}(F)] &=& \int_0^{1/2} N(N-1) (1 - (2x))(2x)^{N-2} 2x dx \\
+&=& N(N-1) 2^{N-1} \left( \frac{1}{N2^N} - 2 \frac{1}{(N+1)2^{N+1}} \right) \\
+&=& \frac{1}{2} (N-1) - \frac{N(N-1)}{2(N+1)} \\
+&=& \frac{1}{2} \frac{(N-1)(N+1-N)}{N+1} \\
+&=& \frac{1}{2} \frac{N-1}{N+1}
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{a-Subpart}
+Analyze the relation between C.-F. as a function of $N$, the number of bidders. It may be useful to create a table as we did in class plotting the value for different values of $N$. Identify when the firm chooses to use a posted price vs an auction: does that always work out well for the firm?
+\end{prob}
+
+\begin{sol}
+We want to analyze $\sqrt[N]{\frac{1}{N+1}} \left(\frac{N}{N+1}\right) - \frac{N-1}{2(N+1)}$. The firm will choose to use a posted price when the left half of the expression is greater than the right half. This occurs when:
+\begin{eqnarray}
+\sqrt[N]{\frac{1}{N+1}} \left(\frac{N}{N+1}\right) &>& \frac{N-1}{2(N+1)} \\
+\frac{N}{(N-1)(N+1)^{1/N}} &>& \frac{1}{2} \\
+\end{eqnarray}
+
+\begin{figure}[h!]
+\includegraphics[width=3in]{ps2_analytical_graph.gif}
+\end{figure}
+
+This occurs for all values of $N$ greater than 1. Above is a plot of the graph of $\frac{N}{(N-1)(N+1)^{1/N}}$, and it is clear that the firm will always choose the posted price for any non-negative number of buyers. Therefore, the firm will always lose out, since the auction provides larger profits for the firm. We therefore see that the firm will lose out by choosing the fixed price. 
+\end{sol}
+
+\begin{prob}{3}
+Blah
+\end{prob}
+
+\begin{sol}
 I will be looking at the golf ball markets on eBay. I will be searching for ``Titleist ProV1 Golf Ball New 1 Dozen'' and ``Callaway Tour Golf Ball New 1 Dozen''. Both of these searches are looking for a very specific brand of golf ball, and only for a dozen of them. The searches turned up results with more than a dozen balls, in these cases I examined the price per dozen of these balls. I wrote a python script to scrape the information from eBay's website for these golf balls.
 
 For the Titleist balls, there were 417 listings in the past 15 days, which means that there will be roughly 800 listings of this specific product each month on eBay. Note that simply searching for ProV1 golf balls yields about $5000$ results, but these are may not necessarily be new balls still in the manufacturer's packaging. I also found another auction site \url{http://www.golfbids.net/} which was auctioning off Titlesit ProV1 balls. This auction site was more geared towards buyers who were specifically in the golf ball market. It seems that the golfbids site would be able to retain more buyers, since it seems like it attempts to form a longer term relationship with buyers and allow them to continually buy golf balls from the site. However, eBay is much easier to find on Google search (finding golfbids took a couple of minutes), so simply that may make the volume of golf ball purchases on eBay larger than the volume on golfbids. However, golfbids does have a legitimate chance of overthrowing eBay as the volume leader if they are able to credibly advertise their site, and show serious golfers that they should go back to golfbids.
@@ -49,7 +147,6 @@ The standard devition of the unit price of a dozen Titleist balls was \$8.61, wi
 \begin{figure}[h!]
 \includegraphics[width=2.5in]{unit_price_histogram_callaway.png}
 \end{figure}
-\end{prob}
 
 For the Callaway balls, the same general patterns occured. The variance was \$9.58 and the mean price was \$21.86, which means the Callaway balls had even more variance than the Titleist balls. There were 334 listings in the past 15 days, so probably about 650 listings per month. The higher variance of Callaway balls could possibly be explained by the fact that Titleist balls are more popular. In fact, Titleist balls are considered higher quality than Callaway balls, which is reflected in the average price. Possibly more people buy Callaway balls second hand, so fewer people are willing to pay a high price for them, whereas people are willing to pay a premium for the brand name of Titleist balls.
 
@@ -133,10 +230,9 @@ Another interesting regression one can run is how the feedback score of sellers 
 \end{verbatim}
 
 We can see from above that a higher buyer score tends to decrease the difference between the final price and the current bid, making you closer to winning the auction. However, the effect is not statistically significant. 
+\end{sol}
 
-\section{Problem 4}
-
-\begin{prob}
+\begin{prob}{4}
 Spend a few minutes on Google Trends exploring anything your heart contents to get warmed up. Then think of a few online companies that compete with one another and compare them using both the searches and the website features. What can you infer from the data? Can you find any interesting or surprising results?
 \end{prob}
 \begin{sol}
