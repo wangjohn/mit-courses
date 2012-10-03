@@ -210,8 +210,18 @@ From $s$ to $t$, there is a maximum flow of 1. From $t$ to $u$ there is a maximu
 \newpage
 \makenewtitle
 \begin{prob}{3-a}
+Given the table as described above, give an efficient, flow-based algorithm for deciding if there is some set of cell values that produces the disclosed values.
 \end{prob}
 \begin{sol}
+We will create a flow network with a source $s$ and a sink $t$. Connected to the source, we will have nodes $n_{r_i}$ which represent rows. There will be $p$ of these nodes, and an edge $(s,n_{r_i})$ connecting the source to the node. The capacity of $(s,n_{r_i})$ will be the $i$th row sum of $r_i$. Next, we will have $pq$ nodes $n_{d_{ij}}$ which represent the element $d_{ij}$ in the matrix. Each node will be connected to the corresponding row node. Thus, if $d_{ij}$ is in column $i$, then there will be an edge $(n_{r_i}, n_{d_{ij}})$ of infinite capacity connecting the row and the node. There will be a final set of nodes $n_{c_{j}}$ which will represent columns. Each node $n_{d_{ij}}$ will have an edge $(n_{d_{ij}}, n_{c_j})$ to its corresponding column of infinite capacity. Finally each column node will be connected to the sink with an edge $(n_{c_j}, t)$ of capacity equal to the column sum of $c_j$. 
+
+Thus, we should have three sets of nodes, the row nodes, the element nodes, and the column nodes. The $i$th row node should have $q$ outgoing edges to the $q$ corresponding nodes which belong to the $i$th row. The $j$th column node should have $p$ incoming edges to the $p$ corresponding nodes which belong to the $j$th column. Each element $d_{ij}$ should have a single incoming edge connecting it to its row node and a single outgoing edge connecting it to its column node. 
+
+Now, if we are already given a value for $d_{ij}$, then we delete the node $n_{d_{ij}}$ and the edges connected to it. Then, we subtract the value of $d_{ij}$ from the capacity of $(s, n_{r_i})$ and $(n_{c_j}, t)$. This is equivalent to subtracting $d_{ij}$ from the row and column sums, leaving the rest of the elements in each row as unknown.
+
+Now, the find if there is some set of cell values that produces the disclosed values, we simply run a max flow algorithm from $s$ to $t$ and check if the max flow is equal $\sum_{i} c(s, n_{r_i}) = \sum_j c(n_{c_j}, s)$. In other words, we check if the flow saturates all of the row and column capacities. By the integrality theorem, our flow should be an integer, and the flows into each $n_{d_{ij}}$ node will be a value which satisfies the row and column sums according to the disclosed values. This is simply because we must have $\sum_{j} c(n_{r_i}, d_{ij}) = r_i - D_i$ where $D_i$ is the disclosed values in row $i$. A similar expression can be made for the column sums. Thus, we see that the flows at $n_{d_{ij}}$ will be satisfactory according to the disclosed values. 
+
+This construction takes $O(pq)$ time since there are $O(pq)$ nodes and also $O(pq)$ edges which must be constructed. 
 \end{sol}
 
 \begin{prob}{3-b}
@@ -224,13 +234,16 @@ Since we know we already have a max-flow in our graph, we simply want to see if 
 
 Thus, for each edge in the path from $v$ to $u$, we can decrease the flow on the edge, and increase the flow on the backward edge. This will not affect the flow at the sink $t$, because the path forms a closed loop. Moreover, we will still have a valid flow after the edges have been decreased, since the incoming and outgoing flow will both be decreased by $1$. We can perform the same procedure the $(v,u)$ edge and look for a path from $u$ to $v$ using BFS. Thus, we have created a flow, which still retains the value of the maximum flow, which is valid and which uses a value different that $f_e$ on edge $e$. 
 
-If neither of these two paths exist, then we know that there is no flow which places a different flow value on edge $e$. This follows because if there is no path from $u$ to $v$ or from $v$ to $u$ in the residual graph, then there is no way to increase or decrease the flow value at $e$ while keeping the entire graph a valid flow network with the stated capacities, since we must have $\sum_w f(w,u) = \sum_v f(u,v)$ for each node. Therefore, one cannot change $f_e$ without breaking this property at some edge in the graph.
+If neither of these two paths exist, then we know that there is no flow which places a different flow value on edge $e$. This follows because if there is no path from $u$ to $v$ or from $v$ to $u$ in the residual graph, then there is no way to increase or decrease the flow value at $e$ while keeping the entire graph a valid flow network with the stated capacities, since we must have $\sum_w f(w,u) = \sum_v f(u,v)$ for each node. Therefore, one cannot change $f_e$ without breaking this property at some edge in the graph. The algorithm runs in $O(n+m) = O(m)$ since it runs BFS twice and performs updates on at most $2m$ edges.
 \end{sol}
 
 \begin{prob}{3-c}
 Combine the previous two parts to solve the stated problem.
 \end{prob}
 \begin{sol}
+Note that once we have the flow graph from part $a$, we can determine if there is an unprotected value if we use the algorithm from part $b$. We do this by examining some node $n_{d_{ij}}$ and checking the edge $(n_{d_{ij}}, n_{c_j})$ so see if there is a max flow using a different flow value on the edge. If there is no different flow value possible, then we know that that element is unprotected because there is only a single value that the node is confined to which will work in a valid flow for the row and column sums. Note that checking the edge between the column node is equivalent to checking the edge to the row node because there is a single edge into $n_{d_{ij}}$ and a single edge out, which means the flow is constrained by the flow of a single one of these edges.
+
+Therefore, it is sufficient to move through all edges $(n_{d_{ij}}, n_{c_j})$ and perform the algorithm from part $b$ to determine $d_{ij}$ is an unprotected element. If it is unprotected, we know its value since it is constrained to be the flow on the edge $(n_{d_{ij}}, n_{c_j})$. This algorithm will detect all unprotected values and runs in $O(p^2 q^2)$, since the algorithm from part $b$ is run $O(pq)$ times. 
 \end{sol}
 
 \newpage
