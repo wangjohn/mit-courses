@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  2 OCT 2012 01:49
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  2 OCT 2012 21:50
 entering extended mode
  %&-line parsing enabled.
 **ps4.tex
@@ -683,7 +683,16 @@ ABD: EveryShipout initializing macros
 \MPscratchDim=\dimen203
 \MPnumerator=\count136
 \everyMPtoPDFconversion=\toks49
-) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+)
+
+Package amsmath Warning: Foreign command \atopwithdelims;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 52.
+
+
+Underfull \vbox (badness 1400) has occurred while \output is active []
+
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
@@ -703,11 +712,15 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[6] (./ps4.aux) ) 
+[6]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[7] (./ps4.aux) ) 
 Here is how much of TeX's memory you used:
  15391 strings out of 495061
  284109 string characters out of 1182621
- 402797 words of memory out of 3000000
+ 402798 words of memory out of 3000000
  18102 multiletter control sequences out of 15000+50000
  11104 words of font info for 46 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
@@ -724,9 +737,9 @@ e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-tex
 live/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/t
 ype1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/
 amsfonts/symbols/msam10.pfb>
-Output written on ps4.pdf (6 pages, 168064 bytes).
+Output written on ps4.pdf (7 pages, 174863 bytes).
 PDF statistics:
- 76 PDF objects out of 1000 (max. 8388607)
+ 81 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 

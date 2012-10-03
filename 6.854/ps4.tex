@@ -49,7 +49,7 @@ Consider a second-level table, that in the static case uses $f(s) = O(s^2)$ spac
 \end{prob}
 
 \begin{sol}
-Let us look at the second-level table after $s$ items have already been inserted. We want to find out the number of rehashes that we did. To do this, we will look at inserting items $s/2$ through items $s$. Let us say we have just rehashed the table before we insert the $s/2$ item. Then we know that the size of the table is $(2s/2)^2 = s^2$. We know that the probability that items $i$ and $j$ collide is $1/s^2$. This means that the expected number of collisions is ${ s \choose 2 } 1/s^2 \leq \frac{s^2}{2 s^2} = \frac{1}{2}$.
+Let us look at the second-level table after $s$ items have already been inserted. We want to find out the number of rehashes that we did. To do this, we will look at inserting items $s/2$ through items $s$. Let us say we have just rehashed the table before we insert the $s/2$ item. Then we know that the size of the table is $(2s/2)^2 = s^2$. We know that the probability that items $i$ and $j$ collide is $1/s^2$. This means that the expected number of collisions is ${ s \choose 2 } \frac{1}{s^2} \leq \frac{s^2}{2 s^2} = \frac{1}{2}$.
 
 The number of rehashes $h$ we have to do, then is 0 times the probability of no collisions times $\frac{1}{2}$ times the number of rehashes we have to do if we do rehash. This can be written as $h = \frac{1}{2} 0 + \frac{1}{2} ( 1 + h)$, so that we find $h = 1$. Thus, we only expect to rehash a constant number of times when we insert items $s/2$ to $s$. 
 
@@ -69,7 +69,7 @@ Now we can use Markov's inequality to bound the probability of rehash $P(\sum s_
 P(\sum s_i^2 \geq kc ) &\leq& \frac{1}{kc} E[\sum s_i^2] \\
 &=& \frac{4k - 1}{kc} \\
 &\leq& \frac{4}{c}
-\end{eqnarary}
+\end{eqnarray}
 
 We can use this to find the expected number of collisions $h$. We know that with probability $1 - \frac{4}{c}$, we will have no collisions. However, we know that with probability $\frac{4}{c}$, we will have one or more collisions. Thus, we find:
 \begin{eqnarray}
@@ -205,6 +205,32 @@ False. Consider the following graph:
 \end{figure}
 
 From $s$ to $t$, there is a maximum flow of 1. From $t$ to $u$ there is a maximum flow of $1$. However, from $s$ to $u$, there is a maximum flow of 5. Thus, it is clear that the flow from $s$ to $u$ is not equal to the flow from $s$ to $t$ then from $t$ to $u$, since there are other paths for the flow to travel on. 
+\end{sol}
+
+\newpage
+\makenewtitle
+\begin{prob}{3-a}
+\end{prob}
+\begin{sol}
+\end{sol}
+
+\begin{prob}{3-b}
+Given a graph $G$ and a max-flow $f$ that places flow value $f_e$ on edge $e$, give an efficient algorithm for determining whether there is a max-flow that places a different flow value on edge $e$.
+\end{prob}
+\begin{sol}
+We will examine the residual graph $G'$ of $G$. Recall that in the residual graph, for every edge $(v,w)$ in $G$, there exist two edges $(v,w)$ and $(w,v)$, which combine to provide the net capacity still available to be used. In the algorithm, we will first find $e = (u_0, u_f)$ in the original graph and identify the two corresponding edges $(u_0, u_f)$ and $(u_f, u_0)$ in the residual graph.
+
+Since we know we already have a max-flow in our graph, we simply want to see if we can find another flow with a different value of $f(u_0,u_f) - f(u_f, u_0)$ than $f_e$ (where $f(v,w)$ is the flow from $v$ to $w$) which has the same flow at sink $t$. To do this, we can first remove edge $(u,v)$ from the residual graph and search for a path from $v$ to $u$ in the augmenting graph using BFS (treating edges with 0 capacity as non-existent). If there does exist such a path, then there exists a loop in the residual graph, which will have a flow of zero. 
+
+Thus, for each edge in the path from $v$ to $u$, we can decrease the flow on the edge, and increase the flow on the backward edge. This will not affect the flow at the sink $t$, because the path forms a closed loop. Moreover, we will still have a valid flow after the edges have been decreased, since the incoming and outgoing flow will both be decreased by $1$. We can perform the same procedure the $(v,u)$ edge and look for a path from $u$ to $v$ using BFS. Thus, we have created a flow, which still retains the value of the maximum flow, which is valid and which uses a value different that $f_e$ on edge $e$. 
+
+If neither of these two paths exist, then we know that there is no flow which places a different flow value on edge $e$. This follows because if there is no path from $u$ to $v$ or from $v$ to $u$ in the residual graph, then there is no way to increase or decrease the flow value at $e$ while keeping the entire graph a valid flow network with the stated capacities, since we must have $\sum_w f(w,u) = \sum_v f(u,v)$ for each node. Therefore, one cannot change $f_e$ without breaking this property at some edge in the graph.
+\end{sol}
+
+\begin{prob}{3-c}
+Combine the previous two parts to solve the stated problem.
+\end{prob}
+\begin{sol}
 \end{sol}
 
 \newpage
