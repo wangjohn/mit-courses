@@ -123,10 +123,69 @@ We want to analyze $\sqrt[N]{\frac{1}{N+1}} \left(\frac{N}{N+1}\right) - \frac{N
 \end{eqnarray}
 
 \begin{figure}[h!]
-\includegraphics[width=3in]{ps2_analytical_graph.gif}
+\includegraphics[width=3in]{ps2_analytical_graph.png}
 \end{figure}
 
-This occurs for all values of $N$ greater than 1. Above is a plot of the graph of $\frac{N}{(N-1)(N+1)^{1/N}}$, and it is clear that the firm will always choose the posted price for any non-negative number of buyers. Therefore, the firm will always lose out, since the auction provides larger profits for the firm. We therefore see that the firm will lose out by choosing the fixed price. 
+This occurs for all values of $N$ greater than 1. Below is a plot of the graph of $\frac{N}{(N-1)(N+1)^{1/N}}$, and it is clear that the firm will always choose the posted price for any non-negative number of buyers. Therefore, the firm will always lose out, since the auction provides larger profits for the firm. We therefore see that the firm will lose out by choosing the fixed price. 
+\end{sol}
+
+\begin{prob}{b-A}
+Find $P^*(F')$, the optimal price the firm will charge under biased beliefs.
+\end{prob}
+\begin{sol}
+This is the same question as above, so we find $P^* = \sqrt[N]{\frac{1}{N+1}}$. 
+\end{sol}
+
+\begin{prob}{b-B}
+Find $P^*(F)$, the optimal price the firm will charge under correct beliefs.
+\end{prob}
+\begin{sol}
+Now the cumulative distribution function has changed again. We now have $CDF(x)=x/2$. Therefore, we see that the expected profits are given by, $E[\pi | P] = P ( 1 - (P/2)^N)$ so that the first order conditions give:
+\begin{eqnarray}
+\frac{\delta \pi}{\delta P} = 0 &=& 1 - (N+1) (P/2)^N \\
+P &=& 2 \sqrt[N]{\frac{1}{N+1}}
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{b-C}
+Find $E_{F'}[\pi^{posted}(F')]$, the expected profits of the posted price under biased beliefs from the point of view of the firm.
+\end{prob}
+
+\begin{sol}
+This problem is no different than before, so we have $\sqrt[N]{\frac{1}{N+1}} \left( \frac{N}{N+1} \right)$. 
+\end{sol}
+
+\begin{prob}{b-D}
+Find $E_{F}[\pi^{posted}(F')]$, the expected profits of the posted price under biased beliefs but from the point of view of what will actually happen.
+\end{prob}
+\begin{sol}
+Again, we must change the cumulative distribution function so that $CDF(x) = x/2$. This means our expected profit is given by
+\begin{eqnarray}
+E_{F}[\pi^{posted}(F')] &=& P ( 1 - CDF(P)) \\
+&=& \sqrt[N]{\frac{1}{N+1}} \left( 1 - \left( \frac{1}{2} \sqrt[N]{\frac{1}{N+1}} \right)^N \right) \\
+&=& \sqrt[N]{\frac{1}{N+1}} \left( 1 - \frac{1}{2^{N} (N+1)} \right)
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{b-E}
+Find $E[\pi^{auction} (F')]$, the expected profits from the auction from the point of view of the firm. 
+\end{prob}
+\begin{sol}
+This is no different than above, so we find $\frac{N-1}{N+1}$. 
+\end{sol}
+
+\begin{prob}{a-F}
+Find $E[\pi^{auction}(F)]$, the actual expected profits from the auction.
+\end{prob}
+\begin{sol}
+We use $CDF(x) = x/2$ and we obtain the following integral:
+\begin{eqnarray}
+E[\pi^{auction}(F)] &=& \int_0^2 N(N-1) (1 - x/2)(x/2)^{N-2} (x/2) dx \\
+&=& \frac{N(N-1)}{2^{N-1}} \int_0^2 x^{N-1} - x^{N}/2 dx \\
+&=& \frac{N(N-1)}{2^{N-1}} \left( \frac{2^N}{N} - \frac{2^{N+1}}{2(N+1)} \right) \\
+&=& 2(N-1) - \frac{2N(N-1)}{N+1} \\
+&=& \frac{2(N-1)}{N+1}
+\end{eqnarray}
 \end{sol}
 
 \begin{prob}{3}
