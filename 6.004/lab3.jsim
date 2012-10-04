@@ -65,26 +65,25 @@ Xnand4 2 3 4 C0 nand3
 
 .subckt SHIFT alufn[1:0] A[31:0] B[31:0] OUT[31:0]
 xshifta A[31:0] B[31:0] shl[31:0] 0 SHL
-*xshiftb A[31:0] B[31:0] shr[31:0] 0 SHR
-*xshiftc A[31:0] B[31:0] sra[31:0] A[31] SHR
-xbuff shl[31:0] OUT[31:0] buffer
-*xcomparemux alufn[1]#32 alufn[0]#32 shl[31:0] shr[31:0] 0#32 sra[31:0] OUT[31:0] mux4
+xshiftb A[31:0] B[31:0] shr[31:0] 0 SHR
+xshiftc A[31:0] B[31:0] sra[31:0] A[31] SHR
+xcomparemux alufn[1]#32 alufn[0]#32 shl[31:0] 0#32 shr[31:0] sra[31:0] OUT[31:0] mux4
 .ends
 
 .subckt SHL A[31:0] B[31:0] OUT[31:0] V
-xshifta B[4]#32 A[31:0] A[15:0] V#16 out4[31:0] mux2
-xshiftb B[3]#32 out4[31:0] out4[23:0] V#8 out3[31:0] mux2
-xshiftc B[2]#32 out3[31:0] out3[27:0] V#4 out2[31:0] mux2
-xshiftd B[1]#32 out2[31:0] out2[29:0] V#2 out1[31:0] mux2
-xshifte B[0]#32 out1[31:0] out1[30:0] V OUT[31:0] mux2
+xshifta B[4]#32 A[31:0] A[15:0] V#16 outA[31:0] mux2
+xshiftb B[3]#32 outA[31:0] outA[23:0] V#8 outB[31:0] mux2
+xshiftc B[2]#32 outB[31:0] outB[27:0] V#4 outC[31:0] mux2
+xshiftd B[1]#32 outC[31:0] outC[29:0] V#2 outD[31:0] mux2
+xshifte B[0]#32 outD[31:0] outD[30:0] V OUT[31:0] mux2
 .ends
 
 .subckt SHR A[31:0] B[31:0] OUT[31:0] V
-xshifta B[4]#32 A[31:0] V#16 A[31:16] out4[31:0] mux2
-xshiftb B[3]#32 out4[31:0] V#8 out4[31:8] out3[31:0] mux2
-xshiftc B[2]#32 out3[31:0] V#4 out3[31:4] out2[31:0] mux2
-xshiftd B[1]#32 out2[31:0] V#2 out2[31:2] out1[31:0] mux2
-xshifte B[0]#32 out1[31:0] V out1[31:1] OUT[31:0] mux2
+xshifta B[4]#32 A[31:0] V#16 A[31:16] outA[31:0] mux2
+xshiftb B[3]#32 outA[31:0] V#8 outA[31:8] outB[31:0] mux2
+xshiftc B[2]#32 outB[31:0] V#4 outB[31:4] outC[31:0] mux2
+xshiftd B[1]#32 outC[31:0] V#2 outC[31:2] outD[31:0] mux2
+xshifte B[0]#32 outD[31:0] V outD[31:1] OUT[31:0] mux2
 .ends
 
 .subckt CMP alufn3 alufn1 Z V N OUT[31:0]

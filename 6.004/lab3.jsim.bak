@@ -64,10 +64,10 @@ Xnand4 2 3 4 C0 nand3
 .ends
 
 .subckt SHIFT alufn[1:0] A[31:0] B[31:0] OUT[31:0]
-xsl A[31:0] B[31:0] shl[31:0] 0 SHL
-xsr A[31:0] B[31:0] shr[31:0] 0 SHR
-xsra A[31:0] B[31:0] sra[31:0] A[31] SHR
-xbuff sra[31:0] OUT[31:0] buffer
+xshifta A[31:0] B[31:0] shl[31:0] 0 SHL
+*xshiftb A[31:0] B[31:0] shr[31:0] 0 SHR
+*xshiftc A[31:0] B[31:0] sra[31:0] A[31] SHR
+xbuff shl[31:0] OUT[31:0] buffer
 *xcomparemux alufn[1]#32 alufn[0]#32 shl[31:0] shr[31:0] 0#32 sra[31:0] OUT[31:0] mux4
 .ends
 
