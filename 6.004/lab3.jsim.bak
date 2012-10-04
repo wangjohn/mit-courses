@@ -3,7 +3,7 @@
 .include "/mit/6.004/jsim/lab3_test_bool.jsim"
 
 .subckt BOOL alufn[3:0] A[31:0] B[31:0] OUT[31:0]
-xbooleanb A[31:0] B[31:0] alufn[0]#32 alufn[1]#32 alufn[2]#32 alufn[3]#32 OUT[31:0] mux4
+xbooleanb A[31:0] B[31:0] alufn[0]#32 aluf[1]#32 aluf[2]#32 alufn[3]#32 OUT[31:0] mux4
 .ends
 
 .subckt booleanbase a3 a2 a1 a0 A B out 
