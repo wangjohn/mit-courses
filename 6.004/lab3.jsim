@@ -1,0 +1,63 @@
+.include "/mit/6.004/jsim/nominal.jsim"
+.include "/mit/6.004/jsim/stdcell.jsim"
+.include "/mit/6.004/jsim/lab3_test_bool.jsim"
+
+.subckt BOOL alufn[3:0] A[31:0] B[31:0] OUT[31:0]
+xbooleanbase alufn[3]#32 alufn[2]#32 alufn[1]#32 alufn[0]#32 A[31:0]#32 B[31:0] OUT[31:0] booleanbase
+.ends
+
+.subckt booleanbase a3 a2 a1 a0 A B out 
+Xand1 A B d0 and2
+Xxor1 A B d1 xor2
+Xbuffer1 A d2 buffer
+Xor1 A B d3 or2
+Xand21 a2 a1 s0 and2
+Xand31 a3 a1 s1 and2
+Xmux1 s0 s1 d0 d1 d2 d3 out mux4
+.ends
+
+.subckt ARITH alufn[1:0] A[31:0] B[31:0] OUT[31:0] Z V N
+xbxorgate alufn[0]#32 B[31:0] XB[31:0] xor2
+xfulladder alufn[0] A[0] XB[0] OUT[0] carry1
+xfulladder2 carry[1:31] A[1:31] XB[1:31] OUT[1:31] carry[2:32]
+xbuffer OUT[31] N buffer
+xcheck0zero OUT[7:0] OUT[15:8] OUT[23:16] OUT[31:24] check0zero#8 nor4
+xcheck1zero check0zero[2:1] check0zero[4:3] check0zero[6:5] check0zero[8:7] check1zero#2 and4
+xcheck2zero check1zero0 check1zero1 Z and2
+
+.ends
+
+
+
+* Full adder module that takes in two bits A and B, along with some carry Cin, and returns S and a carry C0
+.subckt FA Cin A B S C0
+Xxor1 A B 1 xor2
+Xxor2 Cin 1 S xor2
+Xnand1 A B 2 nand2
+Xnand2 B Cin 3 nand2
+Xnand3 A Cin 4 nand2
+Xnand4 2 3 4 C0 nand3
+.ends
+
+.subckt SHIFT alufn[1:0] A[31:0] B[31:0] OUT[31:0]
+xdummy OUT[31:0] constant0
+.ends
+
+.subckt CMP alufn3 alufn1 Z V N OUT[31:0]
+xdummy OUT[31:0] constant0
+.ends
+
+.subckt alu alufn[4:0] a[31:0] b[31:0] out[31:0] z v n
+
+*** Generate outputs from each of BOOL, SHIFT, ARITH, CMP subcircuits:
+xbool alufn[3:0] a[31:0] b[31:0] boolout[31:0] BOOL
+xshift alufn[1:0] a[31:0] b[31:0] shiftout[31:0] SHIFT
+xarith alufn[1:0] a[31:0] b[31:0] arithout[31:0] z v n ARITH
+xcmp alufn[3] alufn[1] z v n cmpout[31:0] CMP
+
+*** Combine them, using three multiplexors:
+xmux1 alufn[4]#32 nonbool[31:0] boolout[31:0] out[31:0] mux2
+xmux2 alufn[2]#32 arithshift[31:0] cmpout[31:0] nonbool[31:0] mux2
+xmux3 alufn[3]#32 arithout[31:0] shiftout[31:0] arithshift[31:0] mux2
+
+.ends
