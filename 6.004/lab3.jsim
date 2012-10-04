@@ -1,6 +1,6 @@
 .include "/mit/6.004/jsim/nominal.jsim"
 .include "/mit/6.004/jsim/stdcell.jsim"
-.include "/mit/6.004/jsim/lab3_test_bool.jsim"
+.include "/mit/6.004/jsim/lab3_test_cmp.jsim"
 
 .subckt BOOL alufn[3:0] A[31:0] B[31:0] OUT[31:0]
 xbooleanb A[31:0] B[31:0] alufn[0]#32 alufn[1]#32 alufn[2]#32 alufn[3]#32 OUT[31:0] mux4
@@ -71,7 +71,7 @@ xdummy OUT[31:0] constant0
 xzero OUT[31:1] constant0
 xxorout N V outxor xor2
 xorout Z outxor outor or2
-xcomparemux alufn3 alufn1 Z outxor outor 0 OUT[0] mux4
+xcomparemux alufn1 alufn3 Z outxor outor 0 OUT[0] mux4
 .ends
 
 .subckt alu alufn[4:0] a[31:0] b[31:0] out[31:0] z v n
