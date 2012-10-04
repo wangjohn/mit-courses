@@ -24,9 +24,22 @@ xbuffer OUT[31] N buffer
 xcheck0zero OUT[7:0] OUT[15:8] OUT[23:16] OUT[31:24] check0zero#8 nor4
 xcheck1zero check0zero[2:1] check0zero[4:3] check0zero[6:5] check0zero[8:7] check1zero#2 and4
 xcheck2zero check1zero0 check1zero1 Z and2
-
+xvcheck0 A31 XB31 S31 check00 checkvfirst
+xvcheck1 A31 XB31 S31 check01 checkvsecond
+xgetv check00 check01 V or2
 .ends
 
+.subckt checkvsecond XA XB S Z
+xinv1 XA z1 inverter
+xinv2 XB z2 inverter
+xand1 z1 z2 S Z and3
+.ends
+
+.subckt checkvfirst XA XB S Z
+xand1 XA XB z1 and2
+xinv1 S z2 inverter
+xand2 z2 z1 Z and2
+.ends
 
 
 * Full adder module that takes in two bits A and B, along with some carry Cin, and returns S and a carry C0
