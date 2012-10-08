@@ -8,11 +8,23 @@
 \usepackage{amsthm}
 \usepackage{theorem}
 \usepackage{verbatim}
+\usepackage{framed}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
 
-\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
-\newenvironment{prob}{{\bfseries Problem:}}
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 6.854 Advanced Algorithms} \\
+    Problem Set 2\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} \\
+    Collaborators: Jason Hoch
+    \end{center}
+    \vspace{0.5cm}
+}
+
 
 \bibliographystyle{plain}
 
@@ -21,27 +33,57 @@
 \topmargin = -20pt
 \textheight = 690pt
 
-%--------Meta Data: Fill in your info------
-\title{6.854 \\
-Advanced Algorithms \\
-Problem Set 1}
-
-\author{John Wang}
-
 \begin{document}
 
-\maketitle
-
-Collaborators: Jason Hoch, Ryan Liu, Varun Ganesan
-
-\section{Problem 1}
+\makenewtitle
 
 \begin{prob}
 \end{prob}
 \begin{sol}
 \end{sol}
-
-\newpage 
-\maketitle
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
+\begin{prob}
+\end{prob}
+\begin{sol}
+\end{sol}
 
 \end{document}
