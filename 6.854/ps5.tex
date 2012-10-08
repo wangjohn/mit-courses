@@ -144,4 +144,31 @@ We have already shown in part (c) that we can arrange all meetings with no more 
 The algorithm requires $O(s n^{3/2})$ work during each iteration. Since there are $s$ iterations, the total cost is $O(s^2 n^{3/2})$, which is what we wanted.
 \end{sol}
 
+\newpage
+\makenewtitle
+
+\begin{prob}{4}
+At a certain point in the season, each team $i$ in the American League has won a certain number $w_i$ of games, and there remain $q_{ij}$ games to be played between teams $i$ and $j$. Assuming no ties or cancelled games, develop an efficient, flow-based algorithm for deciding if the Red Sox can still win the league pennant, i.e. whether a particular team can still win more games than any other team after all games have been played.
+\end{prob}
+\begin{sol}
+First, we will notice that we can reduce the problem to where the Red Sox win all of their remaining games. Let $w_r$ be the number of games that the Red Sox have won so far. If it is possible for the Red Sox to win the league pennant with $w < w_{r}^*$ wins, where $w_{r}^* = w_{r} + \sum_{j=1}^n q_{rj}$ represents the number of wins if the Red Sox win every remaining game, then it is surely possible that the Red Sox will win the pennant with $w = w_r^*$, the maximum possible number of wins. This follows because the Red Sox winning a game monotonically increases the Red Sox's record while monotonically decreasing the records of other teams. This implies that we only need to check to see if the Red Sox can win the pennant if the Red Sox win all of their remaining games.
+
+We will now create a bipartite graph which can be converted into a flow network which will solve our problem. First, we create a set of nodes $T$ where each $t_i \in T$ represents the $i$th team in the American League. Next, we will create a set of nodes $M$ where each node $m_{ij} \in M$ represents the remaining matches to be played between teams $i$ and $j$. There will be source node $s$ and a sink node $t$. Each team will be connected to $s$ with an edge $(s, t_i)$ with capacity $x_i$. Here $x_i = w_{r}^* - w_i - 1$ is the maximum number of games that a team can win before having more wins than the Red Sox. Each match will be connected to the sink with edges $(m_{ij}, t)$ with capacity $q_{ij}$. Finally, each team $i$ will be connected to all matches $m_{ij}$ that it participates in (i.e. team 1 will be connected to all $m_{ij}$ where either $i=1$ or $j=1$) with an edge $(t_{i}, m_{ij})$ of capacity $q_{ij}$. Notice that there are a total of ${ n \choose 2} = n(n-1)/2$ matches, each with 2 incoming edges corresponding to the two teams that play in each match.
+
+Now, we shall remove all edges that connect to matches that the Red Sox participated in. Thus, we remove any edges with $m_{rj}$ or $m_{ir}$ as ending nodes for all $j, i \in n$. We have created a graph where each match $m_{ij}$ has two incoming edges $(t_i, m_{ij})$ and $(t_j, m_{ij})$. These edges have capacity $q_{ij}$ and correspond the to the number of games that team $t_i$ or $t_j$ wins, respectively out of the matches that $t_i$ and $t_j$ play against each other. Since the only outgoing edge of $m_{ij}$ is the edge $(m_{ij}, t)$ of capacity $q_{ij}$, there can be at most a total flow of $q_{ij}$ going into $m_{ij}$ by the flow conservation property. This corresponds to the condition that if $t_i$ wins some number $l$ of its games against $t_j$, then $t_j$ must win the other $q_{ij} - l$ games.
+
+Now, we will find the max flow on this graph, which takes $O(n^4)$ time using Olin's algorithm, since there are $n + n(n-1)/2 = O(n^2)$ nodes and $O(n^2)$ edges, and Olin's algorithm for finding flow takes $O(EV)$ time. Because of the capacity constraints of $x_i$ on each edge $(s,t_i)$, we can be sure that no team will win more games than the Red Sox with a maximum flow. However, we must check to make sure that each team plays the requisite number of games. To check this, we must have $f(m_{ij}, t) = q_{ij}$ for all $i,j$. This condition ensures that for each match $m_{ij}$, the total number of possible games $q_{ij}$ are played. If such a flow is found by the max-flow algorithm, then it is possible for the Red Sox to win the pennant by winning all their games, and having team $i$ win a total of $\sum_{j=1}^n f(t_i, m_{ij})$ games each. 
+
+If the max-flow has some match $m_{ij}$ whose flow is less than $q_{ij}$, then it is impossible for the Red Sox to win the pennant. The algorithm requires $O(n^4)$ running time to compute the max-flow, and $O(n^2)$ time to perform the checks on the edges. This gives a total running time of $O(n^4)$.
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{5}
+The Re:Search engine starts from the assumption that each old and each new result had some (predicted) value $v_i$ to the user which would be accrued if the result was in the merged list at position $i$. It also used experimental data to specify a change penalty $p_{ij}$ for moving a result that was at position $i$ in the old list to a different position $j$ in the merged list. The system also enforces that any old item the user actually clicked on must appear somewhere in the merged result set, and also that at least $k$ new results must appear to provide an up to date sense of the results. Given old and new result lists with all the values described above as input, give a polynomial-time algorithm for building a best merged result list of $n$ items. In particular, formulate the problem as a min-cost max-flow problem.
+\end{prob}
+\begin{sol}
+\end{sol}
+
 \end{document}

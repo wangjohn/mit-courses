@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  8 OCT 2012 10:31
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  8 OCT 2012 16:24
 entering extended mode
  %&-line parsing enabled.
 **ps5.tex
@@ -699,7 +699,21 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[5] (./ps5.aux) ) 
+[5]
+
+Package amsmath Warning: Foreign command \atopwithdelims;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 156.
+
+
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[6]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[7] (./ps5.aux) ) 
 Here is how much of TeX's memory you used:
  15328 strings out of 495061
  283136 string characters out of 1182621
@@ -707,7 +721,7 @@ Here is how much of TeX's memory you used:
  18039 multiletter control sequences out of 15000+50000
  11104 words of font info for 46 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 56i,14n,56p,663b,744s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,14n,56p,1105b,744s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
 /share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texm
@@ -717,9 +731,9 @@ ublic/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
 ts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.
 pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/sh
 are/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ps5.pdf (5 pages, 130333 bytes).
+Output written on ps5.pdf (7 pages, 141982 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
+ 69 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
