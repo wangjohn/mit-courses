@@ -113,4 +113,17 @@ We see that this is a valid flow through the graph since at each node $u \in S$,
 By the integrality theorem, there exists some max flow for which all flow values are integers. This implies that there exists some max flow, of value greater than or equal to $n$, which has a min-cut of capacity $n$. This means that there must be $n$ edges crossing the min-cut (since all edges have capacity at most 1), which further implies that there exists $n$ paths from $s$ to $t$ of capacity 1. This shows that each student can be matched up to a faculty member.
 \end{sol}
 
+\begin{prob}{3-b}
+Conclude that it is possible to schedule all the meetings to take place in $d$ time slots.
+\end{prob}
+\begin{sol}
+We will prove that the capacitated graph we constructed above has $d$ perfect matchings where no matching has an edge in common ($d$ different max flows without shared edges in the min-cut). If this is the case, then it is sufficient to set these perfect matchings in arbitrary order in order to fill up all of the meetings in $d$ time slots. We will call a graph where each student has exactly $d$ faculty requests, and each faculty member has exactly $d$ students on their request list, a $d$-request graph. 
+
+We will prove the following lemma: if $G$ is a $d$-request graph, then $G$ has $d$ perfect matchings, no pair of which have any edge in common. We show this by induction on $d$. For $d=1$, we see that a perfect matching is trivially satisfied by following all of the edges, so that each fauclty member is paired with the only student on their list. Now suppose $d=k$ and we have proven this fact for all $d$ through $k-1$. Now let there be subsets $A \subset S$ and $B \subset F$.
+
+Let us define $N_G(A) = \{u \in V(G) | u \text{ is adjacent to v}\in A \}$ as the neighborhood of $A$. Now suppose by contradiction that $|N_G(A)| < |A|$. We know that $\sum_{u \in A} \sum_{v \in F} e(u,v) = d |A|$, by the fact that $A$ is part of a $d$-request graph. This implies by the pigeonhole principle that there exists a vertex in $N_G(A)$ whose degree is greater than $d$. This contradicts the fact that $G$ is a $d$-request graph (and that there are exactly $d$ requests for all nodes in $S$). Thus, we find that $|N_G(A)| \geq |A|$.  
+
+Since we know that $|N_G(A)| \geq |S|$ for all $S \in A$, Hall's Theorem (Theorem 26.3-4 in CLRS) shows that $G$ has a perfect matching. Now we can remove every edge $e$ which was in this perfect matching, and create a new $k-1$-request graph. This is true because each edge removes 1 from the incoming edges for each node $v \in F$ and the outgoing edges for each node $u \in S$. We know that the $k-1$-request graph has $k-1$ perfect matchings by our inductive hypothesis. This implies that there are $k-1 + 1 = k$ perfect matchings for a $k$ request graph. This completes the proof.
+\end{sol}
+
 \end{document}
