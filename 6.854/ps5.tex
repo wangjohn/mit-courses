@@ -123,7 +123,25 @@ We will prove the following lemma: if $G$ is a $d$-request graph, then $G$ has $
 
 Let us define $N_G(A) = \{u \in V(G) | u \text{ is adjacent to v}\in A \}$ as the neighborhood of $A$. Now suppose by contradiction that $|N_G(A)| < |A|$. We know that $\sum_{u \in A} \sum_{v \in F} e(u,v) = d |A|$, by the fact that $A$ is part of a $d$-request graph. This implies by the pigeonhole principle that there exists a vertex in $N_G(A)$ whose degree is greater than $d$. This contradicts the fact that $G$ is a $d$-request graph (and that there are exactly $d$ requests for all nodes in $S$). Thus, we find that $|N_G(A)| \geq |A|$.  
 
-Since we know that $|N_G(A)| \geq |S|$ for all $S \in A$, Hall's Theorem (Theorem 26.3-4 in CLRS) shows that $G$ has a perfect matching. Now we can remove every edge $e$ which was in this perfect matching, and create a new $k-1$-request graph. This is true because each edge removes 1 from the incoming edges for each node $v \in F$ and the outgoing edges for each node $u \in S$. We know that the $k-1$-request graph has $k-1$ perfect matchings by our inductive hypothesis. This implies that there are $k-1 + 1 = k$ perfect matchings for a $k$ request graph. This completes the proof.
+Since we know that $|N_G(A)| \geq |S|$ for all $S \in A$, Hall's Marriage Theorem (Theorem 26.3-4 in CLRS) shows that $G$ has a perfect matching. Now we can remove every edge $e$ which was in this perfect matching, and create a new $k-1$-request graph. This is true because each edge removes 1 from the incoming edges for each node $v \in F$ and the outgoing edges for each node $u \in S$. We know that the $k-1$-request graph has $k-1$ perfect matchings by our inductive hypothesis. This implies that there are $k-1 + 1 = k$ perfect matchings for a $k$ request graph. This completes the proof.
+\end{sol}
+
+\begin{prob}{3-c}
+Consider an arbitrary set of desired meetings. Obviously one needs at least as many slots as there are faculty to meet a given student, and students to meet a given faculty. Prove that one can arrange all meetings with no more slots than this number $s$.
+\end{prob}
+\begin{sol}
+Let $s = \max\{d_{f}, d_s\}$ where $d_f$ is maximum number of faculty on the list of any student and $d_s$ is the maximum number of students who any faculty is required to meet.
+\end{sol}
+
+\begin{prob}{3-d}
+Show that the schedule can be computed in $O(s^2 n^{3/2})$ time, where $s$ is defined in $(c)$ and $n$ is the total numbmer of students and faculty members.
+\end{prob}
+\begin{sol}
+Notice that our bipartite graph has $n$ vertices and $m = sn$ edges. This is because there are at most $s$ outgoing edges on any vertex $u \subset S$ and $s$ incoming edges on any vertex $v \subset F$. We have also shown in class that maximum flow can be achieved in a bipartite graph in $O(m \sqrt{n}) = O(s n^{3/2})$ by using a reduction to a unit graph and performing blocking flows on the unit graph. 
+
+We have already shown in part (c) that we can arrange all meetings with no more than $s$ time slots. This implies that we can find $s$ maximum flows iteratively. On the $i$th iteration, we will find a max flow of the graph $G_i$, schedule student-faculty member meetings according to the matchings provided by the max-flow (edges leading from students to faculty member nodes will each be a meeting), then remove all the $(u,v)$ edges where $u \in S$ and $v \in F$ from the max-flow. This will leave a graph $G_{i-1}$ with all previous max-flow matchings removed. Performing $s$ iterations of this will result in a complete schedule over $s$ time slots.
+
+The algorithm requires $O(s n^{3/2})$ work during each iteration. Since there are $s$ iterations, the total cost is $O(s^2 n^{3/2})$, which is what we wanted.
 \end{sol}
 
 \end{document}
