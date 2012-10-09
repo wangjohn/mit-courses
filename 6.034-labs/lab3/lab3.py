@@ -73,7 +73,7 @@ def focused_evaluate(board):
                     score -= abs(3-col)
                 elif board.get_cell(row, col) == board.get_other_player_id():
                     score += abs(3-col)
-        score -= board.num_tokens_on_board()
+        #score -= board.num_tokens_on_board()
     return score
 
 
@@ -102,13 +102,11 @@ def alpha_beta_search(board, depth,
     alpha = (-sys.maxint-1, None, None)
     beta = (sys.maxint, None, None)
     for move, new_board in get_next_moves_fn(board):
-        (new_alpha, new_beta) = alpha_beta_find_values(new_board, depth-1, eval_fn, alpha[0], beta[0], get_next_moves_fn, is_terminal_fn)
+        new_alpha = alpha_beta_find_values(new_board, depth-1, eval_fn, alpha[0], beta[0], get_next_moves_fn, is_terminal_fn)
         if new_alpha > alpha[0]:
             alpha = (new_alpha, move, new_board)
-        if new_beta < beta[0]:
-            beta = (new_beta, move, new_board)
         if alpha[0] >= beta[0]:
-            return alpha[1] 
+            return move
     return alpha[1]
 
 def alpha_beta_find_values(board, depth, eval_fn, old_alpha, old_beta, get_next_moves_fn=get_all_next_moves, is_terminal_fn=is_terminal):
@@ -117,14 +115,12 @@ def alpha_beta_find_values(board, depth, eval_fn, old_alpha, old_beta, get_next_
     if is_terminal_fn(depth, board):
         return (eval_fn(board), eval_fn(board))
     for move, new_board in get_next_moves_fn(board):
-        (new_alpha, new_beta) = alpha_beta_find_values(new_board, depth-1, eval_fn, alpha, beta, get_next_moves_fn, is_terminal_fn)
+        new_alpha = alpha_beta_find_values(new_board, depth-1, eval_fn, alpha, beta, get_next_moves_fn, is_terminal_fn)
         if new_alpha > alpha:
             alpha = new_alpha
-        if new_beta < beta:
-            beta = new_beta
         if alpha >= beta:
-            return (alpha, beta)
-    return (alpha, beta)
+            return alpha
+    return alpha
 
 ## Now you should be able to search twice as deep in the same amount of time.
 ## (Of course, this alpha-beta-player won't work until you've defined
