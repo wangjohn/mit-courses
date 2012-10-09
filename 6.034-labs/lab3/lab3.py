@@ -223,12 +223,12 @@ def run_test_tree_search(search, board, depth):
 ## Do you want us to use your code in a tournament against other students? See
 ## the description in the problem set. The tournament is completely optional
 ## and has no effect on your grade.
-COMPETE = (None)
+COMPETE = False 
 
 ## The standard survey questions.
 HOW_MANY_HOURS_THIS_PSET_TOOK = "7"
 WHAT_I_FOUND_INTERESTING = "Making an alpha beta pruner."
 WHAT_I_FOUND_BORING = "nothing, but I did find it difficult to catch all the errors in the alpha beta pruner."
-NAME = ""
-EMAIL = ""
+NAME = "John Wang"
+EMAIL = "wangjohn@mit.edu"
 
