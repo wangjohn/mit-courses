@@ -57,13 +57,10 @@ def focused_evaluate(board):
     A return value >= 1000 means that the current player has won;
     a return value <= -1000 means that the current player has lost
     """    
-    if board.is_game_over():
-        # If the game has been won, we know that it must have been
-        # won or ended by the previous move.
-        # The previous move was made by our opponent.
-        # Therefore, we can't have won, so return -1000.
-        # (note that this causes a tie to be treated like a loss)
-        score = -1000
+    if board.longest_chain(board.get_current_player_id()) == 4:
+        score = 2000 - board.num_tokens_on_board()
+    elif board.longest_chain(board.get_other_player_id()) == 4:
+        score = -2000 + board.num_tokens_on_board()
     else:
         score = board.longest_chain(board.get_current_player_id()) * 10
         # Prefer having your pieces in the center of the board.
@@ -99,25 +96,20 @@ def alpha_beta_search(board, depth,
                       # for connect_four.
                       get_next_moves_fn=get_all_next_moves,
 		      is_terminal_fn=is_terminal):
-    alpha = (-sys.maxint-1, None, None)
-    beta = (sys.maxint, None, None)
+    best_val = None
     for move, new_board in get_next_moves_fn(board):
-        new_alpha = alpha_beta_find_values(new_board, depth-1, eval_fn, alpha[0], beta[0], get_next_moves_fn, is_terminal_fn)
-        if new_alpha > alpha[0]:
-            alpha = (new_alpha, move, new_board)
-        if alpha[0] >= beta[0]:
-            return move
-    return alpha[1]
+        val = -1 * alpha_beta_find_values(new_board, depth-1, eval_fn, NEG_INFINITY, INFINITY, get_next_moves_fn, is_terminal_fn)
+        if best_val == None or val > best_val[0]:
+            best_val = (val, move, new_board)
 
-def alpha_beta_find_values(board, depth, eval_fn, old_alpha, old_beta, get_next_moves_fn=get_all_next_moves, is_terminal_fn=is_terminal):
-    alpha = -old_beta
-    beta = -old_alpha
+    return best_val[1]
+
+def alpha_beta_find_values(board, depth, eval_fn, alpha, beta, get_next_moves_fn=get_all_next_moves, is_terminal_fn=is_terminal):
     if is_terminal_fn(depth, board):
-        return (eval_fn(board), eval_fn(board))
+        return eval_fn(board)
+
     for move, new_board in get_next_moves_fn(board):
-        new_alpha = alpha_beta_find_values(new_board, depth-1, eval_fn, alpha, beta, get_next_moves_fn, is_terminal_fn)
-        if new_alpha > alpha:
-            alpha = new_alpha
+        alpha = max(alpha, -alpha_beta_find_values(new_board, depth-1, eval_fn, -beta, -alpha, get_next_moves_fn, is_terminal_fn))
         if alpha >= beta:
             return alpha
     return alpha
@@ -142,14 +134,38 @@ ab_iterative_player = lambda board: \
 ## simple-evaluate (or focused-evaluate) while searching to the
 ## same depth.
 
+def get_chain_len(chain_type, board, row, col, player):
+    count = 0
+    for i in xrange(3):
+        if chain_type == 0 and board.get_cell(row, col+i) == player:
+            count += 1
+        elif chain_type == 1 and board.get_cell(row+i, col) == player:
+            count += 1
+        elif chain_type == 2 and board.get_cell(row+i, col+i) == player:
+            count += 1
+    return count
+
+
 def better_evaluate(board):
-    raise NotImplementedError
+    score = 0
+    if board.longest_chain(board.get_current_player_id()) == 4:
+        score = 2000 - board.num_tokens_on_board()
+    elif board.longest_chain(board.get_other_player_id()) == 4:
+        score = -2000 + board.num_tokens_on_board()
+    else:
+        current_player = board.get_current_player_id()
+        other_player = board.get_other_player_id()
+        for row in xrange(3):
+            for col in xrange(4):
+                score += max([get_chain_len(i, board, row, col, current_player) for i in xrange(3)])**2
+                score -= max([get_chain_len(i, board, row, col, other_player) for i in xrange(3)])**2
+    return score
 
 # Comment this line after you've fully implemented better_evaluate
-better_evaluate = memoize(basic_evaluate)
+better_evaluate = memoize(better_evaluate)
 
 # Uncomment this line to make your better_evaluate run faster.
-# better_evaluate = memoize(better_evaluate)
+better_evaluate = memoize(better_evaluate)
 
 # For debugging: Change this if-guard to True, to unit-test
 # your better_evaluate function.
@@ -210,9 +226,9 @@ def run_test_tree_search(search, board, depth):
 COMPETE = (None)
 
 ## The standard survey questions.
-HOW_MANY_HOURS_THIS_PSET_TOOK = ""
-WHAT_I_FOUND_INTERESTING = ""
-WHAT_I_FOUND_BORING = ""
+HOW_MANY_HOURS_THIS_PSET_TOOK = "7"
+WHAT_I_FOUND_INTERESTING = "Making an alpha beta pruner."
+WHAT_I_FOUND_BORING = "nothing, but I did find it difficult to catch all the errors in the alpha beta pruner."
 NAME = ""
 EMAIL = ""
 
