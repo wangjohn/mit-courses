@@ -169,6 +169,29 @@ If the max-flow has some match $m_{ij}$ whose flow is less than $q_{ij}$, then i
 The Re:Search engine starts from the assumption that each old and each new result had some (predicted) value $v_i$ to the user which would be accrued if the result was in the merged list at position $i$. It also used experimental data to specify a change penalty $p_{ij}$ for moving a result that was at position $i$ in the old list to a different position $j$ in the merged list. The system also enforces that any old item the user actually clicked on must appear somewhere in the merged result set, and also that at least $k$ new results must appear to provide an up to date sense of the results. Given old and new result lists with all the values described above as input, give a polynomial-time algorithm for building a best merged result list of $n$ items. In particular, formulate the problem as a min-cost max-flow problem.
 \end{prob}
 \begin{sol}
+We will define three sets of items: $K$ is the set of $k$ new results that must appear in the new merged list, $N_c$ is the set of old clicked results of size $n_c$, and $N_u$ is the set of old unclicked results of size $n_u$. The problem is to create a list of items of size $n$, using all $k$ elements of $K$, all $n_c$ elements of $N_c$, and $n - k - n_c$ items from $N_u$, to create a merged list of the best value.
+
+We will use a bipartite graph and create a min-cost max-flow problem. The left half of the bipartite graph will be $R$, the set of possible results that a user obtains, and the right half of the graph will be $P$, where each node $p_i$ represents the $i$th position in the search result. A flow from a node $r_j$ in $R$ to a node $p_i$ in $P$ will correspond to result $r_j$ showing up in position $p_i$ in the search results. Note that $R = \{ K \cup N_c \cup N_u \}$ is the union of new results, old clicked results, and old unclicked results.
+
+To create the bipartite flow network, we will first create two nodes $s$ and $t$ which will serve as source and sink nodes respectively. Each item $r_j \in R$ will be connected to $s$ with an edge $(s, r_j)$ of capacity 1. Each node $p_i \in P$ will be connected to $t$ with an edge $(p_i, t)$ of capacity 1 as well. Finally, each node $r_j$ in $R$ will be connected to every node in $P$ with edges $(r_j, p_i)$ of capacity 1 for all $j$ and $i$. Notice that all edges in this graph will have capacity 1, which corresponds to the fact that only a single result should be listed in any position $p_i$. In order to make sure this list of results is the best, we will have to incorporate costs.
+
+Let $c(u,p_i)$ be the cost function for edge $(u, p_i)$ where $u \in \{K \cup N_c \cup N_u \}$ and $j$ is the index of the previous position of item $u$ if it was in the list. Additionally, let $v_i(u)$ be the value to the user if result $u$ was in the merged list at position $i$. We will use the following definition of the cost function:
+\begin{eqnarray}
+c(u,p_i) = \left\{ \begin{array}{l l}
+-v_i(u) - S & \text{if } u \in K \\
+-v_i(u) + p_{ij} - S & \text{if } u \in N_c \\
+-v_i(u) + p_{ij} & \text{if } u \in N_u 
+\end{array} \right.
+\end{eqnarray}
+
+Where $S$ is chosen so that $c(u_1,p_i) < c(u_2, p_i)$ for all $u_1 \in K \cup N_c$ and $u_2 \in N_u$. We can achieve this by setting $S$ such that the following inequality holds:
+\begin{eqnarray}
+\max_{i,j} \left( -v_i(u_1) + p_{ij} - S \right) < \min_{i,j} \left( {-v_i(u_2) + p_{ij} } \right)
+\end{eqnarray}
+
+This ensures that any edge $(u_1, p_i)$ where $u_1 \in N_c, K$ will have a lower cost than any edge $(u_2, p_i)$ where $u_2 \in N_u$. This means that all $k$ new results and $n_c$ old clicked on results will have a higher precedence than any of the old unclicked results. When we find the min-cost max-flow, we will obtain a flow of size $n$ whose cost is minimized. This means that all edges $(u, p_i)$ with $u \in K$ or $u \in n_c$ will have precedence over any edges where $u \in N_u$. Since we have assumed that the number of slots in the merged list exceeds $k + n_c$, we know that all new results and old clicked results will be in the solution of the min-cost max-flow. Moreover, we know that the new results and the old clicked on results will be placed in positions that minimized the cost function (which therefore maximize the value which is the negative of the cost function).
+
+Therefore, a min-cost max-flow will provide $n$ results in the best merged list which have the highest value to users, incorporates $k$ new resulsts, and retains all of the $n_c$ old clicked results. Min-cost max-flow problems can be solved in polynomial time based on algorithms given in class. Therefore, we have found a polynomial time algorithm for building a best merged result list of $n$ items.
 \end{sol}
 
 \end{document}
