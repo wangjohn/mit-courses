@@ -20,7 +20,7 @@
     Problem Set 5\\
     \vspace{0.25cm}
     {\bfseries John Wang} \\
-    Collaborators: Jason Hoch
+    Collaborators: Jason Hoch, Ryan Liu
     \end{center}
     \vspace{0.5cm}
 }
@@ -88,17 +88,31 @@ Show how to solve the minimum flow problem by using two applications of any maxi
 \begin{sol}
 We will first find out if there exists a feasible flow, then return the feasible flow if it exists. We will do this by creating two super nodes $A$ and $B$ which will act as a source and sink, respectively, and by creating a new graph $G'$ based on the original graph $G$. We shall take all of the edge capacities on $G$ and use the edge capacities $u'_{ij} = u_{ij} - l_{ij}$ in our new graph $G'$. 
 
-Each edge $(i,j)$ in $G'$ will will now have capacity $u'_{ij}$ based on the augmented edge capacity given above. In addition, we will add new edges from $A$ and $B$ to each edge. For each edge $(i,j)$ (where there is a directed edge from node $i$ to $j$), we will create a directed edge $(A, j)$ of capacity $l_{ij}$ and a directed edge $(i, B)$ also of capacity $l_{ij}$. Therefore, we will have an edge $(A, j)$ going from the new source to the end node of every pre-existing edge $(i,j)$, as well as a new edge $(i, B)$ going from the beginning node of every pre-existing edge $(i,j)$ to the new sink. Finally, we will add an edge $(t,s)$ of infinite capacity going from the original sink to the original source. Thus, our new graph will look like the following:
-\begin{figure}[h!]
+Each edge $(i,j)$ in $G'$ will will now have capacity $u'_{ij}$ based on the augmented edge capacity given above. In addition, we will add new edges from $A$ and $B$ to each edge. For each edge $(i,j)$ (where there is a directed edge from node $i$ to $j$), we will create a directed edge $(A, j)$ of capacity $l_{ij}$ and a directed edge $(i, B)$ also of capacity $l_{ij}$. Therefore, we will have an edge $(A, j)$ going from the new source to the end node of every pre-existing edge $(i,j)$, as well as a new edge $(i, B)$ going from the beginning node of every pre-existing edge $(i,j)$ to the new sink. Finally, we will add an edge $(t,s)$ of infinite capacity going from the original sink to the original source. 
 
-\end{figure}
+Now, we will run a max-flow algorithm through this graph $G'$ using $A$ as the source and $B$ as the sink. We then take the flow going along each edge $(i,j)$ in $G'$ which also exists in $G$ and send flow $l_{ij} + f_{G'}(i,j)$ over that edge. Therefore, we set $f_{G}(i,j) = l_{ij} + f_{G'}(i,j)$. If each of the edges $(A,i)$ and $(j, B)$ are saturated for all $i,j \in V(G)$, then there exists a feasible flow, otherwise there does not exist a feasible flow. Now we shall prove that $f_G$ is a feasible and valid flow, and that if there does exist a feasible and valid flow, then this algorithm will find it.
 
-Now, we will run a max-flow algorithm through this graph $G'$ using $A$ as the source and $B$ as the sink. We then take the flow going along each edge $(i,j)$ in $G'$ which also exists in $G$ and send flow $l_{ij} + f_{G'}(i,j)$ over that edge. Therefore, we set $f_{G}(i,j) = l_{ij} + f_{G'}(i,j)$. Now we shall prove that $f_G$ is a feasible and valid flow, and that if there does exist a feasible and valid flow, then this algorithm will find it.
+In order to show the first assertion, we must note that $f_G$ will always be greater than $l_{ij}$ for any edge $(i,j)$ since $f_{G'}(i,j) \geq 0$. Thus, we only have to prove that $f_G$ is a valid flow, i.e. that it satisfies flow conservation and the edge capacities. We know that $f_G(i,j) < u_{ij}$ because we know that $f_G(i,j) = l_{ij} + f_{G'}(i,j) \leq l_{ij} + (u_{ij} - l_{ij}) = u_{ij}$. Therefore, we can be sure that the newly constructed flow will not be larger than the capacity on any edge. Thus, we only need to show that flow conservation holds, so that $\sum_{i} f_{G}(i,u) = \sum_{j} f_{G}(u, j)$. We know that all of the edges $(A,i)$ are saturated so that any flow $f_{G'}(i,j)$ will saturate the edges into $(j,B)$ into the sink $B$. Since $f_{G'}(i,j)$ is a valid flow in $G'$, it is clear that the flow will saturate the edges $(i,j)$ originally in $G$ so that $l_{ij} + f_{G'}(i,j)$ will become a valid flow.
 
-In order to show the first assertion, we must note that $f_G$ will always be greater than $l_{ij}$ for any edge $(i,j)$ since $f_{G'}(i,j) \geq 0$. Thus, we only have to prove that $f_G$ is a valid flow, i.e. that it satisfies flow conservation and the edge capacities. 
+Therefore, we have found a feasible flow if all of the edges $(A, i)$ are saturated. Now, we must find a minimum flow. This can be done by creating another graph $G^*$ which consists of the all of the edges $(i,j) \in G$ reversed (so that the edges go from $t$ to $s$). The capacities will be set at $f_{G}(j,i) - l_{ji}$. Basically, we are looking at how much flow this edge can lose while still being greater than the minimum flow $l_{ji}$. Then we can find a max flow in $G^*$ from $t$ to $s$. 
 
+This new max flow in $G^*$ will tell us how much flow we can subtract away from $f_G$ while still following the fact that $f_G(i,j) \geq l_{ij}$. Thus, once we set $f(i,j) = f_G(i,j) - f_{G^*}(i,j)$, we will have a valid flow (since both $f_G$ and $f_{G^*}$ are valid flows), and we know it must be minimum because it is the maximum amount of flow that can be removed while still satisfying the lower bounds on each edge.
+\end{sol}
 
+\begin{prob}{2-b}
+Prove the following min-flow max-cut theorem. Define the lower capacity bound of an s-t cut $(S,T = V \setminus S)$ as $\sum_{(i,j) \in S \times } l_{ij} - \sum_{(i,j) \in T \times S} u_{ij}$. Show that the minimum value of all feasible flows from node $s$ to node $t$ is equal to the maximum lower capacity bound over all $s-t$ cuts.
+\end{prob}
+\begin{sol}
+We need to show that for any flow $f$ and for any s-t cut $(S, T)$, we must have $f \geq \sum_{(i,j) \in S \times } l_{ij} - \sum_{(i,j) \in T \times S} u_{ij}$. We know that any flow ust satisfy the minimum capacities, so we know that the flow from $S$ to $T$ is at least $\sum_{(i,j) \in S \times T} l_{ij}$. Moreover, we know that the most flow that can possibly be going from $T$ to $S$ is given by the sum of the maximum capacities. This is $\sum_{(i,j) \in T \times S} u_{ij}$. This means that each flow $f$ must be greater than $\sum_{(i,j) \in S \times } l_{ij} - \sum_{(i,j) \in T \times S} u_{ij}$. Now, we must show that there exists a flow $f$ which equals the lower bound on the cut capacity. Suppose that $f$ is now a minimum flow and we have $f > \sum_{(i,j) \in S \times } l_{ij} - \sum_{(i,j) \in T \times S} u_{ij}$. This means that either $f > \sum_{(i,j) \in S \times T} l_{ij}$ or that $\sum_{(i,j) \in T \times S} u_{ij}$ is not maximal. This means that the residual graph with edges of capacity $u_{ij} - l_{ij}$ will have extra capacity from $t$ to $s$ on the reverse edges. Since there is capacity available across any cut along this path, we can find an augmenting path in this graph, which means we can decrease the flow. However, this means that $f$ is not a minimum flow, which is what we assumed. This is a contradiction, so $f = \sum_{(i,j) \in S \times } l_{ij} - \sum_{(i,j) \in T \times S} u_{ij}$ if $f$ is a minimum flow.
+\end{sol}
 
+\begin{prob}{2-c}
+A group of students wants to minimize their lecture attendance by sending only one of the group to each of $n$ lectures. Lecture $i$ begins at time $a_i$ and ends at time $b_i$. It requires $r_{ij}$ time to commute from lecture $i$ to lecture $j$. Do not assume these times are integers. Develop a min-flow based algorithm for identifying the minimum number of students needed to cover all the lectures.
+\end{prob}
+\begin{sol}
+We will create a graph $G$ for which we will find the min-flow. There will be a source $s$ and a sink $t$. Each lecture will have an edge $(a_i, b_i)$ on the graph $G$. The capacity of $(a_i, b_i)$ will be infinite, but the minimum flow will be $l_{i} = 1$. We will connect the source to each lecture with an edge $(s, a_i)$ with infinite capacity and minimum flow $l_{s a_i} = 0$. We will also connect each lecture with the sink using an edge $(b_i, t)$ with infinite capacity and minimum flow $l_{b_i t} = 0$. Finally, we will create edges $(b_i, a_j)$ if $b_i + r_{ij} \leq a_j$. In other words, we will connect the end of lecture $i$ with the beginning of lecture $j$ if it is possible to complete lecture $i$ and also attend $j$. The capacity of this edge $(b_i, a_j)$ will be infinite with minimum capacity of $l_{b_i a_j} = 0$.
+
+Finding the minimum flow over this graph will give the minimum number of students needed to cover all the lectures. This is because each lecture needs to be attended by at least one student, given by the requirement $l_{a_i b_i} = 1$ (the minimum cost of any edge $(a_i, b_i)$ is 1). Here, units of flow represent students. Since each lecture requires one unit of flow (a single student), and students can move from one lecture $i$ to another $j$ only if $b_i + r_{ij} \leq a_j$, we can be sure that the min-flow algorithm will find the minimum number of students required to attend all the lectures. This is because the only way students can attend a lecture are either by coming from another lecture $i$ where feasible (i.e. that $b_i + r_{ij} \leq a_j$) or by going to their first lecture. Both of these mechanisms are capture by the flow network. 
 \end{sol}
 
 \newpage
@@ -143,7 +157,11 @@ Since we know that $|N_G(A)| \geq |S|$ for all $S \in A$, Hall's Marriage Theore
 Consider an arbitrary set of desired meetings. Obviously one needs at least as many slots as there are faculty to meet a given student, and students to meet a given faculty. Prove that one can arrange all meetings with no more slots than this number $s$.
 \end{prob}
 \begin{sol}
-Let $s = \max\{d_{f}, d_s\}$ where $d_f$ is maximum number of faculty on the list of any student and $d_s$ is the maximum number of students who any faculty is required to meet.
+Consider the following algorithm. For each faculty member in the bipartite graph $G$ whose outdegree is less than $s$, we will create imaginary edges $e'$ to the student with the lowest number of incoming edges (if there are multiple students with this number, choose the student arbitrarily). Keep increasing the number of outgoing edges of each faculty member until the degree equals $s$, each time choosing the student with the lowest current number of incoming edges (after taking into account the new imaginary edges that have been added).
+
+It is clear that the number of edges emanating from each faculty member will now be $s$. However, we can now see that the number of incoming edges into each student is exactly $s$ as well. This is because we will increase the number of edges by some number $E = \sum_{i=1}^n s - deg(v_i)$ where $v_i \in F$. We know that there are exactly $E$ edges from faculty to students, which means the sum of incoming edges for all student nodes is $\sum_{i=1}^n deg(v_i)$. This means that increasing the number of total edges by $E$ increases the number of incoming edges for students to $\sum_{i=1}^n s - deg(v_i) + deg(v_i) = \sum_{i=1}^n s$. Since we always pick the lowest in-degree student node, each student will contain $\frac{1}{n} \sum_{i=1}^n s = s$ in-degrees. 
+
+Therefore, we have created a new graph with $n$ faculty members and $n$ students, each with exactly $s$ edges. This means we can apply part b from above, and we can schedule all the meetings in this graph in $s$ time slots. However, we have some extra edges which correspond to fake meetings that have been just created in this graph. Instead of having these meetings, however, we will just disregard them. This does not change the fact that all of these meetings can be held in $s$ time. However, by disregarding these meetings, we are able to schedule all meetings in the original graph in $s$ time slots, which solves our problem.
 \end{sol}
 
 \begin{prob}{3-d}
@@ -186,25 +204,24 @@ We will define three sets of items: $K$ is the set of $k$ new results that must 
 
 We will use a bipartite graph and create a min-cost max-flow problem. The left half of the bipartite graph will be $R$, the set of possible results that a user obtains, and the right half of the graph will be $P$, where each node $p_i$ represents the $i$th position in the search result. A flow from a node $r_j$ in $R$ to a node $p_i$ in $P$ will correspond to result $r_j$ showing up in position $p_i$ in the search results. Note that $R = \{ K \cup N_c \cup N_u \}$ is the union of new results, old clicked results, and old unclicked results.
 
-To create the bipartite flow network, we will first create two nodes $s$ and $t$ which will serve as source and sink nodes respectively. Each item $r_j \in R$ will be connected to $s$ with an edge $(s, r_j)$ of capacity 1. Each node $p_i \in P$ will be connected to $t$ with an edge $(p_i, t)$ of capacity 1 as well. Finally, each node $r_j$ in $R$ will be connected to every node in $P$ with edges $(r_j, p_i)$ of capacity 1 for all $j$ and $i$. Notice that all edges in this graph will have capacity 1, which corresponds to the fact that only a single result should be listed in any position $p_i$. In order to make sure this list of results is the best, we will have to incorporate costs.
+To create the bipartite flow network, we will first create two nodes $s$ and $t$ which will serve as source and sink nodes respectively. There will be two intermediate nodes $K$ and $N$, where $K$ represents all the new results that are available and $N$ representss all of the previous results. We will have an edge from $s$ to $K$ with capacity $n$, and an edge from $s$ to $N$ with capacity $n-k$. These intermediate nodes will assure that once we find the max flow through bipartite flow network, we will obtain a maximum of $n-k$ old results, which means we will obtain at least $n - (n-k) = k$ new results in the merged list.
+
+Each item $r_j \in R$ will be connected to $N$ or $K$ with an edge $(N, r_j)$ or $(K, r_j)$ of capacity 1, depending on whether $r_j \in N$ or $r_j \in K$ respectively. Each node $p_i \in P$ will be connected to $t$ with an edge $(p_i, t)$ of capacity 1 as well. Finally, each node $r_j$ in $R$ will be connected to every node in $P$ with edges $(r_j, p_i)$ of capacity 1 for all $j$ and $i$. Notice that all edges in this graph will have capacity 1, which corresponds to the fact that only a single result should be listed in any position $p_i$. In order to make sure this list of results is the best, we will have to incorporate costs.
 
 Let $c(u,p_i)$ be the cost function for edge $(u, p_i)$ where $u \in \{K \cup N_c \cup N_u \}$ and $j$ is the index of the previous position of item $u$ if it was in the list. Additionally, let $v_i(u)$ be the value to the user if result $u$ was in the merged list at position $i$. We will use the following definition of the cost function:
 \begin{eqnarray}
 c(u,p_i) = \left\{ \begin{array}{l l}
--v_i(u) - S & \text{if } u \in K \\
--v_i(u) + p_{ij} - S & \text{if } u \in N_c \\
--v_i(u) + p_{ij} & \text{if } u \in N_u 
+-v_i(u) & \text{if } u \in K \\
+-v_i(u) + p_{ij} + S & \text{if } u \in N_c \\
+-v_i(u) + p_{ij} & \text{if } u \in N_u
 \end{array} \right.
 \end{eqnarray}
 
-Where $S$ is chosen so that $c(u_1,p_i) < c(u_2, p_i)$ for all $u_1 \in K \cup N_c$ and $u_2 \in N_u$. We can achieve this by setting $S$ such that the following inequality holds:
-\begin{eqnarray}
-\max_{i,j} \left( -v_i(u_1) + p_{ij} - S \right) < \min_{i,j} \left( {-v_i(u_2) + p_{ij} } \right)
-\end{eqnarray}
+Where $S$ is chosen so that $-v_i(u) + p_{ij} + S$ for any $u \in N_c$ is greater than $-v_i(u) + p_{ij}$ for any $u \in N_u$. This ensures that the min-cost flow will choose the already clicked on items first (i.e. all of the items $u \in N_c$). This means that all previously clicked items will have precedence over any unclicked items in the set of nodes connected to the node $N$. 
 
-This ensures that any edge $(u_1, p_i)$ where $u_1 \in N_c, K$ will have a lower cost than any edge $(u_2, p_i)$ where $u_2 \in N_u$. This means that all $k$ new results and $n_c$ old clicked on results will have a higher precedence than any of the old unclicked results. When we find the min-cost max-flow, we will obtain a flow of size $n$ whose cost is minimized. This means that all edges $(u, p_i)$ with $u \in K$ or $u \in n_c$ will have precedence over any edges where $u \in N_u$. Since we have assumed that the number of slots in the merged list exceeds $k + n_c$, we know that all new results and old clicked results will be in the solution of the min-cost max-flow. Moreover, we know that the new results and the old clicked on results will be placed in positions that minimized the cost function (which therefore maximize the value which is the negative of the cost function).
+When we find the min-cost max-flow, we will obtain a flow of size $n$ whose cost is minimized. Since we have assumed that the number of slots in the merged list exceeds $k + n_c$, we know that all new results and old clicked results will be in the solution of the min-cost max-flow. Moreover, we know that the new results and the old clicked on results will be placed in positions that minimized the cost function (which therefore maximize the value which is the negative of the cost function).
 
-Therefore, a min-cost max-flow will provide $n$ results in the best merged list which have the highest value to users, incorporates $k$ new resulsts, and retains all of the $n_c$ old clicked results. Min-cost max-flow problems can be solved in polynomial time based on algorithms given in class. Therefore, we have found a polynomial time algorithm for building a best merged result list of $n$ items.
+Therefore, a min-cost max-flow will provide $n$ results in the best merged list which have the highest value to users, incorporates at least $k$ new resulsts, and retains all of the $n_c$ old clicked results. Min-cost max-flow problems can be solved in polynomial time based on algorithms given in class. Therefore, we have found a polynomial time algorithm for building a best merged result list of $n$ items.
 \end{sol}
 
 \end{document}
