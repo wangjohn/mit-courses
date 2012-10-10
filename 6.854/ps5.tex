@@ -86,6 +86,19 @@ We can use BFS to examine each edge $e = (u,v)$ and examine whether there is a p
 Show how to solve the minimum flow problem by using two applications of any maximum flow algorithm that applies to problems with zero lower bounds on edge flows (e.g. the algorithms described in lecture). Your algorithm should detect if there is a feasible flow and, if there is one, return a minimum flow.
 \end{prob}
 \begin{sol}
+We will first find out if there exists a feasible flow, then return the feasible flow if it exists. We will do this by creating two super nodes $A$ and $B$ which will act as a source and sink, respectively, and by creating a new graph $G'$ based on the original graph $G$. We shall take all of the edge capacities on $G$ and use the edge capacities $u'_{ij} = u_{ij} - l_{ij}$ in our new graph $G'$. 
+
+Each edge $(i,j)$ in $G'$ will will now have capacity $u'_{ij}$ based on the augmented edge capacity given above. In addition, we will add new edges from $A$ and $B$ to each edge. For each edge $(i,j)$ (where there is a directed edge from node $i$ to $j$), we will create a directed edge $(A, j)$ of capacity $l_{ij}$ and a directed edge $(i, B)$ also of capacity $l_{ij}$. Therefore, we will have an edge $(A, j)$ going from the new source to the end node of every pre-existing edge $(i,j)$, as well as a new edge $(i, B)$ going from the beginning node of every pre-existing edge $(i,j)$ to the new sink. Finally, we will add an edge $(t,s)$ of infinite capacity going from the original sink to the original source. Thus, our new graph will look like the following:
+\begin{figure}[h!]
+
+\end{figure}
+
+Now, we will run a max-flow algorithm through this graph $G'$ using $A$ as the source and $B$ as the sink. We then take the flow going along each edge $(i,j)$ in $G'$ which also exists in $G$ and send flow $l_{ij} + f_{G'}(i,j)$ over that edge. Therefore, we set $f_{G}(i,j) = l_{ij} + f_{G'}(i,j)$. Now we shall prove that $f_G$ is a feasible and valid flow, and that if there does exist a feasible and valid flow, then this algorithm will find it.
+
+In order to show the first assertion, we must note that $f_G$ will always be greater than $l_{ij}$ for any edge $(i,j)$ since $f_{G'}(i,j) \geq 0$. Thus, we only have to prove that $f_G$ is a valid flow, i.e. that it satisfies flow conservation and the edge capacities. 
+
+
+
 \end{sol}
 
 \newpage

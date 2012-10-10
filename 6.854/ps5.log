@@ -1,11 +1,17 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  8 OCT 2012 18:51
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.8.30)  9 OCT 2012 21:36
 entering extended mode
  %&-line parsing enabled.
 **ps5.tex
 (./ps5.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, loaded.
+yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
+ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
+9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
+skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
+orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
+, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
+rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
 (/usr/share/texmf-texlive/tex/latex/amscls/amsart.cls
 Document Class: amsart 2009/07/02 v2.20.1
 \linespacing=\dimen102
@@ -243,7 +249,8 @@ Package ifvtex Info: VTeX not detected.
 \Gm@odd@mp=\dimen150
 \Gm@even@mp=\dimen151
 \Gm@dimlist=\toks34
-)
+
+(/usr/share/texmf-texlive/tex/xelatex/xetexconfig/geometry.cfg))
 (/usr/share/texmf-texlive/tex/latex/tools/theorem.sty
 Package: theorem 1995/11/23 v2.2c Theorem extension package (FMi)
 \theorem@style=\toks35
@@ -703,7 +710,7 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 Package amsmath Warning: Foreign command \atopwithdelims;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 156.
+(amsmath)                 on input line 169.
 
 
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
@@ -715,12 +722,12 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 [7] (./ps5.aux) ) 
 Here is how much of TeX's memory you used:
- 15328 strings out of 495061
- 283136 string characters out of 1182621
- 401695 words of memory out of 3000000
- 18039 multiletter control sequences out of 15000+50000
+ 15331 strings out of 493848
+ 283307 string characters out of 1152823
+ 402688 words of memory out of 3000000
+ 18138 multiletter control sequences out of 15000+50000
  11104 words of font info for 46 fonts, out of 3000000 for 9000
- 189 hyphenation exceptions out of 8191
+ 875 hyphenation exceptions out of 8191
  56i,14n,56p,1105b,744s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx1
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
@@ -729,11 +736,12 @@ f-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/f
 onts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/p
 ublic/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
 ts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ps5.pdf (7 pages, 147499 bytes).
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on ps5.pdf (7 pages, 157165 bytes).
 PDF statistics:
- 69 PDF objects out of 1000 (max. 8388607)
+ 73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
