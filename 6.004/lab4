@@ -1,0 +1,45 @@
+// Parenthesis matcher Turing Machine
+
+// test tapes and checkoff information
+
+checkoff "6004.mit.edu/currentsemester/6004assignment.doit"
+
+"Lab #4" 1103641864  // this should be at the end of the line above
+
+symbols ( ) 0 1 SC S FC F
+states 1 2
+
+tape   test1 (
+result1 test1 0
+
+tape   test2 )
+result1 test2 0
+
+tape   test3 ( )
+result1 test3 1
+
+tape   test4 ) (
+result1 test4 0
+
+tape   test5 ( ) ( ) ( ( ( ) ) ( ) ) ) ( )
+result1 test5 0
+
+tape   test6 ( ) ( ( ( ) ( ( ( ) ) ( ) ) )
+result1 test6 0
+
+tape   test7 ( ) ( ( ) ( ( ( ) ) ( ) ) )
+result1 test7 1 
+
+action 1 ( 2 S l
+action 1 SC 1 ( r
+action 1 S 1 - l
+action 1 - *halt* 1 l
+action 1 FC 1 - r
+action 1 ) *halt* 0 l
+action 1 F 1 - l
+
+action 2 ( 2 SC l
+action 2 ) 1 F r
+action 2 - *halt* 0 l
+action 2 F 2 FC l
+action 2 FC 2 FC l
