@@ -55,4 +55,18 @@ Edges whose costs have not been mentioned, which are all edges except for $(s_i,
 We can show this algorithm is correct, firstly, by noticing that each augmenting path will have a flow of 1, since the capacity is limited by $1$ on multiple edges. This means we can maximize the total suitability and make sure that each prefrosh is matched up with exactly one student (since each student has incoming capacity of 1, so can have max flow of 1). Moreover, we know we have satisfied the other constraints, because each dorm, floor, and suite cannot have more prefrosh than the capacities flowing through their nodes, and their capacities are created by the constraints given in the problem.
 \end{sol}
 
+\begin{prob}{1-b}
+If there is no feasible solution, it may be necessary to break the limits on suites (but the fire-code is inflexible). Give an efficient algorithm that finds the solution that minimizes the total overage (sum of amounts by which individual suite limits $m_s$ are broken) and, among such solutions, maximizes the total suitability. Your algorithm should detect if there is no such solution.
+\end{prob}
+\begin{sol}
+First we will find out what the minimum total overage is using min-cost max-flow. We do this by recreating the network $G$ from problem 1-a. However, we will have a modified version of $G$. In our new network, $G'$, we will change the cost of flows from students $s_i$ to prefrosh $p_j$ on edge $(s_i, p_j)$. Now, the cost of this edge will be 0, and it will still have a capacity of 1. We will also add new edges from each floor $f_i$ to each suite $s_j$. These new edges $(f_i, s_j)$ will carry a cost of 1 and infinite capacity, and will represent the overage in each room. Since these are the only non-zero edges in the graph, the min-cost max flow algorithm will try to send as much flow through the regular paths before it relies on overages to each room. If the total flow into the sink $t$ is not equal to the number of prefrosh, then there is no solution and we stop. If there is a solution, then we continue on.
+
+Summing up to the total flow through each of these overage edges, we can get the minimum overage that is possible. This will allow us to now construct a new graph $G''$ which will solve our actual problem. We go back to our graph $G$ from problem 1-a, but we add two new overage nodes $O_1$ and $O_2$.  
+
+It has a single incoming edge, which starts from the source $s$ and ends at $O$. This edge $(s, O)$ has capacity equal to the minimum overage that we calculated above and has cost 0. There are outgoing edges from $O$ to each student $s_i$ in the graph. We will have edges $(O, s_i)$ each with capacity 1 and cost 0. Everything else in $G''$ is the same as in $G$. 
+
+This means that performing a min-cost max-flow on $G''$ will maximize the total suitability with the minimum total overage. This is because everything in $G''$ not going through the overage node $O$ is the same as in problem 1-a, however, we now have the ability to send flow to students through the overage node. 
+
+\end{sol}
+
 \end{document}
