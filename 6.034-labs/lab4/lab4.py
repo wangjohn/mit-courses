@@ -47,8 +47,32 @@ def forward_checking_prop_singleton(state, verbose=False):
     if not fc_checker:
         return False
 
-    # Add your propagate singleton logic here.
-    raise NotImplementedError
+    singleton_queue = []
+    for var in state.get_all_variables():
+        if len(var.get_domain()) == 1:
+             singleton_queue.append(var)
+
+    visited_singletons = {}
+    while singleton_queue:
+        X = singleton_queue.pop()
+        visited_singletons[X] = True
+        x = X.get_domain()[0]
+        for constraint in state.get_constraints_by_name(X.get_name()):
+            if constraint.get_variable_j_name() == X.get_name():
+                Y = constraint.get_variable_i_name()
+            else:
+                Y = constraint.get_variable_j_name()
+            Y = state.get_variable_by_name(Y)
+            for y in Y.get_domain():
+                if not constraint.check(state, x, y):
+                    Y.reduce_domain(y)
+            new_domain_length = len(Y.get_domain())
+            if new_domain_length <= 0:
+                return False
+            elif new_domain_length <= 1 and Y not in visited_singletons:
+                singleton_queue.append(Y)
+    return True
+
 
 ## The code here are for the tester
 ## Do not change.
@@ -102,9 +126,6 @@ def euclidean_distance(list1, list2):
 ## deals better with independents. Make a classifier that makes at most 3
 ## errors on the Senate.
 
-my_classifier = nearest_neighbors(hamming_distance, 1)
-#evaluate(my_classifier, senate_group1, senate_group2, verbose=1)
-
 ### Part 2: ID Trees
 #print CongressIDTree(senate_people, senate_votes, homogeneous_disorder)
 
@@ -135,6 +156,7 @@ def information_disorder(yes, no):
 	n = num_yes + num_no
 	return (num_yes/n)*get_log_info(yes, num_yes) + (num_no/n)*get_log_info(no, num_no)
 
+my_classifier = nearest_neighbors(euclidean_distance, 5)
 #print CongressIDTree(senate_people, senate_votes, information_disorder)
 #evaluate(idtree_maker(senate_votes, homogeneous_disorder), senate_group1, senate_group2)
 
@@ -163,22 +185,22 @@ def limited_house_classifier(house_people, house_votes, n, verbose = False):
                                    
 ## Find a value of n that classifies at least 430 representatives correctly.
 ## Hint: It's not 10.
-N_1 = 5000 
+N_1 = 44 
 rep_classified = limited_house_classifier(house_people, house_votes, N_1)
 
 ## Find a value of n that classifies at least 90 senators correctly.
-N_2 = 90
+N_2 = 67 
 senator_classified = limited_house_classifier(senate_people, senate_votes, N_2)
 
 ## Now, find a value of n that classifies at least 95 of last year's senators correctly.
-N_3 = 95
+N_3 = 23
 old_senator_classified = limited_house_classifier(last_senate_people, last_senate_votes, N_3)
 
 
 ## The standard survey questions.
-HOW_MANY_HOURS_THIS_PSET_TOOK = ""
-WHAT_I_FOUND_INTERESTING = ""
-WHAT_I_FOUND_BORING = ""
+HOW_MANY_HOURS_THIS_PSET_TOOK = "2.5"
+WHAT_I_FOUND_INTERESTING = "The information theoretic diversity function"
+WHAT_I_FOUND_BORING = "The constraint propogation algorithm."
 
 
 ## This function is used by the tester, please don't modify it!
