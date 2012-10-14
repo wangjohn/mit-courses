@@ -1,0 +1,58 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{framed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 6.854 Advanced Algorithms} \\
+    Problem Set 6\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} \\
+    Collaborators: 
+    \end{center}
+    \vspace{0.5cm}
+}
+
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+\begin{document}
+
+\makenewtitle
+
+\begin{prob}{1-a}
+Assuming there is a feasible solution, show how the problem can be solved by an application of min-cost flow.
+\end{prob}
+
+\begin{sol}
+We will create a pseudo bipartite graph. On the right side, there will be the set $P$ of prefrosh. On the left side, we will have the set $S$ of students. We also have three additional layers in the flow graph. There will be a set of $U$ of suites that are occupied by a student, a set $F$ of all the floors that are occupied, and a set $D$ of all the dormitories available. 
+
+For each one of these sets, we will represent a member $x$ in the set with a node. We will also create two nodes $s$ and $t$ to serve as the source and sink nodes respectively. 
+
+From the source node $s$, we will have edges $(s, d_i)$ leading to each dormitory $d_i \in D$, each with capacity $M_d$, the maximum allowable number of preforsh in dorm $d_i$ according to the firecode.. Next, from each dormitory $d_i \in D$, we will have edges leading to floors $f_i \in F_d$ for each floor in dormitory $d_i$. These edges will be $(d_i, f_i)$ and will have capacity $M_{f_i}$ which is the total number of prefrosh on floor $f_i$ according to the firecode. Next, we will have edges $(f_i, u_i)$ from floor $f_i$ to each suite $u_i \in U$ which is located on floor $f_i$. The capacity of these edges will be $m_{u_i}$, which is the maximum number of prefrosh available for suite $u_i$. 
+
+Now, we will have edges $(u_i, s_i)$ from each suite $u_i$ to the students $s_i$ who are occupying that suite. The capacity of each $(u_i, s_i)$ edge will be 1.Finally, each student $s_i$ will have an edge to every prefrosh $p_i$, $(s_i, p_i)$. These edges will have capacity of 1 and a cost of $-f(s_i, p_i)$ where $f$ is the suitability function. Finally, each prefrosh's node $p_i$ will be connected to the sink $t$ with edges $(p_i, t)$, each of capacity 1.
+
+Edges whose costs have not been mentioned, which are all edges except for $(s_i, p_i)$, will have costs of 0. Performing min-cost max-flow on this graph will producce an output which maximizes the total suitability subject to our constraints. If there is no feasible solution, then the flow into $t$ will not be equal to the total number of prefrosh.
+
+We can show this algorithm is correct, firstly, by noticing that each augmenting path will have a flow of 1, since the capacity is limited by $1$ on multiple edges. This means we can maximize the total suitability and make sure that each prefrosh is matched up with exactly one student (since each student has incoming capacity of 1, so can have max flow of 1). Moreover, we know we have satisfied the other constraints, because each dorm, floor, and suite cannot have more prefrosh than the capacities flowing through their nodes, and their capacities are created by the constraints given in the problem.
+\end{sol}
+
+\end{document}
