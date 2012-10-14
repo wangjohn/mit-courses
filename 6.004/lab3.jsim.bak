@@ -25,7 +25,7 @@ xaddormultiply alufn[1]#32 add[31:0] multiply[31:0] OUT[31:0] mux2
 .subckt add32bit alufn A[31:0] B[31:0] OUT[31:0] Z V N
 xbxorgate alufn#32 B[31:0] XB[31:0] xor2
 xfulladder alufn A[0] XB[0] OUT[0] C[0] FA
-xfulladderA C[0:30] A[1:31] XB[1:31] OUT[1:31] C[1:31] FA
+xfulladder2 C[0:30] A[1:31] XB[1:31] OUT[1:31] C[1:31] FA
 
 xbuffer OUT[31] N buffer
 
@@ -101,8 +101,6 @@ xcomparemux alufn1 alufn3 Z outxor outor 0 OUT[0] mux4
 .ends
 
 .subckt MULT A[31:0] B[31:0] OUT[31:0] 
-xbuff A[31:0] OUT[31:0] buffer
-
 * Do all of the partial multiplies
 xpartialMultAA A[0:31] B[0]#32  ZAA[0:31] and2 
 xpartialMultBA A[0:31] B[1]#32  ZBA[0:31] and2
@@ -133,42 +131,42 @@ xpartialMultFC A[0:31] B[25]#32 ZFC[0:31] and2
 xpartialMultGC A[0:31] B[26]#32 ZGC[0:31] and2
 xpartialMultHC A[0:31] B[27]#32 ZHC[0:31] and2
 xpartialMultIC A[0:31] B[28]#32 ZIC[0:31] and2
-xpartialMultJC A[0:31] B[39]#32 ZJC[0:31] and2
+xpartialMultJC A[0:31] B[29]#32 ZJC[0:31] and2
 xpartialMultAD A[0:31] B[30]#32 ZAD[0:31] and2
 xpartialMultBD A[0:31] B[31]#32 ZBD[0:31] and2
                         
 ** Get the adder outputs
-xaddAA 0 ZAA[31:0] ZBA[31:1]  0    PAA[31:0]  z1  v1  n1 add32bit 
-xaddBA 0 PAA[31:0] ZCA[31:2]  0#2  PBA[31:0]  z2  v2  n2 add32bit 
-xaddCA 0 PBA[31:0] ZDA[31:3]  0#3  PCA[31:0]  z3  v3  n3 add32bit 
-xaddDA 0 PCA[31:0] ZEA[31:4]  0#4  PDA[31:0]  z4  v4  n4 add32bit 
-xaddEA 0 PDA[31:0] ZFA[31:5]  0#5  PEA[31:0]  z5  v5  n5 add32bit 
-xaddFA 0 PEA[31:0] ZGA[31:6]  0#6  PFA[31:0]  z6  v6  n6 add32bit 
-xaddGA 0 PFA[31:0] ZHA[31:7]  0#7  PGA[31:0]  z7  v7  n7 add32bit 
-xaddHA 0 PGA[31:0] ZIA[31:8]  0#8  PHA[31:0]  z8  v8  n8 add32bit 
-xaddIA 0 PHA[31:0] ZJA[31:9]  0#9  PIA[31:0]  z9  v9  n9  add32bit
-xaddJA 0 PIA[31:0] ZAB[31:10] 0#10 PJA[31:0] z10 v10 n10 add32bit
-xaddAB 0 PJA[31:0] ZBB[31:11] 0#11 PAB[31:0] z12 v12 n12 add32bit 
-xaddBB 0 PAB[31:0] ZCB[31:12] 0#12 PBB[31:0] z12 v12 n12 add32bit 
-xaddCB 0 PBB[31:0] ZDB[31:13] 0#13 PCB[31:0] z13 v13 n13 add32bit 
-xaddDB 0 PCB[31:0] ZEB[31:14] 0#14 PDB[31:0] z14 v14 n14 add32bit 
-xaddEB 0 PDB[31:0] ZFB[31:15] 0#15 PEB[31:0] z15 v15 n15 add32bit 
-xaddFB 0 PEB[31:0] ZGB[31:16] 0#16 PFB[31:0] z16 v16 n16 add32bit 
-xaddGB 0 PFB[31:0] ZHB[31:17] 0#17 PGB[31:0] z17 v17 n17 add32bit 
-xaddHB 0 PGB[31:0] ZIB[31:18] 0#18 PHB[31:0] z18 v18 n18 add32bit 
-xaddIB 0 PHB[31:0] ZJB[31:19] 0#19 PIB[31:0] z19 v19 n19 add32bit 
-xaddJB 0 PIB[31:0] ZAC[31:20] 0#20 PJB[31:0] z20 v20 n20 add32bit 
-xaddAC 0 PJB[31:0] ZBC[31:21] 0#21 PAC[31:0] z22 v22 n22 add32bit 
-xaddBC 0 PAC[31:0] ZCC[31:22] 0#22 PBC[31:0] z23 v23 n23 add32bit 
-xaddCC 0 PBC[31:0] ZDC[31:23] 0#23 PCC[31:0] z24 v24 n24 add32bit 
-xaddDC 0 PCC[31:0] ZEC[31:24] 0#24 PDC[31:0] z25 v25 n25 add32bit 
-xaddEC 0 PDC[31:0] ZFC[31:25] 0#25 PEC[31:0] z26 v26 n26 add32bit 
-xaddFC 0 PEC[31:0] ZGC[31:26] 0#26 PFC[31:0] z27 v27 n27 add32bit 
-xaddGC 0 PFC[31:0] ZHC[31:27] 0#27 PGC[31:0] z28 v28 n28 add32bit 
-xaddHC 0 PGC[31:0] ZIC[31:28] 0#28 PHC[31:0] z29 v29 n29 add32bit 
-xaddIC 0 PHC[31:0] ZJC[31:29] 0#29 PIC[31:0] z30 v30 n30 add32bit 
-xaddJC 0 PIC[31:0] ZAD[31:30] 0#30 PJC[31:0] z31 v31 n31 add32bit 
-xaddAD 0 PJC[31:0] ZBD[31] 0#31 OUT[31:0] z32 v32 n32 add32bit 
+xaddAA 0 ZAA[31:0] ZBA[30:0]  0    PAA[31:0] zAA vAA nAA add32bit 
+xaddBA 0 PAA[31:0] ZCA[29:0]  0#2  PBA[31:0] zBA vBA nBA add32bit 
+xaddCA 0 PBA[31:0] ZDA[28:0]  0#3  PCA[31:0] zCA vCA nCA add32bit 
+xaddDA 0 PCA[31:0] ZEA[27:0]  0#4  PDA[31:0] zDA vDA nDA add32bit 
+xaddEA 0 PDA[31:0] ZFA[26:0]  0#5  PEA[31:0] zEA vEA nEA add32bit 
+xaddFA 0 PEA[31:0] ZGA[25:0]  0#6  PFA[31:0] zFA vFA nFA add32bit 
+xaddGA 0 PFA[31:0] ZHA[24:0]  0#7  PGA[31:0] zGA vGA nGA add32bit 
+xaddHA 0 PGA[31:0] ZIA[23:0]  0#8  PHA[31:0] zHA vHA nHA add32bit 
+xaddIA 0 PHA[31:0] ZJA[22:0]  0#9  PIA[31:0] zIA vIA nIA add32bit
+xaddJA 0 PIA[31:0] ZAB[21:0] 0#10 PJA[31:0] zJA vJA nJA add32bit
+xaddAB 0 PJA[31:0] ZBB[20:0] 0#11 PAB[31:0] zAB vAB nAB add32bit 
+xaddBB 0 PAB[31:0] ZCB[19:0] 0#12 PBB[31:0] zBB vBB nBB add32bit 
+xaddCB 0 PBB[31:0] ZDB[18:0] 0#13 PCB[31:0] zCB vCB nCB add32bit 
+xaddDB 0 PCB[31:0] ZEB[17:0] 0#14 PDB[31:0] zDB vDB nDB add32bit 
+xaddEB 0 PDB[31:0] ZFB[16:0] 0#15 PEB[31:0] zEB vEB nEB add32bit 
+xaddFB 0 PEB[31:0] ZGB[15:0] 0#16 PFB[31:0] zFB vFB nFB add32bit 
+xaddGB 0 PFB[31:0] ZHB[14:0] 0#17 PGB[31:0] zGB vGB nGB add32bit 
+xaddHB 0 PGB[31:0] ZIB[13:0] 0#18 PHB[31:0] zHB vHB nHB add32bit 
+xaddIB 0 PHB[31:0] ZJB[12:0] 0#19 PIB[31:0] zIB vIB nIB add32bit 
+xaddJB 0 PIB[31:0] ZAC[11:0] 0#20 PJB[31:0] zJB vJB nJB add32bit 
+xaddAC 0 PJB[31:0] ZBC[10:0] 0#21 PAC[31:0] zAC vAC nAC add32bit 
+xaddBC 0 PAC[31:0] ZCC[9:0] 0#22 PBC[31:0] zBC vBC nBC add32bit 
+xaddCC 0 PBC[31:0] ZDC[8:0] 0#23 PCC[31:0] zCC vCC nCC add32bit 
+xaddDC 0 PCC[31:0] ZEC[7:0] 0#24 PDC[31:0] zDC vDC nDC add32bit 
+xaddEC 0 PDC[31:0] ZFC[6:0] 0#25 PEC[31:0] zEC vEC nEC add32bit 
+xaddFC 0 PEC[31:0] ZGC[5:0] 0#26 PFC[31:0] zFC vFC nFC add32bit 
+xaddGC 0 PFC[31:0] ZHC[4:0] 0#27 PGC[31:0] zGC vGC nGC add32bit 
+xaddHC 0 PGC[31:0] ZIC[3:0] 0#28 PHC[31:0] zHC vHC nHC add32bit 
+xaddIC 0 PHC[31:0] ZJC[2:0] 0#29 PIC[31:0] zIC vIC nIC add32bit 
+xaddJC 0 PIC[31:0] ZAD[1:0] 0#30 PJC[31:0] zJC vJC nJC add32bit 
+xaddAD 0 PJC[31:0] ZBD[0] 0#31 OUT[31:0] zout vout nout add32bit 
 .ends    
 
 .subckt alu alufn[4:0] a[31:0] b[31:0] out[31:0] z v n

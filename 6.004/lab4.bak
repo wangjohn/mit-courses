@@ -30,13 +30,13 @@ result1 test7 1
 action 1 ( 2 S l
 action 1 SC 1 ( r
 action 1 S 1 - l
-action 1 - *halt* 1 -
+action 1 - *halt* 1 l
 action 1 FC 1 - r
-action 1 ) *halt* 0 -
+action 1 ) *halt* 0 l
 action 1 F 1 - l
 
 action 2 ( 2 SC l
 action 2 ) 1 F r
-action 2 - *halt* 0 -
+action 2 - *halt* 0 l
 action 2 F 2 FC l
 action 2 FC 2 FC l
