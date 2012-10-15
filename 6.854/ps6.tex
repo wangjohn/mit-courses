@@ -72,7 +72,7 @@ This means that performing a min-cost max-flow on $G''$ will maximize the total 
 \newpage
 \makenewtitle
 
-\begin{prob}{2-a}
+\begin{prob}{3-a}
 Suppose that you have an optimal solution to some minimum cost circulation problem with integer costs and you then change one edge cost by one unit. Show how you can reoptimize the solution in $O(mn)$ time. Note that this is faster than solving the minimum-cost circulation problem from scratch.
 \end{prob}
 
@@ -86,7 +86,7 @@ After augmentation, if the $(u,v)$ edge has no more capacity left, then we are d
 Notice that that the reduced cost could only have changed by $1$ after the augmentation. If we find all paths leading to $v$ and increase their price functions by 1, then we will have a feasible reduced cost. This is because the only edge which may have decreased its cost is $(u,v)$, and we are sure to have increased $p(u)$ by 1. Since $\Delta c(u,v) = -1$ in the worst case, we only need to show that $\Delta p(v) \leq 0$ in order for $c_p(u,v) \geq 0$ (since we know the previous reduced cost was non-negative), and for us to have found a feasible reduced cost. Now if $p(v) \geq 0$, then we could have increased the flow from $v$ to $u$. Therefore, we have created a new price function with has a feasible reduced cost, and therefore, we have found an optimal circulation.
 \end{sol}
 
-\begin{prob}{2-b}
+\begin{prob}{3-b}
 Deduce a cost-scaling algorithm for minimum-cost flow (with integer costs) that makes $O(m \log C)$ where C is the maximum cost, calls to your solution in part a and prove its correctness.
 \end{prob}
 
@@ -97,4 +97,37 @@ After $\log C$ scaling steps have been performed, we will end up with costs and 
 
 To prove correctness, we note that doubling the edge costs and the price function at each vertex does not change the min-cost flow. This is because the min cost flow is still just a constant multiple of its previous value (namely where the constant is 2). This follows since when we double all edge costs and all price functions, then each incoming and outgoing edge on a vertex have their costs changed in a symmetric manner. Adding a single bit to the end of each cost successively will also keep the invariant that our circulation is minimum at all times, for whatever graph that is given. This is because immediately after doubling, we know that the flow is minimum as argued above. Also, we know from our argument in part a that new minimum cost flow can be found with the algorithm in part a. Therefore, immediately after adding the bit to change the cost on some edge $(u,v)$, we can get a minimum-cost flow immediately after we perform the algorithm. Our base case starts out with a max-flow (of zero edge costs), so we obviously will have a min-cost flow. Since our invariant is maintained at each step, we can be sured once we get to the last step with the actual costs we want to compute, that our result will still be a min-cost flow.  
 \end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{4-a}
+Give the optimum given $c = (-1, 0, 0)$. 
+\end{prob}
+
+\begin{sol}
+We want to perform the following, given $c$: $min -x_1$ such that $x_1 + x_2 \geq 1$, $x_1 + 2 x_2 \leq 3$, and $x_1 \geq 0$. Basically, we want to maximize $x_1$ subject to these constraints. Rearranging the constraints, we want:
+\begin{eqnarray}
+1 - x_2 \leq x_1 \leq 3 - 2 x_2
+\end{eqnarray}
+
+Thus, in order to maximize $x_1$, we want to make $x_2$ as small as possible. If we choose $x_2 = 0$, then we have the smallest possible $x_2$ (since we also have the constraint that $x_2 \geq 0$). This means that $3 - x_2$ is maximized, so that we can mazimize $x_1$. We can therefore pick $x_1 = 3$. Therefore, we have the solution: $(x_1, x_2, x_3) = (3, 0, 0)$. 
+\end{sol}
+
+\begin{prob}{4-b}
+Give the optimum given $c = (0, 1, 0)$. 
+\end{prob}
+
+\begin{sol}
+We want to minimize $x_2$, so if we use the constraints, we can derive the expression $1 + x_1 \leq x_2 \leq 3/2 - (1/2) x_1$. Since we are minimizing $x_2$ and we know that $x_1 \geq 0$, we should choose $x_1$ as close to zero as possible. This means we choose $x_1 = 0$, which means 1 is the lower bound on $x_2$. Therefore, we have the solution: $(x_1, x_2, x_3) = (0, 1, 0)$. 
+\end{sol}
+
+\begin{prob}{4-c}
+Give the optimum given $c = (0, 0, -1)$.
+\end{prob}
+
+\begin{sol}
+We want to minimize $-x_3$ or alternatively maximize $x_3$. Since there are no constraints on $x_3$ other than $x_3 \geq 0$, we can choose values of $x_1$ and $x_2$ which satisfy the other constraints, and just choose $x_3$ as large as possible. Therefore, we can choose $x_3 = \infty$, along with any values of $x_1$ and $x_2$ which are feasible. This means we have the solution: $(x_1, x_2, x_3) = (1, 1, \infty)$. 
+\end{sol}
+
 \end{document}
