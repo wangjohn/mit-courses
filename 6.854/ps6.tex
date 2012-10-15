@@ -72,6 +72,22 @@ This means that performing a min-cost max-flow on $G''$ will maximize the total 
 \newpage
 \makenewtitle
 
+\begin{prob}
+Consider a unit-capacities network where each edge has cost 1. Does the shortest augmenting path algorithm (for max-flow, that just minimizes the number of edges on the path) or Dinic's normal blocking-flow algorithm compute a min-cost max-flow in the graph? Why or why not?
+\end{prob}
+\begin{sol}
+Yes, both the shortest augmenting path algorithm and the block-flow algorithm will compute a min-cost max-flow on the graph. I claim that there will never be a negative reduced-cost cycle in the residual graph under the shortest augmenting path algoritm. This is clearly true at the beginning of the algorithm, when there is no flow going through the graph. Now I will use induction to show that it is never true after the $i$th augmentation. 
+
+Suppose that the above holds true for the $i-1$st augmentation. We can use shortest-paths and a supernode $s'$ to compute distances from $s'$ to each vertex $v$. We will use the shortest-paths distance as the price function. Since we know that $d(v) \leq c(u,v) + d(u)$ from the triangle inequality, which, when reordered, shows that $0 \leq d(u) + c(u,v) - d(v)$. Therefore, we see that the reduced cost distances are non-negative. Now, when we augment in the residual graph, each edge will have a reduced cost of 0.
+
+This shows that the price function is still feasible because there are no negative reduced cost edges added after the $i$th augmentation. Since there are no negative reduced cost edges, there can be no negative reduced cost cycles. This completes the inductive step. 
+
+Now, since this holds for all augmentations, we know that once the shortest augmenting path algorithm finishes, there will be no negative reduced cost cycles in the graph, which means we have found a min-cost max-flow.  
+\end{sol}
+
+\newpage
+\makenewtitle
+
 \begin{prob}{3-a}
 Suppose that you have an optimal solution to some minimum cost circulation problem with integer costs and you then change one edge cost by one unit. Show how you can reoptimize the solution in $O(mn)$ time. Note that this is faster than solving the minimum-cost circulation problem from scratch.
 \end{prob}
