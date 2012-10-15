@@ -69,4 +69,32 @@ This means that performing a min-cost max-flow on $G''$ will maximize the total 
 
 \end{sol}
 
+\newpage
+\makenewtitle
+
+\begin{prob}{2-a}
+Suppose that you have an optimal solution to some minimum cost circulation problem with integer costs and you then change one edge cost by one unit. Show how you can reoptimize the solution in $O(mn)$ time. Note that this is faster than solving the minimum-cost circulation problem from scratch.
+\end{prob}
+
+\begin{sol}
+Suppose that an edge has been changed by one unit. Then, we know that this edge can have its cost increased or decreased by a single unit. If the flow was optimal before (as we are assuming), then changing the cost by a single unit will only change a single edge in the residual graph. There will be at most a single edge $(u,v)$ with a negative cost in the residual graph, since before we assumed the solution to be optimal so that all costs were non-negative. Therefore, if we have introduced a cycle of negative cost, then it must go through $(u,v)$. Moreover, that negative cost cycle must have all edges with cost of 0. 
+
+This means that we can easily augment along this cycle. We know that $(u,v)$ must be included, so all we need to do is find a path from $v$ to $u$ of zero cost edges. We can do this using a BFS from $v$. If the BFS does not return anything, then there is no cycle of negative cost in the residual graph, which means that the flow is still optimal, so there is no modification needed. If the BFS does return a negative cost cycle (after adding $(u,v)$ to the path, then we can augment the flow along the cycle. 
+
+After augmentation, if the $(u,v)$ edge has no more capacity left, then we are done because there are no more negative edges left in the residual graph, and hence, no more negative cycles left in the residual graph. If there still is capacity left, we can change the price function to make the new reduced cost feasible. Notice that $c(u,v)$, the total cost on edge $(u,v)$, has changed by $1$. 
+
+Notice that that the reduced cost could only have changed by $1$ after the augmentation. If we find all paths leading to $v$ and increase their price functions by 1, then we will have a feasible reduced cost. This is because the only edge which may have decreased its cost is $(u,v)$, and we are sure to have increased $p(u)$ by 1. Since $\Delta c(u,v) = -1$ in the worst case, we only need to show that $\Delta p(v) \leq 0$ in order for $c_p(u,v) \geq 0$ (since we know the previous reduced cost was non-negative), and for us to have found a feasible reduced cost. Now if $p(v) \geq 0$, then we could have increased the flow from $v$ to $u$. Therefore, we have created a new price function with has a feasible reduced cost, and therefore, we have found an optimal circulation.
+\end{sol}
+
+\begin{prob}{2-b}
+Deduce a cost-scaling algorithm for minimum-cost flow (with integer costs) that makes $O(m \log C)$ where C is the maximum cost, calls to your solution in part a and prove its correctness.
+\end{prob}
+
+\begin{sol}
+We perform the scaling algorithm by starting out with a graph $G$ where all edges are changed to have cost $0$ and each vertex has a price function of $0$. We first find a max-flow on this and proceed to the scaling step. During each scaling step, we will double the cost of each edge, and also the price function. After we have double everything, we will add the last bit from the cost to each edge. Since there are $m$ edges, we will have to make $m$ calls to the algorithm during each scaling step. When we add the last bit, we will change the cost by a magnitude of 1. We can either have the cost increase or decrease by 1 depending on the sign. Since we know from the last part of the problem that we can reoptimize a min-cost circulation when we change a single edge cost by one unit, then we are able to get a new min-cost circulation for our modified graph. The repeat this for all $m$ edges. Then, we will perform $\log C$ scaling steps in order to add all of the bits onto the end.
+
+After $\log C$ scaling steps have been performed, we will end up with costs and price functions which are exactly those for the actual min-cost flow circulation problem. This means that we can be solve our original problem in $O(m \log C)$ calls to the algorithm from part a.
+
+To prove correctness, we note that doubling the edge costs and the price function at each vertex does not change the min-cost flow. This is because the min cost flow is still just a constant multiple of its previous value (namely where the constant is 2). This follows since when we double all edge costs and all price functions, then each incoming and outgoing edge on a vertex have their costs changed in a symmetric manner. Adding a single bit to the end of each cost successively will also keep the invariant that our circulation is minimum at all times, for whatever graph that is given. This is because immediately after doubling, we know that the flow is minimum as argued above. Also, we know from our argument in part a that new minimum cost flow can be found with the algorithm in part a. Therefore, immediately after adding the bit to change the cost on some edge $(u,v)$, we can get a minimum-cost flow immediately after we perform the algorithm. Our base case starts out with a max-flow (of zero edge costs), so we obviously will have a min-cost flow. Since our invariant is maintained at each step, we can be sured once we get to the last step with the actual costs we want to compute, that our result will still be a min-cost flow.  
+\end{sol}
 \end{document}
