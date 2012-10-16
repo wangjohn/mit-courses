@@ -175,7 +175,24 @@ Therefore, the full linear program is as follows:
 Show that it is possible to carry out trades to achieve the objective of the linear program without ever borrowing currency. (Hint: there is a sense in which your solution can be made acyclic). 
 \end{prob}
 \begin{sol}
+I will show that borrowing currency and creating a cycle in the linear program does not provide anyhing for the objective function. In essence, whenever currency $c_j$ is borrowed, one must create a cycle from currency $c_j$ back to $c_j$. Since we know that $\prod r_i < 1$ for any cycle, we know that it is impossible to make a profit by arbitrage. 
 
+This means that if we borrow some amount $a$ of currency $c_j$, and perform trades from $a_i = c_j$ to currency $b_i = c_j$ at rate $r_i$, we know that we will eventually need to return $a$ in currency $c_j$. Therefore, whenever we borrow currency, we must create a cycle. However, by creating a cycle, have $\prod r_i < 1$ during that cycle for all $r_i$ along the cycle. This means that by borrowing currency, we strictly lose money. The other possibility is that we borrow $a$ in currency and leave this amount $a$ until it is collected at the end of the trading day. However, this does not improve the objective function. This means that each optimal solution which borrows money in currency $c_j$ and leaves it in currency $c_j$ for the entire day will have an optimal counterpart which does not borrow from currency $c_j$ and leave it unused in $c_j$. 
+
+We have seen that borrowing and creating a cycle back to currency $c_j$ will cause one to have strictly less money than if one did not create a cycle. This implies that no optimum solution can have a cycle, otherwise, one could just remove the cycle and have a better solution, which is a contradiction. Therefore, if there does exist an optimal solution, there must exist an optimal solution which does not borrow any money.
+\end{sol}
+
+\begin{prob}{5-c}
+Show that there is a sequence of trades that will let you end the day with the optimal amount of Yen and no other currency except dollars.
+\end{prob}
+\begin{sol}
+We will basically create a new linear program that will solve the problem using only dollars. To do this, we will first find the optimal amount of Yen, and make sure that the amount of Yen from our new program is no less than this optimal. Thus, let us set $\max \sum_{b_i = Y} r_i x_i - \sum_{a_i = Y} x_i = O$ as the optimal amount of Yen.
+
+Now, we will have a new linear program with all the same constraints as before, but with a new object function. Additionally, we add the constraint that $\sum_{b_i = Y} r_i x_i - \sum_{a_i = Y} x_i \geq O$. The objective function will be to minimize the amount of dollars that are left at the end of the trading day. Thus, we will have $\min \sum_{a_i = d} x_i - \sum_{b_i = d} r_i x_i$, since $\sum_{b_i = d} r_i x_i$ is the amount of a different currency converted into dollars, and $\sum_{a_i = d} x_i$ is the amount of dollars converted into some other currency.
+
+If we maximize the amount of dollars we have left (alternatively, minimize the number of dollars that are converted), we will be able to achieve a solution where we end the day with only Yen and dollars. First, note that since we have the condition that the amount of yen at the end be greater than or equal to $O$, we will remove from our optimal solution any cycles, since we have shown in problem 5-b that cycles only decrease the amount of money available and make a strictly worse solution. Thus, we know that no optimal solution can have any cycles, which means there will be no cycles in the solution to our new linear program.
+
+In addition, the optimal solution to this problem will have no paths ending in a currency other than Yen. Assume, by contradiction, that there exists such a path $p$ of $a$ dollars ending at currency $c_j$. Then we must have achieved $\sum_{b_i = Y} r_i x_i - \sum_{a_i = Y} x_i \geq O$ so that we have at least an amount of yen greater than or equal to $O$. Since path $p$ ends in currency $c_j$ and not in Yen, path $p$ is not contributing to the number of Yen at the end of the trading day. Therefore, we can remove it and still satisfy our constraints. However, this will decrease $\min \sum_{a_i = d} x_i - \sum_{b_i = d} r_i x_i$, which will imply that our original solution was not optimal, which is a contradiction. Therefore, there can be no paths ending in a currency other than Yen, which shows that one can end the day with the optimal amount of Yen and no other currency except dollars.
 \end{sol}
 
 \newpage
