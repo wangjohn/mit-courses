@@ -73,7 +73,7 @@ Thus, the min-cost flow will minimize the amount of total overflow, since minimu
 \newpage
 \makenewtitle
 
-\begin{prob}
+\begin{prob}{2}
 Consider a unit-capacities network where each edge has cost 1. Does the shortest augmenting path algorithm (for max-flow, that just minimizes the number of edges on the path) or Dinic's normal blocking-flow algorithm compute a min-cost max-flow in the graph? Why or why not?
 \end{prob}
 \begin{sol}
@@ -151,8 +151,68 @@ We want to minimize $-x_3$ or alternatively maximize $x_3$. Since there are no c
 \makenewtitle
 
 \begin{prob}{5-a}
-
+Formulate a linear program for maximizing the amount of Yen you have at the end of trading.
 \end{prob}
+\begin{sol}
+First, we will create variables $x_i$ which will represents the orders that are possible for client $i$. Thus, $x_i$ will be the number of units of currency of $a_i$ that we will trade with client $i$ for currency $b_i$. Now, we know that we must have $0 \leq x_i \leq u_i$ by the fact that client $i$ is willing to trade no more than $u_i$. 
 
+Moreover, we know that the total amount of money that one can have in currency $c_j \in C$, where $C$ is the set of all currencies except for the dollar, is given by $\sum_{a_i = c_j} x_i \leq \sum_{b_i = c_j} r_i x_i$. This is because one cannot spend more money than is possible by performing all the trades and getting interest rate $r_i$ on all of the trades. 
 
+For dollars, we must add $D$ to the right side to account for the fact that we start off in dollars, so that $\sum_{a_i = d} x_i \leq \sum_{b_i = d} r_i x_i + D$ where $d$ denotes currency in dollars. These conditions come from the fact that however many units of currency $c_j$ there are to exchange, namely $\sum_{a_i = c_j} x_i$, must be less than the total amount of currency and interest that one can possibly receive in currency $c_j$, namely $\sum_{b_i = c_j} r_i x_i$. 
+
+Finally, we want to maximize $\sum_{b_i = Y} r_i x_i - \sum_{a_i = Y} x_i$ where $Y$ is the set of all orders in Yen. This will allow us the maximize the amount of Yen at the end of the trading day because we look for however much Yen was received, $\sum_{b_i = Y} r_i x_i$, with the amount of yen that we traded away subtracted from this, $\sum_{a_i = Y} x_i$. 
+
+Therefore, the full linear program is as follows:
+\begin{eqnarray}
+\max \sum_{b_i = Y} r_i x_i &-& \sum_{a_i = Y} x_i \\
+\text{s.t.} \sum_{a_i = c_j} x_i &\leq& \sum_{b_i = c_j} r_i x_i \hspace{0.5cm} \forall c_j \in C \\
+\sum_{a_i = d} x_i &\leq& \sum_{b_i = d} r_i x_i + D \\
+0 \leq x_i &\leq& u_i  \hspace{0.5cm} \forall i
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{5-b}
+Show that it is possible to carry out trades to achieve the objective of the linear program without ever borrowing currency. (Hint: there is a sense in which your solution can be made acyclic). 
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{6-a}
+Argue that at any vertex $M$ of the polytope described above, at least $m - 2n + 1$ of the $x_{ij}$ must be equal to 0. 
+\end{prob}
+\begin{sol}
+First, we notice that there are only $2n$ constraints on the vertices, one for each vertex in $V_1$ and one for each vertex in $V_2$, where $V_1$ and $V_2$ denote the two subsets of the bipartite matching. However, we will notice that these $2n$ constraints are not linearly independent. This is because summing up all of the constraints for vertices in $V_1$ will be the sum of all the constraints for vertices in $V_2$. Formally, we will have $\sum_{i} \sum_{j \in N(i)} x_{ij} = \sum_{j} \sum_{i \in N(i)} x_{ij}$.
+
+From this, we see that the two sets of constraints are not linearly independent, so that there are at most $2n-1$ linearly independent constraints. Since there are $m$ entries in the matrix $M$, we know that at least $m - 2n + 1$ of the constraints are linearly dependent. Since linear dependence implies that an entry be equal to zero, we know that there are $m - 2n + 1$ of the $x_{ij}$'s which are equal to 0.
+\end{sol}
+
+\begin{prob}{6-b}
+Conclude that at least one row and at least one column of the matrix $M$ contains a single 1 with all other entries 0, if $M$ represents a vertex.
+\end{prob}
+\begin{sol}
+We notice that there are only $2n-1$ possible entries in the matrix $M$ which can be non-zero. Note that the matrix is $n\times n$, and we have the constraint that each column sum and each row sum must equal 1. We will first prove the assertion for columns, and the assertion for rows will follow similarly.
+
+Since each column sum must equal 1, we must have at least one non-zero entry per column, where each entry $x_{ij}$ must have $0 < x_{ij} \leq 1$ (since there are no negative numbers). There are now only $n-1$ entries left to distribute among $n$ columns. There is no way to distribute these $n-1$ entries so that all $n$ columns receive an additional non-zero entry. This means that one column must have a single non-zero entry. Since we must have $\sum_{i \in N(i)} x_{ij} = 1$, that non-zero entry must be a 1. We have shown, then, that there is at least one column which contains a single 1, with all other entries 0. 
+
+The same reasoning can be applied to the rows of matrix $M$, so we see that at least one column and at least one row contains a single 1 with all other entries 0.
+\end{sol}
+
+\begin{prob}{6-c}
+Use induction to conclude the claim (about convex combinations) and deduce the original claim (about internet switches).
+\end{prob}
+\begin{sol}
+First, we will show that every doubly stochastic matrix is a convex combination of perfect matchings. We will note that $n \times n$ permutation matrices are in one-to-one correspondence with perfect matchings, since each perfect matching picks a single $x_{ij} = 1$ in each row and column and forces all other $x_{ij}$ in that row or column to be 0. This is the definition of a $n \times n$ permutation matrix, so we are left to show that every doubly stochastic matrix $M$ is a convex combination of all $n \times n$ permutation matrices. 
+
+We will show that for each doubly stochastic matrix $M$, we can find a matrix $P$ which contains one non-zero entry from each row and each column of $M$. We shall create a bipartite graph $G$ where the rows $r_i$ of $M$ are the left set and the columns $c_j$ of $M$ are the right set. There is an edge between row $r_i$ and column $c_j$ if entry $x_{ij}$ is non zero. Now suppose there is no perfect matching in this graph $G$. This means that there is a set of $k$ rows in the left set which have non-zero entries only in some $l$ columns, where we have $l < k$. However, if we sum the entries in these $k$ rows, we know that each row must have a row sum of 1, so the total sum of these entries is $k$. Summing the entries over the columns, we know that each column must also sum to 1, so we have a total sum of these entries of $s$. This implies $k = s$ since we are summing the same things. This is a contradiction of the fact that $s < k$, and hence, there must be a perfect mathing in $G$. 
+
+Now, let $P$ be the matrix which contains one non-zero entry from each row and each column of $M$. Let $P_1$ be its corresponding permutation matrix and $c_1$ be the minimum entry in $P$. We can now find a new matrix $M_1 = M - c_1 p_1$ which is non-negative and has equal row and column sums. Since our above analysis for finding a matrix $P$ which contains one non-zero entry from each row and column of $M$ works for whenever $M$ has equal column and row sums (change row and column sums of 1 to some arbitrary $u$ in the proof), we can repeat the procedure on $M_1$. This will give us a new matrix $M_2 = M - c_1 P_1 - c_2 P_2$. We will eventually terminate this procedure because at each step, we are eliminating an entry and setting that entry to zero. This occurs because we always pick $c_1$ as the minimum element in $P$, so that $M_i - c_i P_i$ will set the minimum entry in $M_i$ to zero. Since the new bipartite graph is only built with edges of non-negative entries, that entry will always stay at zero during each step of the algorithm. Finally, since the algorithm eliminates an entry at each step, we will be sure that after $O(n^2)$ iterations, we will have a found $M - c_1 P_1 - \ldots - c_{k} P_k = 0$. 
+
+But this means we have decomposed $M$ into a convex combination of permutation matrices, since $M = c_1 P_1 + \ldots + c_k P_k$. This shows that every doubly stochastic matrix is a convex combination of perfect matchings.
+
+Now, we shall show that so long as the internet switch can deliver matchings at rate $\lambda$, then it can deliver the specified traffic. This follows quickly from the fact that a doubly stochastic matrix is a convex combination of perfect matchings. Since at each step, the internet traffic switch can only produce matchings, we only need to show that the number of matchings that $M$ can be decomposed into is less than $\lambda^2$ (since we deliver $\lambda$ matchings per unit of time). However, we know that $\lambda$ is the maximum rate of input or output, which means that the decomposition algorithm used above will only need $\lambda^2$ decompositions. This shows that if the internet switch can deliver matchings at rate $\lambda$, then by the decomposition of inputs and outputs, it can deliver the specified amount of traffic.
+\end{sol}
 \end{document}
