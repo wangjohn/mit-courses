@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  15 OCT 2012 23:13
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  16 OCT 2012 11:28
 entering extended mode
  %&-line parsing enabled.
 **ps6.tex
@@ -710,11 +710,19 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[7] (./ps6.aux) ) 
+[7]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[8]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[9] (./ps6.aux) ) 
 Here is how much of TeX's memory you used:
  15246 strings out of 495061
  281315 string characters out of 1182621
- 401684 words of memory out of 3000000
+ 402684 words of memory out of 3000000
  17957 multiletter control sequences out of 15000+50000
  11104 words of font info for 46 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
@@ -729,9 +737,9 @@ ts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
 are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ps6.pdf (7 pages, 146422 bytes).
+Output written on ps6.pdf (9 pages, 157744 bytes).
 PDF statistics:
- 73 PDF objects out of 1000 (max. 8388607)
+ 79 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
