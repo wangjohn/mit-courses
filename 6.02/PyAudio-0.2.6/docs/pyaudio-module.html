@@ -1,0 +1,967 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>pyaudio</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://people.csail.mit.edu/hubert/pyaudio/">PyAudio-0.2.6</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Module&nbsp;pyaudio
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="pyaudio-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h1 class="epydoc">Module pyaudio</h1><p class="nomargin-top"><span class="codelink"><a href="pyaudio-pysrc.html">source&nbsp;code</a></span></p>
+PyAudio : Python Bindings for PortAudio v19.
+
+<hr />
+<div class="fields">      <p><strong>Version:</strong>
+        0.2.6
+      </p>
+      <p><strong>Author:</strong>
+        Hubert Pham
+      </p>
+</div><!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Classes</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio.Stream-class.html" class="summary-name">Stream</a><br />
+      PortAudio Stream Wrapper. Use <a href="pyaudio.PyAudio-class.html#open" class="link">PyAudio.open</a> to make a new
+<a href="pyaudio.Stream-class.html" class="link">Stream</a>.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio.PyAudio-class.html" class="summary-name">PyAudio</a><br />
+      initialize and terminate PortAudio
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio.PaMacCoreStreamInfo-class.html" class="summary-name">PaMacCoreStreamInfo</a><br />
+      Mac OS X-only: PaMacCoreStreamInfo is a PortAudio Host API
+Specific Stream Info data structure for specifying Mac OS
+X-only settings. Instantiate this class (if desired) and pass
+the instance as the argument in <a href="pyaudio.PyAudio-class.html#open" class="link">PyAudio.open</a> to parameters
+<tt class="rst-rst-docutils literal rst-docutils literal">input_host_api_specific_stream_info</tt> or
+<tt class="rst-rst-docutils literal rst-docutils literal">output_host_api_specific_stream_info</tt>. (See <a href="pyaudio.Stream-class.html#__init__" class="link">Stream.__init__</a>.)
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Functions</span></td>
+</tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Stream Conversion Convenience Functions</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">int</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyaudio-module.html#get_sample_size" class="summary-sig-name">get_sample_size</a>(<span class="summary-sig-arg">format</span>)</span><br />
+      Returns the size (in bytes) for the specified
+sample <code class="link">format</code> (a <a href="pyaudio-module.html#PaSampleFormat" class="link">PaSampleFormat</a> constant).</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyaudio-pysrc.html#get_sample_size">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type"><a href="pyaudio-module.html#PaSampleFormat" class="link">PaSampleFormat</a></span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a href="pyaudio-module.html#get_format_from_width" class="summary-sig-name">get_format_from_width</a>(<span class="summary-sig-arg">width</span>,
+        <span class="summary-sig-arg">unsigned</span>=<span class="summary-sig-default">True</span>)</span><br />
+      Returns a PortAudio format constant for
+the specified <code class="link">width</code>.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyaudio-pysrc.html#get_format_from_width">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;PortAudio version</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">str</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_portaudio_version"></a><span class="summary-sig-name">get_portaudio_version</span>()</span><br />
+      Returns portaudio version.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyaudio-pysrc.html#get_portaudio_version">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">str</span>
+    </td><td class="summary">
+      <table width="100%" cellpadding="0" cellspacing="0" border="0">
+        <tr>
+          <td><span class="summary-sig"><a name="get_portaudio_version_text"></a><span class="summary-sig-name">get_portaudio_version_text</span>()</span><br />
+      Returns PortAudio version as a text string.</td>
+          <td align="right" valign="top">
+            <span class="codelink"><a href="pyaudio-pysrc.html#get_portaudio_version_text">source&nbsp;code</a></span>
+            
+          </td>
+        </tr>
+      </table>
+      
+    </td>
+  </tr>
+</table>
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables</span></td>
+</tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio-module.html#PaCallbackStatus" class="summary-name">PaCallbackStatus</a> = <code title="['paInputUnderflow',
+ 'paInputOverflow',
+ 'paOutputUnderflow',
+ 'paOutputOverflow',
+ 'paPrimingOutput']"><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paInputUnderflow</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paInputOverflow</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">pa</code><code class="variable-ellipsis">...</code></code><br />
+      A list of all PortAudio callback status codes.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paMacCoreStreamInfo"></a><span class="summary-name">paMacCoreStreamInfo</span> = <code title="pa.paMacCoreStreamInfo">pa.paMacCoreStreamInfo</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="__package__"></a><span class="summary-name">__package__</span> = <code title="None">None</code>
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;PortAudio Constants</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio-module.html#PaSampleFormat" class="summary-name">PaSampleFormat</a> = <code title="['paFloat32',
+ 'paInt32',
+ 'paInt24',
+ 'paInt16',
+ 'paInt8',
+ 'paUInt8',
+ 'paCustomFormat']"><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paFloat32</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paInt32</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paInt24</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paInt16</code><code class="variable-quote">'</code><code class="variable-ellipsis">...</code></code><br />
+      A list of all PortAudio <tt class="rst-docutils literal">PaSampleFormat</tt> value constants.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio-module.html#PaHostApiTypeId" class="summary-name">PaHostApiTypeId</a> = <code title="['paInDevelopment',
+ 'paDirectSound',
+ 'paMME',
+ 'paASIO',
+ 'paSoundManager',
+ 'paCoreAudio',
+ 'paOSS',
+ 'paALSA',
+..."><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paInDevelopment</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paDirectSound</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paMME</code><code class="variable-quote">'</code><code class="variable-ellipsis">...</code></code><br />
+      A list of all PortAudio <tt class="rst-docutils literal">PaHostApiTypeId</tt> constants.
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio-module.html#PaErrorCode" class="summary-name">PaErrorCode</a> = <code title="['paNoError',
+ 'paNotInitialized',
+ 'paUnanticipatedHostError',
+ 'paInvalidChannelCount',
+ 'paInvalidSampleRate',
+ 'paInvalidDevice',
+ 'paInvalidFlag',
+ 'paSampleFormatNotSupported',
+..."><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paNoError</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paNotInitialized</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paUnanticipat</code><code class="variable-ellipsis">...</code></code><br />
+      A list of all PortAudio <tt class="rst-docutils literal">PaErrorCode</tt> constants.
+Typically, error code constants are included in Python
+exception objects (as the second argument).
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a href="pyaudio-module.html#PaCallbackReturnCode" class="summary-name">PaCallbackReturnCode</a> = <code title="['paContinue', 'paComplete', 'paAbort']"><code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paContinue</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paComplete</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paAbort</code><code class="variable-quote">'</code><code class="variable-group">]</code></code><br />
+      A list of all PortAudio callback return codes.
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;PaSampleFormat Values</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paFloat32"></a><span class="summary-name">paFloat32</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInt32"></a><span class="summary-name">paInt32</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInt24"></a><span class="summary-name">paInt24</span> = <code title="4">4</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInt16"></a><span class="summary-name">paInt16</span> = <code title="8">8</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInt8"></a><span class="summary-name">paInt8</span> = <code title="16">16</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paUInt8"></a><span class="summary-name">paUInt8</span> = <code title="32">32</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paCustomFormat"></a><span class="summary-name">paCustomFormat</span> = <code title="65536">65536</code>
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;PaHostApiTypeId Values</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInDevelopment"></a><span class="summary-name">paInDevelopment</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paDirectSound"></a><span class="summary-name">paDirectSound</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paMME"></a><span class="summary-name">paMME</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paASIO"></a><span class="summary-name">paASIO</span> = <code title="3">3</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paSoundManager"></a><span class="summary-name">paSoundManager</span> = <code title="4">4</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paCoreAudio"></a><span class="summary-name">paCoreAudio</span> = <code title="5">5</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paOSS"></a><span class="summary-name">paOSS</span> = <code title="7">7</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paALSA"></a><span class="summary-name">paALSA</span> = <code title="8">8</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paAL"></a><span class="summary-name">paAL</span> = <code title="9">9</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paBeOS"></a><span class="summary-name">paBeOS</span> = <code title="10">10</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paWDMKS"></a><span class="summary-name">paWDMKS</span> = <code title="11">11</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paJACK"></a><span class="summary-name">paJACK</span> = <code title="12">12</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paWASAPI"></a><span class="summary-name">paWASAPI</span> = <code title="13">13</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paNoDevice"></a><span class="summary-name">paNoDevice</span> = <code title="-1">-1</code>
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;PaErrorCode Values</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paNoError"></a><span class="summary-name">paNoError</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paNotInitialized"></a><span class="summary-name">paNotInitialized</span> = <code title="-10000">-10000</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paUnanticipatedHostError"></a><span class="summary-name">paUnanticipatedHostError</span> = <code title="-9999">-9999</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInvalidChannelCount"></a><span class="summary-name">paInvalidChannelCount</span> = <code title="-9998">-9998</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInvalidSampleRate"></a><span class="summary-name">paInvalidSampleRate</span> = <code title="-9997">-9997</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInvalidDevice"></a><span class="summary-name">paInvalidDevice</span> = <code title="-9996">-9996</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInvalidFlag"></a><span class="summary-name">paInvalidFlag</span> = <code title="-9995">-9995</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paSampleFormatNotSupported"></a><span class="summary-name">paSampleFormatNotSupported</span> = <code title="-9994">-9994</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paBadIODeviceCombination"></a><span class="summary-name">paBadIODeviceCombination</span> = <code title="-9993">-9993</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInsufficientMemory"></a><span class="summary-name">paInsufficientMemory</span> = <code title="-9992">-9992</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paBufferTooBig"></a><span class="summary-name">paBufferTooBig</span> = <code title="-9991">-9991</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paBufferTooSmall"></a><span class="summary-name">paBufferTooSmall</span> = <code title="-9990">-9990</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paNullCallback"></a><span class="summary-name">paNullCallback</span> = <code title="-9989">-9989</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paBadStreamPtr"></a><span class="summary-name">paBadStreamPtr</span> = <code title="-9988">-9988</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paTimedOut"></a><span class="summary-name">paTimedOut</span> = <code title="-9987">-9987</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInternalError"></a><span class="summary-name">paInternalError</span> = <code title="-9986">-9986</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paDeviceUnavailable"></a><span class="summary-name">paDeviceUnavailable</span> = <code title="-9985">-9985</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paIncompatibleHostApiSpecificStreamInfo"></a><span class="summary-name">paIncompatibleHostApiSpecificStreamInfo</span> = <code title="-9984">-9984</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paStreamIsStopped"></a><span class="summary-name">paStreamIsStopped</span> = <code title="-9983">-9983</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paStreamIsNotStopped"></a><span class="summary-name">paStreamIsNotStopped</span> = <code title="-9982">-9982</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInputOverflowed"></a><span class="summary-name">paInputOverflowed</span> = <code title="-9981">-9981</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paOutputUnderflowed"></a><span class="summary-name">paOutputUnderflowed</span> = <code title="-9980">-9980</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paHostApiNotFound"></a><span class="summary-name">paHostApiNotFound</span> = <code title="-9979">-9979</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInvalidHostApi"></a><span class="summary-name">paInvalidHostApi</span> = <code title="-9978">-9978</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paCanNotReadFromACallbackStream"></a><span class="summary-name">paCanNotReadFromACallbackStream</span> = <code title="-9977">-9977</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paCanNotWriteToACallbackStream"></a><span class="summary-name">paCanNotWriteToACallbackStream</span> = <code title="-9976">-9976</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paCanNotReadFromAnOutputOnlyStream"></a><span class="summary-name">paCanNotReadFromAnOutputOnlyStream</span> = <code title="-9975">-9975</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paCanNotWriteToAnInputOnlyStream"></a><span class="summary-name">paCanNotWriteToAnInputOnlyStream</span> = <code title="-9974">-9974</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paIncompatibleStreamHostApi"></a><span class="summary-name">paIncompatibleStreamHostApi</span> = <code title="-9973">-9973</code>
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;PaCallbackReturnCode Values</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paContinue"></a><span class="summary-name">paContinue</span> = <code title="0">0</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paComplete"></a><span class="summary-name">paComplete</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paAbort"></a><span class="summary-name">paAbort</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group-header"
+    >&nbsp;&nbsp;&nbsp;&nbsp;PaCallbackStatus Values</th></tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInputUnderflow"></a><span class="summary-name">paInputUnderflow</span> = <code title="1">1</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paInputOverflow"></a><span class="summary-name">paInputOverflow</span> = <code title="2">2</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paOutputUnderflow"></a><span class="summary-name">paOutputUnderflow</span> = <code title="4">4</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paOutputOverflow"></a><span class="summary-name">paOutputOverflow</span> = <code title="8">8</code>
+    </td>
+  </tr>
+<tr>
+    <td width="15%" align="right" valign="top" class="summary">
+      <span class="summary-type">&nbsp;</span>
+    </td><td class="summary">
+        <a name="paPrimingOutput"></a><span class="summary-name">paPrimingOutput</span> = <code title="16">16</code>
+    </td>
+  </tr>
+</table>
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Function Details</span></td>
+</tr>
+</table>
+<a name="get_sample_size"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_sample_size</span>(<span class="sig-arg">format</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyaudio-pysrc.html#get_sample_size">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Returns the size (in bytes) for the specified
+sample <code class="link">format</code> (a <a href="pyaudio-module.html#PaSampleFormat" class="link">PaSampleFormat</a> constant).
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>format</code></strong> - PortAudio sample format constant <a href="pyaudio-module.html#PaSampleFormat" class="link">PaSampleFormat</a>.</li>
+    </ul></dd>
+    <dt>Returns: int</dt>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - Invalid specified <code class="link">format</code>.</li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="get_format_from_width"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3 class="epydoc"><span class="sig"><span class="sig-name">get_format_from_width</span>(<span class="sig-arg">width</span>,
+        <span class="sig-arg">unsigned</span>=<span class="sig-default">True</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="pyaudio-pysrc.html#get_format_from_width">source&nbsp;code</a></span>&nbsp;
+    </td>
+  </tr></table>
+  
+  Returns a PortAudio format constant for
+the specified <code class="link">width</code>.
+  <dl class="fields">
+    <dt>Parameters:</dt>
+    <dd><ul class="nomargin-top">
+        <li><strong class="pname"><code>width</code></strong> - The desired sample width in bytes (1, 2, 3, or 4)</li>
+        <li><strong class="pname"><code>unsigned</code></strong> - For 1 byte width, specifies signed or unsigned
+format.</li>
+    </ul></dd>
+    <dt>Returns: <a href="pyaudio-module.html#PaSampleFormat" class="link">PaSampleFormat</a></dt>
+    <dt>Raises:</dt>
+    <dd><ul class="nomargin-top">
+        <li><code><strong class='fraise'>ValueError</strong></code> - for invalid <code class="link">width</code></li>
+    </ul></dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="table-header">
+  <td align="left" colspan="2" class="table-header">
+    <span class="table-header">Variables Details</span></td>
+</tr>
+</table>
+<a name="PaSampleFormat"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PaSampleFormat</h3>
+  <p>A list of all PortAudio <tt class="rst-rst-docutils literal rst-docutils literal">PaSampleFormat</tt> value constants.</p>
+<p>See: <a href="pyaudio-module.html#paInt32" class="link">paInt32</a>, <a href="pyaudio-module.html#paInt24" class="link">paInt24</a>, <a href="pyaudio-module.html#paInt16" class="link">paInt16</a>, <a href="pyaudio-module.html#paInt8" class="link">paInt8</a>, and <a href="pyaudio-module.html#paUInt8" class="link">paUInt8</a>.</p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paFloat32</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInt32</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInt24</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInt16</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInt8</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paUInt8</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paCustomFormat</code><code class="variable-quote">'</code><code class="variable-group">]</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="PaHostApiTypeId"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PaHostApiTypeId</h3>
+  <p>A list of all PortAudio <tt class="rst-rst-docutils literal rst-docutils literal">PaHostApiTypeId</tt> constants.</p>
+<p>See: <a href="pyaudio-module.html#paInDevelopment" class="link">paInDevelopment</a>, <a href="pyaudio-module.html#paDirectSound" class="link">paDirectSound</a>, <a href="pyaudio-module.html#paMME" class="link">paMME</a>, <a href="pyaudio-module.html#paASIO" class="link">paASIO</a>,
+<a href="pyaudio-module.html#paSoundManager" class="link">paSoundManager</a>, <a href="pyaudio-module.html#paCoreAudio" class="link">paCoreAudio</a>, <a href="pyaudio-module.html#paOSS" class="link">paOSS</a>, <a href="pyaudio-module.html#paALSA" class="link">paALSA</a>, <a href="pyaudio-module.html#paAL" class="link">paAL</a>, <em>et al...</em></p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paInDevelopment</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paDirectSound</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paMME</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paASIO</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paSoundManager</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paCoreAudio</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paOSS</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paALSA</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="PaErrorCode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PaErrorCode</h3>
+  <p>A list of all PortAudio <tt class="rst-rst-docutils literal rst-docutils literal">PaErrorCode</tt> constants.
+Typically, error code constants are included in Python
+exception objects (as the second argument).</p>
+<p>See: <a href="pyaudio-module.html#paNoError" class="link">paNoError</a>, <a href="pyaudio-module.html#paNotInitialized" class="link">paNotInitialized</a>, <a href="pyaudio-module.html#paUnanticipatedHostError" class="link">paUnanticipatedHostError</a>,
+<em>et al...</em></p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paNoError</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paNotInitialized</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paUnanticipatedHostError</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInvalidChannelCount</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInvalidSampleRate</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInvalidDevice</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInvalidFlag</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paSampleFormatNotSupported</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+<code class="variable-ellipsis">...</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="PaCallbackReturnCode"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PaCallbackReturnCode</h3>
+  <p>A list of all PortAudio callback return codes.</p>
+<p>See: <a href="pyaudio-module.html#paContinue" class="link">paContinue</a>, <a href="pyaudio-module.html#paComplete" class="link">paComplete</a>, <a href="pyaudio-module.html#paAbort" class="link">paAbort</a></p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paContinue</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paComplete</code><code class="variable-quote">'</code><code class="variable-op">, </code><code class="variable-quote">'</code><code class="variable-string">paAbort</code><code class="variable-quote">'</code><code class="variable-group">]</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<a name="PaCallbackStatus"></a>
+<div>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr><td>
+  <h3 class="epydoc">PaCallbackStatus</h3>
+  <p>A list of all PortAudio callback status codes.</p>
+<p>See: <a href="pyaudio-module.html#paInputUnderflow" class="link">paInputUnderflow</a>, <a href="pyaudio-module.html#paInputOverflow" class="link">paInputOverflow</a>, <a href="pyaudio-module.html#paOutputUnderflow" class="link">paOutputUnderflow</a>,
+<a href="pyaudio-module.html#paOutputOverflow" class="link">paOutputOverflow</a>, <a href="pyaudio-module.html#paPrimingOutput" class="link">paPrimingOutput</a></p>
+  <dl class="fields">
+  </dl>
+  <dl class="fields">
+    <dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<code class="variable-group">[</code><code class="variable-quote">'</code><code class="variable-string">paInputUnderflow</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paInputOverflow</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paOutputUnderflow</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paOutputOverflow</code><code class="variable-quote">'</code><code class="variable-op">,</code>
+ <code class="variable-quote">'</code><code class="variable-string">paPrimingOutput</code><code class="variable-quote">'</code><code class="variable-group">]</code>
+</pre></td></tr></table>
+</dd>
+  </dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navbar-select"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://people.csail.mit.edu/hubert/pyaudio/">PyAudio-0.2.6</a></th>
+          </tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">
+    Generated by Epydoc 3.0.1 on Sun Sep  2 01:06:07 2012
+    </td>
+    <td align="right" class="footer">
+      <a target="mainFrame" href="http://epydoc.sourceforge.net"
+        >http://epydoc.sourceforge.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie();
+  // -->
+</script>
+</body>
+</html>
