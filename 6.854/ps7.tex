@@ -1,0 +1,47 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{framed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 6.854 Advanced Algorithms} \\
+    Problem Set 7\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} \\
+    Collaborators: 
+    \end{center}
+    \vspace{0.5cm}
+}
+
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+\begin{document}
+
+\makenewtitle
+
+\begin{prob}{1}
+Another way to formulate the maximum-flow problem as a linear program is via flow decomposition. Suppose we consider all $s-t$ paths $P$ in the network $G$ and let $f_P$ be the amount of flow on path $P$. Then maximum flow says to find $z = \max \sum f_P$ subject to $\sum_{P \ni e} f_P \leq u_e$ for all edges $e$ and $f_P \geq 0$ for all paths $P$. Take the dual of this LP and give an English explanation of the objective and constraints.
+\end{prob}
+
+\begin{sol}
+To take the dual of this problem, we must find corresponding variables for each of the constraints. Let $y_{e}$ be the variables in the dual corresponding to the constraints $\sum_{P \ni e} f_P \leq u_e$.
+\end{sol}
+\end{document}
