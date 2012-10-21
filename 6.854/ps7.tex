@@ -42,6 +42,49 @@ Another way to formulate the maximum-flow problem as a linear program is via flo
 \end{prob}
 
 \begin{sol}
-To take the dual of this problem, we must find corresponding variables for each of the constraints. Let $y_{e}$ be the variables in the dual corresponding to the constraints $\sum_{P \ni e} f_P \leq u_e$.
+To take the dual of this problem, we must find corresponding variables for each of the constraints. Let $y_{e}$ be the variables in the dual corresponding to the constraints $\sum_{P \ni e} f_P \leq u_e$ (one for each edge $e$). By formulating the dual's matrix, we see that the objective function for the dual becomes $min \sum_{e} u_e y_e$. 
+
+Using the coefficients on the objective from the primal, we can find some of the constraints for the dual. Namely, we know that $y_e \geq 0$. Moreover, we find the condition $\sum_{e \in P} y_e \geq 1$ for all paths $P$ because of the objective function in the primal. Therefore, we have the following linear program:
+
+\begin{eqnarray}
+\min \sum_e u_e y_e \\
+\text{s.t.} \hspace{1cm} \sum_{e \in P} y_e \geq 1 \\
+y_e \geq 0
+\end{eqnarray}
+
+We can think of $y_e$ as the length of each edge. Thus, the two constraints say that the total distance from $s$ to $t$ using the edges must be positive. The second constraint, $y_e \geq 0$ says that edge lengths must be greater than 0. If we use this interpretation to interpret the objective, we find that we are attempting to minimize the sum of the length times the capacity of each edge $e$. 
+
+In other words, we're attempting to assign lengths $y_e$ which minimize the total cost of crossing over to $t$. Since we know that $z = \max \sum f_P = \min \sum_{e} u_e y_e$, we know that minimizing the lengths will be equal to the value of the min-cut, by LP duality. If we assign lengths of 1 over all edges that cross the minimum $S$, $T$ cut, then we can be assured that $\sum f_P = \sum_{e} u_e y_e$ if we set all other edge lengths to 0. Thus, the dual of this problem is to find the minimum $S$,$T$ cut and assign edges lengths of 1 to all edges crossing the cut. 
 \end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{2-a}
+Explain why this captures the minimum mean cycle problem.
+\end{prob}
+\begin{sol}
+First, we know that $f_{ij}$ represents a circulation. We see that $f_{ij}$ is constrained to be non-negative by the fact that $f_{ij} \geq 0$. Moreover, we know that the flow across the entire graph must be equal to 1 because $\sum_{i,j} f_{ij} = 1$. 
+
+Now, we want to minimize $\sum c_{ij} f_{ij}$, which means that for each edge $(i,j)$, we want to minimize $c_{ij} f_{ij}$. Suppose for the sake of contradiction that when we decompose $\{ f_{ij} \}$ into cycles that there is some cycle $cp$ which is not a minimum mean cycle. Let us say it is of length $l$ and of cost $c$. Suppose the minimum mean cycle is of length $l^*$ and cost $c^*$. Then we know that $c/l > c^*/l^*$. We also know that the cycle $cp$ contribute $c f / l$ to the objective function, where $f$ is the circulation flowing through the cycle $cp$. 
+
+However, if we replace the cycle $cp$ with the minimum mean cycle, then we can contributed $c^* f / l^*$ to the objective function. Notice that $c^* f / l^* < c f/l $, which means that our previous objective function was not minimal. This is a contradiction, so the circulation must go over minimum mean cycles.  
+\end{sol}
+
+\begin{prob}{2-b}
+Give the dual of this linear program--it will involve maximizing a variable $\lambda$.
+\end{prob}
+\begin{sol}
+Let us create a variable $\lambda$ which corresponds to the constraint $\sum_{i,j} f_{ij} = 1$. Since we have equality here, we know that $\lambda$ will be unbounded in sign. Let us create a set of variables $y_{i}$ which will correspond to the constraints $\sum_{j} f_{ij} - f_{ji} = 0$, one for each vertex $i$. 
+
+Based on the primal's objective function, we see that the new constraints in the dual will be given by $\lambda + y_i - y_j \leq c_{ij}$. Moreover, by the constraint matrix for the dual, we know that we want to maximize $\lambda$. Thus, we obtain the following problem:
+
+\begin{eqnarray}
+\max \lambda \\
+\text{s.t.} \hspace{1cm} \lambda + y_i - y_j \leq c_{ij}
+\end{eqnarray}
+
+Where $\lambda$ and each of the $y_i$ are unbounded in sign.
+\end{sol}
+
 \end{document}
