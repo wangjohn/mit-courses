@@ -120,4 +120,36 @@ This means that we can be sure that we are done recursing when $b-a$ comes withi
 We can then go and find the minimum mean cycle by using $\lambda$ in the reduced costs, then we can simply look for the minimum mean cost cycles by looking for zero edge weight cycles, which can be found by using a simple BFS.
 \end{sol}
 
+\newpage
+\makenewtitle
+
+\begin{prob}{3-a}
+Argue that any LP optimization problem can be transformed into the form $min 0 \dot x$ subject to $Ax = b$, $x \geq 0$. This LP has optimum $0$ if it is feasible and $\infty$ if no. 
+\end{prob}
+\begin{sol}
+We know that every LP optimization problem can be expressed in standard form. Therefore, we have the problem $\min cx$ such that $Ax = B, x\geq 0$. We derived in class that the dual of the standard form is $\max by$ such that $A^T y \geq c$. We $p$ be the solution of the primal and let $d$ be the solution of the dual. 
+
+We know that in the optimal solution, we must have $p = d$, so we need to check whether $p = cx = by = d$, subject to all the conditions in both the primal and dual. Therefore, to check optimality, we look for feasibility of the following LP:
+\begin{eqnarray}
+by &=& cx \\
+\text{ s.t. } Ax &=& b \\
+x &\geq& 0 \\
+Ay &\geq& c
+\end{eqnarray}
+
+Now, to find the optimum of either the primal or the dual, we just need to check feasibility of the above program. Finding a feasible solution will automatically give us an optimum solution by looking at the $p = by$ such that $by = cx$. Moreover, if either the primal or the dual is unbounded or infeasible, there will be no feasible solution to this LP. Notice that the feasibility of this program is equivalent to the minimization of $0 \dot x$, which is the objective function of the problem statement. If there are unbounded variables in the original primal, we can decompose $v = v^+ + v^-$ which represent the positive and negative portions of the unbounded variable. These can then enter into the variable set for the new LP.
+
+Thus, we have created the problem $\min 0 \dot x$ subject to $Ax = b$ where $x \geq 0$, where we have transformed any standard form LP. 
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{4-a}
+Given a standard form LP $min\{cx | Ax = b, x \geq 0 \}$, show how to define a different LP with an obvious feasible point, whose optima are precisely the feasible points of the original LP. 
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
 \end{document}
