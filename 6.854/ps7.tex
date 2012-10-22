@@ -96,12 +96,12 @@ If we rewrite the constraint $\lambda + y_i - y_j \leq c_{ij}$, we find that $\l
 
 This means that we can define a valid price function $y_i$ where all reduced costs are positive (if the solution to the dual is optimal). Moreover, we know that if $\lambda$ is optimal, then we must have $0 = c_{ij} - \lambda + y_j - y_i$ for some cycle, since otherwise we could make $\lambda$ marginally larger and obtain a better objective function while still satisfying the constraints.    
 
-This means that for some cycle $K$, we have $\sum_{(i,j) \in K} (c_{ij} - \lambda + y_i - y_j} = 0$, which simplifies to $\sum_{(i,j) \in K} c_{ij} - \lambda = 0$ by telescoping. Therefore, we see that:
+This means that for some cycle $K$, we have $\sum_{(i,j) \in K} c_{ij} - \lambda + y_i - y_j = 0$, which simplifies to $\sum_{(i,j) \in K} c_{ij} - \lambda = 0$ by telescoping. Therefore, we see that:
 \begin{eqnarray}
 \sum_{(i,j) \in C} c_{ij} = l \lambda
 \end{eqnarray}
 
-Where $l$ is the length of the cycle.  
+Where $l$ is the length of the cycle. Now, let us set $c$ to the total cost of the cycle, so that we know $c = \sum_{(i,j) \in C} c_{ij}$. Thus, we see that $c/l = \lambda$ is minimized, or in other words, we find a minimum mean cost cycle.
 \end{sol}
 
 \begin{prob}{2-d}
