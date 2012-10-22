@@ -108,4 +108,16 @@ Where $l$ is the length of the cycle. Now, let us set $c$ to the total cost of t
 Let's assume the costs $c_{ij}$ are integers. Suggest a combinatorial algorithm (not based on linear programming) that uses binary search to find the right $\lambda$ to solve the dual problem. Can you use this to find a minimum mean cycle? Note: to know when you can terminate the search, you will need to lower bound the difference between the smallest and the next smallest mean cost of a cycle.
 \end{prob}
 
+\begin{sol}
+First, we know that $\lambda \in [0, c_{max}]$ where $c_{max}$ is the maximum cost for any edge in the graph. This follows since we know that $(c_{ij} - \lambda) + y_i - y_j = 0$, so that we must have $c_{ij} \geq \lambda$. This means that we can perform a binary search for $\lambda$ inside of the interval $[0, c_{max}]$. 
+
+We search by taking examining the interval $[a,b]$ and taking $(b-a)/2$. Once we have a candidate for $\lambda = (b-a)/2$, then we can check if this is feasible. Feasibility is checked by looking for a negative-cost cycle using the reduced edge costs with $\lambda = (b-a)/2$. We can augment the graph with this new $\lambda$, then check for negative-cost cycles by using Bellman-Ford. If we find a negative reduced cost cycle, then we must check for $\lambda$ which are smaller, so we recurse on the interval $[a, (b-a)/2]$. If there are no negative reduced cost cycles, then we can increase $\lambda$ while still being feasible, so we recurse on the interval $[(b-a)/2, b]$. 
+
+We stop recursing when we have $b - a < \frac{1}{n^2}$, where $n$ is the total number of vertices in the graph. This follows because each cycle can consist of at most $n$ vertices each. We simply need to find a lower bound on the difference between the smallest and the second smallest mean cost of a cycle. However, we know that the mean costs $c_1 l_1 / k_1$ and $c_2 l_2 / k_2$ will have a difference $c_1 l_1 k_2 - c_2 l_2 k_1 >= 1$, since both of these values are integers. This implies that the mean costs differ by at least $\frac{1}{k_1 k_2} \geq \frac{1}{n^2}$. 
+
+This means that we can be sure that we are done recursing when $b-a$ comes within $\frac{1}{n^2}$. This is because, by the integrality of costs, we are assured that $c_1 l_1 k_2 - c_2 l_2 k_1$ is an integer, and so we can bound the difference between the smallest and second smallest mean costs by $\frac{1}{n^2}$. Therefore, we can terminate the search when this occurs. 
+
+We can then go and find the minimum mean cycle by using $\lambda$ in the reduced costs, then we can simply look for the minimum mean cost cycles by looking for zero edge weight cycles, which can be found by using a simple BFS.
+\end{sol}
+
 \end{document}
