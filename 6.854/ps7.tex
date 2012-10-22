@@ -84,7 +84,28 @@ Based on the primal's objective function, we see that the new constraints in the
 \text{s.t.} \hspace{1cm} \lambda + y_i - y_j \leq c_{ij}
 \end{eqnarray}
 
-Where $\lambda$ and each of the $y_i$ are unbounded in sign.
+Where $\lambda$ and each of the $y_i$ are unbounded in sign, and each of the constraints are set for all $i,j$. 
 \end{sol}
+
+\begin{prob}{2-c}
+Give an explanation (in terms of min-cost-flow reduced costs) for why this dual formulation also captures minimum mean cycles. (Hint: how much is added to the cost of a $k$-edge cycle).
+\end{prob}
+
+\begin{sol}
+If we rewrite the constraint $\lambda + y_i - y_j \leq c_{ij}$, we find that $\lambda \leq y_j + c_{ij} - y_i$. We know that $c_{ij}$ are costs, and therefore, we can think of $\lambda$ as the reduced cost, since we can think of $y_i$ as a price function defined at each vertex $i$.
+
+This means that we can define a valid price function $y_i$ where all reduced costs are positive (if the solution to the dual is optimal). Moreover, we know that if $\lambda$ is optimal, then we must have $0 = c_{ij} - \lambda + y_j - y_i$ for some cycle, since otherwise we could make $\lambda$ marginally larger and obtain a better objective function while still satisfying the constraints.    
+
+This means that for some cycle $K$, we have $\sum_{(i,j) \in K} (c_{ij} - \lambda + y_i - y_j} = 0$, which simplifies to $\sum_{(i,j) \in K} c_{ij} - \lambda = 0$ by telescoping. Therefore, we see that:
+\begin{eqnarray}
+\sum_{(i,j) \in C} c_{ij} = l \lambda
+\end{eqnarray}
+
+Where $l$ is the length of the cycle.  
+\end{sol}
+
+\begin{prob}{2-d}
+Let's assume the costs $c_{ij}$ are integers. Suggest a combinatorial algorithm (not based on linear programming) that uses binary search to find the right $\lambda$ to solve the dual problem. Can you use this to find a minimum mean cycle? Note: to know when you can terminate the search, you will need to lower bound the difference between the smallest and the next smallest mean cost of a cycle.
+\end{prob}
 
 \end{document}
