@@ -142,6 +142,39 @@ Now, to find the optimum of either the primal or the dual, we just need to check
 Thus, we have created the problem $\min 0 \dot x$ subject to $Ax = b$ where $x \geq 0$, where we have transformed any standard form LP. 
 \end{sol}
 
+\begin{prob}{3-b}
+What is the dual of this linear program?
+\end{prob}
+\begin{sol}
+We can create a new variable $y$ which will correspond to the constraint $Ax = b$. We see that the new objective function will be given by $y$ amultiplied by its corresponding constraint, so we have $\max (Ax)^T y$. Since we know that $(Ax)^T = b^T$, we can rewrite this to $\max b^T y$. We are left to find the constraints of the dual.
+
+We can use the coefficients from the primal's objective function to find the constant for the constraint. Moreover, we know that we want to set $A^T y$ as the left half of the constraint. Since we have $x \geq 0$, in the natural direction, we must have $A^T y$ in the other direction. We see that the constraint becomes $A^T y \leq 0$. Thus, the dual LP is:
+\begin{eqnarray}
+\max b^T y \\
+\text{s.t.} \hspace{1cm} A^T y \leq 0
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{3-c}
+Argue if the primal is feasible then the dual has an obvious optimum solution.
+\end{prob}
+\begin{sol}
+We know that all feasible solutions for the primal must have an objective of 0. Otherwise, we would have $0 \cdot x = \infty$, in which case the solution would not be feasible. Since we know that all feasible solutions to the primal have an objective of 0, we know by strong LP duality that all solutions of the dual must also have a solution of 0. We can also choose $y = 0$ and note that it satisfies $b^T y = 0$ and also the constraint $A^T y = 0$. Therefore, the obivous opimum solution for the dual is $y = 0$, leading to the objective function of value 0.
+\end{sol}
+
+\begin{prob}{3-d}
+Deduce that, given the hypothetical algorithm above, you can build an LP algorithm that will solve any LP without knowing beforehand a dual solution, in the same asymptotic time bounds as the algorithm above.
+\end{prob}
+\begin{sol}
+Let us use the magic algorithm given above to solve any LP without knowing a dual solution. First we know that any LP can be converted into standard form, then put in the form of problem 3-a, call this $LP'$. We know from problem 3-c that if the primal is feasible, then the dual has the optimum solution $y=0$. 
+
+Thus, we can run the magic algorithm on $LP'$, using the dual solution $y=0$. We know that the algorithm finishes and gives an optimum solution in $O((m+n)^k)$ time if the dual solution is optimal. Since $y=0$ might not be an optimal solution if $LP'$ does not have any feasible solutions, then we must check to make sure the magic algorithm outputs a correct result. There exists some constant $c$ such that after $c(m+n)^k$ steps, we can cut off the algorithm and check whether it has returned an optimum value for $LP'$ yet.
+
+If the value it outputs is feasible, so that $Ax = b$ and $x \geq 0$, then we know it must also be optimal for $LP'$ because the objective simply takes $\min 0 \cdot x$. However, if the output is infeasbile, then $LP'$ does not have any feasible solution. Notice that if $LP'$ has a feasible solution then we are guaranteed to find it using the magic algorithm in this way, and if $LP'$ does not have a feasible solution, then our check will discover this as well.
+
+Now, we know that feasibility checking is equivalent to solving an LP. If we are given an LP in standard form, i.e. $\min cx$ such that $Ax = b$ and $x \geq 0$, then we just perform feasibility checking using the above algorithm to see if the problem $by = cx, Ax = b, x \geq 0, A^T y = c$ has any feasible solution. Our algorithm will return a feasible solution if it exists, and therefore, will also be able to provide an optimal solution to the original standard form LP. Thus, we ave been able to solve any LP in $O((m+n)^k)$ time using this magic algorithm.
+\end{sol}
+
 \newpage
 \makenewtitle
 
