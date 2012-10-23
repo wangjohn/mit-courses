@@ -182,7 +182,39 @@ Now, we know that feasibility checking is equivalent to solving an LP. If we are
 Given a standard form LP $min\{cx | Ax = b, x \geq 0 \}$, show how to define a different LP with an obvious feasible point, whose optima are precisely the feasible points of the original LP. 
 \end{prob}
 \begin{sol}
+For each constraint in the constraint matrix defined by $Ax = b$, we will add a slack variable $y_i$ to create a new constraint matrix. Basically, for each equation $a_i x = b_i$ we will create an equation $a_i x + y_i = b_i$. We know that the equations originally are in the form $a_i x = b_i$ because we have a standard form LP. 
 
+After we have defined these new variables $y_i$, we can create a vector $y = [y_1, y_2, \ldots, y_n]$. Now take the new LP:
+\begin{eqnarray}
+\min \sum_{i} y_i
+\text{s.t} \hspace{1cm} Ax + y = b \\
+y_i \geq 0 \forall i
+x_i \geq 0 \forall i
+\end{eqnarray}
+
+Now, we have new variables $y_i$ along with our previous variables $x_i$. However, we can trivially satisfy our constraints by setting $x_i = 0$ for all $i$, then setting $y_i = b_i$ for all $i$. This follows since $Ax = 0$, so we can be sure that $y=b$ will satisfy $Ax + y = b$. Moreover, we know that the optimum points of this LP are the $x_i$'s when $\sum_{i} y_i = 0$. Since all $y_i$ are positive, we must have $y = 0$ for this to occur.
+
+However, if $y=0$, then we can see that our original constraint $Ax = b$ is satisfied. Since we constrained $x_i \geq 0 \forall i$, we will have found a feasible solution to our standard form LP with the optimum of our new LP.
+\end{sol}
+
+\begin{prob}{4-b}
+Explain how this solves our problem, allowing us to use a simplex solver (which requires a feasible starting point) to solve arbitrary LPs without being given a feasible starting point.
+\end{prob}
+\begin{sol}
+We can use our new LP $A$ from problem 4-a above to find a feasible starting point for simplex. First, we use the formulation above to create a problem whose optimum is an optimum for our original LP. Since we know that $x = 0$ and $y=b$ will suffice as a starting point in $A$, we can run simplex to find the optimum solution of $A$. 
+
+If in the optimum we find $y_i = 0 \forall i$, then we know that $x$ will be a feasible starting point for our original LP. If this is not the case, then our original LP has no feasible points and thus is not feasible--this is because no variables $x_i$ can be used to satisfy the constraints $Ax = b$ and $x_i \geq 0 \forall i$. 
+
+Now, once we have an feasible starting point for our original LP, we can run simplex to solve our LP.  
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{5-a}
+Explain how a network design problem can be solved using the ellipsoid algorithm. In particular, give a linear program involving exponentially many constraints and provide an algorithm that, given any proposed network, finds a violated constraint in polynomial time. (Hint: the demands must be satisfied by flows, which are intimately related to cuts).
+\end{prob}
+\begin{sol}
 \end{sol}
 
 \end{document}
