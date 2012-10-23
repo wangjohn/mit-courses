@@ -224,6 +224,15 @@ Explain how a network design problem can be solved using the ellipsoid algorithm
 Show that if Alice's mixed strategy is known, then Bob has a pure strategy serving as his best response.
 \end{prob}
 \begin{sol}
+If Alice's mixed strategy is known, then there is some probability distribution over her strategies that is known to Bob. Let's say that Alice has some probability $p_i$ of choosing strategy $i$. We know that Bob's strategy is attempting to find $\max_{y_j = 1} \min_{x_i = 1} xAy$. The expected value for Bob of choosing strategy $j$ is given by $\sum_{i=1}^n p_i a_{ij}$. 
+
+Since Bob attempts to solve the optimization problem $\max_{j} \sum_{i=1}^n p_i a_{ij}$, Bob's best response is the single strategy $j$ that maximizes this objective function. Therefore, Bob has a pure strategy of the choosing the objective maximizing response to Alice's mixed strategy.
+\end{sol}
+
+\begin{prob}{6-b}
+Show how to convert each program above into a linear program, and thus find each an optimal strategy for both players in polynomial time.
+\end{prob}
+\begin{sol}
 
 \end{sol}
 
