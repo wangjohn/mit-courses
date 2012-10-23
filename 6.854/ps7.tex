@@ -186,10 +186,10 @@ For each constraint in the constraint matrix defined by $Ax = b$, we will add a 
 
 After we have defined these new variables $y_i$, we can create a vector $y = [y_1, y_2, \ldots, y_n]$. Now take the new LP:
 \begin{eqnarray}
-\min \sum_{i} y_i
+\min \sum_{i} y_i \\ 
 \text{s.t} \hspace{1cm} Ax + y = b \\
-y_i \geq 0 \forall i
-x_i \geq 0 \forall i
+y_i \geq 0 \forall i \\
+x_i \geq 0 \forall i 
 \end{eqnarray}
 
 Now, we have new variables $y_i$ along with our previous variables $x_i$. However, we can trivially satisfy our constraints by setting $x_i = 0$ for all $i$, then setting $y_i = b_i$ for all $i$. This follows since $Ax = 0$, so we can be sure that $y=b$ will satisfy $Ax + y = b$. Moreover, we know that the optimum points of this LP are the $x_i$'s when $\sum_{i} y_i = 0$. Since all $y_i$ are positive, we must have $y = 0$ for this to occur.
@@ -224,16 +224,52 @@ Explain how a network design problem can be solved using the ellipsoid algorithm
 Show that if Alice's mixed strategy is known, then Bob has a pure strategy serving as his best response.
 \end{prob}
 \begin{sol}
-If Alice's mixed strategy is known, then there is some probability distribution over her strategies that is known to Bob. Let's say that Alice has some probability $p_i$ of choosing strategy $i$. We know that Bob's strategy is attempting to find $\max_{y_j = 1} \min_{x_i = 1} xAy$. The expected value for Bob of choosing strategy $j$ is given by $\sum_{i=1}^n p_i a_{ij}$. 
+If Alice's mixed strategy is known, then there is some probability distribution over her strategies that is known to Bob. Let's say that Alice has some probability $x_i$ of choosing strategy $i$. We know that Bob's strategy is attempting to find $\max_{y_j = 1} \min_{x_i = 1} xAy$. The expected value for Bob of choosing strategy $j$ is given by $\sum_{i=1}^n x_i a_{ij}$. 
 
-Since Bob attempts to solve the optimization problem $\max_{j} \sum_{i=1}^n p_i a_{ij}$, Bob's best response is the single strategy $j$ that maximizes this objective function. Therefore, Bob has a pure strategy of the choosing the objective maximizing response to Alice's mixed strategy.
+Since Bob attempts to solve the optimization problem $\max_{j} \sum_{i=1}^n x_i a_{ij}$, Bob's best response is the single strategy $j$ that maximizes this objective function. Therefore, Bob has a pure strategy of the choosing the objective maximizing response to Alice's mixed strategy.
 \end{sol}
 
 \begin{prob}{6-b}
 Show how to convert each program above into a linear program, and thus find each an optimal strategy for both players in polynomial time.
 \end{prob}
 \begin{sol}
+We know that Alice will choose the strategy that minimizes $xA$. Therefore, let us first look for Alice's strategy. We must find a lower bound $M$ of the columns of $Ay$. This can be done with a new linear program, making sure that the LP satisfies the properties of a mixed strategy. First, we must have $\sum_{i} y_i = 1$ because probabilities must sum to 1. Moreover, we must have non-negative probabilities so $y_i \geq 0$ for all $i$. Finally, in order to get a lower bound $M$ on the rows of $Ay$, we need to have $Ay \geq [M, M, M, \ldots, M]^T$. Finally, we want to maximize $M$ in order to get the tighest lower bound. Therefore our LP becomes:
+\begin{eqnarray}
+\max &M& \\ 
+\text{s.t.} \hspace{1cm} Ay &\geq& [M, M, \ldots, M]^T \\
+\sum_i y_i &=& 1 \\
+y_i &\geq& 0 \forall i
+\end{eqnarray}
 
+Solving this LP means that we maximize the minimum of the rows of $Ay$, which is what Bob wanted to do in the first place. Once we have solved this LP, then we will have solved Bob's problem. To solve Alice's problem, we turn $M$ into the maximum of the columns of $xA$, then take $\min M$ as the objective function. The $x$ vector will give the probabilities for each strategy $i$ and will thus constitute the optimal mixed strategy. We chance our conditions to $xA \leq [M, M, \ldots, M]$, $\sum_{i} x_i = 1$, and $x_i \geq 0$ for all $i$.  
+\end{sol}
+
+\begin{prob}{6-c}
+Give a plausible explanation for the meaning of your linear program in terms of the zero-sum matrix game (why does it give the optimum)?
+\end{prob}
+\begin{sol}
+The linear program provided in problem 6-b looks for the maximum of the minimum of the mixed strategies. Basically, if Bob knew Alice's strategy, then Bob would always use strategy $j$ such that it maximized his objective function. We showed in problem 6-a that this is a pure strategy on Bob's part. 
+
+However, since Alice employs a mixed strategy, Bob must guess which mixed strategy Alice employs. Therefore, Bob will probabilistically choose his strategy $j$ in response to what Alice will choose as her mixed strategy. The linear program defined in 6-b looks for Alice's optimal solution by finding the minimum $M$ that she would most likely choose. This analogy allows us to look at $M$ as the lower bound on the columns of $xA$.
+
+Thus the LP solves Bob's problem by first looking at all the possibilities of what Alice will do, then finding the best possible strategies that Alice could take, and looking at Bob's response to these. Similar reasoning follows for solving Alice's problem.
+\end{sol}
+
+\begin{prob}{6-d}
+Use strong duality to argue that the above two quantities are equal.
+\end{prob}
+\begin{sol}
+We will start with the LP $min M$ subject to $xA \leq [M, M, \ldots, M]$, $\sum_{i} x_i = 1$, and $x_i \geq 0$ for all $i$. Taking the dual, we can create a new variable $z_i$ that corresponds to each strategy $i$. We also add another variable $E$. We go from a minimization problem to a maximization problem, using the constraints in the primal to create a new objective function. We will then haave $\max E$, where $E$ is our new variable. 
+
+Using our previous objective function, we can create the constraints for our new dual. We have $\sum_{i} - z_i = 1$ and $z_i \leq 0$ for all $i$. These follow because we must flip the direction of the inequality, and because our new variables $z_i$ must be constrained according to the primal's objective. Finally, we see that we must have $Az \leq - [E, E, \ldots, E]^T$. If we set $-z_i = y_i$ with a simple change of variables, we have a the LP:
+\begin{eqnarray}
+\max &E& \\
+\text{s.t.} \hspace{1cm} Ay &\geq& [E, E, \ldots, E]^T \\
+\sum_{i} y_i &=& 1 \\
+y_i &\geq& 0 \forall i
+\end{eqnarray}
+
+Notice that after taking the dual of our original LP, we have come up with Bob's problem. Therefore, we see that Alice and Bob's optimization problems are duals of each other. By strong duality, we know that Alice's optimum must be equal to Bob's optimum as long as the solutions are feasible. Thus the two quantities in problem 6-c are equal. 
 \end{sol}
 
 \end{document}
