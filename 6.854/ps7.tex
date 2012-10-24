@@ -20,7 +20,7 @@
     Problem Set 7\\
     \vspace{0.25cm}
     {\bfseries John Wang} \\
-    Collaborators: 
+    Collaborators: Jason Hoch, Ryan Liu 
     \end{center}
     \vspace{0.5cm}
 }
@@ -231,7 +231,17 @@ Here we denote $c=(s,t)$ as an $s-t$ cut between vertices $s$ and $t$. Note that
 Argue that one can therefore find the minimum cost network design for the given input. 
 \end{prob}
 \begin{sol}
+We will attempt to solve the following LP:
+\begin{eqnarray}
+\min &Cx& \\
+\text{s.t.} \hspace{1cm} f(c) &\geq& D_{s,t} \hspace{0.5cm} \forall c=(s,t) \text{ where } s,t \in V
+\end{eqnarray}
 
+Basically, we must find a feasible point from the problem in 5-a which minimizes the total cost. We already have a separation oracle in the ellipsoid algorithm since we can simply use the polynomial time max-flow algorithm to determine if a certain network is feasible or not. Notice that running max-flow $n^2$ is sufficient to show feasibility, so it clearly is polynomial for a given network. 
+
+Now, we can start with a feasible point for our ellipsoid algorithm by creating a network with capacities set to $D_{s,t}$ for each edge $(s,t)$. This guarantees that we satisfy all the constraints, since we can always send flow along the $(s,t)$ edge and achieve flow of $D_{s,t}$. Now, in order to minimize $Cx$, we must find a more optimal feasible solution than before. 
+
+However, we can perform a binary search on $[0,K]$ where $K$ is the largest flow $D_{s,t}$ which is required. Basically, we try decreasing edge $e$ by capacity $K/2$. If the resulting network is infeasible, then we try a different edge $e$. Eventually, we can try all edges $e$ on the graph. If none of the resulting networks are feasible, then we perform binary search on the set $[K/2, K]$ until we can decrease some edge capacity and still have a feasible network. This will allow us to decrease our objective function (since we need to buy less capacity at a given edge). Unless we are at an optimum, we will always be able to decrease our objective function by decreasing an edge capacity and our algorithm is sure to find that edge. If we are at an optimum, then the ellipsoid algorithm will terminate. Since there are $O(n^2)$ edges in the graph, and we perform the binary search $O(\log K)$ times (making sure to normalize $K$ so that it is an integer by multiplying by the largest denominator), then we have found a polynomial time algorithm for finding the minimum cost network design.
 \end{sol}
 
 \newpage
