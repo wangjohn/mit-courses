@@ -215,6 +215,23 @@ Now, once we have an feasible starting point for our original LP, we can run sim
 Explain how a network design problem can be solved using the ellipsoid algorithm. In particular, give a linear program involving exponentially many constraints and provide an algorithm that, given any proposed network, finds a violated constraint in polynomial time. (Hint: the demands must be satisfied by flows, which are intimately related to cuts).
 \end{prob}
 \begin{sol}
+We will create a linear program which is able to tell if a network has any violated constraints in polynomial time. First, we want to minimize the total cost of the network, so this will be our objective function. Next, we need to make sure for every vertex $s$ and $t$, we must have the flow between $s$ and $t$ be greater than $D_{s,t}$. 
+
+In order to formulate this problem, we note that if we can find a flow from $s$ to $t$ which is greater than $D_{s,t}$ for each pair of vertices $s$ and $t$, then we have found a feasible solution. In order to find this flow, we can look at the cuts between $s$ and $t$. In essence, we must specify that all the cuts, and hence also the minimum cut, must have flow greater than $D_{s,t}$. Therefore, for every $s-t$ cut between vertices $s$ and $t$, we must have flow greater than $D_{s,t}$, which will guarantee that the min-cut has flow greater than $D_{s,t}$, which will in turn guarantee that a max-flow can be found with flow greater than $D_{s,t}$. 
+
+Thus, we formulate the problem with constraints:
+\begin{eqnarray}
+f(c) &\geq& D_{s,t} \hspace{0.5cm} \forall c=(s,t) \text{ where } s,t \in V
+\end{eqnarray}
+
+Here we denote $c=(s,t)$ as an $s-t$ cut between vertices $s$ and $t$. Note that there are exponentially many of these cuts (each vertex can be either in or out of the $s$ subset. However, we note that we can find a violated constraint in polynomial time by using a max flow algorithm. Therefore, we have been able to provide an algorithm that, given any proposed network, finds a violated constraint in polynomial time. 
+\end{sol}
+
+\begin{prob}{5-b}
+Argue that one can therefore find the minimum cost network design for the given input. 
+\end{prob}
+\begin{sol}
+
 \end{sol}
 
 \newpage
