@@ -1,0 +1,231 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{framed}
+\usepackage{hyperref}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 14.27 Economics of E-Commerce} \\
+    Problem Set 3\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} 
+    \end{center}
+    \vspace{0.5cm}
+}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\begin{document}
+
+\makenewtitle
+
+\begin{prob}{1-a}
+Use an OLS regression to estimate linear demand curves for each market.
+\end{prob}
+\begin{sol}
+For the california market, we look at the regression $price = \alpha_c + \beta_c Q_c$. For the hawaii market, we do $price = \alpha_h + \beta_h Q_h$ where the subscript $c$ and $h$ refer to california and hawaii respectively. The results for the OLS regression for california are:
+\begin{verbatim}
+        Coefficients:
+        Estimate Std. Error t value Pr(>|t|)    
+        (Intercept)         26.25127    0.71367   36.78 1.05e-13 ***
+        california_quantity -0.13662    0.01019  -13.41 1.39e-08 ***
+        ---
+        Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+        
+        Residual standard error: 1.594 on 12 degrees of freedom
+        Multiple R-squared: 0.9375, Adjusted R-squared: 0.9323 
+        F-statistic: 179.9 on 1 and 12 DF,  p-value: 1.387e-08 
+\end{verbatim}
+
+The results for hawaii are:
+\begin{verbatim}
+        Coefficients:
+        Estimate Std. Error t value Pr(>|t|)    
+        (Intercept)     35.38819    1.80333  19.624 1.74e-10 ***
+        hawaii_quantity -0.81465    0.08294  -9.823 4.34e-07 ***
+        ---
+        Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1 
+    
+        Residual standard error: 2.12 on 12 degrees of freedom
+        Multiple R-squared: 0.8894, Adjusted R-squared: 0.8802 
+        F-statistic: 96.48 on 1 and 12 DF,  p-value: 4.344e-07 
+\end{verbatim}
+
+Therefore, we find the demand curves:
+\begin{eqnarray}
+\text{California: } \hspace{0.5cm} 
+P &=& 26.25 - 0.136 \cdot Q_{c} \\
+\text{Hawaii: } \hspace{0.5cm}
+P &=& 35.39 - 0.815 \cdot Q_{h} 
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{1-b}
+Given these estimated demand curves what prices would you set in each market assuming that there is no Hawaii – California resale market? 
+\end{prob}
+\begin{sol}
+We want to maximize the amount of profit, and we know that our marginal cost per surfboard is \$10. Therefore, we want to complete the following optimization problem:
+\begin{eqnarray}
+\max_{P} P(Q) Q - 10Q &=& \max_{P} Q(P) (P - 10)
+\end{eqnarray}
+
+Taking the inverse demand curve for California, we know that $Q_c(P) = (26.25 - P)/0.136$, so that we have the expression $\pi(P) = \frac{26.25-P}{0.136} \left(P-10 \right)$. Taking the derivative to perform the maximization, we have: $\frac{d \pi}{ dP} = \frac{26.25}{0.136} - \frac{2P}{0.136} + \frac{10}{0.136}$. From this, we find that $P_c = \$18.13$. 
+
+Using the same procedure for Hawaii, we know that $Q_h(P) = (35.39 - P)/0.815$. This gives us the derivative $\frac{d \pi}{dP} = \frac{35.39}{0.815} - \frac{2P}{0.815} + \frac{10}{0.815}$. Setting the derivative equal to zero, we have $P_h = \$22.70$. 
+
+Therefore, to maximize profits, we will set prices in California to \$18.13 and prices in Hawaii to \$22.70. 
+\end{sol}
+
+\begin{prob}{1-c}
+How would you change these prices if antitrust laws required that you set a common price across both markets? Which consumers benefit from this? Which lose? Why?
+\end{prob}
+\begin{sol}
+We will estimate a new regression-we will look at how the price varies according to the total quantity sold. The new regression is just $price = \alpha + \beta Q$ where $Q = Q_c + Q_h$ is the sum of the Californian and Hawaiian quantities. This regression gives us the demand curve: $P = 27.73 - 0.119Q$. We perform the same maximization of profit and take the derivative of the profit function. The derivative is $\frac{d \pi}{d P} = \frac{27.73}{0.119} - \frac{2P}{0.119} + \frac{10}{0.119}$. Setting the derivative equal to 0, we find that $2P = 37.73 $ so that $P = \$18.87$. 
+
+The Hawaiian consumers benefit because they get a much lower price than their standard price. However, the Californian buyers lose out. The reason for this is because the Hawaiian consumers have a higher willingness to pay (higher demand), which means that when a single price is offered, it is more optimal to charge a higher price in an effort to get more of the demand from the Hawaiian consumers. However, this means that there will be Californian consumers at the margin who decide not to buy surfboards, and it also means that Californians will see a higher price. 
+\end{sol}
+
+\begin{prob}{1-d}
+Calculate profits and consumer surplus under both the uniform pricing and the disciminatory pricing regimes. How are profits and consumer surplus affected by the shift to uniform pricing? How are total quantity supplied and total social welfare affected? Given these calculations, how do you feel about the antitrust authority’s policy?
+\end{prob}
+\begin{sol}
+We can calculate the profits under the discriminatory pricing regimes by using the combined profits in California and Hawaii: $\pi_{d} = \pi_{c,d} + \pi_{h, d}$. Where $\pi_{i, d} = Q_i (P) (P - 10)$. Therefore, we have:
+\begin{eqnarray}
+\pi_d &=& \pi_{c,d} + \pi_{h,d} \\
+&=& \left( \frac{26.25 - 18.13}{0.136} \right) (18.13 - 10) + \left( \frac{35.39 - 22.70}{0.815} \right) (22.70 - 10) \\
+&=& 485.41 + 197.75 \\
+&=& \$683.16
+\end{eqnarray}
+
+Calculating the profits under the uniform pricing, we perform the same procedure but we don't need to do it separately for each geographic location. We have:
+\begin{eqnarray}
+\pi_u &=& \left( \frac{27.73 - 18.87}{0.119}\right) (18.87 - 10) \\
+&=& (74.45)*(8.87) \\
+&=& \$660.41
+\end{eqnarray}
+
+To calculate consumer surplus, we first notice that the demand curves are linear because of our estimation using a linear regression. This means that we can use the formula $CS = \frac{1}{2} Q^* (P_{max} - P^*)$ where we know that $P_{max}$ is just the intercept of the demand curve. Under discriminatory prices, we have:
+\begin{eqnarray}
+CS_{d} &=& \frac{1}{2} (59.74) (26.25 - 18.125) + \frac{1}{2} (15.57)(35.39 - 22.70) \\
+&=& 242.69 + 98.79 \\
+&=& \$ 341.49
+\end{eqnarray}
+
+Under uniform prices, we perform the same procedure:
+\begin{eqnarray}
+CS_{u} &=& \frac{1}{2} (74.45) (27.73 - 18.87) \\
+&=& \$ 329.83
+\end{eqnarray}
+
+To calculate the total welfare, we must look at profits plus consumer surplus in either case. In the discriminatory prices case, the total welfare is $W_d = 683.16 + 341.49 = \$1024.64$. Under the uniform prices case, the total welfare is $W_c = 660.41 + 329.83 = \$990.24$. Therefore, we see that the total welfare is lower under uniform prices. Thus, although the antitrust policy is well-intentioned, it actually decreases total social welfare, and it doesn't even increase consumer surplus.  
+\end{sol}
+
+\begin{prob}{1-e}
+Suppose an online retailer opens up that lists surfboards produced in either market and can ship surfboards between California and Hawaii for \$4 per board.  Would this disturb your discriminatory pricing strategy, and if so what would your response be? (Hint: Calculate the optimal disciminatory prices subject to the constraint that the two prices cannot differ by more than \$4.00).  
+\end{prob}
+\begin{sol}
+First we note that under discriminatory prices before the online retailer appeared, surfboards cost \$18.13 in California and \$22.70 in Hawaii. There was a \$4.57 difference between these two prices, so when the online retailer appears, we will try to sell surfboards with an exact \$4 difference in order to maximize total profits. Therefore, we can find the price of Californian surfboards $p_c$ and then find the price of Hawaiian surfboards $p_h + 4$. 
+
+This means that we maximize profits: $\pi = \left( \frac{26.26 - P_c}{0.136} \right) (P_c - 10) + \left( \frac{35.39 - (P_c +4)}{0.815} \right) (P_c + 4 - 10)$. Taking the derivative, we have:
+\begin{eqnarray}
+0 = \frac{d\pi}{d P_c} &=& \frac{26.25}{0.136} - \frac{2 P_c}{0.136} + \frac{10}{0.136} + \frac{31.39}{0.815} - \frac{2 P_c}{0.815} + \frac{6}{0.815} \\
+&=& 266.5441 - \frac{2 P_c}{0.136} + 45.8773 - \frac{2 P_c}{0.815} \\
+&=& 312.4214 - 17.159 P_c \\
+P_c &=& 18.21
+\end{eqnarray}
+
+Therefore, we have found both California and Hawaii prices:
+\begin{eqnarray}
+P_c &=& \$ 18.21 \\
+P_h &=& \$ 22.21 
+\end{eqnarray}
+
+Thus, we see that the online retailer does disturb the discriminatory pricing strategy. However, we are still able to have discriminatory pricing, just not as effective pricing as before.
+\end{sol}
+
+\begin{prob}{2}
+Recall question 3 in problem set 1 where you were asked to investigate rental car pricing.  List again the amount of time you spend searching and the lowest price you found for the one-week compact rental at LAX.  Do the search again (use November 5-12 this time) and record the amount of time and lowest price from this second search.  Are they the same?  Recall that you also performed the search pretending you were from a foreign country and searched for a rental including a car seat.  Now that you have seen models of price search and price discrimination, both of which generate equilibrium price dispersion, offer an interpretation of the data you found.  (Keep in mind that there could be other explanations, such as cost-based ones, for what you observed.)  
+\end{prob}
+
+\begin{sol}
+In my previous search, I was able to find a Kia Rio to rent for \$207.82 per week in under the allotted time (2 minutes). When I chose another country (Helsinki, Finland), the price of my rental car shot up dramatically to \$450.95 per week. Obtaining a child seat increases the price by \$83.93 for the rental.
+
+In my new search over the November 5-12 time frame, the cheapest car I was able to find was a Kia Rio for \$183.84. Adding a child seat still cost \$83.93 for the rental. Finally, being from Helsinki, Finland increased the price to \$415.93. 
+
+I believe that the car rental increases the price so dramatically because it allows Hertz to perform price discrimination. Those customers who will buy a car seat are likely to be customers who have a family and a medium income. Therefore, Hertz performs third degree price discrimination by charging a much higher cost to a car seat group based on observable characteristics.
+
+The same dynamics are in play when Hertz charges a much higher price to foreigners. Since foreigners tend to be coming to the U.S. to rent a car due to travel or business, the foreigners will probably have a much higher demand than most domestic customers. This means that Hertz can again perform third degree price discrimination and charge much higher prices to the foreign contingent based on the oberservable characteristic that they are arriving from a foreign country. This allows Hertz to charge higher prices to groups that probably have more discretionary income.
+\end{sol}
+
+\begin{prob}{3-a}
+Pick five products from different categories.  Look to see whether there are a substantial number of competitive sellers for each product.  Record your findings.  Speculate on why Pricewatch may be succeeding in attracting sellers in some categories but not in others.
+\end{prob}
+\begin{sol}
+The table below shows the results I found on pricewatch.com:
+\begin{table}[h!]
+\centering
+\begin{tabular}{c | c}
+Product & Number of Competitive Sellers \\
+\hline \hline
+5x Zoom Camcorder & 4 \\
+1TB Removable Hard Drive & 120+ \\
+Netbook & 20 \\
+Men's Jacket & 40 \\
+Wireless GPS & 10 
+\end{tabular}
+\end{table}
+
+I think that Pricewatch is succeeding in attracting sellers to categories for which there is a large supply and big market. Unique and less popular products, such as very specific camcorders, have a very small market. However, products which are available from a large number of suppliers, such as 1TB removable hard drives, have many listings on Pricewatch. 
+
+This makes sense because suppliers who are in markets with large quantities supplied will try very hard to advertise and be distinguished from other suppliers. However, suppliers from smaller, more monopolistic markets will not want to be forced to post a price on Pricewatch, and will therefore hope that their sellers will go directly to their own websites. This will allow them to increase search costs and retain some monopoly power. 
+
+Once the market becomes large enough, a single supplier deciding not to post prices on Pricewatch will not affect search costs, and it becomes more costly to not post on Pricewatch than to post. Therefore, there is a distinction between large and small markets on Pricewatch.
+\end{sol}
+
+\begin{prob}{3-b}
+Pick a product for which there are a substantial number of sellers, e.g., 16 gigabyte flash memory.  Click through to a number of the sellers and note whether listed prices are easy to find, whether the product descriptions make them less attractive than you would have expected, or whether there seem to be other obfuscation techniques at work.  Do you think that Pricewatch has been successful at making price search easy in your particular product category, or that firms’ obfuscation strategies are successful?  Comment.
+\end{prob}
+\begin{sol}
+I choose to look at the product: 1TB removable hard drives. Pricewatch already includes shipping costs in the total price of the product. This eliminates a large amount of hidden cost for the product that could occur in other websites. Since the shipping costs are already calculated in the total price, the suppliers cannot tremendously decrease the price of the object, and increase the shipping price, in order to try to induce a purchase. This mechanism of Pricewatch helps greatly in eliminating the firms' price obfuscation strategies, especially because shipping could be a significant portion of the total cost of the product.
+
+However, it is hard to guage the quality of a product. This occurs because of a number of factors. First, reviews are available, but are hard to see and are not prominently displayed on the user interface. The reviews only receive a small portion of the total description space. Moreover, nothing is seen when there are no reviews, which is misleading. Pricewatch could help prevent further quality obfuscation by showing that the product received 0 reviews (so that firms cannot just place many copies of the same product on the market).
+
+Second, the descriptions are hard to parse, and the information contained in them is so dense that few humans are able to understand them. The firms most likely make these descriptions obstruse intentionally so that the consumer cannot judge the quality of the product. Since there are so many products, it is unlikely that the consumer is willing to read and carefully analyze each description. This means that a firm could charge a very low price for a low quality product, and the consumer would have a hard time identifying low quality products.
+
+Thus, although Pricewatch attempts to stop price obfuscation by including shipping costs in the total cost of a product, firms are still able to decrease the quality of a product tremendously and charge a lower price.
+\end{sol}
+
+\begin{prob}{4}
+Please provide a rough proposal for your research project.  It should be approximately $\frac{1}{2}$ to 1 page in length. 
+\end{prob}
+\begin{sol}
+For my research project, I will make use of a unique dataset. Over the summer, I interned at Panjiva, Inc. which is a website which facilitates trade between buyers and suppliers of manufactured goods. Specifically, the website provides unbiased information on suppliers and allows buyers to find high quality suppliers. 
+
+The dataset that I intend to work with are the action and event logs of Panjiva's website. I have access to each event performed by any user (whether free or subscribing) on the site for the last four years. This provides me with a wealth of information to examine the workings of Panjiva's website. However, in an effort to make my search more specific, I will focus on how changes in the codebase affect user activity.
+
+I will look at the number of lines of code changed each day, broken down by categories, and examine how user activity changes in the succeeding month. I will look at changes in the user interface, in the types of products offered, and in the back-end code to see the effect of all these changes. The effects will be estimated using OLS.
+
+I will also examine how large changes affect user activity. Recently, Panjiva completely restructured its search. Since this came as a relative surprise to most users, this event can be considered as exogeneous and can be used to estimate the effect of a large change to the website. I can examine the change in user activity and change in subscriptions by using a difference-in-difference framework for regression.
+
+My research will focus primarily on how changes in code affect user activity and subscriptions. Using the subscription metric, I can also get an estimate of how much extra revenue Panjiva generates from changes to the code, since each subscription has a well defined cost. Using this information, I can perform a cost benefit analysis to examine what are the best uses of an engineer's time in terms of profit maximization.
+\end{sol}
+
+\end{document}
