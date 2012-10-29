@@ -65,12 +65,31 @@ Argue that the greedy algorithm (repeatedly take any edge that does not conflict
 \end{prob}
 
 \begin{sol}
+First, we shall argue that repeatedly taking any edge that does not conflict with previous choices can be used to create an approximation algorithm that runs in linear time. The nodes are ordered arbitrarily, but they must be ordered so that edges originating from the same node are placed together. This ordering can be done in $O(n + m)$ time by using a list of lists for each node $u$, where all edges $(u,v)$ with the same starting node $u$ are grouped together. 
 
+Next, we take the a single edge from each list of lists and include it in the bipartite matching, and remove the entire list from the overall list. Additionally, we keep a hash of all the nodes $v$ for which an edge $(u,v)$ is incident upon. If we select an edge to delete where either node $u$ or $v$ is already used, then we throw away that edge and continue. 
+
+In total, we will examine no more than $m$ edges, so the total algorithm runs in $O(m+n)$, which is linear. Next, we note that this is a 2-approximation. 
+
+Let us say that the edge that the approximation algorithm choose $(u_1, v_1)$ is not the same as the edge OPT chooses for $v_1$. Namely, suppose OPT choose $(u_0, v_1)$. Then in the worst case, OPT can choose a different edge $(u_1, v_2)$ starting from $u_1$. However, we see that every incorrect choice that the approximation algorithm makes only affects 2 choices that OPT makes. Thus, since the approximation algorithm is still creating a matching, OPT do at maximum twice as well as the approximation algorithm. This follows because for each edge $(u_1, v_1)$ selected by the approximation algorithm, OPT can only differ by two edges, which means OPT can only improve by twice as much. Thus, this algorithm is a 2-approximation.
 \end{sol}
 
+\begin{prob}{2-b}
+Generalize to argue that when edges has positive weights, the greedy algorithm (consider edges in decreasing order of weight) can be implemented in $O(m \log n)$ time and is a 2-approximation algorithm for maximum (total) weight bipartite matching.
+\end{prob}
 
+\begin{sol}
+It is clear that the algorithm can be implemented in $O(m \log n)$ time. For each node $u$ for which there is an outgoing edge $(u,v)$, take the highest weight edge of all outgoing edges. Sort all of these highest weight edges and put them into the matching. This is equivalent to examining the edges in decreasing order by weight because each source node $u$ can only provide a single edge in the matching, which means that edge must be the highest weight edge leaving $u$.  
 
+To show that this algorithm is a 2-approximation, we make a similar argument as above. We note that whenever the approximation algorithm chooses an edges $(u_1, v_1)$, OPT could have chosen two different edges, one starting on $u_1$ and one ending at $v_1$. However, we know that both these two possible edges have weight less than the edge $(u_1, v_1)$, or else they would have been selected. This means that OPT can possibly have twice as large of total weight per edge that is selected by the approximation algorithm. It holds therefore, that this algorithm is a 2-approximation.
+\end{sol}
 
+\begin{prob}{2-c}
+Show that the same holds for a general (non-bipartite) max-weight matching problem.
+\end{prob}
+\begin{sol}
+
+\end{sol}
 
 
 
