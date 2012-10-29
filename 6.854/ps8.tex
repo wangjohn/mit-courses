@@ -113,6 +113,29 @@ Since we are always taking shortest paths between $v_{i}$ and $v_{i+1}$, we know
 Give a 2-approximation for the Steiner tree problem.
 \end{prob}
 \begin{sol}
+We will use the structure in $G'$ to create an approximation. We will first take any arbitrary terminal node $v_1$ and choose it as our starting point. Next, we will search in $G'$ for its lowest weight neighbor. In other words, we will look for the shortest of all the shortest paths from $v_1$ to other terminals. We will include this shortest path in the Steiner tree that we build. Once we have a partially built Steiner tree, we will look for a terminal $v_2$ which is closest to any node in the Steiner tree. We take the shortest path from any node $v_i$ in the Steiner tree to any other node $u_j$ not yet in the Steiner tree. Once we find this shortest path, we add it to the Steiner tree. We continue this until all terminal nodes are included in the Steiner tree.
+
+This will be a 2-approximation because we know that the cost of the Steiner tree we have built will not be more than the cost of the optimal spanning tree in $G'$. Since we know that the optimal spanning tree in $G'$ is less than twice the cost of the optimal Steiner tree in $G$, we know that the cost of our Steiner tree will be less than twice the cost of an optimal Steiner tree.
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{4-a}
+Prove that a two colorable graph can be colored with 2 colors in polynomial time.
+\end{prob}
+
+\begin{sol}
+Let a graph $G$ be two colorable. We wish to color the vertices $v_i in G$ with two colors $c_0$ and $c_1$. Then we shall start at an arbitrary vertex $v_1$ and color it with $c_0$. Now, perform a BFS starting at vertex $v_1$. Each level of the BFS will be colored an alternating color. Thus, the first level of the BFS (which consists of all of the neighbors of $v_1$), will be colored $c_1$. The next level will be colored $c_0$, etc. Perform this for all disconnected components of $G$, and afterwards, we will have a 2 coloring.
+
+To show that this provides a valid two-coloring, we will assume without loss of generality that $G$ is connected (otherwise we can break the problem up into smaller problems of connected graphs). Now, since $G$ has a valid two-coloring, we know that for any node $v$ with color $c_i$, the neighbors of $v$ must have color $c_j$ where $j \neq i$. This follows immediately because a two-coloring means that all neighbors must have the other color in the set of colors. This means that performing a BFS by levels (which enumerates all the neighbors of node $v$), we will be able to color neighbors in different colors. Moreover, since $G$ is two colorable, all of the vertices and their neighbors are automatically constrained, so that as soon as a single color in a node is placed, all of the other vertices will be constrained to have a certain color. This dimensionality reduction means that our BFS algorithm will work correctly.
+\end{sol}
+
+\begin{prob}{4-b}
+
+\end{prob}
+
+\begin{sol}
 
 \end{sol}
 
