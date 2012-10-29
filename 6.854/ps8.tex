@@ -88,7 +88,11 @@ To show that this algorithm is a 2-approximation, we make a similar argument as 
 Show that the same holds for a general (non-bipartite) max-weight matching problem.
 \end{prob}
 \begin{sol}
+The algorithm remains the same. We sort the edges in each node and select the highest weight edge form each node. We shall show that this algorithm still works on a general graph to create a 2-approximation.
 
+Let $s$ be the weight of the first edge which is removed (thus, $s$ is the maximum edge weight on the graph). Let $s$ correspond to the weight on edge $(u,v)$. Then we know that when the algorithm removes edge $(u,v)$ and all incident edges on $u$ and $v$, then at most two edges from the optimal matching will be removed. This follows because there can be at most two edges in the optimal matching which are incident on $u$ and $v$.
+
+However, we know that both of these edges must have weight less than or equal to $s$. Thus, the optimal matching for all edges incident on nodes $u$ and $v$ has weight less than or equal to $2s$. Recursively performing the same procedure for the other $n-2$ nodes shows that the optimal matching will have weight less than or equal to twice times the weight of the approximation algorithm. This means that we have provided a 2-approximation. Note that this proof only works when edge weights are non-negative.
 \end{sol}
 
 
