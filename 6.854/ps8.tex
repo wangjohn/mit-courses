@@ -132,11 +132,15 @@ To show that this provides a valid two-coloring, we will assume without loss of 
 \end{sol}
 
 \begin{prob}{4-b}
-
+Show that a graph where every vertex has degree at most $d$ can be colored with $d+1$ colors using the obvious greedy algorithm.
 \end{prob}
 
 \begin{sol}
+We will use the following greedy algorithm. For each vertex, we start out with a set of possible colors which includes all $d+1$ colors. Next, we start at some arbitrary vertex $v_0$ and pick a color $c_i$ from its set of possible colors $S(v_0)$. Once we have choosen $c_i$, we will remove $c_i$ from the sets $S(v_j)$ for all vertices $v_j$ which are neighbors of $v_0$. We continue this procedure for another vertex $v_1$, and keep going until we have finished picking colors for all vertices. This algorithm will find a valid $d+1$ coloring if it exists, because we can always be sure that we will not be violating any coloring conditions. Moreover, since the colors are arbitrary and no more than $d$ edges are incident upon any vertex, we will be sure that the set $S(v_i)$ will contain at least 1 item, because we can only remove a single item for each indicident edge.
 
+To show that there exists a valid $d+1$ coloring, we will use induction on the number of vertices in the graph. First, we note that if a graph has less than or equal to $d+1$ vertices, then one can just choose a color for each vertex. Thus, we have shown the base case. Now we use our inductive hypothesis to assume that we can color a graph with $k$ vertices (whose maximum vertex has degree $d$) using $d+1$ colors. Take the inductive step and we must show this also holds for graphs with $k+1$ vertices. For any graph $G$ with $k+1$, we can take some arbitrary vertex $v$ and remove it and all its incident edges from the graph to create a new graph $G'$. Since $G'$ has $k$ vertices and still has a maximum vertex degree of $d$ (we didn't add any edges), we can use our induction hypothesis to find a $d+1$ coloring. Now, color all of the edges in $G'$ according to this coloring and add $v$ along with all its edges back into the graph. We know that $v$ has degree less than or equal to $d$, which means that there is at least one color which $v$ does not share with its neighbors. Pick one of these colors and set $v$'s color to it. 
+
+Since we have colored $\{v \} \cup G'$ with $d+1$ colors (and we haven't violated any coloring constraints), we have found a valid coloring for a graph $G$ with $k+1$ vertices and degree at most $d$. Therefore, we have finished our induction step and have shown that all graphs with maximum degree $d$ can be colored with $d+1$ colors.
 \end{sol}
 
 \end{document}
