@@ -102,7 +102,11 @@ However, we know that both of these edges must have weight less than or equal to
 Suppose you compute all-pairs shortest paths in $G$, and create a complete graph $G'$ on the termainsl $T$ where each hedge cost is equal to the shortest path between its (terminal) endpoints in $G$. Relate the cost of the minimum spanning tree in this graph to the cost of the optimum steiner tree in $G$. 
 \end{prob}
 \begin{sol}
+We see that the optimal Steiner tree in $G$ has a cost which is greater than half of the cost of the minimum spanning tree in $G'$. First, let us assume we have found the optimal Steiner tree $S$. Then, from this Steiner tree, we can construct a minimum spanning tree in $G'$. 
 
+We perform a DFS and visit all of the nodes in $S$ starting from the root of the Steiner tree. The order in which the terminals in $T$ are visited will be the order we can use to construct a minimum spanning tree. Suppose we visit terminals $v_1, v_2, \ldots, v_n \in T$ in that order during our DFS of $S$. Then we see that we are always moving along a shortest path from $v_i$ to $v_{i+1}$ since Steiner trees guarantee that we have a minimum cost span across all vertices. If this were not the case, then we could find some shorter path between $v_i$ and $v_{i+1}$ and exchange that path in the Steiner tree, which would find a more optimal Steiner tree. Since we were assuming the optimality of our Steiner tree, this is a contradiction. 
+
+Since we are always taking shortest paths between $v_{i}$ and $v_{i+1}$, we know that we have a minimum spanning tree in $G'$ between $v_{i} \forall i \in [1, n]$. Thus, our path in $S$ has led to a minimum spanning tree in $G'$. Now, we shall show that the DFS in $S$ traverses a path with with a cost at most twice of that of $S$. This is because the DFS visits each edge at most twice (once up and once down the DFS search). This shows that the cost of the spanning tree in $G$ is greater than half of the cost of the minimum spanning tree in $G'$. 
 \end{sol}
 
 \begin{prob}{3-b}
