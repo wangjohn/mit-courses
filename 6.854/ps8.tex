@@ -154,4 +154,23 @@ If this is the case, then we can color the uncolored parts of the graph using th
 In each iteration of the algorithm, we will color at least $\delta$ vertices. Moreover, there are $n/\delta$ iterations in the worst case. Since we choose 2 colors for each iteration and have $\delta + 1$ total colors for the rest of the algorithms as well as one extra color $c_0$ for the vertices we selected at each iteration, we will want to minimize $2 \frac{n}{\delta} + \delta + 2$. Taking the derivative with respective to $\delta$ and finding first order conditions, we find this quantity is minimized when $\delta = \sqrt{2n}$. Therefore, the total number of colors used by this algorithm is $O(2 \frac{\sqrt{2n}}{n} + \sqrt{2n} + 2) = O(\sqrt{n})$. Thus we have found an approximation algorithm that will color any 3-colorable graph with $O(\sqrt{n})$ colors.
 \end{sol}
 
+\newpage
+\makenewtitle
+
+\begin{prob}{5-a}
+Argue that any feasible subset of jobs (that can all together be completed by their due dates) might as well be scheduled in order of increasing deadline (so it is sufficient to find a set without worrying about order). Hint: if two adjacent jobs in the sequence are out of order, swap them. 
+\end{prob}
+\begin{sol}
+Suppose that we have found a feasible subset of jobs $F$. Now suppose two jobs $i$ and $j$ are out of order so that $d_i > d_j$ yet $i < j$ in the ordering. We can swap $i$ and $j$ in the ordering so that $j$ takes the position of $i$ and vice versa. This is because $j$ will be completed before it started originally, so that it will clearly finish before it originally finished. This means that $j$ will still be feasible. We also know, however, that $d_i > d_j$ so that the deadline of job $i$ is later than the deadline for job $j$. However, we know that $i$ will finish before $d_j$ because we have not changed the total processing time of both jobs. 
+
+This implies that the $i$ will finish when $j$ previously finished in the original ordering. Since $d_i > d_j$, we know that $i$ will finish before $d_i$. This shows that we can flip two jobs if they are out of order. Since this strictly decreases the number of jobs that are out of order, if we continue performing this procedure, then we will eventually put all of the jobs in $F$ in the correct ordering. 
+\end{sol}
+
+\begin{prob}{5-b}
+Assuming the lateness penalties are polynomially bounded integers (i.e. $\log w_j$ is polynomial in $n$), give a polynomial-time dynamic program that finds the fastest-completing maximum-weight feasible subset. 
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
 \end{document}

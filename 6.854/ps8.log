@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 OCT 2012 20:37
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 OCT 2012 20:55
 entering extended mode
  %&-line parsing enabled.
 **ps8.tex
@@ -703,7 +703,11 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[6] (./ps8.aux) ) 
+[6]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[7] (./ps8.aux) ) 
 Here is how much of TeX's memory you used:
  15246 strings out of 495061
  281315 string characters out of 1182621
@@ -720,9 +724,9 @@ nts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/pu
 blic/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
 /cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ps8.pdf (6 pages, 126822 bytes).
+Output written on ps8.pdf (7 pages, 131139 bytes).
 PDF statistics:
- 60 PDF objects out of 1000 (max. 8388607)
+ 65 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
