@@ -170,7 +170,19 @@ This implies that the $i$ will finish when $j$ previously finished in the origin
 Assuming the lateness penalties are polynomially bounded integers (i.e. $w_j$ is polynomial in $n$), give a polynomial-time dynamic program that finds the fastest-completing maximum-weight feasible subset. 
 \end{prob}
 \begin{sol}
-Since from problem 5-a we have seen that any feasible subset of jobs can be scheduled in order of increasing deadline, we can sort all of our jobs by increasing deadline $d_i$. 
+Since from problem 5-a we have seen that any feasible subset of jobs can be scheduled in order of increasing deadline, we can sort all of our jobs by increasing deadline $d_i$. This does not change anything about the problem, because of the fact that feasible subsets can be ordered by increasing deadlines. 
+
+Now, let us define a recursive relationship for our dynamic program: $DP(i,j)$ will equal the minimum time required to complete jobs $0$ through $i$ using a total penalty less than or equal to $j$. We will set $DP(i, j) = \infty$ for all $i < 0$. We will also set $DP(i,j) = \infty$ for all $j = 0$, except for $DP(0,0)$ which we set to 0. To update our dynamic program, we will use the recursion:
+\begin{eqnarray}
+DP(i,j) = \min \left\{ \begin{array}{l l}
+DP(i-1, j - w_i) & \\
+DP(i-1, j) + p_i & \text{if } DP(i-1, j) + p_i \leq d_i
+\end{array} \right. 
+\end{eqnarray}
+
+The top expression, $DP(i-1, j- w_i)$ is the minimum time required to complete $i-1$ jobs. Setting $DP(i,j)$ equal to that would mean that we decided not to schedule job $i$. The other expression, $DP(i-1, j) + p_i$ is the minimum time required to complete $i-1$ jobs while also taking into account the fact that there is some processing time $p_i$ for the $i$th job. We can only do this if we complete job $i$ before the due date $d_i$. 
+
+We can populate all $DP(i,j)$ for $i \in [0,n]$ and $j \in [0, \sum w_k]$ by iterating over $i$ then $j$. Thus, we populate $DP(0, j)$ for all $j \in [0, \sum w_k]$, then we populate $DP(1, j)$, $DP(2, j)$, etc. This will allow us to perform $O(n \sum w_k)$ iterations before we finish the dynamic program. Since we know that $w_k$ is polynomial in $n$, we also know that $\sum w_k$ is polynomial in $n$ so that this algorithm runs in polynomial time. To get the fastest-completing maximum-weight feasible subset, we simply look at $DP(n, \sum w_k)$ and examine all the steps taken to get there (which can be kept in a predecessor table).
 \end{sol}
 
 \end{document}
