@@ -167,10 +167,10 @@ This implies that the $i$ will finish when $j$ previously finished in the origin
 \end{sol}
 
 \begin{prob}{5-b}
-Assuming the lateness penalties are polynomially bounded integers (i.e. $\log w_j$ is polynomial in $n$), give a polynomial-time dynamic program that finds the fastest-completing maximum-weight feasible subset. 
+Assuming the lateness penalties are polynomially bounded integers (i.e. $w_j$ is polynomial in $n$), give a polynomial-time dynamic program that finds the fastest-completing maximum-weight feasible subset. 
 \end{prob}
 \begin{sol}
-
+Since from problem 5-a we have seen that any feasible subset of jobs can be scheduled in order of increasing deadline, we can sort all of our jobs by increasing deadline $d_i$. 
 \end{sol}
 
 \end{document}
