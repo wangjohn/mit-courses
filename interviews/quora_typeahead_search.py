@@ -1,4 +1,5 @@
-"""In order to obtain fast query performance, we need to be able to merge extremely quickly among an arbitrary set of children."""
+#!/usr/bin/python
+# -*- coding: ascii -*-
 
 class Data:
     def __init__(self, data_type, data_id, score, data_string):
@@ -159,13 +160,21 @@ class PrefixTree:
         node_list = [child.data for child in children]
         # use a heuristic to figure out whether we want to do a total merge,
         # or whether we want to use a heap.
-        if 
+        if len(node_list) > num_results:
+            results = self._heap_merge(node_list, num_results)
+        else:
+            results = self._total_merge(node_list, num_results)
+
+        output = [x.data_id for x in results]
+        return output
 
     def _total_merge(self, node_list, num_results):
         """Merges all of the node lists together into a single sorted
         list of data objects"""
         node_list_len = len(node_list)
-        if node_list_len == 1:
+        if node_list_len <= 0:
+            return node_list
+        elif node_list_len == 1:
             return node_list[0]
         elif node_list_len == 2:
             # go through a standard merge procedure
@@ -223,10 +232,11 @@ class PrefixTree:
         """Does a DFS to search for all nodes in the tree under
         the node given."""
         output_nodes = []
-        for child_node in node.children.itervalues():
-            if child_node.in_tree:
-                output_nodes.append(child_node)
-            output_nodes.extend(self._get_all_children(child_node))
+        if node and node.children:
+            for child_node in node.children.itervalues():
+                if child_node.in_tree:
+                    output_nodes.append(child_node)
+                output_nodes.extend(self._get_all_children(child_node))
         return output_nodes
 
     def add_prefix(self, prefix):
@@ -266,7 +276,11 @@ class PrefixTree:
 
 def get_score(input_val):
     if isinstance(input_val, int):
-        return integer
+        return input_val 
+    if input_val.boosted_score == None:
+        return input_val.score
+    else:
+        return input_val.boosted_score
 
 class MinHeap:
     def __init__(self, starting_data):

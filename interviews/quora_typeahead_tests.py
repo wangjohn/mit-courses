@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: ascii -*-
+
 from quora_typeahead_search import *
 
 class PrefixNodeTester:
@@ -76,21 +79,38 @@ class PrefixTreeTester:
     def test_total_merge(self):
         node_list = [[3,5,6,8,10],[4,5,10,22,34],[1,3,5,6,8]]
         tree = PrefixTree()
-        result = tree._total_merge(node_list)
+        result = tree._total_merge(node_list, 100)
         expected = [x for y in node_list for x in y]
         expected.sort()
         assert expected == result
 
         node_list = [[3,5,6,8,10],[4,5,10,22,34],[1,3,5,6,8],[1,2,3,4,5,6,7,8,9],[5,7,8,9,10,11]]
-        result = tree._total_merge(node_list)
+        result = tree._total_merge(node_list, 100)
         expected = [x for y in node_list for x in y]
         expected.sort()
         assert expected == result
+
+    def test_querying_nodes(self):
+        tree = PrefixTree()
+        node1 = Data("user", "u1", 1, "Adam D'Angelo")
+        node2 = Data("user", "u2", 1.0, "Adam Black")
+        node3 = Data("topic", "t1", 0.8, "Adam D'Angelo")
+        node4 = Data("question", "q1", "0.5", "What does Adam D'Angelo do at Quora?")
+        node5 = Data("question", "q2", 0.5, "How did Adam D'Angelo learn programming?")
+        tree.add_data(node1)
+        tree.add_data(node2)
+        tree.add_data(node3)
+        tree.add_data(node4)
+        tree.add_data(node5)
+        print tree.query(10, "Adam")
+        print tree.query(10, "Adam D'A")
+        print tree.query(10, "Adam Cheever")
         
     def run_all_tests(self):
         self.test_adding_nodes()
         self.test_deleting_nodes()
         self.test_total_merge()
+        self.test_querying_nodes()
 
 if __name__ == '__main__':
     tree_tester = PrefixTreeTester()
