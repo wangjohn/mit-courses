@@ -185,4 +185,21 @@ The top expression, $DP(i-1, j- w_i)$ is the minimum time required to complete $
 We can populate all $DP(i,j)$ for $i \in [0,n]$ and $j \in [0, \sum w_k]$ by iterating over $i$ then $j$. Thus, we populate $DP(0, j)$ for all $j \in [0, \sum w_k]$, then we populate $DP(1, j)$, $DP(2, j)$, etc. This will allow us to perform $O(n \sum w_k)$ iterations before we finish the dynamic program. Since we know that $w_k$ is polynomial in $n$, we also know that $\sum w_k$ is polynomial in $n$ so that this algorithm runs in polynomial time. To get the fastest-completing maximum-weight feasible subset, we simply look at $DP(n, \sum w_k)$ and examine all the steps taken to get there (which can be kept in a predecessor table).
 \end{sol}
 
+\begin{prob}{5-c}
+Give a fully polynomial time approximation scheme for the original problem of minimizing lateness penalty with arbitrary lateness penalties.
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{6-a}
+Suppose that there are only $k$ distinct item sizes for some constant $k$. Argue that you can solve bin-packing in polynomial time.
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
 \end{document}
