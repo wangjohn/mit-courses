@@ -210,4 +210,29 @@ To get $DP(i)$, we only need to know $DP(i-1)$. For each item $p$ left unpacked 
 Therefore, we can move from $DP(i-1)$ to $DP(i)$ in polynomial time, and so we can enumerate all possible combinations of packings in polynomial time as well. This means we can solve bin-packing in polynomial time when there are only $k$ distinct item sizes, since $(n+1)^k$ (the number of possible combinations) is polynomial.
 \end{sol}
 
+\begin{prob}{6-b}
+Suppose that you have packed all items of size greater than $\epsilon$ into $B$ bins. Argue that in linear time you can add the remaining items to achieve a packing using at most $\max(B, 1+(1+2\epsilon) B^*)$ bins.
+\end{prob}
+\begin{sol}
+We will propose a simple greedy algorithm. We will have a set of items $S$ that have not yet been packed into bins, where each item $i \in S$ has the property that $a_i < \epsilon$. The algorithm starts by selecting an arbitrary item $i \in S$ and checking to see whether it can be placed into bin $j$ for all $j \in [1,\ldots, B]$. If none of the available bins will work, then create a new bin and place $i$ into the new bin. The new set of bins will now also contain this new bin. Continue this algorithm until $S$ is empty, and we will have placed all the remaining items into a bin. We must now show that there are at most $\max(B, 1 + (1+2 \epsilon) B^*)$ bins.
+
+If we are able to place all of the items in $S$ into the $B$ bins, then clearly there will only be $B$ bins that must be used. Now suppose the worst case occurs, where none of the items in $S$ can be placed into any of the original $B$ bins. Then each bin must have contained items of total size greater than or equal to $1-\epsilon$ (since the size of $x \in S$ is less than or equal to $\epsilon$). We know that the total size of all the items in bounded from above by $B^*$, because optimally there are $B^*$ bins of size 1. Thus, we have a total size of $B^*/(1- \epsilon)$ left to place into bins. Since $\sum_{i \in S} a_i \leq B^*/(1-\epsilon)$, we can bound the number of additional bins that must be created.
+
+Suppose $\epsilon > \frac{1}{2}$, then we know that $B^*/(1- \epsilon) < 2 B^*$. Therefore, we only need $2B^*$ more bins to fit everything in $S$. Since $2B^* < (1 + 2\epsilon)B^* + 1$, we are still less than $\max(B, 1 + (1 + 2 \epsilon) B^*)$. In the case where $\epsilon < \frac{1}{2}$, we notice that 
+\begin{eqnarray}
+\epsilon &\leq& \frac{1}{2} \\
+0 &\leq& 1 - 2 \epsilon \\
+1 &\leq& 1 + \epsilon - 2 \epsilon^2 \\
+1 &\leq& (1+ 2 \epsilon) (1 - \epsilon) \\
+\frac{1}{1-\epsilon} &\leq& 1 + 2 \epsilon
+\end{eqnarray}
+
+This means that we can obtain the following bound for the number of bins that are required:
+\begin{eqnarray}
+\frac{B^*}{1-\epsilon} \leq B^*(1 + 2 \epsilon)
+\end{eqnarray}
+
+Since there could be rounding errors, we need an extra bin to account for the fractional extra values that come from $B^*/(1 - \epsilon)$. Therefore, we need a maximum of $1 + B^*(1 + 2 \epsilon)$ bins. Thus, we see that our algorithm achieves the packing using $\max(B, 1 + (1 + 2\epsilon) B^*)$ bins.
+\end{sol}
+
 \end{document}
