@@ -52,7 +52,7 @@ class Parser:
         
             split_line = line.split(" ")[3:]
             boosts = split_line[:num_boosts]
-            query = ' '.join(split_line[num_boosts:])
+            query = ' '.join(split_line[num_boosts:]).strip()
 
             type_boosts = []
             id_boosts = []
@@ -143,6 +143,7 @@ class DataStorage:
     def query(self, num_results, prefix, forced_data={}):
         output = []
         if num_results == 0:
+            print ''
             return output
         prefixes = prefix.lower().split(" ")
         for data_obj in self.data:
@@ -202,4 +203,3 @@ def get_score(data):
 if __name__ == '__main__':
     data = sys.stdin.readlines()
     parser = Parser(data)
-    print data
