@@ -143,4 +143,15 @@ To show that there exists a valid $d+1$ coloring, we will use induction on the n
 Since we have colored $\{v \} \cup G'$ with $d+1$ colors (and we haven't violated any coloring constraints), we have found a valid coloring for a graph $G$ with $k+1$ vertices and degree at most $d$. Therefore, we have finished our induction step and have shown that all graphs with maximum degree $d$ can be colored with $d+1$ colors.
 \end{sol}
 
+\begin{prob}{4-c}
+Give a polynomial-time approximation algorithm that will color any 3-colorable graph with $O(\sqrt{n})$ colors. Hint: how many colors do you need to color the neighbors of a given vertex?
+\end{prob}
+\begin{sol}
+First, we notice that for any vertex $v$, we can color $N(v)$ (the neighbors of $v$) with two different colors and $v$ itself with a third color since the entire graph $G$ is 3-colorable. However, this is only in the optimal case, so blindly choosing $2$ colors for the neighbors $N(v)$ could break the 3-colorability for the rest of the graph. If some vertex is no longer 3-colorable, it will at least be $d$ colorable, where $d$ is the maximum degree of the rest of the graph $G$ with all previously colored vertices removed. This follows from our previous proof in problem 4-b. 
+
+If this is the case, then we can color the uncolored parts of the graph using the algorithm from part 4-b. This gives rise to a polynomial-time approximation algorithm. We choose some number $\delta$ which will serve as the degree at which we will start coloring by the algorithm in 4-b. While the maximum degree of the graph $G$ is greater than $\delta$, we will pick some vertex $v$ whose degree is greater than $\delta$. We will 2 color the neighbors of $v$ and assign color $c_0$ to $v$ itself. We will then disconnect all the colored vertices from $G$ so the remaining graph has all its vertices left to color. We continue with this algorithm until $G$ has no vertex of degree greater than $\delta$, making sure set each vertex $v$ that we select to have a color of $c_0$ and choosing new colors for $N(v)$. At this point, we will color the remaining graph using $\delta +1$ colors using the algorithm from problem 4-b.
+
+In each iteration of the algorithm, we will color at least $\delta$ vertices. Moreover, there are $n/\delta$ iterations in the worst case. Since we choose 2 colors for each iteration and have $\delta + 1$ total colors for the rest of the algorithms as well as one extra color $c_0$ for the vertices we selected at each iteration, we will want to minimize $2 \frac{n}{\delta} + \delta + 2$. Taking the derivative with respective to $\delta$ and finding first order conditions, we find this quantity is minimized when $\delta = \sqrt{2n}$. Therefore, the total number of colors used by this algorithm is $O(2 \frac{\sqrt{2n}}{n} + \sqrt{2n} + 2) = O(\sqrt{n})$. Thus we have found an approximation algorithm that will color any 3-colorable graph with $O(\sqrt{n})$ colors.
+\end{sol}
+
 \end{document}
