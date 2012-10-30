@@ -199,7 +199,15 @@ Give a fully polynomial time approximation scheme for the original problem of mi
 Suppose that there are only $k$ distinct item sizes for some constant $k$. Argue that you can solve bin-packing in polynomial time.
 \end{prob}
 \begin{sol}
+We will use a dynamic programming approach to solve this problem. Let $DP(i)$ be the set of all possible configurations of items in bins when $i$ bins have already been packed. 
 
+Note that the total number of configurations is $(n+1)^k$, since an item can be placed in any bin. Since $k$ is an constant, we see that $(n+1)^k$ is polynomial in $n$. This means that if we enumerate all the possible configurations, then take the configuration with the fewest number of bins, then we will have solved bin-packing. In order for us to do this in polynomial time, we just need to be able to enumerate the polynomial number of configurations in polynomial time, since checking their number of bins is linear in the number of configurations.
+
+To do this, we use an updating mechanism for $DP(i)$ from $i=0$ to $i=n$. Clearly, we do not need to check $i > n$ because we will always be able to fit the items into $n$ bins, so it serves as an upper bound. Moreover, we know that as a base case $DP(0)$ is just the set of all items. 
+
+To get $DP(i)$, we only need to know $DP(i-1)$. For each item $p$ left unpacked in $DP(i-1)$, we will try to pack $p$ into every bin already packed and also into its own bin. We throw away the results which overflow any bin's capacity, and continue doing this for every item $p$ left unpacked in $DP(i-1)$. This will give us $DP(i)$ and all the possible packings with $i$ items already packed.
+
+Therefore, we can move from $DP(i-1)$ to $DP(i)$ in polynomial time, and so we can enumerate all possible combinations of packings in polynomial time as well. This means we can solve bin-packing in polynomial time when there are only $k$ distinct item sizes, since $(n+1)^k$ (the number of possible combinations) is polynomial.
 \end{sol}
 
 \end{document}
