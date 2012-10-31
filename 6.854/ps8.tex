@@ -235,4 +235,29 @@ This means that we can obtain the following bound for the number of bins that ar
 Since there could be rounding errors, we need an extra bin to account for the fractional extra values that come from $B^*/(1 - \epsilon)$. Therefore, we need a maximum of $1 + B^*(1 + 2 \epsilon)$ bins. Thus, we see that our algorithm achieves the packing using $\max(B, 1 + (1 + 2\epsilon) B^*)$ bins.
 \end{sol}
 
+\begin{prob}{6-c}
+For $P||C_{max}$, we reduced to the previous case in (a) by rounding each job size up to the next power of $(1+\epsilon)$. Why doesn't that work for bin packing? (Saying $1+\epsilon$ is bigger than 1 is not a good enough reason since you can take negative powers).
+\end{prob}
+\begin{sol}
+In this problem, we have the property that small changes to the size of each job can substantially increase the number of bins. Suppose that one of our items is size $a_i = 1/2$. Then increasing $a_i$ by some small $\epsilon_0$ will increase the number of bins by 1. Doing this for multiple items will increase our number of bins substantially. Therefore, we can't just round the size up to the next power of $(1 + \epsilon)$. 
+\end{sol}
+
+\begin{prob}{6-d}
+Consider instead the following grouping procedure. Fix some constant $k$. Order the items by size. Let $S_1$ denote the largest $n/k$ items, $S_2$ the next largest $n/k$, and so on. Suppose that you increase the size of each item to equal the largest size in its group, so that there are only $k$ distinct sizes. Argue that this increases the optimal number of bins by at most $n/k$. Hint: imagine setting aside the jobs in $S_1$. Argue that the remaining items, with their increased sizes, can still fit into the bins used by the original packing.
+\end{prob}
+\begin{sol}
+If we order the items by size and give each item $i \in S_1$ its own bin, then we will have created $n/k$ bins. Now let us examine the size of item $n/k + j$ for all $j \in [0, n - n/k]$. Let $a_{p}$ be the new size of item $p$ in when the size is equal to the largest size in its group, and $b_{p}$ be the original size of the item. 
+
+We know that $a_{n/k + j} < b_{j}$ for all $j \in [0, n-n/k]$. This follows because $a_{n/k +j} = b_{n/k + k\lfloor j/k \rfloor}$. Since $n/k + k \lfloor j/k \rfloor - j \geq n/k$, we see that there is at least one entire group that separates $a_{n/k+j}$ and $b_j$. Therefore, we see that $b_j > a_{n/k +j}$.
+
+Since there are fewer items in the set $n/k + j$ for all $j \in [0, n- n/k]$ than in the original set of items, and since for each item in this new set, there exists a unique element in the old set with a larger size, we can bound the new set's optimum number of bins by the original optimum. Therefore, we only need $n/k$ additional bins by increasing the size of the items.
+\end{sol}
+
+\begin{prob}{6-e}
+Devise a polynomial time scheme that uses at most $(1+\epsilon)B^*$ to pack all the items.
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
 \end{document}
