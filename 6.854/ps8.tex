@@ -189,12 +189,14 @@ We can populate all $DP(i,j)$ for $i \in [0,n]$ and $j \in [0, \sum w_k]$ by ite
 Give a fully polynomial time approximation scheme for the original problem of minimizing lateness penalty with arbitrary lateness penalties.
 \end{prob}
 \begin{sol}
+Let $L$ be the optimum lateness penalty. We will perform a binary search for $L$, noting that $L \geq \min_j w_j$ and $L \leq n \max_j w_j$. We will use an approximation scheme for getting weights which are polynomially bounded integers and use our dynamic program from problem 5-b. We will then have an approximation for the fastest-finishing maximum-weight feasible subset. If the subset contains all of the jobs, then we have a feasible approximate solution, and we can therefore decrease our guess of $L$ until we have an infeasible solution. This binary searching will give us an approximation for $L$. 
 
+Suppose we would like to get $\epsilon$ close to $L$, so that our algorithm returns $L'$ such that $|L' - L| < \epsilon$. Suppose we have some guess $l$ for 
 \end{sol}
 
 \newpage
 \makenewtitle
-
+ 
 \begin{prob}{6-a}
 Suppose that there are only $k$ distinct item sizes for some constant $k$. Argue that you can solve bin-packing in polynomial time.
 \end{prob}
