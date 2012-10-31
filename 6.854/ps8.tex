@@ -254,10 +254,25 @@ Since there are fewer items in the set $n/k + j$ for all $j \in [0, n- n/k]$ tha
 \end{sol}
 
 \begin{prob}{6-e}
-Devise a polynomial time scheme that uses at most $(1+\epsilon)B^*$ to pack all the items.
+Devise a polynomial time scheme that uses at most $1 + (1+\epsilon)B^*$ to pack all the items.
 \end{prob}
 \begin{sol}
+Put all items of size greater than $\epsilon/2$ into $B$ bins. The total packing requires $\min(B, 1 + (1 + \epsilon) B^*)$ bins using the algorithm given in problem 6-b. In order to put the items of size greater than $\epsilon/2$ into $B$ bins, we will use the grouping procedure given in problem 6-d.
 
+We need to make $B \leq 1 +  (1 + \epsilon) B^*$, and we also need to get $B = C/k + B^*$ by grouping into $k$ groups using the algorithm in 6-d (where $C$ is the number of items of size greater than $\epsilon/2$). Therefore, we have the constraint:
+\begin{eqnarray}
+\frac{C}{k} + B^* &\leq& (1 + \epsilon) B^* 
+\end{eqnarray}
+
+Solving for $k$, we find:
+\begin{eqnarray}
+\frac{C}{k} &\leq& 1 + \epsilon B^* \\
+k &\geq& \frac{C}{1 + \epsilon B^*}
+\end{eqnarray}
+
+But we know that the size of the set of items greater than $\epsilon /2$ is bounded by $B^* / (\epsilon /2)$ since the total sum of all items is $B^*$ and if all of them have size $\epsilon / 2$, then there would be $2 B^* / \epsilon$ of these items. Therefore, we know that $C < 2 B^* / \epsilon$ and we have $k \geq \frac{2 B^*}{\epsilon ( 1 + \epsilon B^*)}$. Since $\frac{2}{\epsilon^2} \geq \frac{2 B^*}{\epsilon(1 + \epsilon B^*)}$, we can set $k = \frac{2}{\epsilon^2}$. 
+
+Given some $\epsilon$, then, in order to pack all the items into $1 + (1 + \epsilon) B^*$ bins, we will use the following procedure. First, take all items of size greater than $\epsilon/2$ into bins using the grouping algorithm seen in problem 6-d, where we create $k = \frac{2}{\epsilon^2}$ equal sized groups. Next, take the remaining elements and use the algorithm in problem 6-b to place them into bins. This will result (due to our analysis in problems 6-b and 6-d), in a packing requiring at most $1 + (1 + \epsilon) B^*$ bins. Since we run two polynomial time algorithms, the full algorithm will also run in polynomial time. 
 \end{sol}
 
 \end{document}
