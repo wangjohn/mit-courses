@@ -191,7 +191,11 @@ Give a fully polynomial time approximation scheme for the original problem of mi
 \begin{sol}
 Let $L$ be the optimum lateness penalty. We will perform a binary search for $L$, noting that $L \geq \min_j w_j$ and $L \leq n \max_j w_j$. We will use an approximation scheme for getting weights which are polynomially bounded integers and use our dynamic program from problem 5-b. We will then have an approximation for the fastest-finishing maximum-weight feasible subset. If the subset contains all of the jobs, then we have a feasible approximate solution, and we can therefore decrease our guess of $L$ until we have an infeasible solution. This binary searching will give us an approximation for $L$. 
 
-Suppose we would like to get $\epsilon$ close to $L$, so that our algorithm returns $L'$ such that $|L' - L| < \epsilon$. Suppose we have some guess $l$ for 
+Suppose we would like to get $\epsilon$ close to $L$, so that our algorithm returns $L'$ such that $|L' - L| < \epsilon$. Suppose we have some guess $l$ for $L$ (these guesses will be updated by the binary search procedure). Now, we will scale all of the weights so they are polynomial in $n$. For each weight $w_j$, we set the modified weight $mw_j = \lceil \frac{n}{\epsilon l} w_j \rceil$. Here, we scale each weight by $\frac{n}{\epsilon l}$. Moreover, we see that the modified weights $mw_j$ are polynomial in $n$, since $\frac{w_j}{l} \leq \frac{w_j}{\min_i w_i}$. This shows that $mw_j \leq \frac{n}{\epsilon \min_i w_i} w_j$ which is therefore polynomial in $n$. 
+
+Therefore, we can use the dynamic programming algorithm that we formulated in problem 5-b to find a fastest-completing maximum-weight feasible subset of the jobs using the modified weights $mw_j$. If the subset returned by the dynamic program contains all jobs, then the solution is feasible and binary search on the lower half to find a smaller $l$. If the solution is not feasible, we binary search on the upper half and search for a larger $l$, looking for the minimum such $l$ for which there is a feasible solution.
+
+Since the binary search requires a number of steps polynomial in $n$ and $\epsilon$, and we know that $\epsilon$ is a constant, we see that there are a number of steps that are polynomial in $n$ for the binary search. Moreover, each binary search requires polynomial time for the dynamic programming algorithm, so we have a polynomial time approximation scheme for minimizing the lateness penalty.  
 \end{sol}
 
 \newpage
@@ -205,7 +209,7 @@ We will use a dynamic programming approach to solve this problem. Let $DP(i)$ be
 
 Note that the total number of configurations is $(n+1)^k$, since an item can be placed in any bin. Since $k$ is an constant, we see that $(n+1)^k$ is polynomial in $n$. This means that if we enumerate all the possible configurations, then take the configuration with the fewest number of bins, then we will have solved bin-packing. In order for us to do this in polynomial time, we just need to be able to enumerate the polynomial number of configurations in polynomial time, since checking their number of bins is linear in the number of configurations.
 
-To do this, we use an updating mechanism for $DP(i)$ from $i=0$ to $i=n$. Clearly, we do not need to check $i > n$ because we will always be able to fit the items into $n$ bins, so it serves as an upper bound. Moreover, we know that as a base case $DP(0)$ is just the set of all items. 
+ceTo do this, we use an updating mechanism for $DP(i)$ from $i=0$ to $i=n$. Clearly, we do not need to check $i > n$ because we will always be able to fit the items into $n$ bins, so it serves as an upper bound. Moreover, we know that as a base case $DP(0)$ is just the set of all items. 
 
 To get $DP(i)$, we only need to know $DP(i-1)$. For each item $p$ left unpacked in $DP(i-1)$, we will try to pack $p$ into every bin already packed and also into its own bin. We throw away the results which overflow any bin's capacity, and continue doing this for every item $p$ left unpacked in $DP(i-1)$. This will give us $DP(i)$ and all the possible packings with $i$ items already packed.
 
