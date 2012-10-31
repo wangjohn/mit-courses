@@ -730,7 +730,7 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 Here is how much of TeX's memory you used:
  15246 strings out of 495061
  281315 string characters out of 1182621
- 402682 words of memory out of 3000000
+ 402703 words of memory out of 3000000
  17957 multiletter control sequences out of 15000+50000
  11104 words of font info for 46 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
@@ -747,7 +747,7 @@ re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/
 type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public
 /amsfonts/symbols/msam10.pfb>
-Output written on ps8.pdf (11 pages, 188623 bytes).
+Output written on ps8.pdf (11 pages, 188941 bytes).
 PDF statistics:
  93 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
