@@ -1,0 +1,81 @@
+| include instruction macros and test jig
+.include /mit/6.004/bsim/beta.uasm
+.include /mit/6.004/bsim/lab5checkoff.uasm
+
+count_bull_cows:         | your subroutine must have this name
+
+PUSH(LP) | standard subroutine entry sequence
+PUSH(BP)
+MOVE(SP, BP)
+
+PUSH(r1)  | bulls
+PUSH(r2)  | cows
+PUSH(r3)  | i      
+PUSH(r4)  | j      
+PUSH(r5)  | btemp  
+PUSH(r6)  | atry   
+PUSH(r7)  | btry   
+PUSH(r8)  | mask   
+PUSH(r9)  | a 
+PUSH(r10) | b
+PUSH(r11)
+PUSH(r12)
+PUSh(r13)
+
+LD(BP,-12,r9)
+LD(BP,-16,r10)
+
+CMOVE(0, r1)   
+CMOVE(0xF, r8)
+
+CMOVE(0,r3)
+BR(endfor01)
+for01:
+    AND(r9, r8, r12)
+    AND(r10, r8, r13)
+    CMPEQ(r12, r13, r12)
+    BEQ(r12, if01) | if r12 == 0, break to if01
+
+    OR(r9, r8, r9)
+    OR(r10, r8, r10)
+if01:
+    SHLC(r8, 4, r8)
+
+    ADDC(r3, 1, r3)
+
+endfor01:
+    CMPLEC(r3, 4, r11)
+    BNE(r11, for01)
+
+    CMOVE(0, r2)
+    CMOVE(0, r3)
+    BR(endfor02)
+for02:
+    ANDC(r9, 0xF, r6)
+    SHLC(r9, 4, r9)
+    CMPEQC(r6, 0xF, r12)
+    BEQ(r12, if02) | if atry != 0xF, break to if02
+    MOVE(r10, r5)
+    CMOVE(0xF, r8)
+
+    BR(endfor03)
+for03:
+
+if02:
+    
+
+
+
+
+
+endfor32:
+
+
+… your code here, leave score in R0 …
+
+MOVE(BP,SP)        | standard subroutine exit sequence
+POP(BP)
+POP(LP)
+RTN()
+
+StackBase: LONG(.+4)     | Pointer to bottom of stack
