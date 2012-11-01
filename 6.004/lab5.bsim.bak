@@ -20,45 +20,46 @@ count_bull_cows:         | your subroutine must have this name
     PUSH(r10) | b
     PUSH(r11)
     PUSH(r12)
+    PUSH(r13)
     
     LD(BP,-12,r9)
     LD(BP,-16,r10)
     
-    CMOVE(0,r1)   
-    CMOVE(0xF,r8)
+    CMOVE(0, r1)   
+    CMOVE(0xF, r8)
     
     CMOVE(0,r3)
     BR(endfor01)
 for01:
-    AND(r9,r8,r12)
-    AND(r10,r8,r11)
-    CMPEQ(r12,r11,r12)
-    BEQ(r12,if01) | if r12 == 0, break to if01
+    AND(r9, r8, r12)
+    AND(r10, r8, r13)
+    CMPEQ(r12, r13, r12)
+    BEQ(r12, if01) | if r12 == 0, break to if01
 
     ADDC(r1,1,r1)
-    OR(r9,r8,r9)
-    OR(r10,r8,r10)
+    OR(r9, r8, r9)
+    OR(r10, r8, r10)
 if01:
-    SHLC(r8,4,r8)
+    SHLC(r8, 4, r8)
 
-    ADDC(r3,1,r3)
+    ADDC(r3, 1, r3)
 
 endfor01:
-    CMPLEC(r3,3,r11)
-    BNE(r11,for01)
+    CMPLEC(r3, 3, r11)
+    BNE(r11, for01)
 
-    CMOVE(0,r2)
-    CMOVE(0,r3)
+    CMOVE(0, r2)
+    CMOVE(0, r3)
     BR(endfor02)
 for02:
-    ANDC(r9,0xF,r6)
-    SHRC(r9,4,r9)
-    CMPEQC(r6,0xF,r11)
-    BNE(r11,if02) | if atry != 0xF, break to if02
-    MOVE(r10,r5)
-    CMOVE(0xF,r8)
+    ANDC(r9, 0xF, r6)
+    SHRC(r9, 4, r9)
+    CMPEQC(r6, 0xF, r12)
+    BNE(r12, if02) | if atry != 0xF, break to if02
+    MOVE(r10, r5)
+    CMOVE(0xF, r8)
 
-    CMOVE(0,r4)
+    CMOVE(0, r4)
     BR(endfor03)
 for03: 
     ANDC(r5,0xF,r7)
@@ -84,6 +85,7 @@ endfor02:
     SHLC(r1,4,r0)
     ADD(r0,r2,r0)
     
+    POP(r13) 
     POP(r12) 
     POP(r11)  
     POP(r10)  
