@@ -37,7 +37,7 @@
 
 \makenewtitle
 
-\begin{prob}{2-a}
+\begin{prob}{3-a}
 Show that a minimum cycle cover can be found in polynomial time.
 \end{prob}
 \begin{sol}
@@ -52,7 +52,7 @@ Since the perfect matching was of minimum value, the cycle must also be of minim
 Now, all we have to do is merge $v_{in}$ and $v_{out}$ back into a single node, and the result graph will be a minimum cycle cover, found in polynomial time.
 \end{sol}
 
-\begin{prob}{2-b}
+\begin{prob}{3-b}
 Suppose that given a cycle cover, you choose one representative node from each cycle. Prove that this set of representative nodes is at most half the total nodes, and that the optimum tour traversing only these representative nodes costs less than the original optimum.
 \end{prob}
 \begin{sol}
@@ -61,6 +61,21 @@ Note that for any cycle, we must have at least one edge. Since there are no self
 Now, suppose by contradiction that the optimum tour traversing the representative nodes costs more than the original optimum. Then we can take the original optimum over the entire graph and construct a tour over the representative nodes. Take the nodes $r$ in the set of representative nodes $R$, and identify them in the original optimum cycle cover and order them according to their appearance in the cycle (choosing some arbitrary vertex as the starting point). In the original cycle cover, we have some path from $r_1$ to $r_2$ which either goes directly from $r_1$ to $r_2$, or passes over some intermediate nodes which are not in the set $R$. If the former occurs, then place the edge $(r_1, r_2)$ into the new cycle cover we construct for the representative nodes. If we have the latter case, then we can choose the edge $(r_1, r_2)$, and know by the triangle inequality, that the cost of traversing $(r_1, r_2)$ is less than or equal to the cost of traversing the previous path from $r_1$ to $r_2$.
 
 We do this for all of the cycles in the original optimum cycle cover. It is clear that the resulting set that we have built has cost which is less than or equal to the cost of the original optimum cycle cover. Moreover, we have constructed a cycle cover of the representative nodes with the resulting edges. This cycle cover has lower cost than the minimum cycle cover we proposed, which is a contradiction. Therefore, the optimum tour traversing only the representative nodes costs less than the original optimum.
+\end{sol}
+
+\begin{prob}{3-c}
+It follows that if you repeat this finding and selecting representatives from minimum cycle covers $O(\log n)$ times, you will get a one-vertex graph. Prove that you can unravel all the selections you've done, patching together the various cycles you found to produce a tour of the whole graph whose cost is $O(\log n)$ times the optimum.
+\end{prob}
+\begin{sol}
+Our algorithm will find $O(\log n)$ minimum cycle covers. We start with our original graph $G$ and find a minimum cost cycle cover using the algorithm we developed in problem 3-a. Next, we select a representative node from each cycle that we obtained from that cover, and create a new graph $G_1$. We find a minimum cycle cover of $G_1$. We continue recursively until we have a single vertex left in graph $G_{\log n}$. 
+
+Once we have a single vertex, we begin to expand out the minimum cycles we have found. We go to the second to last graph with two cycles and connect the two representative vertices we have left using the minimum cycle that was computed. We recursively go down the levels and expand each representative node into the minimum cycles that they belong to. Once we reach the bottom level, we will have a tour over the original graph $G$ of all vertices $v \in V$. 
+
+We know this algorithm will terminate because each time we select a set of representative elements, the size of $G_i$ shrinks by a factor of 2, which also implies that the algorithm requires $O(\log n)$ shrinking steps.
+
+It is clear that we end up with a tour at the end of the algorithm, we just need to show that this is an $O(\log n)$ approximation of the optimal TSP. Let $x_i$ be the cost of the cycle cover in $G_i$. We will show that $x_i \leq OPT$. This follows because $x_i > x_{i+1}$, as we showed in problem 3-b. Moreover, we know that $x_1 \leq OPT$ by problem 3-b as well (i.e. the optimum tour traversing only the representative nodes costs less than the original optimum). Therefore, it is clear that $x_i \leq OPT$. Moreover, since there are $O(\log n)$ steps by the fact that the representative set shrinks by a factor of 2 each time, we see that the total cost of the tour that our algorithm outputs is $O(OPT \log n)$. 
+
+This is because each cycle in graph $G_i$ adds at most $x_i$ to the cost of the total tour. Since there are $O(\log n)$ of these, we see that our algorithm becomes a $O(\log n)$ approximation of the directed TSP.
 \end{sol}
 
 \end{document}
