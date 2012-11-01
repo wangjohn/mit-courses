@@ -57,6 +57,10 @@ Suppose that given a cycle cover, you choose one representative node from each c
 \end{prob}
 \begin{sol}
 
+
+Now, suppose by contradiction that the optimum tour traversing the representative nodes costs more than the original optimum. Then we can take the original optimum over the entire graph and construct a tour over the representative nodes. Take the nodes $r$ in the set of representative nodes $R$, and identify them in the original optimum cycle cover and order them according to their appearance in the cycle (choosing some arbitrary vertex as the starting point). In the original cycle cover, we have some path from $r_1$ to $r_2$ which either goes directly from $r_1$ to $r_2$, or passes over some intermediate nodes which are not in the set $R$. If the former occurs, then place the edge $(r_1, r_2)$ into the new cycle cover we construct for the representative nodes. If we have the latter case, then we can choose the edge $(r_1, r_2)$, and know by the triangle inequality, that the cost of traversing $(r_1, r_2)$ is less than or equal to the cost of traversing the previous path from $r_1$ to $r_2$.
+
+We do this for all of the cycles in the original optimum cycle cover. It is clear that the resulting set that we have built has cost which is less than or equal to the cost of the original optimum cycle cover. Moreover, we have constructed a cycle cover of the representative nodes with the resulting edges. This cycle cover has lower cost than the minimum cycle cover we proposed, which is a contradiction. Therefore, the optimum tour traversing only the representative nodes costs less than the original optimum.
 \end{sol}
 
 \end{document}
