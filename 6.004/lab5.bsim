@@ -4,9 +4,9 @@
 
 count_bull_cows:         | your subroutine must have this name
 
-PUSH(LP) | standard subroutine entry sequence
-PUSH(BP)
-MOVE(SP, BP)
+    PUSH(LP) | standard subroutine entry sequence
+    PUSH(BP)
+    MOVE(SP, BP)
 
     PUSH(r1)  | bulls
     PUSH(r2)  | cows
@@ -73,12 +73,12 @@ if03:
     ADDC(r4,1,r4)
 endfor03:
     CMPLEC(r4,3,r11)
-    BEQ(r11,for03)
+    BNE(r11,for03)
 if02:
     ADDC(r3,1,r3)
 endfor02:
     CMPLEC(r3,3,r11)
-    BEQ(r11,for02)
+    BNE(r11,for02)
 
     SHLC(r1,4,r0)
     ADD(r0,r2,r0)
