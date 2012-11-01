@@ -1,0 +1,62 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{framed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 6.854 Advanced Algorithms} \\
+    Problem Set 9\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} \\
+    Collaborators:  
+    \end{center}
+    \vspace{0.5cm}
+}
+
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+\begin{document}
+
+\makenewtitle
+
+\begin{prob}{2-a}
+Show that a minimum cycle cover can be found in polynomial time.
+\end{prob}
+\begin{sol}
+For each vertex $u \in V$, we create two nodes $u_{in}$ and $u_{out}$ which correspond to the entry and exit nodes respectively of $u$. All edges going into $u_{in}$ correspond to edges that will enter $u$ and all edges in $u_{out}$ correspond to edges leaving $u$.
+
+We know from lecture that, given a complete graph $G$ with non-negative edge weights and an even number of vertices, we can compute a minimum weight perfect matching in $G$. Now, we place all entry vertices $u_{in}$ into a set $S_{in}$, and all exit vertices $u_{out}$ into a set $S_{out}$. We wish to find a minimum weight perfect matching of the entry vertices to exit vertices, where the connections between any vertex $u_{out}$ and $v_{in}$ will be given by the edges connecting node $u$ and $v$. The costs will be given by the costs of this edge in the original graph. 
+
+Now, we can find a minimum weight perfect matching in polynomial time (since we have an even number of vertices due to doubling). This perfect matching will give us a minimum cycle cover. First, we show that no vertex $u_{in}$ will be matched with its own $u_{out}$, simply because there is no edge connecting $u_{in}$ and $u_{out}$ in the graph. However, we are forced to have some $u_{in}$ connect with the $v_{out}$ of some different vertex. This constitutes a connection between nodes $u$ and $v$ in the original graph. Since we have a perfect matching, each $u_{in}$ node is connected to exactly one other $v_{out}$ node. Since each entry node is connected to the exit node of a different vertex, we know vertex $v$ must be connected to a different node. Moreover, since $v_{out}$ is connected to somve vertex, there is another exit vertex which $v$ is connected to. This argument follows for all vertices, which means that $v$ must be part of some cycle. 
+
+Since the perfect matching was of minimum value, the cycle must also be of minimum value. Suppose this is not the case, and a minimum weight perfect matching let to some cycle cover which was not minimum. Then this cycle cover must have some cycle $C$ which has a greater cost than the minimum weight cycle over the same vertices. However, this means we can find a matching between these vertices which has a lower cost than our original perfect matching, which is a contradiction.
+
+Now, all we have to do is merge $v_{in}$ and $v_{out}$ back into a single node, and the result graph will be a minimum cycle cover, found in polynomial time.
+\end{sol}
+
+\begin{prob}{2-b}
+Suppose that given a cycle cover, you choose one representative node from each cycle. Prove that this set of representative nodes is at most half the total nodes, and that the optimum tour traversing only these representative nodes costs less than the original optimum.
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
+\end{document}
