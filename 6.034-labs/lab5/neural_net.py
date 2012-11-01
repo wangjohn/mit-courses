@@ -60,7 +60,7 @@ class Input(ValuedElement,DifferentiableElement):
         
         returns: number (float or int)
         """
-        return self.my_value
+        return self.get_value()
 
     def dOutdX(self, elem):
         """
@@ -71,7 +71,7 @@ class Input(ValuedElement,DifferentiableElement):
 
         returns: number (float or int)
         """
-        raise NotImplementedError, "Implement me!"
+        return 0
 
 class Weight(ValuedElement):
     """
@@ -170,7 +170,14 @@ class Neuron(DifferentiableElement):
 
         returns: number (float or int)
         """
-        raise NotImplementedError, "Implement me!"
+        z = 0
+        inputs = self.get_inputs()
+        weights = self.get_weights()
+        for i in xrange(len(inputs)):
+            inp = inputs[i]
+            wei = weights[i]
+            z += (wei.get_value()*inp.output())
+        return 1.0 / (1.0 + math.exp(-z))
 
     def dOutdX(self, elem):
         # Implement compute_doutdx instead!!
@@ -190,7 +197,22 @@ class Neuron(DifferentiableElement):
 
         returns: number (float/int)
         """
-        raise NotImplementedError, "Implement me!"
+        out = self.output()
+        octerm = out*(1-out)
+
+        if self.has_weight(elem):
+            index = self.my_weights.index(elem)
+            oa = self.get_inputs()[index].get_output()
+            d = octerm*oa
+        else:
+            d = 0
+            for i in xrange(len(self.get_weights())):
+                current_weight = self.my_weights[i]
+                if self.isa_descendant_weight_of(elem, current_weight):
+                    input_deriv = self.get_inputs()[i].dOutdX(elem)
+                    d += current_weight.get_value()*input_deriv
+            d *= octerm
+        return d
 
     def get_weights(self):
         return self.my_weights
@@ -225,7 +247,7 @@ class PerformanceElem(DifferentiableElement):
         
         returns: number (float/int)
         """
-        raise NotImplementedError, "Implement me!"
+        return -0.5*(self.my_desired_val - self.my_input.output())**2
 
     def dOutdX(self, elem):
         """
@@ -236,7 +258,7 @@ class PerformanceElem(DifferentiableElement):
 
         returns: number (int/float)
         """
-        raise NotImplementedError, "Implement me!"
+        return (self.my_desired_val - self.my_input.output())*self.my_input.dOutdX(elem)
 
     def set_desired(self,new_desired):
         self.my_desired_val = new_desired
