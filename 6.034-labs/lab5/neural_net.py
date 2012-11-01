@@ -202,7 +202,7 @@ class Neuron(DifferentiableElement):
 
         if self.has_weight(elem):
             index = self.my_weights.index(elem)
-            oa = self.get_inputs()[index].get_output()
+            oa = self.get_inputs()[index].output()
             d = octerm*oa
         else:
             d = 0
