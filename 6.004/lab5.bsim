@@ -8,28 +8,28 @@ PUSH(LP) | standard subroutine entry sequence
 PUSH(BP)
 MOVE(SP, BP)
 
-PUSH(r1)  | bulls
-PUSH(r2)  | cows
-PUSH(r3)  | i      
-PUSH(r4)  | j      
-PUSH(r5)  | btemp  
-PUSH(r6)  | atry   
-PUSH(r7)  | btry   
-PUSH(r8)  | mask   
-PUSH(r9)  | a 
-PUSH(r10) | b
-PUSH(r11)
-PUSH(r12)
-PUSh(r13)
-
-LD(BP,-12,r9)
-LD(BP,-16,r10)
-
-CMOVE(0, r1)   
-CMOVE(0xF, r8)
-
-CMOVE(0,r3)
-BR(endfor01)
+    PUSH(r1)  | bulls
+    PUSH(r2)  | cows
+    PUSH(r3)  | i      
+    PUSH(r4)  | j      
+    PUSH(r5)  | btemp  
+    PUSH(r6)  | atry   
+    PUSH(r7)  | btry   
+    PUSH(r8)  | mask   
+    PUSH(r9)  | a 
+    PUSH(r10) | b
+    PUSH(r11)
+    PUSH(r12)
+    PUSH(r13)
+    
+    LD(BP,-12,r9)
+    LD(BP,-16,r10)
+    
+    CMOVE(0, r1)   
+    CMOVE(0xF, r8)
+    
+    CMOVE(0,r3)
+    BR(endfor01)
 for01:
     AND(r9, r8, r12)
     AND(r10, r8, r13)
@@ -59,23 +59,47 @@ for02:
     CMOVE(0xF, r8)
 
     BR(endfor03)
-for03:
-
-if02:
+for03: 
+    ANDC(r5,0xF,r7)
+    SHLC(r5,4,r5)
     
+    CMPEQ(r7,r6,r13)
+    BNE(r13,if03)
+    ADDC(r2,1,r2)
+    OR(r10,r8,r10)
+    BR(if02)
+if03:
+    SHLC(r8,4,r8)
+    ADDC(r4,1,r4)
+endfor03:
+    CMPLEC(r4,3,r11)
+    BEQ(r11,for03)
+if02:
+    ADDC(r3,1,r3)
+endfor02:
+    CMPLEC(r3,3,r11)
+    BEQ(r11,for02)
 
+    SHLC(r1,4,r0)
+    ADD(r0,r2,r0)
+    
+    POP(r13) 
+    POP(r12) 
+    POP(r11)  
+    POP(r10)  
+    POP(r9)  
+    POP(r8)  
+    POP(r7)  
+    POP(r6)  
+    POP(r5)  
+    POP(r4) 
+    POP(r3)
+    POP(r2)
+    POP(r1)
 
-
-
-
-endfor32:
-
-
-… your code here, leave score in R0 …
-
-MOVE(BP,SP)        | standard subroutine exit sequence
-POP(BP)
-POP(LP)
-RTN()
+    MOVE(BP,SP)        | standard subroutine exit sequence
+    POP(BP)
+    POP(LP)
+    RTN()
 
 StackBase: LONG(.+4)     | Pointer to bottom of stack
