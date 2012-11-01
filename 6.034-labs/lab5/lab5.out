@@ -1,0 +1,1138 @@
+Orange version: 2.0b (04:01:07, Nov  9 2009)
+Classes: 2
+Attributes: 4
+Instances: 8 total , 5 with class no , 3 with class yes
+Possible classes: <no, yes>
+  k-Nearest Neighbors classifier:
+  <kNNClassifier instance at 0x24c7600>
+    1: 0.051 -> no (should be no) correct
+    2: 0.285 -> no (should be no) correct
+    3: 0.400 -> no (should be yes) incorrect
+    4: 0.605 -> yes (should be yes) correct
+    5: 0.580 -> yes (should be yes) correct
+    6: 0.231 -> no (should be no) correct
+    7: 0.306 -> no (should be no) correct
+    8: 0.265 -> no (should be no) correct
+    accuracy on training data: 0.88
+  Support Vector Machine classifier with degree 3 polynomial kernel:
+  <SVMClassifier instance at 0x248cf40>
+    1: 0.440 -> no (should be no) correct
+    2: 0.511 -> yes (should be no) incorrect
+    3: 0.275 -> no (should be yes) incorrect
+    4: 0.429 -> no (should be yes) incorrect
+    5: 0.317 -> no (should be yes) incorrect
+    6: 0.511 -> yes (should be no) incorrect
+    7: 0.469 -> no (should be no) correct
+    8: 0.527 -> yes (should be no) incorrect
+    accuracy on training data: 0.25
+  Support Vector Machine classifier with linear kernel:
+  <SVMClassifier instance at 0x248cf40>
+    1: 0.305 -> no (should be no) correct
+    2: 0.305 -> no (should be no) correct
+    3: 0.836 -> yes (should be yes) correct
+    4: 0.835 -> yes (should be yes) correct
+    5: 0.836 -> yes (should be yes) correct
+    6: 0.305 -> no (should be no) correct
+    7: 0.305 -> no (should be no) correct
+    8: 0.305 -> no (should be no) correct
+    accuracy on training data: 1.00
+  Naive Bayes classifier:
+  <BayesClassifier instance at 0x240ba40>
+    1: 0.000 -> no (should be no) correct
+    2: 0.000 -> no (should be no) correct
+    3: 0.510 -> yes (should be yes) correct
+    4: 1.000 -> yes (should be yes) correct
+    5: 0.893 -> yes (should be yes) correct
+    6: 0.000 -> no (should be no) correct
+    7: 0.000 -> no (should be no) correct
+    8: 0.000 -> no (should be no) correct
+    accuracy on training data: 1.00
+  Support Vector Machine classifier with radial basis kernel:
+  <SVMClassifier instance at 0x240ba40>
+    1: 0.701 -> yes (should be no) incorrect
+    2: 0.700 -> yes (should be no) incorrect
+    3: 0.148 -> no (should be yes) incorrect
+    4: 0.243 -> no (should be yes) incorrect
+    5: 0.161 -> no (should be yes) incorrect
+    6: 0.701 -> yes (should be no) incorrect
+    7: 0.700 -> yes (should be no) incorrect
+    8: 0.701 -> yes (should be no) incorrect
+    accuracy on training data: 0.00
+  Support Vector Machine classifier with sigmoid kernel:
+  <SVMClassifier instance at 0x240ba40>
+    1: 0.380 -> no (should be no) correct
+    2: 0.380 -> no (should be no) correct
+    3: 0.396 -> no (should be yes) incorrect
+    4: 0.415 -> no (should be yes) incorrect
+    5: 0.384 -> no (should be yes) incorrect
+    6: 0.374 -> no (should be no) correct
+    7: 0.386 -> no (should be no) correct
+    8: 0.389 -> no (should be no) correct
+    accuracy on training data: 0.62
+  Decision Tree classifier:
+  <TreeClassifier instance at 0x6e3800>
+    1: 0.000 -> no (should be no) correct
+    2: 0.000 -> no (should be no) correct
+    3: 1.000 -> yes (should be yes) correct
+    4: 1.000 -> yes (should be yes) correct
+    5: 1.000 -> yes (should be yes) correct
+    6: 0.000 -> no (should be no) correct
+    7: 0.000 -> no (should be no) correct
+    8: 0.000 -> no (should be no) correct
+    accuracy on training data: 1.00
+  Majority classifier:
+  <DefaultClassifier instance at 0x6d2810>
+    1: 0.375 -> no (should be no) correct
+    2: 0.375 -> no (should be no) correct
+    3: 0.375 -> no (should be yes) incorrect
+    4: 0.375 -> no (should be yes) incorrect
+    5: 0.375 -> no (should be yes) incorrect
+    6: 0.375 -> no (should be no) correct
+    7: 0.375 -> no (should be no) correct
+    8: 0.375 -> no (should be no) correct
+    accuracy on training data: 0.62
+Decision Tree boundaries:
+shadow?=no
+|    garlic?=no: yes (100.00%)
+|    garlic?=yes: no (100.00%)
+shadow?=yes
+|    garlic?=yes: no (100.00%)
+|    garlic?=no
+|    |    accent?=none: yes (100.00%)
+|    |    accent?=heavy: no (100.00%)
+|    |    accent?=odd: yes (100.00%)
+
+
+Accuracy with cross-validation:
+  Confusion Matrices:
+    knn: <cm TruPos:0 FlsNeg:3 FlsPos:1 TruNeg:4>
+  svmp3: <cm TruPos:0 FlsNeg:3 FlsPos:2 TruNeg:3>
+   svml: <cm TruPos:2 FlsNeg:1 FlsPos:0 TruNeg:5>
+     nb: <cm TruPos:0 FlsNeg:3 FlsPos:2 TruNeg:3>
+   svmr: <cm TruPos:0 FlsNeg:3 FlsPos:3 TruNeg:2>
+   svms: <cm TruPos:0 FlsNeg:3 FlsPos:4 TruNeg:1>
+     dt: <cm TruPos:0 FlsNeg:3 FlsPos:2 TruNeg:3>
+    maj: <cm TruPos:0 FlsNeg:3 FlsPos:0 TruNeg:5>
+  Classifier   accuracy   Brier       AUC
+  knn          0.500      0.641       0.267
+  svmp3        0.375      0.655       0.000
+  svml         0.875      0.440       0.667
+  nb           0.375      0.894       0.300
+  svmr         0.250      0.731       0.133
+  svms         0.125      0.904       0.000
+  dt           0.375      0.856       0.500
+  maj          0.625      0.612       0.000
+
+
+
+
+
+
+========================================================================
+========================================================================
+========================================================================
+Second run, with the H004 dataset:
+========================================================================
+
+
+
+Orange version: 2.0b (04:01:07, Nov  9 2009)
+Classes: 2
+Attributes: 83
+Instances: 116 total , 55 with class Federalist , 61 with class Republican
+Possible classes: <Federalist, Republican>
+  k-Nearest Neighbors classifier:
+  <kNNClassifier instance at 0x24ccf60>
+    1: 0.188 -> Federalist (should be Federalist) correct
+    2: 0.000 -> Federalist (should be Federalist) correct
+    3: 0.000 -> Federalist (should be Federalist) correct
+    4: 0.000 -> Federalist (should be Federalist) correct
+    5: 0.000 -> Federalist (should be Federalist) correct
+    6: 0.000 -> Federalist (should be Federalist) correct
+    7: 0.043 -> Federalist (should be Federalist) correct
+    8: 0.009 -> Federalist (should be Federalist) correct
+    9: 0.001 -> Federalist (should be Federalist) correct
+    10: 0.001 -> Federalist (should be Federalist) correct
+    11: 0.998 -> Republican (should be Republican) correct
+    12: 1.000 -> Republican (should be Republican) correct
+    13: 1.000 -> Republican (should be Republican) correct
+    14: 1.000 -> Republican (should be Republican) correct
+    15: 0.908 -> Republican (should be Republican) correct
+    16: 0.000 -> Federalist (should be Federalist) correct
+    17: 0.394 -> Federalist (should be Republican) incorrect
+    18: 1.000 -> Republican (should be Republican) correct
+    19: 0.600 -> Republican (should be Federalist) incorrect
+    20: 0.000 -> Federalist (should be Federalist) correct
+    21: 0.998 -> Republican (should be Republican) correct
+    22: 0.660 -> Republican (should be Republican) correct
+    23: 1.000 -> Republican (should be Republican) correct
+    24: 0.000 -> Federalist (should be Federalist) correct
+    25: 0.000 -> Federalist (should be Federalist) correct
+    26: 0.092 -> Federalist (should be Federalist) correct
+    27: 0.580 -> Republican (should be Republican) correct
+    28: 1.000 -> Republican (should be Republican) correct
+    29: 0.000 -> Federalist (should be Federalist) correct
+    30: 0.000 -> Federalist (should be Federalist) correct
+    31: 0.387 -> Federalist (should be Federalist) correct
+    32: 0.000 -> Federalist (should be Federalist) correct
+    33: 0.448 -> Federalist (should be Federalist) correct
+    34: 0.000 -> Federalist (should be Federalist) correct
+    35: 0.908 -> Republican (should be Republican) correct
+    36: 0.092 -> Federalist (should be Federalist) correct
+    37: 0.000 -> Federalist (should be Federalist) correct
+    38: 0.000 -> Federalist (should be Federalist) correct
+    39: 0.906 -> Republican (should be Republican) correct
+    40: 0.000 -> Federalist (should be Federalist) correct
+    41: 0.000 -> Federalist (should be Federalist) correct
+    42: 0.000 -> Federalist (should be Federalist) correct
+    43: 0.000 -> Federalist (should be Federalist) correct
+    44: 0.000 -> Federalist (should be Federalist) correct
+    45: 0.829 -> Republican (should be Republican) correct
+    46: 0.323 -> Federalist (should be Federalist) correct
+    47: 0.000 -> Federalist (should be Federalist) correct
+    48: 0.000 -> Federalist (should be Federalist) correct
+    49: 0.189 -> Federalist (should be Federalist) correct
+    50: 0.000 -> Federalist (should be Federalist) correct
+    51: 0.998 -> Republican (should be Republican) correct
+    52: 1.000 -> Republican (should be Republican) correct
+    53: 1.000 -> Republican (should be Republican) correct
+    54: 1.000 -> Republican (should be Republican) correct
+    55: 1.000 -> Republican (should be Republican) correct
+    56: 0.000 -> Federalist (should be Federalist) correct
+    57: 0.000 -> Federalist (should be Federalist) correct
+    58: 0.000 -> Federalist (should be Federalist) correct
+    59: 0.000 -> Federalist (should be Federalist) correct
+    60: 0.000 -> Federalist (should be Federalist) correct
+    61: 1.000 -> Republican (should be Republican) correct
+    62: 1.000 -> Republican (should be Republican) correct
+    63: 1.000 -> Republican (should be Republican) correct
+    64: 0.955 -> Republican (should be Republican) correct
+    65: 0.369 -> Federalist (should be Federalist) correct
+    66: 1.000 -> Republican (should be Republican) correct
+    67: 1.000 -> Republican (should be Republican) correct
+    68: 0.609 -> Republican (should be Federalist) incorrect
+    69: 1.000 -> Republican (should be Republican) correct
+    70: 1.000 -> Republican (should be Republican) correct
+    71: 1.000 -> Republican (should be Republican) correct
+    72: 1.000 -> Republican (should be Republican) correct
+    73: 0.829 -> Republican (should be Republican) correct
+    74: 0.000 -> Federalist (should be Federalist) correct
+    75: 1.000 -> Republican (should be Republican) correct
+    76: 0.000 -> Federalist (should be Federalist) correct
+    77: 0.948 -> Republican (should be Republican) correct
+    78: 0.000 -> Federalist (should be Federalist) correct
+    79: 1.000 -> Republican (should be Republican) correct
+    80: 0.000 -> Federalist (should be Federalist) correct
+    81: 0.000 -> Federalist (should be Federalist) correct
+    82: 1.000 -> Republican (should be Republican) correct
+    83: 1.000 -> Republican (should be Republican) correct
+    84: 1.000 -> Republican (should be Republican) correct
+    85: 1.000 -> Republican (should be Republican) correct
+    86: 0.000 -> Federalist (should be Federalist) correct
+    87: 0.009 -> Federalist (should be Federalist) correct
+    88: 0.002 -> Federalist (should be Federalist) correct
+    89: 0.000 -> Federalist (should be Federalist) correct
+    90: 1.000 -> Republican (should be Republican) correct
+    91: 0.955 -> Republican (should be Republican) correct
+    92: 1.000 -> Republican (should be Republican) correct
+    93: 0.000 -> Federalist (should be Federalist) correct
+    94: 0.906 -> Republican (should be Republican) correct
+    95: 0.612 -> Republican (should be Republican) correct
+    96: 0.998 -> Republican (should be Republican) correct
+    97: 0.320 -> Federalist (should be Federalist) correct
+    98: 1.000 -> Republican (should be Republican) correct
+    99: 1.000 -> Republican (should be Republican) correct
+    100: 1.000 -> Republican (should be Republican) correct
+    101: 0.999 -> Republican (should be Republican) correct
+    102: 0.608 -> Republican (should be Federalist) incorrect
+    103: 1.000 -> Republican (should be Republican) correct
+    104: 1.000 -> Republican (should be Republican) correct
+    105: 1.000 -> Republican (should be Republican) correct
+    106: 0.908 -> Republican (should be Republican) correct
+    107: 1.000 -> Republican (should be Republican) correct
+    108: 0.609 -> Republican (should be Federalist) incorrect
+    109: 0.999 -> Republican (should be Republican) correct
+    110: 1.000 -> Republican (should be Republican) correct
+    111: 1.000 -> Republican (should be Republican) correct
+    112: 1.000 -> Republican (should be Republican) correct
+    113: 1.000 -> Republican (should be Republican) correct
+    114: 1.000 -> Republican (should be Republican) correct
+    115: 1.000 -> Republican (should be Republican) correct
+    116: 0.957 -> Republican (should be Republican) correct
+    accuracy on training data: 0.96
+  Support Vector Machine classifier with degree 3 polynomial kernel:
+  <SVMClassifier instance at 0x24cadf0>
+    1: 0.148 -> Federalist (should be Federalist) correct
+    2: 0.004 -> Federalist (should be Federalist) correct
+    3: 0.007 -> Federalist (should be Federalist) correct
+    4: 0.005 -> Federalist (should be Federalist) correct
+    5: 0.004 -> Federalist (should be Federalist) correct
+    6: 0.011 -> Federalist (should be Federalist) correct
+    7: 0.064 -> Federalist (should be Federalist) correct
+    8: 0.030 -> Federalist (should be Federalist) correct
+    9: 0.031 -> Federalist (should be Federalist) correct
+    10: 0.043 -> Federalist (should be Federalist) correct
+    11: 0.971 -> Republican (should be Republican) correct
+    12: 0.996 -> Republican (should be Republican) correct
+    13: 1.000 -> Republican (should be Republican) correct
+    14: 0.995 -> Republican (should be Republican) correct
+    15: 0.960 -> Republican (should be Republican) correct
+    16: 0.064 -> Federalist (should be Federalist) correct
+    17: 0.316 -> Federalist (should be Republican) incorrect
+    18: 0.967 -> Republican (should be Republican) correct
+    19: 0.071 -> Federalist (should be Federalist) correct
+    20: 0.066 -> Federalist (should be Federalist) correct
+    21: 0.974 -> Republican (should be Republican) correct
+    22: 0.947 -> Republican (should be Republican) correct
+    23: 0.947 -> Republican (should be Republican) correct
+    24: 0.014 -> Federalist (should be Federalist) correct
+    25: 0.036 -> Federalist (should be Federalist) correct
+    26: 0.040 -> Federalist (should be Federalist) correct
+    27: 0.892 -> Republican (should be Republican) correct
+    28: 0.993 -> Republican (should be Republican) correct
+    29: 0.009 -> Federalist (should be Federalist) correct
+    30: 0.014 -> Federalist (should be Federalist) correct
+    31: 0.071 -> Federalist (should be Federalist) correct
+    32: 0.013 -> Federalist (should be Federalist) correct
+    33: 0.071 -> Federalist (should be Federalist) correct
+    34: 0.029 -> Federalist (should be Federalist) correct
+    35: 0.987 -> Republican (should be Republican) correct
+    36: 0.070 -> Federalist (should be Federalist) correct
+    37: 0.071 -> Federalist (should be Federalist) correct
+    38: 0.011 -> Federalist (should be Federalist) correct
+    39: 0.947 -> Republican (should be Republican) correct
+    40: 0.010 -> Federalist (should be Federalist) correct
+    41: 0.004 -> Federalist (should be Federalist) correct
+    42: 0.019 -> Federalist (should be Federalist) correct
+    43: 0.012 -> Federalist (should be Federalist) correct
+    44: 0.016 -> Federalist (should be Federalist) correct
+    45: 0.959 -> Republican (should be Republican) correct
+    46: 0.071 -> Federalist (should be Federalist) correct
+    47: 0.071 -> Federalist (should be Federalist) correct
+    48: 0.006 -> Federalist (should be Federalist) correct
+    49: 0.185 -> Federalist (should be Federalist) correct
+    50: 0.014 -> Federalist (should be Federalist) correct
+    51: 0.947 -> Republican (should be Republican) correct
+    52: 1.000 -> Republican (should be Republican) correct
+    53: 0.947 -> Republican (should be Republican) correct
+    54: 0.981 -> Republican (should be Republican) correct
+    55: 0.994 -> Republican (should be Republican) correct
+    56: 0.007 -> Federalist (should be Federalist) correct
+    57: 0.018 -> Federalist (should be Federalist) correct
+    58: 0.010 -> Federalist (should be Federalist) correct
+    59: 0.005 -> Federalist (should be Federalist) correct
+    60: 0.020 -> Federalist (should be Federalist) correct
+    61: 0.947 -> Republican (should be Republican) correct
+    62: 0.955 -> Republican (should be Republican) correct
+    63: 0.993 -> Republican (should be Republican) correct
+    64: 0.947 -> Republican (should be Republican) correct
+    65: 0.071 -> Federalist (should be Federalist) correct
+    66: 0.969 -> Republican (should be Republican) correct
+    67: 0.965 -> Republican (should be Republican) correct
+    68: 0.071 -> Federalist (should be Federalist) correct
+    69: 0.947 -> Republican (should be Republican) correct
+    70: 0.988 -> Republican (should be Republican) correct
+    71: 0.947 -> Republican (should be Republican) correct
+    72: 0.991 -> Republican (should be Republican) correct
+    73: 0.947 -> Republican (should be Republican) correct
+    74: 0.010 -> Federalist (should be Federalist) correct
+    75: 0.953 -> Republican (should be Republican) correct
+    76: 0.018 -> Federalist (should be Federalist) correct
+    77: 0.947 -> Republican (should be Republican) correct
+    78: 0.071 -> Federalist (should be Federalist) correct
+    79: 0.986 -> Republican (should be Republican) correct
+    80: 0.025 -> Federalist (should be Federalist) correct
+    81: 0.028 -> Federalist (should be Federalist) correct
+    82: 0.983 -> Republican (should be Republican) correct
+    83: 1.000 -> Republican (should be Republican) correct
+    84: 0.980 -> Republican (should be Republican) correct
+    85: 1.000 -> Republican (should be Republican) correct
+    86: 0.038 -> Federalist (should be Federalist) correct
+    87: 0.029 -> Federalist (should be Federalist) correct
+    88: 0.071 -> Federalist (should be Federalist) correct
+    89: 0.012 -> Federalist (should be Federalist) correct
+    90: 0.979 -> Republican (should be Republican) correct
+    91: 0.947 -> Republican (should be Republican) correct
+    92: 0.981 -> Republican (should be Republican) correct
+    93: 0.024 -> Federalist (should be Federalist) correct
+    94: 0.947 -> Republican (should be Republican) correct
+    95: 0.947 -> Republican (should be Republican) correct
+    96: 0.947 -> Republican (should be Republican) correct
+    97: 0.020 -> Federalist (should be Federalist) correct
+    98: 0.987 -> Republican (should be Republican) correct
+    99: 0.989 -> Republican (should be Republican) correct
+    100: 0.967 -> Republican (should be Republican) correct
+    101: 0.991 -> Republican (should be Republican) correct
+    102: 0.071 -> Federalist (should be Federalist) correct
+    103: 0.990 -> Republican (should be Republican) correct
+    104: 0.997 -> Republican (should be Republican) correct
+    105: 0.947 -> Republican (should be Republican) correct
+    106: 0.947 -> Republican (should be Republican) correct
+    107: 0.994 -> Republican (should be Republican) correct
+    108: 0.071 -> Federalist (should be Federalist) correct
+    109: 0.947 -> Republican (should be Republican) correct
+    110: 0.980 -> Republican (should be Republican) correct
+    111: 0.948 -> Republican (should be Republican) correct
+    112: 0.996 -> Republican (should be Republican) correct
+    113: 0.979 -> Republican (should be Republican) correct
+    114: 0.948 -> Republican (should be Republican) correct
+    115: 0.993 -> Republican (should be Republican) correct
+    116: 0.947 -> Republican (should be Republican) correct
+    accuracy on training data: 0.99
+  Support Vector Machine classifier with linear kernel:
+  <SVMClassifier instance at 0x24cadf0>
+    1: 0.195 -> Federalist (should be Federalist) correct
+    2: 0.000 -> Federalist (should be Federalist) correct
+    3: 0.000 -> Federalist (should be Federalist) correct
+    4: 0.000 -> Federalist (should be Federalist) correct
+    5: 0.000 -> Federalist (should be Federalist) correct
+    6: 0.004 -> Federalist (should be Federalist) correct
+    7: 0.071 -> Federalist (should be Federalist) correct
+    8: 0.009 -> Federalist (should be Federalist) correct
+    9: 0.051 -> Federalist (should be Federalist) correct
+    10: 0.046 -> Federalist (should be Federalist) correct
+    11: 0.982 -> Republican (should be Republican) correct
+    12: 0.944 -> Republican (should be Republican) correct
+    13: 0.980 -> Republican (should be Republican) correct
+    14: 1.000 -> Republican (should be Republican) correct
+    15: 0.896 -> Republican (should be Republican) correct
+    16: 0.195 -> Federalist (should be Federalist) correct
+    17: 0.873 -> Republican (should be Republican) correct
+    18: 0.994 -> Republican (should be Republican) correct
+    19: 0.195 -> Federalist (should be Federalist) correct
+    20: 0.109 -> Federalist (should be Federalist) correct
+    21: 0.977 -> Republican (should be Republican) correct
+    22: 0.873 -> Republican (should be Republican) correct
+    23: 0.873 -> Republican (should be Republican) correct
+    24: 0.002 -> Federalist (should be Federalist) correct
+    25: 0.005 -> Federalist (should be Federalist) correct
+    26: 0.015 -> Federalist (should be Federalist) correct
+    27: 0.873 -> Republican (should be Republican) correct
+    28: 0.997 -> Republican (should be Republican) correct
+    29: 0.014 -> Federalist (should be Federalist) correct
+    30: 0.003 -> Federalist (should be Federalist) correct
+    31: 0.137 -> Federalist (should be Federalist) correct
+    32: 0.026 -> Federalist (should be Federalist) correct
+    33: 0.195 -> Federalist (should be Federalist) correct
+    34: 0.033 -> Federalist (should be Federalist) correct
+    35: 0.973 -> Republican (should be Republican) correct
+    36: 0.137 -> Federalist (should be Federalist) correct
+    37: 0.168 -> Federalist (should be Federalist) correct
+    38: 0.003 -> Federalist (should be Federalist) correct
+    39: 0.971 -> Republican (should be Republican) correct
+    40: 0.015 -> Federalist (should be Federalist) correct
+    41: 0.003 -> Federalist (should be Federalist) correct
+    42: 0.020 -> Federalist (should be Federalist) correct
+    43: 0.005 -> Federalist (should be Federalist) correct
+    44: 0.004 -> Federalist (should be Federalist) correct
+    45: 0.994 -> Republican (should be Republican) correct
+    46: 0.195 -> Federalist (should be Federalist) correct
+    47: 0.155 -> Federalist (should be Federalist) correct
+    48: 0.001 -> Federalist (should be Federalist) correct
+    49: 0.195 -> Federalist (should be Federalist) correct
+    50: 0.009 -> Federalist (should be Federalist) correct
+    51: 0.980 -> Republican (should be Republican) correct
+    52: 0.997 -> Republican (should be Republican) correct
+    53: 0.967 -> Republican (should be Republican) correct
+    54: 0.927 -> Republican (should be Republican) correct
+    55: 0.924 -> Republican (should be Republican) correct
+    56: 0.002 -> Federalist (should be Federalist) correct
+    57: 0.006 -> Federalist (should be Federalist) correct
+    58: 0.002 -> Federalist (should be Federalist) correct
+    59: 0.015 -> Federalist (should be Federalist) correct
+    60: 0.004 -> Federalist (should be Federalist) correct
+    61: 0.879 -> Republican (should be Republican) correct
+    62: 0.876 -> Republican (should be Republican) correct
+    63: 0.993 -> Republican (should be Republican) correct
+    64: 0.987 -> Republican (should be Republican) correct
+    65: 0.195 -> Federalist (should be Federalist) correct
+    66: 0.873 -> Republican (should be Republican) correct
+    67: 0.973 -> Republican (should be Republican) correct
+    68: 0.195 -> Federalist (should be Federalist) correct
+    69: 0.873 -> Republican (should be Republican) correct
+    70: 0.995 -> Republican (should be Republican) correct
+    71: 0.944 -> Republican (should be Republican) correct
+    72: 0.982 -> Republican (should be Republican) correct
+    73: 0.942 -> Republican (should be Republican) correct
+    74: 0.003 -> Federalist (should be Federalist) correct
+    75: 0.962 -> Republican (should be Republican) correct
+    76: 0.008 -> Federalist (should be Federalist) correct
+    77: 0.922 -> Republican (should be Republican) correct
+    78: 0.161 -> Federalist (should be Federalist) correct
+    79: 0.953 -> Republican (should be Republican) correct
+    80: 0.036 -> Federalist (should be Federalist) correct
+    81: 0.025 -> Federalist (should be Federalist) correct
+    82: 0.953 -> Republican (should be Republican) correct
+    83: 1.000 -> Republican (should be Republican) correct
+    84: 0.931 -> Republican (should be Republican) correct
+    85: 1.000 -> Republican (should be Republican) correct
+    86: 0.012 -> Federalist (should be Federalist) correct
+    87: 0.007 -> Federalist (should be Federalist) correct
+    88: 0.195 -> Federalist (should be Federalist) correct
+    89: 0.008 -> Federalist (should be Federalist) correct
+    90: 0.928 -> Republican (should be Republican) correct
+    91: 0.905 -> Republican (should be Republican) correct
+    92: 0.976 -> Republican (should be Republican) correct
+    93: 0.006 -> Federalist (should be Federalist) correct
+    94: 0.873 -> Republican (should be Republican) correct
+    95: 0.909 -> Republican (should be Republican) correct
+    96: 0.873 -> Republican (should be Republican) correct
+    97: 0.024 -> Federalist (should be Federalist) correct
+    98: 0.984 -> Republican (should be Republican) correct
+    99: 0.996 -> Republican (should be Republican) correct
+    100: 0.896 -> Republican (should be Republican) correct
+    101: 0.971 -> Republican (should be Republican) correct
+    102: 0.195 -> Federalist (should be Federalist) correct
+    103: 0.994 -> Republican (should be Republican) correct
+    104: 0.996 -> Republican (should be Republican) correct
+    105: 0.873 -> Republican (should be Republican) correct
+    106: 0.873 -> Republican (should be Republican) correct
+    107: 0.964 -> Republican (should be Republican) correct
+    108: 0.195 -> Federalist (should be Federalist) correct
+    109: 0.873 -> Republican (should be Republican) correct
+    110: 0.960 -> Republican (should be Republican) correct
+    111: 0.947 -> Republican (should be Republican) correct
+    112: 0.981 -> Republican (should be Republican) correct
+    113: 0.983 -> Republican (should be Republican) correct
+    114: 0.948 -> Republican (should be Republican) correct
+    115: 0.968 -> Republican (should be Republican) correct
+    116: 0.873 -> Republican (should be Republican) correct
+    accuracy on training data: 1.00
+  Naive Bayes classifier:
+  <BayesClassifier instance at 0x24daac0>
+    1: 0.000 -> Federalist (should be Federalist) correct
+    2: 0.000 -> Federalist (should be Federalist) correct
+    3: 0.000 -> Federalist (should be Federalist) correct
+    4: 0.000 -> Federalist (should be Federalist) correct
+    5: 0.000 -> Federalist (should be Federalist) correct
+    6: 0.000 -> Federalist (should be Federalist) correct
+    7: 0.000 -> Federalist (should be Federalist) correct
+    8: 0.000 -> Federalist (should be Federalist) correct
+    9: 0.000 -> Federalist (should be Federalist) correct
+    10: 0.000 -> Federalist (should be Federalist) correct
+    11: 1.000 -> Republican (should be Republican) correct
+    12: 1.000 -> Republican (should be Republican) correct
+    13: 1.000 -> Republican (should be Republican) correct
+    14: 1.000 -> Republican (should be Republican) correct
+    15: 1.000 -> Republican (should be Republican) correct
+    16: 0.000 -> Federalist (should be Federalist) correct
+    17: 0.000 -> Federalist (should be Republican) incorrect
+    18: 1.000 -> Republican (should be Republican) correct
+    19: 1.000 -> Republican (should be Federalist) incorrect
+    20: 0.000 -> Federalist (should be Federalist) correct
+    21: 1.000 -> Republican (should be Republican) correct
+    22: 0.000 -> Federalist (should be Republican) incorrect
+    23: 1.000 -> Republican (should be Republican) correct
+    24: 0.000 -> Federalist (should be Federalist) correct
+    25: 0.000 -> Federalist (should be Federalist) correct
+    26: 0.000 -> Federalist (should be Federalist) correct
+    27: 0.918 -> Republican (should be Republican) correct
+    28: 1.000 -> Republican (should be Republican) correct
+    29: 0.000 -> Federalist (should be Federalist) correct
+    30: 0.000 -> Federalist (should be Federalist) correct
+    31: 0.000 -> Federalist (should be Federalist) correct
+    32: 0.000 -> Federalist (should be Federalist) correct
+    33: 0.000 -> Federalist (should be Federalist) correct
+    34: 0.000 -> Federalist (should be Federalist) correct
+    35: 1.000 -> Republican (should be Republican) correct
+    36: 0.000 -> Federalist (should be Federalist) correct
+    37: 0.000 -> Federalist (should be Federalist) correct
+    38: 0.000 -> Federalist (should be Federalist) correct
+    39: 1.000 -> Republican (should be Republican) correct
+    40: 0.000 -> Federalist (should be Federalist) correct
+    41: 0.000 -> Federalist (should be Federalist) correct
+    42: 0.000 -> Federalist (should be Federalist) correct
+    43: 0.000 -> Federalist (should be Federalist) correct
+    44: 0.000 -> Federalist (should be Federalist) correct
+    45: 1.000 -> Republican (should be Republican) correct
+    46: 0.978 -> Republican (should be Federalist) incorrect
+    47: 0.000 -> Federalist (should be Federalist) correct
+    48: 0.000 -> Federalist (should be Federalist) correct
+    49: 0.000 -> Federalist (should be Federalist) correct
+    50: 0.000 -> Federalist (should be Federalist) correct
+    51: 1.000 -> Republican (should be Republican) correct
+    52: 1.000 -> Republican (should be Republican) correct
+    53: 1.000 -> Republican (should be Republican) correct
+    54: 1.000 -> Republican (should be Republican) correct
+    55: 1.000 -> Republican (should be Republican) correct
+    56: 0.000 -> Federalist (should be Federalist) correct
+    57: 0.000 -> Federalist (should be Federalist) correct
+    58: 0.000 -> Federalist (should be Federalist) correct
+    59: 0.000 -> Federalist (should be Federalist) correct
+    60: 0.000 -> Federalist (should be Federalist) correct
+    61: 1.000 -> Republican (should be Republican) correct
+    62: 1.000 -> Republican (should be Republican) correct
+    63: 1.000 -> Republican (should be Republican) correct
+    64: 1.000 -> Republican (should be Republican) correct
+    65: 1.000 -> Republican (should be Federalist) incorrect
+    66: 1.000 -> Republican (should be Republican) correct
+    67: 1.000 -> Republican (should be Republican) correct
+    68: 1.000 -> Republican (should be Federalist) incorrect
+    69: 1.000 -> Republican (should be Republican) correct
+    70: 1.000 -> Republican (should be Republican) correct
+    71: 1.000 -> Republican (should be Republican) correct
+    72: 1.000 -> Republican (should be Republican) correct
+    73: 1.000 -> Republican (should be Republican) correct
+    74: 0.000 -> Federalist (should be Federalist) correct
+    75: 1.000 -> Republican (should be Republican) correct
+    76: 0.000 -> Federalist (should be Federalist) correct
+    77: 1.000 -> Republican (should be Republican) correct
+    78: 0.000 -> Federalist (should be Federalist) correct
+    79: 1.000 -> Republican (should be Republican) correct
+    80: 0.000 -> Federalist (should be Federalist) correct
+    81: 0.000 -> Federalist (should be Federalist) correct
+    82: 1.000 -> Republican (should be Republican) correct
+    83: 1.000 -> Republican (should be Republican) correct
+    84: 1.000 -> Republican (should be Republican) correct
+    85: 1.000 -> Republican (should be Republican) correct
+    86: 0.000 -> Federalist (should be Federalist) correct
+    87: 0.000 -> Federalist (should be Federalist) correct
+    88: 0.000 -> Federalist (should be Federalist) correct
+    89: 0.000 -> Federalist (should be Federalist) correct
+    90: 1.000 -> Republican (should be Republican) correct
+    91: 1.000 -> Republican (should be Republican) correct
+    92: 1.000 -> Republican (should be Republican) correct
+    93: 0.000 -> Federalist (should be Federalist) correct
+    94: 1.000 -> Republican (should be Republican) correct
+    95: 1.000 -> Republican (should be Republican) correct
+    96: 1.000 -> Republican (should be Republican) correct
+    97: 0.000 -> Federalist (should be Federalist) correct
+    98: 1.000 -> Republican (should be Republican) correct
+    99: 1.000 -> Republican (should be Republican) correct
+    100: 1.000 -> Republican (should be Republican) correct
+    101: 1.000 -> Republican (should be Republican) correct
+    102: 1.000 -> Republican (should be Federalist) incorrect
+    103: 1.000 -> Republican (should be Republican) correct
+    104: 1.000 -> Republican (should be Republican) correct
+    105: 1.000 -> Republican (should be Republican) correct
+    106: 1.000 -> Republican (should be Republican) correct
+    107: 1.000 -> Republican (should be Republican) correct
+    108: 1.000 -> Republican (should be Federalist) incorrect
+    109: 1.000 -> Republican (should be Republican) correct
+    110: 1.000 -> Republican (should be Republican) correct
+    111: 1.000 -> Republican (should be Republican) correct
+    112: 1.000 -> Republican (should be Republican) correct
+    113: 1.000 -> Republican (should be Republican) correct
+    114: 1.000 -> Republican (should be Republican) correct
+    115: 1.000 -> Republican (should be Republican) correct
+    116: 1.000 -> Republican (should be Republican) correct
+    accuracy on training data: 0.93
+  Support Vector Machine classifier with radial basis kernel:
+  <SVMClassifier instance at 0x24cadf0>
+    1: 0.061 -> Federalist (should be Federalist) correct
+    2: 0.009 -> Federalist (should be Federalist) correct
+    3: 0.007 -> Federalist (should be Federalist) correct
+    4: 0.006 -> Federalist (should be Federalist) correct
+    5: 0.005 -> Federalist (should be Federalist) correct
+    6: 0.018 -> Federalist (should be Federalist) correct
+    7: 0.016 -> Federalist (should be Federalist) correct
+    8: 0.008 -> Federalist (should be Federalist) correct
+    9: 0.010 -> Federalist (should be Federalist) correct
+    10: 0.012 -> Federalist (should be Federalist) correct
+    11: 0.961 -> Republican (should be Republican) correct
+    12: 0.961 -> Republican (should be Republican) correct
+    13: 0.978 -> Republican (should be Republican) correct
+    14: 0.987 -> Republican (should be Republican) correct
+    15: 0.961 -> Republican (should be Republican) correct
+    16: 0.018 -> Federalist (should be Federalist) correct
+    17: 0.169 -> Federalist (should be Republican) incorrect
+    18: 0.961 -> Republican (should be Republican) correct
+    19: 0.354 -> Federalist (should be Federalist) correct
+    20: 0.018 -> Federalist (should be Federalist) correct
+    21: 0.961 -> Republican (should be Republican) correct
+    22: 0.637 -> Republican (should be Republican) correct
+    23: 0.961 -> Republican (should be Republican) correct
+    24: 0.007 -> Federalist (should be Federalist) correct
+    25: 0.016 -> Federalist (should be Federalist) correct
+    26: 0.006 -> Federalist (should be Federalist) correct
+    27: 0.644 -> Republican (should be Republican) correct
+    28: 0.989 -> Republican (should be Republican) correct
+    29: 0.012 -> Federalist (should be Federalist) correct
+    30: 0.008 -> Federalist (should be Federalist) correct
+    31: 0.161 -> Federalist (should be Federalist) correct
+    32: 0.018 -> Federalist (should be Federalist) correct
+    33: 0.018 -> Federalist (should be Federalist) correct
+    34: 0.010 -> Federalist (should be Federalist) correct
+    35: 0.961 -> Republican (should be Republican) correct
+    36: 0.018 -> Federalist (should be Federalist) correct
+    37: 0.018 -> Federalist (should be Federalist) correct
+    38: 0.010 -> Federalist (should be Federalist) correct
+    39: 0.961 -> Republican (should be Republican) correct
+    40: 0.011 -> Federalist (should be Federalist) correct
+    41: 0.008 -> Federalist (should be Federalist) correct
+    42: 0.016 -> Federalist (should be Federalist) correct
+    43: 0.012 -> Federalist (should be Federalist) correct
+    44: 0.018 -> Federalist (should be Federalist) correct
+    45: 0.961 -> Republican (should be Republican) correct
+    46: 0.047 -> Federalist (should be Federalist) correct
+    47: 0.023 -> Federalist (should be Federalist) correct
+    48: 0.009 -> Federalist (should be Federalist) correct
+    49: 0.087 -> Federalist (should be Federalist) correct
+    50: 0.018 -> Federalist (should be Federalist) correct
+    51: 0.961 -> Republican (should be Republican) correct
+    52: 0.992 -> Republican (should be Republican) correct
+    53: 0.961 -> Republican (should be Republican) correct
+    54: 0.970 -> Republican (should be Republican) correct
+    55: 0.973 -> Republican (should be Republican) correct
+    56: 0.010 -> Federalist (should be Federalist) correct
+    57: 0.012 -> Federalist (should be Federalist) correct
+    58: 0.011 -> Federalist (should be Federalist) correct
+    59: 0.018 -> Federalist (should be Federalist) correct
+    60: 0.015 -> Federalist (should be Federalist) correct
+    61: 0.973 -> Republican (should be Republican) correct
+    62: 0.966 -> Republican (should be Republican) correct
+    63: 0.978 -> Republican (should be Republican) correct
+    64: 0.961 -> Republican (should be Republican) correct
+    65: 0.251 -> Federalist (should be Federalist) correct
+    66: 0.964 -> Republican (should be Republican) correct
+    67: 0.961 -> Republican (should be Republican) correct
+    68: 0.190 -> Federalist (should be Federalist) correct
+    69: 0.961 -> Republican (should be Republican) correct
+    70: 0.982 -> Republican (should be Republican) correct
+    71: 0.961 -> Republican (should be Republican) correct
+    72: 0.966 -> Republican (should be Republican) correct
+    73: 0.961 -> Republican (should be Republican) correct
+    74: 0.010 -> Federalist (should be Federalist) correct
+    75: 0.961 -> Republican (should be Republican) correct
+    76: 0.011 -> Federalist (should be Federalist) correct
+    77: 0.961 -> Republican (should be Republican) correct
+    78: 0.018 -> Federalist (should be Federalist) correct
+    79: 0.985 -> Republican (should be Republican) correct
+    80: 0.018 -> Federalist (should be Federalist) correct
+    81: 0.013 -> Federalist (should be Federalist) correct
+    82: 0.968 -> Republican (should be Republican) correct
+    83: 0.997 -> Republican (should be Republican) correct
+    84: 0.974 -> Republican (should be Republican) correct
+    85: 0.991 -> Republican (should be Republican) correct
+    86: 0.018 -> Federalist (should be Federalist) correct
+    87: 0.008 -> Federalist (should be Federalist) correct
+    88: 0.020 -> Federalist (should be Federalist) correct
+    89: 0.010 -> Federalist (should be Federalist) correct
+    90: 0.972 -> Republican (should be Republican) correct
+    91: 0.973 -> Republican (should be Republican) correct
+    92: 0.981 -> Republican (should be Republican) correct
+    93: 0.018 -> Federalist (should be Federalist) correct
+    94: 0.961 -> Republican (should be Republican) correct
+    95: 0.944 -> Republican (should be Republican) correct
+    96: 0.931 -> Republican (should be Republican) correct
+    97: 0.014 -> Federalist (should be Federalist) correct
+    98: 0.977 -> Republican (should be Republican) correct
+    99: 0.970 -> Republican (should be Republican) correct
+    100: 0.983 -> Republican (should be Republican) correct
+    101: 0.976 -> Republican (should be Republican) correct
+    102: 0.246 -> Federalist (should be Federalist) correct
+    103: 0.980 -> Republican (should be Republican) correct
+    104: 0.987 -> Republican (should be Republican) correct
+    105: 0.961 -> Republican (should be Republican) correct
+    106: 0.961 -> Republican (should be Republican) correct
+    107: 0.970 -> Republican (should be Republican) correct
+    108: 0.193 -> Federalist (should be Federalist) correct
+    109: 0.961 -> Republican (should be Republican) correct
+    110: 0.983 -> Republican (should be Republican) correct
+    111: 0.961 -> Republican (should be Republican) correct
+    112: 0.990 -> Republican (should be Republican) correct
+    113: 0.972 -> Republican (should be Republican) correct
+    114: 0.961 -> Republican (should be Republican) correct
+    115: 0.981 -> Republican (should be Republican) correct
+    116: 0.961 -> Republican (should be Republican) correct
+    accuracy on training data: 0.99
+  Support Vector Machine classifier with sigmoid kernel:
+  <SVMClassifier instance at 0x24cadf0>
+    1: 0.433 -> Federalist (should be Federalist) correct
+    2: 0.001 -> Federalist (should be Federalist) correct
+    3: 0.000 -> Federalist (should be Federalist) correct
+    4: 0.000 -> Federalist (should be Federalist) correct
+    5: 0.000 -> Federalist (should be Federalist) correct
+    6: 0.007 -> Federalist (should be Federalist) correct
+    7: 0.053 -> Federalist (should be Federalist) correct
+    8: 0.011 -> Federalist (should be Federalist) correct
+    9: 0.027 -> Federalist (should be Federalist) correct
+    10: 0.050 -> Federalist (should be Federalist) correct
+    11: 0.909 -> Republican (should be Republican) correct
+    12: 0.587 -> Republican (should be Republican) correct
+    13: 0.564 -> Republican (should be Republican) correct
+    14: 0.988 -> Republican (should be Republican) correct
+    15: 0.740 -> Republican (should be Republican) correct
+    16: 0.072 -> Federalist (should be Federalist) correct
+    17: 0.571 -> Republican (should be Republican) correct
+    18: 0.960 -> Republican (should be Republican) correct
+    19: 0.817 -> Republican (should be Federalist) incorrect
+    20: 0.055 -> Federalist (should be Federalist) correct
+    21: 0.819 -> Republican (should be Republican) correct
+    22: 0.508 -> Republican (should be Republican) correct
+    23: 0.951 -> Republican (should be Republican) correct
+    24: 0.001 -> Federalist (should be Federalist) correct
+    25: 0.001 -> Federalist (should be Federalist) correct
+    26: 0.024 -> Federalist (should be Federalist) correct
+    27: 0.545 -> Republican (should be Republican) correct
+    28: 1.000 -> Republican (should be Republican) correct
+    29: 0.002 -> Federalist (should be Federalist) correct
+    30: 0.000 -> Federalist (should be Federalist) correct
+    31: 0.512 -> Republican (should be Federalist) incorrect
+    32: 0.005 -> Federalist (should be Federalist) correct
+    33: 0.150 -> Federalist (should be Federalist) correct
+    34: 0.015 -> Federalist (should be Federalist) correct
+    35: 0.777 -> Republican (should be Republican) correct
+    36: 0.056 -> Federalist (should be Federalist) correct
+    37: 0.056 -> Federalist (should be Federalist) correct
+    38: 0.001 -> Federalist (should be Federalist) correct
+    39: 0.871 -> Republican (should be Republican) correct
+    40: 0.002 -> Federalist (should be Federalist) correct
+    41: 0.000 -> Federalist (should be Federalist) correct
+    42: 0.011 -> Federalist (should be Federalist) correct
+    43: 0.000 -> Federalist (should be Federalist) correct
+    44: 0.063 -> Federalist (should be Federalist) correct
+    45: 0.817 -> Republican (should be Republican) correct
+    46: 0.561 -> Republican (should be Federalist) incorrect
+    47: 0.097 -> Federalist (should be Federalist) correct
+    48: 0.002 -> Federalist (should be Federalist) correct
+    49: 0.548 -> Republican (should be Federalist) incorrect
+    50: 0.015 -> Federalist (should be Federalist) correct
+    51: 0.932 -> Republican (should be Republican) correct
+    52: 0.968 -> Republican (should be Republican) correct
+    53: 0.849 -> Republican (should be Republican) correct
+    54: 0.988 -> Republican (should be Republican) correct
+    55: 0.988 -> Republican (should be Republican) correct
+    56: 0.001 -> Federalist (should be Federalist) correct
+    57: 0.001 -> Federalist (should be Federalist) correct
+    58: 0.001 -> Federalist (should be Federalist) correct
+    59: 0.010 -> Federalist (should be Federalist) correct
+    60: 0.005 -> Federalist (should be Federalist) correct
+    61: 1.000 -> Republican (should be Republican) correct
+    62: 1.000 -> Republican (should be Republican) correct
+    63: 0.984 -> Republican (should be Republican) correct
+    64: 0.985 -> Republican (should be Republican) correct
+    65: 0.889 -> Republican (should be Federalist) incorrect
+    66: 0.997 -> Republican (should be Republican) correct
+    67: 0.984 -> Republican (should be Republican) correct
+    68: 0.648 -> Republican (should be Federalist) incorrect
+    69: 0.964 -> Republican (should be Republican) correct
+    70: 1.000 -> Republican (should be Republican) correct
+    71: 1.000 -> Republican (should be Republican) correct
+    72: 0.905 -> Republican (should be Republican) correct
+    73: 0.727 -> Republican (should be Republican) correct
+    74: 0.001 -> Federalist (should be Federalist) correct
+    75: 0.934 -> Republican (should be Republican) correct
+    76: 0.004 -> Federalist (should be Federalist) correct
+    77: 0.930 -> Republican (should be Republican) correct
+    78: 0.150 -> Federalist (should be Federalist) correct
+    79: 1.000 -> Republican (should be Republican) correct
+    80: 0.019 -> Federalist (should be Federalist) correct
+    81: 0.014 -> Federalist (should be Federalist) correct
+    82: 0.930 -> Republican (should be Republican) correct
+    83: 0.995 -> Republican (should be Republican) correct
+    84: 0.864 -> Republican (should be Republican) correct
+    85: 0.966 -> Republican (should be Republican) correct
+    86: 0.001 -> Federalist (should be Federalist) correct
+    87: 0.013 -> Federalist (should be Federalist) correct
+    88: 0.170 -> Federalist (should be Federalist) correct
+    89: 0.001 -> Federalist (should be Federalist) correct
+    90: 0.992 -> Republican (should be Republican) correct
+    91: 0.980 -> Republican (should be Republican) correct
+    92: 0.996 -> Republican (should be Republican) correct
+    93: 0.007 -> Federalist (should be Federalist) correct
+    94: 0.976 -> Republican (should be Republican) correct
+    95: 0.945 -> Republican (should be Republican) correct
+    96: 0.586 -> Republican (should be Republican) correct
+    97: 0.017 -> Federalist (should be Federalist) correct
+    98: 0.936 -> Republican (should be Republican) correct
+    99: 0.931 -> Republican (should be Republican) correct
+    100: 1.000 -> Republican (should be Republican) correct
+    101: 0.912 -> Republican (should be Republican) correct
+    102: 0.643 -> Republican (should be Federalist) incorrect
+    103: 1.000 -> Republican (should be Republican) correct
+    104: 0.987 -> Republican (should be Republican) correct
+    105: 0.983 -> Republican (should be Republican) correct
+    106: 0.932 -> Republican (should be Republican) correct
+    107: 0.766 -> Republican (should be Republican) correct
+    108: 0.637 -> Republican (should be Federalist) incorrect
+    109: 0.917 -> Republican (should be Republican) correct
+    110: 0.991 -> Republican (should be Republican) correct
+    111: 0.996 -> Republican (should be Republican) correct
+    112: 0.857 -> Republican (should be Republican) correct
+    113: 0.982 -> Republican (should be Republican) correct
+    114: 0.921 -> Republican (should be Republican) correct
+    115: 0.925 -> Republican (should be Republican) correct
+    116: 0.930 -> Republican (should be Republican) correct
+    accuracy on training data: 0.93
+  Decision Tree classifier:
+  <TreeClassifier instance at 0x244f4c0>
+    1: 0.000 -> Federalist (should be Federalist) correct
+    2: 0.000 -> Federalist (should be Federalist) correct
+    3: 0.000 -> Federalist (should be Federalist) correct
+    4: 0.000 -> Federalist (should be Federalist) correct
+    5: 0.000 -> Federalist (should be Federalist) correct
+    6: 0.000 -> Federalist (should be Federalist) correct
+    7: 0.000 -> Federalist (should be Federalist) correct
+    8: 0.000 -> Federalist (should be Federalist) correct
+    9: 0.000 -> Federalist (should be Federalist) correct
+    10: 0.000 -> Federalist (should be Federalist) correct
+    11: 1.000 -> Republican (should be Republican) correct
+    12: 1.000 -> Republican (should be Republican) correct
+    13: 1.000 -> Republican (should be Republican) correct
+    14: 1.000 -> Republican (should be Republican) correct
+    15: 1.000 -> Republican (should be Republican) correct
+    16: 0.000 -> Federalist (should be Federalist) correct
+    17: 1.000 -> Republican (should be Republican) correct
+    18: 1.000 -> Republican (should be Republican) correct
+    19: 0.000 -> Federalist (should be Federalist) correct
+    20: 0.000 -> Federalist (should be Federalist) correct
+    21: 1.000 -> Republican (should be Republican) correct
+    22: 1.000 -> Republican (should be Republican) correct
+    23: 1.000 -> Republican (should be Republican) correct
+    24: 0.000 -> Federalist (should be Federalist) correct
+    25: 0.000 -> Federalist (should be Federalist) correct
+    26: 0.000 -> Federalist (should be Federalist) correct
+    27: 1.000 -> Republican (should be Republican) correct
+    28: 1.000 -> Republican (should be Republican) correct
+    29: 0.000 -> Federalist (should be Federalist) correct
+    30: 0.000 -> Federalist (should be Federalist) correct
+    31: 0.000 -> Federalist (should be Federalist) correct
+    32: 0.000 -> Federalist (should be Federalist) correct
+    33: 0.000 -> Federalist (should be Federalist) correct
+    34: 0.000 -> Federalist (should be Federalist) correct
+    35: 1.000 -> Republican (should be Republican) correct
+    36: 0.000 -> Federalist (should be Federalist) correct
+    37: 0.000 -> Federalist (should be Federalist) correct
+    38: 0.000 -> Federalist (should be Federalist) correct
+    39: 1.000 -> Republican (should be Republican) correct
+    40: 0.000 -> Federalist (should be Federalist) correct
+    41: 0.000 -> Federalist (should be Federalist) correct
+    42: 0.000 -> Federalist (should be Federalist) correct
+    43: 0.000 -> Federalist (should be Federalist) correct
+    44: 0.000 -> Federalist (should be Federalist) correct
+    45: 1.000 -> Republican (should be Republican) correct
+    46: 0.000 -> Federalist (should be Federalist) correct
+    47: 0.000 -> Federalist (should be Federalist) correct
+    48: 0.000 -> Federalist (should be Federalist) correct
+    49: 0.000 -> Federalist (should be Federalist) correct
+    50: 0.000 -> Federalist (should be Federalist) correct
+    51: 1.000 -> Republican (should be Republican) correct
+    52: 1.000 -> Republican (should be Republican) correct
+    53: 1.000 -> Republican (should be Republican) correct
+    54: 1.000 -> Republican (should be Republican) correct
+    55: 1.000 -> Republican (should be Republican) correct
+    56: 0.000 -> Federalist (should be Federalist) correct
+    57: 0.000 -> Federalist (should be Federalist) correct
+    58: 0.000 -> Federalist (should be Federalist) correct
+    59: 0.000 -> Federalist (should be Federalist) correct
+    60: 0.000 -> Federalist (should be Federalist) correct
+    61: 1.000 -> Republican (should be Republican) correct
+    62: 1.000 -> Republican (should be Republican) correct
+    63: 1.000 -> Republican (should be Republican) correct
+    64: 1.000 -> Republican (should be Republican) correct
+    65: 0.000 -> Federalist (should be Federalist) correct
+    66: 1.000 -> Republican (should be Republican) correct
+    67: 1.000 -> Republican (should be Republican) correct
+    68: 0.000 -> Federalist (should be Federalist) correct
+    69: 1.000 -> Republican (should be Republican) correct
+    70: 1.000 -> Republican (should be Republican) correct
+    71: 1.000 -> Republican (should be Republican) correct
+    72: 1.000 -> Republican (should be Republican) correct
+    73: 1.000 -> Republican (should be Republican) correct
+    74: 0.000 -> Federalist (should be Federalist) correct
+    75: 1.000 -> Republican (should be Republican) correct
+    76: 0.000 -> Federalist (should be Federalist) correct
+    77: 1.000 -> Republican (should be Republican) correct
+    78: 0.000 -> Federalist (should be Federalist) correct
+    79: 1.000 -> Republican (should be Republican) correct
+    80: 0.000 -> Federalist (should be Federalist) correct
+    81: 0.000 -> Federalist (should be Federalist) correct
+    82: 1.000 -> Republican (should be Republican) correct
+    83: 1.000 -> Republican (should be Republican) correct
+    84: 1.000 -> Republican (should be Republican) correct
+    85: 1.000 -> Republican (should be Republican) correct
+    86: 0.000 -> Federalist (should be Federalist) correct
+    87: 0.000 -> Federalist (should be Federalist) correct
+    88: 0.000 -> Federalist (should be Federalist) correct
+    89: 0.000 -> Federalist (should be Federalist) correct
+    90: 1.000 -> Republican (should be Republican) correct
+    91: 1.000 -> Republican (should be Republican) correct
+    92: 1.000 -> Republican (should be Republican) correct
+    93: 0.000 -> Federalist (should be Federalist) correct
+    94: 1.000 -> Republican (should be Republican) correct
+    95: 1.000 -> Republican (should be Republican) correct
+    96: 1.000 -> Republican (should be Republican) correct
+    97: 0.000 -> Federalist (should be Federalist) correct
+    98: 1.000 -> Republican (should be Republican) correct
+    99: 1.000 -> Republican (should be Republican) correct
+    100: 1.000 -> Republican (should be Republican) correct
+    101: 1.000 -> Republican (should be Republican) correct
+    102: 0.000 -> Federalist (should be Federalist) correct
+    103: 1.000 -> Republican (should be Republican) correct
+    104: 1.000 -> Republican (should be Republican) correct
+    105: 1.000 -> Republican (should be Republican) correct
+    106: 1.000 -> Republican (should be Republican) correct
+    107: 1.000 -> Republican (should be Republican) correct
+    108: 0.000 -> Federalist (should be Federalist) correct
+    109: 1.000 -> Republican (should be Republican) correct
+    110: 1.000 -> Republican (should be Republican) correct
+    111: 1.000 -> Republican (should be Republican) correct
+    112: 1.000 -> Republican (should be Republican) correct
+    113: 1.000 -> Republican (should be Republican) correct
+    114: 1.000 -> Republican (should be Republican) correct
+    115: 1.000 -> Republican (should be Republican) correct
+    116: 1.000 -> Republican (should be Republican) correct
+    accuracy on training data: 1.00
+  Majority classifier:
+  <DefaultClassifier instance at 0x24cadf0>
+    1: 0.526 -> Republican (should be Federalist) incorrect
+    2: 0.526 -> Republican (should be Federalist) incorrect
+    3: 0.526 -> Republican (should be Federalist) incorrect
+    4: 0.526 -> Republican (should be Federalist) incorrect
+    5: 0.526 -> Republican (should be Federalist) incorrect
+    6: 0.526 -> Republican (should be Federalist) incorrect
+    7: 0.526 -> Republican (should be Federalist) incorrect
+    8: 0.526 -> Republican (should be Federalist) incorrect
+    9: 0.526 -> Republican (should be Federalist) incorrect
+    10: 0.526 -> Republican (should be Federalist) incorrect
+    11: 0.526 -> Republican (should be Republican) correct
+    12: 0.526 -> Republican (should be Republican) correct
+    13: 0.526 -> Republican (should be Republican) correct
+    14: 0.526 -> Republican (should be Republican) correct
+    15: 0.526 -> Republican (should be Republican) correct
+    16: 0.526 -> Republican (should be Federalist) incorrect
+    17: 0.526 -> Republican (should be Republican) correct
+    18: 0.526 -> Republican (should be Republican) correct
+    19: 0.526 -> Republican (should be Federalist) incorrect
+    20: 0.526 -> Republican (should be Federalist) incorrect
+    21: 0.526 -> Republican (should be Republican) correct
+    22: 0.526 -> Republican (should be Republican) correct
+    23: 0.526 -> Republican (should be Republican) correct
+    24: 0.526 -> Republican (should be Federalist) incorrect
+    25: 0.526 -> Republican (should be Federalist) incorrect
+    26: 0.526 -> Republican (should be Federalist) incorrect
+    27: 0.526 -> Republican (should be Republican) correct
+    28: 0.526 -> Republican (should be Republican) correct
+    29: 0.526 -> Republican (should be Federalist) incorrect
+    30: 0.526 -> Republican (should be Federalist) incorrect
+    31: 0.526 -> Republican (should be Federalist) incorrect
+    32: 0.526 -> Republican (should be Federalist) incorrect
+    33: 0.526 -> Republican (should be Federalist) incorrect
+    34: 0.526 -> Republican (should be Federalist) incorrect
+    35: 0.526 -> Republican (should be Republican) correct
+    36: 0.526 -> Republican (should be Federalist) incorrect
+    37: 0.526 -> Republican (should be Federalist) incorrect
+    38: 0.526 -> Republican (should be Federalist) incorrect
+    39: 0.526 -> Republican (should be Republican) correct
+    40: 0.526 -> Republican (should be Federalist) incorrect
+    41: 0.526 -> Republican (should be Federalist) incorrect
+    42: 0.526 -> Republican (should be Federalist) incorrect
+    43: 0.526 -> Republican (should be Federalist) incorrect
+    44: 0.526 -> Republican (should be Federalist) incorrect
+    45: 0.526 -> Republican (should be Republican) correct
+    46: 0.526 -> Republican (should be Federalist) incorrect
+    47: 0.526 -> Republican (should be Federalist) incorrect
+    48: 0.526 -> Republican (should be Federalist) incorrect
+    49: 0.526 -> Republican (should be Federalist) incorrect
+    50: 0.526 -> Republican (should be Federalist) incorrect
+    51: 0.526 -> Republican (should be Republican) correct
+    52: 0.526 -> Republican (should be Republican) correct
+    53: 0.526 -> Republican (should be Republican) correct
+    54: 0.526 -> Republican (should be Republican) correct
+    55: 0.526 -> Republican (should be Republican) correct
+    56: 0.526 -> Republican (should be Federalist) incorrect
+    57: 0.526 -> Republican (should be Federalist) incorrect
+    58: 0.526 -> Republican (should be Federalist) incorrect
+    59: 0.526 -> Republican (should be Federalist) incorrect
+    60: 0.526 -> Republican (should be Federalist) incorrect
+    61: 0.526 -> Republican (should be Republican) correct
+    62: 0.526 -> Republican (should be Republican) correct
+    63: 0.526 -> Republican (should be Republican) correct
+    64: 0.526 -> Republican (should be Republican) correct
+    65: 0.526 -> Republican (should be Federalist) incorrect
+    66: 0.526 -> Republican (should be Republican) correct
+    67: 0.526 -> Republican (should be Republican) correct
+    68: 0.526 -> Republican (should be Federalist) incorrect
+    69: 0.526 -> Republican (should be Republican) correct
+    70: 0.526 -> Republican (should be Republican) correct
+    71: 0.526 -> Republican (should be Republican) correct
+    72: 0.526 -> Republican (should be Republican) correct
+    73: 0.526 -> Republican (should be Republican) correct
+    74: 0.526 -> Republican (should be Federalist) incorrect
+    75: 0.526 -> Republican (should be Republican) correct
+    76: 0.526 -> Republican (should be Federalist) incorrect
+    77: 0.526 -> Republican (should be Republican) correct
+    78: 0.526 -> Republican (should be Federalist) incorrect
+    79: 0.526 -> Republican (should be Republican) correct
+    80: 0.526 -> Republican (should be Federalist) incorrect
+    81: 0.526 -> Republican (should be Federalist) incorrect
+    82: 0.526 -> Republican (should be Republican) correct
+    83: 0.526 -> Republican (should be Republican) correct
+    84: 0.526 -> Republican (should be Republican) correct
+    85: 0.526 -> Republican (should be Republican) correct
+    86: 0.526 -> Republican (should be Federalist) incorrect
+    87: 0.526 -> Republican (should be Federalist) incorrect
+    88: 0.526 -> Republican (should be Federalist) incorrect
+    89: 0.526 -> Republican (should be Federalist) incorrect
+    90: 0.526 -> Republican (should be Republican) correct
+    91: 0.526 -> Republican (should be Republican) correct
+    92: 0.526 -> Republican (should be Republican) correct
+    93: 0.526 -> Republican (should be Federalist) incorrect
+    94: 0.526 -> Republican (should be Republican) correct
+    95: 0.526 -> Republican (should be Republican) correct
+    96: 0.526 -> Republican (should be Republican) correct
+    97: 0.526 -> Republican (should be Federalist) incorrect
+    98: 0.526 -> Republican (should be Republican) correct
+    99: 0.526 -> Republican (should be Republican) correct
+    100: 0.526 -> Republican (should be Republican) correct
+    101: 0.526 -> Republican (should be Republican) correct
+    102: 0.526 -> Republican (should be Federalist) incorrect
+    103: 0.526 -> Republican (should be Republican) correct
+    104: 0.526 -> Republican (should be Republican) correct
+    105: 0.526 -> Republican (should be Republican) correct
+    106: 0.526 -> Republican (should be Republican) correct
+    107: 0.526 -> Republican (should be Republican) correct
+    108: 0.526 -> Republican (should be Federalist) incorrect
+    109: 0.526 -> Republican (should be Republican) correct
+    110: 0.526 -> Republican (should be Republican) correct
+    111: 0.526 -> Republican (should be Republican) correct
+    112: 0.526 -> Republican (should be Republican) correct
+    113: 0.526 -> Republican (should be Republican) correct
+    114: 0.526 -> Republican (should be Republican) correct
+    115: 0.526 -> Republican (should be Republican) correct
+    116: 0.526 -> Republican (should be Republican) correct
+    accuracy on training data: 0.53
+Decision Tree boundaries:
+2:TO PASS THE RESOLUTION TO DISCOVER THE NATURE OF THE PRESIDENT'S INSTRUCTIONS TO THE MINISTER TO GREAT BRITIAN, REGARDING A TREATY WITH THAT COUNTRY.=-1: Federalist (100.00%)
+2:TO PASS THE RESOLUTION TO DISCOVER THE NATURE OF THE PRESIDENT'S INSTRUCTIONS TO THE MINISTER TO GREAT BRITIAN, REGARDING A TREATY WITH THAT COUNTRY.=0
+|    41:TO PASS THE COMMITTEE RESOLUTION REGARDING THE CONTESTED ELECTION OF ISRAEL SMITH; THAT MR. SMITH, WAS NOT DULY ELECTED, AND SO IS NOT ENTITLED TO A SEAT IN THE HOUSE. (P. 1497)=-1: Republican (100.00%)
+|    41:TO PASS THE COMMITTEE RESOLUTION REGARDING THE CONTESTED ELECTION OF ISRAEL SMITH; THAT MR. SMITH, WAS NOT DULY ELECTED, AND SO IS NOT ENTITLED TO A SEAT IN THE HOUSE. (P. 1497)=1<null node>: <null node>
+|    41:TO PASS THE COMMITTEE RESOLUTION REGARDING THE CONTESTED ELECTION OF ISRAEL SMITH; THAT MR. SMITH, WAS NOT DULY ELECTED, AND SO IS NOT ENTITLED TO A SEAT IN THE HOUSE. (P. 1497)=0
+|    |    60:TO AGREE TO THE AMENDMENT TO THE MILITARY RESOLUTION, WHICH STRIKES OUT THE PROVISION ALLOWING THE PRESIDENT TO REARRANGE CERTAIN NAMED REGIMENTS.=-1: Republican (100.00%)
+|    |    60:TO AGREE TO THE AMENDMENT TO THE MILITARY RESOLUTION, WHICH STRIKES OUT THE PROVISION ALLOWING THE PRESIDENT TO REARRANGE CERTAIN NAMED REGIMENTS.=0: Federalist (100.00%)
+|    |    60:TO AGREE TO THE AMENDMENT TO THE MILITARY RESOLUTION, WHICH STRIKES OUT THE PROVISION ALLOWING THE PRESIDENT TO REARRANGE CERTAIN NAMED REGIMENTS.=1: Federalist (100.00%)
+2:TO PASS THE RESOLUTION TO DISCOVER THE NATURE OF THE PRESIDENT'S INSTRUCTIONS TO THE MINISTER TO GREAT BRITIAN, REGARDING A TREATY WITH THAT COUNTRY.=1
+|    70:TO ADOPT THE RESOLUTION RELATING TO H.R. 234:  THAT THE INJUNCTION OF SECRECY PREVIOUSLY IMPOSED, BE REMOVED, AND THAT FURTHER PROCEEDINGS BE CONDUCTED WITH OPEN DOORS. (P. 2235)=1: Republican (100.00%)
+|    70:TO ADOPT THE RESOLUTION RELATING TO H.R. 234:  THAT THE INJUNCTION OF SECRECY PREVIOUSLY IMPOSED, BE REMOVED, AND THAT FURTHER PROCEEDINGS BE CONDUCTED WITH OPEN DOORS. (P. 2235)=-1
+|    |    8:TO AMEND H.R. 135, A BILL TO PROVIDE FOR THE SALE OF LANDS NORTHWEST OF THE OHIO RIVER AND ABOVE THE MOUTH OF THE KENTUCKY RIVER, BY PROVIDING THAT THE SAID TRACTS SHALL BE SUB-DIVIDED INTO TRACTS OF 160 ACRES EACH.=-1: Republican (100.00%)
+|    |    8:TO AMEND H.R. 135, A BILL TO PROVIDE FOR THE SALE OF LANDS NORTHWEST OF THE OHIO RIVER AND ABOVE THE MOUTH OF THE KENTUCKY RIVER, BY PROVIDING THAT THE SAID TRACTS SHALL BE SUB-DIVIDED INTO TRACTS OF 160 ACRES EACH.=0<null node>: <null node>
+|    |    8:TO AMEND H.R. 135, A BILL TO PROVIDE FOR THE SALE OF LANDS NORTHWEST OF THE OHIO RIVER AND ABOVE THE MOUTH OF THE KENTUCKY RIVER, BY PROVIDING THAT THE SAID TRACTS SHALL BE SUB-DIVIDED INTO TRACTS OF 160 ACRES EACH.=1: Federalist (100.00%)
+|    70:TO ADOPT THE RESOLUTION RELATING TO H.R. 234:  THAT THE INJUNCTION OF SECRECY PREVIOUSLY IMPOSED, BE REMOVED, AND THAT FURTHER PROCEEDINGS BE CONDUCTED WITH OPEN DOORS. (P. 2235)=0
+|    |    19:TO PASS THE PREAMBLE TO THE TREATY WITH GREAT BRITAIN WHICH STATES THAT THE HOUSE FINDS THE TREATY OBJECTIONABLE, YET UNDER THE CIRCUMSTANCES IT WILL AGREE TO IT.  (P. 1289)=0: Republican (100.00%)
+|    |    19:TO PASS THE PREAMBLE TO THE TREATY WITH GREAT BRITAIN WHICH STATES THAT THE HOUSE FINDS THE TREATY OBJECTIONABLE, YET UNDER THE CIRCUMSTANCES IT WILL AGREE TO IT.  (P. 1289)=1: Republican (100.00%)
+|    |    19:TO PASS THE PREAMBLE TO THE TREATY WITH GREAT BRITAIN WHICH STATES THAT THE HOUSE FINDS THE TREATY OBJECTIONABLE, YET UNDER THE CIRCUMSTANCES IT WILL AGREE TO IT.  (P. 1289)=-1
+|    |    |    0:TO PASS THE RESOLUTION THAT IT APPEARS TO THIS HOUSE THAT ROBERT RANDALL HAS BEEN GUILTY OF A CONTEMPT AND A BREACH OF INTEGRITY OF ITS MEMBERS.  (P. 220)=-1<null node>: <null node>
+|    |    |    0:TO PASS THE RESOLUTION THAT IT APPEARS TO THIS HOUSE THAT ROBERT RANDALL HAS BEEN GUILTY OF A CONTEMPT AND A BREACH OF INTEGRITY OF ITS MEMBERS.  (P. 220)=0: Republican (100.00%)
+|    |    |    0:TO PASS THE RESOLUTION THAT IT APPEARS TO THIS HOUSE THAT ROBERT RANDALL HAS BEEN GUILTY OF A CONTEMPT AND A BREACH OF INTEGRITY OF ITS MEMBERS.  (P. 220)=1: Federalist (100.00%)
+
+
+Accuracy with cross-validation:
+  Confusion Matrices:
+    knn: <cm TruPos:58 FlsNeg:3 FlsPos:8 TruNeg:47>
+  svmp3: <cm TruPos:58 FlsNeg:3 FlsPos:4 TruNeg:51>
+   svml: <cm TruPos:57 FlsNeg:4 FlsPos:3 TruNeg:52>
+     nb: <cm TruPos:56 FlsNeg:5 FlsPos:5 TruNeg:50>
+   svmr: <cm TruPos:58 FlsNeg:3 FlsPos:6 TruNeg:49>
+   svms: <cm TruPos:58 FlsNeg:3 FlsPos:8 TruNeg:47>
+     dt: <cm TruPos:54 FlsNeg:7 FlsPos:7 TruNeg:48>
+    maj: <cm TruPos:61 FlsNeg:0 FlsPos:55 TruNeg:0>
+  Classifier   accuracy   Brier       AUC
+  knn          0.905      0.151       0.964
+  svmp3        0.939      0.084       0.994
+  svml         0.939      0.089       0.989
+  nb           0.914      0.173       0.936
+  svmr         0.922      0.097       0.991
+  svms         0.905      0.108       0.979
+  dt           0.880      0.232       0.886
+  maj          0.527      0.499       0.500

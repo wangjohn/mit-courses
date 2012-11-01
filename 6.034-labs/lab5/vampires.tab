@@ -1,0 +1,12 @@
+vampire?	shadow?	garlic?	complexion?	accent?
+discrete	discrete	discrete	discrete	discrete
+class
+
+no	?	yes	pale	none
+no	yes	yes	ruddy	none
+yes	?	no	ruddy	none
+yes	no	no	average	heavy
+yes	?	no	average	odd
+no	yes	no	pale	heavy
+no	yes	no	average	heavy
+no	?	yes	ruddy	odd
