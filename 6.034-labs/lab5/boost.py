@@ -161,8 +161,13 @@ class BoostClassifier(Classifier):
 
         returns: int (+1 or -1)
         """
-        # Fill me in! (the answer given is not correct!)
-        return 1
+        s = 0
+        for classifier, weight in zip(self.base_classifiers, self.data_weights):
+            s += classifier.classify(obj)*weight
+        if s >= 0.5:
+            return 1
+        else:
+            return 0
 
     def orange_classify(self, obj):
         """
@@ -177,8 +182,10 @@ class BoostClassifier(Classifier):
 
         returns: float (between 0 and 1)
         """
-        # Fill me in! (the answer given is not correct!)
-        return 1
+        s = 0
+        for classifier, weight in zip(self.base_classifiers, self.data_weights):
+            s += classifier.classify(obj)*weight
+        return 1.0/(1.0 + math.exp(-s))
 
     def best_classifier(self):
         """
