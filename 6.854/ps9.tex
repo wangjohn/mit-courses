@@ -37,6 +37,32 @@
 
 \makenewtitle
 
+\begin{prob}{1}
+Give a polynomial time 2-approximation for the SONET-ring loading problem.
+\end{prob}
+
+\begin{sol}
+First, we will formulate an integer linear program for the problem, then relax the conditions, then round the answer to obtain a 2-approximation. The integer linear program will have variables $p_{l}^k$ and $p_{r}^k$ denote the result from the $k$th call. If $p_{l}^k = 1$, then $p_{r}^k = 0$ and we will go to the left (counterclockwise) on the $k$th call. If $p_{r}^k = 1$, then $p_{l}^k = 0$ and we will go to the right (clockwise) on the $k$th call to get from $i$ to $j$. If we set $l(i)$ as the load on vertex $i$, then we have the following problem:
+\begin{eqnarray}
+\min \max_{i \in V} l(i) \\
+\text{s.t.} \hspace{0.5cm} p_{l}^k + p_{r}^k &=& 1 \\
+p_{l}^k, p_{r}^k &\in& \{0, 1\} \\
+\sum_{k} u_l(k,i) p_{l}^k + u_r(k,i) p_r^k &\leq& L 
+\end{eqnarray}
+
+Where $u_l(k,i) = 1$ if the left (counterclockwise) path on the $k$th call uses vertex $i$ and $u_r(k,i) = 1$ if the right path on the $k$th call uses vertex $i$. Otherwise, $u_l(k,i) = 0$ and $u_r(k,i) = 0$ if the vertex $i$ is not on the respective path for call $k$. Relaxing the conditions, we just need to change the condition $p_{l}^k, p_{r}^k \in \{0, 1\} $ to $x_{l}^k, x_{r}^k \in [0, 1]$. 
+
+We can solve this problem in polynomial time by using the ellipsoid algorithm. However, this will give us a result where $x_l^k$ and $x_r^k$ are not necessarily integers. In order to make them integers, we will round them. So if $x_l^k \geq \frac{1}{2}$, then we will set $p_l^k = 1$ and $p_r^k = 0$. Otherwise, we will set $p_l^k = 0$ and $p_r^k = 1$. Notice that this $p_l^k + p_r^k = 1$, so this gives us all the cases.
+
+To show that this is a 2-approximation, we will extend the definition of $u_r$ and $u_l$ to incorporate fractional amounts of load on vertex $i$. We have, for any $i$:
+\begin{eqnarray}
+\sum_{k} u_l(k,i) p_l^k + u_r(k,i) p_r^k &\leq& \sum_{k} 2(u_l(k,i) x_l^k + u_l(k,i) x_r^k) \\
+&\leq& 2 l(i) 
+\end{eqnarray}
+
+Thus, since the load on any edge increases by at most 1 more than in the optimal case on each path, we can see that the load given by the $p_l^k$ and $p_r^k$ will give a maximum edge load of 2 times more than the actual maximum. Thus, we have a 2-approximation algorithm that runs in polynomial time.
+\end{sol}
+
 \begin{prob}{3-a}
 Show that a minimum cycle cover can be found in polynomial time.
 \end{prob}
