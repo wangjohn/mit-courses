@@ -357,7 +357,28 @@ def make_neural_net_two_layer():
     See 'make_neural_net_basic' for required naming convention for inputs,
     weights, and neurons.
     """
-    raise NotImplementedError, "Implement me!"
+    i0 = Input('i0', -1.0)
+    i1 = Input('i1', 0.0)
+    i2 = Input('i2', 0.0)
+
+    seed_random()
+    w1A = Weight('w1A', random_weight())
+    w1B = Weight('w1B', random_weight())
+    w2A = Weight('w2A', random_weight())
+    w2B = Weight('w2B', random_weight())
+    wA = Weight('wA', random_weight())
+    wB = Weight('wB', random_weight())
+    wAC = Weight('wAC', random_weight())
+    wBC = Weight('wBC', random_weight())
+    wC = Weight('wAC', random_weight())
+
+    A = Neuron('A', [i0,i1,i2], [wA,w1A,w2A])
+    B = Neuron('B', [i0,i1,i2], [wB,w1B,w2B])
+    C = Neuron('C', [i0,A,B], [wC,wAC,wBC])
+    P = PerformanceElem(C, 0.0)
+
+    net = Network(P, [A,B,C])
+    return net 
 
 def make_neural_net_challenging():
     """
