@@ -390,7 +390,42 @@ def make_neural_net_challenging():
     weights, and neurons.
     """
 
-    raise NotImplementedError, "Implement me!"
+    i0 = Input('i0', -1.0)
+    i1 = Input('i1', 0.0)
+    i2 = Input('i2', 0.0)
+
+    seed_random()
+    w1A = Weight('w1A', random_weight())
+    w1B = Weight('w1B', random_weight())
+    w1C = Weight('w1C', random_weight())
+    w2A = Weight('w2A', random_weight())
+    w2B = Weight('w2B', random_weight())
+    w2C = Weight('w2C', random_weight())
+
+    wA = Weight('wA', random_weight())
+    wB = Weight('wB', random_weight())
+    wC = Weight('wC', random_weight())
+    wD = Weight('wD', random_weight())
+    wE = Weight('wE', random_weight())
+
+    wAD = Weight('wAD', random_weight())
+    wAE = Weight('wAE', random_weight())
+    wBD = Weight('wBD', random_weight())
+    wBE = Weight('wBE', random_weight())
+    wCD = Weight('wCD', random_weight())
+    wCE = Weight('wCE', random_weight())
+    wDE = Weight('wDE', random_weight())
+
+    A = Neuron('A', [i0,i1,i2], [wA,w1A,w2A])
+    B = Neuron('B', [i0,i1,i2], [wB,w1B,w2B])
+    C = Neuron('C', [i0,i1,i2], [wC,w1C,w2C])
+    D = Neuron('D', [i0,A,B,C], [wD,wAD,wBD,wCD])
+    E = Neuron('E', [i0,A,B,C,D], [wE,wAE,wBE,wCE,wDE])
+
+    P = PerformanceElem(E, 0.0)
+
+    net = Network(P, [A,B,C,D,E])
+    return net
 
 def make_neural_net_with_weights():
     """
@@ -400,16 +435,27 @@ def make_neural_net_with_weights():
     Your output network should be able to learn the "patchy"
     dataset within 1000 iterations of back-propagation.
     """
-    # You can preset weights for the network by completing
-    # and uncommenting the init_weights dictionary below.
-    #
-    # init_weights = { 'w1A' : 0.0,
-    #                  'w2A' : 0.0,
-    #                  'w1B' : 0.0,
-    #                  'w2B' : 0.0,
-    #                  .... # finish me!
-    #
-    raise NotImplementedError, "Implement me!"
+    init_weights = { 
+      'wA': 3.810285,
+      'w1A': 3.206646,
+      'w2A': -3.838381,
+      'wB': -3.760194,
+      'w1B': 3.848091,
+      'w2B': -3.245683,
+      'wC': -2.293088,
+      'w1C': -1.519480,
+      'w2C': -1.653193,
+      'wD': 1.808465,
+      'wAD': -2.846714,
+      'wBD': 3.299372,
+      'wCD': 0.558235,
+      'wE': 5.070003,
+      'wAE': -7.328000,
+      'wBE': 6.521601,
+      'wCE': 3.880647,
+      'wDE': 3.975002
+    }
+
     return make_net_with_init_weights_from_dict(make_neural_net_challenging,
                                                 init_weights)
 
