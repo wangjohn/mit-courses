@@ -104,4 +104,26 @@ It is clear that we end up with a tour at the end of the algorithm, we just need
 This is because each cycle in graph $G_i$ adds at most $x_i$ to the cost of the total tour. Since there are $O(\log n)$ of these, we see that our algorithm becomes a $O(\log n)$ approximation of the directed TSP.
 \end{sol}
 
+\newpage
+\makenewtitle
+
+\begin{prob}{4-a}
+Give a 9-competitive deterministic algorithm for optimizing the total distance travelled up and downstream before you find the bridge. This is optimal for deterministic strategies.
+\end{prob}
+
+\begin{sol}
+We will do a galloping binary search. On the $i$th turn of our search, we will move to location $(-2)^{i}$ on the line. We will continue incrementing $i$ for each turn until we find the bridge. 
+
+First, it is clear that we will eventually find the bridge. This is because we are sweeping left then right, then back again, and we are moving to cover the interval $[-2^{i-1}, 2^{i}]$ after $i$ turns have elapsed. If we keep increasing $i$, it is clear that this interval will eventually expand to contain any point $x \in \mathrm{Z}$. 
+
+Now we will show this is 9 competitive. Suppose that the bridge is $C$ distance away. Then the optimal offline algorithm would have been able to go directly from the origin to the bridge, which would cost $C$ distance. 
+
+However, our algorithm must move back and forth each time. Notice that at each step, we add a distance of $2^{i-1} + 2^i$ since we must first return to the origin in $2^{i-1}$ time, then cover our $2^i$ distance. We must continue for $\lceil \lg C \rceil$ steps until we find the bridge. Therefore, we have a total distance of:
+\begin{eqnarray}
+1 + 2^n + \sum_{i=1}^{n+1} 2^{i} + 2^{i-1} &=& 1 + 2^n + (2^{n+2} - 2) + 2^{n+1} -1) \\
+&=& 2^n + 4 2^n + 2 2^n - 2 \\
+&=& 7 2^n
+\end{eqnarray}
+\end{sol}
+
 \end{document}
