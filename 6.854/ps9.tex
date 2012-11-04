@@ -65,6 +65,75 @@ Thus, since the load on any edge increases by at most 1 more than in the optimal
 \newpage
 \makenewtitle
 
+\begin{prob}{2-a}
+Write down the constraints forcing the ILP to solve the problem. In particular, enforce that every job completes, that a job is not processed before its predecesors, and most subtly, that the total processing time of jobs completed before time $t$ is at most $t$. 
+\end{prob}
+
+\begin{sol}
+We will write down the constraint that every job completes. We know that if $x_{jt} = 1$, then $x_{ik} = 0$ for all $i \neq j$ and $k \neq t$. This means that to make sure every job completes, we must check that the sums of their indicator variables across time is equal to 1. This is given by the following expression, assuming that $T$ is the final time that can occur in the problem:
+\begin{eqnarray}
+\sum_{t=0}^T x_{jt} = 1, \forall j
+\end{eqnarray}
+
+Now, the next constraint that must be satisfied is that a job is not processed before its predecessors. We know that $k \in A(j)$ is the set of all jobs that are predecessors of $j$. This means that we must make sure that $x_{ki} = 1$ for some time $i$ before the start of job $j$. This must be the case for all $k$. Thus, we need to make sure that the start time of job $j$ (given by the completion time minus the processing time of job $j$) comes after the completion of all its predecessor jobs. This gives us the following formulation:
+\begin{eqnarray}
+\sum_{i=0}^{t - p_j} x_{ki} \geq \sum_{i=0}^t x_{ji}, \forall j, \forall k \in A(j)
+\end{eqnarray}
+
+Finally, the last constraint states that the total processing time of jobs completed before time $t$ is at most $t$. This can be satisfied by making sure that there is at most 1 job is processed on average for each time interval. This means that we have the following:
+\begin{eqnarray}
+\sum_{i=0}^t \sum_{j} x_{ji} \leq t \forall j
+\end{eqnarray}
+
+Since we want to minimize $w_j C_j$, we actually want to minimize $w_{j} \sum_{i=0}^{T} i x_{ji}$ overall all $j$. Therefore, we have the following intger program:
+\begin{eqnarray}
+\min \sum_{j} w_{j} \sum_{i=0}^T i x_{ji} \\
+\text{s.t.} \hspace{0.5cm} \sum_{t=0}^T x_{jt} &=& 1, \forall j \\
+\sum_{i=0}^{t - p_j} x_{ki} &\geq& \sum_{i=0}^t x_{ji}, \forall j, \forall k \in A(j) \\
+\sum_{i=0}^t \sum_{j} x_{ji} &\leq& t, \forall j
+\end{eqnarray}
+
+This gives us an integer linear program which will solve the scheduling problem we were given.
+\end{sol}
+
+\begin{prob}{2-b}
+The LP relaxation of this ILP is a kind of ``timesharing'' schedule for jobs. Define the fractional completion time of job $j$ to be $\bar{C}_{j} = \sum_{t} t x_{jt}$. To turn it into an actual order, consider the halfway point $h_j$ of each job: this is the time at wich half of the job is completed. Prove that $\bar{C}_j \geq h_j / 2$.
+\end{prob}
+\begin{sol}
+The halfway point of the job occurs halfway through the processing time. If job $j$ completes at time $t$, i.e. if $x_{jt} = 1$, then job $j$ beings processing at time $t - p_j$. Since the job ends at time $t$, we see that the halfway point is given by $\frac{1}{2}\left((t - p_j) + t \right) = t - \frac{p_j}{2}$. Therefore, we must show that $\bar{C}_j \geq \frac{t}{2} - \frac{p_j}{4}$. Since we know that $p_{j} \geq 0$, this is equivalent to showing that $\bar{C}_j \geq \frac{t}{2}$. 
+
+However, we know that $\bar{C}_{j} = \sum_{i} i x_{ji}$, so we only need to show that $\sum_{t} t x_{jt} \geq \frac{t}{2}$. But we know that at least one term $t x_{jt} = t$ because of the fact that the job completes at time $t$, so $x_{jt} = 1$ at that point. Since the sum covers only positive numbers, we see immediately that $\bar{C}_j \geq h_j / 2$.
+\end{sol}
+
+\begin{prob}{2-c}
+Consider the schedule that processes jobs in order of their halfway points. Prove that no job runs before its predecessors.
+\end{prob}
+\begin{sol}
+We will change the integer linear program into a linear program by relaxing the constraint $\sum_{i=0}^{t - p_j} x_{ki} \geq \sum_{i=0}^t x_{ji}, \forall j, \forall k \in A(j)$. Instead, we will force that $h_{j} > h_k$ for all $k \in A(j)$ and for all $j$. This means that the halfway point of job $j$ must come after the halfway point of job $k$. This implies that no job $j$ can be started before any of its predecessors. Otherwise, if $j$ started before $k$ where $k \in A(j)$, then we must have $h_j < h_k$ because it would be fractionally completed soon than job $k$. 
+\end{sol}
+
+\begin{prob}{2-d}
+Prove that for the given order, the actual completion time for job $j$ is at most $4 \bar{C}_j$. 
+\end{prob}
+
+\begin{sol}
+Given some job $j$, we observe that there must be some number of jobs $K$ which have already been completed by time $h_j$. Namely, at $h_j$, we must have any job $k$ with $h_k < h_j/2$ already completed. Since we are ordering jobs by $h_j$ and we process jobs continuously and sequentially, $K$ must be at least half of the total number of jobs with $h_k < h_j$. Therefore, we see that for $\sum_{k} p_k < 2 h_j$ for all $k$ coming before or during $j$ in the ordering. Since $p_j$ is the largest processing time in this ordering of $k$'s, we see that $C_j \leq 2 h_j$. 
+
+We also know from problem 2-b that $\bar{C}_j \geq h_j / 2$. This implies that $h_j \leq 2 \bar{C}_j$ which implies that $C_j \leq 2 h_j \leq 4 \bar{C}_j$. Therefore, we see that that actual completion time for job $j$ is at most $4 \bar{C}_j$, which is what we wanted to show.
+\end{sol}
+
+\begin{prob}{2-e}
+Conclude that you have a constant factor approximation for $1 | prec | \sum w_j C_j$. 
+\end{prob}
+\begin{sol}
+We will use the linear program relaxation of our original integer linear program and find an optimum solution. Then we will order the results by the halfway points and start jobs in the original scheduling problem in this order. We can solve the modified linear program in polynomial time using the ellipsoid algorithm. Moreover, we can find and order the halfway points in polynomial time. 
+
+All that is left to do is to show that this ordering is a constant factor approximation. However, we know that for each job $j$, the actual completion time of the job in this ordering is at most $4$ times the completion time in the optimal solution. Summing over all of the completion times, we see that the total weighted completion time is at most 4 times the total weighted completion time in the optimal solution. This means that we have a 4-approximation for our scheduling problem, which is a constant-factor approximation.
+\end{sol}
+
+\newpage
+\makenewtitle
+
 \begin{prob}{3-a}
 Show that a minimum cycle cover can be found in polynomial time.
 \end{prob}
