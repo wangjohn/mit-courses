@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  4 NOV 2012 00:22
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  4 NOV 2012 14:42
 entering extended mode
  %&-line parsing enabled.
 **ps9.tex
@@ -579,9 +579,6 @@ ABD: EveryShipout initializing macros
 \MPnumerator=\count126
 \everyMPtoPDFconversion=\toks42
 ) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \vbox (badness 1082) has occurred while \output is active []
-
-
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
@@ -590,7 +587,7 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [3]
-Underfull \vbox (badness 4608) has occurred while \output is active []
+Underfull \vbox (badness 1082) has occurred while \output is active []
 
 
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
@@ -601,14 +598,25 @@ Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
 [5]
+Underfull \vbox (badness 4608) has occurred while \output is active []
+
+
 Overfull \vbox (4.51111pt too high) has occurred while \output is active []
 
 
-[6] (./ps9.aux) ) 
+[6]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[7]
+Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+
+
+[8] (./ps9.aux) ) 
 Here is how much of TeX's memory you used:
  12954 strings out of 495061
  253512 string characters out of 1182621
- 333874 words of memory out of 3000000
+ 333876 words of memory out of 3000000
  15719 multiletter control sequences out of 15000+50000
  9961 words of font info for 39 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
@@ -617,14 +625,15 @@ Here is how much of TeX's memory you used:
 0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr
 /share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texm
 f-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/f
-onts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
-ts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.
-pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on ps9.pdf (6 pages, 141327 bytes).
+onts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/p
+ublic/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on ps9.pdf (8 pages, 161011 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
+ 76 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  13 words of extra memory for PDF output out of 10000 (max. 10000000)
 
