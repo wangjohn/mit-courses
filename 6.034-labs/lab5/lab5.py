@@ -44,7 +44,7 @@ boost_1796.train(20)
 # does it predict a Republican would vote on the amendment to require
 # "newspapers to be sufficiently dried before mailing"? ('yes' or 'no')
 
-republican_newspaper_vote = 'answer yes or no'
+republican_newspaper_vote = 'no'
 
 # In the 4th House of Representatives, which five representatives were
 # misclassified the most while training your boost classifier?
@@ -69,7 +69,16 @@ def most_misclassified(classifier, n=5):
 	returns: list of data points (each passed through legislator_info) that were
 			 misclassified most often
     """
-    raise NotImplementedError
+        
+    weights = [(classifier.data_weights[i], i) for i in xrange(len(classifier.data_weights))]
+    output = []
+
+    s = sorted(weights, key = lambda k : k[0])
+    s.reverse()
+    for i in range(n):
+        index = s[i][1]
+        output.append(legislator_info(classifier.data[index]))
+    return output 
 
 # The following line is used by the tester; please leave it in place!
 most_misclassified_boost_1796 = lambda n: most_misclassified(boost_1796, n)
@@ -83,7 +92,7 @@ most_misclassified_boost_1796 = lambda n: most_misclassified(boost_1796, n)
 boost = BoostClassifier(make_vote_classifiers(senate_votes), senate_people,
   standardPartyClassifier)
 boost.train(20)
-republican_sunset_vote = 'answer yes or no'
+republican_sunset_vote = 'no'
 
 # Which five Senators are the most misclassified after training your
 # classifier? (Again, the tester will test the function, not the answer you
@@ -210,33 +219,33 @@ if __name__ == "__main__":
 
 # For the vampire dataset, what variable does the id tree query, that our
 # algorithm in class did not?
-vampires_idtree_odd = "one of: shadow garlic complexion accent"
+vampires_idtree_odd = "accent"
 
 # For the vampire dataset, which classifier does the worst when tested on just
 # the data on which it was trained?
-vampires_worst_on_training = 'one of: maj dt knn svml svmp3 svmr svms nb'
+vampires_worst_on_training = 'svmr'
 # Is it actually doing badly, or is it just confused?
 
 # For the vampire dataset, which classifier does the worst when cross-validated?
-vampires_worst_on_test = 'one of: maj dt knn svml svmp3 svmr svms nb'
+vampires_worst_on_test = 'svms'
 
 
 # Which of the above classifiers has the best Brier distance to the true answers
 # in ten-fold cross-validation for the H004 dataset?
 
-best_brier_for_h004 = 'one of: maj dt knn svml svmp3 svmr svms nb'
+best_brier_for_h004 = 'svmp3'
 
 # Just looking at the confusion matrices, what is the minimum number
 # of data points that must have been differently classified between
 # the best classifier and the second-best classifier for the H004 data
 # set?
 
-min_disagreement_h004 = None
+min_disagreement_h004 = 2
 
 # Which bill was the most divisive along party lines in the H004 data
 # set, according to the classification tree (id tree)?
 
-most_divisive_h004 = 'a bill number'
+most_divisive_h004 = '2'
 
 
 
@@ -288,9 +297,11 @@ if __name__ == "__main__":
 # will give you the best cross-validation accuracy on the breast-cancer
 # dataset?
 
-classifiers_for_best_ensemble = ['maj', 'dt', 'knn', 'svml',
-                                 'svmp3', 'svmr', 'svms', 'nb']
+classifiers_for_best_ensemble = ['svml',
+                                 'svmp3', 'svmr', 'svms', ]
 
+#['svmr', 'nb', 'svms', 'svmp3']#, 'svmp3', 'nb', 'knn']
+                                # 'svmp3', 'svmr', 'svms', 'nb'] 
 
 
 ## The standard survey questions.

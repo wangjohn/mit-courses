@@ -2,7 +2,6 @@
 
 %-------Packages---------
 \usepackage{amssymb,amsfonts}
-\usepackage[all,arc]{xy}
 \usepackage{enumerate}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsthm}
@@ -62,6 +61,9 @@ To show that this is a 2-approximation, we will extend the definition of $u_r$ a
 
 Thus, since the load on any edge increases by at most 1 more than in the optimal case on each path, we can see that the load given by the $p_l^k$ and $p_r^k$ will give a maximum edge load of 2 times more than the actual maximum. Thus, we have a 2-approximation algorithm that runs in polynomial time.
 \end{sol}
+
+\newpage
+\makenewtitle
 
 \begin{prob}{3-a}
 Show that a minimum cycle cover can be found in polynomial time.
@@ -127,6 +129,44 @@ However, our algorithm must move back and forth each time. Notice that at each s
 \end{eqnarray}
 
 Since our original optimum was a distance of $C$, we see that the algorithm provides a 9 competitive deterministic algorithm for optimizing the total distance travelled.
+\end{sol}
+
+\begin{prob}{4-b}
+Give a randomized 7-competitive algorithm for the problem.
+\end{prob}
+
+\begin{sol}
+Now, we will randomly pick whether to start by moving to the positive or the negative section of the line first. In essence will will have two functions for where we could be after the $i$th step. With probability $\frac{1}{2}$ we choose the function $(-2)^i$ for our location, and with probability $\frac{1}{2}$ we choose the function $-(-2)^i$ for our location. Thus, we are equally likely to start by moving to the left or to the right. Everything else about the algorithm remains the same, however. 
+
+By the same argument as above, this algorithm must eventually terminate. To show that it is actually 7-competitive, we will suppose that the bridge is a distance of $C$ away from the starting point. Without loss of generality, we can suppose that the bridge is on the positive side of the origin (if not, then we can use the same analysis for when the bridge is on the negative side of the origin). 
+
+Now, we know that half of the the time, the bridge is found after $\lfloor \lg C \rfloor = \lg C$ steps, and the other half of the time, it is found after $\lceil lg C + 1 \rceil < \lg C + 2$ steps. This is because half of the time, we are on the wrong side of the origin when we hit distance $\lg C$, and must take an extra step. The minimum number of steps to reach distance origin is $\lfloor \lg C \rfloor = \lg C$ then an extra $C$ distance from the origin to reach distance $C$. We have already shown that in the worse case, i.e. when the bridge is found after $\lceil \lg C + 1 \rceil$ steps, we have a competitive ratio of 9. However, if the cow is found after $\lfloor \lg C \rfloor$ steps, then we have the following distance travelled:
+\begin{eqnarray}
+1 + 2C + \sum_{i=1}^{\lfloor \lg C \rfloor} 2^{i} + 2^{i-1} &=& 1 + \sum_{i=1}^{\lg C} 2^{i} + 2^{i-1} \\
+&=& 1 + 2C + 2^{\lg C + 1} + 2^{\lg C} - 3 \\
+&=& 2C + 2C +C \\
+&=& 5C
+\end{eqnarray}
+
+This is because we need to go $\lceil \lg C \rceil$ steps in order to get to the correct distance back to the origin, then another $C$ distance to physically reach the bridge. Therefore, we have $1+(1+2)+(2+4)+(4+8)+ \ldots + (2^{\lg C + 1} + C)$, which is the expresion given above. Thus, we see that half of the time, we are 5 competitive, and the other half of the time we are 9 competitive. This means that on average, our randomized algorithm provides a 7 competitive algorithm.
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{5}
+Consider the MTF-every-other online linear-search algorithm which moves an accessed item to the front on every odd request for that item (i.e. the 1st, 3rd, 5th, etc. times the item is accessed). Prove that the MTF-every-other is $O(1)$ competitive.
+\end{prob}
+\begin{sol}
+Consider an inversion $(x,y)$, which represents $x$ coming before $y$ in the MTF algorithm, but $y$ before $x$ in the optimal algorithm. Now we will define a weight on an inversion $w(x,y)$ such that $w(x,y) = 1$ if that inversion has occurred an odd number of times and $w(x,y) = 2$ if the inversion has occurred an even number of times. Also define $w(x,y) = 0$ if the inversion $(x,y)$ has never occurred. 
+
+Now, we will define a potential function over all inversions $I$ as $\Phi = \sum_{(x,y) \in I} w(x,y)$. Next, define $c_i$ as the real cost of the $i$th step in the MTF algorithm. We will define amortized costs $\hat{c}_i$ as follows: $\hat{c}_i = c_i + \Phi_i - \Phi_{i-1}$ where $i$ denotes the current step of the MTF algorithm. Now we will examine the $i$th step in the MTF algorithm. Let us say the $i$th step involves an access on item $y$. Suppose that before the access, $y$ lived in position $p$ in the MTF list and $q$ in OPT's list. Now, after the access, let us say that $y$ moves to $q'$ in OPT's list. 
+
+There are two cases that can occur. First, $y$ could have been accessed an odd number of times before, which means the $i$th step leaves to an even access. The second case is that the $i$th access is an odd access on $y$. In the first case, we will move $y$ to the front of the MFT list. This removes all $(x,y)$ inversions for all $x$ in the list (let us assume there are $j$ of these). However, new inversions $(y,x)$ are created, but the number of these is bounded by the original position of $y$ in OPT, which is $q$. Since these new inversions can have a weight of at most $2$, we have the following amortized cost for step $i$: $\hat{c}_i \leq (p-j) + 2q \leq 3q \leq 3 OPT$. Here $p-j$ comes from the fact that we remove $p-j$ inversions. Notice that this is bounded by $q$ because there are $p-j$ elements that are in front of $y$ in both lists, so $p-j < q$.
+
+The second case occurs when $y$ has been accessed an odd number of times before so that the $i$th step accesses $y$ on an even turn. This means that the MTF algorithm does not move $y$ to the front of the list. Since OPT moves $y$ to position $q'$ in this step, there can only be $q - q'$ new inversions created, all of weight 1. Any old inversions $(x,y)$ which existed previously will now have been accessed one extra time, so the weight decreases by 1. Suppose there are $j$ of these inversions, then we have the following amortized cost for step $i$: $\hat{c}_i = k - j + q - q' \leq (k-j) + (q-q') \leq q + q = 2q = 2OPT$. Here, we have used the fact from above that $p-j < q$ and also the fact that $q-q' < q$.  
+
+Therefore, we see that for any access, we have an amortized cost of at most 3 times the optimum cost of access. Since we know that $\sum_{i} \hat{c}_i = \sum_{i} c_i + \Phi_f - \Phi_0$ by telescoping sums, we see that $\sum_{i} c_i = \sum_{i} \hat{c}_i - \Phi_f$ (we know that $\Phi_0 = 0$ because both lists start out the same). Since we know that $\Phi_f \geq 0$, we see that $\sum_{i} c_i \leq \sum_{i} \hat{c}_i$, which means that the actual cost of the algorithm is bounded by the amortized cost. This means that the algorithm is 3-competitive, which means that the MTF-every-other algorithm is $O(1)$ competitive.
 \end{sol}
 
 \end{document}
