@@ -1,0 +1,24 @@
+.include "/mit/6.004/jsim/nominal.jsim"
+.include "/mit/6.004/jsim/stdcell.jsim"
+.include "/mit/6.004/jsim/lab6regfile.jsim"
+
+.subckt regfile clk werf ra2sel ra[4:0] rb[4:0] rc[4:0]
++ wdata[31:0] radata[31:0] rbdata[31:0]
+
+Xregfile
++ vdd 0 0 ra[4:0] adata[31:0]     // A read port
++ vdd 0 0 ra2mux[4:0] bdata[31:0] // B read port
++ 0 clk werf rc[4:0] wdata[31:0]  // write port
++ $memory width=32 nlocations=31
+
+xselect ra2sel#5 rb[4:0] rc[4:0] ra2mux[4:0] mux2
+xm ra[3:0] z1 and4
+xm2 ra[4] z1 z2 and2
+
+xm3 ra2mux[3:0] z3 and4
+xm4 ra2mux[4] z3 z4 and2
+
+xmux z2#32 adata[31:0] 0#32 radata[31:0] mux2
+xmux2 z4#32 bdata[31:0] 0#32 rbdata[31:0] mux2
+
+.ends
