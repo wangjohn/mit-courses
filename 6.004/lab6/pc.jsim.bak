@@ -3,13 +3,13 @@
 .include "/mit/6.004/jsim/lab6pc.jsim"
 
 .subckt pc clk reset ia[31:0]
-	xg01 four[31:3] constant0
-	xg02 four[2] constant1
-	xg03 four[1:0] constant0
-	
-	xplus4 0 ia[31:0] four[31:0] inplusfour[31:0] z v n adder32
-	xmux reset#32 inplusfour[31:0] 0#32 muxresult[31:0] mux2
-	xreg muxresult[31:0] clk#32 ia[31:0] dreg
+xg01 four[31:3] constant0
+xg02 four[2] constant1
+xg03 four[1:0] constant0
+
+xplus4 0 ia[31:0] four[31:0] inplusfour[31:0] z v n adder32
+xmux reset#32 inplusfour[31:0] 0#32 muxresult[31:0] mux2
+xreg muxresult[31:0] clk#32 ia[31:0] dreg
 .ends
 
 
