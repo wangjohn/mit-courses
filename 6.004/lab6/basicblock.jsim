@@ -1,0 +1,20 @@
+.include "/mit/6.004/jsim/nominal.jsim"
+.include "/mit/6.004/jsim/stdcell.jsim"
+.include "/mit/6.004/jsim/lab6basicblock.jsim"
+
+.subckt beta clk reset ia[31:0] id[31:0] ma[31:0]
+    + moe mrd[31:0] wr mwd[31:0]
+
+xpc clk reset ia[31:0]
+xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] 
+    + wdata[31:0] radata[31:0] rbdata[31:0] regfile
+xctl reset id[31:26] ra2sel bsel alufn[4:0] wdsel[1:0] werf moe wr ctl
+
+xbuff1 id[15:0] inst[15:0] buffer
+xbuff2 id[15]#16 inst[31:16] buffer
+xbuff3 rbdata[31:0] mwd[31:0] buffer
+
+xbselmux bsel#32 rbdata[31:0] inst[31:0] bselout[31:0] mux2
+xwdselmux wdsel[0]#32 wdsel[1]#32 0#32 ma[31:0] mrd[31:0] 0#32 wdata[31:0] mux4
+
+.ends
