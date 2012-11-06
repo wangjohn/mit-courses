@@ -2,14 +2,20 @@
 .include "/mit/6.004/jsim/stdcell.jsim"
 .include "/mit/6.004/jsim/lab6basicblock.jsim"
 
-.subckt pc clk reset ia[31:0]
+.subckt pc clk reset pcsel[2:0] xadr[31:0]
+    + illop[31:0] jt[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0]
 	xg01 four[31:3] constant0
 	xg02 four[2] constant1
 	xg03 four[1:0] constant0
 	
-	xplus4 0 ia[31:0] four[31:0] inplusfour[31:0] z v n adder32
-	xmux reset#32 inplusfour[31:0] 0#32 muxresult[31:0] mux2
-	xreg muxresult[31:0] clk#32 ia[31:0] dreg
+	xplus4 0 ia[31:0] four[31:0] disconn pcplusfour[30:0] z v n adder32
+    xpcplus ia[31] pcplusfour[31] buffer
+    
+    xmux4 pcsel[0]#32 pcsel[1]#32 pcplusfour[31:0] pcjmp[31:0] jt[31:0] illop[31:0] pcmux4result[31:0] mux4
+    xmux5 pcsel[2]#32 pcmux4result[31:0] xadr[31:0] pcmux5result[31:0] mux2
+
+    xmux reset#32 pcmux5out[31:0] vdd 0#31 ianew[31:0] mux2
+    xreg1 ianew[31:0] clk#32 ia[31:0] dreg
 .ends
 
 
