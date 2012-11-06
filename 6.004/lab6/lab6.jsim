@@ -107,16 +107,17 @@
 .ends
 
 
-.subckt alu ALUFN[5:0] A[31:0] B[31:0] alu[31:0] z v n
-	XdoAdd ALUFN[0] A[31:0] B[31:0] addOut[31:0] z1 v1 n1 adder32
-	XdoBoole ALUFN[3:0] A[31:0] B[31:0] booleOut[31:0] boole32
-	XdoShift ALUFN[1:0] A[31:0] B[4:0] shiftOut[31:0] shift32
-	XdoCmp ALUFN[2:1] z1 v1 n1 cmpOut[31:0] compare32
+.subckt alu alufn[4:0] a[31:0] b[31:0] out[31:0] z v n
+	*** Generate outputs from each of BOOL, SHIFT, ARITH, CMP subcircuits:
+	xbool alufn[3:0] a[31:0] b[31:0] boolout[31:0] boole32
+	xshift alufn[1:0] a[31:0] b[31:0] shiftout[31:0] shift32
+	xarith alufn[0] a[31:0] b[31:0] arithout[31:0] z v n adder32
+	xcmp alufn[3] alufn[1] z v n cmpout[31:0] compare32
 	
-	XdoZ z1 z buffer_2
-	XdoV v1 v buffer_2
-	XdoN n1 n buffer_2
-	XdoAlu ALUFN[5]#32 ALUFN[4]#32 addOut[31:0] shiftOut[31:0] booleOut[31:0] cmpOut[31:0] alu[31:0] mux4
+	*** Combine them, using three multiplexors:
+	xmux1 alufn[4]#32 nonbool[31:0] boolout[31:0] out[31:0] mux2
+	xmux2 alufn[2]#32 arithshift[31:0] cmpout[31:0] nonbool[31:0] mux2
+	xmux3 alufn[3]#32 arithout[31:0] shiftout[31:0] arithshift[31:0] mux2
 .ends
 
 
