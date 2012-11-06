@@ -1,8 +1,5 @@
 .include "/mit/6.004/jsim/nominal.jsim"
 .include "/mit/6.004/jsim/stdcell.jsim"
-.include "ctl.jsim"
-.include "pc.jsim"
-.include "regfile.jsim"
 .include "/mit/6.004/jsim/lab6basicblock.jsim"
 
 .subckt beta clk reset ia[31:0] id[31:0] ma[31:0]
