@@ -148,8 +148,8 @@ xctl vdd 0 0 id[31:26]
     xbuff3 rbdata[31:0] mwd[31:0] buffer
 
     // all of the subcomponents being put together
-    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] inst[31:0] ia[31:0] pcjmp[31:0] pcplusfour[31:0] pc
-    xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] wasel regfile
+    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] pcjmp[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0] pc
+    xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] regfile
     xctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
     xalu alufn[4:0] inpa[31:0] inpb[31:0] ma[31:0] z2 v2 n2 alu
 

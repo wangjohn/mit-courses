@@ -11,9 +11,8 @@
 	xg02 four[2] constant1
 	xg03 four[1:0] constant0
 	
-	xplus4 0 ia[31:0] four[31:0] disconn pcplusfour[30:0] z v n add32bit
+    xplus4 0 ia[31:0] four[31:0] disconn pcplusfour[30:0] z v n add32bit
 
-    // get z
     xpcplus ia[31] pcplusfour[31] buffer
     
     xmux4 pcsel[0]#32 pcsel[1]#32 pcplusfour[31:0] pcjmp[31:0] jt[31:0] illop[31:0] pcmux4result[31:0] mux4
@@ -50,11 +49,11 @@
 
 // ctl
 
-.subckt ctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z
+.subckt ctl reset z id[31:26] ra2sel bsel alufn[4:0] wdsel[1:0] werf moe wr pcsel[2:0] wasel asel
 
 xctl vdd 0 0 id[31:26]
-    + xpcsel[2:0] xwasel asel ra2sel bsel alufn[4:0] 
-    + wdsel[1:0] xwerf moe xwr
+    + xpcsel[2:0] wasel asel ra2sel bsel alufn[4:0] 
+    + wdsel[1:0] werf moe xwr
     + $memory width=17 nlocations=64 contents=(
         + 0b01110000000000100    // 0
         + 0b01110000000000100    // 1
@@ -125,14 +124,12 @@ xctl vdd 0 0 id[31:26]
         + 0b01110000000000100    // 63      
         + )
 
-	xmux reset xwr 0 wr mux2
-
     // force wr = 0 when reset
     xinv reset resetinv inverter
     xxwrand xwr resetinv wr and2
 
     // change for z logic
-    xand21 xpcsel2 xpcsel0 branch and2
+    xand21 xpcsel[2] xpcsel[0] branch and2
     xinvz z zinv inverter
     xmux1 xpcsel1 z zinv pcselbranch mux2
     xmux2 branch#3 xpcsel[2:0] 0#2 pcselbranch pcsel[2:0] mux2
@@ -151,15 +148,15 @@ xctl vdd 0 0 id[31:26]
     xbuff3 rbdata[31:0] mwd[31:0] buffer
 
     // all of the subcomponents being put together
-    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0] pc
+    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] inst[31:0] ia[31:0] pcjmp[31:0] pcplusfour[31:0] pc
     xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] regfile
-    xctl reset irq ia[31] pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
+    xctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
     xalu alufn[4:0] inpa[31:0] inpb[31:0] ma[31:0] z2 v2 n2 alu
-	
+
+
     // all of the muxes
     xwaselmux wasel#5 id[25:21] vdd vdd vdd vdd 0 wa[4:0] mux2
     xbselmux bsel#32 rbdata[31:0] inst[31:0] inpb[31:0] mux2
-    xpcjmpadder 0 pcplusfour[31:0] inst[29:0] 0 0 pcjmp[31:0] z1 v1 n1 add32bit
     xaselmux asel#32 radata[31:0] 0 pcjmp[30:0] inpa[31:0] mux2 
     xwdselmux wdsel[0]#32 wdsel[1]#32 pcplusfour[31:0] ma[31:0] mrd[31:0] 0#32 wdata[31:0] mux4
 
@@ -177,8 +174,6 @@ xctl vdd 0 0 id[31:26]
     Xnor11 nors1 nors2 z and2
 
 .ends
-
-
 
 
 // Lab3 alu logic
