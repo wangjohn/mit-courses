@@ -125,12 +125,12 @@ xctl vdd 0 0 z id[31:26]
 	xmux reset xwr 0 wr mux2
 
     // force wr = 0 when reset
-    xinv reset resetinv inverter_2
+    xinv reset resetinv inverter
     xxwrand xwr resetinv wr and2
 
     // change for z logic
     xand21 xpcsel2 xpcsel0 branch and2
-    xinvz z zinv inverter_2
+    xinvz z zinv inverter
     xmux1 xpcsel1 z zinv pcselbranch mux2
     xmux2 branch#3 xpcsel[2:0] 0#2 pcselbranch pcsel[2:0] mux2
 .ends
