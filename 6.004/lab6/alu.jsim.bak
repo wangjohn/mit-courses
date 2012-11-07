@@ -29,15 +29,6 @@ xfulladder2 C[0:30] A[1:31] XB[1:31] OUT[1:31] C[1:31] FA
 
 xbuffer OUT[31] N buffer
 
-Xnor32 OUT[31:0] Z nor32
-
-xvcheck0 A[31] XB[31] OUT[31] check00 checkvfirst
-xvcheck1 A[31] XB[31] OUT[31] check01 checkvsecond
-xgetv check00 check01 V or2
-.ends
-
-.subckt nor32 OUT[31:0] Z
-
 Xnor01 OUT[3:0] nors01 nor4
 Xnor02 OUT[7:4] nors02 nor4
 Xnor03 OUT[11:8] nors03 nor4
@@ -51,6 +42,9 @@ Xnor10 nors01 nors02 nors03 nors04 nor10 and4
 Xnor11 nors05 nors06 nors07 nors08 nor11 and4
 Xnor20 nor10 nor11 Z and2
 
+xvcheck0 A[31] XB[31] OUT[31] check00 checkvfirst
+xvcheck1 A[31] XB[31] OUT[31] check01 checkvsecond
+xgetv check00 check01 V or2
 .ends
 
 .subckt checkvsecond XA XB S Z
