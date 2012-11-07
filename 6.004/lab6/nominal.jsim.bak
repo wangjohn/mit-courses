@@ -1,0 +1,48 @@
+.global vdd
+.temp 25
+VDD vdd 0 3.3v
+.MODEL NENH NMOS LEVEL=3 PHI=0.700000 TOX=9.4000E-09 XJ=0.200000U TPG=1
++ VTO=0.6746 DELTA=1.1480E+00 LD=3.4510E-08 KP=1.8217E-04
++ UO=495.9 THETA=1.7960E-01 RSH=3.2470E+01 GAMMA=0.5383
++ NSUB=1.1780E+17 NFS=7.1500E+11 VMAX=2.5000E+05 ETA=2.1880E-02
++ KAPPA=4.2390E-01 CGDO=9.0000E-11 CGSO=9.0000E-11
++ CGBO=3.7441E-10 CJ=5.79E-04 MJ=0.611 CJSW=2.00E-11
++ MJSW=0.621 PB=0.99
+.MODEL PENH PMOS LEVEL=3 PHI=0.700000 TOX=9.4000E-09 XJ=0.200000U TPG=-1
++ VTO=-0.8887 DELTA=1.0060E+00 LD=1.0920E-08 KP=4.5773E-05
++ UO=124.6 THETA=6.9020E-02 RSH=1.9550E-01 GAMMA=0.4097
++ NSUB=6.8230E+16 NFS=6.5000E+11 VMAX=1.0000E+06 ETA=4.2420E-02
++ KAPPA=8.6130E+00 CGDO=9.0000E-11 CGSO=9.0000E-11
++ CGBO=3.5362E-10 CJ=9.30E-04 MJ=0.485 CJSW=2.32E-10
++ MJSW=0.213 PB=0.89
+.options SCALE=0.6u CADJUST=0.87
+.options vih=2.7 vil=0.6
+
+.plotdef betaop
++ ???    ???    ???    ???    ???    ???    ???    ???
++ ???    ???    ???    ???    ???    ???    ???    ???
++ ???    ???    ???    ???    ???    ???    ???    ???
++ LD     ST     ???    JMP    BEQ    BNE    ???    LDR
++ ADD    SUB    MUL    DIV    CMPEQ  CMPLT  CMPLE  ???
++ AND    OR     XOR    XNOR   SHL    SHR    SRA    ???
++ ADDC   SUBC   MULC   DIVC   CMPEQC CMPLTC CMPLEC ???
++ ANDC   ORC    XORC   XNORC  SHLC   SHRC   SRAC   ???
+
+*PROCESS PARAMETERS     N+DIFF  P+DIFF   POLY  METAL1  METAL2  METAL3  UNITS
+* Sheet Resistance        2.1     2.0    1.9     0.07    0.07    0.03  ohms/sq
+* Width Variation        -0.36   -0.29  -0.04    0.16   -0.04   -0.30  microns
+*  (measured - drawn)
+* Contact Resistance      2.3     2.2    2.2             0.82    0.87  ohms
+* Gate Oxide Thickness   94                                            angstroms
+
+
+*CAPACITANCE PARAMETERS  N+DIFF  P+DIFF   POLY  METAL1  METAL2   METAL3  UNITS
+* Area (substrate)       546     929       92    47      25       25     aF/um^2
+* Area (poly)                                    59      18       11     aF/um^2
+* Area (metal1)                                          37       14     aF/um^2
+* Area (metal2)                                                   33     aF/um^2
+* Area (N+active)                        3684                            aF/um^2
+* Area (P+active)                        3500                            aF/um^2
+* Fringe (substrate)     195     234                                     aF/um
+* Fringe (N+active)                       105                            aF/um
+</pre></body></html>

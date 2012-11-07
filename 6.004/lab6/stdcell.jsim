@@ -1,0 +1,229 @@
+* 6.004 standard cell library (3/5/00)
+
+.options mem_cin=.005pf	// input terminal capacitance (F)
+.options mem_cout=0	// output terminal capacitance (F)
+.options mem_tr=1000	// output rise time (s/F)
+.options mem_tf=500	// output fall time (s/F)
+.options mem_tpd_regfile=2ns	// tpd when nlocs <= 128 (s)
+.options mem_tpd_sram=4ns	// tpd when 128 < nlocs <= 1024 (s)
+.options mem_tpd_dram=40ns	// tpd when nlocs > 1024 (s)
+.options mem_tcd=20ps	// contamination delay (s)
+
+.options mem_size_sram=5	// size of static memory cell (u**2)
+.options mem_size_access=1	// size of access fet to mem cell (u**2)
+.options mem_size_address_buffer=20 // size of memory address buffer (u**2)
+.options mem_size_address_decoder=4 // size of 1 bit's worth of memory address decoder (u**2)
+.options mem_size_output_buffer=30  // size of memory output buffer (u**2)
+.options mem_size_write_buffer=20  // size of memory write data buffer (u**2)
+
+********************************************************************************
+********************************************************************************
+***
+***  constants, buffers and inverters
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt constant0 z
+Xconstant0 z $or size=0
+.ends
+
+.gsubckt constant1 z
+Xconstant1 z $and size=0
+.ends
+
+.gsubckt buffer a z 
+Xbuffer a z $and size=13 tcd=20ps tpd=80ps tr=2200 tf=1200 cin=.003pf
+.ends
+
+.gsubckt buffer_2 a z 
+Xbuffer_2 a z $and size=17 tcd=20ps tpd=70ps tr=1100 tf=600 cin=.005pf
+.ends
+
+.gsubckt buffer_4 a z 
+Xbuffer_4 a z $and size=30 tcd=20ps tpd=70ps tr=560 tf=300 cin=.010pf
+.ends
+
+.gsubckt buffer_8 a z 
+Xbuffer_8 a z $and size=43 tcd=20ps tpd=70ps tr=280 tf=150 cin=.020pf
+.ends
+
+.gsubckt inverter a z
+Xinverter a z $nand size=10 tcd=5ps tpd=20ps tr=2300 tf=1200 cin=.007pf
+.ends
+
+.gsubckt inverter_2 a z
+Xinterter_2 a z $nand size=13 tcd=9ps tpd=20ps tr=1100 tf=600 cin=.013pf
+.ends
+
+.gsubckt inverter_4 a z
+Xinverter_4 a z $nand size=20 tcd=9ps tpd=20ps tr=560 tf=300 cin=.027pf
+.ends
+
+.gsubckt inverter_8 a z
+Xinverter_8 a z $nand size=56 tcd=20ps tpd=110ps tr=280 tf=150 cin=.009pf
+.ends
+
+.gsubckt tristate e a z
+Xtristate e a z $tristate_buffer size=23 tcd=30ps tpd=150ps tr=2300 tf=1300 cin=.004pf tristate=1
+.ends
+
+.gsubckt tristate_2 e a z
+Xtristate_2 e a z $tristate_buffer size=30 tcd=30ps tpd=130ps tr=1100 tf=600 cin=.006pf tristate=1
+.ends
+
+.gsubckt tristate_4 e a z
+Xtristate_4 e a z $tristate_buffer size=40 tcd=20ps tpd=120ps tr=600 tf=300 cin=.011pf tristate=1
+.ends
+
+.gsubckt tristate_8 e a z
+Xtristate_8 e a z $tristate_buffer size=56 tcd=20ps tpd=110ps tr=300 tf=170 cin=.02pf tristate=1
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  AND gates
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt and2 a b z
+Xand2 a b z $and size=13 tcd=30ps tpd=120ps tr=4500 tf=2300 cin=.002pf
+.ends
+
+.gsubckt and3 a b c z
+Xand3 a b c z $and size=17 tcd=30ps tpd=150ps tr=4500 tf=2600 cin=.002pf
+.ends
+
+.gsubckt and4 a b c d z
+Xand4 a b c d z $and size=20 tcd=30ps tpd=160ps tr=4500 tf=2800 cin=.002pf
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  NAND gates
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt nand2 a b z
+Xnand2 a b z $nand size=10 tcd=10ps tpd=30ps tr=4500 tf=2800 cin=.004pf
+.ends
+
+.gsubckt nand3 a b c z
+Xnand3 a b c z $nand size=13 tcd=10ps tpd=50ps tr=4200 tf=3000 cin=.005pf
+.ends
+
+.gsubckt nand4 a b c d z
+Xnand4 a b c d z $nand size=17 tcd=10ps tpd=70ps tr=4400 tf=3500 cin=.005pf
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  OR gates
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt or2 a b z
+Xor2 a b z $or size=13 tcd=30ps tpd=150ps tr=4500 tf=2500 cin=.002pf
+.ends
+
+.gsubckt or3 a b c z
+Xor3 a b c z $or size=17 tcd=40ps tpd=210ps tr=4500 tf=2500 cin=.003pf
+.ends
+
+.gsubckt or4 a b c d z
+Xor4 a b c d z $or size=20 tcd=60ps tpd=290ps tr=4500 tf=2600 cin=.003pf
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  NOR gates
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt nor2 a b z
+Xnor2 a b z $nor size=10 tcd=10ps tpd=50ps tr=6700 tf=2400 cin=.004pf
+.ends
+
+.gsubckt nor3 a b c z
+Xnor3 a b c z $nor size=13 tcd=20ps tpd=80ps tr=8500 tf=2400 cin=.005pf
+.ends
+
+.gsubckt nor4 a b c d z
+Xnor4 a b c d z $nor size=20 tcd=20ps tpd=120ps tr=9500 tf=2400 cin=.005pf
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  XOR gates
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt xor2 a b z
+Xxor2 a b z $xor size=27 tcd=30ps tpd=140ps tr=4500 tf=2500 cin=.006pf
+.ends
+
+.gsubckt xnor2 a b z
+Xxnor2 a b z $xnor size=27 tcd=30ps tpd=140ps tr=4500 tf=2500 cin=.006pf
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  AOI/OAI gates
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt aoi21 a1 a2 b z
+Xinternal a1 a2 a $and cin=.005pf
+Xaoi21 a b z $nor size=13 tcd=20ps tpd=70ps tr=6800 tf=2700 cin=.005pf
+.ends
+
+.gsubckt oai21 a1 a2 b z
+Xinternal a1 a2 a $or cin=.005pf
+Xoai21 a b z $nand size=17 tcd=20ps tpd=70ps tr=6700 tf=2700 cin=.005pf
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  Muxes
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt mux2 s d0 d1 z
+Xmux2 s d0 d1 z $mux2 size=27 tcd=20ps tpd=120ps tr=4500 tf=2500 cin=.005pf
+.ends
+
+.subckt mux4 s0 s1 d0 d1 d2 d3 z
+Xinternal1 s0 d0 d1 a $mux2 cin=.006pf
+Xinternal2 s0 d2 d3 b $mux2 cin=.006pf
+Xmux4 s1 a b z $mux2 size=66 tcd=40ps tpd=190ps tr=4500 tf=2500 cin=.006pf
+.ends
+
+********************************************************************************
+********************************************************************************
+***
+***  Registers
+***
+********************************************************************************
+********************************************************************************
+
+.gsubckt dreg d clk q
+Xdreg d clk q $dreg size=56 tcd=30ps tpd=190ps tr=4300 tf=2500 cin=.002pf ts=200ps th=25ps
+.ends
+
+.gsubckt dlatch d clk q
+Xdlatch d clk q $dlatch size=36 tcd=30ps tpd=190ps tr=4300 tf=2500 cin=.002pf
+.ends

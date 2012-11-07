@@ -1,6 +1,9 @@
-.include "/mit/6.004/jsim/nominal.jsim"
-.include "/mit/6.004/jsim/stdcell.jsim"
-.include "/mit/6.004/jsim/lab6checkoff.jsim"
+//.include "/mit/6.004/jsim/nominal.jsim"
+//.include "/mit/6.004/jsim/stdcell.jsim"
+//.include "/mit/6.004/jsim/lab6checkoff.jsim"
+.include "nominal.jsim"
+.include "stdcell.jsim"
+.include "lab6checkoff.jsim"
 
 .subckt pc clk reset pcsel[2:0] xadr[31:0]
     + illop[31:0] jt[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0]
@@ -49,7 +52,7 @@
 
 .subckt ctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z
 
-xctl vdd 0 0 z id[31:26]
+xctl vdd 0 0 id[31:26]
     + xpcsel[2:0] xwasel asel ra2sel bsel alufn[4:0] 
     + wdsel[1:0] xwerf moe xwr
     + $memory width=17 nlocations=64 contents=(
@@ -150,7 +153,7 @@ xctl vdd 0 0 z id[31:26]
     // all of the subcomponents being put together
     xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0] pc
     xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] regfile
-    xctl reset irq ia[31] pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
+    xctl reset ia[31] pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
     xalu alufn[4:0] inpa[31:0] inpb[31:0] ma[31:0] z2 v2 n2 alu
 	
     // all of the muxes
