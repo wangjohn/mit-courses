@@ -13,7 +13,6 @@
 	
 	xplus4 0 ia[31:0] four[31:0] disconn pcplusfour[30:0] z v n add32bit
 
-    // get z
     xpcplus ia[31] pcplusfour[31] buffer
     
     xmux4 pcsel[0]#32 pcsel[1]#32 pcplusfour[31:0] pcjmp[31:0] jt[31:0] illop[31:0] pcmux4result[31:0] mux4

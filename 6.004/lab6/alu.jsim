@@ -1,0 +1,181 @@
+.subckt BOOL alufn[3:0] A[31:0] B[31:0] OUT[31:0]
+xbooleanb A[31:0] B[31:0] alufn[0]#32 alufn[1]#32 alufn[2]#32 alufn[3]#32 OUT[31:0] mux4
+.ends
+
+.subckt booleanbase a3 a2 a1 a0 A B out 
+Xand1 A B d0 and2
+Xxor1 A B d1 xor2
+Xbuffer1 A d2 buffer
+Xor1 A B d3 or2
+Xand21 a2 a1 s0 and2
+Xand31 a3 a1 s1 and2
+Xmux1 s0 s1 d0 d1 d2 d3 out mux4
+.ends
+
+.subckt ARITH alufn[1:0] A[31:0] B[31:0] OUT[31:0] Z V N
+xadder alufn[0] A[31:0] B[31:0] add[31:0] Z V N add32bit
+xmultiplier A[31:0] B[31:0] multiply[31:0] MULT
+xaddormultiply alufn[1]#32 add[31:0] multiply[31:0] OUT[31:0] mux2
+.ends
+
+.subckt add32bit alufn A[31:0] B[31:0] OUT[31:0] Z V N
+xbxorgate alufn#32 B[31:0] XB[31:0] xor2
+xfulladder alufn A[0] XB[0] OUT[0] C[0] FA
+xfulladder2 C[0:30] A[1:31] XB[1:31] OUT[1:31] C[1:31] FA
+
+xbuffer OUT[31] N buffer
+
+Xnor01 OUT[3:0] nors01 nor4
+Xnor02 OUT[7:4] nors02 nor4
+Xnor03 OUT[11:8] nors03 nor4
+Xnor04 OUT[15:12] nors04 nor4
+Xnor05 OUT[19:16] nors05 nor4
+Xnor06 OUT[23:20] nors06 nor4
+Xnor07 OUT[27:24] nors07 nor4
+Xnor08 OUT[31:28] nors08 nor4
+
+Xnor10 nors01 nors02 nors03 nors04 nor10 and4
+Xnor11 nors05 nors06 nors07 nors08 nor11 and4
+Xnor20 nor10 nor11 Z and2
+
+xvcheck0 A[31] XB[31] OUT[31] check00 checkvfirst
+xvcheck1 A[31] XB[31] OUT[31] check01 checkvsecond
+xgetv check00 check01 V or2
+.ends
+
+.subckt checkvsecond XA XB S Z
+xinv1 XA z1 inverter
+xinv2 XB z2 inverter
+xand1 z1 z2 S Z and3
+.ends
+
+.subckt checkvfirst XA XB S Z
+xand1 XA XB z1 and2
+xinv1 S z2 inverter
+xand2 z2 z1 Z and2
+.ends
+
+
+* Full adder module that takes in two bits A and B, along with some carry Cin, and returns S and a carry C0
+.subckt FA Cin A B S C0
+Xxor1 A B 1 xor2
+Xxor2 Cin 1 S xor2
+Xnand1 A B 2 nand2
+Xnand2 B Cin 3 nand2
+Xnand3 A Cin 4 nand2
+Xnand4 2 3 4 C0 nand3
+.ends
+
+.subckt SHIFT alufn[1:0] A[31:0] B[31:0] OUT[31:0]
+xshifta A[31:0] B[31:0] shl[31:0] 0 SHL
+xshiftb A[31:0] B[31:0] shr[31:0] 0 SHR
+xshiftc A[31:0] B[31:0] sra[31:0] A[31] SHR
+xcomparemux alufn[1]#32 alufn[0]#32 shl[31:0] 0#32 shr[31:0] sra[31:0] OUT[31:0] mux4
+.ends
+
+.subckt SHL A[31:0] B[31:0] OUT[31:0] V
+xshifta B[4]#32 A[31:0] A[15:0] V#16 outA[31:0] mux2
+xshiftb B[3]#32 outA[31:0] outA[23:0] V#8 outB[31:0] mux2
+xshiftc B[2]#32 outB[31:0] outB[27:0] V#4 outC[31:0] mux2
+xshiftd B[1]#32 outC[31:0] outC[29:0] V#2 outD[31:0] mux2
+xshifte B[0]#32 outD[31:0] outD[30:0] V OUT[31:0] mux2
+.ends
+
+.subckt SHR A[31:0] B[31:0] OUT[31:0] V
+xshifta B[4]#32 A[31:0] V#16 A[31:16] outA[31:0] mux2
+xshiftb B[3]#32 outA[31:0] V#8 outA[31:8] outB[31:0] mux2
+xshiftc B[2]#32 outB[31:0] V#4 outB[31:4] outC[31:0] mux2
+xshiftd B[1]#32 outC[31:0] V#2 outC[31:2] outD[31:0] mux2
+xshifte B[0]#32 outD[31:0] V outD[31:1] OUT[31:0] mux2
+.ends
+
+.subckt CMP alufn3 alufn1 Z V N OUT[31:0]
+xzero OUT[31:1] constant0
+xxorout N V outxor xor2
+xorout Z outxor outor or2
+xcomparemux alufn1 alufn3 Z outxor outor 0 OUT[0] mux4
+.ends
+
+.subckt MULT A[31:0] B[31:0] OUT[31:0] 
+* Do all of the partial multiplies
+xpartialMultAA A[0:31] B[0]#32  ZAA[0:31] and2 
+xpartialMultBA A[0:31] B[1]#32  ZBA[0:31] and2
+xpartialMultCA A[0:31] B[2]#32  ZCA[0:31] and2
+xpartialMultDA A[0:31] B[3]#32  ZDA[0:31] and2
+xpartialMultEA A[0:31] B[4]#32  ZEA[0:31] and2
+xpartialMultFA A[0:31] B[5]#32  ZFA[0:31] and2
+xpartialMultGA A[0:31] B[6]#32  ZGA[0:31] and2
+xpartialMultHA A[0:31] B[7]#32  ZHA[0:31] and2
+xpartialMultIA A[0:31] B[8]#32  ZIA[0:31] and2
+xpartialMultJA A[0:31] B[9]#32  ZJA[0:31] and2
+xpartialMultAB A[0:31] B[10]#32 ZAB[0:31] and2
+xpartialMultBB A[0:31] B[11]#32 ZBB[0:31] and2
+xpartialMultCB A[0:31] B[12]#32 ZCB[0:31] and2
+xpartialMultDB A[0:31] B[13]#32 ZDB[0:31] and2
+xpartialMultEB A[0:31] B[14]#32 ZEB[0:31] and2
+xpartialMultFB A[0:31] B[15]#32 ZFB[0:31] and2
+xpartialMultGB A[0:31] B[16]#32 ZGB[0:31] and2
+xpartialMultHB A[0:31] B[17]#32 ZHB[0:31] and2
+xpartialMultIB A[0:31] B[18]#32 ZIB[0:31] and2
+xpartialMultJB A[0:31] B[19]#32 ZJB[0:31] and2
+xpartialMultAC A[0:31] B[20]#32 ZAC[0:31] and2
+xpartialMultBC A[0:31] B[21]#32 ZBC[0:31] and2
+xpartialMultCC A[0:31] B[22]#32 ZCC[0:31] and2
+xpartialMultDC A[0:31] B[23]#32 ZDC[0:31] and2
+xpartialMultEC A[0:31] B[24]#32 ZEC[0:31] and2
+xpartialMultFC A[0:31] B[25]#32 ZFC[0:31] and2
+xpartialMultGC A[0:31] B[26]#32 ZGC[0:31] and2
+xpartialMultHC A[0:31] B[27]#32 ZHC[0:31] and2
+xpartialMultIC A[0:31] B[28]#32 ZIC[0:31] and2
+xpartialMultJC A[0:31] B[29]#32 ZJC[0:31] and2
+xpartialMultAD A[0:31] B[30]#32 ZAD[0:31] and2
+xpartialMultBD A[0:31] B[31]#32 ZBD[0:31] and2
+                        
+** Get the adder outputs
+xaddAA 0 ZAA[31:0] ZBA[30:0]  0    PAA[31:0] zAA vAA nAA add32bit 
+xaddBA 0 PAA[31:0] ZCA[29:0]  0#2  PBA[31:0] zBA vBA nBA add32bit 
+xaddCA 0 PBA[31:0] ZDA[28:0]  0#3  PCA[31:0] zCA vCA nCA add32bit 
+xaddDA 0 PCA[31:0] ZEA[27:0]  0#4  PDA[31:0] zDA vDA nDA add32bit 
+xaddEA 0 PDA[31:0] ZFA[26:0]  0#5  PEA[31:0] zEA vEA nEA add32bit 
+xaddFA 0 PEA[31:0] ZGA[25:0]  0#6  PFA[31:0] zFA vFA nFA add32bit 
+xaddGA 0 PFA[31:0] ZHA[24:0]  0#7  PGA[31:0] zGA vGA nGA add32bit 
+xaddHA 0 PGA[31:0] ZIA[23:0]  0#8  PHA[31:0] zHA vHA nHA add32bit 
+xaddIA 0 PHA[31:0] ZJA[22:0]  0#9  PIA[31:0] zIA vIA nIA add32bit
+xaddJA 0 PIA[31:0] ZAB[21:0] 0#10 PJA[31:0] zJA vJA nJA add32bit
+xaddAB 0 PJA[31:0] ZBB[20:0] 0#11 PAB[31:0] zAB vAB nAB add32bit 
+xaddBB 0 PAB[31:0] ZCB[19:0] 0#12 PBB[31:0] zBB vBB nBB add32bit 
+xaddCB 0 PBB[31:0] ZDB[18:0] 0#13 PCB[31:0] zCB vCB nCB add32bit 
+xaddDB 0 PCB[31:0] ZEB[17:0] 0#14 PDB[31:0] zDB vDB nDB add32bit 
+xaddEB 0 PDB[31:0] ZFB[16:0] 0#15 PEB[31:0] zEB vEB nEB add32bit 
+xaddFB 0 PEB[31:0] ZGB[15:0] 0#16 PFB[31:0] zFB vFB nFB add32bit 
+xaddGB 0 PFB[31:0] ZHB[14:0] 0#17 PGB[31:0] zGB vGB nGB add32bit 
+xaddHB 0 PGB[31:0] ZIB[13:0] 0#18 PHB[31:0] zHB vHB nHB add32bit 
+xaddIB 0 PHB[31:0] ZJB[12:0] 0#19 PIB[31:0] zIB vIB nIB add32bit 
+xaddJB 0 PIB[31:0] ZAC[11:0] 0#20 PJB[31:0] zJB vJB nJB add32bit 
+xaddAC 0 PJB[31:0] ZBC[10:0] 0#21 PAC[31:0] zAC vAC nAC add32bit 
+xaddBC 0 PAC[31:0] ZCC[9:0] 0#22 PBC[31:0] zBC vBC nBC add32bit 
+xaddCC 0 PBC[31:0] ZDC[8:0] 0#23 PCC[31:0] zCC vCC nCC add32bit 
+xaddDC 0 PCC[31:0] ZEC[7:0] 0#24 PDC[31:0] zDC vDC nDC add32bit 
+xaddEC 0 PDC[31:0] ZFC[6:0] 0#25 PEC[31:0] zEC vEC nEC add32bit 
+xaddFC 0 PEC[31:0] ZGC[5:0] 0#26 PFC[31:0] zFC vFC nFC add32bit 
+xaddGC 0 PFC[31:0] ZHC[4:0] 0#27 PGC[31:0] zGC vGC nGC add32bit 
+xaddHC 0 PGC[31:0] ZIC[3:0] 0#28 PHC[31:0] zHC vHC nHC add32bit 
+xaddIC 0 PHC[31:0] ZJC[2:0] 0#29 PIC[31:0] zIC vIC nIC add32bit 
+xaddJC 0 PIC[31:0] ZAD[1:0] 0#30 PJC[31:0] zJC vJC nJC add32bit 
+xaddAD 0 PJC[31:0] ZBD[0] 0#31 OUT[31:0] zout vout nout add32bit 
+.ends    
+
+.subckt alu alufn[4:0] a[31:0] b[31:0] out[31:0] z v n
+
+*** Generate outputs from each of BOOL, SHIFT, ARITH, CMP subcircuits:
+xbool alufn[3:0] a[31:0] b[31:0] boolout[31:0] BOOL
+xshift alufn[1:0] a[31:0] b[31:0] shiftout[31:0] SHIFT
+xarith alufn[1:0] a[31:0] b[31:0] arithout[31:0] z v n ARITH
+xcmp alufn[3] alufn[1] z v n cmpout[31:0] CMP
+
+*** Combine them, using three multiplexors:
+xmux1 alufn[4]#32 nonbool[31:0] boolout[31:0] out[31:0] mux2
+xmux2 alufn[2]#32 arithshift[31:0] cmpout[31:0] nonbool[31:0] mux2
+xmux3 alufn[3]#32 arithout[31:0] shiftout[31:0] arithshift[31:0] mux2
+
+.ends
