@@ -7,8 +7,12 @@
 
 .subckt pc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] c[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0]
 
+    // making sure that the newpc31 bit only changes when both oldpc31 and jt31 are 1s
     Xand ia[31] jt[31] newpc31 and2
-    Xadd ia[31:0] 0#29 vdd 0#3 iaplusfour[31:0] ADDER32 
+
+    // the pc31 will be incremented by 4 in accordance to the program counter convention
+    Xadd1 ia[31:0] 0#29 vdd 0#3 iaplusfour[31:0] ADDER32 
+    // 
     Xadd2 iaplusfour[31:0] c[29:0] 0#3 cplus[31:0] ADDER32
     
     Xmux1 pcsel[0]#32 pcsel[1]#32 iaplusfour[31:0] ia[31] cplus[30:0] newpc31 jt[30:2] 0#2 illop[31:0] intermedout[31:0] mux4
