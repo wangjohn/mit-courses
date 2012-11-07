@@ -84,9 +84,9 @@ xctl vdd 0 0 id[31:26]
         + 0b00000110000000001    // 25 ST
         + 0b01110000000000100    // 26 
         + 0b01000000000000100    // 27 JMP
-        + 0b01110000000000100    // 28 
-        + 0b00000000000000100    // 29 BEQ
-        + 0b00010000000000100    // 30 BNE
+        + 0b00000000000000100    // 28 BEQ
+        + 0b00100000000000100    // 29 BNE
+        + 0b01110000000000100    // 30 
         + 0b00001001101010110    // 31 LDR
 
         + 0b00000000000001100    // 32 ADD
@@ -124,15 +124,18 @@ xctl vdd 0 0 id[31:26]
         + 0b01110000000000100    // 63      
         + )
 
-    // force wr = 0 when reset
-    xinv reset resetinv inverter
-    xxwrand xwr resetinv wr and2
+// if BNE/BEQ
+Xnor id31 id27 nor nor2
+Xand id30 id29 id28 nor IFBEQBNE and4
 
-    // change for z logic
-    xand21 xpcsel[2] xpcsel[0] branch and2
-    xinvz z zinv inverter
-    xmux1 xpcsel1 z zinv pcselbranch mux2
-    xmux2 branch#3 xpcsel[2:0] 0#2 pcselbranch pcsel[2:0] mux2
+// which bne or beq
+// BEQ and Z or BNE and not Z
+XswitchPCsel id26 Z which xor2
+XbranchZAnd which IFBEQBNE doBranch and2
+Xpcselbne doBranch#3 pcseltemp[2:0] 0 0 vdd pcsel[2:0] mux2
+
+Xreset reset xwr 0 wr mux2
+
 .ends
 
 // beta
@@ -148,7 +151,7 @@ xctl vdd 0 0 id[31:26]
     xbuff3 rbdata[31:0] mwd[31:0] buffer
 
     // all of the subcomponents being put together
-    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] inst[31:0] ia[31:0] pcjmp[31:0] pcplusfour[31:0] pc
+    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0] pc 
     xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] regfile
     xctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
     xalu alufn[4:0] inpa[31:0] inpb[31:0] ma[31:0] z2 v2 n2 alu
@@ -161,6 +164,14 @@ xctl vdd 0 0 id[31:26]
     xwdselmux wdsel[0]#32 wdsel[1]#32 pcplusfour[31:0] ma[31:0] mrd[31:0] 0#32 wdata[31:0] mux4
 
     // get z
+    Xnor32 radata[31:0] z nor32
+
+.ends
+
+
+// Lab3 alu logic
+
+.subckt NOR32 radata[31:0] z 
     Xnor01 radata[3:0] nors01 nor4
     Xnor02 radata[7:4] nors02 nor4
     Xnor03 radata[11:8] nors03 nor4
@@ -172,12 +183,7 @@ xctl vdd 0 0 id[31:26]
     Xnor09 nors01 nors02 nors03 nors04 nors1 and4
     Xnor10 nors05 nors06 nors07 nors08 nors2 and4
     Xnor11 nors1 nors2 z and2
-
 .ends
-
-
-// Lab3 alu logic
-
 
 .subckt BOOL alufn[3:0] A[31:0] B[31:0] OUT[31:0]
 xbooleanb A[31:0] B[31:0] alufn[0]#32 alufn[1]#32 alufn[2]#32 alufn[3]#32 OUT[31:0] mux4

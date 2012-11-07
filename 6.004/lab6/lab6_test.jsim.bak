@@ -178,17 +178,7 @@ Xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] wdata[31:0] radata[31:0] 
 
 Xasel asel#32 radata[31:0] 0 cplus[30:0] adata[31:0] mux2
 
-    Xnor01 radata[3:0] nors01 nor4
-    Xnor02 radata[7:4] nors02 nor4
-    Xnor03 radata[11:8] nors03 nor4
-    Xnor04 radata[15:12] nors04 nor4
-    Xnor05 radata[19:16] nors05 nor4
-    Xnor06 radata[23:20] nors06 nor4
-    Xnor07 radata[27:24] nors07 nor4
-    Xnor08 radata[31:28] nors08 nor4
-    Xnor09 nors01 nors02 nors03 nors04 nors1 and4
-    Xnor10 nors05 nors06 nors07 nors08 nors2 and4
-    Xnor11 nors1 nors2 raz and2
+Xnor32 radata[31:0] raz nor32
 
 
 	Xsign id[15:0] cext[31:0] signextend
