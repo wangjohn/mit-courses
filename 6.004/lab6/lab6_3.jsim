@@ -3,7 +3,7 @@
 .include "alu.jsim"
 .include "lab6checkoff.jsim"
 
-//---------------PC-------------------
+//Pc
 
 .subckt pc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] c[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0]
 
@@ -18,7 +18,7 @@
     Xdreg nextmux[31:0] clk#32 ia[31:0] dreg
 .ends
 
-//-----------REGFILE-----------------
+//Regfile
 
 .subckt checkthirtyone A[4:0] out
     Xand1 A[4:1] out1 and4
@@ -35,6 +35,9 @@
     // WASEL mux
     Xxp vdd#4 0 xp[4:0] connectcirc
     Xwasel wasel#5 rc[4:0] xp[4:0] wa[4:0] mux2
+
+    Xmuxa raout#32 adata[31:0] 0#32 radata[31:0] mux2
+    Xmuxb rbout#32 bdata[31:0] 0#32 rbdata[31:0] mux2
     
     Xregfile
     + vdd 0 0 ra[4:0] adata[31:0]     // A read port
@@ -42,11 +45,10 @@
     + 0 clk werf wa[4:0] wdata[31:0]  // write port
     + $memory width=32 nlocations=31
 
-    Xmuxa raout#32 adata[31:0] 0#32 radata[31:0] mux2
-    Xmuxb rbout#32 bdata[31:0] 0#32 rbdata[31:0] mux2
 .ends
 
-//-----------CTL--------------------
+//Ctl
+
 .subckt ctl reset z id[31:26] ra2sel bsel alufn[4:0] wdsel[1:0] werf moe wr pcsel[2:0] wasel asel 
 
     Xctl vdd 0 0 id[31:26]    // one read port
@@ -124,7 +126,7 @@
     // logic for BNE/BEQ switching
     Xnor id31 id27 nor nor2
     Xand id30 id29 id28 nor bnebeq and4
-    Xswitch id26 Z whichout xor2
+    Xswitch id26 z whichout xor2
     Xbranch whichout bnebeq branch and2
     Xpcsel branch#3 xpcsel[2:0] 0#2 vdd pcsel[2:0] mux2
     
@@ -133,7 +135,6 @@
 .ends
 
 
-//---------- the whole beta --------------
 
 .subckt connectcirc a b
     .connect a b
@@ -144,27 +145,41 @@
     Xconnectcirc in[15:0] out[15:0] connectcirc
 .ends
 
+// beta
+
 .subckt beta clk reset irq ia[31:0] id[31:0] ma[31:0] moe mrd[31:0] wr mwd[31:0]
 
-    Xpc clk reset pcsel[2:0] 
-    + vdd 0#27 vdd 0 0 0 // xadr = 0x80000008
-    + vdd 0#28 vdd 0 0 // illop = 0x80000004
-    + radata[31:0] cext[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0] pc
-    
-    Xctl reset raz id[31:26] ra2sel bsel alufn[4:0] wdseltemp[1:0] werftemp moe wrtemp xpcsel[2:0] waseltemp asel ctl
-    
-    Xum ia[31] usermode inverter
-    Xint irq usermode inter and2
-    Xint1 inter#3 xpcsel[2:0] vdd 0 0 pcsel[2:0] mux2
-    Xint2 inter waseltemp vdd wasel mux2
-    Xint3 inter werftemp vdd werf mux2
-    Xint4 inter#2 wdseltemp[1:0] 0#2 wdsel[1:0] mux2
-    Xint5 inter wrtemp 0 wr mux2
-    
+    // create xadr and illop
+    Xxadrbuffer vdd 0#27 vdd 0#3 xadr[31:0] buffer // 0x80000008
+    Xillopbuffer vdd 0#28 vdd 0#2 illop[31:0] buffer // 0x80000004
+
+    // component pieces of the beta: pc, regfile, ctl
+    // pc
+    Xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] cext[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0] pc
+    // regfile 
     Xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] wdata[31:0] radata[31:0] mwd[31:0] wasel regfile
+    // ctl
+    Xctl reset z id[31:26] ra2sel bsel alufn[4:0] wdseltemp[1:0] werftemp moe wrtemp xpcsel[2:0] waseltemp asel ctl
     
-    Xasel asel#32 radata[31:0] 0 cplus[30:0] adata[31:0] mux2
+    // inverter logic
+    Xum ia[31] usermode inverter
+    Xinvlogic1 irq usermode shouldinterrupt and2
+    Xinvlogic2 shouldinterrupt waseltemp vdd wasel mux2
+    Xinvlogic3 shouldinterrupt werftemp vdd werf mux2
+    Xinvlogic4 shouldinterrupt#2 wdseltemp[1:0] 0#2 wdsel[1:0] mux2
+    Xinvlogic5 shouldinterrupt wrtemp 0 wr mux2
     
+    // muxes for the beta
+    // aselmux: selects what goes into a of alu
+    Xaselmux asel#32 radata[31:0] 0 cplus[30:0] adata[31:0] mux2 
+    // bsel mux: selects what goes into b of alu
+    Xbselmux bsel#32 mwd[31:0] cext[31:0] bdata[31:0] mux2
+    // wdsel mux: 
+    Xwdselmux wdsel[1]#32 wdsel[0]#32 ia[31] iaplusfour[30:0] mrd[31:0] ma[31:0] 0#32 wdata[31:0] mux4
+    // pcsel mux: selects how to increment the program counter
+    Xpcselmux shouldinterrupt#3 xpcsel[2:0] vdd 0 0 pcsel[2:0] mux2
+
+    // Get z
     Xnor01 radata[3:0] nors01 nor4
     Xnor02 radata[7:4] nors02 nor4
     Xnor03 radata[11:8] nors03 nor4
@@ -176,17 +191,13 @@
     
     Xnor10 nors01 nors02 nors03 nors04 nor10 and4
     Xnor11 nors05 nors06 nors07 nors08 nor11 and4
-    Xnor20 nor10 nor11 raz and2
+    Xnor20 nor10 nor11 z and2
     
     // connect id and cext
-    .connect cext[31:16] id[15]
-    Xconnectcirc id[15:0] cext[15:0] connectcirc
+    xconnectcirc1 cext[31:16] id[15]#16 connectcirc
+    Xconnectcirc2 id[15:0] cext[15:0] connectcirc
 
-    Xbsel bsel#32 mwd[31:0] cext[31:0] bdata[31:0] mux2
-    
-    Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z v n alu
-    
-    Xwdsel wdsel[1]#32 wdsel[0]#32 ia[31] iaplusfour[30:0] mrd[31:0] ma[31:0] 0#32 wdata[31:0] mux4
+    Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z1 v1 n1 alu
 .ends
 
 
