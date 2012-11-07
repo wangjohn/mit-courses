@@ -20,11 +20,6 @@
 
 //Regfile
 
-.subckt checkthirtyone A[4:0] out
-    Xand1 A[4:1] out1 and4
-    Xand2 A[0] out1 out and2
-.ends
-
 .subckt regfile clk werf ra2sel ra[4:0] rb[4:0] rc[4:0]
 + wdata[31:0] radata[31:0] rbdata[31:0] wasel
 
@@ -135,16 +130,6 @@
 .ends
 
 
-
-.subckt connectcirc a b
-    .connect a b
-.ends
-
-.subckt signextend in[15:0] out[31:0]
-    .connect out[31:16] in[15]
-    Xconnectcirc in[15:0] out[15:0] connectcirc
-.ends
-
 // beta
 
 .subckt beta clk reset irq ia[31:0] id[31:0] ma[31:0] moe mrd[31:0] wr mwd[31:0]
@@ -198,6 +183,18 @@
     Xconnectcirc2 id[15:0] cext[15:0] connectcirc
 
     Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z1 v1 n1 alu
+.ends
+
+
+// helper subcircuits
+
+.subckt connectcirc a b
+    .connect a b
+.ends
+
+.subckt checkthirtyone A[4:0] out
+    Xand1 A[4:1] out1 and4
+    Xand2 A[0] out1 out and2
 .ends
 
 
