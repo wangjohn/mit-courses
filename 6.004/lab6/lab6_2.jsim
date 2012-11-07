@@ -11,7 +11,7 @@
 	xg02 four[2] constant1
 	xg03 four[1:0] constant0
 	
-	xplus4 0 ia[31:0] four[31:0] disconn pcplusfour[30:0] z v n add32bit
+    xplus4 0 ia[31:0] four[31:0] disconn pcplusfour[30:0] z v n add32bit
 
     xpcplus ia[31] pcplusfour[31] buffer
     
@@ -49,7 +49,7 @@
 
 // ctl
 
-.subckt ctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z
+.subckt ctl reset z id[31:26] ra2sel bsel alufn[4:0] wdsel[1:0] werf moe wr pcsel[2:0] wasel asel
 
 xctl vdd 0 0 id[31:26]
     + xpcsel[2:0] wasel asel ra2sel bsel alufn[4:0] 
@@ -148,15 +148,15 @@ xctl vdd 0 0 id[31:26]
     xbuff3 rbdata[31:0] mwd[31:0] buffer
 
     // all of the subcomponents being put together
-    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0] pc
-    xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] regfile
+    xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] inst[31:0] ia[31:0] pcjmp[31:0] pcplusfour[31:0] pc
+    xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] wasel regfile
     xctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
     xalu alufn[4:0] inpa[31:0] inpb[31:0] ma[31:0] z2 v2 n2 alu
-	
+
+
     // all of the muxes
     xwaselmux wasel#5 id[25:21] vdd vdd vdd vdd 0 wa[4:0] mux2
     xbselmux bsel#32 rbdata[31:0] inst[31:0] inpb[31:0] mux2
-    xpcjmpadder 0 pcplusfour[31:0] inst[29:0] 0 0 pcjmp[31:0] z1 v1 n1 add32bit
     xaselmux asel#32 radata[31:0] 0 pcjmp[30:0] inpa[31:0] mux2 
     xwdselmux wdsel[0]#32 wdsel[1]#32 pcplusfour[31:0] ma[31:0] mrd[31:0] 0#32 wdata[31:0] mux4
 
@@ -174,8 +174,6 @@ xctl vdd 0 0 id[31:26]
     Xnor11 nors1 nors2 z and2
 
 .ends
-
-
 
 
 // Lab3 alu logic
