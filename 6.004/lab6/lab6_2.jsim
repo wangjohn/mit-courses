@@ -13,6 +13,7 @@
 	
 	xplus4 0 ia[31:0] four[31:0] disconn pcplusfour[30:0] z v n add32bit
 
+    // get z
     xpcplus ia[31] pcplusfour[31] buffer
     
     xmux4 pcsel[0]#32 pcsel[1]#32 pcplusfour[31:0] pcjmp[31:0] jt[31:0] illop[31:0] pcmux4result[31:0] mux4
@@ -25,23 +26,16 @@
 
 // regfile
 
-.subckt knect a b
-    .connect a b
-.ends
-
 .subckt regfile clk werf ra2sel ra[4:0] rb[4:0] rc[4:0]
-    + wdata[31:0] radata[31:0] rbdata[31:0] wasel
+    + wdata[31:0] radata[31:0] rbdata[31:0]
 
     Xregfile
         + vdd 0 0 ra[4:0] adata[31:0]     // A read port
         + vdd 0 0 ra2mux[4:0] bdata[31:0] // B read port
-        + 0 clk werf wa[4:0] wdata[31:0]  // write port
+        + 0 clk werf rc[4:0] wdata[31:0]  // write port
         + $memory width=32 nlocations=31
     
     xselect ra2sel#5 rb[4:0] rc[4:0] ra2mux[4:0] mux2
-    xcnt vdd#4 0 xp[4:0] knect
-    xwasel wasel#5 rc[4:0] xp[4:0] wa[4:0] mux2
-
     xm ra[3:0] z1 and4
     xm2 ra[4] z1 z2 and2
     
@@ -91,9 +85,9 @@ xctl vdd 0 0 id[31:26]
         + 0b00000110000000001    // 25 ST
         + 0b01110000000000100    // 26 
         + 0b01000000000000100    // 27 JMP
-        + 0b00000000000000100    // 28 BEQ
-        + 0b00000000000000100    // 29 BNE
-        + 0b01110000000000100    // 30 
+        + 0b01110000000000100    // 28 
+        + 0b00000000000000100    // 29 BEQ
+        + 0b00010000000000100    // 30 BNE
         + 0b00001001101010110    // 31 LDR
 
         + 0b00000000000001100    // 32 ADD
@@ -131,17 +125,15 @@ xctl vdd 0 0 id[31:26]
         + 0b01110000000000100    // 63      
         + )
 
-    Xreset reset xwr 0 wr mux2
+    // force wr = 0 when reset
+    xinv reset resetinv inverter
+    xxwrand xwr resetinv wr and2
 
-    // if BNE/BEQ
-    Xnor id31 id27 nor nor2
-    Xand id30 id29 id28 nor beqbne and4
-    
-    // logic for bne or beq
-    Xswitchpcsel id26 z branch xor2
-    Xbranch branch beqbne dobranch and2
-    Xpcselbne dobranch#3 xpcsel[2:0] 0#2 vdd pcsel[2:0] mux2
-    
+    // change for z logic
+    xand21 xpcsel[2] xpcsel[0] branch and2
+    xinvz z zinv inverter
+    xmux1 xpcsel1 z zinv pcselbranch mux2
+    xmux2 branch#3 xpcsel[2:0] 0#2 pcselbranch pcsel[2:0] mux2
 .ends
 
 // beta
@@ -158,11 +150,10 @@ xctl vdd 0 0 id[31:26]
 
     // all of the subcomponents being put together
     xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] pcjmp[31:0] pcplusfour[31:0] ia[31:0] pc
-    xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] wasel regfile
+    xregfile clk werf ra2sel id[20:16] id[15:11] wa[4:0] wdata[31:0] radata[31:0] rbdata[31:0] regfile
     xctl reset pcsel[2:0] id[31:26] ra2sel wasel asel bsel alufn[4:0] wdsel[1:0] werf moe wr z ctl
     xalu alufn[4:0] inpa[31:0] inpb[31:0] ma[31:0] z2 v2 n2 alu
-
-
+	
     // all of the muxes
     xwaselmux wasel#5 id[25:21] vdd vdd vdd vdd 0 wa[4:0] mux2
     xbselmux bsel#32 rbdata[31:0] inst[31:0] inpb[31:0] mux2
