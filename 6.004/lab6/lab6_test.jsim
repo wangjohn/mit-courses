@@ -1,7 +1,7 @@
-.include "/mit/6.004/jsim/nominal.jsim"
-.include "/mit/6.004/jsim/stdcell.jsim"
+.include "nominal.jsim"
+.include "stdcell.jsim"
 .include "alu.jsim"
-.include "/mit/6.004/jsim/lab6checkoff.jsim"
+.include "lab6checkoff.jsim"
 
 //---------------PC-------------------
 
