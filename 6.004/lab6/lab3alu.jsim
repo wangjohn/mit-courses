@@ -1,0 +1,222 @@
+// Overflow detector circuit
+.subckt overflow xa31 xb31 s31 v
+XINV1 s31 s31inv inverter_2
+XINV2 xa31 xa31inv inverter_2
+XINV3 xb31 xb31inv inverter_2
+XAND1 xa31 xb31 s31inv posoverflow and3
+XAND2 xa31inv xb31inv s31 negoverflow and3
+XOR1  posoverflow negoverflow v or2
+.ends
+
+// 32-bit zero detector circuit
+.subckt zero s[31:0] z
+XORSTAGE1 s[7:0] s[15:8] s[23:16] s[31:24] int[7:0] or4
+XORSTAGE2 int[1:0] int[3:2] int[5:4] int[7:6] fin[1:0] or4
+XORSTAGE3 fin[1:0] z nor2
+.ends
+
+// Part (a) of assignment: Adding machine
+.subckt adder32 ALUFN[0] A[31:0] B[31:0] s[31:0]
+// The inversion part of two's complement
+XTWOSINV B[31:0] ALUFN0#32 XB[31:0] xor2
+XFA32 A[31:0] XB[31:0] ALUFN0 s[31:0] fa32co fa32
+.connect n s31
+XOVERFLOW A31 XB31 s31 v overflow
+XZERO s[31:0] z zero
+.ends
+
+// Part (b) of assignment: Comparison machine
+.subckt compare32 ALUFN[2:1] z v n cmp[31:0]
+XINV1 ALUFN1 ALUFN1inv inverter_2
+XINV2 ALUFN2 ALUFN2inv inverter_2
+.connect 0 cmp[31:1]
+XXOR1 n v AlessB xor2
+XOR1 z AlessB AlessEqB or2
+XAND1 ALUFN1 ALUFN2inv z equal and3
+XAND2 ALUFN1inv ALUFN2 AlessB less and3
+XAND3 ALUFN1 ALUFN2 AlessEqB lessEq and3
+XOR2 equal less lessEq cmp0 or3
+.ends
+
+// Part (c) of assignment: Boolean unit for the Beta's logic operations
+.subckt boolu ALUFN[3:0] a b boole
+XINV1 a ainv inverter_2
+XINV2 b binv inverter_2
+XAND1 ainv binv ALUFN0 zero and3
+XAND2 ainv b ALUFN2 one and3
+XAND3 a binv ALUFN1 two and3
+XAND4 a b ALUFN3 three and3
+XOR1 zero one two three boole or4
+.ends
+
+.subckt boole32 ALUFN[3:0] A[31:0] B[31:0] boole[31:0]
+XBOOLUNIT ALUFN3#32 ALUFN2#32 ALUFN1#32 ALUFN0#32 A[31:0] B[31:0] boole[31:0] boolu
+.ends
+
+// Part (d) of assignment: Shifter unit
+.subckt mux a b select out 
+XINV select select_inv inverter_2
+XAND1 select_inv a a_select and2
+XAND2 select b b_select and2
+XOR a_select b_select out or2
+.ends
+
+.subckt shiftl a[31:0] b[4:0] sl[31:0]
+.connect 0 gnd
+XMUXFIRST  a[31:0] a[15:0] gnd#16 b4#32 w[31:0] mux
+XMUXSECOND w[31:0] w[23:0] gnd#8 b3#32 x[31:0] mux
+XMUXTHIRD  x[31:0] x[27:0] gnd#4 b2#32 y[31:0] mux
+XMUXFOURTH y[31:0] y[29:0] gnd#2 b1#32 z[31:0] mux
+XMUXFIFTH z[31:0] z[30:0] gnd b0#32 sl[31:0] mux
+.ends
+
+.subckt shiftr a[31:0] b[4:0] sign sr[31:0]
+XAND sign a31 shifted_bit and2
+XMUXFIRST  a[31:0] shifted_bit#16 a[31:16] b4#32 w[31:0] mux
+XMUXSECOND w[31:0] shifted_bit#8 w[31:8] b3#32 x[31:0] mux
+XMUXTHIRD  x[31:0] shifted_bit#4 x[31:4] b2#32 y[31:0] mux
+XMUXFOURTH y[31:0] shifted_bit#2 y[31:2] b1#32 z[31:0] mux
+XMUXFIFTH z[31:0]  shifted_bit#1 z[31:1] b0#32 sr[31:0] mux
+.ends
+
+.subckt shift32 ALUFN[1:0] A[31:0] B[4:0] shift[31:0]
+XSHIFTLEFT A[31:0] B[4:0] sl[31:0] shiftl
+XSHIFTRIGHT A[31:0] B[4:0] ALUFN1 sr[31:0] shiftr
+XMUXLR sl[31:0] sr[31:0] ALUFN0#32 shift[31:0] mux
+.ends
+
+// Part (e) of assignment: Mux the ADD, BOOLE, SHIFT, CMP
+.subckt sel4to1 a b c d s[1:0] out
+XMUX1 a b s0 absel mux
+XMUX2 c d s0 cdsel mux
+XMUX3 absel cdsel s1 out mux 
+.ends
+
+.subckt sel5to1 a b c d e s[2:0] out
+XMUX1 a b s2 absel mux
+XSEL4TO1 absel c d e s[1:0] out sel4to1
+.ends
+
+.subckt alu ALUFN[5:0] A[31:0] B[31:0] alu[31:0] z v n
+XADD ALUFN0 A[31:0] B[31:0] s[31:0] z v n adder32
+XCOMPARE ALUFN[2:1] z v n cmp[31:0] compare32
+XBOOLE ALUFN[3:0] A[31:0] B[31:0] boole[31:0] boole32
+XSHIFT ALUFN[1:0] A[31:0] B[4:0] shift[31:0] shift32
+XMULT A[31:0] B[31:0] mul[31:0] mult32
+XMUX s[31:0] mul[31:0] boole[31:0] shift[31:0] cmp[31:0] ALUFN1#32 ALUFN5#32 ALUFN4#32 alu[31:0] sel5to1
+.ends
+
+//------------------------------------------------------------
+// Multiplier
+//------------------------------------------------------------
+
+// Parallel and gate
+.subckt and32 a[31:0] b out[31:0]
+XAND a[31:0] b#32 out[31:0] and2
+.ends
+
+// Full-adder stack (just a wrapper for fa32)
+.subckt fa32mul a[31:0] b[31:0] s[31:0]
+XFA32 a[31:0] b[31:0] 0 s[31:0] co fa32
+.ends
+
+.subckt mult32 A[31:0] B[31:0] out[31:0] 
+
+XAND32_00 A[31:0] b0 p0_[30:0] out0 and32
+XAND32_01 A[31:0] b1 p1_[31:0] and32
+XFA32_01 0 p0_[30:0] p1_[31:0] s1_[30:0] out1 fa32mul
+
+XAND32_2 A[31:0] b2 p2_[31:0] and32
+XFA32_2 0 s1_[30:0] p2_[31:0] s2_[30:0] out2 fa32mul
+
+XAND32_3 A[31:0] b3 p3_[31:0] and32
+XFA32_3 0 s2_[30:0] p3_[31:0] s3_[30:0] out3 fa32mul
+
+XAND32_4 A[31:0] b4 p4_[31:0] and32
+XFA32_4 0 s3_[30:0] p4_[31:0] s4_[30:0] out4 fa32mul
+
+XAND32_5 A[31:0] b5 p5_[31:0] and32
+XFA32_5 0 s4_[30:0] p5_[31:0] s5_[30:0] out5 fa32mul
+
+XAND32_6 A[31:0] b6 p6_[31:0] and32
+XFA32_6 0 s5_[30:0] p6_[31:0] s6_[30:0] out6 fa32mul
+
+XAND32_7 A[31:0] b7 p7_[31:0] and32
+XFA32_7 0 s6_[30:0] p7_[31:0] s7_[30:0] out7 fa32mul
+
+XAND32_8 A[31:0] b8 p8_[31:0] and32
+XFA32_8 0 s7_[30:0] p8_[31:0] s8_[30:0] out8 fa32mul
+
+XAND32_9 A[31:0] b9 p9_[31:0] and32
+XFA32_9 0 s8_[30:0] p9_[31:0] s9_[30:0] out9 fa32mul
+
+XAND32_10 A[31:0] b10 p10_[31:0] and32
+XFA32_10 0 s9_[30:0] p10_[31:0] s10_[30:0] out10 fa32mul
+
+XAND32_11 A[31:0] b11 p11_[31:0] and32
+XFA32_11 0 s10_[30:0] p11_[31:0] s11_[30:0] out11 fa32mul
+
+XAND32_12 A[31:0] b12 p12_[31:0] and32
+XFA32_12 0 s11_[30:0] p12_[31:0] s12_[30:0] out12 fa32mul
+
+XAND32_13 A[31:0] b13 p13_[31:0] and32
+XFA32_13 0 s12_[30:0] p13_[31:0] s13_[30:0] out13 fa32mul
+
+XAND32_14 A[31:0] b14 p14_[31:0] and32
+XFA32_14 0 s13_[30:0] p14_[31:0] s14_[30:0] out14 fa32mul
+
+XAND32_15 A[31:0] b15 p15_[31:0] and32
+XFA32_15 0 s14_[30:0] p15_[31:0] s15_[30:0] out15 fa32mul
+
+XAND32_16 A[31:0] b16 p16_[31:0] and32
+XFA32_16 0 s15_[30:0] p16_[31:0] s16_[30:0] out16 fa32mul
+
+XAND32_17 A[31:0] b17 p17_[31:0] and32
+XFA32_17 0 s16_[30:0] p17_[31:0] s17_[30:0] out17 fa32mul
+
+XAND32_18 A[31:0] b18 p18_[31:0] and32
+XFA32_18 0 s17_[30:0] p18_[31:0] s18_[30:0] out18 fa32mul
+
+XAND32_19 A[31:0] b19 p19_[31:0] and32
+XFA32_19 0 s18_[30:0] p19_[31:0] s19_[30:0] out19 fa32mul
+
+XAND32_20 A[31:0] b20 p20_[31:0] and32
+XFA32_20 0 s19_[30:0] p20_[31:0] s20_[30:0] out20 fa32mul
+
+XAND32_21 A[31:0] b21 p21_[31:0] and32
+XFA32_21 0 s20_[30:0] p21_[31:0] s21_[30:0] out21 fa32mul
+
+XAND32_22 A[31:0] b22 p22_[31:0] and32
+XFA32_22 0 s21_[30:0] p22_[31:0] s22_[30:0] out22 fa32mul
+
+XAND32_23 A[31:0] b23 p23_[31:0] and32
+XFA32_23 0 s22_[30:0] p23_[31:0] s23_[30:0] out23 fa32mul
+
+XAND32_24 A[31:0] b24 p24_[31:0] and32
+XFA32_24 0 s23_[30:0] p24_[31:0] s24_[30:0] out24 fa32mul
+
+XAND32_25 A[31:0] b25 p25_[31:0] and32
+XFA32_25 0 s24_[30:0] p25_[31:0] s25_[30:0] out25 fa32mul
+
+XAND32_26 A[31:0] b26 p26_[31:0] and32
+XFA32_26 0 s25_[30:0] p26_[31:0] s26_[30:0] out26 fa32mul
+
+XAND32_27 A[31:0] b27 p27_[31:0] and32
+XFA32_27 0 s26_[30:0] p27_[31:0] s27_[30:0] out27 fa32mul
+
+XAND32_28 A[31:0] b28 p28_[31:0] and32
+XFA32_28 0 s27_[30:0] p28_[31:0] s28_[30:0] out28 fa32mul
+
+XAND32_29 A[31:0] b29 p29_[31:0] and32
+XFA32_29 0 s28_[30:0] p29_[31:0] s29_[30:0] out29 fa32mul
+
+XAND32_30 A[31:0] b30 p30_[31:0] and32
+XFA32_30 0 s29_[30:0] p30_[31:0] s30_[30:0] out30 fa32mul
+
+XAND32_31 A[31:0] b31 p31_[31:0] and32
+XFA32_31 0 s30_[30:0] p31_[31:0] s31_[30:0] out31 fa32mul
+
+.ends
+
+
+

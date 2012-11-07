@@ -146,46 +146,45 @@
 
 .subckt beta clk reset irq ia[31:0] id[31:0] ma[31:0] moe mrd[31:0] wr mwd[31:0]
 
-
-Xpc clk reset pcsel[2:0] 
-+ vdd 0#27 vdd 0 0 0 // xadr = 0x80000008
-+ vdd 0#28 vdd 0 0 // illop = 0x80000004
-+ radata[31:0] cext[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0] pc
-
-Xctl reset raz id[31:26] ra2sel bsel alufn[4:0] wdseltemp[1:0] werftemp moe wrtemp pcseltemp[2:0] waseltemp asel ctl
-
-Xum ia[31] usermode inverter
-Xint irq usermode inter and2
-Xint1 inter#3 pcseltemp[2:0] vdd 0 0 pcsel[2:0] mux2
-Xint2 inter waseltemp vdd wasel mux2
-Xint3 inter werftemp vdd werf mux2
-Xint4 inter#2 wdseltemp[1:0] 0#2 wdsel[1:0] mux2
-Xint5 inter wrtemp 0 wr mux2
-
-Xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] wdata[31:0] radata[31:0] mwd[31:0] wasel regfile
-
-Xasel asel#32 radata[31:0] 0 cplus[30:0] adata[31:0] mux2
-
-Xnor01 radata[3:0] nors01 nor4
-Xnor02 radata[7:4] nors02 nor4
-Xnor03 radata[11:8] nors03 nor4
-Xnor04 radata[15:12] nors04 nor4
-Xnor05 radata[19:16] nors05 nor4
-Xnor06 radata[23:20] nors06 nor4
-Xnor07 radata[27:24] nors07 nor4
-Xnor08 radata[31:28] nors08 nor4
-
-Xnor10 nors01 nors02 nors03 nors04 nor10 and4
-Xnor11 nors05 nors06 nors07 nors08 nor11 and4
-Xnor20 nor10 nor11 raz and2
-
-
-Xsign id[15:0] cext[31:0] signextend
-Xbsel bsel#32 mwd[31:0] cext[31:0] bdata[31:0] mux2
-
-Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z v n alu
-
-Xwdsel wdsel[1]#32 wdsel[0]#32 ia[31] iaplusfour[30:0] mrd[31:0] ma[31:0] 0#32 wdata[31:0] mux4
+    Xpc clk reset pcsel[2:0] 
+    + vdd 0#27 vdd 0 0 0 // xadr = 0x80000008
+    + vdd 0#28 vdd 0 0 // illop = 0x80000004
+    + radata[31:0] cext[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0] pc
+    
+    Xctl reset raz id[31:26] ra2sel bsel alufn[4:0] wdseltemp[1:0] werftemp moe wrtemp pcseltemp[2:0] waseltemp asel ctl
+    
+    Xum ia[31] usermode inverter
+    Xint irq usermode inter and2
+    Xint1 inter#3 pcseltemp[2:0] vdd 0 0 pcsel[2:0] mux2
+    Xint2 inter waseltemp vdd wasel mux2
+    Xint3 inter werftemp vdd werf mux2
+    Xint4 inter#2 wdseltemp[1:0] 0#2 wdsel[1:0] mux2
+    Xint5 inter wrtemp 0 wr mux2
+    
+    Xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] wdata[31:0] radata[31:0] mwd[31:0] wasel regfile
+    
+    Xasel asel#32 radata[31:0] 0 cplus[30:0] adata[31:0] mux2
+    
+    Xnor01 radata[3:0] nors01 nor4
+    Xnor02 radata[7:4] nors02 nor4
+    Xnor03 radata[11:8] nors03 nor4
+    Xnor04 radata[15:12] nors04 nor4
+    Xnor05 radata[19:16] nors05 nor4
+    Xnor06 radata[23:20] nors06 nor4
+    Xnor07 radata[27:24] nors07 nor4
+    Xnor08 radata[31:28] nors08 nor4
+    
+    Xnor10 nors01 nors02 nors03 nors04 nor10 and4
+    Xnor11 nors05 nors06 nors07 nors08 nor11 and4
+    Xnor20 nor10 nor11 raz and2
+    
+    
+    Xsign id[15:0] cext[31:0] signextend
+    Xbsel bsel#32 mwd[31:0] cext[31:0] bdata[31:0] mux2
+    
+    Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z v n alu
+    
+    Xwdsel wdsel[1]#32 wdsel[0]#32 ia[31] iaplusfour[30:0] mrd[31:0] ma[31:0] 0#32 wdata[31:0] mux4
 .ends
 
 

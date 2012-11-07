@@ -18,6 +18,10 @@ xmultiplier A[31:0] B[31:0] multiply[31:0] MULT
 xaddormultiply alufn[1]#32 add[31:0] multiply[31:0] OUT[31:0] mux2
 .ends
 
+.subckt adder32 alufn A[31:0] B[31:0] OUT[31:0]
+xadd32bit alufn A[31:0] B[31:0] OUT[31:0] z v n add32bit
+.ends
+
 .subckt add32bit alufn A[31:0] B[31:0] OUT[31:0] Z V N
 xbxorgate alufn#32 B[31:0] XB[31:0] xor2
 xfulladder alufn A[0] XB[0] OUT[0] C[0] FA
