@@ -1,21 +1,25 @@
+//.include "nominal.jsim"
+//.include "stdcell.jsim"
+.include "alu.jsim"
+//.include "lab6checkoff.jsim"
 .include "/mit/6.004/jsim/nominal.jsim"
 .include "/mit/6.004/jsim/stdcell.jsim"
-.include "alu.jsim"
 .include "/mit/6.004/jsim/lab6checkoff.jsim"
+
 
 //---------------PC-------------------
 
 // five-way 32-bit mux
 .subckt mux5_32 sel[2:0] a[31:0] b[31:0] c[31:0] d[31:0] e[31:0] out[31:0]
-	Xmux1 sel0#32 sel1#32 a[31:0] b[31:0] c[31:0] d[31:0] int[31:0] mux4
-	Xmux2 sel2#32 int[31:0] e[31:0] out[31:0] mux2
+Xmux1 sel0#32 sel1#32 a[31:0] b[31:0] c[31:0] d[31:0] int[31:0] mux4
+Xmux2 sel2#32 int[31:0] e[31:0] out[31:0] mux2
 .ends
 
 .subckt pc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] c[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0]
 
 Xand ia[31] jt[31] newpc31 and2
-Xadd ia[31:0] 0#29 vdd 0#2 0 iaplusfour[31:0] z0 v0 n0 add32bit
-Xadd2 iaplusfour[31:0] c[29:0] 0 0 0 cplus[31:0] z1 v1 n1 add32bit
+Xadd ia[31:0] 0#29 vdd 0#2 0 iaplusfour[31:0] adder32
+Xadd2 iaplusfour[31:0] c[29:0] 0 0 0 cplus[31:0] adder32
 
 Xmux5 pcsel[2:0]
 + iaplusfour[31:0] 
@@ -178,15 +182,26 @@ Xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] wdata[31:0] radata[31:0] 
 
 Xasel asel#32 radata[31:0] 0 cplus[30:0] adata[31:0] mux2
 
-Xnor32 radata[31:0] raz nor32
+    Xnor01 radata[3:0] nors01 nor4
+    Xnor02 radata[7:4] nors02 nor4
+    Xnor03 radata[11:8] nors03 nor4
+    Xnor04 radata[15:12] nors04 nor4
+    Xnor05 radata[19:16] nors05 nor4
+    Xnor06 radata[23:20] nors06 nor4
+    Xnor07 radata[27:24] nors07 nor4
+    Xnor08 radata[31:28] nors08 nor4
+
+    Xnor10 nors01 nors02 nors03 nors04 nor10 and4
+    Xnor11 nors05 nors06 nors07 nors08 nor11 and4
+    Xnor20 nor10 nor11 raz and2
 
 
-	Xsign id[15:0] cext[31:0] signextend
-	Xbsel bsel#32 mwd[31:0] cext[31:0] bdata[31:0] mux2
+Xsign id[15:0] cext[31:0] signextend
+Xbsel bsel#32 mwd[31:0] cext[31:0] bdata[31:0] mux2
 
-	Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z v n alu
+Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z v n alu
 
-	Xwdsel wdsel[1]#32 wdsel[0]#32 ia[31] iaplusfour[30:0] mrd[31:0] ma[31:0] 0#32 wdata[31:0] mux4
+Xwdsel wdsel[1]#32 wdsel[0]#32 ia[31] iaplusfour[30:0] mrd[31:0] ma[31:0] 0#32 wdata[31:0] mux4
 .ends
 
 
