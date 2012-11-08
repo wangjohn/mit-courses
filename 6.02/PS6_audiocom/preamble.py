@@ -38,13 +38,14 @@ class Preamble:
         if len(x) > len(y) or len(x) == 0:
             return 0
         best_normed_dp = None 
+	print 'asfasdfadsf'
         best_index = 0
         for i in xrange(len(y)-len(x)):
             ysubsequence = y[i:(i+len(x))]
-            normalized_dot_product = numpy.multiply(x, ysubsequence) / (LA.norm(x)*LA.norm(ysubsequence))
+            normalized_dot_product = sum(numpy.multiply(x, ysubsequence)) / (LA.norm(x)*LA.norm(ysubsequence))
             if best_normed_dp == None or normalized_dot_product > best_normed_dp:
                 best_normed_dp = normalized_dot_product
-                best_normed_dp = i
+                best_index = i
         return best_index
 
     def check(self, bits):
