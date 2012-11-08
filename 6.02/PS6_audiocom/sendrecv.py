@@ -26,6 +26,8 @@ from preamble import *
 #from preamble_audiocom import * #uncomment to use our version of the preamble detector
 from graphs import *
 
+import demodulate
+
 # Methods common to both the transmitter and receiver.
 def local_carrier(fc, n, samplerate, name=None):
     '''
@@ -204,6 +206,16 @@ if __name__ == '__main__':
         print "Please turn them on!"
         sys.exit(1)
 
+    if opt.demod == 'quad':
+        plot_sig_spectrum(numpy.real(samples_rx), 'modulated samples')
+        p.show()
+        demod = demodulate.quadrature(samples_rx, opt.channel[0], opt)
+        if opt.filter == 'sinc':
+            plot_sig_spectrum(numpy.real(demod), 'demodulated samples')
+        else:
+            filtered = demodulate.avgfilter(demod, opt.channel[0], opt)
+            plot_sig_spectrum(numpy.real(filtered), 'demodulated samples filtered by averaging')
+        p.show()
     # process the received samples
     for fc in channels:
         # make receiver
