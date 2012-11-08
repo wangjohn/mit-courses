@@ -38,7 +38,6 @@ class Preamble:
         if len(x) > len(y) or len(x) == 0:
             return 0
         best_normed_dp = None 
-	print 'asfasdfadsf'
         best_index = 0
         for i in xrange(len(y)-len(x)):
             ysubsequence = y[i:(i+len(x))]
