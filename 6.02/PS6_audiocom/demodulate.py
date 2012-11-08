@@ -16,6 +16,9 @@ def envelope(samples, carrier_freq, config):
     return avgfilter(numpy.abs(samples), (sample_rate/carrier_freq)/2)
 
 def heterodyne(samples, carrier_freq, config):
+    print config
+    sample_rate = 0
+    sendrecv.local_carrier(carrier_freq, len(samples), sample_rate)
     raise NotImplementedError, 'heterodyne'
 
 def quadrature(samples, carrier_freq, config):
