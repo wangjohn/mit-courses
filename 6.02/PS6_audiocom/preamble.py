@@ -26,7 +26,7 @@ class Preamble:
     def detect(self, dsamples, receiver, offset):
 	# start looking at dsamples[offset] for the preamble sequence
         sample_seq = receiver.mapper.bits2samples(self.barker())
-        local_carrier_result = sendrecv.local_carrier(receiver.fc, len(sample_seq), receiver.samplerate))
+        local_carrier_result = sendrecv.local_carrier(receiver.fc, len(sample_seq), receiver.samplerate)
         waveform = numpy.multiply(sample_seq, local_carrier_result)
         demodulated_waveform = receiver.demodulate(waveform)
         
