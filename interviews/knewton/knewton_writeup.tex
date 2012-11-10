@@ -114,7 +114,10 @@ Since $r_j$ has already been calculated for each question $j$, calculating $\mat
 
 For the randomized probabilistic assignment (RPA) algorithm, probabilities will be given to each question and the questions for each student will be chosen randomly based on the probabilities provided. The crux of the matter is assigning probabilities which lead to valid examsets of high entropy. Assigning very large probabilities to the highest entropy questions means that there is a lower probability that the eventual examset is valid (i.e. has more than $L$ questions assigned to at least one person). If an assignment is not valid, the algorithm will try again to reassign all questions. Keeping the expected number of retries constant will prevent the algorithm from having too large of a runtime. 
 
-To do this we will have a probability of assignment $\rho_j$ to question $j$ which is proportional to its entropy $\mathrm{H}_j$. However, we will scale the largest and smallest probability $\rho_j$ to differ by less than a multiplicative factor of $c$. Formally, we will set $\rho_j$ for all $j$ such that $c \min_j \rho_j \geq \max_j \rho_j$. Since these are probabilities, we also require that $\sum_{j} \rho_j = 1$ for all $j$ in the subset of questions to be assigned to students. 
+To do this we will have a probability of assignment $\rho_j$ to question $j$ which is proportional to its entropy $\mathrm{H}_j$. However, we will scale the largest and smallest probability $\rho_j$ to differ by less than a multiplicative factor of $c$. Formally, we will set $\rho_j$ for all $j$ such that $c \min_j \rho_j \geq \max_j \rho_j$. Since these are probabilities, we also require that $\sum_{j} \rho_j = 1$ for all $j$ in the subset of questions to be assigned to students. We shall add some constant $x$ to each $\mathrm{H}_j$ so that $\frac{\mathrm{H}_{max} + x}{\mathrm{H}_{min} + x} \leq c$. We can solve for $x$ and so that $x = \frac{H_{max} - H_{min}}{c - 1}$. Let $\mathrm{H}_j' = \mathrm{H}_{j} + \frac{H_{max} - H_{min}}{c - 1}$ so that the minimum is always within a multiplicative factor of $c$ of the maximum. We will have:
+\begin{eqnarray}
+\rho_j = {{\mathrm{H}_j'} \over {\sum_j \mathrm{H}_j'}}
+\end{eqnarray}
 
 We will show that with the correct $c$, it is possible to keep the expected number of retries to a constant $T$. To do this, we note that the probability that all the questions in the set are assigned is 1 minus the probability that some question is not assigned. Moreover, we know that the probability that at least one question is not assigned is less than the probability that all questions are unassigned. This means:
 \begin{eqnarray}
@@ -154,5 +157,16 @@ Pr[t \geq G] \leq \frac{E[t]}{G}
 \end{eqnarray}
 
 Therefore, the probability that the number of tries exceeds the expected number drops off linearly as the excess increases.
+
+\subsection{Genetic Algorthim}
+ 
+The other algorithm that will be implemented is a genetic search algorithm which uses sampling to quickly compute $\mathrm{H}$. The $\lambda$ examsets from iteration $t$ in the algorithm will be used as the parents of new examsets to be generated in iteration $t+1$. At each iteration, $\Lambda$ new examsets will be created by mutation and crossover.
+
+First, there will be some mutation rate $\mu_m$ and a crossover rate $\mu_c$. These will govern the probability of mutating a student's assignment of questions. There will therefore be an expected $\mu_m nk$ mutations and $\mu_c nk$ crossovers. Each question will have some probability of mutatation, and the algorithm will go through all questions in an examset, seeing if a question needs to be mutated or crossed. 
+
+If a question is to be mutated, a new question is selected from the set of all questions using the probability assigment algorithm from RPA (notice that the question set will be all possible questions and we will extend the RPA probability assignment algorithm to all questions). If a question is to have a crossover, we will randomly select another examset with probability proportional to the examset's entropy, and we will select an individual within that examset with probability proportional to the individual's entropy. The crossover will switch the individual's set of questions for the two examsets. 
+
+All of the mutations and crossovers will be performed during an iteration, and this will be performed until there are a total of $\Lambda$ new examsets spawned from the original $\lambda$ parents. The mutation rate $\mu_m$ and crossover rate $\mu_c$ will decrease as the genetic algorithm proceeds, much like in simulated annealing, so that the sample space is explored initially. 
+
 
 \end{document}
