@@ -168,5 +168,13 @@ If a question is to be mutated, a new question is selected from the set of all q
 
 All of the mutations and crossovers will be performed during an iteration, and this will be performed until there are a total of $\Lambda$ new examsets spawned from the original $\lambda$ parents. The mutation rate $\mu_m$ and crossover rate $\mu_c$ will decrease as the genetic algorithm proceeds, much like in simulated annealing, so that the sample space is explored initially. 
 
+\section{Ranking Students}
+
+Now, the process of ranking students will be discussed. Once a set of questions has been chosen, whether it is from the RPA algorithm or the genetic algorithm, the results of the test must be used to rank the students. This can be done in the following manner. Since we already know the probability of getting some question right, we compute a student's score $\sigma_i$ using the following equation:
+\begin{eqnarray}
+\sigma_i = \sum_{j=1}^n \frac{\gamma_{ij} x_{ij}}{r_j}
+\end{eqnarray}
+
+Basically, the score is a weighted sum of the number of questions that a student got right. Questions that have a lower probability of being answered correctly (low $r_j$) will have larger weights assigned to them. The total score of a student then is just the sum of the scores for each question the student was assigned, weighted by the difficulty of the question. Once $\sigma_i$ has been computed for all $i$, the students can be ranked by $\sigma_i$. 
 
 \end{document}
