@@ -41,7 +41,7 @@ r_j \approx \frac{1}{n_j} \sum_{i=1}^n x_{ij}
 
 Where $x_{ij}$ denotes whether or not individual $i$ answered question $j$ correctly and $n_j$ is the number of times question $j$ was asked in the training data. This scheme works as long as the questions were assigned uniformly at random. However, as soon as there exists dependence among the questions, then this technique no longer works. If some set of questions $q_1$ are assigned to a group of students $s_1$ with higher probability than other questions and $s_1$ has a higher intelligence level than the average student, then $r_j$ for $j \in q_1$ will be biased upwards. 
 
-Therefore, it is necessary to introduce a new variable $\theta_i$ which captures the intelligence level of student $i$. The probability that student $i$ answers question $j$ correctly will now have an additive factor of $\theta_i$ and will be given by $r_j + \theta_i$. If $r_j + \theta_i \geq 1$, then student $i$ always answers $j$ correctly, and if $r_j + \theta_i \leq 0$, then student $i$ never answers question $j$ correctly. Let $\gamma_{ij} = 1$ if student $i$ was assigned question $j$ and $\gamma_{ij} = 0$ otherwise. We will try to minimize the distance to the probability prediction:
+Therefore, it is necessary to introduce a new variable $\theta_i$ which captures the intelligence level of student $i$. The probability that student $i$ answers question $j$ correctly will now have an additive factor of $\theta_i$ and will be given by $r_j + \theta_i$. If $r_j + \theta_i \geq 1$, then student $i$ always answers $j$ correctly, and if $r_j + \theta_i \leq 0$, then student $i$ never answers question $j$ correctly. One can see that $\theta_i = 0$ implies that student $i$ is average, whereas $\theta_i > 0$ implies above average intelligence and vice versa for $\theta_i < 0$. Let $\gamma_{ij} = 1$ if student $i$ was assigned question $j$ and $\gamma_{ij} = 0$ otherwise. We will try to minimize the distance to the probability prediction:
 
 \begin{eqnarray}
 \sum_{i=1}^K | x_{ij} - (r_j + \theta_i)| \gamma_{ij}
@@ -53,10 +53,51 @@ To calculate the distance offset $\Delta_t$ at each iteration $t$, we will use t
 
 To prove that the resulting $r_j$ and $\theta_i$ will be good approximations of their actual values, we will show that our distance to the optimal result is bounded. Let $r^*_j$ be the optimal value of $r_j$ and $\theta^*_i$ be the optimal value of $\theta_i$ for all $j$ and $i$. The distance using these values is given by:
 \begin{eqnarray}
-E \left[ \sum_{j=1}^K | x_{ij} - (r^*_i + \theta^*_i) | \gamma_{ij} \right] = round(k ( r^*_i + \theta^*_i)) - k ( r^*_i + \theta^*_i)
+E \left[ \sum_{j=1}^K | x_{ij} - (r^*_j + \theta^*_i) | \gamma_{ij} \right] = round(k ( r^*_j + \theta^*_i)) - k ( r^*_j + \theta^*_i)
 \end{eqnarray}
 
-Here, $round(.)$ denotes the function that rounds $.$ to the nearest integer. The expression follows because there will be $k$ questions for which $\gamma_{ij} = 1$ for each student $i$, and since there can only be an integer number of $x_{ij} = 1$. 
+Here, $round(.)$ denotes the function that rounds $.$ to the nearest integer. The expression follows because there will be $k$ questions for which $\gamma_{ij} = 1$ for each student $i$, and since there can only be an integer number of $x_{ij} = 1$. Now, we will show that the above algorithm obtains values that are no worse than $kn$ distance from the optimal. We compute:
+\begin{eqnarray}
+\sum_{i=1}^{n} \sum_{j=1}^K | x_{ij} - (r_j + \theta_i) | \gamma_{ij} &\leq& \left| \sum_{i=1}^n \sum_{j=1}^K x_{ij} \gamma_{ij} \right| - \left| \sum_{i=1}^n \sum_{j=1}^K (r_j + \theta_i) \gamma_{ij} \right|
+\end{eqnarray}
 
+Using the triangle inequality. Since we always decrease our distance function as the iterations occur over time, all that needs to be shown is that the initial value is bounded by $kn$. We will use the initial values of $r_j$ and $\theta_i$, which means we can write the above expression as: 
+\begin{eqnarray}
+\sum_{i=1}^n \sum_{j=1}^K x_{ij} \gamma_{ij} - \sum_{i=1}^n \sum_{j=1}^K \frac{1}{n_j} \sum_{i=1}^n x_{ij} \gamma_{ij} &=& \sum_{i=1}^n \sum_{j=1}^K x_{ij} \gamma_{ij} - 2 \sum_{n=1}^n \sum_{j=1}^K \frac{x_{ij} \gamma_{ij}}{n_{ij}} \\ 
+&=& \sum_{i=1}^n \sum_{j=1}^K x_{ij} \gamma_{ij} \left( 1 - \frac{2}{n_{ij}} \right) \\
+&\leq& \sum_{i=1}^n \sum_{j=1}^K x_{ij} \gamma_{ij} \\
+&=& kn
+\end{eqnarray}
 
+From the fact that $n_{ij} > 0$ so that $(1 - \frac{2}{n_{ij}} )< 1$. Therefore, we have bounded how far our algorithm can be from the optimal, since the optimal weights can only have a minimum distance of 0. In practice, however, $k(r^*_j + \theta^*_i)$ will not be an integer for all $j$ and $i$ which means that the distance for the optimal values of $r^*_j$ and $\theta^*_i$ will be positive and proportional to $n$. 
+
+This analysis shows that we have found an approximation algorithm that allows us to find the difficulty of questions, $r_{j}$, while accounting for student's intelligence. We will now use $r_{ij}$ as a probability measure for selecting the questions to use.
+
+\section{Entropy and Question Selection}
+
+The main idea of the algorithms to be presented is to maximize the amount of entropy in the set of questions to be asked to students. We will call the pairing of all $n$ students each with $k$ questions to be an examset. The goal will then be to maximize the entropy of the examset. The reason to maximize entropy is because by doing this we maximize the amount of information available. Intuitively, we want to ask questions which will best separate good and bad students.
+
+The information entropy will be a good measure of how separated the questions are. Thus, if we maximize the entropy of the examset, we will have the most information that is possible for ranking students. Let $p_{i}(s)$ be the probability that student $i$ achieves a score of $s$. We will define the information entropy of an examset as:
+\begin{eqnarray}
+\mathrm{H} = \sum_{i=1}^n \sum_{s=0}^k p_{i}(s) \log \frac{1}{p_i(s)}
+\end{eqnarray}
+
+Thus, we sum over all possible scores on a test and obtain the entropy for student $i$'s scores, then take the sum over all students to obtain the total entropy of the examset. Maximizing entropy will intuitively produce exam scores which are as close to uniformly distributed as possible, which will provide the most information to use when ranking students.
+
+\section{Greedy Approximation}
+
+For the first attempt at a solution to this maximization problem, a greedy solution will be proposed. Since it is possible to calculate the entropies of each question, and it is likely that high entropy questions individually lead to high entropy totals, the greedy algorithm will calculate the top entropies for all questions and select the highest $L$. From there, a variety of methods will be developed to actually assign the questions to students. 
+
+Note that this is only an approximation to the optimal because the highest entropy questions individually do not necessarily provide the highest entropy examset since we are looking for entropy of scores. Thus, high entropy questions will contribute significantly to a higher entropy total score for each student, but it may be possible that questions are dependent, in which case a particular combination of questions could lead to very high entropy. 
+
+To compute the entropy $\mathrm{H}_j$ of each question $j$, we use the equation:
+\begin{eqnarray}
+\mathrm{H}_j = r_j \log \frac{1}{r_j} + (1 - r_j) \log \frac{1}{1 - r_j}
+\end{eqnarray}
+
+Since $r_j$ has already been calculated for each question $j$, calculating $\mathrm{H}_j$ is straightforward. Sorting the questions and taking the top $L$ requires $O(K \log K)$ time. Now, a number of different strategies for assigning questions to students is employed.
+
+\subsection{Randomized Probabilistic Assignment}
+
+For the randomized probabilistic assignment (RPA) algorithm, probabilities will be given to each question and the questions for each student will be chosen randomly based on the probabilities provided. The crux of the matter is assigning probabilities which lead to valid examsets of high entropy. Assigning very large probabilities to the highest entropy questions means that this is a lower probability that the eventual examset is valid (i.e. has more than $L$ questions assigned to at least one person). If an assignment is not valid, the algorithm will try again to reassign all questions. Keeping the expected number of retries a constant will prevent the algorithm from obtaining too large of a runtime.
 \end{document}
