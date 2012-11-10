@@ -1,0 +1,46 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{Knewton Data Challenge}
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem Formulation}
+
+Let there be $n$ individuals taking an exam each year, each of whom take $k$ of the $K$ total questions available. We require that $L$ of the $K$ questions be offered to at least one student, and also that $0 < k < K$ be satisfied. In this paper, I will examine strategies for finding a ranking of students given a previous year's results as training data.
+
+\section{Question Difficulty}
+
+In order to do this, we want to formulate some measure of the difficulty of each question $j$. This motivates our examination of $r_j$, the probability that a student will get question $j$ correct. To estimate $r_j$, one could naively use the sample mean from the training data for each question:
+\begin{eqnarray}
+r_j \approx \frac{1}{n_j} \sum_{i=1}^n x_{ij}
+\end{eqnarray}
+
+Where $x_{ij}$ denotes whether or not individual $i$ answered question $j$ correctly and $n_j$ is the number of times question $j$ was asked in the training data.
+
+
+\end{document}
