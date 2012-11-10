@@ -2,7 +2,6 @@
 
 %-------Packages---------
 \usepackage{amssymb,amsfonts}
-\usepackage[all,arc]{xy}
 \usepackage{enumerate}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsthm}
@@ -33,7 +32,7 @@
 
 Let there be $n$ individuals taking an exam each year, each of whom take $k$ of the $K$ total questions available. We require that $L$ of the $K$ questions be offered to at least one student, and also that $0 < k < K$ be satisfied. In this paper, I will examine strategies for finding a ranking of students given a previous year's results as training data.
 
-\section{Question Difficulty}
+\section{Measuring Question Difficulty}
 
 In order to do this, we want to formulate some measure of the difficulty of each question $j$. This motivates our examination of $r_j$, the probability that a student will get question $j$ correct. To estimate $r_j$, one could naively use the sample mean from the training data for each question:
 \begin{eqnarray}
@@ -52,6 +51,12 @@ Using this distance function, we will attempt to estimate $r_j$ for all $j$ and 
 
 To calculate the distance offset $\Delta_t$ at each iteration $t$, we will use the function $\Delta_t = \frac{1}{2} e^{-t}$. This allows our distance to decrease at each iteration in an exponential manner. Intuitively this allows the algorithm to explore the sample space at the beginning and narrow down the search in later iterations.
 
-To prove that the resulting $r_j$ and $\theta_i$ will be good approximations of their actual values, we will show that our distance to the optimal result is bounded.
+To prove that the resulting $r_j$ and $\theta_i$ will be good approximations of their actual values, we will show that our distance to the optimal result is bounded. Let $r^*_j$ be the optimal value of $r_j$ and $\theta^*_i$ be the optimal value of $\theta_i$ for all $j$ and $i$. The distance using these values is given by:
+\begin{eqnarray}
+E \left[ \sum_{j=1}^K | x_{ij} - (r^*_i + \theta^*_i) | \gamma_{ij} \right] = round(k ( r^*_i + \theta^*_i)) - k ( r^*_i + \theta^*_i)
+\end{eqnarray}
+
+Here, $round(.)$ denotes the function that rounds $.$ to the nearest integer. The expression follows because there will be $k$ questions for which $\gamma_{ij} = 1$ for each student $i$, and since there can only be an integer number of $x_{ij} = 1$. 
+
 
 \end{document}
