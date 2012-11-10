@@ -112,7 +112,47 @@ Since $r_j$ has already been calculated for each question $j$, calculating $\mat
 
 \subsection{Randomized Probabilistic Assignment}
 
-For the randomized probabilistic assignment (RPA) algorithm, probabilities will be given to each question and the questions for each student will be chosen randomly based on the probabilities provided. The crux of the matter is assigning probabilities which lead to valid examsets of high entropy. Assigning very large probabilities to the highest entropy questions means that this is a lower probability that the eventual examset is valid (i.e. has more than $L$ questions assigned to at least one person). If an assignment is not valid, the algorithm will try again to reassign all questions. Keeping the expected number of retries a constant will prevent the algorithm from having too large of a runtime. 
+For the randomized probabilistic assignment (RPA) algorithm, probabilities will be given to each question and the questions for each student will be chosen randomly based on the probabilities provided. The crux of the matter is assigning probabilities which lead to valid examsets of high entropy. Assigning very large probabilities to the highest entropy questions means that there is a lower probability that the eventual examset is valid (i.e. has more than $L$ questions assigned to at least one person). If an assignment is not valid, the algorithm will try again to reassign all questions. Keeping the expected number of retries constant will prevent the algorithm from having too large of a runtime. 
 
+To do this we will have a probability of assignment $\rho_j$ to question $j$ which is proportional to its entropy $\mathrm{H}_j$. However, we will scale the largest and smallest probability $\rho_j$ to differ by less than a multiplicative factor of $c$. Formally, we will set $\rho_j$ for all $j$ such that $c \min_j \rho_j \geq \max_j \rho_j$. Since these are probabilities, we also require that $\sum_{j} \rho_j = 1$ for all $j$ in the subset of questions to be assigned to students. 
+
+We will show that with the correct $c$, it is possible to keep the expected number of retries to a constant $T$. To do this, we note that the probability that all the questions in the set are assigned is 1 minus the probability that some question is not assigned. Moreover, we know that the probability that at least one question is not assigned is less than the probability that all questions are unassigned. This means:
+\begin{eqnarray}
+Pr[\text{some question unassigned}] &\leq& \sum_{j=1}^L (1- \rho_j)^n \\
+Pr[\text{all questions assigned}] &\geq& 1 - \sum_{j=1}^L (1 - \rho_j)^n 
+\end{eqnarray}
+
+Therefore, the expected number of tries $t$ to get an iteration where all questions were assigned satisfies:
+\begin{eqnarray}
+E[t] \leq \frac{1}{1 - \sum_{j=1}^L (1 - \rho_j)^n}
+\end{eqnarray}
+
+Thus, as long as $\sum_{j=1}^L (1 - \rho_j)^n$ is small enough, the algorithm won't have to try too many attempts. Now, if we have $c \min_j \rho_j \geq \max_j \rho_j$, we can bound the expected number of tries at a constant. The largest possible value of $\sum_{j=1}^L (1- \rho_j)^n$ given the above constraint comes when all but one of the questions have the minimum probability $\min_j \rho_j$ of being selected and the last one has probability $c \min_j \rho_j$. Let $\rho_{max}$ be that maximum probability, then we know that $\rho_{max}\left( \frac{L-1}{c} + 1 \right) = 1$. This means that $\rho_{max} = \frac{c}{L + c - 1}$ and $\rho_{min} = \frac{1}{L + c - 1}$. We obtain the probability:
+\begin{eqnarray}
+\left(1- \frac{c}{L+C-1} \right)^n + \sum_{j=1}^{L-1} \left(1 - \frac{1}{L+c-1} \right)^n &\leq& \sum_{j=1}^L \left( 1 - \frac{c}{L + c-1} \right)^n \\
+&=& \sum_{j=1}^L \left( \frac{L-1}{L+c-1} \right)^n \\
+&=& L \left( \frac{L-1}{L+c-1} \right)^n \\
+&\leq& \frac{L^{n+1}}{(L+c-1)^n}
+\end{eqnarray}
+
+To make the expected number of tries less than some constant $T$, we want to satisfy $E[t] \leq T$, which means we can solve for $c$:
+\begin{eqnarray}
+{{1} \over {1 - \frac{L^{n+1}}{(L+c-1)^n}}} &\leq& T \\
+{{(L+c-1)^n} \over {(L+c-1)^n - L^{n+1}}} &\leq& T \\
+(L+c-1)^n &\leq& T ((L+c-1)^n - L^{n+1}) 
+\end{eqnarray}
+
+Simplifying further, we see that we can set $c$ such that it satisfies the condition below in order to get an expected number of tries less than $T$:
+
+\begin{eqnarray}
+c &\leq& \left( \frac{T L^{n+1}}{T-1} \right)^{1/n} - L 
+\end{eqnarray}
+
+For example, if the provided training data is used to calibrate $c$, and we want an expected number of tries of $T = 3$, then we have $c \leq 200.0$. Therefore, as long as the minimum $\rho_j$ is kept at least $c$ away from the maximum $\rho_j$, the number of expected tries can be bounded. Moreover, the markov inequality shows that the probability that the the number of tries is greater than the $G$ is given by:
+\begin{eqnarray}
+Pr[t \geq G] \leq \frac{E[t]}{G}
+\end{eqnarray}
+
+Therefore, the probability that the number of tries exceeds the expected number drops off linearly as the excess increases.
 
 \end{document}
