@@ -73,29 +73,38 @@ From the fact that $n_{ij} > 0$ so that $(1 - \frac{2}{n_{ij}} )< 1$. Therefore,
 
 This analysis shows that we have found an approximation algorithm that allows us to find the difficulty of questions, $r_{j}$, while accounting for student's intelligence. We will now use $r_{ij}$ as a probability measure for selecting the questions to use.
 
+\section{Ranking Students}
+
+Now, the process of ranking students will be discussed. Once a set of questions has been chosen, whether it is from the RPA algorithm or the genetic algorithm (to be discussed), the results of the test must be used to rank the students. This can be done in the following manner. Since we already know the probability of getting some question right, we compute a student's score $\sigma_i$ using the following equation:
+\begin{eqnarray}
+\sigma_i = \sum_{j=1}^n \frac{\gamma_{ij} x_{ij}}{r_j}
+\end{eqnarray}
+
+Basically, the score is a weighted sum of the number of questions that a student got right. Questions that have a lower probability of being answered correctly (low $r_j$) will have larger weights assigned to them. The total score of a student then is just the sum of the scores for each question the student was assigned, weighted by the difficulty of the question. Once $\sigma_i$ has been computed for all $i$, the students can be ranked by $\sigma_i$. 
+
 \section{Entropy and Question Selection}
 
 The main idea of the algorithms to be presented is to maximize the amount of entropy in the set of questions to be asked to students. We will call the pairing of all $n$ students each with $k$ questions to be an examset. The goal will then be to maximize the entropy of the examset. The reason to maximize entropy is because by doing this we maximize the amount of information available. Intuitively, we want to ask questions which will best separate good and bad students.
 
-The information entropy will be a good measure of how separated the questions are. Thus, if we maximize the entropy of the examset, we will have the most information that is possible for ranking students. Let $p_{i}(s)$ be the probability that student $i$ achieves a score of $s$. We will define the information entropy of an examset as:
+The information entropy will be a good measure of how separated the questions are. Thus, if we maximize the entropy of the examset, we will have the most information that is possible for ranking students. We will define the information entropy of an examset as:
 \begin{eqnarray}
-\mathrm{H} = \sum_{i=1}^n \sum_{s=0}^k p_{i}(s) \log \frac{1}{p_i(s)}
+\mathrm{H} = \sum_{l} P(l) \log \frac{1}{P(l)}
 \end{eqnarray}
 
-Thus, we sum over all possible scores on a test and obtain the entropy for student $i$'s scores, then take the sum over all students to obtain the total entropy of the examset. Maximizing entropy will intuitively produce exam scores which are as close to uniformly distributed as possible, which will provide the most information to use when ranking students. To compute $p_{i}(s)$, a dynamic programming solution will be used.
+Where $b$ is the size of the scoring bins and $P(l)$ is the probability that a given student's $\sigma_i$ score will fall into bin $l$ which covers scores in the range $[lb, l(b+1))$. Thus, we sum over all possible scores on a test and obtain the entropy for the entire examset. Maximizing entropy will intuitively produce exam scores which are as close to uniformly distributed as possible, which will provide the most information to use when ranking students. To compute $P(l)$, a dynamic programming solution will be used.
 
-Notice that $p_i(s)$ when computed by brute force requires the enumeration of all possible combinations of getting $s$ questions correct. This is exponential in the number of questions. However, one can notice that one can use previously computed probabilities to compute new probabilities. Thus, given a student $i$ and his $k$ questions, we can compute $p_i(s)$ for $s \in [0, k]$ in the following manner. Let $p_i(s, q)$ be the probability of getting a score of $s$ through the first $q$ questions for student $i$, where $q \leq k$ and the questions are ordered arbitrarily. Then, we can compute $p_i(s, q)$ using the recursion:
+Notice that for each student, there are exponentially many possible scores, namely $2^k$. For small $k$, such as $k=5$, it is feasible to enumerate all scores. However, for large $k$, an approximation will be used. First we compute $p_i(s)$, the probability of getting $s$ questions correct. One can use previously computed probabilities to compute new probabilities. Thus, given a student $i$ and his $k$ questions, we can compute $p_i(s)$ for $s \in [0, k]$ in the following manner. Let $p_i(s, q)$ be the probability of getting a score of $s$ through the first $q$ questions for student $i$, where $q \leq k$ and the questions are ordered arbitrarily. Then, we can compute $p_i(s, q)$ using the recursion:
 
 \begin{eqnarray}
 p_i(s, q) = \left\{ \begin{array}{c l}
-p_i(s, q-1) (1-r_q) + p_i(s-1,q-1) r_q & \text{if } i \leq j \\ 
+p_i(s, q-1) (1-(r_q + \theta_i)) + p_i(s-1,q-1) (r_q + \theta_i) & \text{if } i \leq j \\ 
 0 & \text{else}
 \end{array} \right.
 \end{eqnarray}
 
-Assume that $p_i(s,q) = 0$ if $s \leq 0$ or $q \leq 0$ so that the $p_i(s-1, q-1) r_q$ term falls away if $s-1 \leq 0$. The recursion follows because the student could either get question $q$ right or wrong. The probability of $p_i(s, q)$ is then the probability that the student had a score of $s$ previously on question $q-1$ times the probability of getting $q$ wrong, i.e. $p_i(s, q-1) (1 - r_q)$, plus the probability of having a score of $s-1$ previously on question $q-1$ times the probability of getting $q$ right, i.e. $p_i(s-1, q-1) r_q$.
+Assume that $p_i(s,q) = 0$ if $s \leq 0$ or $q \leq 0$ so that the $p_i(s-1, q-1) (r_q + \theta_i)$ term falls away if $s-1 \leq 0$. The recursion follows because the student could either get question $q$ right or wrong. The probability of $p_i(s, q)$ is then the probability that the student $i$ had a score of $s$ previously on question $q-1$ times the probability of getting $q$ wrong, i.e. $p_i(s, q-1) (1 - (r_q + \theta_i))$, plus the probability of having a score of $s-1$ previously on question $q-1$ times the probability of getting $q$ right, i.e. $p_i(s-1, q-1) (r_q + \theta_i)$.
 
-Initializing $p_i(s, 0) = 1$ and progressively computing $p_i(s, 1)$ for all $s \in [0,k]$, $p_i(s, 2)$, etc. will provide $p_i(s, k) = p_i(s)$.Thus, it is possible to find $p_i(s)$ for all $s \in [0,k]$ in $O(k^2)$ runtime. Using this subroutine to compute $p_i(s)$, it is possible to compute the evaluation function $\mathrm{H}$ in $O(n k^2)$ time.
+Initializing $p_i(s, 0) = 1$ and progressively computing $p_i(s, 1)$ for all $s \in [0,k]$, $p_i(s, 2)$, etc. will provide $p_i(s, k) = p_i(s)$.Thus, it is possible to find $p_i(s)$ for all $s \in [0,k]$ in $O(k^2)$ runtime. Once $p_i(s)$ are found, the approximation takes the average weight obtained from each question $\frac{1}{k} \sum_{j=1}^k \frac{1}{r_j}$ and uses that as the weight of having answered one extra question correctly. Using this subroutine to compute $p_i(s)$, it is possible to compute the evaluation function $\mathrm{H}$ in $O(n k^2)$ time. 
 
 \section{Greedy Approximation}
 
