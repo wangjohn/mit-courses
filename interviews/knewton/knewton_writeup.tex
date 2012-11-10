@@ -82,8 +82,18 @@ The information entropy will be a good measure of how separated the questions ar
 \mathrm{H} = \sum_{i=1}^n \sum_{s=0}^k p_{i}(s) \log \frac{1}{p_i(s)}
 \end{eqnarray}
 
-Thus, we sum over all possible scores on a test and obtain the entropy for student $i$'s scores, then take the sum over all students to obtain the total entropy of the examset. Maximizing entropy will intuitively produce exam scores which are as close to uniformly distributed as possible, which will provide the most information to use when ranking students.
+Thus, we sum over all possible scores on a test and obtain the entropy for student $i$'s scores, then take the sum over all students to obtain the total entropy of the examset. Maximizing entropy will intuitively produce exam scores which are as close to uniformly distributed as possible, which will provide the most information to use when ranking students. To compute $p_{i}(s)$, a dynamic programming solution will be used.
 
+Notice that $p_i(s)$ when computed by brute force requires the enumeration of all possible combinations of getting $s$ questions correct. This is exponential in the number of questions. However, one can notice that one can use previously computed probabilities to compute new probabilities. Thus, given a student $i$ and his $k$ questions, we can compute $p_i(s)$ for $s \in [0, k]$ in the following manner. Let $p_i(s, q)$ be the probability of getting a score of $s$ through the first $q$ questions, where $q \leq k$ and the questions are ordered arbitrarily. Then, we can compute $p_i(s, q)$ using the recursion:
+
+\begin{eqnarray}
+p_i(s, q) = \left\{ \begin{array}{l l}
+p_i(s, q-1) (1-r_q) + p_i(s-1,q-1) r_q & \text{if } i \leq j \\ 
+0 & \text{if } i > j
+\end{array} \right.
+\end{eqnarray}
+
+Assume that $p_i(s,q) = 0$ if $s \leq 0$ or $q \leq 0$ so that the $p_i(s-1, q-1) r_q$ term falls away if $s-1 \leq 0$.
 \section{Greedy Approximation}
 
 For the first attempt at a solution to this maximization problem, a greedy solution will be proposed. Since it is possible to calculate the entropies of each question, and it is likely that high entropy questions individually lead to high entropy totals, the greedy algorithm will calculate the top entropies for all questions and select the highest $L$. From there, a variety of methods will be developed to actually assign the questions to students. 
@@ -99,5 +109,8 @@ Since $r_j$ has already been calculated for each question $j$, calculating $\mat
 
 \subsection{Randomized Probabilistic Assignment}
 
-For the randomized probabilistic assignment (RPA) algorithm, probabilities will be given to each question and the questions for each student will be chosen randomly based on the probabilities provided. The crux of the matter is assigning probabilities which lead to valid examsets of high entropy. Assigning very large probabilities to the highest entropy questions means that this is a lower probability that the eventual examset is valid (i.e. has more than $L$ questions assigned to at least one person). If an assignment is not valid, the algorithm will try again to reassign all questions. Keeping the expected number of retries a constant will prevent the algorithm from obtaining too large of a runtime.
+For the randomized probabilistic assignment (RPA) algorithm, probabilities will be given to each question and the questions for each student will be chosen randomly based on the probabilities provided. The crux of the matter is assigning probabilities which lead to valid examsets of high entropy. Assigning very large probabilities to the highest entropy questions means that this is a lower probability that the eventual examset is valid (i.e. has more than $L$ questions assigned to at least one person). If an assignment is not valid, the algorithm will try again to reassign all questions. Keeping the expected number of retries a constant will prevent the algorithm from having too large of a runtime. 
+
+
+
 \end{document}
