@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  10 NOV 2012 14:22
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  10 NOV 2012 18:22
 entering extended mode
  %&-line parsing enabled.
 **knewton_writeup.tex
@@ -579,7 +579,7 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 Package amsmath Warning: Foreign command \over;
 (amsmath)                \frac or \genfrac should be used instead
-(amsmath)                 on input line 119.
+(amsmath)                 on input line 128.
 
 
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
@@ -597,11 +597,11 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Here is how much of TeX's memory you used:
  12916 strings out of 495061
  253066 string characters out of 1182621
- 333929 words of memory out of 3000000
+ 332929 words of memory out of 3000000
  15686 multiletter control sequences out of 15000+50000
  9048 words of font info for 36 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 56i,14n,56p,960b,207s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 56i,14n,56p,960b,199s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfo
 nts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcs
 c10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></u
@@ -613,7 +613,7 @@ nts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.p
 fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/shar
 e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-tex
 live/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on knewton_writeup.pdf (5 pages, 168049 bytes).
+Output written on knewton_writeup.pdf (5 pages, 169435 bytes).
 PDF statistics:
  69 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
