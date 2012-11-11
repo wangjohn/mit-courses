@@ -1,0 +1,54 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{framed}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 6.854 Advanced Algorithms} \\
+    Problem Set 10\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} \\
+    Collaborators:  
+    \end{center}
+    \vspace{0.5cm}
+}
+
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+\begin{document}
+
+\makenewtitle
+
+\begin{prob}{1-a}
+Prove that LRU and FIFO are conservative.
+\end{prob}
+\begin{sol}
+First, we will consider LRU. Suppose that the LRU cache of size $k$ has been filled up and is entering a new phase. Now consider a subsequence that contains at most $k$ pages. Consider pages $p_1, p_2, \ldots, p_k$ and LRU will check each whether $p_i$ is already in the cache. If it is, then there is a cache hit. Otherwise, there is a fault. However, since there are at most $k$ pages in the input sequence, there can be at most $k$ faults. Therefore, we see that LRU is conservative.
+
+Now, let us examine FIFO with the same analysis. Consider a subsequence of pages $p_1, p_2, \ldots, p_k$. We know that there are exactly $k$ pages in the input sequence. Since each page in the sequence can cause at most a single fault, there can be a maximum of $k$ faults on FIFO. THerefore, we see that FIFO is conservative as well.
+\end{sol}
+
+\begin{prob}{1-b}
+Prove that any conservative algorithm is $k$-competitive
+\end{prob}
+\begin{sol}
+Suppose that some algorithm $A$ is conservative. 
+\end{sol}
+\end{document}
