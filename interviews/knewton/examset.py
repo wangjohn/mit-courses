@@ -123,6 +123,33 @@ class Examset:
                 else:
                     bins[current_bin] = [prob, 1]
         return bins
+ 
+class ComputeProbabilities:
+    def __init__(self, question_results):
+        self.question_results = question_results
+
+    def create_students(self):
+        students = {}
+        for question in self.question_results:
+            if question.student_id in students:
+                students[question.student_id].question_results.append(question) 
+                students[question.student_id].num_questions += 1
+                if question.correct:
+                    students[question.student_id].num_correct += 1
+            else:
+                if students[question.student_id].correct:
+                    num_correct = 1
+                else:
+                    num_correct = 0
+                    stud_result = StudentResult([question], question.student_id, num_correct, 1)
+                    students[question.student_id] = stud_result
+        return students
+
+
+class GreedyAssignment:
+    def __init__(self, question_results, student_results):
+        self.question_results = question_results
+        self.student_results = student_results
 
 def get_entropy(rj):
     return rj*math.log(1.0/rj)
