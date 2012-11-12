@@ -49,6 +49,8 @@ Now, let us examine FIFO with the same analysis. Consider a subsequence of pages
 Prove that any conservative algorithm is $k$-competitive
 \end{prob}
 \begin{sol}
-Suppose that some algorithm $A$ is conservative. 
+Suppose that some algorithm $A$ is conservative. We will break up the conservative algorithm's operation into phases of size $k$. Now suppose that the algorithm has just started phase $i$. In this phase, there will be $k$ page requests. Since the algorithm is conservative, $A$, will have a maximum of $k$ faults in this upcoming phase (which is really a subsequence of $k$ pages). Now let us suppose OPT does not fault in phase $i$. Then it must fault on the $k+1$st request (first request in the next phase) since the cache is only of size $k$ and it must have all $k$ requests already stored in the cache. If OPT does fault during phase $i$, then it has at least one fault. Therefore, for each phase $i$, there will be at least one fault by OPT and at most $k$ faults by $A$. 
+
+Since this is true for each phase $i$, we see that $A$ is $k$-competitive, and hence, that any conservative algorithm is $k$-competitive.
 \end{sol}
 \end{document}
