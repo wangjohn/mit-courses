@@ -105,7 +105,31 @@ Thus, if all pages are marked so that all $k$ servers are at some leaf in the tr
 Show that any deterministic strategy for choosing dates and deciding whether to break up is terrible from a competitive perspective: you can be forced by fate to end up with the absolutely worst possible choice.
 \end{prob}
 \begin{sol}
+In a deterministic strategy for choosing dates, an adversary will always be able to construct some sequence of dates which makes the worst possible choice. Since a deterministic strategy only takes into account the previous choices that have been made, and also the total number of choices, an adversary can watch the strategy when it is given dates in strictly decreasing suitability. The adversary will see when the deterministic strategy eventually picks a match, and will make sure that at this point, the match is the worst possible for the deterministic strategy. Thus, the adversary can always be able to make the worst choice for the strategy.
+\end{sol}
+
+\begin{prob}{3-b}
+Devise a randomized strategy that does better, giving you a constant probability of ending up with the absolute best companion.
+\end{prob}
+\begin{sol}
+We will place each of the $k$ potential suitors into two sets $S_1$ and $S_2$ with equal probability. We will first date all of the potential suitors in set $S_1$ and will note the highest suitability in $S_1$. Then, we will go to $S_2$ and look for a suitor with a higher suitability. If we find that suitor in $S_2$, we will stay together forever. Otherwise, we will stay together with the last suitor we examine in $S_2$. If we happen to not place any suitors in $S_2$, then the last suitor in $S_1$ will be selected. If we do not place any suitors in $S_1$, then the first suitor in $S_2$ will be selected. 
+
+To show that there is a constant probability of ending up with the best companion, we need to look at the probability that the best suitor belongs to $S_2$ and the second best suitor belongs to $S_1$. For each of these events, there are only two posibilities (a suitor belongs to $S_1$ or $S_2$). Hence, since the choices assigning them to groups was initially independent, there is a $\frac{1}{2} \frac{1}{2} = \frac{1}{4}$ probability of getting the best suitor.
+\end{sol}
+
+\begin{prob}{3-c}
+Suppose that you want to play for slightly less high stakes. Give an algorithm minimizing the expected rank of your final choice.
+\end{prob}
+\begin{sol}
 
 \end{sol}
+
+
+\newpage
+\makenewtitle
+
+\begin{prob}{4-a}
+
+\end{prob}
 
 \end{document}
