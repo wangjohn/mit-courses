@@ -53,4 +53,39 @@ Suppose that some algorithm $A$ is conservative. We will break up the conservati
 
 Since this is true for each phase $i$, we see that $A$ is $k$-competitive, and hence, that any conservative algorithm is $k$-competitive.
 \end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{2-a}
+Show that DC-Tree is $k$-competitive.
+\end{prob}
+\begin{sol}
+Suppose that OPT moves by some distance $d$. We will use the potential function $\Phi = kM + \sum_{i < j} d(s_i, s_j)$ as defined in class. Now, when OPT moves, the optimum matching increases by at most $d$, since there is now a possibility off adding a cost of $d$ to the matching. The distance term does not change, so the change in potential is given by $\Delta \Phi = kd$. 
+
+Now suppose that DC-Tree moves by the same distance $d$. We will break up the move into phases, where during each phase, the number of neighbors is fixed. Suppose that in phase $i$, there are $n_i$ neighbors who each travel $l_i$ distance. We can break down the DC-Tree's change in potential into two cases.
+
+First, suppose that $n_i = 1$ so that there is only a single server moving a distance of $l_i$ towards the request. Note that this is the final part of the phase, and the $l_i$ will cover the final distance so that the last server moving ends up at the request. Since OPT's server has already moved to the request point, the minimum matching between DC-Tree and OPT decreases by $l_i$ during this phase. This is because the last moving server can be matched with OPT's point at the request (by the uncrossing argument given in class). Moreover, the distance term $\sum_{i < j} d(s_i, s_j)$increases by at most $(k-1) l_i$ because there are only $k-1$ servers that are further away from the last server. This means that the change in potential is given by $\Delta \Phi \leq -k l_i + (k-1) l_i = - l_i$. 
+
+Now suppose that $n_i > 1$. From the uncrossing argument given in class, there exists a minimum matching between the servers in DC-Tree and OPT such that OPT's server on the request is matched with the closest server moving towards it in DC-Tree. Thus, one of the servers is decreasing the cost of the matching by $l_i$ while the other moving servers could be increasing their matchings by $l_i$. The change in the matching is then $-l_i + (n_i - 1) l_i$. The moving servers will all be decreasing their distance to each other (since they are all moving towards the request). Since there are ${n_i \choose 2}$ pairs of servers that are moving closer, each by a distance of $2l_i$, the distance decreases by ${n_i \choose 2} 2 l_i$. However, there are also $k - n_i$ stationary servers which change their distance to servers. For each stationary server, the distance to $n_i - 1$ of the servers decreases by $l_i$, and increases by $l_i$ for a single server. This means that the total distance decreases by ${n_i \choose 2} 2l_i + ((n_i-1)l_i - l_i) l_i (k - n_i)$. The change in potential for phase $i$ is then:
+\begin{eqnarray}
+\Delta \Phi_i &=& k (n_i-2)l_i - n_i(n_i-1)l_i - (n_i-2)l_i(k-n_i) \\
+&=& l_i (n_i - 2) n_i - n_i( n_i-1) l_i \\
+&=& -l_i n_i
+\end{eqnarray}
+
+Since during each phase, we know that $n_i \geq 1$, we must have that $\Delta \Phi =  \sum_{i} \Delta \Phi_i \leq \sum_{i} -d = -d$. This means that during each move by DC-Tree, the potential decreases by at least $d$, whereas each one of OPT's moves increases the potential by at most $kd$. This shows that DC-Tree is $k$-competitive.
+\end{sol}
+
+\begin{prob}{2-b}
+Show that any algorithm for $k$-server on a tree can be used to solve the paging problem by modeling paging as $k$-server on a particularly simple tree. 
+\end{prob}
+\begin{sol}
+There will be a single leaf for each page that is to be requested. The tree will look like a standard binary search tree, with $p$ leaves (one for each possible page). There will be $k$ servers which correspond to cache locations. If a server resides on a leaf, then that leaf will be considered to be in the cache. If a server does not reside on a leaf, then the previous leaf that it resided on (if there exists one) will be the page that is in the cache. 
+
+Thus, when servers are provided
+
+\end{sol}
+
+
 \end{document}
