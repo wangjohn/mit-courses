@@ -19,7 +19,7 @@
     Problem Set 10\\
     \vspace{0.25cm}
     {\bfseries John Wang} \\
-    Collaborators:  
+    Collaborators: Jason Hoch 
     \end{center}
     \vspace{0.5cm}
 }
@@ -121,7 +121,31 @@ To show that there is a constant probability of ending up with the best companio
 Suppose that you want to play for slightly less high stakes. Give an algorithm minimizing the expected rank of your final choice.
 \end{prob}
 \begin{sol}
+We will use the same strategy as before and split the suitors up into two sets $S_1$ and $S_2$. We will first date everyone in $S_1$ and find the ranking of each of these suitors. Now, we will note the suitability of the suitor with rank $2 \log k$ in set $S_1$. Then we will look in set $S_2$ until we find someone with greater rank than this in $S_2$. If we don't find anyone with greater rank in $S_2$, then we will choose the last person in $S_2$. If $S_1$ is empty, then we choose the first person in $S_2$, and if $S_2$ is empty, we choose the last person in $S_1$.
 
+To show that this provides an expected rank of $O(\log k)$, we will break up the analysis into cases. First, if all of the people in $S_2$ are worse than the person of rank $2 \log k$ in $S_1$, i.e. we have to take the last person in $S_2$, then we will achieve a rank of at least $k$. However, this happens with probability $(1/2)^{2 \lg k} = \frac{1}{k^2}$. 
+
+Now consider the case when the $l \log k$ ranked suitor in $S_1$ has an overall rank greater than $m \log k$. There is no bound on the rank of the suitor we find in $S_2$, so but we can say it is at least greater than $k$. We can use the Chernoff inequality, along with indicator variables $X_i$ which are equal to $1$ if the $i$th ranked suitor belongs to $S_1$. If we sum over $m \log k$ suitors and the sum is less than $l \log k$ suitors, then the $l \log k$ ranked suitor in $S_1$ must have rank higher than $m \log k$. Recall that the Chernoff Inequality is given by:
+\begin{eqnarray}
+Pr[X > (1 + \delta) \mu] < e^{-\delta^2 \mu / 2}
+\end{eqnarray}
+
+Where $0 \leq \delta \leq 1$. Using this in our case, we find that:
+\begin{eqnarray}
+Pr\left[\sum_{i=1}^{m \log k} X_i < l \log k \right] &=& Pr \left[\sum_{i=1}^{m \log k} X_i < (1 - \delta) \frac{m \log k}{\delta} l \log k \right] \\
+&<& e^{-\delta^2 m l \log k / (2 \delta)} \\
+&<& e^{\ln k^{-\delta m l / 2}} \\
+&=& k^{-\delta m l / 2}
+\end{eqnarray}
+
+Now the final case is when the $l \log k$ best element in $S_1$ has a rank greater than $m \log k$. This happens with probability $1 - k^{- \delta m l / 2}$. Therefore, we have an expected rank of $\frac{1}{k^2} k + k^{-\delta m l /2} k + (1 - k^{\delta m l /2}) m \log k$. We just need to set $0 < m$, $0 < \delta \leq 1$, and $l \geq 1$  such that this expression is $O(\log k)$. We can choose $\delta = \frac{1}{2}$, $m = 2$, and $l = 2$ in which case we obtain $k^{-\delta m l / 2} = \frac{1}{k}$ so that we end up with the expression
+\begin{eqnarray}
+E[rank] &=& \frac{1}{k^2}{k} + \frac{1}{k} k + \frac{k-1}{k} 2 \log k \\
+&=& \frac{1}{k} + 1 + \frac{k-1}{k} 2 \log k \\
+&=& O(\log k)
+\end{eqnarray}
+
+This completes the analysis of the algorithm and shows that it selects a suitor of expected rank $O(\log k)$. 
 \end{sol}
 
 
