@@ -83,9 +83,29 @@ Show that any algorithm for $k$-server on a tree can be used to solve the paging
 \begin{sol}
 There will be a single leaf for each page that is to be requested. The tree will look like a standard binary search tree, with $p$ leaves (one for each possible page). There will be $k$ servers which correspond to cache locations. If a server resides on a leaf, then that leaf will be considered to be in the cache. If a server does not reside on a leaf, then the previous leaf that it resided on (if there exists one) will be the page that is in the cache. 
 
-Thus, when servers are provided
-
+Thus, as soon as a server $s_j$ reaches a new leaf corresponding to page $p_i$, then the page $p_i$ will be brought into the cache and will remove whatever used to be in cache location $j$. 
 \end{sol}
 
+\begin{prob}{2-c}
+What standard paging algorithm do you get when you apply the above reduction using DC-Tree.
+\end{prob}
+\begin{sol}
+Notice that all neighbors of the request will move towards the leaf with the reuest. Eventually, however, there can only be a single server moving to the request and actually reaching the request location. Moreover, we see that the final server to reach the request is the closest server to the request (in terms of number of edges travelled). If we assume that the pages are placed as leaves in a random ordering, then we can think of this mechanism as randomly choosing a node to eject from the cache.
+
+Thus, we can think of the DC-Tree algorithm as the randomized marking algorithm for paging in the following manner. Whenever a server $s_j$ is sitting on a leaf corresponding to page $p_i$, then that page is marked. If the server is no longer sitting on the page, then the page becomes unmarked, but could possibly still be in the cache. 
+
+Thus, if all pages are marked so that all $k$ servers are at some leaf in the tree, and a new request comes, we must have a fault in the cache and we also will see each of the $k$ servers starting to move towards the request. This means that all of the previously marked servers will be unmarked. This corresponds exactly to the randomized marking algorithm which unmarks all the pages if there is a fault and there are already $k$ pages marked. 
+\end{sol}
+
+
+\newpage
+\makenewtitle
+
+\begin{prob}{3-a}
+Show that any deterministic strategy for choosing dates and deciding whether to break up is terrible from a competitive perspective: you can be forced by fate to end up with the absolutely worst possible choice.
+\end{prob}
+\begin{sol}
+
+\end{sol}
 
 \end{document}
