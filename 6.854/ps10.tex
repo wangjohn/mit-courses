@@ -153,7 +153,33 @@ This completes the analysis of the algorithm and shows that it selects a suitor 
 \makenewtitle
 
 \begin{prob}{4-a}
-
+Prove that, when the online algorithm makes a mistake, the total weight of the faculty decreases by a faculty of $4/3$. Use this to upper bound the total weight assigned to faculty.
 \end{prob}
+\begin{sol}
+Suppose that the total weight at any given iteration is $W$. If there is a mistake, then there must have been at least $W/2$ total weight backing the wrong answer. Since half of this weight is removed, we end up removing $\frac{1}{2} \frac{W}{2} = \frac{W}{4}$ weight from the total. This means we have $W - \frac{W}{4} = \frac{3W}{4}$ weight after the weight was removed. Therefore, the total weight decreases by $4/3$ when there is a mistake. 
+
+If there are a total of $l$ mistakes, then the final weight at the end is upper bounded by the number of faculty, $n$ times the change in weight for each faculty. Therefore, the final weight $W_f$ is given by $W_f \leq n \left( \frac{3}{4} \right)^l$, since all weights start out at 1, so the total weight starts out at $n$. 
+\end{sol}
+
+\begin{prob}{4-b}
+Lower-bound the weight assigned to faculty by considering the weight of the wisest faculty member in terms of $m$. 
+\end{prob}
+\begin{sol}
+The weight at the end of the algorithm must be greater than the weight of the wisest faculty. We know the weight of the wisest faculty is just the starting weight of $1$ times $(1/2)^{m}$. Therefore, we see that $W_f$ must satisfy $W_f \geq \left( \frac{1}{2} \right)^m$. 
+\end{sol}
+
+\begin{prob}{4-c}
+Combine the above two parts to prove the claim.
+\end{prob}
+\begin{sol}
+We know that $w_f$ has the two following bounds on it: $\left( \frac{1}{2} \right)^m \leq W_f \leq n \left( \frac{3}{4} \right)^l$. Therefore, we can derive the following:
+\begin{eqnarray}
+-m &\leq& \lg \left( n \left( \frac{3}{4} \right)^l \right) \\
+-\lg n - m &\leq& l (\lg 3 - lg 4) \\
+\frac{\lg n + m}{2 - \lg 3} &\geq& l
+\end{eqnarray}
+
+Evaluating $2 - \lg 3 = 2.41$, we see that $l$ is upper bounded by $2.41(m + \lg n)$, which is what we wanted to show.
+\end{sol}
 
 \end{document}
