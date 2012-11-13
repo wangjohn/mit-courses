@@ -205,6 +205,20 @@ l &<& {{m \ln (1/\beta) + \ln n} \over {1 - \beta}}
 Therefore, we have show that the expected number of wrong answers is bounded by this expression, which is what we wanted to show.
 \end{sol}
 
+\begin{prob}{4-f}
+Show that if one uses the right $\beta$, one can limit the number of errors to $m + \ln n + O( \sqrt{m \ln n})$, achieving a 1-competitive algorithm in the asymptotic sense.
+\end{prob}
+\begin{sol}
+We will use the taylor series of $\ln(1/\beta)$ in order to simplify the expression of $l < \frac{m \ln(1/\beta) + \ln n}{ 1 - \beta}$. We know that $ln(1 + x) = x - \frac{x^2}{2} + \frac{x^3}{3} - \ldots \leq x$. for $|x| < 1$. Therefore, we see that $\ln(1/\beta) < 1/\beta - 1$. Thus, we can rewrite the expression as:
+\begin{eqnarray}
+l &<& \frac{m (1 - \beta)}{\beta(1 - \beta)} + \frac{\ln n}{1 - \beta} \\
+l &<& \frac{m}{\beta} + \frac{\ln n}{1 - \beta}
+\end{eqnarray}
+
+Now, we want to set $\beta$ so that $l < m + \ln n + k \sqrt{m \ln n}$ for some constant $k$. In order to achieve this we want to be able to bound each term. In particular, we want to be able to bound the $\frac{m}{\beta}$ term by $m + k_1 \sqrt{m \ln n}$, since this is the only term in which $m$ appears, and we want to bound the $\frac{\ln n}{1 - \beta}$ term by $\ln n + k_2 \sqrt{m \ln n}$ by the same logic.
+
+\end{sol}
+
 \newpage
 \makenewtitle
 
