@@ -217,6 +217,11 @@ l &<& \frac{m}{\beta} + \frac{\ln n}{1 - \beta}
 
 Now, we want to set $\beta$ so that $l < m + \ln n + k \sqrt{m \ln n}$ for some constant $k$. In order to achieve this we want to be able to bound each term. In particular, we want to be able to bound the $\frac{m}{\beta}$ term by $m + k_1 \sqrt{m \ln n}$, since this is the only term in which $m$ appears, and we want to bound the $\frac{\ln n}{1 - \beta}$ term by $\ln n + k_2 \sqrt{m \ln n}$ by the same logic.
 
+We will break the problem up into two cases. In the first case, we will consider $m \geq \ln n$. Notice that in this case, we have $c = \frac{\ln n}{m + \ln n} < \frac{1}{2}$. This means that $\sqrt{\frac{\ln n}{m + \ln n}} < \sqrt{\frac{1}{2}} < \frac{3}{4}$. Since this is the case, we can use the approximation that $\frac{1}{1 - c} < 1 + 4c$ for $c < \frac{3}{4}$ (which comes from the taylor series expansion of $\frac{1}{1-c}$). Therefore if we set $\beta = 1 - c$, we have the term $\frac{m}{\beta} = \frac{m}{1 - c} < m ( 1 + 4c) < m + 4mc = m + 4m \sqrt{\frac{\ln n}{m + \ln n}} < m + 4 \sqrt{m \ln n}$. Moreover, we see that the other term is given by $\frac{\ln n}{1 - \beta} = \frac{\ln n}{c} < \frac{\ln n}{ \sqrt{ \frac{\ln n}{m + \ln n}}} = \sqrt{ \ln n} \sqrt{ m + \ln n} = \sqrt{m \ln n} + \ln n$. Thus, we see that the total expected number of wrong answers with $\beta = 1 - c$ is just $m + 5 \sqrt{m \ln n} + \ln n$. 
+
+In the second case, where $m < \ln n$, we can note hat $\frac{m}{m + \ln n} < \frac{1}{2}$. Therefore, we see that $\sqrt{\frac{m}{m + \ln n}} < \sqrt{\frac{1}{2}} < \frac{3}{4}$. If we set $\beta = \frac{m}{n + \ln n}$, then we can use the approximation that $\frac{1}{1 - \beta} < 1 + 4 \beta$ (again using the taylor series approximation that we showed above). This means that we have $\frac{m}{\beta} = \sqrt{m} \sqrt{m + \ln n} < m + \sqrt{m \ln n}$. For the other term, we have $\frac{\ln n}{1 - \beta} < \ln n ( 1 + 4 \beta) = \ln n \left( 1 + 4 \sqrt{\frac{m}{m + \ln n}} \right) < \ln n + 4 \sqrt{m \ln n}$. Therefore, we have a bound on the total expected number of wrong answers for this case as $m + 5 \sqrt{ m \ln n} + \ln n$. 
+
+Therefore, in the general case, we see that $k < m + \ln n + 5 \sqrt{ m \ln n}$ which shows that $ k < m + \ln n + O(\sqrt{m \ln n})$, which is what we wanted to show.
 \end{sol}
 
 \newpage
