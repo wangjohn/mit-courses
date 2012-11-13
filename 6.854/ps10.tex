@@ -187,7 +187,22 @@ For a given equation, let $F$ denote the fraction of the weight of faculty with 
 \end{prob}
 
 \begin{sol}
+We know that the total weight of the incorrect faculty is given by $FW$, if $W$ is the total weight of all the faculty. Since these weights decrease by a fraction $1 - \beta$, we see that the final resulting weight from an incorrect answer is given by $W - (1 - \beta)FW$. Since we started with weight $W$, we have a multiplicative change of $1 - (1 - \beta)F$. 
+\end{sol}
 
+\begin{prob}{4-e}
+Arguing much as in the deterministic case, prove that the (expected) number of wrong answers is at most $\frac{m \ln (1/\beta) + \ln n}{1 - \beta}$. 
+\end{prob}
+\begin{sol}
+We know that we can obtain a lower bound for the final weight $W_f$ by examining the final weight of the wisest faculty member and noting that the final total weight must be greater than this. The wisest faculty member will be incorrect $m$ times, and will lose $\beta^m$ weight at the end. Using our upper bound for $W_f$ from problem 4-d, we know that the final weight is equal to the original starting total weight of $n$ times $\prod_i 1 - (1 - \beta)F_i$ over $l$, the number of mistakes. However, we see that this is further bounded by $e^{-(1 - \beta) l}$, which means we have the expression:
+\begin{eqnarray}
+\beta^m &<& n e^{-(1 - \beta) l} \\
+m \ln \beta &<& \ln n - (1 - \beta) l \\
+{{-m \ln \beta + \ln n} \over {1 - \beta}} &l& \\
+l &<& {{m \ln (1/\beta) + \ln n} \over {1 - \beta}}
+\end{eqnarray}
+
+Therefore, we have show that the expected number of wrong answers is bounded by this expression, which is what we wanted to show.
 \end{sol}
 
 \end{document}
