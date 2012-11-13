@@ -198,11 +198,42 @@ We know that we can obtain a lower bound for the final weight $W_f$ by examining
 \begin{eqnarray}
 \beta^m &<& n e^{-(1 - \beta) l} \\
 m \ln \beta &<& \ln n - (1 - \beta) l \\
-{{-m \ln \beta + \ln n} \over {1 - \beta}} &l& \\
+{{-m \ln \beta + \ln n} \over {1 - \beta}} &>& l \\
 l &<& {{m \ln (1/\beta) + \ln n} \over {1 - \beta}}
 \end{eqnarray}
 
 Therefore, we have show that the expected number of wrong answers is bounded by this expression, which is what we wanted to show.
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{5-a}
+Let $S$ be a set of $n$ axis-parallel rectangles in the plane (i.e. the sides of the rectangles are vertical and horizontal). We want to be able to report all rectangles in $S$ that are completely contained in a query rectangle $[x: x'] \times [y : y']$. Describe a data structure for this problem that uses $O(n \log^3 n)$ storage and has $O(\log^4 n + k)$ query time, where $k$ is the number of reported answers.
+\end{prob}
+\begin{sol}
+We will first solve this problem in one dimension, then extend it to higher dimensions. In one dimension, we can solve this problem by using a binary search tree. The nodes of each subtree will correspond to an interval, and the search tree will be keyed on the midpoint $(x_1 + x_2)/2$ of the interval stored in that specific node. Moreover, each node will be augmented with the smallest and largest interval in the subtree rooted at the node. Thus, there are $O(n)$ total nodes, and the height is of size $O(\log n)$ if the tree is balanced (which can be achieved by using an AVL structure). Thus, it requires $O(\log n + k)$ time to output $k$ elements which are in some interval. 
+
+Now, we shall generalize the algorithm to higher dimensions. Suppose we are in dimension $d$. Then we can construct a tree of dimension $d$ by using subtrees of size $d-1$. At each node in the tree of dimension $d$, we store an interval inside of the $d$th dimension. The search tree will again be keyed on the midpoint of the interval, and the node will contain the a tree of the $d-1$st dimension. Again, there are $O(n)$ total nodes, giving a height of $O(\log n)$ for the tree. If we construct a tree in $d$ dimensions, the size of the structure will be $\sum_{i} n_i \log^{d-1} n_i$, where $n_i$ is the size of the subtree on the $i$th node of the tree. We know that $\log^{d-1} n_i \leq \log^{d-1} n$, and we also know that $\sum_{i} n_i \leq n$. This means that the size is $O(n \log^{d-1} n)$. 
+
+For the query time, we just need to perform searches in $d$ of the search trees. Notice that the total extra amount of time spent is simply proportional to $k$ since we will only return each rectangle at most once. This means it requires $O(\log^d n + k)$ time to search for $k$ elements in the query rectangle. 
+
+Now, we need to figure out the number of dimensions that we need in order to solve the problem. Suppose we have a query rectangle $[x', x''] \times [y', y'']$. Then we need to make sure that some potential rectangle $[x_p', x_p''] \times [y_p', y_p'']$ has the following properties:
+\begin{eqnarray}
+[x_p', x_p''] &\in& [x', x''] \\
+\left[y_p', y_p'' \right] &\in& [y', y'']
+\end{eqnarray}
+
+However, we see that the potential rectangle has four points $x_p', x_p'', y_p', y_p''$ for which we need to create a search tree. Therefore, there are 4 dimensions which we need to check, so $d = 4$. This means that the tree will be of size $O(n \log^3 n)$ and queries will take $O(\log^4 n + k)$, which is what we wanted.
+\end{sol}
+
+\begin{prob}{5-b}
+Let $P$ consist of a set of $n$ polygons in the plane. Again, describe a data structure that uses $O(n \log^3 n)$ storage and has $O(\log^4 n + k)$ query time to report all polygons completely contained in the query rectangle, where $k$ is the number of reported answers (note that as a special case, you can report containment of line segments).
+\end{prob}
+\begin{sol}
+We will use the binary search tree structure from problem 5-a. For each polygon in $p_i \in P$, we will find the smallest axis-aligned rectangle $r_i$ which complete contains $p_i$. To do this for two dimensions, we can simply find the extreme points of the polygon in terms of $x$ and $y$ coordinates. In other words, we will find the largest $x$ and $y$ coordinates as well as the smallest $x$ and $y$ coordinates, and will use them as the upper and lower bounds respectively for drawing out the rectangle. Finding the maximum and minimum $x$ and $y$ coordinates takes only $O(d)$ time since the extreme points must rest on some vertex in $p_i$, and there are $O(d)$ vertices.
+
+This is true because each extreme point in $p_i$ must either be a point at which slopes of edges change, or must be on a line which is axis aligned. If the extreme point rests on an axis-aligned line, then the endpoints of the line will also provide the extreme points of the given dimension. Otherwise, we know that the slope must change at an extreme point, which implies that the extreme point must be a vertex. Thus, it takes an extra $O(nd)$ time to convert each polygon in $P$ into a smallest covering rectangle $r_i$. After doing this, queries can be performed on a rectangle tree as described in problem 5-b. We see that the polygon $p_i$ is contained in some query rectangle if and only if the corresponding smallest covering rectangle $r_i$ is contained in the query rectangle. This shows that setting query rectangles to correspond to polygons will solve the problem. The asymptotic space and time constraints do not change, so we can perform the find operation in $O(\log^4 n + k)$ time using $O(n \log^3 n)$ space for the data structure.
 \end{sol}
 
 \end{document}
