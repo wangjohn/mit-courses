@@ -1,7 +1,7 @@
 class QuestionResult:
     """Class for storing the result of a question. Used when reading in data."""
     def __init__(self, question_id, student_id, correct):
-        self.question_id = question_id
+        self.question_id = question_id  
         self.student_id = student_id
         self.correct = correct
 
@@ -9,7 +9,7 @@ class StudentResult:
     """Class for storing the result of a particular student's performance on 
        test exams. Created and populated when reading in data an processing it."""
     def __init__(self, question_results, student_id, num_correct, num_questions):
-        self.question_results = question_results
+        self.question_results = question_results  # hash of question_id : QuestionResult
         self.student_id = student_id
         self.num_correct = num_correct
         self.num_questions = num_questions
@@ -160,6 +160,10 @@ class ComputeProbabilities:
     def __init__(self, question_results):
         self.question_results = question_results
 	self.student_results = self._create_students()
+        self.questions_students_dict = self._create_questions_students_dict()
+        
+        # hash of question_id : Question where the Questions have rj computed 
+        self.questions = self.compute_rj(self)
 
     def _create_students(self):
         students = {}
@@ -169,7 +173,7 @@ class ComputeProbabilities:
         for question in self.question_results:
             if question.student_id in students:
                 # if studentResult for the id is already in the hash, change it.
-                students[question.student_id].question_results.append(question) 
+                students[question.student_id].question_results[question.question_id] = question
                 students[question.student_id].num_questions += 1
                 if question.correct:
                     students[question.student_id].num_correct += 1
@@ -179,12 +183,43 @@ class ComputeProbabilities:
                     num_correct = 1
                 else:
                     num_correct = 0
-                stud_result = StudentResult([question], question.student_id, num_correct, 1)
+                stud_result = StudentResult({question.question_id : question}, question.student_id, num_correct, 1)
                 students[question.student_id] = stud_result
         return students
 
+    def _create_questions_students_dict(self):
+        # creates a dictionary of all the questions, with the value of the dictionary 
+        # being all of the students who were given that question in the training data.
+        qs_dict = {}
+        for student_id, student_result in self.student_results.iteritems():
+            for question_result in student_result.question_results:
+                # check if the question_id is already in the dictionary
+                # and add the student id to the list accordingly
+                if question_result.question_id in qs_dict:
+                    qs_dict[question_result.question_id].append(student_result)
+                else:
+                    qs_dict[question_result.question_id] = [student_result]
+        return qs_dict
+
+    def compute_rj_uar_assumption(self):
+        """Method which just takes the sample means, and uses these as the probabilities of getting
+           a question correct."""
+        question_list = {}
+        for question_id, students_list in self.questions_students_dict:
+            count = 0
+            correct = 0
+            for student in students_list:
+                correct += student.question_results[question_id].correct
+                count += 1
+            rj = correct * 1.0 / count
+            question = Question(question_id, rj)
+            # add the question to the question_list hash
+            question_list[question_id] = question
+        return question_list 
+
     def compute_rj(self):
         """Method which iteratively computes the probability of a given question begin asked."""
+        raise "Unimplemented"
  
 
 
