@@ -217,26 +217,40 @@ class ComputeProbabilities:
             question_list[question_id] = question
         return question_list 
 
+    def continue_iteration(iteration, distance_change):
+        """Computes whether or not we should continue the current iteration
+           in the algorithm that iteratively computes rj. The min_threshold_change
+           and max_num_iterations will be computed using the first couple of 
+           iterations as a guide."""
+        if iteration <= 0:
+            return True
+        if distance_change < self.min_threshold_change or iteration > self.max_num_iterations:
+            return False
+        return True
+
     def compute_rj(self, delta):
         """Method which iteratively computes the probability of a given question begin asked."""
         # initialize weights by using the uar assumption, and begin to iterate
-        question_list = self.compute_rj_uar_assumption()
+        questions = self.compute_rj_uar_assumption()
         
         # iterate over the students, and each one of the questions that they answered
         # reassigning the theta_i's when necessary
         iteration = 0
-        while logic_to_continue_iteration:
+        distance_change = None
+        while continue_iteration(iteration, distance_change):
             delta = 0.5 * math.exp(-iteration)
             additional_delta_vec = [-delta, 0, delta]
 
             # first part of the iteration: change thetas for all the students
-            self._iteratively_compute_rj_or_theta_i(self.student_results, additional_delta_vec, questions, "student")
+            distance_change = self._iteratively_compute_rj_or_theta_i(self.student_results, additional_delta_vec, questions, "student")
             # second part of the iteration: change rjs for all the questions
-            self._iteratively_compute_rj_or_theta_i(self.questions_students_dict, additional_delta_vec, questions, "question")
+            distance_change += self._iteratively_compute_rj_or_theta_i(self.questions_students_dict, additional_delta_vec, questions, "question")
        
             iteration += 1
+        return questions
 
     def _iteratively_compute_rj_or_theta_i(self, iteration_dictionary, additional_delta_vec, questions, toplevel="question"):        
+        total_distance_change = 0
         for key, value in iteration_dictionary.iteritems():
             # distance is initialized as zero and increases as we get farther away from
             # the correct answer. The ordering of the inputs to distance are given by
@@ -261,7 +275,7 @@ class ComputeProbabilities:
                     student = secondary_item
                 else:
                     question_result = self.question_results[secondary_item.question_id]
-                    question = self.questions[question_result.question_id]
+                    question = questions[question_result.question_id]
 
                 xij = (1 if question_result.correct else 0) 
                 added_distance = [math.abs(xij - (question.rj + student.theta + i)) for i in additional_delta_vec]  
@@ -271,15 +285,17 @@ class ComputeProbabilities:
                 for i in xrange(len(distance)):
                     distance[i] += additional_delta_vec[i]
 
-            # now we have a distance vector which gives us the min distance for [rj-delta, rj, rj+delta]
+            # now we have a distance vector which gives us the min distance for [rj+thetai-delta, rj+thetai, rj+thetai+delta]
             # and we can evaluate which one is the best, and choose that one as the new theta_i or rj.
             best_index = additional_delta_vec.index(min(distance))
+            total_distance_change += (distance[1] - min(distance))
 
             # update rj if we're calling on questions and theta_i if we're calling on students
             if toplevel == "question":
                 question.rj += additional_delta_vec[best_index]
             else:
                 student.theta += additional_delta_vec[best_index]
+        return total_distance_change
 
 
 class GreedyAssignment:
