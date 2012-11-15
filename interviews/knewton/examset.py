@@ -230,33 +230,56 @@ class ComputeProbabilities:
             additional_delta_vec = [-delta, 0, delta]
 
             # first part of the iteration: change thetas for all the students
-            for student in self.student_results.itervalues():
-                # distance is initialized as zero and increases as we get farther away from
-                # the correct answer. The ordering of the inputs to distance are given by
-                # [current_rj - delta, current_rj, current_rj + delta]
-                distance = [0, 0, 0]
-                for question in student.question_results.itervalues():
-                    xij = 1 if question.correct else 0
-                    added_distance = [math.abs(xij - (question.rj + student.theta + i)) for i in additional_delta_vec]  
-                    
-                    # add the added_distance to the current distance to get a new measure for the 
-                    # distance, given this new question
-                    for i in xrange(len(distance)):
-                        distance[i] += additional_delta_vec[i]
-
-                # now we have a distance vector which gives us the min distance for [rj-delta, rj, rj+delta]
-                # and we can evaluate which one is the best, and choose that one as the new theta_i.
-                best_index = additional_delta_vec.index(min(distance))
-                student.theta = additional_delta_vec[best_index]
-
-
+            self._iteratively_compute_rj_or_theta_i(self.student_results, additional_delta_vec, questions, "student")
             # second part of the iteration: change rjs for all the questions
-            for question in self.questions_results.itervalues():
+            self._iteratively_compute_rj_or_theta_i(self.questions_students_dict, additional_delta_vec, questions, "question")
        
             iteration += 1
+
+    def _iteratively_compute_rj_or_theta_i(self, iteration_dictionary, additional_delta_vec, questions, toplevel="question"):        
+        for key, value in iteration_dictionary.iteritems():
+            # distance is initialized as zero and increases as we get farther away from
+            # the correct answer. The ordering of the inputs to distance are given by
+            # [current_rj + theta_i - delta, current_rj + theta_i, current_rj + theta_i + delta]
+            distance = [0, 0, 0]
+
+            # if we're calling on question, then the question_id is given by key, otherwise 
+            # the student_id is given by the key.
+            if toplevel == "question":                
+                question_result = self.question_results[key] 
+                question = questions[key]
+                secondary_list = value          
+            else:
+                student = value
+                secondary_list = value.question_results
+
+            # iterate over the secondary_list and calculate the min distance
+            for secondary_item in secondary_list:
+                # if we're calling on question, then the student is the secondary_item in the list, otherwise
+                # we're calling on student, which means the question_result is the secondary_item in the list
+                if toplevel == "question":
+                    student = secondary_item
+                else:
+                    question_result = self.question_results[secondary_item.question_id]
+                    question = self.questions[question_result.question_id]
+
+                xij = (1 if question_result.correct else 0) 
+                added_distance = [math.abs(xij - (question.rj + student.theta + i)) for i in additional_delta_vec]  
                 
+                # add the added_distance to the current distance to get a new measure for the 
+                # distance, given this new question
+                for i in xrange(len(distance)):
+                    distance[i] += additional_delta_vec[i]
 
+            # now we have a distance vector which gives us the min distance for [rj-delta, rj, rj+delta]
+            # and we can evaluate which one is the best, and choose that one as the new theta_i or rj.
+            best_index = additional_delta_vec.index(min(distance))
 
+            # update rj if we're calling on questions and theta_i if we're calling on students
+            if toplevel == "question":
+                question.rj += additional_delta_vec[best_index]
+            else:
+                student.theta += additional_delta_vec[best_index]
 
 
 class GreedyAssignment:
