@@ -217,10 +217,46 @@ class ComputeProbabilities:
             question_list[question_id] = question
         return question_list 
 
-    def compute_rj(self):
+    def compute_rj(self, delta):
         """Method which iteratively computes the probability of a given question begin asked."""
-        raise "Unimplemented"
- 
+        # initialize weights by using the uar assumption, and begin to iterate
+        question_list = self.compute_rj_uar_assumption()
+        
+        # iterate over the students, and each one of the questions that they answered
+        # reassigning the theta_i's when necessary
+        iteration = 0
+        while logic_to_continue_iteration:
+            delta = 0.5 * math.exp(-iteration)
+            additional_delta_vec = [-delta, 0, delta]
+
+            # first part of the iteration: change thetas for all the students
+            for student in self.student_results.itervalues():
+                # distance is initialized as zero and increases as we get farther away from
+                # the correct answer. The ordering of the inputs to distance are given by
+                # [current_rj - delta, current_rj, current_rj + delta]
+                distance = [0, 0, 0]
+                for question in student.question_results.itervalues():
+                    xij = 1 if question.correct else 0
+                    added_distance = [math.abs(xij - (question.rj + student.theta + i)) for i in additional_delta_vec]  
+                    
+                    # add the added_distance to the current distance to get a new measure for the 
+                    # distance, given this new question
+                    for i in xrange(len(distance)):
+                        distance[i] += additional_delta_vec[i]
+
+                # now we have a distance vector which gives us the min distance for [rj-delta, rj, rj+delta]
+                # and we can evaluate which one is the best, and choose that one as the new theta_i.
+                best_index = additional_delta_vec.index(min(distance))
+                student.theta = additional_delta_vec[best_index]
+
+
+            # second part of the iteration: change rjs for all the questions
+            for question in self.questions_results.itervalues():
+       
+            iteration += 1
+                
+
+
 
 
 class GreedyAssignment:
