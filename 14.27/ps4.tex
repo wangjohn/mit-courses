@@ -49,4 +49,57 @@ I believe that this is because Google places a higher price on search terms for 
 Since Google places so much importance on a nice user experience, Google does not display any ads. However, Bing probably places more emphasis on generating as much ad revenue as possible, so it displays ad.
 \end{sol}
 
+\begin{prob}{2-b}
+Find a search term on either Google or Bing which delivers quite different sponsored search results at different times of day. Again, what do you think might account for the difference in ads?
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
+\begin{prob}{2-c}
+A large fraction of the sponsored search links that Yahoo! used to serve were for pornography sites, even when search terms had nothing to do with pornography. (Their quality-weighting of ad bids was either very crude or nonexistent at the time.) Why would pornography sites want to do that? What change in policy could Yahoo! have put in place to limit this problem without changing their quality-weighting scheme?
+\end{prob}
+\begin{sol}
+Pornography sites would want to have sponsored search links on many search terms because doing so would enable them to target as large of an audience as possible. In particular, putting ads on any arbitrary search term would allow a pornography site to perform the internet equivalent of putting up a billboard on a highway and advertise their website to as many people as possible. This would work for a pornography site because it probably will only pertain to a small fraction of people, all with mostly equal probability of going to any site on the internet. 
+
+A policy that Yahoo! could have put in place in order to stem this problem would be to create some pornography score for each website. The score would be greater than 0, and the closer the score was to $+ \infty$, the more likely the site is to be a pornographic site. Next, Yahoo! could charge an added price for displaying ads which would be exponential in the score. For instance, one could take the function $P(s) = e^{t}$ so that sites which are very likely to be pornographic would have to pay an exorbitantly high price in order to display their ad. This means that even if Yahoo! incorrectly estimated a site's pornography score, they would still be able to buy an ad without too much of added price.
+
+The other possible policy change, which would be important if Yahoo! were not very good at estimating this pornography score, would be to disallow ads or websites which are not clicked on very often. Thus, they could create a ratio that looks at the number of clicks on an ad versus the number of views of the ad. If this ratio is below a certain threshold, then Yahoo! would stop displaying the ad. The motivation for this policy comes from the fact that if there is a low ratio, then the ad is probably not relevant to the search term. Moreover, Yahoo! does not need to go an analyze the website or the ad, but can use empirical evidence from the ad to determine whether or not the ad is relevant. This ratio could also be used in determining the pornography score mentioned above. 
+\end{sol}
+
+\makenewtitle
+\begin{prob}{3-a}
+Where did Amazon first begin operations? Where were its earliest warehouses and fulfillment centers? Describe their location strategy as it related to the laws governing sales tax collection in the United States.
+\end{prob}
+\begin{sol}
+Amazon first began operations in the state of Washington, and its earliest warehouses and fulfillment centers began next to the largest cities that Amazon did business in. Large cities (and also Seattle, their headquarters), were the first locations for which fulfillment centers were created. This allowed Amazon to quickly ship items from the fulfillment center to the user in that end city, instead of having to move a product across the country. 
+
+In recent years, Amazon has been building fulfillment centers in states that have been imposing sales tax on Amazon. Many states have begun to challenge Amazon's sales-tax free status. Historically, Amazon has been able to sell products without sales tax because it has no physical presence in a particular state. Individual states such as California have been filing litigation to make Amazon's customers pay sales taxes in their states. In some states, Amazon has conceded and their customers in certain states are beginning to have to pay sales tax. This means, however, that Amazon now has an incentive to build a fulfillment center in those states which they have settled with, since building a physical nexus in that state will not increase sales tax. 
+
+Thus, Amazon has begun building fulfillment centers in states where it's customers no longer have sales-tax free status.
+\end{sol}
+
+\begin{prob}{3-b}
+If all Amazon sales become subject to collection of sales tax (by Amazon for the ship-to state) in the near future, what does the evidence from the economics literature suggest about the future shape of Amazon's warehouse and fulfillment network?
+\end{prob}
+\begin{sol}
+The empirical literature suggest that 1) sales taxes have a significant negative influence on a consumer's willingness to buy an item and that 2) longer shipping times cause a consumer to be less willing to buy an item. If Amazon starts becoming subject to collection of sales taxes, then it makes little sense for Amazon to rely on shipping from out of state, since its advantage in terms of the price of an object from an out of state item is completely nullified. Therefore, the only thing which Amazon can compete on is shipping time. 
+
+Thus, if Amazon loses tax-exempt status, it will attempt to start shipping items over shorter distances. In particular, loss of its tax-exempt status means that there is no penalty for creating nexus in certain states, so that it makes sense to build warehouses next to large cities and geographic locations of high demand. This will allow Amazon to decrease shipping time, and does not incur a marginal penalty from a tax sense, since Amazon would have already lost tax-exempt status.
+\end{sol}
+
+\begin{prob}{3-c}
+If all Amazon sales become subject to collection of sales tax in the near future (due to political pressure and bilateral negotiations with states), but the same does not happen for small internet retailers, what does the economics literature suggest about the future overall configuration of e-retail? (Here, think also about home state preferences.)
+\end{prob}
+\begin{sol}
+If Amazon becomes subject to collection of sales tax, clearly its products will be in less demand due to their higher price, and because the economics literature suggests that higher sales tax shifts the demand curve for a good downwards. In this sense, small internet retailers will become more competitive in terms of demand. This results from the fact that these retailers may continue providing goods without sales tax while Amazon becomes subject to sales tax.
+
+However, there is another effect, namely, the fact that Amazon will likely start building fulfillment centers and warehousing networks that drastically decrease shipping time. As discussed in problem 3-b, Amazon will try to compete with faster shipping time once it loses its tax-exempt status. This means consumers who place more emphasis on the fast receival on a product will be more likely to buy from Amazon, but the consumers who are only looking for the best price will be more likely to buy from small e-retailers. 
+
+Another factor to remember here is that Amazon will begin to place fulfillment centers in a consumer's home state, and that consumer may want to buy ``locally''. However, the economics literature has shown that this factor is usually inconsequential, and since Amazon is a large multinational corporation, a consumer probably will not change his or her buying habits based on the location of the fulfillment center. 
+
+Thus, it is hard to tell what the future configuration of e-retail will be without being able to see the elasticities of demand and how they are affected by shipping time versus lower price. It depends on how the consumer base of e-retailers shift, and the economics literature doesn't provide a definitive answer for this.
+\end{sol}
+
+
 \end{document}
