@@ -77,7 +77,7 @@ This analysis shows that we have found an approximation algorithm that allows us
 
 Now, the process of ranking students will be discussed. Once a set of questions has been chosen, whether it is from the RPA algorithm or the genetic algorithm (to be discussed), the results of the test must be used to rank the students. This can be done in the following manner. Since we already know the probability of getting some question right, we compute a student's score $\sigma_i$ using the following equation:
 \begin{eqnarray}
-\sigma_i = \sum_{j=1}^n \frac{\gamma_{ij} x_{ij}}{r_j}
+\sigma_i = \sum_{j=1}^K \frac{\gamma_{ij} x_{ij}}{r_j}
 \end{eqnarray}
 
 Basically, the score is a weighted sum of the number of questions that a student got right. Questions that have a lower probability of being answered correctly (low $r_j$) will have larger weights assigned to them. The total score of a student then is just the sum of the scores for each question the student was assigned, weighted by the difficulty of the question. Once $\sigma_i$ has been computed for all $i$, the students can be ranked by $\sigma_i$. 

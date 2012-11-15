@@ -20,6 +20,12 @@ class StudentResult:
 
 class Question:
     """Class for one of the questions asked. Methods provide a question_id, 
+        self.score = None
+
+    def get_score(self):
+        if self.score:
+            return self.score
+        for question in self.questions
        a probability of getting the question right, and the entropy."""
     def __init__(self, question_id, rj):
         self.question_id = question_id
@@ -30,7 +36,7 @@ class Student:
     """Potential student. This is a model of a random student taking a set of
        k questions. Used when creating an ExamSet and evaluating the set."""
     def __init__(self, questions):
-        self.questions = questions
+        self.questions = questions # hash of question_id : Question
         self.k = len(self.questions)
         self.score_probabilities = None
 
@@ -157,8 +163,12 @@ class Examset:
  
 class ComputeProbabilities:
     """Class for reading in the question results and creating students."""
-    def __init__(self, question_results):
+    def __init__(self, question_results, min_threshold_change=0.05, max_num_iterations=250):
         self.question_results = question_results
+        self.min_threshold_change = min_threshold_change
+        self.max_num_iterations = max_num_iterations
+
+        # create student_result objects and group them by question for easier usage
 	self.student_results = self._create_students()
         self.questions_students_dict = self._create_questions_students_dict()
         
