@@ -1,0 +1,52 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{framed}
+\usepackage{hyperref}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 14.27 Economics of E-Commerce} \\
+    Problem Set 4\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} 
+    \end{center}
+    \vspace{0.5cm}
+}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\begin{document}
+
+\makenewtitle
+
+\begin{prob}{2-a}
+Find a search term where the sponsored search results (the ads) are quite different on Google and Bing.  The differences could be in ad type, quality, quantity, etc.  ("Hatch Shell" was the example we saw in class, but choose something different.)  What do you think might account for the difference in ads?  If it's differences in the quality weighting schemes, speculate about what aspect of quality weighting we discussed in class might be responsible.
+\end{prob}
+
+\begin{sol}
+I searched for the term ``Black Eyed Peas'' on both Google and Bing. Surprisingly, Google did not display any ads, whereas Bing displayed two ads about black eyed peas (the food product) and a single ad about albums that the Black Eyed Peas (musical group) were selling. There interesting thing here is that no ads were displayed on Google, which probably means that the minimum quality weighted reserve price was not met on Google's ad auction. Bing's minimum quality and price requirement are clearly not as high. 
+
+I believe that this is because Google places a higher price on search terms for which users do not expect ads. For instance, typing in ``Black Eyed Peas'' probably means you are looking for a Wikipedia page about the musical group, or looking for information about the musical group such as their albums and songs or their touring destinations. A user would be especially likely to be looking for Youtube videos or Black Eyed Peas music. In this sense, the user is most likely not looking to buy anything-he or she is usually only looking to get information or to listen to music made by the Black Eyed Peas.
+
+Since Google places so much importance on a nice user experience, Google does not display any ads. However, Bing probably places more emphasis on generating as much ad revenue as possible, so it displays ad.
+\end{sol}
+
+\end{document}
