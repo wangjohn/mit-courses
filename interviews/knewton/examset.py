@@ -1,3 +1,7 @@
+import random
+import math
+
+
 class QuestionResult:
     """Class for storing the result of a question. Used when reading in data."""
     def __init__(self, question_id, student_id, correct):
@@ -20,12 +24,6 @@ class StudentResult:
 
 class Question:
     """Class for one of the questions asked. Methods provide a question_id, 
-        self.score = None
-
-    def get_score(self):
-        if self.score:
-            return self.score
-        for question in self.questions
        a probability of getting the question right, and the entropy."""
     def __init__(self, question_id, rj):
         self.question_id = question_id
@@ -107,8 +105,9 @@ class ProbabilisticQuestionSet:
        parameter c for making the number of trials a constant, and the current 
        questions entropy. See the writeup for more details.
     """
-    def __init__(self, questions):
+    def __init__(self, questions, c=200.0):
         self.question_list = questions
+        self.probability_bins = self._get_probability_bins(c)
  
     def _get_probability_bins(self, c):
         # find the minimum and maximum entropies
@@ -134,7 +133,26 @@ class ProbabilisticQuestionSet:
 
     def sample(self, n):
         raise "Not Implemented"
-                
+
+    def single_sample(self):
+        rand = random.random()
+        self._binary_search_bins(0, len(self.probabilities)-1, rand)
+
+    def _binary_search_bins(self, low, high, value):
+        """Performs a binary search for the index or closest index
+           to value, plus or minus one index."""
+        if high <= low:
+            return low 
+        mid = (low + high)/2
+        mid_value = self.probability_bins[mid] 
+        if value < mid_value:
+            return self._binary_search_bins(low, mid-1, value)
+        elif value > mid_value:
+            return self._binary_search_bins(mid+1, high, value)
+        else:
+            return mid         
+
+
 class ExamSet:
     """Class which represents an possible ExamSet to be given to a set of 
        students. The ExamSet contains a list of students and the possible 
