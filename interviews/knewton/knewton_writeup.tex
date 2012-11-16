@@ -3,7 +3,7 @@
 %-------Packages---------
 \usepackage{amssymb,amsfonts}
 \usepackage{enumerate}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=1.5in]{geometry}
 \usepackage{amsthm}
 \usepackage{theorem}
 \usepackage{verbatim}
@@ -24,9 +24,18 @@
 \title{Knewton Data Challenge}
 \author{John Wang}
 
+
 \begin{document}
 
+\begin{abstract}
+Blah, need to write abstract.
+\end{abstract}
+
 \maketitle
+
+\tableofcontents
+
+\newpage
 
 \section{Problem Formulation}
 
@@ -167,7 +176,7 @@ Pr[t \geq G] \leq \frac{E[t]}{G}
 
 Therefore, the probability that the number of tries exceeds the expected number drops off linearly as the excess increases.
 
-\subsection{Genetic Algorthim}
+\section{Genetic Algorthim}
  
 The other algorithm that will be implemented is a genetic search algorithm which uses sampling to quickly compute $\mathrm{H}$. The $\lambda$ examsets from iteration $t$ in the algorithm will be used as the parents of new examsets to be generated in iteration $t+1$. At each iteration, $\Lambda$ new examsets will be created by mutation and crossover.
 

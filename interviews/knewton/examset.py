@@ -99,20 +99,59 @@ class Student:
             probs = new_probs
         self.score_probabilities = probs
         return probs
+
+class ProbabilisticQuestionSet:
+    """This class takes as input a list of questions and allows one to select 
+       a question at random according to the entropies. The probability of
+       choosing a question is a function of the max and minimum entropy, some
+       parameter c for making the number of trials a constant, and the current 
+       questions entropy. See the writeup for more details.
+    """
+    def __init__(self, questions):
+        self.question_list = questions
+ 
+    def _get_probabilities(self):
+        raise "Not Implemented"
+
+    def sample(self, n):
+        raise "Not Implemented"
                 
-class Examset:
+class ExamSet:
     """Class which represents an possible ExamSet to be given to a set of 
        students. The ExamSet contains a list of students and the possible 
-       questions that will be posed."""
+       questions that will be posed.
+
+       NOTE: ExamSet has a rep invariant that the student_list is final. The
+       behavior of this class when self.students is changed is unspecified. 
+
+    """
     def __init__(self, student_list, bin_size=None):
         self.students = student_list
         self.entropy = None
         self.bins = None
+        self.num_distinct_questions = None
         if bin_size:
             self.bin_size = bin_size
         else:
             self.bin_size = self.compute_bin_size(student_list)
 
+
+    def get_num_distinct_questions(self):
+        """Gets the number of distinct questions that exist for this ExamSet."""
+        if self.num_distinct_questions:
+            return self.num_distinct_questions
+        if self.students:
+            question_ids = {}
+            # iterate over each student, and each question for each student, and
+            # add these to our hash of question_ids
+            for student in self.students:
+                for question_id in student.questions.iterkeys():
+                    question_ids[question_id] = True
+            self.num_distinct_questions = len(question_ids)
+        else:
+            self.num_distinct_questions = 0
+        return self.num_distinct_questions
+        
 
     def compute_bin_size(self, students):
         """Computes the bin size to use for computing entropies and 
@@ -196,6 +235,14 @@ class ComputeProbabilities:
                 stud_result = StudentResult({question.question_id : question}, question.student_id, num_correct, 1)
                 students[question.student_id] = stud_result
         return students
+
+    def get_top_questions(self, n):
+        """Gets the n questions with the highest entropy, note that this method
+           mutates the ordering of the questions in self.questions. After this
+           method is called, the questions will be ordered by highest entropy
+           first."""
+       self.questions = sorted(self.questions, key = lambda q : q.entropy, reverse=True)
+       return self.questions[:n]
 
     def _create_questions_students_dict(self):
         # creates a dictionary of all the questions, with the value of the dictionary 
@@ -308,10 +355,41 @@ class ComputeProbabilities:
         return total_distance_change
 
 
-class GreedyAssignment:
-    def __init__(self, question_results, student_results):
+class QuestionAssignment:
+    """Class which creates an ExamSet satisfying the conditions specified in our problem.
+       The num_students parameter tells us how many students there should be in the 
+       resulting ExamSet, and the num_questions_per_student parameter tells us how 
+       many questions there should be per student. 
+
+       There are two methods for question_assignment -- One uses a randomized greedy 
+       algorithm and can be called with greedy_assignment(), and the other uses a 
+       genetic algorithm and can be called with genetic_assignment().
+    """
+    def __init__(self, question_results, num_students, num_questions_per_student, total_required_questions):
         self.question_results = question_results
-        self.student_results = student_results
+        self.num_students = num_students
+        self.num_questions_per_student = num_questions_per_student 
+        self.total_required_questions = total_required_questions
+
+        # we initialize a compute probabilities object which will compute rj for all of the questions
+        self.compute_probabilities = ComputeProbabilities(question_results)
+
+    def greedy_assignment(self):
+        # get the top L=self.total_required_questions number of questions, and insert them into an examset 
+        # with probability proportional to their rj.
+        top_questions = self.compute_probabilities.get_top_questions(self.total_required_questions)
+        top_questions_set = ProbabilisticQuestionSet(top_questions)
+        newExamSet = None 
+
+        # we continue looping until we've reached the requisite number of questions
+        while newExamSet == None or newExamSet.get_num_distinct_questions < self.total_required_questions:
+            for i in xrange(self.num_students):
+                # create a new student with num_questions_per_student randomly sampled questions
+                current_student_questions = top_questions_set.sample(self.num_questions_per_student)
+               
+                #TODO: create a student
+                
+  
 
 def get_entropy(rj):
     return rj*math.log(1.0/rj)
