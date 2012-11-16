@@ -132,10 +132,19 @@ class ProbabilisticQuestionSet:
         return bins
 
     def sample(self, n):
+        """Provides a sample of n questions with no repeats."""
         result = []
-        for i in xrange(n):
+        already_used = {}
+
+        # Las Vegas algorithm that repeatedly samples until we are done,
+        # throwing away samples that we have alreaady used.
+        # Note that this assumes that n is much smaller than the number of
+        # questions available.
+        while already_used.size() < n:
             index = self.bin_search(random.random())
-            result.append(self.question_list[index])
+            if index in already_used:
+                result.append(self.question_list[index])
+                already_used[index] = True
         return result
 
     def bin_search(self, rand):
@@ -153,7 +162,6 @@ class ProbabilisticQuestionSet:
         else:
             return index
      
-
     def _binary_search_bins(self, low, high, value):
         """Performs a binary search for the index or closest index
            to value, plus or minus one index."""
