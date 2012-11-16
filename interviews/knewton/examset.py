@@ -132,11 +132,27 @@ class ProbabilisticQuestionSet:
         return bins
 
     def sample(self, n):
-        raise "Not Implemented"
+        result = []
+        for i in xrange(n):
+            index = self.bin_search(random.random())
+            result.append(self.question_list[index])
+        return result
 
-    def single_sample(self):
-        rand = random.random()
-        self._binary_search_bins(0, len(self.probabilities)-1, rand)
+    def bin_search(self, rand):
+        index = self._binary_search_bins(0, len(self.probabilities)-1, rand)
+        # check if rand is on the left or the right
+        if index == 0 or index == len(self.probabilities)-1:
+            return index
+
+        # we want to get the index where rand is less than the value
+        # i.e. if we have rand = 0.85 and bins [0.5, 1], then we want
+        # to return bin of index 0. However if we have rand = 0.2, we also
+        # want to return index 0.
+        if self.probabilities[index] > rand:
+            return index - 1
+        else:
+            return index
+     
 
     def _binary_search_bins(self, low, high, value):
         """Performs a binary search for the index or closest index
