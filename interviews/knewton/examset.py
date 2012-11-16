@@ -110,8 +110,27 @@ class ProbabilisticQuestionSet:
     def __init__(self, questions):
         self.question_list = questions
  
-    def _get_probabilities(self):
-        raise "Not Implemented"
+    def _get_probability_bins(self, c):
+        # find the minimum and maximum entropies
+        old_entropy_list = [question.entropy for question in question_list]
+        min_entropy = min(old_entropy_list)
+        max_entropy = max(old_entropy_list)
+
+        # compute the new entropies H' which take into account the
+        # factor that corrects for very small entropies. 
+        scaling_factor = float(max_entropy - min_entropy)/(c-1)
+        new_entropies = [question.entropy + scaling_factor for question in self.question_list]
+        total_new_entropy = sum(new_entropies)
+        
+        # make these new entropies into probabilities and build the buckets
+        probabilities = [float(entropy)/total_new_entropy for entropy in new_entropies]     
+        bins = []
+        previous = 0
+        for i in xrange(len(probabilities)):
+            bins.append(probabilities[i] + previous)
+            previous += bins[i]
+
+        return bins
 
     def sample(self, n):
         raise "Not Implemented"
@@ -376,18 +395,22 @@ class QuestionAssignment:
 
     def greedy_assignment(self):
         # get the top L=self.total_required_questions number of questions, and insert them into an examset 
-        # with probability proportional to their rj.
+        # with probability proportional to their entropy.
         top_questions = self.compute_probabilities.get_top_questions(self.total_required_questions)
         top_questions_set = ProbabilisticQuestionSet(top_questions)
         newExamSet = None 
 
         # we continue looping until we've reached the requisite number of questions
         while newExamSet == None or newExamSet.get_num_distinct_questions < self.total_required_questions:
+            student_list = []
             for i in xrange(self.num_students):
                 # create a new student with num_questions_per_student randomly sampled questions
                 current_student_questions = top_questions_set.sample(self.num_questions_per_student)
                
-                #TODO: create a student
+                # create a student and append him to the list
+                student_list.append(Student(current_student_questions))
+            newExamSet = ExamSet(student_list)
+       return newExamSet
                 
   
 
