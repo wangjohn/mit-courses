@@ -272,17 +272,25 @@ class ExamSet:
        student_list = list(self.students)
        for student in student_list:
            new_mutations = False
-           if num_mutations > 0:
-               # figure out indices that we will be replacing
-               mutated = random.sample(range(student.k), num_mutations)
+           for key in student.questions.iterkeys():
+               # delete questions from student.questions at random, according
+               # to some mutation rate.
+               if random.random() < rate:
+                   del student.questions[key]
+                   new_mutations = True
+           if new_mutations:
+               # mutate the current sample so that we obtain student.k questions for this student
+               # in his student.questions hash of his questions
+               compute_probabilities_object.sample(student.k, student.questions)
 
-               #TODO: need to make sure that the new questions haven't already been used.
-               non_mutated_question_ids = [question_id for i in xrange(student.k) if i not in mutated]                
-               compute_probabilities_object.sample(num_mutations, student.questions)
-
-               change_indices = random.sample(student.k)
        newExamSet = ExamSet(student_list, self.bin_size)
        newExamSet.entropy = self.entropy
+
+    def crossover(self, examset):
+       """Returns a new examset which is a crossover of the current examset and the
+          ExamSet passed in as an argument. The crossovers occur with probability given
+          by the crossover rate parameter.
+       """ 
        
  
 class ComputeProbabilities:
