@@ -2,7 +2,8 @@ from examset import *
 import math
 
 class GeneticAlgorithm:
-    def __init__(self, population_size, mutation_function, max_iterations, parent_population_size):
+    def __init__(self, initial_examsets, population_size, mutation_function, max_iterations, parent_population_size):
+        self.examsets = initial_examsets
         self.population_size = population_size
         self.mutation_function = mutation_function
         self.iteration = 0
@@ -12,8 +13,15 @@ class GeneticAlgorithm:
         self.parent_population_size = (parent_population_size if parent_population_size else len(population_size)*0.25)
 
     def breed(self):
-        mutation_rate = self.mutation_function(self.iteration, self.max_iterations, 2)
-        crossover_rate = self.mutation_function(self.iteration, self.max_iterations, 3.5)
+        """Performs the genetic algorithm, going until we finish the total number of iterations."""
+        while self.iteration < self.max_iterations:
+            mutation_rate = self.mutation_function(self.iteration, self.max_iterations, 2)
+            crossover_rate = self.mutation_function(self.iteration, self.max_iterations, 3.5)
+            num_to_cross = round(0.30*(self.population_size-self.parent_population_size))
+            num_to_mutate = round(0.70*(self.population_size-self.parent_population_size))
+            self._breed_iteration(num_to_cross, num_to_mutate, mutation_rate, crossover_rate)
+            self.iteration += 1
+        return self.examsets
 
     def _get_random_indices(self, n):
         """Gets n random indices and returns them in a list. None of the indices are repeated."""
