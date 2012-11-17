@@ -260,6 +260,22 @@ class ExamSet:
                 else:
                     bins[current_bin] = [prob, 1]
         return bins
+  
+   def mutate(self, rate, compute_probabilities_object):
+       """Returns a new examset with a mutated copy of all the variables.
+          The new examset is separate from the current one, so that changing properties
+          in the mutated examset does not change anything in current ExamSet.
+       """
+       student_list = list(self.students)
+       for student in student_list:
+           num_mutations = round(random.random()*student.k)
+           if num_mutations > 0:
+               #TODO: need to make sure that the new questions haven't already been used.
+               new_questions = compute_probabilities_object.sample(num_mutations)
+               change_indices = random.sample(student.k)
+       newExamSet = ExamSet(student_list, self.bin_size)
+       newExamSet.entropy = self.entropy
+       
  
 class ComputeProbabilities:
     """Class for reading in the question results and creating students."""
@@ -454,7 +470,9 @@ class QuestionAssignment:
             newExamSet = ExamSet(student_list)
        return newExamSet
                 
-  
+   def genetic_assignment(self):
+       # Instantiate the genetic algorithm object and run it
+       raise "Not Implemented." 
 
 def get_entropy(rj):
     return rj*math.log(1.0/rj)
