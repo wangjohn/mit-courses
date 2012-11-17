@@ -135,20 +135,19 @@ class ProbabilisticQuestionSet:
         
         while already_used.s
 
-    def sample(self, n):
+    def sample(self, n, already_used = {}):
         """Provides a sample of n questions with no repeats."""
         result = []
-        already_used = {}
 
         # Las Vegas algorithm that repeatedly samples until we are done,
         # throwing away samples that we have alreaady used.
         # Note that this assumes that n is much smaller than the number of
         # questions available.
-        while already_used.size() < n:
+        while len(already_used) < n:
             index = self.bin_search(random.random())
             if index in already_used:
                 result.append(self.question_list[index])
-                already_used[index] = True
+                already_used[index] = self.question_list[index]
         return result
 
     def bin_search(self, rand):
@@ -272,14 +271,15 @@ class ExamSet:
        """
        student_list = list(self.students)
        for student in student_list:
-           num_mutations = round(random.random()*student.k)
+           new_mutations = False
            if num_mutations > 0:
                # figure out indices that we will be replacing
                mutated = random.sample(range(student.k), num_mutations)
 
                #TODO: need to make sure that the new questions haven't already been used.
                non_mutated_question_ids = [question_id for i in xrange(student.k) if i not in mutated]                
-               new_questions = compute_probabilities_object.sample(num_mutations, student.question_results[mutated])
+               compute_probabilities_object.sample(num_mutations, student.questions)
+
                change_indices = random.sample(student.k)
        newExamSet = ExamSet(student_list, self.bin_size)
        newExamSet.entropy = self.entropy
@@ -293,7 +293,7 @@ class ComputeProbabilities:
         self.max_num_iterations = max_num_iterations
 
         # create student_result objects and group them by question for easier usage
-	self.student_results = self._create_students()
+	    self.student_results = self._create_students()
         self.questions_students_dict = self._create_questions_students_dict()
         
         # hash of question_id : Question where the Questions have rj computed 
