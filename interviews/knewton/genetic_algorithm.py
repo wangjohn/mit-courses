@@ -8,6 +8,7 @@ class GeneticAlgorithm:
         self.mutation_function = mutation_function
         self.iteration = 0
         self.max_iterations = max_iterations
+        self.top_10 = []
 
         # parent population size defaults to 25% of the population size
         self.parent_population_size = (parent_population_size if parent_population_size else len(population_size)*0.25)
@@ -38,6 +39,10 @@ class GeneticAlgorithm:
         parents = self.examsets[:self.parent_population_size]
         new_examsets = []
 
+        # get a new set of top 10
+        self.top_10 += self.examsets[:10]
+        self.top_10 = sorted(self.top_10, key = lambda e : e.get_entropy(), reverse=True)[:10]
+
         # keep crossing until we have the requisite number of examsets
         # note that we don't care about crossing two pairs that have already
         # been crossed.
@@ -54,7 +59,7 @@ class GeneticAlgorithm:
 
         # new iteration will consist of the new examsets and the old parents 
         # TODO: figure out if I should include the parents in the next iteration or not.
-        self.examsets = parents + new_examsets
+        self.examsets = new_examsets
 
 def mutation_rate_function(iteration, max_iterations, scaling_factor=2):
     """As the iterations increase, mutation rate goes down and instead of exploring the
