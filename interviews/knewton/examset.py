@@ -131,6 +131,10 @@ class ProbabilisticQuestionSet:
 
         return bins
 
+    def replace(self, n, current_questions):
+        
+        while already_used.s
+
     def sample(self, n):
         """Provides a sample of n questions with no repeats."""
         result = []
@@ -270,8 +274,12 @@ class ExamSet:
        for student in student_list:
            num_mutations = round(random.random()*student.k)
            if num_mutations > 0:
+               # figure out indices that we will be replacing
+               mutated = random.sample(range(student.k), num_mutations)
+
                #TODO: need to make sure that the new questions haven't already been used.
-               new_questions = compute_probabilities_object.sample(num_mutations)
+               non_mutated_question_ids = [question_id for i in xrange(student.k) if i not in mutated]                
+               new_questions = compute_probabilities_object.sample(num_mutations, student.question_results[mutated])
                change_indices = random.sample(student.k)
        newExamSet = ExamSet(student_list, self.bin_size)
        newExamSet.entropy = self.entropy
