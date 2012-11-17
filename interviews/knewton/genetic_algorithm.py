@@ -14,7 +14,9 @@ class GeneticAlgorithm:
         self.parent_population_size = (parent_population_size if parent_population_size else len(population_size)*0.25)
 
     def breed(self):
-        """Performs the genetic algorithm, going until we finish the total number of iterations."""
+        """Performs the genetic algorithm, going until we finish the total number of iterations.
+           Returns the top 10 examsets that we found in throughout the genetic algorithm.
+        """
         while self.iteration < self.max_iterations:
             mutation_rate = self.mutation_function(self.iteration, self.max_iterations, 2)
             crossover_rate = self.mutation_function(self.iteration, self.max_iterations, 3.5)
@@ -22,7 +24,7 @@ class GeneticAlgorithm:
             num_to_mutate = round(0.70*(self.population_size-self.parent_population_size))
             self._breed_iteration(num_to_cross, num_to_mutate, mutation_rate, crossover_rate)
             self.iteration += 1
-        return self.examsets
+        return self.top_10
 
     def _get_random_indices(self, n):
         """Gets n random indices and returns them in a list. None of the indices are repeated."""
