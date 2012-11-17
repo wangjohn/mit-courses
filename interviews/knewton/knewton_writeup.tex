@@ -3,7 +3,7 @@
 %-------Packages---------
 \usepackage{amssymb,amsfonts}
 \usepackage{enumerate}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=1.5in]{geometry}
 \usepackage{amsthm}
 \usepackage{theorem}
 \usepackage{verbatim}
@@ -24,9 +24,18 @@
 \title{Knewton Data Challenge}
 \author{John Wang}
 
+
 \begin{document}
 
+\begin{abstract}
+Blah, need to write abstract.
+\end{abstract}
+
 \maketitle
+
+\tableofcontents
+
+\newpage
 
 \section{Problem Formulation}
 
@@ -77,7 +86,7 @@ This analysis shows that we have found an approximation algorithm that allows us
 
 Now, the process of ranking students will be discussed. Once a set of questions has been chosen, whether it is from the RPA algorithm or the genetic algorithm (to be discussed), the results of the test must be used to rank the students. This can be done in the following manner. Since we already know the probability of getting some question right, we compute a student's score $\sigma_i$ using the following equation:
 \begin{eqnarray}
-\sigma_i = \sum_{j=1}^n \frac{\gamma_{ij} x_{ij}}{r_j}
+\sigma_i = \sum_{j=1}^K \frac{\gamma_{ij} x_{ij}}{r_j}
 \end{eqnarray}
 
 Basically, the score is a weighted sum of the number of questions that a student got right. Questions that have a lower probability of being answered correctly (low $r_j$) will have larger weights assigned to them. The total score of a student then is just the sum of the scores for each question the student was assigned, weighted by the difficulty of the question. Once $\sigma_i$ has been computed for all $i$, the students can be ranked by $\sigma_i$. 
@@ -167,7 +176,7 @@ Pr[t \geq G] \leq \frac{E[t]}{G}
 
 Therefore, the probability that the number of tries exceeds the expected number drops off linearly as the excess increases.
 
-\subsection{Genetic Algorthim}
+\section{Genetic Algorthim}
  
 The other algorithm that will be implemented is a genetic search algorithm which uses sampling to quickly compute $\mathrm{H}$. The $\lambda$ examsets from iteration $t$ in the algorithm will be used as the parents of new examsets to be generated in iteration $t+1$. At each iteration, $\Lambda$ new examsets will be created by mutation and crossover.
 
@@ -176,14 +185,5 @@ First, there will be some mutation rate $\mu_m$ and a crossover rate $\mu_c$. Th
 If a question is to be mutated, a new question is selected from the set of all questions using the probability assigment algorithm from RPA (notice that the question set will be all possible questions and we will extend the RPA probability assignment algorithm to all questions). If a question is to have a crossover, we will randomly select another examset with probability proportional to the examset's entropy, and we will select an individual within that examset with probability proportional to the individual's entropy. The crossover will switch the individual's set of questions for the two examsets. 
 
 All of the mutations and crossovers will be performed during an iteration, and this will be performed until there are a total of $\Lambda$ new examsets spawned from the original $\lambda$ parents. The mutation rate $\mu_m$ and crossover rate $\mu_c$ will decrease as the genetic algorithm proceeds, much like in simulated annealing, so that the sample space is explored initially. 
-
-\section{Ranking Students}
-
-Now, the process of ranking students will be discussed. Once a set of questions has been chosen, whether it is from the RPA algorithm or the genetic algorithm, the results of the test must be used to rank the students. This can be done in the following manner. Since we already know the probability of getting some question right, we compute a student's score $\sigma_i$ using the following equation:
-\begin{eqnarray}
-\sigma_i = \sum_{j=1}^n \frac{\gamma_{ij} x_{ij}}{r_j}
-\end{eqnarray}
-
-Basically, the score is a weighted sum of the number of questions that a student got right. Questions that have a lower probability of being answered correctly (low $r_j$) will have larger weights assigned to them. The total score of a student then is just the sum of the scores for each question the student was assigned, weighted by the difficulty of the question. Once $\sigma_i$ has been computed for all $i$, the students can be ranked by $\sigma_i$. 
 
 \end{document}
