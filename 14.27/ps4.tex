@@ -1,0 +1,264 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{framed}
+\usepackage{hyperref}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{\vspace{0.25cm}{\large \bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}[1]{\begin{framed}{\large \bfseries Problem #1:}}{\end{framed}}
+\newcommand{\makenewtitle}{
+    \begin{center}
+    {\huge \bfseries 14.27 Economics of E-Commerce} \\
+    Problem Set 4\\
+    \vspace{0.25cm}
+    {\bfseries John Wang} 
+    \end{center}
+    \vspace{0.5cm}
+}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\begin{document}
+
+\makenewtitle
+
+\begin{center}
+{\Large \bfseries Problem 1}
+\end{center}
+
+\begin{prob}{1-a}
+Suppose that the retailer and the delivery company are part of the firm. What profit does the firm achieve? Does it matter how the firm divides its total price into a price for the good and the delivery charge?
+\end{prob}
+\begin{sol}
+Notice that we only care about the total combined profits of both the delivery and the retail company. Since these are combined together, we can define a new price function $P_t = P_g + P_d$ which is the total price that a consumer pays for the product. We can substitute these into the profit function for the firm:
+\begin{eqnarray}
+\pi(P_g, P_d) &=& (P_g + P_d) (1 - P_g - P_d) \\
+ &=& (P_t)(1 - P_t)
+\end{eqnarray}
+
+Taking first order conditions and maximizing this quantity, we see that $1 - 2 P_t = 0$ so that the maximum profit occurs when $P_t = 1/2$. Therefore, the firm achieves a profit of $\pi = (1/2)(1 - 1/2) = (1/2)(1/2) = 1/4$. It does not matter how the firm divides up the price into the good and delivery charges because in the end $P_t$, the total price, stays the same and the demand does not shift with different distributions of prices.
+\end{sol}
+
+\begin{prob}{1-b}
+Suppose the retailer and delivery company are separate firms. Suppose that they each simultaneously choose prices. What are the equilibrium prices? What are the total profits of the two firms? Are consumers better or worse than in (a)? How are the rents divided between the two firms?
+\end{prob}
+\begin{sol}
+We must find the profit functions for the two different companies. We see that each is given by the amount they sell $1 - P_d - P_g$ times the price that they sell for. Therefore, the profits for each company are given by $\pi_g = P_g ( 1 - P_d - P_g)$ and $\pi_d = P_d ( 1 - P_d - P_g)$. Taking first order conditions, we can solve for each firm's best response function:
+\begin{eqnarray}
+\frac{d \pi_g}{d P_g} &=& 1 - P_d - 2 P_g \\
+0 &=& 1 - P_d - 2 P_g \\
+P_g &=& \frac{1 - P_d}{2}
+\end{eqnarray}
+
+Notice that the two best response functions are symmetric, so that $P_d = \frac{1 - P_g}{2}$. This means we can solve for $P_g$ by substituting for our expression for $P_d$:
+\begin{eqnarray}
+P_g &=& \frac{1}{2}\left(1 - \left(\frac{1 - P_g}{2} \right) \right) \\
+P_g &=& \frac{1}{2} - \frac{1}{4} + \frac{1}{4} P_g \\
+\frac{3}{4} P_g &=& \frac{1}{4} \\ 
+P_g &=& \frac{1}{3}
+\end{eqnarray}
+
+Since $P_g$ and $P_d$ are symmetric, we see that $P_g = P_d = \frac{1}{3}$, which means we can find the profits symmetrically and see that $\pi_g = \pi_d = \frac{1}{9}$. This means that the total profit of both firms is $\frac{2}{9}$. 
+
+To examine consumer welfare, we look at consumer surplus in the combined firm case. There, we have $CS_0 = \frac{1}{2}(Q_0)(P_max - P_0) = \frac{1}{2} \frac{1}{2} \left( 1 - \frac{1}{2} \right) = \frac{1}{8}$. The new total price becomes $\frac{2}{3}$, and a quantity of $\frac{1}{3}$ is sold, so that the consumer surplus becomes $CS_1 = \frac{1}{2} \frac{1}{3} \left( 1 - \frac{2}{3} \right) = \frac{1}{18}$. Therefore, consumerse are wrose off under this new regime and rents are divided evenly among the two firms (since profits are the same). 
+\end{sol}
+
+\begin{prob}{1-c}
+What factors might influence how profits get divided between e-retailers and delivery companies in the real world?
+\end{prob}
+\begin{sol}
+In the real world, the competition among firms would influence profits. The number of e-retailers and delivery companies would play a large role in this. If there were only one delivery company and many retailers (or vice versa), then a single firm would be able to govern prices among many competitors for its product. The monopolistic firm would be able to obtain higher profits. When there are a small number of retailers and delivery companies, then game-theoretical results become more apparent and firms begin to compete as in Cournot duopoly. Thus, the number of firms of both retailers and delivery companies influences how profits are divided because the number influences how much competition there is for a product or service. 
+
+Also note that other factors, such as fuel costs or the shipping costs (determined by the size of the item or the geographical location of the end user) also influence shipping costs, and thus probably also the profits that each firm makes.
+\end{sol}
+
+\vspace{1cm}
+\begin{center}
+{\Large \bfseries Problem 2}
+\end{center}
+
+\begin{prob}{2-a}
+Find a search term where the sponsored search results (the ads) are quite different on Google and Bing.  The differences could be in ad type, quality, quantity, etc.  ("Hatch Shell" was the example we saw in class, but choose something different.)  What do you think might account for the difference in ads?  If it's differences in the quality weighting schemes, speculate about what aspect of quality weighting we discussed in class might be responsible.
+\end{prob}
+
+\begin{sol}
+I searched for the term ``Black Eyed Peas'' on both Google and Bing. Surprisingly, Google did not display any ads, whereas Bing displayed two ads about black eyed peas (the food product) and a single ad about albums that the Black Eyed Peas (musical group) were selling. There interesting thing here is that no ads were displayed on Google, which probably means that the minimum quality weighted reserve price was not met on Google's ad auction. Bing's minimum quality and price requirement are clearly not as high. 
+
+I believe that this is because Google places a higher price on search terms for which users do not expect ads. For instance, typing in ``Black Eyed Peas'' probably means you are looking for a Wikipedia page about the musical group, or looking for information about the musical group such as their albums and songs or their touring destinations. A user would be especially likely to be looking for Youtube videos or Black Eyed Peas music. In this sense, the user is most likely not looking to buy anything-he or she is usually only looking to get information or to listen to music made by the Black Eyed Peas.
+
+Since Google places so much importance on a nice user experience, Google does not display any ads. However, Bing probably places more emphasis on generating as much ad revenue as possible, so it displays ad.
+\end{sol}
+
+\begin{prob}{2-b}
+Find a search term on either Google or Bing which delivers quite different sponsored search results at different times of day. Again, what do you think might account for the difference in ads?
+\end{prob}
+\begin{sol}
+Searching for ``pens'' during the usual workday (9am to 5pm) provides different search results than searching for the same term during the night. During the day, one obtains search results that are selling discount and personalized pens. For instance, the first ad that occurs is ``8¢ Personalized Pens - Save 40-79\% + Free Shipping.'' However, during the night (after 10pm), when one searches for ``pens'', one gets fewer ads, and specifically fewer ads from personalized pen manufacturers.
+
+One factor that might account for this difference is that firms selling personalized and specialized pens are targetting a certain customer base. In particular, these firms probably realize that people will buy pens with higher probability during the day when people are at work and are in need of office supplies. When people go home, however, the need for pens decreases since fewer people will be writing on paper. 
+
+Thus, the firms are probably targetting potential customers who are at work and have an office job. Turning the ads off at night makes sense because fewer relevant click-throughs will occur then, and it is probably more likely that the people clicking on the ads at night are not actually looking to buy pens. 
+\end{sol}
+
+\begin{prob}{2-c}
+A large fraction of the sponsored search links that Yahoo! used to serve were for pornography sites, even when search terms had nothing to do with pornography. (Their quality-weighting of ad bids was either very crude or nonexistent at the time.) Why would pornography sites want to do that? What change in policy could Yahoo! have put in place to limit this problem without changing their quality-weighting scheme?
+\end{prob}
+\begin{sol}
+Pornography sites would want to have sponsored search links on many search terms because doing so would enable them to target as large of an audience as possible. In particular, putting ads on any arbitrary search term would allow a pornography site to perform the internet equivalent of putting up a billboard on a highway and advertise their website to as many people as possible. This would work for a pornography site because it probably will only pertain to a small fraction of people, all with mostly equal probability of going to any site on the internet. 
+
+A policy that Yahoo! could have put in place in order to stem this problem would be to create some pornography score for each website. The score would be greater than 0, and the closer the score was to $+ \infty$, the more likely the site is to be a pornographic site. Next, Yahoo! could charge an added price for displaying ads which would be exponential in the score. For instance, one could take the function $P(s) = e^{t}$ so that sites which are very likely to be pornographic would have to pay an exorbitantly high price in order to display their ad. This means that even if Yahoo! incorrectly estimated a site's pornography score, they would still be able to buy an ad without too much of added price.
+
+The other possible policy change, which would be important if Yahoo! were not very good at estimating this pornography score, would be to disallow ads or websites which are not clicked on very often. Thus, they could create a ratio that looks at the number of clicks on an ad versus the number of views of the ad. If this ratio is below a certain threshold, then Yahoo! would stop displaying the ad. The motivation for this policy comes from the fact that if there is a low ratio, then the ad is probably not relevant to the search term. Moreover, Yahoo! does not need to go an analyze the website or the ad, but can use empirical evidence from the ad to determine whether or not the ad is relevant. This ratio could also be used in determining the pornography score mentioned above. 
+\end{sol}
+
+\vspace{1cm}
+\begin{center}
+{\Large \bfseries Problem 3}
+\end{center}
+
+\begin{prob}{3-a}
+Where did Amazon first begin operations? Where were its earliest warehouses and fulfillment centers? Describe their location strategy as it related to the laws governing sales tax collection in the United States.
+\end{prob}
+\begin{sol}
+Amazon first began operations in the state of Washington, and its earliest warehouses and fulfillment centers began next to the largest cities that Amazon did business in. Large cities (and also Seattle, their headquarters), were the first locations for which fulfillment centers were created. This allowed Amazon to quickly ship items from the fulfillment center to the user in that end city, instead of having to move a product across the country. 
+
+In recent years, Amazon has been building fulfillment centers in states that have been imposing sales tax on Amazon. Many states have begun to challenge Amazon's sales-tax free status. Historically, Amazon has been able to sell products without sales tax because it has no physical presence in a particular state. Individual states such as California have been filing litigation to make Amazon's customers pay sales taxes in their states. In some states, Amazon has conceded and their customers in certain states are beginning to have to pay sales tax. This means, however, that Amazon now has an incentive to build a fulfillment center in those states which they have settled with, since building a physical nexus in that state will not increase sales tax. 
+
+Thus, Amazon has begun building fulfillment centers in states where it's customers no longer have sales-tax free status.
+\end{sol}
+
+\begin{prob}{3-b}
+If all Amazon sales become subject to collection of sales tax (by Amazon for the ship-to state) in the near future, what does the evidence from the economics literature suggest about the future shape of Amazon's warehouse and fulfillment network?
+\end{prob}
+\begin{sol}
+The empirical literature suggest that 1) sales taxes have a significant negative influence on a consumer's willingness to buy an item and that 2) longer shipping times cause a consumer to be less willing to buy an item. If Amazon starts becoming subject to collection of sales taxes, then it makes little sense for Amazon to rely on shipping from out of state, since its advantage in terms of the price of an object from an out of state item is completely nullified. Therefore, the only thing which Amazon can compete on is shipping time. 
+
+Thus, if Amazon loses tax-exempt status, it will attempt to start shipping items over shorter distances. In particular, loss of its tax-exempt status means that there is no penalty for creating nexus in certain states, so that it makes sense to build warehouses next to large cities and geographic locations of high demand. This will allow Amazon to decrease shipping time, and does not incur a marginal penalty from a tax sense, since Amazon would have already lost tax-exempt status.
+\end{sol}
+
+\begin{prob}{3-c}
+If all Amazon sales become subject to collection of sales tax in the near future (due to political pressure and bilateral negotiations with states), but the same does not happen for small internet retailers, what does the economics literature suggest about the future overall configuration of e-retail? (Here, think also about home state preferences.)
+\end{prob}
+\begin{sol}
+If Amazon becomes subject to collection of sales tax, clearly its products will be in less demand due to their higher price, and because the economics literature suggests that higher sales tax shifts the demand curve for a good downwards. In this sense, small internet retailers will become more competitive in terms of demand. This results from the fact that these retailers may continue providing goods without sales tax while Amazon becomes subject to sales tax.
+
+However, there is another effect, namely, the fact that Amazon will likely start building fulfillment centers and warehousing networks that drastically decrease shipping time. As discussed in problem 3-b, Amazon will try to compete with faster shipping time once it loses its tax-exempt status. This means consumers who place more emphasis on the fast receival on a product will be more likely to buy from Amazon, but the consumers who are only looking for the best price will be more likely to buy from small e-retailers. 
+
+Another factor to remember here is that Amazon will begin to place fulfillment centers in a consumer's home state, and that consumer may want to buy ``locally''. However, the economics literature has shown that this factor is usually inconsequential, and since Amazon is a large multinational corporation, a consumer probably will not change his or her buying habits based on the location of the fulfillment center. 
+
+Thus, it is hard to tell what the future configuration of e-retail will be without being able to see the elasticities of demand and how they are affected by shipping time versus lower price. It depends on how the consumer base of e-retailers shift, and the economics literature doesn't provide a definitive answer for this.
+\end{sol}
+
+\vspace{1cm}
+\begin{center}
+{\Large \bfseries Problem 4}
+\end{center}
+
+\begin{prob}{4-a}
+Write down the equation for the bidder’s utility as a function of v, b(v), F(v) for the first price auction.
+\end{prob}
+\begin{sol}
+\begin{eqnarray}
+U(v) = \left\{ \begin{array}{l l}
+v - b(v) & \text{if win} \\
+0 & \text{else}
+\end{array} \right.
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{4-b}
+Use this “Payoff Equivalence” result explained above (Equation 1) combined with your equation in (a) to derive the general expression for the equilibrium bidding function for a
+bidder in a first price auction. (This would have been very difficult for the first price auction without this trick)
+\end{prob}
+\begin{sol}
+We know that the probability of winning the auction at a given price $v$ is given by $F(v)^{n-1}$ because of the $n$th order statistic (the probability that everyone has a valuation of less than $v$). Therefore, we find the expected utility is given by $F(v)^{n-1} (v - b(v))$ by the equation written above. Using Payoff Equivalence, we find:
+\begin{eqnarray}
+F(v)^{n-1} (v - b(v)) &=& \int_{0}^{v} F(t)^{n-1} dt \\
+b(v) &=& v - \int_{0}^v \left( \frac{F(t)}{F(v)} \right)^{n-1} dt 
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{4-c}
+Now let F() be specified as U[0,1]. Plug this into part (b) to derive the equation that the Professor gave in class for the first price auction equilibrium bidding strategy.
+\end{prob}
+\begin{sol}
+We know that when the cumulative distribution function is uniform over $[0,1]$, then we have $F(x) = \frac{x-0}{1-0} = x$. Therefore, we obtain the following for the equilibrium bidding strategy by using the expression we derived in part b:
+\begin{eqnarray}
+b(v) &=& v - \int_0^v \left( \frac{t}{v} \right)^{n-1} dt \\
+&=& v - \frac{1}{v^{n-1}} \left[ \frac{t^n}{n} \right]_0^v \\
+&=& v - \frac{v^n}{v^{n-1} n } \\
+&=& v \left( \frac{n-1}{n} \right)
+\end{eqnarray}
+
+Notice that this is the same expression that was derived in class for the equilibrium bidding strategy.
+\end{sol}
+
+\begin{prob}{4-a'}
+Write down the equation for the bidder’s utility as a function of v, b(v), F(v) for the all pay auction.
+\end{prob}
+\begin{sol}
+\begin{eqnarray}
+U = \left\{ \begin{array}{l l}
+v - b(v) & \text{if win} \\
+- b(v) & \text{else}
+\end{array} \right.
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{4-b'}
+Use this ``Payoff Equivalence'' result explained above (Equation 1) combined with your equation in (a) to derive the general expression for the equilibrium bidding function for a bidder in the all pay auction.
+\end{prob}
+\begin{sol}
+We want to find the probability that a bidder will win and lose. We know that if $F(.)$ is the cumulative distribution function of the valuations, then the probability that a consumer will win with price $v$ will be $F(v)^{n-1}$ by the $n$th order statistic. Therefore, the probability that he will lose will be $1 - F(v)^{n-1}$. This gives us an expression for the expected utility: $E[U] = F(v)^{n-1} ( v - b(v)) + (1- F(v)^{n-1}) ( - b(v)) = v F(v)^{n-1} - b(v)$. However, we have another expression for the expected utility given to us by the payoff equivalence result, so we can set these equal:
+\begin{eqnarray}
+\int_0^{v} F(t)^{n-1} dt &=& v F(v)^{n-1} - b(v) \\
+b(v) &=& v F(v)^{n-1} - \int_0^v F(t)^{n-1} dt 
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}{4-c'}
+Now let F() be specified as U[0,1]. Calculate the expected revenue to the seller in the all pay auction.
+\end{prob}
+\begin{sol}
+First, we will find the bidder's equilibrium bid. We know that $F(x) = x$ because we are evaluating over a uniform distribution. This means that we have the following expression for the equilibrium bid:
+\begin{eqnarray}
+b(v) &=& v v^{n-1} - \int_0^v t^{n-1} dt \\
+&=& v^n - \left[ \frac{t^n}{n} \right]_0^v \\
+&=& v^n \left( \frac{n - 1}{n} \right)
+\end{eqnarray}
+
+Next, we notice that the total amount of revenue that a seller is expected to obtain is $n$ times the equilibrium bid price, which means we have the expression:
+\begin{eqnarray}
+E[\pi] &=& n \int_0^1 b(v) dv \\
+&=& n \int_0^1 \frac{n-1}{n} v^n dv \\
+&=& (n-1) \left[ \frac{v^{n+1}}{n+1} \right]_0^1 \\
+&=& \frac{n-1}{n+1}
+\end{eqnarray}
+
+Notice that this is the same revenue that is obtained in all the other auctions, which makes sense because of revenue equivalence.
+\end{sol}
+
+\begin{prob}{4-d'}
+Despite these revenue and payoff equivalence results, why do you think that the all pay auction is almost never used in real life?
+\end{prob}
+\begin{sol}
+The all pay auction is probably not used in real life because of bidder's risk aversion. Psychologically, a bidder would rather lose no money most of the time in exchange for a slightly lower payout sometimes, than to risk more money most of the time for a slightly high payout sometimes. Since consumers are usually thought to be risk averse, the all pay auction would tend to not reach its theoretical values because this model has not taken risk aversion into account.
+
+Oftentimes, the expected payoff of a bid is not what consumers are looking at. For a deeper analysis, an examination of the distribution of payoffs would lead to more insights in the real world.
+\end{sol}
+\end{document}
