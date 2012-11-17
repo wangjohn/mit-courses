@@ -264,33 +264,43 @@ class ExamSet:
                     bins[current_bin] = [prob, 1]
         return bins
   
-   def mutate(self, rate, compute_probabilities_object):
-       """Returns a new examset with a mutated copy of all the variables.
-          The new examset is separate from the current one, so that changing properties
-          in the mutated examset does not change anything in current ExamSet.
-       """
-       student_list = list(self.students)
-       for student in student_list:
-           new_mutations = False
-           for key in student.questions.iterkeys():
-               # delete questions from student.questions at random, according
-               # to some mutation rate.
-               if random.random() < rate:
-                   del student.questions[key]
-                   new_mutations = True
-           if new_mutations:
-               # mutate the current sample so that we obtain student.k questions for this student
-               # in his student.questions hash of his questions
-               compute_probabilities_object.sample(student.k, student.questions)
+    def mutate(self, rate, compute_probabilities_object):
+        """Returns a new examset with a mutated copy of all the variables.
+           The new examset is separate from the current one, so that changing properties
+           in the mutated examset does not change anything in current ExamSet.
+        """
+        student_list = self.students[:] # shallow copy of the entire list
+        for student in student_list:
+            new_mutations = False
+            for key in student.questions.iterkeys():
+                # delete questions from student.questions at random, according
+                # to some mutation rate.
+                if random.random() < rate:
+                    del student.questions[key]
+                    new_mutations = True
+            if new_mutations:
+                # mutate the current sample so that we obtain student.k questions for this student
+                # in his student.questions hash of his questions
+                compute_probabilities_object.sample(student.k, student.questions)
 
-       newExamSet = ExamSet(student_list, self.bin_size)
-       newExamSet.entropy = self.entropy
+        return ExamSet(student_list, self.bin_size)
 
-    def crossover(self, examset):
-       """Returns a new examset which is a crossover of the current examset and the
-          ExamSet passed in as an argument. The crossovers occur with probability given
-          by the crossover rate parameter.
-       """ 
+    def crossover(self, examset, rate=0.5):
+        """Returns a new examset which is a crossover of the current examset and the
+           ExamSet passed in as an argument. The crossovers occur with probability given
+           by the crossover rate parameter.
+        """ 
+        student_list = self.students[:] # shallow copy of the entire list
+        for i in xrange(len(student_list)):
+            # randomly choose whether or not to cross over this student's 
+            # list of questions with the other examset's list.
+            if random.random() < rate:
+                # exchange the current list of questions with the list of
+                # questions that are used by the other examset
+                student_list[i].questions = examset.students[i].questions
+
+        # average out the bin size and create a new ExamSet 
+        return ExamSet(student_list, float(self.bin_size + examset.bin_size)/2)
        
  
 class ComputeProbabilities:
