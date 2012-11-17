@@ -131,10 +131,6 @@ class ProbabilisticQuestionSet:
 
         return bins
 
-    def replace(self, n, current_questions):
-        
-        while already_used.s
-
     def sample(self, n, already_used = {}):
         """Provides a sample of n questions with no repeats."""
         result = []
@@ -311,9 +307,9 @@ class ComputeProbabilities:
         self.max_num_iterations = max_num_iterations
 
         # create student_result objects and group them by question for easier usage
-	    self.student_results = self._create_students()
+        self.student_results = self._create_students()
         self.questions_students_dict = self._create_questions_students_dict()
-        
+
         # hash of question_id : Question where the Questions have rj computed 
         self.questions = self.compute_rj(self)
 
@@ -343,9 +339,10 @@ class ComputeProbabilities:
         """Gets the n questions with the highest entropy, note that this method
            mutates the ordering of the questions in self.questions. After this
            method is called, the questions will be ordered by highest entropy
-           first."""
-       self.questions = sorted(self.questions, key = lambda q : q.entropy, reverse=True)
-       return self.questions[:n]
+           first.
+        """
+        self.questions = sorted(self.questions, key = lambda q : q.entropy, reverse=True)
+        return self.questions[:n]
 
     def _create_questions_students_dict(self):
         # creates a dictionary of all the questions, with the value of the dictionary 
@@ -494,11 +491,11 @@ class QuestionAssignment:
                 # create a student and append him to the list
                 student_list.append(Student(current_student_questions))
             newExamSet = ExamSet(student_list)
-       return newExamSet
+        return newExamSet
                 
-   def genetic_assignment(self):
-       # Instantiate the genetic algorithm object and run it
-       raise "Not Implemented." 
+    def genetic_assignment(self):
+        # Instantiate the genetic algorithm object and run it
+        raise "Not Implemented." 
 
 def get_entropy(rj):
     return rj*math.log(1.0/rj)
