@@ -44,7 +44,8 @@ class GeneticAlgorithm:
             parent_to_mutate = parents[self._get_random_indices(1)[0]]
             new_examsets.append(parent_to_mutate.mutate())
 
-        # new iteration will be the set of new clues.
+        # new iteration will consist of the new examsets and the old parents 
+        # TODO: figure out if I should include the parents in the next iteration or not.
         self.examsets = parents + new_examsets
 
 def mutation_rate_function(iteration, max_iterations, scaling_factor=2):
