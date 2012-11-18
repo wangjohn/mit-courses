@@ -46,13 +46,22 @@ Suppose that only the nodes with even depth have an associated secondary structu
 \newpage
 \makenewtitle
 \begin{prob}{3-a}
-Argue that when the sweep line encounters a new point $p$, if $p$ is one point in the closest pair behind the sweep line, then th
+Argue that when the sweep line encounters a new point $p$, if $p$ is one point in the closest pair behind the sweep line, then the other point in the closest pair is inside the strip-and in fact, in a particular portion of the strip quite close to the new point.
 \end{prob}
 \begin{sol}
+When looking for the new closest pair, we know that its distance $d'$ must be less than or equal to the current closest distance $d$. Therefore, we know that $d' \leq d$. This implies that the x-coordinate of the other point connected to $p$ must be $d' \leq d$ distance away from $p$. Since the strip is of distance $d$, we know that the other point will be in the strip, regardless of what angle it is connected to $p$ with. 
+
+Moreover, we know that the point must be inside of a rectangle surrounding $p$. The rectangle extends $d$ in height upwards above $p$, and $d$ in height below $p$, and $d$ in width to the left. Thus subset of the strip si therefore a $2d \times d$ sized rectangle. We know that the other point must be inside of this triangle because it must be less than $d$ distance from $p$. This rectangle covers all points in the strip which are $d$ distance away, so therefore, it must cover the point as well.
 \end{sol}
+
 \begin{prob}{3-a}
+Argue that in fact, this portion of the strip can only contain a constant number of points.
 \end{prob}
 \begin{sol}
+Let us consider the rectangle $R$ and the point $p$ which is in the halfway-point on the right edge (of height $2d$) of the rectangle. We will look for candidate locations for other points $x$ and will try to pack as many points into the rectangle $R$ as possible. Notice first, however, that each point must be at least a distance $d$ away from any other point. This implies that there cannot exist any point inside a circle centered at some point of radius $d$. 
+
+Using this representation, we can assign 6 points to the rectangle $R$ by placing one point on each vertex, and one point in the mid-way point of each of the long (length $2d$ edges). Notice that the circles that are mapped out by these 6 points are intersecting only at the boundary. However, moving any point in any configuration will cause non-boundary areas of the circles to intersect, which will cause an invalid allocation of points. Moreover, it is impossible to add any more points without having the circles intersect with the new point. Since the circles with 6 points have completely covered the entire rectangle, we see that there cannot be any more points added to the rectangle in any configuration. Thus, there are only a constant number of points that can be contained in the rectangle $R$.
+\end{sol}
 \begin{prob}{3-a}
 \end{prob}
 \begin{sol}
