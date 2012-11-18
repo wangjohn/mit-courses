@@ -131,10 +131,6 @@ class ProbabilisticQuestionSet:
 
         return bins
 
-    def replace(self, n, current_questions):
-        
-        while already_used.s
-
     def sample(self, n, already_used = {}):
         """Provides a sample of n questions with no repeats."""
         result = []
@@ -264,25 +260,43 @@ class ExamSet:
                     bins[current_bin] = [prob, 1]
         return bins
   
-   def mutate(self, rate, compute_probabilities_object):
-       """Returns a new examset with a mutated copy of all the variables.
-          The new examset is separate from the current one, so that changing properties
-          in the mutated examset does not change anything in current ExamSet.
-       """
-       student_list = list(self.students)
-       for student in student_list:
-           new_mutations = False
-           if num_mutations > 0:
-               # figure out indices that we will be replacing
-               mutated = random.sample(range(student.k), num_mutations)
+    def mutate(self, rate, compute_probabilities_object):
+        """Returns a new examset with a mutated copy of all the variables.
+           The new examset is separate from the current one, so that changing properties
+           in the mutated examset does not change anything in current ExamSet.
+        """
+        student_list = self.students[:] # shallow copy of the entire list
+        for student in student_list:
+            new_mutations = False
+            for key in student.questions.iterkeys():
+                # delete questions from student.questions at random, according
+                # to some mutation rate.
+                if random.random() < rate:
+                    del student.questions[key]
+                    new_mutations = True
+            if new_mutations:
+                # mutate the current sample so that we obtain student.k questions for this student
+                # in his student.questions hash of his questions
+                compute_probabilities_object.sample(student.k, student.questions)
 
-               #TODO: need to make sure that the new questions haven't already been used.
-               non_mutated_question_ids = [question_id for i in xrange(student.k) if i not in mutated]                
-               compute_probabilities_object.sample(num_mutations, student.questions)
+        return ExamSet(student_list, self.bin_size)
 
-               change_indices = random.sample(student.k)
-       newExamSet = ExamSet(student_list, self.bin_size)
-       newExamSet.entropy = self.entropy
+    def crossover(self, examset, rate=0.5):
+        """Returns a new examset which is a crossover of the current examset and the
+           ExamSet passed in as an argument. The crossovers occur with probability given
+           by the crossover rate parameter.
+        """ 
+        student_list = self.students[:] # shallow copy of the entire list
+        for i in xrange(len(student_list)):
+            # randomly choose whether or not to cross over this student's 
+            # list of questions with the other examset's list.
+            if random.random() < rate:
+                # exchange the current list of questions with the list of
+                # questions that are used by the other examset
+                student_list[i].questions = examset.students[i].questions
+
+        # average out the bin size and create a new ExamSet 
+        return ExamSet(student_list, float(self.bin_size + examset.bin_size)/2)
        
  
 class ComputeProbabilities:
@@ -293,9 +307,9 @@ class ComputeProbabilities:
         self.max_num_iterations = max_num_iterations
 
         # create student_result objects and group them by question for easier usage
-	    self.student_results = self._create_students()
+        self.student_results = self._create_students()
         self.questions_students_dict = self._create_questions_students_dict()
-        
+
         # hash of question_id : Question where the Questions have rj computed 
         self.questions = self.compute_rj(self)
 
@@ -325,9 +339,10 @@ class ComputeProbabilities:
         """Gets the n questions with the highest entropy, note that this method
            mutates the ordering of the questions in self.questions. After this
            method is called, the questions will be ordered by highest entropy
-           first."""
-       self.questions = sorted(self.questions, key = lambda q : q.entropy, reverse=True)
-       return self.questions[:n]
+           first.
+        """
+        self.questions = sorted(self.questions, key = lambda q : q.entropy, reverse=True)
+        return self.questions[:n]
 
     def _create_questions_students_dict(self):
         # creates a dictionary of all the questions, with the value of the dictionary 
@@ -476,11 +491,11 @@ class QuestionAssignment:
                 # create a student and append him to the list
                 student_list.append(Student(current_student_questions))
             newExamSet = ExamSet(student_list)
-       return newExamSet
+        return newExamSet
                 
-   def genetic_assignment(self):
-       # Instantiate the genetic algorithm object and run it
-       raise "Not Implemented." 
+    def genetic_assignment(self):
+        # Instantiate the genetic algorithm object and run it
+        raise "Not Implemented." 
 
 def get_entropy(rj):
     return rj*math.log(1.0/rj)
