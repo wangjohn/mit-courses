@@ -92,10 +92,16 @@ When we move the hyperplane to a new event, we will create a new rectangle $R$ o
 \end{sol}
 
 \begin{prob}{3-e}
-Alternatively, suppose you construct the Voronoi diagram on the points. Show how the closest pair can then be identified in $O(n)$ time. This gives an alternative $O(n log n)$ time algorithm in 2 dimensions.
+Alternatively, suppose you construct the Voronoi diagram on the points. Show how the closest pair can then be identified in $O(n)$ time. This gives an alternative $O(n \log n)$ time algorithm in 2 dimensions.
 \end{prob}
 \begin{sol}
+Notice that we can build a Voronoi diagram in $O(n \log n$ time using the construction method described in class. Next, notice that the closest pair of points must be in cells which are adjacent to each other in the Voronoi diagram. This follows because there must be a single line segment separating them since they are the closest points together so no other bisecting line can come in between. 
 
+Suppose by contradiction that there was some other line in the Voronoi diagram which separted the two closest points $x$ and $y$. This means that the line $l$ bisecting $x$ and $y$ does not show up in the Voronoi diagram, which implies that there must be some other point or sets of points which are closer together, and thus the bisecting line between these closer points takes precedence over $l$. This contradicts the fact that $x$ and $y$ are the two closest points.
+
+This means that as long one searches all of the adjacent cells of some cell $x$, for all $x$, then one can find the pair of closest points by calculating the distance of each adjacent cell and taking the minimum after all distances have been calculated. Moreover, notice that for each two adjacent cells, there must exist an edge in the Voronoi diagram which separates the two cells. Thus, the number of adjacent cells that need to be examined is bounded by the number of edges in the Voronoi diagram. We showed in class that the number of edges is $O(n)$, which means only $O(n)$ distance calculations need to be made.
+
+Therefore, we can find the closest pair of points in $O(n) + O(n \log n) = O(n)$ time using a Voronoi diagram.
 \end{sol}
 
 \end{document}
