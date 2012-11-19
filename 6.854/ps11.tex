@@ -81,4 +81,21 @@ Finally, we need to worry about removing nodes which are no longer part of the s
 
 This follows because there are a total of $n$ nodes which are removed from the BST since each node is inserted and removed only once. Therefore $\sum_{i=1}^n l_i = n$. Thus, we see that each removal requires an amortized $O(\log n)$ amount of time. Therefore, we see that each event requires $O(\log n)$ time for this data structure, and that calculating closest pair using this data structure requires $O(n \log n)$. 
 \end{sol}
+
+\begin{prob}{3-d}
+Does the algorithm above generalize to any higher dimension $k$? What is the time bound as a function of $k$?
+\end{prob}
+\begin{sol}
+The algorithm above can be generalized to a higher dimension by solving the problem recursively. Assume that we have solved the problem for some dimension $k-1$. In order to solve the problem for dimension $k$, we will need to break the problem up. We will use a sweep hyperplane which will be moved in all $k-1$ dimensions. Therefore, there will only be one dimension left for which we need to solve the problem, namely dimension $k$. Inside of the hyperplane which acts as our sweeping mechanism, we can find the closest pair of points in time $T(n, k-1)$. 
+
+When we move the hyperplane to a new event, we will create a new rectangle $R$ of dimension $2d \times d$, following the same procedure we used in problem 3-d. Notice that if there is a set of points $p_1$ which has a distance to $p$ of less than $d$, then $p_1$ must rest in either the hyperplane or in the rectangle in dimension $k$. If it rests in the hyperplane, then we will find it by recursively applying our algorithm. If it rests in the rectangle, we can perform a range query on dimension $k$ and check the distance between a constant number of points. Performing the range query requires $O(\log n)$ time if we have created a BST on dimension $k$ (using the same mechanism as before to insert and delete points). The total time for this is therefore $T(n, k) = O(\log n) + T(n, k-1)$. Since we know that $T(n, 2) = O(n \log n)$, we see that solving this recursion results in $T(n, k) = O(n \log^{k-1} n)$.  
+\end{sol}
+
+\begin{prob}{3-e}
+Alternatively, suppose you construct the Voronoi diagram on the points. Show how the closest pair can then be identified in $O(n)$ time. This gives an alternative $O(n log n)$ time algorithm in 2 dimensions.
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
 \end{document}
