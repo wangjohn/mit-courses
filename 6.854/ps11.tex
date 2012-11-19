@@ -54,7 +54,7 @@ When looking for the new closest pair, we know that its distance $d'$ must be le
 Moreover, we know that the point must be inside of a rectangle surrounding $p$. The rectangle extends $d$ in height upwards above $p$, and $d$ in height below $p$, and $d$ in width to the left. Thus subset of the strip si therefore a $2d \times d$ sized rectangle. We know that the other point must be inside of this triangle because it must be less than $d$ distance from $p$. This rectangle covers all points in the strip which are $d$ distance away, so therefore, it must cover the point as well.
 \end{sol}
 
-\begin{prob}{3-a}
+\begin{prob}{3-b}
 Argue that in fact, this portion of the strip can only contain a constant number of points.
 \end{prob}
 \begin{sol}
@@ -62,7 +62,23 @@ Let us consider the rectangle $R$ and the point $p$ which is in the halfway-poin
 
 Using this representation, we can assign 6 points to the rectangle $R$ by placing one point on each vertex, and one point in the mid-way point of each of the long (length $2d$ edges). Notice that the circles that are mapped out by these 6 points are intersecting only at the boundary. However, moving any point in any configuration will cause non-boundary areas of the circles to intersect, which will cause an invalid allocation of points. Moreover, it is impossible to add any more points without having the circles intersect with the new point. Since the circles with 6 points have completely covered the entire rectangle, we see that there cannot be any more points added to the rectangle in any configuration. Thus, there are only a constant number of points that can be contained in the rectangle $R$.
 \end{sol}
-\begin{prob}{3-a}
+
+\begin{prob}{3-c}
+Develop a data structure to associate with the sweep line so that these candidates for closest pair can be identified quickly ($O(log n)$ time per event), and show how to maintain this data structure as the line sweeps ($O(log n)$ time per event). Conclude an $O(n log n)$ time bound for closest pair.
 \end{prob}
 \begin{sol}
+We will create a binary search tree which will at all times contain all of the points inside of the strip behind the sweep line. Notice that there are at most $n$ objects inside of the BST at any time because there are $n$ total objects. The BST will be keyed on the y-coordinates of horizontal points, and there will also be an array of the x-coordinates of all points which is sorted and stored (this requires time $O(n \log n)$. 
+
+The sweep line will start at the beginning of the sorted array of x-coordinates. It will move to the right in discrete movements (at each time step moving to the x-coordinate of the next object in the sorted array). The new point will be inserted into the BST and we will check if there is a new minimum distance in all the points to the left of the sweep line. We will show that this operation can be done in $O(\log n)$ time. First, notice that the insertion into the BST requires $O(\log n)$ time since the tree is of maximum size $O(n)$. Next, we will use $d$, the previous minimum distance between any two points that are behind the sweep line and construct a rectangle as in problem 3-b. If the new point we have added to the BST has any neighbor which is closer than $d$, then we will necessarily find it in this rectangle, by our reasoning in the previous problem. 
+
+Thus, we only need to check the distance between the new point we added to the BST and a constant number of points behind to sweep line to update $d$. In order to find the points in the rectangle, we perform a range query on the BST between $y - d$ and $y+d$, where $y$ is the y-coordinate of the new point we have added to the BST. This takes $O(\log n + 6) = O(\log n)$ time (by using the subtree size augmentation as shown in class). Thus, updating the distance $d$ requires $O(\log n)$ time. 
+
+Finally, we need to worry about removing nodes which are no longer part of the strip of size $d$ (note that this is the updated size). We will go to our array of x-coordinates any binary search, looking for $sl - d$, where $sl$ is the x-coordinate of the sweep line. We will walk down the list and delete any point which is still in the BST and has $x$ coordinate which is less than $sl - d$. Once we reach the first node which is no longer part of the BST, we can stop scanning since we have already removed all points which are further back. This removal takes $O(\log n)$ for the initial binary search plus $O(l_i \log n)$ where $l_i$ is the number of nodes which are removed from the BST during event $i$. Therefore, the total cost of removal over the entire sequence is:
+\begin{eqnarray}
+\sum_{i=1}^n O(\log n) + O(l_i \log n) &=& O(n \log n) + O(\log n) \sum_{i=1}^n l_i \\
+&=& O(n \log n)
+\end{eqnarray}
+
+This follows because there are a total of $n$ nodes which are removed from the BST since each node is inserted and removed only once. Therefore $\sum_{i=1}^n l_i = n$. Thus, we see that each removal requires an amortized $O(\log n)$ amount of time. Therefore, we see that each event requires $O(\log n)$ time for this data structure, and that calculating closest pair using this data structure requires $O(n \log n)$. 
+\end{sol}
 \end{document}
