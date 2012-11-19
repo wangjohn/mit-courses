@@ -22,7 +22,7 @@ class Settings:
         self.max_iterations = 150
         
 
-def open_student_data(filename)
+def open_student_data(filename):
     # open file with filename and create some question_result objects.
     results = []
     with open(filename, 'rb') as f:
@@ -47,23 +47,34 @@ def write_result(examset, filename):
 
 
 def run_algorithm(input_filename, output_filename, settings):
+    print "Beginning to read in data..."
     question_results = open_student_data(filename)
+    print "Finished reading data, setting up data structures..."
     qa = QuestionAssignment(question_results, num_students, num_questions_per_student, total_required_questions)
-    
+    print "Finished setting up data structures."
+
+    print "Beginning greedy assignment algorithm."
     # get the examset from the greedy assignment
     greedy_examset = qa.greedy_assignment()
+    print "Finished greedy assignment."
     
+    print "Initializing genetic algorithm."
     # create a initial set of examsets to be used for the genetic algorithm
     initial_examsets = [greedy_examset]
     for i in xrange(population_size - 1):
         initial_examsets.append(greedy_examset.mutate())
 
+    print "Starting up genetic algorithm."
     # now start up the genetic algorithm.
     genetic = GeneticAlgorithm(initial_examsets, settings.population_size, settings.max_iterations, settings.parent_population_size, self.total_required_questions)
 
     # breed and find the top 10. Take the top one and output it.
     top_10 = genetic.breed()
+    print "Finished genetic algorithm."
+
+    print "Writing results to: " + output_filename
     write_result(top_10[0], output_filename)
+    print "Finished."
     
 if __name__ == '__main__':
     settings_default = Settings()

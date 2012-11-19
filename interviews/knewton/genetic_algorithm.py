@@ -2,10 +2,9 @@ from examset import *
 import math
 
 class GeneticAlgorithm:
-    def __init__(self, initial_examsets, population_size, max_iterations, parent_population_size, total_required_questions, mutation_function=mutation_rate_function):
+    def __init__(self, initial_examsets, population_size, max_iterations, parent_population_size, total_required_questions):
         self.examsets = initial_examsets
         self.population_size = population_size
-        self.mutation_function = mutation_function
         self.iteration = 0
         self.max_iterations = max_iterations
         self.total_required_questions = total_required_questions
@@ -13,6 +12,14 @@ class GeneticAlgorithm:
 
         # parent population size defaults to 25% of the population size
         self.parent_population_size = (parent_population_size if parent_population_size else len(population_size)*0.25)
+
+    def mutation_rate_function(self, iteration, max_iterations, scaling_factor=2):
+        """As the iterations increase, mutation rate goes down and instead of exploring the
+           same space, incremental improvements are stressed.
+        """
+        eiter = scaling_factor*math.exp(float(iteration)/max_iterations)
+        return 1.0-(eiter/(1+eiter))
+
 
     def breed(self):
         """Performs the genetic algorithm, going until we finish the total number of iterations.
@@ -54,6 +61,7 @@ class GeneticAlgorithm:
                 if added_count >= 10:
                     break
         self.top_10 = sorted(self.top_10, key = lambda e : e.get_entropy(), reverse=True)[:10]
+        print "Best Entropy in Iteration %s: %s" % (str(self.iteration), str(self.top_10[0].get_entropy())) 
 
         # keep crossing until we have the requisite number of examsets
         # note that we don't care about crossing two pairs that have already
@@ -72,13 +80,6 @@ class GeneticAlgorithm:
         # new iteration will consist of the new examsets and the old parents 
         # TODO: figure out if I should include the parents in the next iteration or not.
         self.examsets = new_examsets
-
-def mutation_rate_function(iteration, max_iterations, scaling_factor=2):
-    """As the iterations increase, mutation rate goes down and instead of exploring the
-       same space, incremental improvements are stressed.
-    """
-    eiter = scaling_factor*math.exp(float(iteration)/max_iterations)
-    return 1.0-(eiter/(1+eiter))
 
 if __name__ == '__main__':
     iterations = 300
