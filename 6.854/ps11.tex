@@ -45,6 +45,22 @@ Suppose that only the nodes with even depth have an associated secondary structu
 
 \newpage
 \makenewtitle
+\begin{prob}{2}
+A problem last week found lines (and polygons) contained in a rectangle; here we consider finding lines crossing a rectangle. As a starting point, suppose you are given an interval tree data structure. This takes n possibly-overlapping intervals on the real line, and builds a size $n$ data structure that can, in $O(k + \log n)$ time, output the set of all intervals intersecting with a given query interval. Given such a data structure, show that you can build a size $O(n \log n)$ data structure that solves the following problem: given $n$ horizontal and vertical line segments in a plane and given a query rectangle, output all the segments that intersect the query rectangle in $O(k + \log^2 n)$ time. 
+\end{prob}
+\begin{sol}
+Notice first that we can break apart our problem into two subproblems. Any query rectangle $R$ can be broken apart into two sets of edges. One set of edges takes the left and top edges, while the other set takes the right and bottom edges. The same solution can be applied to both of these sets, and the union of the two results will result in the final solution for a rectangle. Since there are 2 sets, there is only a constant number of extra queries that need to be performed, so that the solution can be reduced to solving the intersection problem for two adjacent edges of a rectangle.
+
+We will further reduce the problem into a problem of a single edge. We can do this because if we have a top edge and a left edge, we can flip the $x$ and $y$ axes so that horizontal lines become vertical and vice versa. Thus, we apply this solution four times in order to get the number of intersections at the rectangle. This is still a constant multiple of the solution, which means we have reduced the problem to finding the intersections to a single line in the plane without increasing the asymptotic runtime.
+
+Now let we have a query line $l$ which is horizontal, and we want to find the number of vertical and horizontal lines which intersect this line. We will create an interval tree data structure of size $n$ on the $x$ dimension. Thus, a query on the this interval tree will give all intervals in the $x$ direction which intersect the horizontal query line. The data structure we create will have subtrees rooted on each node. These subtrees will contain the $y$ coordinates of all the descendants of this particular node in the $x$ dimension's tree. The subtrees will be the interval tree data structure provided in the problem, while the top level tree will be a standard binary search tree. Just as we assembled the range tree for lines inside of a rectangle, we can assemble a tree for intersections of the rectangle. 
+
+Since each $y$ coordinate term is only in the search trees which are above of it, and there are $O(\log n)$ nodes per $y$ tree, the total space is $O(n \log n)$. Next, querying for the intersections just involves a query for the $x$ coordinate part of the tree, then the $y$ coordinate intersections. This requires two queries on trees which can return queries in time $O(k + \log n)$, so the total query time is $O(\log^2 n + k)$ to output $k$ results. This is because it requires $O(\log n)$ time to search the standard binary search tree in the top level, and $O(\log n$ time to search the interval tree. 
+\end{sol}
+
+\newpage
+\makenewtitle
+
 \begin{prob}{3-a}
 Argue that when the sweep line encounters a new point $p$, if $p$ is one point in the closest pair behind the sweep line, then the other point in the closest pair is inside the strip-and in fact, in a particular portion of the strip quite close to the new point.
 \end{prob}
@@ -102,6 +118,14 @@ Suppose by contradiction that there was some other line in the Voronoi diagram w
 This means that as long one searches all of the adjacent cells of some cell $x$, for all $x$, then one can find the pair of closest points by calculating the distance of each adjacent cell and taking the minimum after all distances have been calculated. Moreover, notice that for each two adjacent cells, there must exist an edge in the Voronoi diagram which separates the two cells. Thus, the number of adjacent cells that need to be examined is bounded by the number of edges in the Voronoi diagram. We showed in class that the number of edges is $O(n)$, which means only $O(n)$ distance calculations need to be made.
 
 Therefore, we can find the closest pair of points in $O(n) + O(n \log n) = O(n)$ time using a Voronoi diagram.
+\end{sol}
+
+\newpage
+\makenewtitle
+
+\begin{prob}{4}
+\end{prob}
+\begin{sol}
 \end{sol}
 
 \end{document}
