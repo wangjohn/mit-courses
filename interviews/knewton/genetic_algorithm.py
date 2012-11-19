@@ -2,12 +2,13 @@ from examset import *
 import math
 
 class GeneticAlgorithm:
-    def __init__(self, initial_examsets, population_size, mutation_function, max_iterations, parent_population_size):
+    def __init__(self, initial_examsets, population_size, max_iterations, parent_population_size, total_required_questions, mutation_function=mutation_rate_function):
         self.examsets = initial_examsets
         self.population_size = population_size
         self.mutation_function = mutation_function
         self.iteration = 0
         self.max_iterations = max_iterations
+        self.total_required_questions = total_required_questions
         self.top_10 = []
 
         # parent population size defaults to 25% of the population size
@@ -42,7 +43,16 @@ class GeneticAlgorithm:
         new_examsets = []
 
         # get a new set of top 10
-        self.top_10 += self.examsets[:10]
+        added_count = 0
+        for current_examset in self.examsets:
+            # append the first 10 valid examsets (valid being those with more than the
+            # minimum number of distinct questions).
+            if current_examset.get_num_distinct_questions() >= self.total_required_questions:
+                self.top_10.append(current_examset) 
+                added_count += 1
+                # break after we have found 10 of them
+                if added_count >= 10:
+                    break
         self.top_10 = sorted(self.top_10, key = lambda e : e.get_entropy(), reverse=True)[:10]
 
         # keep crossing until we have the requisite number of examsets

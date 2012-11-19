@@ -493,9 +493,5 @@ class QuestionAssignment:
             newExamSet = ExamSet(student_list)
         return newExamSet
                 
-    def genetic_assignment(self):
-        # Instantiate the genetic algorithm object and run it
-        raise "Not Implemented." 
-
 def get_entropy(rj):
     return rj*math.log(1.0/rj)

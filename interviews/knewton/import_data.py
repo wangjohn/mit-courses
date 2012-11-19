@@ -1,6 +1,26 @@
 from examset import *
+from genetic_algorithm import *
 import csv
 
+class Settings:
+    """This is class which instantiates all the settings in the problem. In 
+       particular, it takes care of the settings related to the genetic 
+       algorithm, and also the settings which are inherently related to 
+       the problem."""
+    def __init__(self):
+        self._init_genetic_algorithm_settings()
+        self._init_problem_settings()
+
+    def _init_problem_settings(self):
+        self.num_students = 13000 
+        self.num_questions_per_student = 5
+        self.total_required_questions = 200
+
+    def _init_genetic_algorithm_settings(self):
+        self.population_size = 200
+        self.parent_population_size = round(self.population_size*0.25)
+        self.max_iterations = 150
+        
 
 def open_student_data(filename)
     # open file with filename and create some question_result objects.
@@ -15,7 +35,18 @@ def open_student_data(filename)
             results.append(QuestionResult(question_id, student_id, correct))
     return results
 
-def run_algorithm(filename, num_students, num_questions_per_student, total_required_questions):
+def write_result(examset, filename):
+    with open(filename, 'wb') as f:
+        writer = csv.write(f, delimiter=";")
+        header = ["Student ID", "Question 1 ID", "Question 2 ID", "Question 3 ID", "Question 4 ID", "Question 5 ID"] 
+        writer.writerow(header)
+        for student in examset:
+            line = [student.student_id]
+            line += [question_id for question_id in student.questions.iterkeys()]
+            writer.writerow(line)
+
+
+def run_algorithm(input_filename, output_filename, settings):
     question_results = open_student_data(filename)
     qa = QuestionAssignment(question_results, num_students, num_questions_per_student, total_required_questions)
     
@@ -23,6 +54,17 @@ def run_algorithm(filename, num_students, num_questions_per_student, total_requi
     greedy_examset = qa.greedy_assignment()
     
     # create a initial set of examsets to be used for the genetic algorithm
-    initial_examset = [greedy_examset]
+    initial_examsets = [greedy_examset]
     for i in xrange(population_size - 1):
-        initial_examset.append(greedy_examset.mutate())
+        initial_examsets.append(greedy_examset.mutate())
+
+    # now start up the genetic algorithm.
+    genetic = GeneticAlgorithm(initial_examsets, settings.population_size, settings.max_iterations, settings.parent_population_size, self.total_required_questions)
+
+    # breed and find the top 10. Take the top one and output it.
+    top_10 = genetic.breed()
+    write_result(top_10[0], output_filename)
+    
+if __name__ == '__main__':
+    settings_default = Settings()
+    run_algorithm('aStudentData.csv', 'resultExamset.csv', settings_default)
