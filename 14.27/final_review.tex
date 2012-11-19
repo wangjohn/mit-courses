@@ -1,0 +1,97 @@
+\documentclass[12pt]{article}
+
+\title{14.27 Final Exam Review}
+\author{John J. Wang}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Second Price Auctions}
+
+In a second price auction, each bidder bids and the winner pays the second highest bidder's bid. To analyze this versus the fixed price auction, we will use the uniform distribution $u[0,1]$ over the unit interval. To analyze the auction, we observe that the pdf for a collection of $n$ uniform distributions is:
+\begin{eqnarray}
+f_X(x) = \frac{n!}{(n-k)! (k-1)!} x^{k-1} (1-x)^{N-k}
+\end{eqnarray}
+
+Therefore, the expected profit from the auction for the seller is given by $\int_0^1 f(x) x dx$, which becomes (since we use $k = n-1$ for a second price auction):
+\begin{eqnarray}
+E[\pi] &=& \int_0^1 \frac{n!}{(n-2)!} x^{n-2} (1-x) x dx \\
+&=& n(n-1) \int_0^1 x^{n-1} (1-x) dx \\
+&=& \frac{n-1}{n+1}
+\end{eqnarray}
+
+This is the result that we expected by the revenue equivalence theorem. If the object had been sold for a fixed price, then the auctioneer would expected a profit of $p$ times the probability of selling the object at price $p$. Since this is given by 1 minus the cdf of the nth order statistic, or $F(x)^n$, we see that $E[\pi] = p (1 - p^n) = p - p^{n+1}$. Solving using first order conditions implies that $p = \sqrt[n]{\frac{1}{n+1}}$ which gives a profit of $\sqrt[n]{\frac{1}{n+1}} \frac{n}{n+1}$. 
+
+\section{Price Search}
+
+\subsection{Diamond Model}
+
+We we create the Diamon model with the following assumptions. There are $n$ firms of homogenous goods, each with constant common marginal cost $c$. Consumers search optimally and have some search cost $s$. Diamond states that if all consumers have cost $s$ of obtaining a price quote, then the unique NE is $P_1^* = \ldots = P_n^* = P^m$. 
+
+The proof follows by first showing it is a NE. If prices are at this equilibrium, then consumers will know this and will not have to obtain a price quote because they know all prices are the same. If $P_i^* < P_j^*$ for some $i$, then he will not get any additional customers since the consumer assumes the market to be in equilbirum and so will lose money. If $P_i^* > P_j^*$ for some $i$ then the customers won't buy the product and will instead go to another store.
+
+Now we show that the NE is unique. We consider another potential equilbirum where $P_1 < P^m$. Firm 1 wants to deviate and choose $P_1 + \epsilon$ because everyone who visits still wants to buy from firm 1. If $P^n > P^m$ in a potential equilbirium, then firm $n$ wants to deviate because choosing price $P^m$ will make the firm better off and have higher profits. Therefore, unique NE is at $P^m$. 
+
+\subsection{Stahl Model}
+
+Same model as in Diamon, but now there is a notion of a shopper, who gains utility from searching for a price. Formally, there is some fraction $\mu$ of consumers who are shoppers and have search costs $s \leq 0$. The other fraction $1 - \mu$ have search costs distribution on $u[0,1]$. 
+
+\begin{itemize}
+\item The model has no pure strategy NE.
+\item There exists a symmetric mixed strategy NE where firms choose prices from a continuous distribution $F$ with support not containing $c$.
+\item As $\mu$ goes from 0 to 1, NE changes continuously from Diamond to Bertrand. 
+\item As the two search costs decrease, the NE coverges to Bertrand competition.
+\end{itemize}
+
+\section{Price Discrimination}
+
+\subsection{First Degree}
+
+First degree discrimination is where there is a monopolist with perfect information about all consumers. Suppose $w(t)$ is the consumer's willingness to pay per unit. Then the monopolist will make a take it or leave it offer for $x$ units and a price of $T$, denoted as $(x,T)$.
+
+For some quantity $x$, the consumer will pay $\int_0^q w(t) dt$. The monopolist will make sure that this is greater than or equal to the price, and at the maximum profit margin, the monopolist will set this equal to the price. Therefore, we have
+\begin{eqnarray}
+\int_0^q w(t) dt &=& P
+\end{eqnarray}
+
+\subsection{Third Degree}
+
+The monoplist will make take it or leave it offers to different observable groups. So consider two populations $i=1,2$ with independent demands $Q_i(p)$. The monpolist attempts to maximize
+\begin{eqnarray}
+\max_{p_1, p_2} (p_1 - c) Q_1(p_1) + (p_2 - c) Q_2(p_2)
+\end{eqnarray}
+
+This can be separated into two different functions and solved for individually. Welfare effects are ambiguous and depend on the elasticies. 
+
+\subsection{Second Degree}
+
+Here the seller can't separate out different buyer groups but wants the buyers to separate out themselves. Assume that the utility function for each consumer is given by $U = (V, \theta) - T$ where $V$ is the quality and $\theta$ is the consumer type, $T$ as usual is the amount paid. We assume $\frac{dv}{dQ} > 0$ and $\frac{d^2 v}{d Q^2} < 0$ and that $\frac{dv}{d \theta} > 0$ but $\frac{d^2 v}{d \theta^2} > 0$. We relabel $V(Q, \theta_1) = V_1(Q)$ and $V(Q, \theta_2) = V_2(Q)$, if we think of $\theta$ as being binary.
+
+We need to satisfy IR (individual rationality) and IC (incentive compatibility contraints:
+\begin{eqnarray}
+V_1(Q_1) - T_1 &\geq& 0 \\
+V_2(Q_2) - T_2 &\geq& 0 \\
+V_1(Q_1) - T_1 &\geq& V_1(Q_2) - T_2 \\
+V_2(Q_2) - T_2 &\geq& V_2(Q_1) - T_1
+\end{eqnarray}
+
+Notice that one of the IR constraints doesn't matter, and we can disregard one of the IC constraints since it will not matter later on. Therefore, we write our problem as the following:
+\begin{eqnarray}
+\pi = \max_{Q_1, Q_2} T_1 + T_2 &=& V_1(Q_1) + (V_1(Q_1) + V_2(Q_2) - V_2(Q_1)) - c(Q_1, Q_2) \\
+\frac{d \pi}{d Q_1} &=& \frac{d V_1}{d Q_1} + \frac{d V_1}{d Q_1} - \frac{d V_2}{d Q_1} - c \\
+\frac{d \pi}{d Q_2} &=& \frac{d V_2}{d Q_2} - c 
+\end{eqnarray}
+
+Therefore we see that the following is true:
+\begin{eqnarray}
+\frac{d V_2}{d Q_2} &=& c \\
+\frac{d V_1}{d Q_1} &=& c + \left( \frac{d V_2}{d Q_1} - \frac{d V_1}{d Q_1} \right)
+\end{eqnarray}
+
+Which shows that the high type gets the same quality as before but that $Q_1^*$ is now lower than before. 
+
+\section{Auction Theory}
+
+\end{document}
