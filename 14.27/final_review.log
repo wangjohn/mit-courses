@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  19 NOV 2012 02:32
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  19 NOV 2012 02:35
 entering extended mode
  %&-line parsing enabled.
 **final_review.tex
@@ -28,8 +28,7 @@ File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
-)
-No file final_review.aux.
+) (./final_review.aux)
 \openout1 = `final_review.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
@@ -54,6 +53,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 13.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 13.
+
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
@@ -67,8 +67,8 @@ LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
  [2] [3] [4]
 (./final_review.aux) ) 
 Here is how much of TeX's memory you used:
- 248 strings out of 493848
- 2802 string characters out of 1152823
+ 250 strings out of 493848
+ 2836 string characters out of 1152823
  52808 words of memory out of 3000000
  3599 multiletter control sequences out of 15000+50000
  8501 words of font info for 30 fonts, out of 3000000 for 9000
@@ -84,7 +84,7 @@ sfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
 r6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/
 share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf
 -texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on final_review.pdf (4 pages, 128102 bytes).
+Output written on final_review.pdf (4 pages, 128131 bytes).
 PDF statistics:
  59 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

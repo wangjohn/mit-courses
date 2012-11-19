@@ -79,7 +79,8 @@ V_2(Q_2) - T_2 &\geq& V_2(Q_1) - T_1
 
 Notice that one of the IR constraints doesn't matter, and we can disregard one of the IC constraints since it will not matter later on. Therefore, we write our problem as the following:
 \begin{eqnarray}
-\pi = \max_{Q_1, Q_2} T_1 + T_2 &=& V_1(Q_1) + (V_1(Q_1) + V_2(Q_2) - V_2(Q_1)) - c(Q_1, Q_2) \\
+\pi &=& \max_{Q_1, Q_2} T_1 + T_2 - c(Q_1, Q_2) \\ 
+ &=& V_1(Q_1) + (V_1(Q_1) + V_2(Q_2) - V_2(Q_1)) - c(Q_1, Q_2) \\
 \frac{d \pi}{d Q_1} &=& \frac{d V_1}{d Q_1} + \frac{d V_1}{d Q_1} - \frac{d V_2}{d Q_1} - c \\
 \frac{d \pi}{d Q_2} &=& \frac{d V_2}{d Q_2} - c 
 \end{eqnarray}
