@@ -48,9 +48,9 @@ def write_result(examset, filename):
 
 def run_algorithm(input_filename, output_filename, settings):
     print "Beginning to read in data..."
-    question_results = open_student_data(filename)
+    question_results = open_student_data(input_filename)
     print "Finished reading data, setting up data structures..."
-    qa = QuestionAssignment(question_results, num_students, num_questions_per_student, total_required_questions)
+    qa = QuestionAssignment(question_results, settings.num_students, settings.num_questions_per_student, settings.total_required_questions)
     print "Finished setting up data structures."
 
     print "Beginning greedy assignment algorithm."
@@ -78,4 +78,4 @@ def run_algorithm(input_filename, output_filename, settings):
     
 if __name__ == '__main__':
     settings_default = Settings()
-    run_algorithm('aStudentData.csv', 'resultExamset.csv', settings_default)
+    run_algorithm('astudentData.csv', 'resultExamset.csv', settings_default)

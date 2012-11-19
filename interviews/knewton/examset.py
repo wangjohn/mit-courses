@@ -327,7 +327,7 @@ class ComputeProbabilities:
                     students[question.student_id].num_correct += 1
             else:
                 # if the student id is not in the hash, create a new StudentResult object and add it
-                if students[question.student_id].correct:
+                if question.correct:
                     num_correct = 1
                 else:
                     num_correct = 0
