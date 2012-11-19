@@ -95,4 +95,20 @@ Which shows that the high type gets the same quality as before but that $Q_1^*$ 
 
 \section{Auction Theory}
 
+\subsection{First Price Sealed Bid}
+
+Bidders pay their winning bid. Bidders will bid $b_i = \frac{n-1}{n} v_i$. The utility is given by 
+\begin{eqnarray}
+U(v) = \left\{ \begin{array}{l l}
+v - b(v) & \text{if win} \\
+0 & \text{else}
+\end{array}\right.
+\end{eqnarray}
+
+The probability of winning is given by the probability that the $n-1$ other people bid lower than $v$, which is given by $F_(v)^{n-1}$. Therefore, the expected utility is given by $F(v)^{n-1} (v - b(v))$, but we know also by payoff equivalence, that this is equal to:
+\begin{eqnarray}
+F(v)^{n-1} (v - b(v)) &=& \int_0^v F(t)^{n-1} dt \\
+b(v) &=& v - \int_0^v \left( \frac{F(t)}{F(v)} \right)^{n-1} dt 
+\end{eqnarray}
+
 \end{document}
