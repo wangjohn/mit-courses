@@ -51,6 +51,33 @@ Thus, we proceed exactly as in the original algorithm, but whenever we reach an 
 Analyze the storage requirements and query time of this modified data structure.
 \end{prob}
 \begin{sol}
+First, we will analyze query time. For any query, we need to perform a find on $x_1$ and $x_2$ in the top level BST. This requires $O(\log n)$ time. Moving back up the tree, one will move up a path of nodes of length at most $2 O(\log n) = O(\log n)$. If there exists a subtree at a particular node on the way up the tree, then one can perform a range query in time $O(\log n)$ (since each node appears only in the trees above of it). If one lands on an odd level, then one needs to perform two range querys on the node's child's subtrees. This costs $2 O(\log n)$. There are $O(\log n)/2$ times when we incur the $2 O(\log n)$ cost and $O(\log n)/2$ times where we incur a $O(\log n)$ cost. Outputing the result requires $k$ to list everything out. This means that the total query cost is $O(\log^2 n + k)$ where $k$ is the number of intersectinos to output.
+
+The space requirements can be analyzed in a similar manner. The top level BST on the $x$ coordinates is of size $O(n)$. Each subtree is of maximum size $O(\log n)$ (again because only descendant nodes are included in a second-level tree). Half of the levels of the tree will have no subtree. More formally, if there are $h$ levels in the tree, then there will be $\sum_{i=1}^{\lfloor h/2 \rfloor} 2^{2i} = O(n)$ nodes which have subtrees. Since each subtree has at most $O(\log n)$ size, we see that the total tree is of size $O(n) + O(n \log n) = O(n \log n)$.  
+\end{sol}
+
+\begin{prob}{1-c}
+Suppose that only the nodes with depth $0, \lfloor \frac{1}{j} \log n \rfloor, \lfloor \frac{2}{j} \log n \rfloor, \ldots$ have an associated secondary structure, where $j > 2$ is a constant. Analyze the storage requirements and query time of this data structure. Express the bounds in terms of $n$ and $j$. 
+\end{prob}
+\begin{sol}
+We will use the same approach as in the above two parts of the problem. In our top level tree, we will find $x_1$ and $x_2$ as nodes and move back up the path that was used to reach each node in the tree. Until the LCA of $x_1$ and $x_2$ is reached, we will search for $y_1$ and $y_2$ in each node's second level tree. If some node $v$ does not have a subtree, then recursively move down its children until a level is reached which stores subtrees. For a node $v$, the subtree range query can be performed by query the subtrees of both children of $v$. Notice that this recursion will go down a maximum of $j$ levels until a level with secondary subtrees is reached.
+
+This implies that querying a node $v$ which does not have a subtree, requires querying $2^k$ subtrees if $k$ is the distance from the level of $v$ to the closest level below $v$ which contains associated secondary structures. Clearly we know that $k \leq j$. This means that querying will take time $O(\log n)$ to find $x_1$ and $x_2$ in the top level tree. The subtree querying will require 
+\begin{eqnarray}
+\sum_{i=1}^{\log n / j} \sum_{k=1}^j 2^k O(\log n)
+\end{eqnarray}
+
+This is because there will be sets of levels of length $j$, where one level contains an associated secondary subtree, the next level is one level away from the subtree level (so that querying takes $2 \log n$ time), etc. until we reach the $j-1$th level in the iteration which will be $2^{j-1}$ levels away from a level containing secondary structures. At each level, query time is $2^k O(\log n)$. Moverover, there will be $\log n/j$ times in which this tree pattern will repeat. Thus, simplifying the above expression, we see that the total querying time requires:
+\begin{eqnarray}
+\frac{1}{j} \log n \sum_{k=1}^j 2^k O(\log n) &=& \frac{1}{j} \log n O(2^j \log n) \\
+&=& O \left( \frac{2^j}{j} \log^2 n \right)
+\end{eqnarray}
+
+To analyze space, we know that the top level structure stores $O(n)$ items. Moreover, we only have secondary structures every $j$th level, each of which is of size $O(\log n)$. Since at the $i$th level, there are $2^i$ nodes, we see that if there are $O(\log n)$ structures for all $2^i$ nodes in the $i$th level, then the total space is given by:
+\begin{eqnarray}
+O(n) + \sum_{i=1}^{\log n/j} 2^i O(\log n) &=& O(n) + O(2^{\log n/j} \log n) \\
+&=& O(n^{1/j} \log n + n)
+\end{eqnarray}
 
 \end{sol}
 
