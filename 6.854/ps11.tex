@@ -176,6 +176,8 @@ In order to make sure the buffer tree outputs queries successfully, we need to m
 The queue will be kept in an external memory block, and after every $B$ commands, we will check the queue and perform all the commands in the queue (in this manner, keeping the queue in external memory costs nothing in an amortized sense). When a command reaches its leaf, it will check if it is allowed to call itself (i.e. whether the global counter is set to $i-1$). If the command is performed, it will increment the counter. 
 
 In this way, all of the commands will be performed in sequential order, and a final flush of the data structure (costing $N/B$ memory transfers) will make sure that all the commands have been finished. Moreover, we see that if all of the commands are finished in sequential order, our invariant that the horizontal lines inside of the buffer tree are always the horizontal lines intersecting the sweep line will always hold thourough our commands. This means that our range query will provide the correct intersections. 
+
+Notice that each of the insert, delete, and range query commands requires $O(\frac{1}{B} \log_{M/B} \frac{N}{B})$ time because the tree is of maximum size $O(N)$. Since there are $O(N)$ of these commands, sorting and finding the intersections takes $O(\frac{N}{B} \log_{\frac{M}{B}} \frac{N}{B})$ time and the extra $K/B$ time is spent writing the output to external memory.
 \end{sol}
 
 \end{document}
