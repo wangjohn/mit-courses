@@ -40,6 +40,17 @@
 Suppose that only the nodes with even depth have an associated secondary structure. Show how the query algorithm can be adapted to answer queries correctly.
 \end{prob}
 \begin{sol}
+In our original data structure, when we attempted to query a given range $[x_1, x_2]$ in the $x$-dimension, we first found the two node which corresponded to $x_1$ and $x_2$. Then, we found the lowest common ancestor between $x_1$ and $x_2$, making to incorporate the subtrees of all the right $y$ subtrees of the path up from $x_1$ and the left $y$ subtrees up the path from $x_2$. Each of these $y$ subtrees would then be queried for $[y_1, y_2]$ to finish off the rectangular query. In our new data structure, we will simply delete the $y$-coordinate subtrees on the odd levels of the tree. 
+
+Now when performing a query and reaching an odd level node without a $y$-coordinate subtree, we will need to construct a new subtree from the subtrees on even levels. However, notice that we have built our original datastructure in such a way that a node's $y$ coordinate subtree contains the merger of the node's children's $y$ coordinate subtrees. Thus, if we reach an odd node $on$, all we have to do in order to search the $y$ range of $[y_1, y_2]$ in our new data structure is to check the $y$ coordinate substructures of $on$'s children.
+
+Thus, we proceed exactly as in the original algorithm, but whenever we reach an odd node that does not have a $y$ coordinate subtree, we perform the range query on $[y_1, y_2]$ in the $y$-substructures of both children of the node without a sub-tree. This does the exact same thing as searching inside of the subtree rooted at $on$ in the original problem where all nodes had $y$ coordinate subtrees, but takes an extra $O(\log n)$ factor.
+\end{sol}
+
+\begin{prob}{1-b}
+Analyze the storage requirements and query time of this modified data structure.
+\end{prob}
+\begin{sol}
 
 \end{sol}
 
