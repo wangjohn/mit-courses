@@ -60,13 +60,15 @@ def run_algorithm(input_filename, output_filename, settings):
     
     print "Initializing genetic algorithm."
     # create a initial set of examsets to be used for the genetic algorithm
+    all_questions_pqs = qa.get_probabilistic_question_set_all_questions()
     initial_examsets = [greedy_examset]
     for i in xrange(settings.population_size - 1):
-        initial_examsets.append(greedy_examset.mutate())
+        # mutate the original greedy examset using a mutation rate of 0.25
+        initial_examsets.append(greedy_examset.mutate(0.25, all_questions_pqs))
 
     print "Starting up genetic algorithm."
     # now start up the genetic algorithm.
-    genetic = GeneticAlgorithm(initial_examsets, settings.population_size, settings.max_iterations, settings.parent_population_size, self.total_required_questions)
+    genetic = GeneticAlgorithm(initial_examsets, settings.population_size, settings.max_iterations, settings.parent_population_size, self.total_required_questions, all_questions_pqs)
 
     # breed and find the top 10. Take the top one and output it.
     top_10 = genetic.breed()

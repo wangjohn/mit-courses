@@ -2,12 +2,13 @@ from examset import *
 import math
 
 class GeneticAlgorithm:
-    def __init__(self, initial_examsets, population_size, max_iterations, parent_population_size, total_required_questions):
+    def __init__(self, initial_examsets, population_size, max_iterations, parent_population_size, total_required_questions, probabilistic_question_set):
         self.examsets = initial_examsets
         self.population_size = population_size
         self.iteration = 0
         self.max_iterations = max_iterations
         self.total_required_questions = total_required_questions
+        self.probabilistic_question_set = probabilistic_question_set
         self.top_10 = []
 
         # parent population size defaults to 25% of the population size
@@ -75,7 +76,7 @@ class GeneticAlgorithm:
         while num_mutated < num_to_mutate:
             # mutate an examset into a new examset
             parent_to_mutate = parents[self._get_random_indices(1)[0]]
-            new_examsets.append(parent_to_mutate.mutate())
+            new_examsets.append(parent_to_mutate.mutate(mutation_rate, self.probabilistic_question_set))
 
         # new iteration will consist of the new examsets and the old parents 
         # TODO: figure out if I should include the parents in the next iteration or not.

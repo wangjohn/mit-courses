@@ -262,7 +262,7 @@ class ExamSet:
         print bins
         return bins
   
-    def mutate(self, rate, compute_probabilities_object):
+    def mutate(self, rate, probabilistic_question_set_object):
         """Returns a new examset with a mutated copy of all the variables.
            The new examset is separate from the current one, so that changing properties
            in the mutated examset does not change anything in current ExamSet.
@@ -279,7 +279,7 @@ class ExamSet:
             if new_mutations:
                 # mutate the current sample so that we obtain student.k questions for this student
                 # in his student.questions hash of his questions
-                compute_probabilities_object.sample(student.k, student.questions)
+                probabilistic_question_set_object.sample(student.k, student.questions)
 
         return ExamSet(student_list, self.bin_size)
 
@@ -488,6 +488,9 @@ class QuestionAssignment:
 
         # we initialize a compute probabilities object which will compute rj for all of the questions
         self.compute_probabilities = ComputeProbabilities(question_results)
+
+    def get_probabilistic_question_set_all_questions(self):
+        return ProbabilisticQuestionSet(self.compute_probabilities.questions.values())
 
     def greedy_assignment(self):
         # get the top L=self.total_required_questions number of questions, and insert them into an examset 
