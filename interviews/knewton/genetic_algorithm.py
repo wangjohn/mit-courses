@@ -72,11 +72,13 @@ class GeneticAlgorithm:
             cross_indices = self._get_random_indices(2)
             examset = parents[cross_indices[0]].crossover(parents[cross_indices[1]])
             new_examsets.append(examset)
+        print "Finished crossing examsets in iteration %s" % (str(self.iteration+1))
 
         for i in xrange(num_to_mutate):
             # mutate an examset into a new examset
             parent_to_mutate = parents[self._get_random_indices(1)[0]]
             new_examsets.append(parent_to_mutate.mutate(mutation_rate, self.probabilistic_question_set))
+        print "Finished mutating examsets in iteration %s" % (str(self.iteration+1))
 
         # new iteration will consist of the new examsets and the old parents 
         # TODO: figure out if I should include the parents in the next iteration or not.

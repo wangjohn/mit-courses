@@ -402,6 +402,7 @@ class ComputeProbabilities:
         while self.continue_iteration(iteration, distance_change):
             delta = 0.5 * math.exp(-(iteration+1))
             additional_delta_vec = [-delta, 0, delta]
+            print "    Computing r_j and theta_i; iteration %s" % str(iteration)
 
             # first part of the iteration: change thetas for all the students
             distance_change = self._iteratively_compute_rj_or_theta_i(self.student_results, additional_delta_vec, questions, "student")
@@ -511,6 +512,7 @@ class QuestionAssignment:
                 student_list.append(Student(current_student_questions))
             newExamSet = ExamSet(student_list)
             counter += 1
+            print "  Greedy Assignment: finished iteration %s" % (str(counter-1))
         return newExamSet
                 
 def get_entropy(rj):
