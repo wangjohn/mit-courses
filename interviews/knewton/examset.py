@@ -444,7 +444,7 @@ class ComputeProbabilities:
 
             # now we have a distance vector which gives us the min distance for [rj+thetai-delta, rj+thetai, rj+thetai+delta]
             # and we can evaluate which one is the best, and choose that one as the new theta_i or rj.
-            best_index = additional_delta_vec.index(min(distance))
+            best_index = distance.index(min(distance))
             total_distance_change += (distance[1] - min(distance))
 
             # update rj if we're calling on questions and theta_i if we're calling on students
