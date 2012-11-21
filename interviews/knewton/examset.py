@@ -417,7 +417,6 @@ class ComputeProbabilities:
             # if we're calling on question, then the question_id is given by key, otherwise 
             # the student_id is given by the key.
             if toplevel == "question":                
-                question_result = self.question_results[key] 
                 question = questions[key]
                 secondary_list = value # list of [StudentResult] Objects
             else:
@@ -429,6 +428,7 @@ class ComputeProbabilities:
                 # if we're calling on question, then the student is the secondary_item in the list, otherwise
                 # we're calling on student, which means the question_result is the secondary_item in the list
                 if toplevel == "question":
+                    question_result = secondary_item.question_results[key]
                     student = secondary_item
                 else:
                     question_result = secondary_item
