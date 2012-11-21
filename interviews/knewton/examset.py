@@ -46,7 +46,7 @@ class Student:
         for score, prob in self.score_probabilities:
             if max_score == None or score > max_score:
                 max_score = score
-            if min_Score == None or score < min_score:
+            if min_score == None or score < min_score:
                 min_score = score
         return max_score - min_score
 
@@ -127,7 +127,7 @@ class ProbabilisticQuestionSet:
         previous = 0
         for i in xrange(len(probabilities)):
             bins.append(probabilities[i] + previous)
-            previous += bins[i]
+            previous = bins[i]
 
         return bins
 
@@ -136,12 +136,12 @@ class ProbabilisticQuestionSet:
         result = []
 
         # Las Vegas algorithm that repeatedly samples until we are done,
-        # throwing away samples that we have alreaady used.
+        # throwing away samples that we have already used.
         # Note that this assumes that n is much smaller than the number of
         # questions available.
         while len(already_used) < n:
             index = self.bin_search(random.random())
-            if index in already_used:
+            if index not in already_used:
                 result.append(self.question_list[index])
                 already_used[index] = self.question_list[index]
         return result
@@ -492,7 +492,7 @@ class QuestionAssignment:
             student_list = []
             for i in xrange(self.num_students):
                 # create a new student with num_questions_per_student randomly sampled questions
-                current_student_questions = top_questions_set.sample(self.num_questions_per_student)
+                current_student_questions = top_questions_set.sample(self.num_questions_per_student, {})
                
                 # create a student and append him to the list
                 student_list.append(Student(current_student_questions))
