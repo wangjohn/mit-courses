@@ -61,8 +61,8 @@ class GeneticAlgorithm:
                 # break after we have found 10 of them
                 if added_count >= 10:
                     break
-        self.top_10 = sorted(self.top_10, key = lambda e : e.get_entropy(), reverse=True)[:10]
-        print "Best Entropy in Iteration %s: %s" % (str(self.iteration), str(self.top_10[0].get_entropy())) 
+        self.top_10 = sorted(self.top_10, key = lambda e : e.compute_entropy(), reverse=True)[:10]
+        print "Best Entropy in Iteration %s: %s" % (str(self.iteration), str(self.top_10[0].compute_entropy())) 
 
         # keep crossing until we have the requisite number of examsets
         # note that we don't care about crossing two pairs that have already
