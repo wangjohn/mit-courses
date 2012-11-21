@@ -68,7 +68,7 @@ def run_algorithm(input_filename, output_filename, settings):
 
     print "Starting up genetic algorithm."
     # now start up the genetic algorithm.
-    genetic = GeneticAlgorithm(initial_examsets, settings.population_size, settings.max_iterations, settings.parent_population_size, self.total_required_questions, all_questions_pqs)
+    genetic = GeneticAlgorithm(initial_examsets, settings.population_size, settings.max_iterations, settings.parent_population_size, settings.total_required_questions, all_questions_pqs)
 
     # breed and find the top 10. Take the top one and output it.
     top_10 = genetic.breed()

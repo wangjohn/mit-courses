@@ -27,8 +27,8 @@ class GeneticAlgorithm:
            Returns the top 10 examsets that we found in throughout the genetic algorithm.
         """
         while self.iteration < self.max_iterations:
-            mutation_rate = self.mutation_function(self.iteration, self.max_iterations, 2)
-            crossover_rate = self.mutation_function(self.iteration, self.max_iterations, 3.5)
+            mutation_rate = self.mutation_rate_function(self.iteration, self.max_iterations, 2)
+            crossover_rate = self.mutation_rate_function(self.iteration, self.max_iterations, 3.5)
             num_to_cross = round(0.30*(self.population_size-self.parent_population_size))
             num_to_mutate = round(0.70*(self.population_size-self.parent_population_size))
             self._breed_iteration(num_to_cross, num_to_mutate, mutation_rate, crossover_rate)
