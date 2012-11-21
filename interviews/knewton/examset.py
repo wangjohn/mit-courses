@@ -111,7 +111,7 @@ class ProbabilisticQuestionSet:
  
     def _get_probability_bins(self, c):
         # find the minimum and maximum entropies
-        old_entropy_list = [question.entropy for question in question_list]
+        old_entropy_list = [question.entropy for question in self.question_list]
         min_entropy = min(old_entropy_list)
         max_entropy = max(old_entropy_list)
 
@@ -147,16 +147,16 @@ class ProbabilisticQuestionSet:
         return result
 
     def bin_search(self, rand):
-        index = self._binary_search_bins(0, len(self.probabilities)-1, rand)
+        index = self._binary_search_bins(0, len(self.probability_bins)-1, rand)
         # check if rand is on the left or the right
-        if index == 0 or index == len(self.probabilities)-1:
+        if index == 0 or index == len(self.probability_bins)-1:
             return index
 
         # we want to get the index where rand is less than the value
         # i.e. if we have rand = 0.85 and bins [0.5, 1], then we want
         # to return bin of index 0. However if we have rand = 0.2, we also
         # want to return index 0.
-        if self.probabilities[index] > rand:
+        if self.probability_bins[index] > rand:
             return index - 1
         else:
             return index
@@ -312,6 +312,8 @@ class ComputeProbabilities:
 
         # hash of question_id : Question where the Questions have rj computed 
         self.questions = self.compute_rj(self)
+        # questions sorted by entropies, highest first.
+        self.sorted_questions = None 
 
     def _create_students(self):
         students = {}
@@ -341,8 +343,10 @@ class ComputeProbabilities:
            method is called, the questions will be ordered by highest entropy
            first.
         """
-        self.questions = sorted(self.questions, key = lambda q : q.entropy, reverse=True)
-        return self.questions[:n]
+        if self.sorted_questions:
+            return self.sorted_questions[:n]
+        self.sorted_questions = sorted(self.questions.values(), key = lambda q : q.entropy, reverse=True)
+        return self.sorted_questions[:n]
 
     def _create_questions_students_dict(self):
         # creates a dictionary of all the questions, with the value of the dictionary 
@@ -482,7 +486,9 @@ class QuestionAssignment:
         newExamSet = None 
 
         # we continue looping until we've reached the requisite number of questions
+        counter = 0
         while newExamSet == None or newExamSet.get_num_distinct_questions < self.total_required_questions:
+            print "  Greedy Assignment: beginning iteration %s" % (str(counter))
             student_list = []
             for i in xrange(self.num_students):
                 # create a new student with num_questions_per_student randomly sampled questions
@@ -491,6 +497,7 @@ class QuestionAssignment:
                 # create a student and append him to the list
                 student_list.append(Student(current_student_questions))
             newExamSet = ExamSet(student_list)
+            counter += 1
         return newExamSet
                 
 def get_entropy(rj):
