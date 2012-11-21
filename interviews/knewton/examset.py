@@ -307,8 +307,8 @@ class ComputeProbabilities:
         self.max_num_iterations = max_num_iterations
 
         # create student_result objects and group them by question for easier usage
-        self.student_results = self._create_students()
-        self.questions_students_dict = self._create_questions_students_dict()
+        self.student_results = self._create_students() # hash of student_id : StudentResult object
+        self.questions_students_dict = self._create_questions_students_dict() # hash of question_id : [StudentResult] 
 
         # hash of question_id : Question where the Questions have rj computed 
         self.questions = self.compute_rj(self)
@@ -349,7 +349,7 @@ class ComputeProbabilities:
         # being all of the students who were given that question in the training data.
         qs_dict = {}
         for student_id, student_result in self.student_results.iteritems():
-            for question_result in student_result.question_results:
+            for question_result in student_result.question_results.itervalues():
                 # check if the question_id is already in the dictionary
                 # and add the student id to the list accordingly
                 if question_result.question_id in qs_dict:
@@ -362,7 +362,7 @@ class ComputeProbabilities:
         """Method which just takes the sample means, and uses these as the probabilities of getting
            a question correct."""
         question_list = {}
-        for question_id, students_list in self.questions_students_dict:
+        for question_id, students_list in self.questions_students_dict.iteritems():
             count = 0
             correct = 0
             for student in students_list:
@@ -374,7 +374,7 @@ class ComputeProbabilities:
             question_list[question_id] = question
         return question_list 
 
-    def continue_iteration(iteration, distance_change):
+    def continue_iteration(self, iteration, distance_change):
         """Computes whether or not we should continue the current iteration
            in the algorithm that iteratively computes rj. The min_threshold_change
            and max_num_iterations will be computed using the first couple of 
@@ -394,7 +394,7 @@ class ComputeProbabilities:
         # reassigning the theta_i's when necessary
         iteration = 0
         distance_change = None
-        while continue_iteration(iteration, distance_change):
+        while self.continue_iteration(iteration, distance_change):
             delta = 0.5 * math.exp(-iteration)
             additional_delta_vec = [-delta, 0, delta]
 
@@ -419,10 +419,10 @@ class ComputeProbabilities:
             if toplevel == "question":                
                 question_result = self.question_results[key] 
                 question = questions[key]
-                secondary_list = value          
+                secondary_list = value # list of [StudentResult] Objects
             else:
                 student = value
-                secondary_list = value.question_results
+                secondary_list = value.question_results.values() # list of [QuestionResult] Objects
 
             # iterate over the secondary_list and calculate the min distance
             for secondary_item in secondary_list:
@@ -431,11 +431,11 @@ class ComputeProbabilities:
                 if toplevel == "question":
                     student = secondary_item
                 else:
-                    question_result = self.question_results[secondary_item.question_id]
-                    question = questions[question_result.question_id]
+                    question_result = secondary_item
+                    question = questions[secondary_item.question_id]
 
                 xij = (1 if question_result.correct else 0) 
-                added_distance = [math.abs(xij - (question.rj + student.theta + i)) for i in additional_delta_vec]  
+                added_distance = [abs(xij - (question.rj + student.theta + i)) for i in additional_delta_vec]  
                 
                 # add the added_distance to the current distance to get a new measure for the 
                 # distance, given this new question
@@ -494,4 +494,6 @@ class QuestionAssignment:
         return newExamSet
                 
 def get_entropy(rj):
+    if rj == 0:
+        return 0
     return rj*math.log(1.0/rj)
