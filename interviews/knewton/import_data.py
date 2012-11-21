@@ -18,7 +18,7 @@ class Settings:
 
     def _init_genetic_algorithm_settings(self):
         self.population_size = 200
-        self.parent_population_size = round(self.population_size*0.25)
+        self.parent_population_size = int(self.population_size*0.25)
         self.max_iterations = 150
         
 

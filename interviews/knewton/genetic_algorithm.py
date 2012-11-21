@@ -12,7 +12,7 @@ class GeneticAlgorithm:
         self.top_10 = []
 
         # parent population size defaults to 25% of the population size
-        self.parent_population_size = (parent_population_size if parent_population_size else len(population_size)*0.25)
+        self.parent_population_size = (parent_population_size if parent_population_size else int(len(population_size)*0.25))
 
     def mutation_rate_function(self, iteration, max_iterations, scaling_factor=2):
         """As the iterations increase, mutation rate goes down and instead of exploring the
@@ -31,7 +31,7 @@ class GeneticAlgorithm:
             crossover_rate = self.mutation_rate_function(self.iteration, self.max_iterations, 3.5)
             num_to_cross = round(0.30*(self.population_size-self.parent_population_size))
             num_to_mutate = round(0.70*(self.population_size-self.parent_population_size))
-            self._breed_iteration(num_to_cross, num_to_mutate, mutation_rate, crossover_rate)
+            self.breed_iteration(num_to_cross, num_to_mutate, mutation_rate, crossover_rate)
             self.iteration += 1
         return self.top_10
 
@@ -46,7 +46,7 @@ class GeneticAlgorithm:
 
     def breed_iteration(self, num_to_cross, num_to_mutate, mutation_rate, crossover_rate):
         # sort the current examsets and obtain the top lambda in terms of entropy.
-        self.examsets = sorted(self.examsets, key = lambda e : e.get_entropy(), reverse=True)
+        self.examsets = sorted(self.examsets, key = lambda e : e.compute_entropy(), reverse=True)
         parents = self.examsets[:self.parent_population_size]
         new_examsets = []
 
