@@ -268,16 +268,17 @@ class ExamSet:
         student_list = self.students[:] # shallow copy of the entire list
         for student in student_list:
             new_mutations = False
+            updated_questions = {}
             for i in xrange(len(student.questions)):
                 # delete questions from student.questions at random, according
                 # to some mutation rate.
                 if random.random() < rate:
-                    student.questions.pop(i)
                     new_mutations = True
+                else:
+                    updated_questions[student.questions[i].question_id] = student.questions[i]
             if new_mutations:
                 # mutate the current sample so that we obtain student.k questions for this student
-                # in his student.questions hash of his questions
-                probabilistic_question_set_object.sample(student.k, student.questions)
+                student.questions = probabilistic_question_set_object.sample(student.k, updated_questions)
 
         return ExamSet(student_list, self.bin_size)
 
