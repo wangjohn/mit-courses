@@ -66,7 +66,7 @@ class Student:
         for score, prob in score_prob:
             # create new tuples based on each of the previous scores.
             new_score = score + 1.0/current_rj
-            incorrect = (score, prob*(1.0-current_rj))
+            incorrect = (score, prob*abs(1.0-current_rj))
             correct = (new_score, prob*1.0*current_rj)
             new_score_prob.append(incorrect)
             new_score_prob.append(correct)
@@ -238,6 +238,7 @@ class ExamSet:
         entropy = 0
         for cumulative_prob, count in self.bins.itervalues():
             avg_prob = cumulative_prob * 1.0 / count
+            print avg_prob
             entropy += get_entropy(avg_prob)
         self.entropy = entropy
         return entropy
@@ -247,6 +248,7 @@ class ExamSet:
            are an array of the total cumulative probability prob and the count
            so that we have [prob, count]."""
         bins = {}
+        print 'bin size: %s' % str(bin_size)
         # bins that give the total cumulative probability, and count of 
         # the number of occurrences
         for student in self.students:
@@ -258,6 +260,7 @@ class ExamSet:
                     bins[current_bin][1] += 1 
                 else:
                     bins[current_bin] = [prob, 1]
+        print bins
         return bins
   
     def mutate(self, rate, compute_probabilities_object):
@@ -399,7 +402,7 @@ class ComputeProbabilities:
         iteration = 0
         distance_change = None
         while self.continue_iteration(iteration, distance_change):
-            delta = 0.5 * math.exp(-iteration)
+            delta = 0.5 * math.exp(-(iteration+1))
             additional_delta_vec = [-delta, 0, delta]
 
             # first part of the iteration: change thetas for all the students
@@ -444,7 +447,7 @@ class ComputeProbabilities:
                 # add the added_distance to the current distance to get a new measure for the 
                 # distance, given this new question
                 for i in xrange(len(distance)):
-                    distance[i] += additional_delta_vec[i]
+                    distance[i] += added_distance[i]
 
             # now we have a distance vector which gives us the min distance for [rj+thetai-delta, rj+thetai, rj+thetai+delta]
             # and we can evaluate which one is the best, and choose that one as the new theta_i or rj.
@@ -454,9 +457,18 @@ class ComputeProbabilities:
             # update rj if we're calling on questions and theta_i if we're calling on students
             if toplevel == "question":
                 question.rj += additional_delta_vec[best_index]
+                question.rj = self._constrain_to_zero_one(question.rj)
             else:
                 student.theta += additional_delta_vec[best_index]
+                student.theta = self._constrain_to_zero_one(student.theta)
         return total_distance_change
+
+    def _constrain_to_zero_one(self, prob):
+        if prob < 0:
+            return 0
+        if prob > 1:
+            return 1
+        return prob
 
 
 class QuestionAssignment:

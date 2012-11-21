@@ -56,12 +56,12 @@ def run_algorithm(input_filename, output_filename, settings):
     print "Beginning greedy assignment algorithm."
     # get the examset from the greedy assignment
     greedy_examset = qa.greedy_assignment()
-    print "Finished greedy assignment."
+    print "Finished greedy assignment. Entropy of ExamSet: %s" % str(greedy_examset.compute_entropy())
     
     print "Initializing genetic algorithm."
     # create a initial set of examsets to be used for the genetic algorithm
     initial_examsets = [greedy_examset]
-    for i in xrange(population_size - 1):
+    for i in xrange(settings.population_size - 1):
         initial_examsets.append(greedy_examset.mutate())
 
     print "Starting up genetic algorithm."
