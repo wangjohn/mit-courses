@@ -226,7 +226,7 @@ class ExamSet:
                 min_disp = disp
         # current heuristic is to take the minimum score dispersion and multiply by 2.5
         # we would rather have small bin size, then bins which are too large.
-        self.bin_size = min_disp * 2.5
+        self.bin_size = min_disp * 0.75
         return self.bin_size
 
     def compute_entropy(self):
@@ -238,7 +238,6 @@ class ExamSet:
         entropy = 0
         for cumulative_prob, count in self.bins.itervalues():
             avg_prob = cumulative_prob * 1.0 / count
-            print avg_prob
             entropy += get_entropy(avg_prob)
         self.entropy = entropy
         return entropy
