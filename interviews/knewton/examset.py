@@ -247,7 +247,6 @@ class ExamSet:
            are an array of the total cumulative probability prob and the count
            so that we have [prob, count]."""
         bins = {}
-        print 'bin size: %s' % str(bin_size)
         # bins that give the total cumulative probability, and count of 
         # the number of occurrences
         for student in self.students:
@@ -259,7 +258,6 @@ class ExamSet:
                     bins[current_bin][1] += 1 
                 else:
                     bins[current_bin] = [prob, 1]
-        print bins
         return bins
   
     def mutate(self, rate, probabilistic_question_set_object):
@@ -270,11 +268,11 @@ class ExamSet:
         student_list = self.students[:] # shallow copy of the entire list
         for student in student_list:
             new_mutations = False
-            for key in student.questions.iterkeys():
+            for i in xrange(len(student.questions)):
                 # delete questions from student.questions at random, according
                 # to some mutation rate.
                 if random.random() < rate:
-                    del student.questions[key]
+                    student.questions.pop(i)
                     new_mutations = True
             if new_mutations:
                 # mutate the current sample so that we obtain student.k questions for this student
