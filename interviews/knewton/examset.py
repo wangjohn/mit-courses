@@ -205,8 +205,8 @@ class ExamSet:
             # iterate over each student, and each question for each student, and
             # add these to our hash of question_ids
             for student in self.students:
-                for question_id in student.questions.iterkeys():
-                    question_ids[question_id] = True
+                for question in student.questions:
+                    question_ids[question.question_id] = True
             self.num_distinct_questions = len(question_ids)
         else:
             self.num_distinct_questions = 0
