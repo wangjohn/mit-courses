@@ -17,9 +17,9 @@ class Settings:
         self.total_required_questions = 200
 
     def _init_genetic_algorithm_settings(self):
-        self.population_size = 100
+        self.population_size = 200
         self.parent_population_size = int(self.population_size*0.25)
-        self.max_iterations = 100
+        self.max_iterations = 200
         
 
 def open_student_data(filename):
@@ -37,12 +37,13 @@ def open_student_data(filename):
 
 def write_result(examset, filename):
     with open(filename, 'wb') as f:
-        writer = csv.write(f, delimiter=";")
-        header = ["Student ID", "Question 1 ID", "Question 2 ID", "Question 3 ID", "Question 4 ID", "Question 5 ID"] 
+        writer = csv.writer(f, delimiter=";")
+        header = ["Student Number", "Question 1 ID", "Question 2 ID", "Question 3 ID", "Question 4 ID", "Question 5 ID"] 
         writer.writerow(header)
-        for student in examset:
-            line = [student.student_id]
-            line += [question_id for question_id in student.questions.iterkeys()]
+        for i in xrange(len(examset.students)):
+            student = examset.students[i]
+            line = [i]
+            line += [question.question_id for question in student.questions]
             writer.writerow(line)
 
 
@@ -57,6 +58,7 @@ def run_algorithm(input_filename, output_filename, settings):
     # get the examset from the greedy assignment
     greedy_examset = qa.greedy_assignment()
     print "Finished greedy assignment. Entropy of ExamSet: %s" % str(greedy_examset.compute_entropy())
+    write_result(greedy_examset, output_filename)
     
     print "Initializing genetic algorithm."
     # create a initial set of examsets to be used for the genetic algorithm
