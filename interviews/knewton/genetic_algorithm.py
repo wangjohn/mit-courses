@@ -69,6 +69,7 @@ class GeneticAlgorithm:
         # been crossed.
         for i in xrange(num_to_cross):
             # cross two examsets that are in the current parental set
+            print "  Crossing iteration %s out of %s" % (str(i), str(num_to_cross))
             cross_indices = self._get_random_indices(2)
             examset = parents[cross_indices[0]].crossover(parents[cross_indices[1]])
             new_examsets.append(examset)
@@ -76,6 +77,7 @@ class GeneticAlgorithm:
 
         for i in xrange(num_to_mutate):
             # mutate an examset into a new examset
+            print "  Mutating iteration %s out of %s" % (str(i), str(num_to_mutate))
             parent_to_mutate = parents[self._get_random_indices(1)[0]]
             new_examsets.append(parent_to_mutate.mutate(mutation_rate, self.probabilistic_question_set))
         print "Finished mutating examsets in iteration %s" % (str(self.iteration+1))
