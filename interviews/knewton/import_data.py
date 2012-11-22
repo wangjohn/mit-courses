@@ -65,6 +65,9 @@ def run_algorithm(input_filename, output_filename, settings):
     for i in xrange(settings.population_size - 1):
         # mutate the original greedy examset using a mutation rate of 0.25
         initial_examsets.append(greedy_examset.mutate(0.25, all_questions_pqs))
+        # output a print statement every multiple of 10
+        if i % 10 == 0:
+            print "  Mutating initial dataset, finished mutating %s out of %s" % (str(i), str(settings.population_size)) 
 
     print "Starting up genetic algorithm."
     # now start up the genetic algorithm.

@@ -39,8 +39,8 @@ class GeneticAlgorithm:
         """Gets n random indices and returns them in a list. None of the indices are repeated."""
         indices = {}
         while len(indices) < n:
-            new_index = round(random.random()*self.parent_population_size)
-            if new_index in indices:
+            new_index = int(random.random()*self.parent_population_size)
+            if new_index not in indices:
                 indices[new_index] = True
         return indices.keys()
 
