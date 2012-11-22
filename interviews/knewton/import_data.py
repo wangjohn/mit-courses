@@ -17,9 +17,9 @@ class Settings:
         self.total_required_questions = 200
 
     def _init_genetic_algorithm_settings(self):
-        self.population_size = 200
+        self.population_size = 100
         self.parent_population_size = int(self.population_size*0.25)
-        self.max_iterations = 150
+        self.max_iterations = 100
         
 
 def open_student_data(filename):

@@ -115,7 +115,7 @@ Assume that $p_i(s,q) = 0$ if $s \leq 0$ or $q \leq 0$ so that the $p_i(s-1, q-1
 
 Initializing $p_i(s, 0) = 1$ and progressively computing $p_i(s, 1)$ for all $s \in [0,k]$, $p_i(s, 2)$, etc. will provide $p_i(s, k) = p_i(s)$.Thus, it is possible to find $p_i(s)$ for all $s \in [0,k]$ in $O(k^2)$ runtime. Once $p_i(s)$ are found, the approximation takes the average weight obtained from each question $\frac{1}{k} \sum_{j=1}^k \frac{1}{r_j}$ and uses that as the weight of having answered one extra question correctly. Using this subroutine to compute $p_i(s)$, it is possible to compute the evaluation function $\mathrm{H}$ in $O(n k^2)$ time. 
 
-\section{Greedy Approximation}
+\subsection{Greedy Approximation}
 
 For the first attempt at a solution to this maximization problem, a greedy solution will be proposed. Since it is possible to calculate the entropies of each question, and it is likely that high entropy questions individually lead to high entropy totals, the greedy algorithm will calculate the top entropies for all questions and select the highest $L$. From there, a variety of methods will be developed to actually assign the questions to students. 
 
@@ -176,7 +176,7 @@ Pr[t \geq G] \leq \frac{E[t]}{G}
 
 Therefore, the probability that the number of tries exceeds the expected number drops off linearly as the excess increases.
 
-\section{Genetic Algorthim}
+\subsection{Genetic Algorthim}
  
 The other algorithm that will be implemented is a genetic search algorithm which uses sampling to quickly compute $\mathrm{H}$. The $\lambda$ examsets from iteration $t$ in the algorithm will be used as the parents of new examsets to be generated in iteration $t+1$. At each iteration, $\Lambda$ new examsets will be created by mutation and crossover.
 
@@ -185,5 +185,7 @@ First, there will be some mutation rate $\mu_m$ and a crossover rate $\mu_c$. Th
 If a question is to be mutated, a new question is selected from the set of all questions using the probability assigment algorithm from RPA (notice that the question set will be all possible questions and we will extend the RPA probability assignment algorithm to all questions). If a question is to have a crossover, we will randomly select another examset with probability proportional to the examset's entropy, and we will select an individual within that examset with probability proportional to the individual's entropy. The crossover will switch the individual's set of questions for the two examsets. 
 
 All of the mutations and crossovers will be performed during an iteration, and this will be performed until there are a total of $\Lambda$ new examsets spawned from the original $\lambda$ parents. The mutation rate $\mu_m$ and crossover rate $\mu_c$ will decrease as the genetic algorithm proceeds, much like in simulated annealing, so that the sample space is explored initially. 
+
+The genetic algorithm uses the output of the greedy assignment algorithm as the initial examset. From there is mutates the examset with a mutation rate of $0.25$, and proceeds to iterate on each examset.
 
 \end{document}

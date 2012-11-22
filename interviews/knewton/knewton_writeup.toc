@@ -2,6 +2,6 @@
 \contentsline {section}{\tocsection {}{2}{Measuring Question Difficulty}}{2}
 \contentsline {section}{\tocsection {}{3}{Ranking Students}}{3}
 \contentsline {section}{\tocsection {}{4}{Entropy and Question Selection}}{3}
-\contentsline {section}{\tocsection {}{5}{Greedy Approximation}}{4}
-\contentsline {subsection}{\tocsubsection {}{5.1}{Randomized Probabilistic Assignment}}{4}
-\contentsline {section}{\tocsection {}{6}{Genetic Algorthim}}{6}
+\contentsline {subsection}{\tocsubsection {}{4.1}{Greedy Approximation}}{4}
+\contentsline {subsection}{\tocsubsection {}{4.2}{Randomized Probabilistic Assignment}}{4}
+\contentsline {subsection}{\tocsubsection {}{4.3}{Genetic Algorthim}}{6}
