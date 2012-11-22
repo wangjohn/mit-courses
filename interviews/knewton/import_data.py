@@ -58,6 +58,7 @@ def run_algorithm(input_filename, output_filename, settings):
     # get the examset from the greedy assignment
     greedy_examset = qa.greedy_assignment()
     print "Finished greedy assignment. Entropy of ExamSet: %s" % str(greedy_examset.compute_entropy())
+    # first write the preliminary result to the output file
     write_result(greedy_examset, output_filename)
     
     print "Initializing genetic algorithm."
