@@ -17,7 +17,7 @@ UI:
     BT(r2, ldb)           | yes, handle the ldb instruction.
     CMPEQC(r1,0x11,r2)    | OPCODE=0b010001
     BT(r2, stb)           | yes, handle the stb instruction
-    LD(r31,regs,r0)       | Itâs something else.  Restore regs
+    LD(r31,regs,r0)       | ItÃ¢ÂÂs something else.  Restore regs
     LD(r31,regs+4,r1)     | we've used, and go to the system's
     LD(r31,regs+8,r2)     | Illegal Instruction handler.
 
@@ -28,47 +28,54 @@ UI:
 ldb:
     extract_field(r0, 25, 21, r1)   | extract rc field
     MULC(r1, 4, r1)
+    LD(r1, regs, r4)                | r4 = Reg[rc]
     extract_field(r0, 20, 16, r2)   | extract ra field
     MULC(r2, 4, r2)                 | convert to byte offset into regs array
-    extract_field(r0, 15, 0, r3)    | extract literal
-    SHLC(r3, 16, r3)                | sign-extend the literal
-    SRAC(r3, 16, r3)
-
-    LD(r1, regs, r4)                | r4 = Reg[rc]
     LD(r2, regs, r5)                | r5 = Reg[ra]
+    extract_field(r0, 15, 0, r3)    | extract literal
+    extract_field(r0, 15, 15, r15)  | check if we need to sign-extend the literal
+    BT(r15, sext_lit)
+
+ldb_continue:
     ADD(r5, r3, r6)                 | EA
-    LD(r6, r31, r7)                 | MDATA
+    LD(r6, 0, r7)                 | MDATA
 
     extract_field(r6, 1, 0, r8)     | find the last two digits of EA
-    CMPEQ(r8, 0b00, r9)             | check if EA[1:0] == 0b00
+    CMPEQC(r8, 0b00, r9)             | check if EA[1:0] == 0b00
     BT(r9, if01)
-    CMPEQ(r8, 0b01, r9)             | check if EA[1:0] == 0b01
+    CMPEQC(r8, 0b01, r9)             | check if EA[1:0] == 0b01
     BT(r9, if02)
-    CMPEQ(r8, 0b10, r9)             | check if EA[1:0] == 0b10
+    CMPEQC(r8, 0b10, r9)             | check if EA[1:0] == 0b10
     BT(r9, if03)
-    CMPEQ(r8, 0b11, r9)             | check if EA[1:0] == 0b11
+    CMPEQC(r8, 0b11, r9)             | check if EA[1:0] == 0b11
     BT(r9, if04)
 
 if01: 
-    extract_field(r8, 7, 0, r4)
+    extract_field(r7, 7, 0, r4)
     BR(endif)
 
 if02: 
-    extract_field(r8, 15, 8, r4)
+    extract_field(r7, 15, 8, r4)
     BR(endif)
 
 if03: 
-    extract_field(r8, 23, 16, r4)
+    extract_field(r7, 23, 16, r4)
     BR(endif)
 
 if04: 
-    extract_field(r8, 31, 24, r4)
+    extract_field(r7, 31, 24, r4)
     BR(endif)
 
 endif:
+    ORC(r4, 0, r4)                  | clear rc
     ST(r4, regs, r1)                | regs[rc] <- r4
     restore_all_regs(regs)
     JMP(xp)
+
+sext_lit:
+    SHLC(r3, 16, r3)
+    SRAC(r3, 16, r3)
+    BR(ldb_continue)
 
 
 | The stb routine
@@ -78,26 +85,29 @@ stb:
     extract_field(r0, 20, 16, r2)   | extract ra field
     MULC(r2, 4, r2)
     extract_field(r0, 15, 0, r3)    | extract literal
-    SHLC(r3, 16, r3)
-    SRAC(r3, 16, r3)
+    extract_field(r3, 15, 15, r20)  | check if it needs to be sign-extended
+    BT(r20, stb_sext_lit)
 
+stb_continue:
     LD(r1, regs, r4)                | r4 <- regs[rc]
     extract_field(r4, 7, 0, r4)     | we only care about Regs[Rc][7:0]
     LD(r2, regs, r5)                | r5 <- regs[ra]
     ADD(r5, r3, r6)                 | EA
     LD(r6, 0, r9)                   | r9 = MDATA
-
     extract_field(r6, 1, 0, r7)     | check EA[1:0]
-    CMPEQ(r7, 0b00, r8)             | if EA[1:0] == 0b00
+    ANDC(r4, 0x00FF, r4) 
+.breakpoint
+    CMPEQC(r7, 0b00, r8)             | if EA[1:0] == 0b00
     BT(r8, if05)
-    CMPEQ(r7, 0b01, r8)             | if EA[1:0] == 0b01
+    CMPEQC(r7, 0b01, r8)             | if EA[1:0] == 0b01
     BT(r8, if06)
-    CMPEQ(r7, 0b10, r8)             | if EA[1:0] == 0b10
+    CMPEQC(r7, 0b10, r8)             | if EA[1:0] == 0b10
     BT(r8, if07)
-    CMPEQ(r7, 0b11, r8)             | if EA[1:0] == 0b11
+    CMPEQC(r7, 0b11, r8)             | if EA[1:0] == 0b11
     BT(r8, if08)
 
 if05:
+
     ANDC(r9, 0x00FF, r9)            | get rid of the lower order 8 bits
     OR(r9, r4, r9)
     BR(endif2)
@@ -124,3 +134,8 @@ endif2:
     ST(r9,0,r6)
     restore_all_regs(regs)
     JMP(xp)
+
+stb_sext_lit:
+    SHLC(r3, 16, r3)
+    SRAC(r3, 16, r3)
+    BR(stb_continue)
