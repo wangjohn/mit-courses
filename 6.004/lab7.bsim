@@ -79,71 +79,80 @@ sext_lit:
 
 
 | The stb routine
-stb:
-    extract_field(r0, 25, 21, r1)   | extract rc field
-    MULC(r1, 4, r1)
-    extract_field(r0, 20, 16, r2)   | extract ra field
-    MULC(r2, 4, r2)
-    extract_field(r0, 15, 0, r3)    | extract literal
-    extract_field(r3, 15, 15, r20)  | check if it needs to be sign-extended
-    BT(r20, stb_sext_lit)
 
-stb_continue:
-    LD(r1, regs, r4)                | r4 <- regs[rc]
-    extract_field(r4, 7, 0, r4)     | we only care about Regs[Rc][7:0]
-    LD(r2, regs, r5)                | r5 <- regs[ra]
-    ADD(r5, r3, r6)                 | EA
-    LD(r6, 0, r9)                   | r9 = MDATA
-.breakpoint
-    extract_field(r6, 1, 0, r7)     | check EA[1:0]
-    ANDC(r4, 0x00FF, r4)            | get rid of all but the lower order 8 bits
-    CMPEQC(r7, 0b00, r8)             | if EA[1:0] == 0b00
-    BT(r8, if05)
-    CMPEQC(r7, 0b01, r8)             | if EA[1:0] == 0b01
-    BT(r8, if06)
-    CMPEQC(r7, 0b10, r8)             | if EA[1:0] == 0b10
-    BT(r8, if07)
-    CMPEQC(r7, 0b11, r8)             | if EA[1:0] == 0b11
-    BT(r8, if08)
+stb:    
+    extract_field(r0, 25, 21, r1) 
+    MULC(r1, 4, r1)             
+    extract_field(r0, 20, 16, r2)  
+    MULC(r2, 4, r2)        
+    LD(r2, regs, r5)        
+    extract_field(r0, 15, 0, r3)   
+    extract_field(r3, 15, 15, r10)  
+    BT(r10, stb_sext_lit)       
+
+ea_stb:
+
+    ADD(r5, r3, r4)         
+    LD(r1, regs, r7)        
+    extract_field(r7, 7, 0, r11)   
+    LD(r4, 0, r13)              
+    extract_field(r4, 1, 0, r9)  
+
+    CMPEQC(r9, 0x0, r8)         
+    BT(r8, if05)      
+    CMPEQC(r9, 0x1, r8)
+    BT(r8, if06)      
+    CMPEQC(r9, 0x2, r8)
+    BT(r8, if07)       
+    CMPEQC(r9, 0x3, r8)
+    BT(r8, if08)      
 
 if05:
+    CMOVE(0xFF00, r15)
+    ANDC(r13, 0xFF00, r13)       
+    OR(r13, r11, r13)         
 
-    ANDC(r9, 0xFFFFFF00, r9)            | get rid of the lower order 8 bits
-    OR(r9, r4, r9)
-    BR(endif2)
+    BR(endif2)    
 
 if06:
-    SHLC(r4, 8, r4)                 | shift Rc[7:0] to the left
-    ANDC(r9, 0xFFFF00FF, r9)        | get rid of bits 15:8 in MDATA
-    OR(r9, r4, r9)
+    SHLC(r11, 8, r11)
+    CMOVE(0xFF00, r15)
+    SHLC(r15, 8, r15)
+    ORC(r15, 0x00FF, r15)
+    AND(r13, r15, r13)
+    OR(r13, r11, r13)
+
     BR(endif2)
 
 if07:
-    SHLC(r4, 16, r4)                | shift Rc[7:0] to the left
-    CMOVE(0xFF00, r11)              | And r9 with 0xFF00FFFF, but we 
-    SHLC(r11, 16, r11)              | first have to do a lot of shifting
-    CMOVE(0xFFFF, r12)
-    SHRC(r12, 16, r12)
-    OR(r11, r12, r11)
-    AND(r9, r11, r9)        | get rid of bits 23:16 in MDATA
-    OR(r9, r4, r9)
+    SHLC(r11, 16, r11)
+
+    CMOVE(0xFF00, r15)      
+    SHLC(r15, 16, r15)      
+    ADDC(r31, 0xFFFF, r16)     
+    extract_field(r16, 15, 0, r14)  
+    OR(r15, r14, r15)       
+    AND(r13, r15, r13)        
+    OR(r13, r11, r13)
+
     BR(endif2)
 
 if08:
-    .breakpoint
-    SHLC(r4, 24, r4)                | shift Rc[7:0] to the left
-    CMOVE(0xFFFF, r12)
-    SHRC(r12, 8, r12)
-    AND(r9, r12, r9)        | get rid of bits 31:24 in MDATA
-    OR(r9, r4, r9)
-    BR(endif2)
+    SHLC(r11, 24, r11) 
+    ORC(r31, 0xFFFF, r15)   
+    SHRC(r15, 8, r15)
 
-endif2:
-    ST(r9,0,r6)
-    restore_all_regs(regs)
-    JMP(xp)
+    AND(r13, r15, r13)
+    OR(r13, r11, r13)
+
+    BR(endif2)
 
 stb_sext_lit:
     SHLC(r3, 16, r3)
     SRAC(r3, 16, r3)
-    BR(stb_continue)
+    BR(ea_stb)
+
+endif2:
+    ST(r13, 0, r4)       
+    restore_all_regs(regs)
+    JMP(xp)
