@@ -1,0 +1,91 @@
+|| The following macros save & restore all 32 registers (including R31) in
+|| a 32-word block of memory.  There are two versions:
+||   * single-argument version, whose argument WHERE must be a location
+||     in low memory (i.e., addressable via a 16-bit signed offset); and
+||   * 2-argument version, which includes a constant offset and a base
+||     register (as in LD and ST).
+|| NB: That location must be in low memory, i.e., addressable by a
+|| 16-bit signed offset.
+
+.macro save_all_regs(WHERE) save_all_regs(WHERE, r31)
+.macro save_all_regs(WHERE, base_reg) {
+	ST(r0,WHERE,base_reg)
+	ST(r1,WHERE+4,base_reg)
+	ST(r2,WHERE+8,base_reg)
+	ST(r3,WHERE+12,base_reg)
+	ST(r4,WHERE+16,base_reg)
+	ST(r5,WHERE+20,base_reg)
+	ST(r6,WHERE+24,base_reg)
+	ST(r7,WHERE+28,base_reg)
+	ST(r8,WHERE+32,base_reg)
+	ST(r9,WHERE+36,base_reg)
+	ST(r10,WHERE+40,base_reg)
+	ST(r11,WHERE+44,base_reg)
+	ST(r12,WHERE+48,base_reg)
+	ST(r13,WHERE+52,base_reg)
+	ST(r14,WHERE+56,base_reg)
+	ST(r15,WHERE+60,base_reg)
+	ST(r16,WHERE+64,base_reg)
+	ST(r17,WHERE+68,base_reg)
+	ST(r18,WHERE+72,base_reg)
+	ST(r19,WHERE+76,base_reg)
+	ST(r20,WHERE+80,base_reg)
+	ST(r21,WHERE+84,base_reg)
+	ST(r22,WHERE+88,base_reg)
+	ST(r23,WHERE+92,base_reg)
+	ST(r24,WHERE+96,base_reg)
+	ST(r25,WHERE+100,base_reg)
+	ST(r26,WHERE+104,base_reg)
+	ST(r27,WHERE+108,base_reg)
+	ST(r28,WHERE+112,base_reg)
+	ST(r29,WHERE+116,base_reg)
+	ST(r30,WHERE+120,base_reg)
+	ST(base_reg,WHERE+124,base_reg)
+} | End of save-all-regs macro
+
+
+.macro restore_all_regs(WHERE) restore_all_regs(WHERE, r31)
+.macro restore_all_regs(WHERE, base_reg) {
+	LD(base_reg,WHERE,r0)
+	LD(base_reg,WHERE+4,r1)
+	LD(base_reg,WHERE+8,r2)
+	LD(base_reg,WHERE+12,r3)
+	LD(base_reg,WHERE+16,r4)
+	LD(base_reg,WHERE+20,r5)
+	LD(base_reg,WHERE+24,r6)
+	LD(base_reg,WHERE+28,r7)
+	LD(base_reg,WHERE+32,r8)
+	LD(base_reg,WHERE+36,r9)
+	LD(base_reg,WHERE+40,r10)
+	LD(base_reg,WHERE+44,r11)
+	LD(base_reg,WHERE+48,r12)
+	LD(base_reg,WHERE+52,r13)
+	LD(base_reg,WHERE+56,r14)
+	LD(base_reg,WHERE+60,r15)
+	LD(base_reg,WHERE+64,r16)
+	LD(base_reg,WHERE+68,r17)
+	LD(base_reg,WHERE+72,r18)
+	LD(base_reg,WHERE+76,r19)
+	LD(base_reg,WHERE+80,r20)
+	LD(base_reg,WHERE+84,r21)
+	LD(base_reg,WHERE+88,r22)
+	LD(base_reg,WHERE+92,r23)
+	LD(base_reg,WHERE+96,r24)
+	LD(base_reg,WHERE+100,r25)
+	LD(base_reg,WHERE+104,r26)
+	LD(base_reg,WHERE+108,r27)
+	LD(base_reg,WHERE+112,r28)
+	LD(base_reg,WHERE+116,r29)
+	LD(base_reg,WHERE+120,r30)
+} | End of restore-all-regs macro
+
+||| Macro to extract and right-adjust a bit field from RA, and leave it
+||| in RB.  The bit field M:N, where M >= N.
+.macro extract_field (RA, M, N, RB) {
+       SHLC(RA, 31-M, RB)	| Shift left, to mask out high bits
+       SHRC(RB, 31-(M-N), RB)	| Shift right, to mask out low bits.
+}
+
+|| Macro to reserve N consecutive WORDS of memory:
+.macro RESERVE(N) . = .+(N*4)
+
