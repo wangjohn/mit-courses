@@ -1,0 +1,126 @@
+.include beta.uasm
+.include lab7macros.uasm
+.include lab7checkoff.uasm
+
+
+||| Handler for opcode 1 extension:
+||| swapreg(RA,RC) swaps the contents of the two named registers.
+||| UASM defn = .macro swapreg(RA,RC) betaopc(0x01,RA,0,RC)
+
+regs:   RESERVE(32)           | Array used to store register contents
+UI: 
+
+    save_all_regs(regs)
+    LD(xp,-4,r0)          | illegal instruction
+    extract_field(r0, 31, 26, r1)   | extract opcode, bits 31:26
+    CMPEQC(r1,0x10,r2)    | OPCODE=0b010000
+    BT(r2, ldb)           | yes, handle the ldb instruction.
+    CMPEQC(r1,0x11,r2)    | OPCODE=0b010001
+    BT(r2, stb)           | yes, handle the stb instruction
+    LD(r31,regs,r0)       | Itâs something else.  Restore regs
+    LD(r31,regs+4,r1)     | we've used, and go to the system's
+    LD(r31,regs+8,r2)     | Illegal Instruction handler.
+
+    BR(_IllegalInstruction)
+
+
+| The ldb routine
+ldb:
+    extract_field(r0, 25, 21, r1)   | extract rc field
+    MULC(r1, 4, r1)
+    extract_field(r0, 20, 16, r2)   | extract ra field
+    MULC(r2, 4, r2)                 | convert to byte offset into regs array
+    extract_field(r0, 15, 0, r3)    | extract literal
+    SHLC(r3, 16, r3)                | sign-extend the literal
+    SRAC(r3, 16, r3)
+
+    LD(r1, regs, r4)                | r4 = Reg[rc]
+    LD(r2, regs, r5)                | r5 = Reg[ra]
+    ADD(r5, r3, r6)                 | EA
+    LD(r6, r31, r7)                 | MDATA
+
+    extract_field(r6, 1, 0, r8)     | find the last two digits of EA
+    CMPEQ(r8, 0b00, r9)             | check if EA[1:0] == 0b00
+    BT(r9, if01)
+    CMPEQ(r8, 0b01, r9)             | check if EA[1:0] == 0b01
+    BT(r9, if02)
+    CMPEQ(r8, 0b10, r9)             | check if EA[1:0] == 0b10
+    BT(r9, if03)
+    CMPEQ(r8, 0b11, r9)             | check if EA[1:0] == 0b11
+    BT(r9, if04)
+
+if01: 
+    extract_field(r8, 7, 0, r4)
+    BR(endif)
+
+if02: 
+    extract_field(r8, 15, 8, r4)
+    BR(endif)
+
+if03: 
+    extract_field(r8, 23, 16, r4)
+    BR(endif)
+
+if04: 
+    extract_field(r8, 31, 24, r4)
+    BR(endif)
+
+endif:
+    ST(r4, regs, r1)                | regs[rc] <- r4
+    restore_all_regs(regs)
+    JMP(xp)
+
+
+| The stb routine
+stb:
+    extract_field(r0, 25, 21, r1)   | extract rc field
+    MULC(r1, 4, r1)
+    extract_field(r0, 20, 16, r2)   | extract ra field
+    MULC(r2, 4, r2)
+    extract_field(r0, 15, 0, r3)    | extract literal
+    SHLC(r3, 16, r3)
+    SRAC(r3, 16, r3)
+
+    LD(r1, regs, r4)                | r4 <- regs[rc]
+    extract_field(r4, 7, 0, r4)     | we only care about Regs[Rc][7:0]
+    LD(r2, regs, r5)                | r5 <- regs[ra]
+    ADD(r5, r3, r6)                 | EA
+    LD(r6, 0, r9)                   | r9 = MDATA
+
+    extract_field(r6, 1, 0, r7)     | check EA[1:0]
+    CMPEQ(r7, 0b00, r8)             | if EA[1:0] == 0b00
+    BT(r8, if05)
+    CMPEQ(r7, 0b01, r8)             | if EA[1:0] == 0b01
+    BT(r8, if06)
+    CMPEQ(r7, 0b10, r8)             | if EA[1:0] == 0b10
+    BT(r8, if07)
+    CMPEQ(r7, 0b11, r8)             | if EA[1:0] == 0b11
+    BT(r8, if08)
+
+if05:
+    ANDC(r9, 0x00FF, r9)            | get rid of the lower order 8 bits
+    OR(r9, r4, r9)
+    BR(endif2)
+
+if06:
+    SHLC(r4, 8, r4)                 | shift Rc[7:0] to the left
+    ANDC(r9, 0xFFFF00FF, r9)        | get rid of bits 15:8 in MDATA
+    OR(r9, r4, r9)
+    BR(endif2)
+
+if07:
+    SHLC(r4, 16, r4)                | shift Rc[7:0] to the left
+    ANDC(r9, 0xFF00FFFF, r9)        | get rid of bits 23:16 in MDATA
+    OR(r9, r4, r9)
+    BR(endif2)
+
+if08:
+    SHLC(r4, 24, r4)                | shift Rc[7:0] to the left
+    ANDC(r9, 0x00FFFFFF, r9)        | get rid of bits 31:24 in MDATA
+    OR(r9, r4, r9)
+    BR(endif2)
+
+endif2:
+    ST(r9,0,r6)
+    restore_all_regs(regs)
+    JMP(xp)
