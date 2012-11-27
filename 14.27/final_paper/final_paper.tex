@@ -6,6 +6,7 @@
 \usepackage[margin=1.5in]{geometry}
 \usepackage{amsthm}
 \usepackage{theorem}
+\usepackage{hyperref}
 \usepackage{verbatim}
 \usepackage{tikz}
 \usetikzlibrary{shapes,arrows}
@@ -41,6 +42,10 @@ Using Panjiva Data to Examine Code Changes}
 
 \section{Dataset Explanation}
 
-The proprietary Panjiva Dataset comes from the back-end databases collected by Panjiva, Inc. Panjiva's website \url{http://www.panjiva.com} acts as a medium for buyers and suppliers of manufactured goods. The site provides a communication platform so that bulk buyers of a particular good can search and obtain unbiased information on factories and suppliers of that good.  
+The proprietary Panjiva Dataset comes from the back-end databases collected by Panjiva, Inc. Panjiva's website \url{http://www.panjiva.com} acts as a medium for buyers and suppliers of manufactured goods. The site provides a communication platform so that bulk buyers of a particular good can search and obtain unbiased information on factories and suppliers of that good. These two parties can then communicate and send messages over Panjiva's interface, attempting to strike a deal. 
+
+Panjiva's competitive advantage rests in its ability to parse government import and export data in order to obtain unbiased information about suppliers. Panjiva determines a supplier reliability score and also provides recent history of a supplier's shipments, and allows buyers to search and aggregate this information easily. Most firms that use Panjiva are large to medium size buyers of components. For example, a department store would use Panjiva to search for suppliers of shirts or clothing, or a home improvement store would search for suppliers of socket wrenches. In addition, Panjiva provides data on trends in global manufacturing and shipping by leveraging the government data it already mines for individual supplier information.
+
+The dataset used in this paper comes from the event and action logs of Panjiva's website. 
 
 \end{document}
