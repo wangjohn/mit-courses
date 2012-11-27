@@ -46,7 +46,7 @@ The proprietary Panjiva Dataset comes from the back-end databases collected by P
 
 Panjiva's competitive advantage rests in its ability to parse government import and export data in order to obtain unbiased information about suppliers. Panjiva determines a supplier reliability score and also provides recent history of a supplier's shipments, and allows buyers to search and aggregate this information easily. Most firms that use Panjiva are large to medium size buyers of components. For example, a department store would use Panjiva to search for suppliers of shirts or clothing, or a home improvement store would search for suppliers of socket wrenches. In addition, Panjiva provides data on trends in global manufacturing and shipping by leveraging the government data it already mines for individual supplier information.
 
-The dataset used in this paper comes from the event and activity logs of Panjiva's website. Each time a user performs some significant event or activity on the Panjiva website, an entry will be created in either the event or activity log. All nontrivial features of the website, including supplier search, U.S. import and export search, and profiles views, are accounted for. 
+The dataset used in this paper comes from the event and activity logs of Panjiva's website. Each time a user performs some significant event or activity on the Panjiva website, an entry will be created in either the event or activity log. If the user has a registered account with Panjiva, the action will be recorded in the activity logs. All activities, regardless of whether a user has an account, are recorded in the event logs. All nontrivial features of the website, including supplier search, U.S. import and export search, and profiles views, are accounted for and stored in a SQL database.
 
 The data in the event and activity logs are organized so that one can trace the exact user or subscribed account for which the entry. In particular, the logs contain information on the ip address of the user, the time the activity was performed, the webpage the activity occurred on, and extra data depending on the type of activity performed. 
 
@@ -54,12 +54,104 @@ The enormous quantity and granularity of this data enable the analysis of user-l
 
 \subsection{Summary Statistics}
 
-Summary statistics will be presented in this section. 
+Summary statistics providing an overview of Panjiva's business and website are provided in table \ref{table:panjiva-overview}. Panjiva was incorporated in 2008 and has since developed a customer base composed mostly of buyers of manufactured goods. The website provides free services (a limited number of searches) for free users, and provides many more services to subscribers (there are multiple levels of subscription). 
+
+\begin{table}[h!]
+\centering
+\caption{Panjiva Overview}
+\begin{tabular}{l || l}
+\hline
+Total Users & 121,653 \\
+Subscribing Users & 2,985 \\
+Monthly Site Visits & 903,426 \\
+Monthly Unique Visitors & 762,723 \\
+Average Pages per Visit & 1.99 \\
+Average Visit Duration & 1 min 18 sec \\
+\hline
+\end{tabular}
+\label{table:panjiva-overview}
+\end{table}
 
 Commits can be thought of as changes to the code. In each commit, a software developer will introduce new code or delete old code which will then be launched to the production website. Typically a single developer at Panjiva will commit a couple of times throughout the workday. Figure \ref{fig:commit-history} shows a histogram of the number of commits throughout a 52 week period ending on 11/24/2012. Commit activity varies depending on the season and the week. In particular, commits during the summer spike upwards and there will be one or two weeks each quarter when commits fall to low levels. The second phenomenon is due to the fact that Panjiva holds a quarterly retreat where engineers reflect upon the work done over the quarter. Typically the amount of code written decreases during these weeks. 
 
+\begin{figure}[h!]
+\caption{52-Week Commit Activity}
+\includegraphics[width=5in]{pictures/commit-activity.png}
+\label{fig:commit-history}
+\end{figure}
+
+Table \ref{table:commit-stats} shows statistics on a snapshot of the commit repository made on 11/25/2012. The table shows an enormous number of changes throughout the history of the website. In addition, the 1.3 million lines of code show that one can use the variation in the lines of code that a commit changes in order to better understand how each commit affects user behavior.
+
+\begin{table}[h!]
+\centering
+\caption{Overall Commit Statistics - 11/25/2012}
+\begin{tabular}{l || l }
+\hline
+Active Days (at least 1 commit) & 1,983 \\
+Total Current Files & 20,901 \\
+Total Lines of Code & 1,313,235 \\
+Total Lines of Code Added & 3,989,295 \\
+Total Lines of Code Removed & 2,676,060 \\
+Total Commits & 29,924 \\
+Total Authors/Developers & 33 \\
+\hline
+\end{tabular}
+\label{table:commit-stats}
+\end{table}
+
+Examining commits in more detail, one can see that the majority of commits occur during working hours (from 11am to 6pm EST). Moreover, each day is fairly regular in the number of commits that occur. Commits are at a high level throughout the work day, and fall off to a low, relatively constant level throughout the night. Figure \ref{fig:commit-hours} shows the times of day during which commits happen the most frequently. 
+
+\begin{figure}[h!]
+\centering
+\caption{Commit Frequency by Time of Day}
+\includegraphics[width=4in]{pictures/commit-hours.png}
+\label{fig:commit-hours}
+\end{figure}
+
+Finally, note that almost no commits occur on weekends. Only 5\% of the commits happen on either Saturday or Sunday.
+
 \section{Macro-Level Results}
 
-The first analysis conducted involves crude measures of how code changes affect user activity. This section examines how code changes affect the total amount of user activity across the entire website. 
+This section examines how code changes affect the total amount of user activity across the entire website (macro-level effects). In particular, this section analyzes the change in a number of metrics of user activity controlling for the amount of code changed in a particular day. 
+
+The first two metrics for user actions are the total number of entries in the activity or event logs for a particular time period. Recall that event logs are database records for actions performed by anyone, while activity logs are records for only those users who have a registered account with Panjiva.
+
+Another set of metrics are the total number of distinct users performing either activities or events in a given time period. Finally, one might also use the average number of actions per user, whether action is defined using records from activity or event logs. One would expect the each of these metrics to measure a different aspect of user behavior. 
+
+Table \ref{table:total-count-macro} displays the results from using the total action count as a metric for user activity.
+
+\begin{table}[h!]
+\centering
+\caption{Effect of Commits on Total Action Count}
+{
+    \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+    \begin{tabular}{l*{2}{c}}
+    \hline\hline
+        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+        &\multicolumn{1}{c}{activitylogcount}&\multicolumn{1}{c}{eventlogcount}\\
+        \hline
+        fileschangedpercentile&     -5530.7         &    -60589.4\sym{*}  \\
+        &     (-1.91)         &     (-2.26)         \\
+        [1em]
+        insertionspercentile&      4868.8\sym{*}  &     47053.7\sym{*}  \\
+        &      (2.12)         &      (2.22)         \\
+        [1em]
+        deletionspercentile&      2778.9         &     29970.6         \\
+        &      (1.29)         &      (1.50)         \\
+        [1em]
+        weekend     &    -14708.0\sym{***}&    -79769.8\sym{***}\\
+        &    (-16.48)         &     (-9.65)         \\
+        [1em]
+        \_cons      &     22396.6\sym{***}&    224482.8\sym{***}\\
+        &     (25.05)         &     (27.12)         \\
+        \hline
+        \(N\)       &         474         &         475         \\
+        \hline\hline
+        \multicolumn{3}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+        \multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \end{tabular}
+}
+\label{table:total-count-macro}
+\end{table}
 
 \end{document}
