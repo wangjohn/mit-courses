@@ -50,6 +50,16 @@ The dataset used in this paper comes from the event and activity logs of Panjiva
 
 The data in the event and activity logs are organized so that one can trace the exact user or subscribed account for which the entry. In particular, the logs contain information on the ip address of the user, the time the activity was performed, the webpage the activity occurred on, and extra data depending on the type of activity performed. 
 
-The enormous quantity and granularity of this data enable the analysis of user-level interactions. The event logs contain about 124 million entries while the activity logs contain about 13 million entries. Moreover, the data in each of these logs extends for multiple years and represent a phase of growth for the Panjiva website. 
+The enormous quantity and granularity of this data enable the analysis of user-level interactions. The event logs contain about 124 million entries while the activity logs contain about 13 million entries. Moreover, the data in each of these logs extends for multiple years, allowing one to analyze the growth of Panjiva as a company and the effect of different changes to the website.
+
+\subsection{Summary Statistics}
+
+Summary statistics will be presented in this section. 
+
+Commits can be thought of as changes to the code. In each commit, a software developer will introduce new code or delete old code which will then be launched to the production website. Typically a single developer at Panjiva will commit a couple of times throughout the workday. Figure \ref{fig:commit-history} shows a histogram of the number of commits throughout a 52 week period ending on 11/24/2012. Commit activity varies depending on the season and the week. In particular, commits during the summer spike upwards. TODO: talk about retreat and spiking downards.
+
+\section{Macro-Level Results}
+
+The first analysis conducted involves crude measures of how code changes affect user activity. This section examines how code changes affect the total amount of user activity across the entire website. 
 
 \end{document}
