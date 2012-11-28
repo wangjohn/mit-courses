@@ -116,7 +116,7 @@ Finally, note that almost no commits occur on weekends. Only 5\% of the commits 
 This section examines how code changes affect the total amount of user activity across the entire website (macro-level effects). In particular, this section analyzes the change in a number of metrics of user activity controlling for the amount of code changed in a particular day. The regression specification used will the as follows:
 
 \begin{eqnarray}
-y^i_{t} = c_0 + \bar{\beta_0} \bar{M}_t + \bar{\beta} \bar{\chi}_t + \epsilon_t
+y^i_{t} = c_0 + \bar{\gamma}^T \bar{M}_t + \bar{\beta}^T \bar{\chi}_t + \epsilon_t
 \end{eqnarray}
 
 Where $t$ indexes day, $y^i_t$ corresponds to the $i$th metric of user activity on day $t$, $\bar{M}_t$ corresponds to a vector of covariates that represent changes in the code, $\bar{\chi}_t$ is a vector of controls, and $\epsilon_t$ is an error term. We will use a number of different metrics for user activity and the specification will be run with each of them. 
