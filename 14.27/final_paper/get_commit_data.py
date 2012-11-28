@@ -79,7 +79,7 @@ def get_controller_commits(controller_name, before, after):
 def write_out_data(commits, find_user_set, controller, k, row_results):
     for commit in commits:
         both_ba = find_user_set.find_users(find_user_set.activity_logs, controller, commit.datetime, k)
-        find_user_set.format_both_ba_into_rows_meancentered(both_ba, row_results, commit.datetime)
+        find_user_set.format_both_ba_into_rows_meancentered(both_ba, row_results, commit)
 
 def writerows(filename, rows):
     with open(filename, 'wb') as f:
