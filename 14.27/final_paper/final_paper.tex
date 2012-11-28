@@ -6,6 +6,7 @@
 \usepackage[margin=1.5in]{geometry}
 \usepackage{amsthm}
 \usepackage{theorem}
+\usepackage{rotating}
 \usepackage{hyperref}
 \usepackage{verbatim}
 \usepackage{tikz}
@@ -118,40 +119,61 @@ The first two metrics for user actions are the total number of entries in the ac
 
 Another set of metrics are the total number of distinct users performing either activities or events in a given time period. Finally, one might also use the average number of actions per user, whether action is defined using records from activity or event logs. One would expect the each of these metrics to measure a different aspect of user behavior. 
 
-Table \ref{table:total-count-macro} displays the results from using the total action count as a metric for user activity.
+Table \ref{table:macro-action-results} displays the results from using the total action count as a metric for user activity. The regressions in table \ref{table:macro-action-results} attempt to find the effect of different changes in the code base on different measures of user activity. A commit can be measured by the number of files it changes, or the number of lines of code it changes. Changes in lines of code can be either insertions or deletions. Each of these measures is percentilized (sorted rank is divided by the total number of observations). The regressions below are performed on aggregated statistics per day, with a dummy variable equal to 1 on the weekends and 0 otherwise.  
 
-\begin{table}[h!]
+\begin{sidewaystable}[p]
+\vspace{5in}
 \centering
-\caption{Effect of Commits on Total Action Count}
+\caption{Effect of Commits on User Activity}
 {
     \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-    \begin{tabular}{l*{2}{c}}
+    \begin{tabular}{l*{6}{c}}
     \hline\hline
-        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
-        &\multicolumn{1}{c}{activitylogcount}&\multicolumn{1}{c}{eventlogcount}\\
+        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
+        &\multicolumn{1}{c}{activitylogcount}&\multicolumn{1}{c}{eventlogcount}&\multicolumn{1}{c}{activitylog}&\multicolumn{1}{c}{eventlog}&\multicolumn{1}{c}{avguseractivity}&\multicolumn{1}{c}{avguserevents}\\
+        &\multicolumn{1}{c}{}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{distinctusercount}&\multicolumn{1}{c}{distinctusercount}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{}\\
         \hline
-        fileschangedpercentile&     -5530.7         &    -60589.4\sym{*}  \\
-        &     (-1.91)         &     (-2.26)         \\
+        fileschangedpercentile&     -5530.7         &    -60589.4\sym{*}  &       460.5         &       492.7         &      -10.40\sym{*}  &      -148.6         \\
+        &     (-1.91)         &     (-2.26)         &      (0.65)         &      (0.71)         &     (-2.01)         &     (-1.52)         \\
         [1em]
-        insertionspercentile&      4868.8\sym{*}  &     47053.7\sym{*}  \\
-        &      (2.12)         &      (2.22)         \\
+        insertionspercentile&      4868.8\sym{*}  &     47053.7\sym{*}  &       284.2         &       118.6         &       2.817         &       79.92         \\
+        &      (2.12)         &      (2.22)         &      (0.51)         &      (0.22)         &      (0.69)         &      (1.03)         \\
         [1em]
-        deletionspercentile&      2778.9         &     29970.6         \\
-        &      (1.29)         &      (1.50)         \\
+        deletionspercentile&      2778.9         &     29970.6         &      -192.2         &      -184.4         &       4.670         &       49.47         \\
+        &      (1.29)         &      (1.50)         &     (-0.36)         &     (-0.36)         &      (1.21)         &      (0.68)         \\
         [1em]
-        weekend     &    -14708.0\sym{***}&    -79769.8\sym{***}\\
-        &    (-16.48)         &     (-9.65)         \\
+        weekend     &    -14708.0\sym{***}&    -79769.8\sym{***}&     -1060.6\sym{***}&      -816.2\sym{***}&      -0.297         &       257.0\sym{***}\\
+        &    (-16.48)         &     (-9.65)         &     (-4.86)         &     (-3.82)         &     (-0.19)         &      (8.49)         \\
         [1em]
-        \_cons      &     22396.6\sym{***}&    224482.8\sym{***}\\
-        &     (25.05)         &     (27.12)         \\
+        \_cons      &     22396.6\sym{***}&    224482.8\sym{***}&      1635.7\sym{***}&      1395.9\sym{***}&       25.00\sym{***}&       340.6\sym{***}\\
+        &     (25.05)         &     (27.12)         &      (7.49)         &      (6.52)         &     (15.58)         &     (11.24)         \\
         \hline
-        \(N\)       &         474         &         475         \\
+        \(N\)       &         474         &         475         &         474         &         475         &         474         &         475         \\
         \hline\hline
-        \multicolumn{3}{l}{\footnotesize \textit{t} statistics in parentheses}\\
-        \multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \multicolumn{7}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+        \multicolumn{7}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \multicolumn{7}{l}{The table provides regression estimates of how different measures of user actions vary with changes in the codebase.}\\
+        \multicolumn{7}{l}{The table was created by aggregated data from the Panjiva activity and event logs over the period from 7/14/2011}\\
+        \multicolumn{7}{l}{to 11/24/2012. Variables are broken apart by day, so that counts are per day. Activity logs record information}\\
+        \multicolumn{7}{l}{about users with registered accounts, while event logs record information about all users regardless of whether they}\\
+        \multicolumn{7}{l}{have registered with the Panjiva.}\\
+        \\
+        \multicolumn{7}{l}{Activitylogcount and eventlogcount aggregate the total number of records seen per day in the activity and event logs}\\
+        \multicolumn{7}{l}{respectively. Activitylogdistincusercount and eventlogdistinctusercount aggregate the number of distinct users that}\\
+        \multicolumn{7}{l}{have performed an action in either the activity or event logs respectively. Finally, avguseractivity and avguserevents}\\
+        \multicolumn{7}{l}{divides the total number of records by the total number of distinct users per day to arrive at an average number of}\\
+        \multicolumn{7}{l}{actions per day.}\\
+        \\
+        \multicolumn{7}{l}{Weekend is a dummy variable equal to 1 if the day is a Saturday or Sunday and 0 otherwise. The other covariates are}\\
+        \multicolumn{7}{l}{percentilized by sorting each day and taking the rank and dividing by the total number of days. Files changed, insertions}\\
+        \multicolumn{7}{l}{and deletions are obtained from commit history and are aggregated over each day. Insertions and deletions are the}\\
+        \multicolumn{7}{l}{total number of lines of code inserted or deleted, respectively.}
         \end{tabular}
 }
-\label{table:total-count-macro}
-\end{table}
+\label{table:macro-action-results}
+\end{sidewaystable}
+
+The table shows.
+
 
 \end{document}
