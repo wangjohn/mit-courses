@@ -45,7 +45,7 @@ def get_commit_shortstats(result):
                 insertions = 0
                 deletions = 0
 
-    return (files_changed, insertions, deletions)
+    return (int(files_changed), int(insertions), int(deletions))
 
 
 def get_controller_commits(controller_name, before, after):
