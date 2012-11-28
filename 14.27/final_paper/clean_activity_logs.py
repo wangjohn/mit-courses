@@ -39,6 +39,7 @@ def read_in_data(filename):
             counter += 1
             if counter % 100000 == 0:
                 print counter
+                break
     all_logs = sorted(all_logs, key = lambda k : k.created_at)
     return all_logs
 
@@ -96,7 +97,7 @@ class FindUserSets:
     def format_both_ba_into_rows_meancentered(self, both_ba, output_rows, commit):
         #column_names = ['id', 'user_account_id', 'controller', 'action', 'model_id', 'status', 'created_at', 'query_params', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'after_commit', 'num_views_day_later']
         
-        extra_commit_data = [commit.datetime, commit.fileschanged, commit.insertions, commit.deletions, commit.fileschangedpercentile, commit.lineschangedpercentile, commit.insertionspercentile, commit.deletionspercentile]
+        extra_commit_data = [commit.datetime, commit.files_changed, commit.insertions, commit.deletions, commit.fileschangedpercentile, commit.lineschangedpercentile, commit.insertionspercentile, commit.deletionspercentile]
         for user_account_id, activity_logs_list in both_ba.iteritems():
             combined_list = activity_logs_list[0] + activity_logs_list[1]
             for i in xrange(len(activity_logs_list[0])):
