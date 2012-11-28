@@ -60,7 +60,7 @@ def get_controller_commits(controller_name, before, after):
 def write_out_data(commits, find_user_set, controller, k, row_results):
     for commit in commits:
         both_ba = find_user_set.find_users(find_user_set.activity_logs, controller, commit.datetime, k)
-        find_user_set.format_both_ba_into_rows_meancentered(both_ba, row_results)
+        find_user_set.format_both_ba_into_rows_meancentered(both_ba, row_results, commit.datetime)
 
 def writerows(filename, rows):
     with open(filename, 'wb') as f:
@@ -69,13 +69,13 @@ def writerows(filename, rows):
 
 
 if __name__ == '__main__':
-    controllers = ['search', 'my_panjiva']
+    # controller = 'my_panjiva'
+    controller = 'search'
+    commits = get_controller_commits(controller + "_controller.rb", "11/25/2012", "7/14/2011")
     all_logs = read_in_data("data/activity_log_out.csv")
     print 'all_loaded'
     fus = FindUserSets(all_logs)
     row_results = [['id', 'user_account_id', 'controller', 'action', 'model_id', 'status', 'created_at', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'after_commit', 'num_views_day_later']]
-    for control in controllers:
-        commits = get_controller_commits(control + "_controller.rb", "11/25/2012", "7/14/2011")
-        write_out_data(commits, fus, control, 3, row_results)
+    write_out_data(commits, fus, controller, 3, row_results)
     writerows("test_output.csv", row_results)
 
