@@ -195,6 +195,23 @@ Also, notice that commits have no significant effect on the total number of dist
 
 Note that the analysis of the previous section uses the implicit assumption that for a given day $t$, only the code changes on day $t$ influence user actions on day $t$. The previous regression assumes first that there is no lag between a code change and the change in user activity resulting from the code change, and second that only a single day's code changes affects the user activity on day $t$. Both of these assumptions are simplifications, and this section will relax the first one.
 
+The original specification of the regression will now depend upon $y^i_{tx}$, where $x$ is a number of days of lag. Thus, if $x = 5$, then $y^i_{tx}$ will correspond to the $y^i_{t}$ which was five days ahead in the original specification. The specification will be run for all $x$ in some range $[0, R]$ to identify whether code changes have a lagged effect upon the changes in user activity. Figure \ref{fig:avg-events-time-coefficients} shows the change in the coefficients of fileschangedpercentile (in red) and lineschangedpercentile (in blue) with lags of $x \in [1, 30]$ when the regressor is average events per user from the event logs. Figure \ref{fig:avg-activities-time-coefficients} provides the same information for the regressor of average activities per user from the activity logs. 
 
+The coefficient plotted in these figures is the $\gamma$ coefficient from the following specification (where $x$ varies from 1 to 30):
+\begin{eqnarray}
+y^i_{tx} = c_0 + \gamma M_{t} + \beta weekend_{t} + \epsilon_t
+\end{eqnarray}
+
+Like the previous specification, $M_t$ is a measure of code change in day $t$ (either fileschangedpercentile or lineschangedpercentile) and $weekend_t$ is a dummy variable equal to 1 if $t$ represents a day which is either Saturday or Sunday. 
+
+Examining figure \ref{fig:avg-events-time-coefficients}, it is difficult to ascertain the actual effect of the change in time lags (note that error bars correspond to standard errors). Both covariates representing code changes, fileschangedpercentile and lineschangedpercentile, have very similar coefficients across different time lags. Small time lags less than 10 result in negative and significant coefficients for both fileschangedpercentile and lineschangedpercentile, while larger time lags tend to have positive and significant coefficients. The second trend, however, is bucked by a couple of negative coefficients when $x \in [21, 24]$. 
+
+The amount of noise inherent in the event logs probably makes the graph difficult, if not impossible, to interpret. One could hypothesize that the shape of the curve in figure \ref{fig:avg-events-time-coefficients} suggests that code changes have differential effects depending on the amount of time lag one accounts for. However, this explanation seems week since event logs contain records of all possible users, making it difficult to interpret overall changes in the trend without decomposing into well-defined groups of users. Second, figure \ref{fig:avg-activities-time-coefficients} shows that the same results performed on the action log records provides substantially more elucidating results.
+
+Figure \ref{fig:avg-activities-time-coefficients} shows large and consistent negative coefficients on fileschangedpercentile with all different ranges of lag. The figure also shows that the coefficient on lineschangedpercentile is not significantly different from zero for almost all lags, suggesting that it has little effect in predicting user activity. 
+
+However, the number of files changed per day has a significant and negative coefficient throughout all time lags, reinforcing the results from the previous section that the more files changed on a particular day, the lower user activity tends to be. This result stays consistent across time, suggesting that lower user activity begins early and persists for a number of days. This provides more evidence that increasing the number of files changed per day, given the current number of files changed, will decrease user average user activity from users who are registered on Panjiva. 
+
+Figure \ref{fig:insertions-deletions-time-coefficients} examines the change in average user activity due to insertions and deletions of code. 
 
 \end{document}
