@@ -93,21 +93,22 @@ class FindUserSets:
             output_rows.append(extra_data + [user_account_id, num_before, num_after, num_before + num_after])
         return output_rows
 
-    def format_both_ba_into_rows_meancentered(self, both_ba, output_rows, commit_datetime):
+    def format_both_ba_into_rows_meancentered(self, both_ba, output_rows, commit):
         #column_names = ['id', 'user_account_id', 'controller', 'action', 'model_id', 'status', 'created_at', 'query_params', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'after_commit', 'num_views_day_later']
         
+        extra_commit_data = [commit.datetime, commit.fileschanged, commit.insertions, commit.deletions, commit.fileschangedpercentile, commit.lineschangedpercentile, commit.insertionspercentile, commit.deletionspercentile]
         for user_account_id, activity_logs_list in both_ba.iteritems():
             combined_list = activity_logs_list[0] + activity_logs_list[1]
             for i in xrange(len(activity_logs_list[0])):
                 activity_log_before = activity_logs_list[0][i]
-                if abs(activity_log_before.created_at.replace(tzinfo=None) - commit_datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
+                if abs(activity_log_before.created_at.replace(tzinfo=None) - commit.datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
                     j = binary_search_on_created_at(combined_list, activity_log_before.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
-                    output_rows.append(activity_log_before.convert_to_row() + [0, j-i])
+                    output_rows.append(activity_log_before.convert_to_row() + [0, j-i] + extra_commit_data)
             for i in xrange(len(activity_logs_list[1])):
                 activity_log_after = activity_logs_list[1][i]
-                if abs(activity_log_after.created_at.replace(tzinfo=None) - commit_datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
+                if abs(activity_log_after.created_at.replace(tzinfo=None) - commit.datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
                     j = binary_search_on_created_at(combined_list, activity_log_after.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
-                    output_rows.append(activity_log_after.convert_to_row() + [1, j-(i+len(activity_logs_list[0])-1)])
+                    output_rows.append(activity_log_after.convert_to_row() + [1, j-(i+len(activity_logs_list[0])-1)] + extra_commit_data)
         return output_rows
 
 def binary_search_on_created_at(activity_logs, datetime, start, end):
