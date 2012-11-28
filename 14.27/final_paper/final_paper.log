@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  27 NOV 2012 19:28
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  27 NOV 2012 20:40
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -741,7 +741,7 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Here is how much of TeX's memory you used:
  16179 strings out of 495061
  302603 string characters out of 1182621
- 405520 words of memory out of 3000000
+ 406520 words of memory out of 3000000
  18849 multiletter control sequences out of 15000+50000
  9869 words of font info for 39 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
@@ -756,7 +756,7 @@ exlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts
 cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></
 usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (5 pages, 158996 bytes).
+Output written on final_paper.pdf (5 pages, 162267 bytes).
 PDF statistics:
  110 PDF objects out of 1000 (max. 8388607)
  15 named destinations out of 1000 (max. 500000)
