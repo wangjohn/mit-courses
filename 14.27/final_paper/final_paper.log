@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  27 NOV 2012 21:23
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  27 NOV 2012 21:26
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -674,11 +674,7 @@ LaTeX Info: Redefining \pageref on input line 33.
 \openout5 = `final_paper.toc'.
 
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-
-LaTeX Warning: Reference `fig:commit-history' on page 2 undefined on input line
- 76.
-
-<pictures/commit-activity.png, id=27, 892.33376pt x 134.5025pt>
+<pictures/commit-activity.png, id=46, 892.33376pt x 134.5025pt>
 File: pictures/commit-activity.png Graphic file (type png)
 
 <use pictures/commit-activity.png>
@@ -686,19 +682,10 @@ File: pictures/commit-activity.png Graphic file (type png)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-LaTeX Warning: Reference `table:commit-stats' on page 2 undefined on input line
- 84.
-
-
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[2]
-
-LaTeX Warning: Reference `fig:commit-hours' on page 3 undefined on input line 1
-03.
-
-<pictures/commit-hours.png, id=35, 642.4pt x 240.9pt>
+[2] <pictures/commit-hours.png, id=56, 642.4pt x 240.9pt>
 File: pictures/commit-hours.png Graphic file (type png)
 
 <use pictures/commit-hours.png>
@@ -706,15 +693,6 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
 [3 <./pictures/commit-activity.png> <./pictures/commit-hours.png>]
-
-LaTeX Warning: Reference `table:macro-action-results' on page 4 undefined on in
-put line 130.
-
-
-LaTeX Warning: Reference `table:macro-action-results' on page 4 undefined on in
-put line 130.
-
-
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
@@ -726,36 +704,29 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[6] (./final_paper.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[6] (./final_paper.aux) ) 
 Here is how much of TeX's memory you used:
- 13881 strings out of 493848
- 241578 string characters out of 1152823
- 350927 words of memory out of 3000000
- 16672 multiletter control sequences out of 15000+50000
+ 13884 strings out of 493848
+ 241621 string characters out of 1152823
+ 351160 words of memory out of 3000000
+ 16675 multiletter control sequences out of 15000+50000
  9869 words of font info for 39 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
- 47i,13n,56p,847b,342s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/font
-s/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/publ
-ic/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
-cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb>
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/t
-exmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive
-/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1
-/public/amsfonts/cm/cmti8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
-onts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (6 pages, 176490 bytes).
+ 47i,13n,56p,847b,340s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/s
+hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
+/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></
+usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/te
+xmf-texlive/fonts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on final_paper.pdf (6 pages, 179486 bytes).
 PDF statistics:
- 111 PDF objects out of 1000 (max. 8388607)
+ 130 PDF objects out of 1000 (max. 8388607)
  19 named destinations out of 1000 (max. 500000)
- 39 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 63 words of extra memory for PDF output out of 10000 (max. 10000000)
 
