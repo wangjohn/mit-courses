@@ -38,6 +38,8 @@ def read_in_data(filename):
             counter += 1
             if counter % 100000 == 0:
                 print counter
+            if counter >= 500000:
+                break
     all_logs = sorted(all_logs, key = lambda k : k.created_at)
     return all_logs
 
@@ -46,27 +48,36 @@ class FindUserSets:
     def __init__(self, activity_logs):
         self.activity_logs = activity_logs
 
+    def find_controllers(self):
+        pairs = {}
+        for log in self.activity_logs:
+            current_pair = log.controller 
+            pairs[current_pair] = True
+        return pairs.keys()
+
     # find all the users who saw a controller/action pair k days before a commit and after the commit
     # outputs: hash of user_account_id : [[before_activity_logs], [after_activity_logs]] 
-    def find_users(activity_logs, controller, action, commit_datetime, k):
+    def find_users(self, activity_logs, controller, commit_datetime, k):
         approx_commit_index = binary_search_on_created_at(activity_logs, commit_datetime, 0, len(activity_logs)-1)
         lower_datetime = commit_datetime - datetime.timedelta(days=k)
         upper_datetime = commit_datetime + datetime.timedelta(days=k)
         lower_index = binary_search_on_created_at(activity_logs, lower_datetime, 0, len(activity_logs)-1)
         upper_index = binary_search_on_created_at(activity_logs, upper_datetime, 0, len(activity_logs)-1)
+        print approx_commit_index, lower_index, upper_index
         before_users = {}
         for i in xrange(lower_index, approx_commit_index, 1):
             current_activity_log = activity_logs[i]
-            current_activity_log.time_from_event = commit_datetime - current_activity_log.created_at
-            if current_activity_log.user_account_id in before_users:
-                before_users[current_activity_log.user_account_id].append(current_activity_log)
-            else:
-                before_users[current_activity_log.user_account_id] = [current_activity_log]
+            if current_activity_log.controller == controller:
+                current_activity_log.time_from_event = commit_datetime - current_activity_log.created_at
+                if current_activity_log.user_account_id in before_users:
+                    before_users[current_activity_log.user_account_id].append(current_activity_log)
+                else:
+                    before_users[current_activity_log.user_account_id] = [current_activity_log]
         both_ba = {}
         for i in xrange(approx_commit_index, upper_index, 1):
             current_activity_log = activity_logs[i]
             # this must be true in order for them to be be in both before and after
-            if current_activity_log.user_account_id in before_users:
+            if current_activity_log.controller == controller and current_activity_log.user_account_id in before_users:
                 current_activity_log.time_from_event = commit_datetime - current_activity_log.created_at
                 if current_activity_log.user_account_id in both_ba:
                     both_ba[current_activity_log.user_account_id][1].append(current_activity_log)
@@ -93,25 +104,26 @@ class FindUserSets:
                 output_rows.append(activity_log_after.convert_to_row() + [1])
         return output_rows
 
-
-
-def binary_search_on_created_at(self, activity_logs, datetime, start, end):
+def binary_search_on_created_at(activity_logs, datetime, start, end):
     if end <= start:
         return start
     mid = (start + end)/2
     if activity_logs[mid].created_at > datetime:
         return binary_search_on_created_at(activity_logs, datetime, start, mid-1)
     elif activity_logs[mid].created_at < datetime:
-        return binary_search_on_created_at(activity_logs, datetime, start+1, mid)
+        return binary_search_on_created_at(activity_logs, datetime, mid+1, end)
     else:
         return mid
 
 if __name__ == '__main__':
     all_logs = read_in_data("data/activity_log_out.csv")
     print 'all loaded'
-    test_datetime = datetime.datetime(2012, 7, 14)
+    test_datetime = datetime.datetime(2012, 8, 14)
     fus = FindUserSets(all_logs)
-    b = fus.find_users(all_logs, "my_panjiva", "async_activity_feed", test_datetime, 10)
-    print "Length of the results"
-    for key, value in b.iteritems():
-        print key, len(b[0]), len(b[1])
+    cap = fus.find_controllers()
+    print cap
+    print len(cap)
+    #b = fus.find_users(all_logs, "my_panjiva", "async_activity_feed", test_datetime, 10)
+    #print "Length of the results"
+    #for key, value in b.iteritems():
+    #    print key, len(value[0]), len(value[1])
