@@ -39,7 +39,6 @@ def read_in_data(filename):
             counter += 1
             if counter % 100000 == 0:
                 print counter
-                break
     all_logs = sorted(all_logs, key = lambda k : k.created_at)
     return all_logs
 
