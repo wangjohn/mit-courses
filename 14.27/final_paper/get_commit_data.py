@@ -1,6 +1,7 @@
 import os
 import re
 from dateutil import parser
+from clean_activity_logs import *
 
 class FileCommit:
     def __init__(self, filename, datetime, files_changed, insertions, deletions):
@@ -56,6 +57,25 @@ def get_controller_commits(controller_name, before, after):
         all_commits.append(commit)
     return all_commits
 
+def write_out_data(commits, find_user_set, controller, k, row_results):
+    for commit in commits:
+        both_ba = find_user_set.find_users(find_user_set.activity_logs, controller, commit.datetime, k)
+        find_user_set.format_both_ba_into_rows_meancentered(both_ba, row_results)
+
+def writerows(filename, rows):
+    with open(filename, 'wb') as f:
+        writer = csv.writer(f)
+        writer.writerows(rows)
+
 
 if __name__ == '__main__':
-    get_controller_commits("my_panjiva_controller.rb", "11/15/2012", "11/15/2011")
+    controllers = ['search', 'my_panjiva']
+    all_logs = read_in_data("data/activity_log_out.csv")
+    print 'all_loaded'
+    fus = FindUserSets(all_logs)
+    row_results = [['id', 'user_account_id', 'controller', 'action', 'model_id', 'status', 'created_at', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'after_commit', 'num_views_day_later']]
+    for control in controllers:
+        commits = get_controller_commits(control + "_controller.rb", "11/25/2012", "7/14/2011")
+        write_out_data(commits, fus, control, 3, row_results)
+    writerows("test_output.csv", row_results)
+
