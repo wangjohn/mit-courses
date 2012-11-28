@@ -1,29 +1,16 @@
-\documentclass[psamsfonts]{amsart}
+\documentclass[10pt]{report}
 
 %-------Packages---------
-\usepackage{amssymb,amsfonts}
 \usepackage{enumerate}
-\usepackage[margin=1.5in]{geometry}
-\usepackage{amsthm}
-\usepackage{theorem}
+\usepackage[margin=1in]{geometry}
 \usepackage{rotating}
 \usepackage{hyperref}
 \usepackage{verbatim}
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
-
-\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
-\newenvironment{prob}{{\bfseries Problem:}}
 
 \bibliographystyle{plain}
 
-\voffset = -10pt
-\headheight = 0pt
-\topmargin = -20pt
-\textheight = 690pt
-
 %--------Meta Data: Fill in your info------
-\title{Website Changes and User Behavior \\
+\title{Website Changes and User Behavior: \\
 Using Panjiva Data to Examine Code Changes}
 \date{\today}
 \author{John Wang \\
@@ -32,10 +19,9 @@ Using Panjiva Data to Examine Code Changes}
 
 \begin{document}
 
-\begin{abstract}
-\end{abstract}
-
 \maketitle
+
+\abstract{blah}
 
 \tableofcontents
 
@@ -76,6 +62,7 @@ Average Visit Duration & 1 min 18 sec \\
 Commits can be thought of as changes to the code. In each commit, a software developer will introduce new code or delete old code which will then be launched to the production website. Typically a single developer at Panjiva will commit a couple of times throughout the workday. Figure \ref{fig:commit-history} shows a histogram of the number of commits throughout a 52 week period ending on 11/24/2012. Commit activity varies depending on the season and the week. In particular, commits during the summer spike upwards and there will be one or two weeks each quarter when commits fall to low levels. The second phenomenon is due to the fact that Panjiva holds a quarterly retreat where engineers reflect upon the work done over the quarter. Typically the amount of code written decreases during these weeks. 
 
 \begin{figure}[h!]
+\centering
 \caption{52-Week Commit Activity}
 \includegraphics[width=5in]{pictures/commit-activity.png}
 \label{fig:commit-history}
@@ -130,7 +117,6 @@ Another set of metrics are the total number of distinct users performing either 
 Table \ref{table:macro-action-results} displays the results from using the total action count as a metric for user activity. The regressions in table \ref{table:macro-action-results} attempt to find the effect of different changes in the code base on different measures of user activity. A commit can be measured by the number of files it changes, or the number of lines of code it changes. Changes in lines of code can be either insertions or deletions. Each of these measures is percentilized (sorted rank is divided by the total number of observations). The regressions below are performed on aggregated statistics per day, with a dummy variable equal to 1 on the weekends and 0 otherwise.  
 
 \begin{sidewaystable}[p]
-\vspace{5in}
 \centering
 \caption{Effect of Commits on User Activity}
 {
