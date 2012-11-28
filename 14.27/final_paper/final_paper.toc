@@ -1,5 +1,5 @@
-\contentsline {section}{\tocsection {}{1}{Dataset Explanation}}{2}{section.1}
-\contentsline {subsection}{\tocsubsection {}{1.1}{Summary Statistics}}{2}{subsection.1.1}
-\contentsline {section}{\tocsection {}{2}{Macro-Level Results}}{3}{section.2}
-\contentsline {subsection}{\tocsubsection {}{2.1}{Daily Effects of Code Changes}}{4}{subsection.2.1}
-\contentsline {subsection}{\tocsubsection {}{2.2}{Lagged Effects of Code Changes}}{4}{subsection.2.2}
+\contentsline {section}{\numberline {0.1}Dataset Explanation}{3}{section.0.1}
+\contentsline {subsection}{\numberline {0.1.1}Summary Statistics}{3}{subsection.0.1.1}
+\contentsline {section}{\numberline {0.2}Macro-Level Results}{4}{section.0.2}
+\contentsline {subsection}{\numberline {0.2.1}Daily Effects of Code Changes}{5}{subsection.0.2.1}
+\contentsline {subsection}{\numberline {0.2.2}Lagged Effects of Code Changes}{5}{subsection.0.2.2}
