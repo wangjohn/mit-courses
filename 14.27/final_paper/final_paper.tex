@@ -292,4 +292,57 @@ There are about 2.3 million observations in this refined dataset and table \ref{
 
 The statistical significance remains even when hour dummies are included (a set of 24 dummy variables where created\_at\_hour\_i = 1 if the activity record was created in the $i$th hour of the day and 0 otherwise). This provides strong evidence that code changes in the search controller significantly affect user behavior. Since commits are most likely exogeneous, user activity seems to increase significantly due to the changes in the search controller. 
 
+\begin{table}[h!]
+\caption{Effect of Code Insertions and Deletions on User Activity in the Search Controller}
+\end{table}
+
+However, it is still unclear from these regressions why user activity increases. To examine this in more detail, a regression with the following specification was conducted:
+\begin{eqnarray}
+num\_views\_day\_later_{it} = c_0 + \beta_0 after\_commit_{it} + \beta_1 insertionspercentile_{it} + \beta_2 deletionspercentile_{it} + \beta_3 insertionspercentile_{it} * after\_commit_{it} + \beta_4 deletionspercentile_{it} * after\_commit_{it} + \beta_5 hour_dummies_{it} + \epsilon_{it}
+\end{eqnarray}
+
+Here, the specification uses interaction terms between the after\_commit dummy variable and the insertion and deletion percentile variables. Using the interaction coefficients, one can determine the additive effect of insertion an extra line of code on the change in the number of views after the commit. Looking on the $\beta_3$ and $\beta_4$ coefficients in the above specification will tell one how much additive effect on the number of views there is when a commit increases the insertion or deletion percentile (respectively) by 1 after a commit. In essence, it measures the effect of inserting or deleting lines of code on how users will respond to a change.  
+
+\begin{table}[h!]
+\centering
+\caption{Types of Commits and User Responses to Code Changes}
+{
+    \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+    \begin{tabular}{l*{2}{c}}
+    \hline\hline
+        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+        &\multicolumn{1}{c}{num\_views\_day\_later}&\multicolumn{1}{c}{num\_views\_day\_later}\\
+        \hline
+        after\_commit&      -10.86\sym{***}&      -13.79\sym{***}\\
+        &    (-16.90)         &    (-22.03)         \\
+        [1em]
+        insertionspercentile&      -50.97\sym{***}&      -50.76\sym{***}\\
+        &    (-54.12)         &    (-55.34)         \\
+        [1em]
+        deletionspercentile&       66.31\sym{***}&       63.35\sym{***}\\
+        &     (70.67)         &     (69.34)         \\
+        [1em]
+        insertionspercentile *&       57.00\sym{***}&       58.05\sym{***}\\
+        after\_commit&     (41.21)         &     (43.09)         \\
+        [1em]
+        deletionspercentile *&      -24.16\sym{***}&      -23.64\sym{***}\\
+        after\_commit&    (-17.65)         &    (-17.74)         \\
+        [1em]
+        created\_at\_hour&         No            &       Yes \\
+        dummies? &                     &            \\
+        [1em]
+        \_cons      &       150.1\sym{***}&       133.2\sym{***}\\
+        &    (336.67)         &    (116.37)         \\
+        \hline
+        \(N\)       &     2345617         &     2345617         \\
+        \hline\hline
+        \multicolumn{3}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+        \multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \multicolumn{3}{l}{This regression measures how users respond to different types of}
+        \multicolumn{3}{l}{commits (number of insertions and deletions in the commit).}
+        \end{tabular}
+}
+\label{table:search-controller-percentile-results}
+\end{table}
+
 \end{document}
