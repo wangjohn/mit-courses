@@ -89,13 +89,17 @@ def writerows(filename, rows):
 
 if __name__ == '__main__':
     # controller = 'my_panjiva'
-    controller = 'search'
-    commits = get_controller_commits(controller + "_controller.rb", "11/25/2012", "7/14/2011")
+    controllers = ['my_panjiva', 'us_imports', 'us_exports', 'customs', 'communication', 'profile', 'project', 'info']
+    commits = {}
+    for controller in controllers:
+        commits[controller] = get_controller_commits(controller + "_controller.rb", "11/25/2012", "7/14/2011")
 
     all_logs = read_in_data("data/activity_log_out.csv")
     print 'all_loaded'
     fus = FindUserSets(all_logs)
-    row_results = [['id', 'user_account_id', 'controller', 'action', 'model_id', 'status', 'created_at', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'after_commit', 'num_views_day_later', 'commit_date', 'fileschanged', 'insertions', 'deletions', 'fileschangedpercentile', 'lineschangedpercentile', 'insertionspercentile', 'deletionspercentile']]
-    write_out_data(commits, fus, controller, 3, row_results)
-    writerows("test_output.csv", row_results)
+    for controller in controllers:
+        current_commits = commits[controller]
+        row_results = [['id', 'user_account_id', 'controller', 'action', 'model_id', 'status', 'created_at', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'after_commit', 'num_views_day_later', 'commit_date', 'fileschanged', 'insertions', 'deletions', 'fileschangedpercentile', 'lineschangedpercentile', 'insertionspercentile', 'deletionspercentile']]
+        write_out_data(current_commits, fus, controller, 3, row_results)
+        writerows(controller + "_controller.csv", row_results)
 
