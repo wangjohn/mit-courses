@@ -17,7 +17,12 @@ class LSRouter(Router):
     def make_ls_advertisement(self):
         # return a list of all neighbors to send out in an LSA
         ## Your code here
-        return
+        adverts = []
+        for info_tuple in self.neighbors.itervalues():
+            link_cost = info_tuple[2]
+            neighbor_address = info_tuple[1]
+            adverts.append((neighbor_address, link_cost))
+        return adverts
 
     def send_lsa(self, time):
         self.LSA_seqnum += 1
@@ -79,8 +84,35 @@ class LSRouter(Router):
     # in this function by processing the information in self.LSA.
     # "nodes" is the list of nodes we know about.
     def run_dijkstra(self, nodes):
-        ## Your code here
-        pass
+        distance = {}
+        previous = {}
+        # initialize with infinite cost
+        for node in nodes:
+            distance[node] = self.INFINITY
+            
+        source_node = nodes[0]
+        distance[source_node] = 0
+        while len(nodes) > 0:
+            nodes = sorted(nodes, key = lambda k : distance[k])
+            node = nodes.pop(0)
+
+            if distance[node] >= self.INFINITY:
+                break
+            for new_node in self.LSA[node][1:]:
+                possible_new_distance = new_node[1] + distance[node]
+                if new_node[0] != node and (possible_new_distance < distance[new_node[0]] or new_node[0] not in distance):
+                    distance[new_node[0]] = possible_new_distance
+                    previous[new_node[0]] = node
+
+        self.spcost = distance
+        routes = {}
+        # reconstruct the routes table
+        for node in distance.iterkeys():
+            current_node = node
+            while current_node != source_node and previous[current_node] != source_node:
+                current_node = previous[current_node]
+            routes[node] = self.getlink(current_node)
+        self.routes = routes
 
     # Let's clear the current routing table and rebuild it.  The hard
     # work is done by run_dijkstra().
