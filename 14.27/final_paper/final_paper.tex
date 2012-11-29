@@ -290,7 +290,6 @@ Where $i$ indexes the $i$th commit and $t$ indexes the $t$th view in the 4 day w
 
 There are about 2.3 million observations in this refined dataset and table \ref{table:search-micro-commit-results} shows the regression results of the specification defined above. The table shows that actions recorded after the commit occurs have a significantly higher number of views. Moreover, the positive coefficient on the time\_from\_event variable shows that as one gets further away from the commit time, the number of views of the search page increases. Thus, the number of views that occur after the commit is greater than the number of views before the commit (since time\_from\_event is negative before a commit and positive afterwards). The coefficients on after\_commit and time\_from\_event are strongly statistically significant (much higher than normal levels), which suggests that commits have a large positive effect on user actiivty. 
 
-The statistical significance remains even when hour dummies are included (a set of 24 dummy variables where created\_at\_hour\_i = 1 if the activity record was created in the $i$th hour of the day and 0 otherwise). 
-
+The statistical significance remains even when hour dummies are included (a set of 24 dummy variables where created\_at\_hour\_i = 1 if the activity record was created in the $i$th hour of the day and 0 otherwise). This provides strong evidence that code changes in the search controller significantly affect user behavior. Since commits are most likely exogeneous, user activity seems to increase significantly due to the changes in the search controller. 
 
 \end{document}
