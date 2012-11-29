@@ -1,7 +1,0 @@
-\contentsline {section}{\numberline {0.1}Dataset Explanation}{3}{section.0.1}
-\contentsline {subsection}{\numberline {0.1.1}Summary Statistics}{3}{subsection.0.1.1}
-\contentsline {section}{\numberline {0.2}Macro-Level Results}{4}{section.0.2}
-\contentsline {subsection}{\numberline {0.2.1}Daily Effects of Code Changes}{5}{subsection.0.2.1}
-\contentsline {subsection}{\numberline {0.2.2}Lagged Effects of Code Changes}{5}{subsection.0.2.2}
-\contentsline {section}{\numberline {0.3}Micro-Level Results}{9}{section.0.3}
-\contentsline {subsection}{\numberline {0.3.1}Search Controller}{9}{subsection.0.3.1}

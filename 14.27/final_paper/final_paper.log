@@ -1,11 +1,17 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 NOV 2012 12:43
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.10)  29 NOV 2012 14:06
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
 (./final_paper.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, loaded.
+yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
+ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
+9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
+skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
+orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
+, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
+rtuguese, spanish, galician, catalan, swedish, ukenglish, loaded.
 (/usr/share/texmf-texlive/tex/latex/base/report.cls
 Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
@@ -51,7 +57,8 @@ Package ifvtex Info: VTeX not detected.
 \Gm@odd@mp=\dimen105
 \Gm@even@mp=\dimen106
 \Gm@dimlist=\toks16
-)
+
+(/usr/share/texmf-texlive/tex/xelatex/xetexconfig/geometry.cfg))
 (/usr/share/texmf-texlive/tex/latex/rotating/rotating.sty
 Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
 
@@ -320,51 +327,37 @@ File: pictures/commit-hours.png Graphic file (type png)
 
 <use pictures/commit-hours.png> [4 <./pictures/commit-activity.png> <./pictures
 /commit-hours.png>] [5] [6]
-<pictures/avg_events_time_coefficients.png, id=101, 417.05812pt x 207.77625pt>
-File: pictures/avg_events_time_coefficients.png Graphic file (type png)
 
-<use pictures/avg_events_time_coefficients.png>
-<pictures/avg_activities_time_coefficients.png, id=105, 418.56375pt x 249.18094
-pt>
-File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
- <use pictures/avg_activities_time_coefficients.png>
+LaTeX Warning: File `pictures/avg_events_time_coefficients.png' not found on in
+put line 196.
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[7 <./pictures/avg_events_time_coefficients.png (PNG copy)>]
-<pictures/commit_percentiles_time_coefficients.png, id=115, 417.81094pt x 258.9
-675pt>
-File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
+! Package pdftex.def Error: File `pictures/avg_events_time_coefficients.png' no
+t found.
 
- <use pictures/commit_percentiles_time_coefficients.png> [8 <./pictures/avg_act
-ivities_time_coefficients.png (PNG copy)> <./pictures/commit_percentiles_time_c
-oefficients.png (PNG copy)>] [9] [10] (./final_paper.aux) ) 
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.196 ...ictures/avg_events_time_coefficients.png}
+                                                  
+? 
+! Emergency stop.
+ ...                                              
+                                                  
+l.196 ...ictures/avg_events_time_coefficients.png}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+ 
 Here is how much of TeX's memory you used:
- 4731 strings out of 495061
- 69445 string characters out of 1182621
- 155417 words of memory out of 3000000
- 7820 multiletter control sequences out of 15000+50000
+ 4705 strings out of 493857
+ 68959 string characters out of 1153305
+ 156933 words of memory out of 3000000
+ 7904 multiletter control sequences out of 15000+50000
  9021 words of font info for 32 fonts, out of 3000000 for 9000
- 28 hyphenation exceptions out of 8191
- 38i,12n,36p,953b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/publ
-ic/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
-/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.pf
-b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/shar
-e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texl
-ive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
-8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf
--texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fon
-ts/type1/public/amsfonts/cm/cmti8.pfb></usr/share/texmf-texlive/fonts/type1/pub
-lic/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (11 pages, 292010 bytes).
-PDF statistics:
- 196 PDF objects out of 1000 (max. 8388607)
- 33 named destinations out of 1000 (max. 500000)
- 82 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 714 hyphenation exceptions out of 8191
+ 38i,12n,36p,854b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
+!  ==> Fatal error occurred, no output PDF file produced!
