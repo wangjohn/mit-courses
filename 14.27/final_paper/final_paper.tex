@@ -188,16 +188,56 @@ The coefficient plotted in these figures is the $\gamma$ coefficient from the fo
 y^i_{tx} = c_0 + \gamma M_{t} + \beta weekend_{t} + \epsilon_t
 \end{eqnarray}
 
-Like the previous specification, $M_t$ is a measure of code change in day $t$ (either fileschangedpercentile or lineschangedpercentile) and $weekend_t$ is a dummy variable equal to 1 if $t$ represents a day which is either Saturday or Sunday. 
+Like the previous specification, $M_t$ is a measure of code change in day $t$ (either fileschangedpercentile or lineschangedpercentile) and $weekend_t$ is a dummy variable equal to 1 if $t$ represents a day which is either Saturday or Sunday. Each figure plots the $\gamma$ coefficient (on the y-axis) from the above regression with different time lags ranging from 0 to 30 (on the x-axis).
+
+\begin{figure}[h!]
+\caption{$\gamma$ Coefficients with Varying Lags, Regressed on Average Event Logs per User}
+\centering
+\includegraphics[width=5in]{pictures/avg_events_time_coefficients.png}
+\label{fig:avg-events-time-coefficients}
+\end{figure}
 
 Examining figure \ref{fig:avg-events-time-coefficients}, it is difficult to ascertain the actual effect of the change in time lags (note that error bars correspond to standard errors). Both covariates representing code changes, fileschangedpercentile and lineschangedpercentile, have very similar coefficients across different time lags. Small time lags less than 10 result in negative and significant coefficients for both fileschangedpercentile and lineschangedpercentile, while larger time lags tend to have positive and significant coefficients. The second trend, however, is bucked by a couple of negative coefficients when $x \in [21, 24]$. 
 
 The amount of noise inherent in the event logs probably makes the graph difficult, if not impossible, to interpret. One could hypothesize that the shape of the curve in figure \ref{fig:avg-events-time-coefficients} suggests that code changes have differential effects depending on the amount of time lag one accounts for. However, this explanation seems week since event logs contain records of all possible users, making it difficult to interpret overall changes in the trend without decomposing into well-defined groups of users. Second, figure \ref{fig:avg-activities-time-coefficients} shows that the same results performed on the action log records provides substantially more elucidating results.
 
+\begin{figure}[h!]
+\caption{$\gamma$ Coefficients with Varying Lags, Regressed on Average Activity Logs per User}
+\centering
+\includegraphics[width=5in]{pictures/avg_activities_time_coefficients.png}
+\label{fig:avg-activities-time-coefficients}
+\end{figure}
+
 Figure \ref{fig:avg-activities-time-coefficients} shows large and consistent negative coefficients on fileschangedpercentile with all different ranges of lag. The figure also shows that the coefficient on lineschangedpercentile is not significantly different from zero for almost all lags, suggesting that it has little effect in predicting user activity. 
 
 However, the number of files changed per day has a significant and negative coefficient throughout all time lags, reinforcing the results from the previous section that the more files changed on a particular day, the lower user activity tends to be. This result stays consistent across time, suggesting that lower user activity begins early and persists for a number of days. This provides more evidence that increasing the number of files changed per day, given the current number of files changed, will decrease user average user activity from users who are registered on Panjiva. 
 
-Figure \ref{fig:insertions-deletions-time-coefficients} examines the change in average user activity due to insertions and deletions of code. 
+\begin{figure}[h!]
+\caption{$\gamma_0$ and $\gamma_1$ Coefficients with Varying Lags. Regressed on Average Activity Logs per User, the graph displays the coefficients on insertionspercentile and deletionspercentile as time lags range from 0 to 30.}
+\centering
+\includegraphics[width=4.5in]{pictures/commit_percentiles_time_coefficients.png}
+\label{fig:insertions-deletions-time-coefficients}
+\end{figure}
+
+Figure \ref{fig:insertions-deletions-time-coefficients} examines the change in average user activity due to insertions and deletions of code. This graph makes the behavior of coefficients on insertionspercentile and deletionspercentile from the original regressions more clear. The figure displays the $\gamma_0$ and $\gamma_1$ coefficients from the following regression:
+\begin{eqnarray}
+avguseractivity_{tx} = c_0 + \gamma_0 insertionspercentile_t + \gamma_1 deletionspercentile_t + \beta weekend_t + \epsilon_t
+\end{eqnarray}
+
+The graph remains consistent across different levels of lags-insertionspercentile's coefficient tends to be negative while deletionspercentile's coefficient tends to be positive. Although there exist multiple lags for which either $\gamma_0$ or $\gamma_1$ is not significantly different from 0, it is never the case that the $\gamma_0$ and $\gamma_1$ coefficients switch sign. This implies that the actual effect of increasing the insertion percentile is likely correlated with lower average user activity while increasing the deletion percentile does the opposite.
+
+This finding seems to imply that removing code tends to be better than adding code. Although this hypothesis was reached on macro-level data, it is still an interesting idea. Perhaps removing code is correlated with making better code, and inserting new code usually happens with a new, possibly buggy feature being added. If this is the case, then it seems that users respond better to clean, non-buggy code. To investigate this further, regressions are performed on a more granular level.
+
+\section{Micro-Level Results}
+
+Although the macro-level regressions provided some insight into how code changes affect user activity, they really could not provide anything more than correlations. Complex factors could have been governing the relationship between code changes and user activity, and only weekend dummies were included in the regressions. Thus, the macro-level results must be taken with a grain of salt since the correlations observed could be brought through completely different mechanisms than the ones suggested. 
+
+However, the micro-level dataset can be much more powerful in its results. The dataset used in this section exclusively uses the activity logs, and exploits the fact that each recorded activity comes with a unique user identification tag and timestamp. Therefore, it is possible to know exactly when a user was visiting a given page. 
+
+Even better, most of the code changes made throughout the day can be thought of as exogeneous shocks. This arises from the fact that almost none of the releases made by developers are announced to the user base beforehand. Even if the changes are announced, few users would be notified and aware of the change because Panjiva typically advertises such changes through its blog. Less than 1\% of Panjiva's total pageviews come from its blog, so it is safe to assume that most users are unaware of any planned changes to the website. Since these code changes can be thought of as exogeneous with a high degree of accuracy, one can develop an empirical approach that examines the shock induced by each code change.
+
+\subsection{Search Controller}
+
+The search page has always been Panjiva's most trafficked page. 
 
 \end{document}
