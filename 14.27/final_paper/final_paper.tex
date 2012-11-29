@@ -277,8 +277,20 @@ Where $i$ indexes the $i$th commit and $t$ indexes the $t$th view in the 4 day w
         \hline\hline
         \multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses}\\
         \multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \multicolumn{5}{l}{Regression using micro-level dataset. Confined only to users who saw the} \\
+        \multicolumn{5}{l}{search page both before commit $i$ and after commit $i$ inside of a 4 day}\\
+        \multicolumn{5}{l}{window surrounding the time of the commit. The num\_views\_day\_later} \\
+        \multicolumn{5}{l}{variable contains the number of views of the search page for each user one}\\
+        \multicolumn{5}{l}{day after the record was created. Commits are confined only to changes in} \\
+        \multicolumn{5}{l}{the search controller.} 
         \end{tabular}
 }
 \label{table:search-micro-commit-results}
 \end{table}
+
+There are about 2.3 million observations in this refined dataset and table \ref{table:search-micro-commit-results} shows the regression results of the specification defined above. The table shows that actions recorded after the commit occurs have a significantly higher number of views. Moreover, the positive coefficient on the time\_from\_event variable shows that as one gets further away from the commit time, the number of views of the search page increases. Thus, the number of views that occur after the commit is greater than the number of views before the commit (since time\_from\_event is negative before a commit and positive afterwards). The coefficients on after\_commit and time\_from\_event are strongly statistically significant (much higher than normal levels), which suggests that commits have a large positive effect on user actiivty. 
+
+The statistical significance remains even when hour dummies are included (a set of 24 dummy variables where created\_at\_hour\_i = 1 if the activity record was created in the $i$th hour of the day and 0 otherwise). 
+
+
 \end{document}
