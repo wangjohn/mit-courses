@@ -244,6 +244,41 @@ In particular, this section limits the activity log dataset to only users who ha
 
 Since the dataset was confined to only users who saw both the original website and the changed website, one can take the difference between the number of views before and after the change as the effect of the change (assuming that commits are exogeneous). Another refinement made to the dataset is that only commits to the search controller were examined.\footnote{A controller in a Model-View-Controller web framework is typically the piece of the code that manages the data and sends it along to the user interface. For Panjiva, almost all of the heavy-lifting is done in the controller (this includes data processing and the search algorithm itself).} This choice was made because a significant portion of the user interface code is antiquated and left in the code-base. Therefore, large changes to the user interface code could spuriously affect parts of the code that no longer are seen on the production website. 
 
+The time period from 7/14/2011 until 11/25/2012 was examined (to confine the dataset to more recent changes). A total of 294 changes occurred during this time, ranging from small one line changes to larger changes in hundreds or thousands of lines. The following regression specification was used:
+\begin{eqnarray}
+num\_views\_day\_after_{it} = c_0 + \beta_0 \mu_{it} + \beta_1 hour\_dummies_{it} + \epsilon_{it}
+\end{eqnarray}
 
+Where $i$ indexes the $i$th commit and $t$ indexes the $t$th view in the 4 day window surrounding the $i$th commit. Here $\mu_{it}$ is either a dummy variable $after\_commit$ which is equal to 1 if the view of the search page occurred after the commit and 0 otherwsie, or it is equal to $time\_from\_event$ which is the number of seconds since the commit. Therefore, if a view of the search controller occured at time $T_1$ and the commit occurred at time $T_2$, then $time\_from\_event = T_1 - T_2$.  
 
+\begin{table}[h!]
+\caption{Search Controller Micro-Level Results}
+\centering
+{
+    \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+    \begin{tabular}{l*{4}{c}}
+    \hline\hline
+        & \multicolumn{4}{l}{Independent Variable: num\_views\_day\_later} \\ 
+        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+        \hline
+        after\_commit&       5.541\sym{***}&               &       3.378\sym{***}&                     \\
+        &     (17.91)         &                     &     (11.20)         &                     \\
+        [1em]
+        time\_from\_event&                     &   0.0000737\sym{***}&                     &    0.000110\sym{***}\\
+        &                    &     (43.76)         &                     &     (66.60)         \\
+        [1em]
+        created\_at\_hour&             No        &           No           &       Yes &      Yes \\
+        dummies?&                     &                     &              &            \\
+        [1em]
+        \_cons      &       156.9\sym{***}&       159.9\sym{***}&       138.3\sym{***}&       139.7\sym{***}\\
+        &    (731.32)     &   (1033.47)         &    (127.71)         &    (130.50)         \\
+        \hline
+        \(N\)       &     2345617       &     2345617         &     2345617         &     2345617         \\
+        \hline\hline
+        \multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+        \multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \end{tabular}
+}
+\label{table:search-micro-commit-results}
+\end{table}
 \end{document}
