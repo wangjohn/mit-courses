@@ -21,12 +21,17 @@ class DVRouter(Router):
     # Make a distance vector protocol advertisement, which will be sent
     # by the caller along all the links
     def make_dv_advertisement(self):
-        ## Your code here
-        return
+        adverts = []
+        for destination, cost in self.spcost.iteritems():
+            adverts.append((destination, cost))
+        return adverts
 
     def link_failed(self, link):
-        ## Your code here
-        pass
+        link.cost = self.INFINITY
+        for destination, current_link in list(self.routes.iteritems()):
+            if current_link == link:
+                del self.spcost[destination]
+                del self.routes[destination]
 
     def process_advertisement(self, p, link, time):
         self.integrate(link, p.properties['ad'])
@@ -34,8 +39,10 @@ class DVRouter(Router):
     # Integrate new routing advertisement to update routing
     # table and costs
     def integrate(self,link,adv):
-        ## Your code here
-        pass
+        for destination, cost in adv:
+            if (not destination in self.spcost or link.cost + cost < self.spcost[destination]) and (link.cost + cost < self.INFINITY):
+                self.spcost[destination] = link.cost + cost
+                self.routes[destination] = link
 
 # A network with nodes of type DVRouter.
 class DVRouterNetwork(RouterNetwork):
