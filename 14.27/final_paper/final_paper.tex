@@ -387,8 +387,7 @@ Thus, to find the difference in the number of views due to a code change in cont
 SE_{sum} = \sqrt{ SE_{controller_{2k}}^2 + SE_{after\_commit}^2 + 2 Cov(controller_{2k}, after\_commit)}
 \end{eqnarray}
 
-These differential controller effects $\Gamma_k$ are given in table \ref{table:gamma-effects}. It is clear that each controller has a different effect. In particular, one can see why the effects for all the controllers in table \ref{table:commit-percentiles-micro} differ from the effects found for just the search controller in table \ref{table:search-micro-commit-results}. Both the My\_Panjiva controllers and the Project controllers have negative and significant $\Gamma$ coefficients. Both of these controllers contain a high number of observations %(My\_Panjiva contains BLAHBALHABLAH observations while Project contains BLAHBLAHBLAH observations)*}, 
-so each of these controllers weighed down the after\_commit coefficient. 
+These differential controller effects $\Gamma_k$ are given in table \ref{table:gamma-effects}. It is clear that each controller has a different effect. In particular, one can see why the effects for all the controllers in table \ref{table:commit-percentiles-micro} differ from the effects found for just the search controller in table \ref{table:search-micro-commit-results}. Both the My\_Panjiva controllers and the Project controllers have negative and significant $\Gamma$ coefficients. 
 
 \begin{table}[h!]
 \centering
