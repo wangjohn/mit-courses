@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 NOV 2012 19:04
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 NOV 2012 19:49
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -287,12 +287,11 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 23.
- (./final_paper.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 3.
+(Font)              <9> on input line 24.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 3.
-)
+(Font)              <5> on input line 24.
+ (./final_paper.toc)
 \tf@toc=\write4
 \openout4 = `final_paper.toc'.
 
@@ -302,20 +301,20 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 55.
  [2]
-<pictures/commit-activity.png, id=80, 892.33376pt x 134.5025pt>
+<pictures/commit-activity.png, id=81, 892.33376pt x 134.5025pt>
 File: pictures/commit-activity.png Graphic file (type png)
 
 <use pictures/commit-activity.png>
-<pictures/commit-hours.png, id=83, 642.4pt x 240.9pt>
+<pictures/commit-hours.png, id=84, 642.4pt x 240.9pt>
 File: pictures/commit-hours.png Graphic file (type png)
 
 <use pictures/commit-hours.png> [3 <./pictures/commit-activity.png> <./pictures
 /commit-hours.png>] [4] [5]
-<pictures/avg_events_time_coefficients.png, id=118, 417.05812pt x 207.77625pt>
+<pictures/avg_events_time_coefficients.png, id=119, 417.05812pt x 207.77625pt>
 File: pictures/avg_events_time_coefficients.png Graphic file (type png)
 
 <use pictures/avg_events_time_coefficients.png>
-<pictures/avg_activities_time_coefficients.png, id=122, 418.56375pt x 249.18094
+<pictures/avg_activities_time_coefficients.png, id=123, 418.56375pt x 249.18094
 pt>
 File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
  <use pictures/avg_activities_time_coefficients.png>
@@ -323,7 +322,7 @@ File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<pictures/commit_percentiles_time_coefficients.png, id=124, 417.81094pt x 258.9
+<pictures/commit_percentiles_time_coefficients.png, id=125, 417.81094pt x 258.9
 675pt>
 File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
 
@@ -366,9 +365,9 @@ mf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/f
 onts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/p
 ublic/amsfonts/cm/cmti8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
 ts/cm/cmtt9.pfb>
-Output written on final_paper.pdf (12 pages, 376304 bytes).
+Output written on final_paper.pdf (12 pages, 378356 bytes).
 PDF statistics:
- 259 PDF objects out of 1000 (max. 8388607)
+ 260 PDF objects out of 1000 (max. 8388607)
  44 named destinations out of 1000 (max. 500000)
  114 words of extra memory for PDF output out of 10000 (max. 10000000)
 
