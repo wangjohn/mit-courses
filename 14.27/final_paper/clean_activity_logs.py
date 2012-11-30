@@ -18,9 +18,10 @@ class ActivityLog:
         self.impersonated = input_lines[11]
         self.time_from_event = None
         self.num_views_day_later = None
+        self.repeat_controller_views = None
 
     def convert_to_row(self):
-        return [self.id, self.user_account_id, self.controller, self.action, self.model_id, self.status, self.created_at, self.ip_address, self.next_profile_activity_log_id, self.session_id, self.impersonated, self.time_from_event.seconds + 86400*self.time_from_event.days]
+        return [self.id, self.user_account_id, self.controller, self.action, self.model_id, self.created_at, self.ip_address, self.next_profile_activity_log_id, self.session_id, self.impersonated, self.time_from_event.seconds + 86400*self.time_from_event.days]
 
     def get_day(self):
         return self.created_at.strftime("%Y-%m-%d")
@@ -45,6 +46,7 @@ def read_in_data(filename):
 class FindUserSets:
     def __init__(self, activity_logs):
         self.activity_logs = activity_logs
+        self.user_views = {}
 
     def find_controllers(self):
         pairs = {}
@@ -56,11 +58,11 @@ class FindUserSets:
     # find all the users who saw a controller/action pair k days before a commit and after the commit
     # outputs: hash of user_account_id : [[before_activity_logs], [after_activity_logs]] 
     def find_users(self, activity_logs, controller, commit_datetime, k):
-        approx_commit_index = binary_search_on_created_at(activity_logs, commit_datetime, 0, len(activity_logs)-1)
+        approx_commit_index = binary_search_on_attribute(activity_logs, commit_datetime, 0, len(activity_logs)-1)
         lower_datetime = commit_datetime - datetime.timedelta(days=k)
         upper_datetime = commit_datetime + datetime.timedelta(days=k)
-        lower_index = binary_search_on_created_at(activity_logs, lower_datetime, 0, len(activity_logs)-1)
-        upper_index = binary_search_on_created_at(activity_logs, upper_datetime, 0, len(activity_logs)-1)
+        lower_index = binary_search_on_attribute(activity_logs, lower_datetime, 0, len(activity_logs)-1)
+        upper_index = binary_search_on_attribute(activity_logs, upper_datetime, 0, len(activity_logs)-1)
         before_users = {}
         for i in xrange(lower_index, approx_commit_index, 1):
             current_activity_log = activity_logs[i]
@@ -102,25 +104,55 @@ class FindUserSets:
             for i in xrange(len(activity_logs_list[0])):
                 activity_log_before = activity_logs_list[0][i]
                 if abs(activity_log_before.created_at.replace(tzinfo=None) - commit.datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
-                    j = binary_search_on_created_at(combined_list, activity_log_before.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
+                    j = binary_search_on_attribute(combined_list, activity_log_before.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
                     output_rows.append(activity_log_before.convert_to_row() + [0, j-i] + extra_commit_data)
             for i in xrange(len(activity_logs_list[1])):
                 activity_log_after = activity_logs_list[1][i]
                 if abs(activity_log_after.created_at.replace(tzinfo=None) - commit.datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
-                    j = binary_search_on_created_at(combined_list, activity_log_after.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
+                    j = binary_search_on_attribute(combined_list, activity_log_after.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
                     output_rows.append(activity_log_after.convert_to_row() + [1, j-(i+len(activity_logs_list[0])-1)] + extra_commit_data)
         return output_rows
 
-def binary_search_on_created_at(activity_logs, datetime, start, end):
+    def get_user_account_views(self, activity_logs):
+        activity_logs = sorted(activity_logs, key = lambda k : k.user_account_id)
+        for activity_log in activity_logs:
+            if activity_log.user_account_id in self.user_views and activity_log.controller in self.user_views[activity_log.user_account_id]:
+                activity_log.repeat_controller_views = self.user_views[activity_log.user_account_id][activity_log.controller]
+            else:
+                # compute result here
+                i = binary_search_on_attribute(activity_logs, activity_log.user_account_id, 0, len(activity_logs)-1, "user_account_id")
+                # walk to the left
+                controller_count = 0
+                while i-1 >= 0 and activity_logs[i-1].user_account_id == activity_log.user_account_id:
+                    new_log = activity_logs[i-1]
+                    if new_log.controller == activity_log.controller:
+                        controller_count += 1
+                    i -= 1
+                while i+1 <= len(activity_logs)-1 and activity_logs[i+1].user_account_id == activity_log.user_account_id:
+                    new_log = activity_logs[i+1]
+                    if new_log.controller == activity_log.controller:
+                        controller_count += 1
+                    i += 1
+
+                if activity_log.user_account_id in self.user_views:
+                    self.user_views[activity_log.user_acount_id][activity_log.controller] = controller_count 
+                else:
+                    self.user_views[activity_log.user_account_id] = {activity_log.controller : controller_count}
+
+
+
+def binary_search_on_attribute(activity_logs, value, start, end, attribute="created_at"):
     if end <= start:
         return start
     mid = (start + end)/2
-    created_at = activity_logs[mid].created_at.replace(tzinfo=None)
-    datetime = datetime.replace(tzinfo=None)
-    if created_at > datetime:
-        return binary_search_on_created_at(activity_logs, datetime, start, mid-1)
-    elif created_at < datetime:
-        return binary_search_on_created_at(activity_logs, datetime, mid+1, end)
+    current_attr = getattr(activity_logs[mid], attribute)
+    if attribute == "created_at":
+        current_attr = current_attr.replace(tzinfo=None)
+        value = value.replace(tzinfo=None)
+    if current_attr > value:
+        return binary_search_on_attribute(activity_logs, value, start, mid-1, attribute)
+    elif current_attr < value:
+        return binary_search_on_attribute(activity_logs, value, mid+1, end, attribute)
     else:
         return mid
 
