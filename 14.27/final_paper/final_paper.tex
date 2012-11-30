@@ -433,9 +433,13 @@ so each of these controllers weighed down the after\_commit coefficient.
 Examining the differential effects, one can see that there is no significant effect to user behavior when there are changes in most of the controllers. There is a significant and negative effect for the My\_Panjiva and Project controllers, and a positive effect for the Search controller. Moreover, the magnitude of the coefficients differ greatly accross controllers. The magnitude of the Project controller's $\Gamma$ is much larger than the $\Gamma$ for the search controller. 
 
 Therefore, it seems that there is significant variation in user responses across different controller types. Interestingly, the My\_Panjiva and Project controllers do not tend to be repeatedly used, unlike the Search controller which has many repeat views. It seems then, that code changes have a positive effect on user activity only on pages which users repeatedly use.  
+
 \section{Conclusion}
 
+This paper examined the effect of code changes on user activity. Total user activity tended to increase when the total number of code insertions increased. However, both total and average user activity tended to decrease when more files were changed. This phenomenon most likely occurs because of the high volume of code changes on Panjiva's website. Thus, it seems likely that users respond positively to higher quality code, or alternatively, that users respond negatively to low quality code. 
 
+Exploiting the granularity of Panjiva's dataset, the paper found that code changes on particular website pages, such as the Search page, resulted in a higher number of repeat views. Other webpages, usually the ones which weren't repeatedly viewed very often, were negatively affected by code changes. The micro-level dataset also reinforced the hypothesis that user activity tends to increase with an increase in the number of lines of code, ceteris paribus. 
 
+Code changes seem to have an ambiguous effect on user activity in general. Code changes can be successful only with a confluence of factors. In particular, high quality changes and changes to highly trafficked pages tend to have a better chance of positively influencing users. Thus, it seems that change by itself does not tend to be a good strategy in general. Changes need to be targetted and of high quality in order for them to be successful. 
 
 \end{document}
