@@ -1,0 +1,160 @@
+\documentclass[xcolor=pdftex,dvipsnames,table]{beamer}
+\usepackage{beamerthemesplit}
+\usetheme{Copenhagen}
+\useoutertheme{shadow}
+\useinnertheme{rounded}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{fancybox}
+
+
+\title{Website Changes and User Behavior}
+\subtitle{Using Panjiva Data to Examine Code Changes}
+\author{John J. Wang}
+\date{\today}
+\institute{14.27 Final Presentation}
+
+\begin{document}
+
+\frame{\titlepage}
+
+\section[Outline]{}
+\frame{\tableofcontents}
+
+\section[Introduction]{Introduction}
+
+\subsection[Silicon Valley]{Silicon Valley Mindset}
+
+\frame{
+    \frametitle{The Silicon Valley Mindset}
+    \begin{itemize}
+        \item "Move fast and break things." -- Facebook
+        \item "The only constant is change itself." -- Heraclitus
+        \item "Pick a movement, pick a revolution, and join it." -- Jack Dorsey
+    \end{itemize}
+}
+
+\subsection{What We Know}
+\frame
+{
+    \frametitle{Background and Previous Research}
+    \begin{itemize}
+        \item Levitt and Fryer 2004
+        \item Neal 2005
+        \item Brooks Gunn et al 1993, 1996, 2000
+    \end{itemize}
+}
+
+\subsection{Questions to Ask}
+\frame
+{
+    \frametitle{Lingering Questions}
+    \begin{itemize}
+        \item Do users tend to respond favorably to website changes?
+        \item How do users react to different types of change?
+        \item How do different characteristics of users affect their reactions to change?
+    \end{itemize}
+    \end{block}
+}
+
+\subsection{Panjiva Dataset}
+
+\frame
+{
+    \frametitle{Panjiva, Inc.}
+    \begin{itemize}
+        \item \url{http://www.panjiva.com}
+        \item Acts as a medium for buyers and suppliers of manufactured goods
+        \item Parses government import and export data for unbiased shipment information on suppliers
+        \item Example: Home Depot finding a wrench factory
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{Summary Statistics}
+    \begin{table}[h!]
+    \centering
+    \caption{Panjiva Overview}
+    \begin{tabular}{l || l}
+    \hline
+    Total Users & 121,653 \\
+    Subscribing Users & 2,985 \\
+    Monthly Site Visits & 903,426 \\
+    Monthly Unique Visitors & 762,723 \\
+    Average Pages per Visit & 1.99 \\
+    Average Visit Duration & 1 min 18 sec \\
+    \hline
+    \end{tabular}
+    \label{table:panjiva-overview}
+    \end{table}
+}
+
+\frame
+{
+    \frametitle[Event and Activity Logs}
+    \begin{itemize}
+        \item Event Logs contain records of all user actions $\sim 124$ million records
+        \item Activity Logs contain records of actions of users who are registered with Panjiva $\sim 13$ million records
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{Commit Statistics}
+    \begin{table}[h!]
+    \centering
+    \caption{Overall Commit Statistics - 11/25/2012}
+    \begin{tabular}{l || l }
+    \hline
+    Active Days (at least 1 commit) & 1,983 \\
+    Total Current Files & 20,901 \\
+    Total Lines of Code & 1,313,235 \\
+    Total Lines of Code Added & 3,989,295 \\
+    Total Lines of Code Removed & 2,676,060 \\
+    Total Commits & 29,924 \\
+    Total Authors/Developers & 33 \\
+    \hline
+    \end{tabular}
+    \label{table:commit-stats}
+    \end{table}
+} 
+
+\frame
+{
+    \frametitle{Commit Frequency by Time of Day}
+    \begin{figure}[h!]
+    \centering
+    \includegraphics[width=4in]{pictures/commit-hours.png}
+    \label{fig:commit-hours}
+    \end{figure}
+
+}
+
+\section{Macro-Level Results}
+
+\subsection{Daily Effects of Code Changes}
+
+\frame
+{
+    \frametitle{Specification}
+    \begin{eqnarray}
+    y^i_{t} = c_0 + \bar{\gamma}^T \bar{M}_t + \bar{\beta}^T \bar{\chi}_t + \epsilon_t
+    \end{eqnarray}
+
+    \begin{itemize}
+        \item $t$ indexes day
+        \item $y^i_t$ corresponds to $i$th metric of user activity on day $t$
+        \item $\bar{M}_t$ corresponds to a vector of covariates that represent changes in the code
+        \item $\bar{\chi}_t$ is a vector of controls
+    \end{itemize}
+}   
+
+\frame
+{
+    \frametitle{Effect of Commits on User Activity}
+}
+
+\end{document}
+
+
