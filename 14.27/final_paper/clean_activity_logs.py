@@ -21,7 +21,7 @@ class ActivityLog:
         self.repeat_controller_views = None
 
     def convert_to_row(self):
-        return [self.id, self.user_account_id, self.controller, self.action, self.model_id, self.created_at, self.ip_address, self.next_profile_activity_log_id, self.session_id, self.impersonated, self.time_from_event.seconds + 86400*self.time_from_event.days]
+        return [self.id, self.user_account_id, self.controller, self.action, self.model_id, self.created_at, self.ip_address, self.next_profile_activity_log_id, self.session_id, self.impersonated, self.time_from_event.seconds + 86400*self.time_from_event.days, self.repeat_controller_views]
 
     def get_day(self):
         return self.created_at.strftime("%Y-%m-%d")
@@ -74,15 +74,18 @@ class FindUserSets:
                 else:
                     before_users[current_activity_log.user_account_id] = [current_activity_log]
         both_ba = {}
+        touched_logs = []
         for i in xrange(approx_commit_index, upper_index, 1):
             current_activity_log = activity_logs[i]
             # this must be true in order for them to be be in both before and after
             if current_activity_log.controller == controller and current_activity_log.user_account_id in before_users:
                 current_activity_log.time_from_event = current_activity_log.created_at.replace(tzinfo=None) - commit_datetime.replace(tzinfo=None) 
+                touched_logs.append(current_activity_log)
                 if current_activity_log.user_account_id in both_ba:
                     both_ba[current_activity_log.user_account_id][1].append(current_activity_log)
                 else:
                     both_ba[current_activity_log.user_account_id] = [before_users[current_activity_log.user_account_id], [current_activity_log]]
+        self.get_user_account_views(activity_logs, touched_logs)
         return both_ba
 
     def format_both_ba_into_rows_aggregated(self, both_ba, output_rows, extra_data, extra_data_names):
@@ -113,9 +116,9 @@ class FindUserSets:
                     output_rows.append(activity_log_after.convert_to_row() + [1, j-(i+len(activity_logs_list[0])-1)] + extra_commit_data)
         return output_rows
 
-    def get_user_account_views(self, activity_logs):
+    def get_user_account_views(self, activity_logs, touched_logs):
         activity_logs = sorted(activity_logs, key = lambda k : k.user_account_id)
-        for activity_log in activity_logs:
+        for activity_log in touched_logs:
             if activity_log.user_account_id in self.user_views and activity_log.controller in self.user_views[activity_log.user_account_id]:
                 activity_log.repeat_controller_views = self.user_views[activity_log.user_account_id][activity_log.controller]
             else:
@@ -135,7 +138,7 @@ class FindUserSets:
                     i += 1
 
                 if activity_log.user_account_id in self.user_views:
-                    self.user_views[activity_log.user_acount_id][activity_log.controller] = controller_count 
+                    self.user_views[activity_log.user_account_id][activity_log.controller] = controller_count 
                 else:
                     self.user_views[activity_log.user_account_id] = {activity_log.controller : controller_count}
 
