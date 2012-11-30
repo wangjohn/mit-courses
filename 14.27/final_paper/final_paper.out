@@ -1,5 +1,11 @@
-\BOOKMARK [1][-]{section.0.1}{Dataset Explanation}{}
-\BOOKMARK [2][-]{subsection.0.1.1}{Summary Statistics}{section.0.1}
-\BOOKMARK [1][-]{section.0.2}{Macro-Level Results}{}
-\BOOKMARK [2][-]{subsection.0.2.1}{Daily Effects of Code Changes}{section.0.2}
-\BOOKMARK [2][-]{subsection.0.2.2}{Lagged Effects of Code Changes}{section.0.2}
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Dataset Explanation}{}
+\BOOKMARK [2][-]{subsection.2.1}{Summary Statistics}{section.2}
+\BOOKMARK [1][-]{section.3}{Macro-Level Results}{}
+\BOOKMARK [2][-]{subsection.3.1}{Daily Effects of Code Changes}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{Lagged Effects of Code Changes}{section.3}
+\BOOKMARK [1][-]{section.4}{Micro-Level Results}{}
+\BOOKMARK [2][-]{subsection.4.1}{Search Controller}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Insertions and Deletions}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Differential Controller Effects}{section.4}
+\BOOKMARK [1][-]{section.5}{Conclusion}{}

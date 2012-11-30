@@ -1,8 +1,8 @@
-\documentclass[10pt]{report}
+\documentclass[10pt]{article}
 
 %-------Packages---------
 \usepackage{enumerate}
-\usepackage[margin=1in]{geometry}
+\usepackage[margin=0.75in]{geometry}
 \usepackage{rotating}
 \usepackage{hyperref}
 \usepackage{verbatim}
@@ -27,9 +27,15 @@ Using Panjiva Data to Examine Code Changes}
 
 \newpage
 
+\section{Introduction}
+
+Silicon Valley has historically been built on constant change. Indeed, one of the tenets of technology companies and web-based startups is the idea of change. For example, Facebook's official motto is ``Move fast and break things.''  However, few people have examined the effects of website and product changes on user activity. Do users tend to respond favorably to website changes? Moreover, how do users react to different types of changes? Can different characteristics of users change how users respond to certain changes?
+
+All of these questions are crucial and allow developers to create better websites and tools for their users. This paper examines the effects of code changes on user activity. In particular, the paper focuses on the short term effects of everyday changes to a website. The paper exploits a unique dataset and examines how short-term user activity (both overall on the entire website and on a more granular, per-user level) are affected by code changes. The unique dataset comes from Panjiva, Inc., which provided the author access to its entire database.
+
 \section{Dataset Explanation}
 
-The proprietary Panjiva Dataset comes from the back-end databases collected by Panjiva, Inc. Panjiva's website \url{http://www.panjiva.com} acts as a medium for buyers and suppliers of manufactured goods. The site provides a communication platform so that bulk buyers of a particular good can search and obtain unbiased information on factories and suppliers of that good. These two parties can then communicate and send messages over Panjiva's interface, attempting to strike a deal. 
+The proprietary dataset used in this paper comes from the back-end databases collected by Panjiva, Inc. Panjiva's website \url{http://www.panjiva.com} acts as a medium for buyers and suppliers of manufactured goods. The site provides a communication platform so that bulk buyers of a particular good can search and obtain unbiased information on factories and suppliers of that good. These two parties can then communicate and send messages over Panjiva's interface, attempting to strike a deal. 
 
 Panjiva's competitive advantage rests in its ability to parse government import and export data in order to obtain unbiased information about suppliers. Panjiva determines a supplier reliability score and also provides recent history of a supplier's shipments, and allows buyers to search and aggregate this information easily. Most firms that use Panjiva are large to medium size buyers of components. For example, a department store would use Panjiva to search for suppliers of shirts or clothing, or a home improvement store would search for suppliers of socket wrenches. In addition, Panjiva provides data on trends in global manufacturing and shipping by leveraging the government data it already mines for individual supplier information.
 
@@ -292,57 +298,144 @@ There are about 2.3 million observations in this refined dataset and table \ref{
 
 The statistical significance remains even when hour dummies are included (a set of 24 dummy variables where created\_at\_hour\_i = 1 if the activity record was created in the $i$th hour of the day and 0 otherwise). This provides strong evidence that code changes in the search controller significantly affect user behavior. Since commits are most likely exogeneous, user activity seems to increase significantly due to the changes in the search controller. 
 
-\begin{table}[h!]
-\caption{Effect of Code Insertions and Deletions on User Activity in the Search Controller}
-\end{table}
+\subsection{Insertions and Deletions}
 
 However, it is still unclear from these regressions why user activity increases. To examine this in more detail, a regression with the following specification was conducted:
 \begin{eqnarray}
-num\_views\_day\_later_{it} = c_0 + \beta_0 after\_commit_{it} + \beta_1 insertionspercentile_{it} + \beta_2 deletionspercentile_{it} + \beta_3 insertionspercentile_{it} * after\_commit_{it} + \beta_4 deletionspercentile_{it} * after\_commit_{it} + \beta_5 hour_dummies_{it} + \epsilon_{it}
+num\_views\_day\_later_{it} &=& \beta_0 after\_commit_{it} + \beta_1 insertionspercentile_{it} + \beta_2 deletionspercentile_{it} \\ \nonumber
+&+& \beta_3 insertionspercentile_{it} * after\_commit_{it} \\ \nonumber
+&+& \beta_4 deletionspercentile_{it} * after\_commit_{it} \\ \nonumber
+&+& \beta_5 hour\_dummies_{it} + c_0 +  \epsilon_{it}
 \end{eqnarray}
 
 Here, the specification uses interaction terms between the after\_commit dummy variable and the insertion and deletion percentile variables. Using the interaction coefficients, one can determine the additive effect of insertion an extra line of code on the change in the number of views after the commit. Looking on the $\beta_3$ and $\beta_4$ coefficients in the above specification will tell one how much additive effect on the number of views there is when a commit increases the insertion or deletion percentile (respectively) by 1 after a commit. In essence, it measures the effect of inserting or deleting lines of code on how users will respond to a change.  
 
-\begin{table}[h!]
+Table \ref{table:commit-percentiles-micro} displays the results of the above specification with and without the hour dummies, and also with different sets of controllers. The regressions in columns 1 and 2 of table \ref{table:commit-percentiles-micro} use observations confined to users who saw changes in the search controller. Columns 3 and 4 use the same specification, but include observations from seven other controllers as well. These controllers are the communication, customs, my\_panjiva, profile, project, us\_exports, and us\_imports controllers. Each of these controllers corresponds to a different landing page on the Panjiva website.
+
+Including all of the controllers almost doubles the number of observations available at 3.8 million. However, the results with different controllers mirror the results found just in the search controller. In particular, the interaction term coefficients ($\beta_3$ and $\beta_4$ from the specification) tend to be similar across all the regressions. More insertions in the codebase increase the positive effect of a code change on user activity. One sees that $\beta_3$, which corresponds to the coefficient on the interaction between an increase in the insertions percentile and the after\_commit variable, is large, positive, and highly statistically significant. 
+
+This implies that insertions in the code tend to increase the number of views a user will have on a particular page $p$ of the site, with respect to how much that user viewed $p$ before the code change. Deletions in the code tend to have the opposite effect, though this seems to depend on the controller affect. Although the negativitiy of $\beta_4$ is highly statistically significant on only the search controller, it loses its significance once all controllers are included in the regression in columns 3 and 4. However, one can say that deletions in the code, at least in the search controller, have a significant negative effect on the number of pages a user will view in the future.
+
+\begin{sidewaystable}[p]
 \centering
 \caption{Types of Commits and User Responses to Code Changes}
+{
+    \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+    \begin{tabular}{l*{4}{c}}
+    \hline\hline
+        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+        &\multicolumn{1}{c}{num\_views\_day\_later}&\multicolumn{1}{c}{num\_views\_day\_later}&\multicolumn{1}{c}{num\_views\_day\_later}&\multicolumn{1}{c}{num\_views\_day\_later}\\
+        \hline
+        after\_commit&      -10.86\sym{***}&      -13.79\sym{***}&      -325.5\sym{***}&      -305.9\sym{***}\\
+        &    (-16.90)         &    (-22.03)         &   (-154.63)         &   (-149.28)         \\
+        [1em]
+        insertionspercentile&      -50.97\sym{***}&      -50.76\sym{***}&      -650.6\sym{***}&      -609.5\sym{***}\\
+        &    (-54.12)         &    (-55.34)         &   (-218.09)         &   (-209.88)         \\
+        [1em]
+        deletionspercentile&       66.31\sym{***}&       63.35\sym{***}&       251.5\sym{***}&       230.8\sym{***}\\
+        &     (70.67)         &     (69.34)         &     (84.73)         &     (79.94)         \\
+        [1em]
+        insertionspercentile *&       57.00\sym{***}&       58.05\sym{***}&       393.0\sym{***}&       365.1\sym{***}\\
+        after\_commit&     (41.21)         &     (43.09)         &     (89.07)         &     (85.01)         \\
+        [1em]
+        deletionspercentile * &      -24.16\sym{***}&      -23.64\sym{***}&       2.306         &       3.295         \\
+        after\_commit&    (-17.65)         &    (-17.74)         &      (0.53)         &      (0.77)         \\
+        [1em]
+        created\_at\_hour&      No               &    Yes &          No           &     Yes\\
+        dummies?&                     &            &                     &      \\
+        [1em]
+        Controllers Used&      Search               &    Search &         All           &     All\\
+        &                     &            &                     &      \\
+        [1em]
+        \_cons      &       150.1\sym{***}&       133.2\sym{***}&       606.5\sym{***}&       491.0\sym{***}\\
+        &    (336.67)         &    (116.37)         &    (420.98)         &    (130.17)         \\
+        \hline
+        \(N\)       &     2345617         &     2345617         &     3858943         &     3858943         \\
+        \hline\hline
+        \multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+        \multicolumn{5}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \multicolumn{5}{l}{Set of regressions which examine the effect of insertions and deletions in the code on the number of views that a}\\
+        \multicolumn{5}{l}{user will have on page $p$ in the one day time span after viewing page $p$. The after\_commit variable is equal to}\\
+        \multicolumn{5}{l}{if the current observation occurs after the commit that it corresponds to. All observations are within a four day}\\
+        \multicolumn{5}{l}{window of the commit (2 days before and 2 days after) and contain only users who have seen page $p$ both before the}\\
+        \multicolumn{5}{l}{commit and after the commit.}\\
+        \multicolumn{5}{l}{The variables insertionspercentile and deletionspercentile are calculated as the percentile rank of the number of}\\
+        \multicolumn{5}{l}{insertions and deletions for the current commit, respectively. The created\_at\_hour dummies correspond to dummies}\\
+        \multicolumn{5}{l}{equaling 1 if the hour is equal to $i$ and 0 otherwise for $i \in [1,24]$.}\\ 
+        \multicolumn{5}{l}{The dataset is either confined to the search controller, or uses all the controllers in the following list:}\\
+        \multicolumn{5}{l}{communication, customs, my\_panjiva, profile, project, us\_exports, and us\_imports controller.}
+        \end{tabular}
+}
+\label{table:commit-percentiles-micro}
+\end{sidewaystable}
+
+\subsection{Differential Controller Effects}
+
+One might also want to examine how users change their behaviors depending on the controller for which a change is made. Perhaps users react differently to changes in different controllers. For example, the search controller is the most heavily used and is the controller that is most frequently a ``return controller'' (a page that a user will repeatedly visit). However, other controllers tend to be visited less often and tend not to be repeatedly visited. One would expect that changes in different types of controllers would have different affects on user activity on those controllers. 
+
+Thus, the following regression specification was used to determine the effects of each controller:
+\begin{eqnarray}
+num\_views\_day\_later_{it} &=& \beta_0 after\_commit_{it} + \bar{\beta}_1 \overline{controllers}_{it} \\ \nonumber
+&+& \bar{\beta}_2 \overline{controllers}_{it}^T \times \overline{after\_commit}_{it} \\ \nonumber
+&+& \beta_3 hour\_dummies_{it} + \epsilon_{it}
+\end{eqnarray}
+
+Where $\overline{controllers}$ is a vector of dummies of possible controllers. For example, if the current observation corresponds to an activity on the search controller then $\overline{controllers}_{search} = 1$ while $\overline{controllers}_j = 0$ for all $j \neq search$. However, there is no coefficient in this regression that guages the impact of controller $k$ on the user activity after a commit. Notice that before a commit, after\_commit = 0 and the interaction terms for the $\bar{\beta}_2$ coefficient are all zero. However, one controller dummy variable, namely the controller dummy corresponding to the $k$th controller is equal to 1. After the commit on controller $k$, the after\_commit variable will be equal to 1, as will the interaction term corresponding to controller $k$. Thus, in order to find the difference between these two effects, one needs to take $\beta_{2k} + \beta_{1k} + \beta_0 - \beta_{1k} = \beta_{2k} + \beta_0$. 
+
+Thus, to find the difference in the number of views due to a code change in controller $k$, one has to examine the sum $\Gamma_k = \beta_{2k} + \beta_0$. Note that for significance testing, one uses the null hypothesis $H_0: \beta_{2k} + \beta_0 = 0$, and standard errors can be calculated with the formula:
+\begin{eqnarray}
+SE_{sum} = \sqrt{ SE_{controller_{2k}}^2 + SE_{after\_commit}^2 + 2 Cov(controller_{2k}, after\_commit)}
+\end{eqnarray}
+
+These differential controller effects $\Gamma_k$ are given in table \ref{table:gamma-effects}. It is clear that each controller has a different effect. In particular, one can see why the effects for all the controllers in table \ref{table:commit-percentiles-micro} differ from the effects found for just the search controller in table \ref{table:search-micro-commit-results}. Both the My\_Panjiva controllers and the Project controllers have negative and significant $\Gamma$ coefficients. Both of these controllers contain a high number of observations %(My\_Panjiva contains BLAHBALHABLAH observations while Project contains BLAHBLAHBLAH observations)*}, 
+so each of these controllers weighed down the after\_commit coefficient. 
+
+\begin{table}[h!]
+\centering
+\caption{Differential Controller Effects on After Commit User Activity}
 {
     \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
     \begin{tabular}{l*{2}{c}}
     \hline\hline
         &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
-        &\multicolumn{1}{c}{num\_views\_day\_later}&\multicolumn{1}{c}{num\_views\_day\_later}\\
+        &\multicolumn{1}{c}{No Hour Controls}&\multicolumn{1}{c}{With Hour Controls}\\
         \hline
-        after\_commit&      -10.86\sym{***}&      -13.79\sym{***}\\
-        &    (-16.90)         &    (-22.03)         \\
+        Communication & -2.673 & 5.111 \\
+        & (-0.50) & (0.98) \\
         [1em]
-        insertionspercentile&      -50.97\sym{***}&      -50.76\sym{***}\\
-        &    (-54.12)         &    (-55.34)         \\
+        My\_Panjiva & -41.718\sym{*} & -54.530\sym{***} \\
+        & (-1.98) & (-2.68) \\
         [1em]
-        deletionspercentile&       66.31\sym{***}&       63.35\sym{***}\\
-        &     (70.67)         &     (69.34)         \\
+        Profile & -8.167 & -6.339 \\
+        & (-1.30) & (-1.04) \\
         [1em]
-        insertionspercentile *&       57.00\sym{***}&       58.05\sym{***}\\
-        after\_commit&     (41.21)         &     (43.09)         \\
+        Project & -410.438\sym{***} & -388.496\sym{***} \\
+        & (-235.55) & (-228.27) \\
         [1em]
-        deletionspercentile *&      -24.16\sym{***}&      -23.64\sym{***}\\
-        after\_commit&    (-17.65)         &    (-17.74)         \\
+        Search & 5.541\sym{***} & 1.516 \\
+        & (4.37) & (1.23) \\
         [1em]
-        created\_at\_hour&         No            &       Yes \\
-        dummies? &                     &            \\
+        US\_Exports & 10.318 & -28.946 \\
+        & (0.28) & (-0.80) \\
         [1em]
-        \_cons      &       150.1\sym{***}&       133.2\sym{***}\\
-        &    (336.67)         &    (116.37)         \\
+        US\_Imports & -12.487 & -8.73 \\
+        & (-0.82) & (-0.59)\\
         \hline
-        \(N\)       &     2345617         &     2345617         \\
-        \hline\hline
+        \(N\)       & 3858943  & 3858943   \\
+        \hline \hline
         \multicolumn{3}{l}{\footnotesize \textit{t} statistics in parentheses}\\
         \multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
-        \multicolumn{3}{l}{This regression measures how users respond to different types of}
-        \multicolumn{3}{l}{commits (number of insertions and deletions in the commit).}
-        \end{tabular}
+    \end{tabular}
 }
-\label{table:search-controller-percentile-results}
+\label{table:gamma-effects}
 \end{table}
+
+Examining the differential effects, one can see that there is no significant effect to user behavior when there are changes in most of the controllers. There is a significant and negative effect for the My\_Panjiva and Project controllers, and a positive effect for the Search controller. Moreover, the magnitude of the coefficients differ greatly accross controllers. The magnitude of the Project controller's $\Gamma$ is much larger than the $\Gamma$ for the search controller. 
+
+Therefore, it seems that there is significant variation in user responses across different controller types. Interestingly, the My\_Panjiva and Project controllers do not tend to be repeatedly used, unlike the Search controller which has many repeat views. It seems then, that code changes have a positive effect on user activity only on pages which users repeatedly use.  
+\section{Conclusion}
+
+
+
 
 \end{document}

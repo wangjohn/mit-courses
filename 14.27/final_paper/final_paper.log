@@ -1,31 +1,24 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.10)  29 NOV 2012 14:06
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 NOV 2012 19:04
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
 (./final_paper.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
-ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
-9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
-skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
-orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
-, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
-rtuguese, spanish, galician, catalan, swedish, ukenglish, loaded.
-(/usr/share/texmf-texlive/tex/latex/base/report.cls
-Document Class: report 2007/10/19 v1.4h Standard LaTeX document class
+yphenation, loaded.
+(/usr/share/texmf-texlive/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
 (/usr/share/texmf-texlive/tex/latex/base/size10.clo
 File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
-\c@chapter=\count80
-\c@section=\count81
-\c@subsection=\count82
-\c@subsubsection=\count83
-\c@paragraph=\count84
-\c@subparagraph=\count85
-\c@figure=\count86
-\c@table=\count87
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
 \abovecaptionskip=\skip41
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
@@ -49,16 +42,15 @@ Package ifpdf Info: pdfTeX in pdf mode detected.
 Package: ifvtex 2008/11/04 v1.4 Switches for detecting VTeX and its modes (HO)
 Package ifvtex Info: VTeX not detected.
 )
-\Gm@cnth=\count88
-\Gm@cntv=\count89
-\c@Gm@tempcnt=\count90
+\Gm@cnth=\count87
+\Gm@cntv=\count88
+\c@Gm@tempcnt=\count89
 \Gm@bindingoffset=\dimen103
 \Gm@wd@mp=\dimen104
 \Gm@odd@mp=\dimen105
 \Gm@even@mp=\dimen106
 \Gm@dimlist=\toks16
-
-(/usr/share/texmf-texlive/tex/xelatex/xetexconfig/geometry.cfg))
+)
 (/usr/share/texmf-texlive/tex/latex/rotating/rotating.sty
 Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
 
@@ -78,7 +70,7 @@ Package graphics Info: Driver file: pdftex.def on input line 91.
 
 (/usr/share/texmf-texlive/tex/latex/pdftex-def/pdftex.def
 File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
-\Gread@gobject=\count91
+\Gread@gobject=\count90
 ))
 \Gin@req@height=\dimen107
 \Gin@req@width=\dimen108
@@ -86,7 +78,7 @@ File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
 (/usr/share/texmf-texlive/tex/latex/base/ifthen.sty
 Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
 )
-\c@r@tfl@t=\count92
+\c@r@tfl@t=\count91
 \rotFPtop=\skip43
 \rotFPbot=\skip44
 \rot@float@box=\box26
@@ -106,8 +98,8 @@ O)
 Package: xcolor-patch 2009/10/02 xcolor patch
 ))
 \@linkdim=\dimen109
-\Hy@linkcounter=\count93
-\Hy@pagecounter=\count94
+\Hy@linkcounter=\count92
+\Hy@pagecounter=\count93
 
 (/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
@@ -172,7 +164,7 @@ Package pdftexcmds Info: LuaTeX not detected.
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 )))
-\Fld@menulength=\count95
+\Fld@menulength=\count94
 \Field@Width=\dimen110
 \Fld@charsize=\dimen111
 \Field@toks=\toks18
@@ -187,14 +179,14 @@ Package hyperref Info: PDF/A mode OFF on input line 4407.
 (/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
 Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
 )
-\Hy@abspage=\count96
-\c@Item=\count97
-\c@Hfootnote=\count98
+\Hy@abspage=\count95
+\c@Item=\count96
+\c@Hfootnote=\count97
 )
 *hyperref using default driver hpdftex*
 (/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
-\Fld@listcount=\count99
+\Fld@listcount=\count98
 )
 (/usr/share/texmf-texlive/tex/latex/tools/verbatim.sty
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
@@ -227,8 +219,8 @@ landscape: --
 twocolumn: --
 twoside: --
 asymmetric: --
-h-parts: 72.26999pt, 469.75502pt, 72.26999pt
-v-parts: 72.26999pt, 650.43001pt, 72.26999pt
+h-parts: 54.2025pt, 505.89pt, 54.2025pt
+v-parts: 54.2025pt, 686.56499pt, 54.2025pt
 hmarginratio: --
 vmarginratio: --
 lines: --
@@ -242,11 +234,11 @@ driver: pdftex
 -------------------- Page layout dimensions and switches
 \paperwidth  614.295pt
 \paperheight 794.96999pt
-\textwidth  469.75502pt
-\textheight 650.43001pt
-\oddsidemargin  0.0pt
-\evensidemargin 0.0pt
-\topmargin  -37.0pt
+\textwidth  505.89pt
+\textheight 686.56499pt
+\oddsidemargin  -18.06749pt
+\evensidemargin -18.06749pt
+\topmargin  -55.06749pt
 \headheight 12.0pt
 \headsep    25.0pt
 \footskip   30.0pt
@@ -262,15 +254,15 @@ driver: pdftex
 -----------------------
 (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count100
+\scratchcounter=\count99
 \scratchdimen=\dimen112
 \scratchbox=\box27
-\nofMPsegments=\count101
-\nofMParguments=\count102
+\nofMPsegments=\count100
+\nofMParguments=\count101
 \everyMPshowfont=\toks21
-\MPscratchCnt=\count103
+\MPscratchCnt=\count102
 \MPscratchDim=\dimen113
-\MPnumerator=\count104
+\MPnumerator=\count103
 \everyMPtoPDFconversion=\toks22
 )
 Package hyperref Info: Link coloring OFF on input line 20.
@@ -280,7 +272,7 @@ Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
 (/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
 Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
-\c@section@level=\count105
+\c@section@level=\count104
 )
 LaTeX Info: Redefining \ref on input line 20.
 LaTeX Info: Redefining \pageref on input line 20.
@@ -295,69 +287,88 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 23.
- [1
-
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]pdfTeX warning (ext4): dest
-ination with the same identifier (name{page.1}) has been already used, duplicat
-e ignored
-<to be read again> 
-                   \relax 
-l.26 \tableofcontents
-                      [1] (./final_paper.toc
+ (./final_paper.toc
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 1.
+(Font)              <9> on input line 3.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 1.
+(Font)              <5> on input line 3.
 )
 \tf@toc=\write4
 \openout4 = `final_paper.toc'.
 
- [2
+ [1
 
-]
-<pictures/commit-activity.png, id=59, 892.33376pt x 134.5025pt>
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 55.
+ [2]
+<pictures/commit-activity.png, id=80, 892.33376pt x 134.5025pt>
 File: pictures/commit-activity.png Graphic file (type png)
 
 <use pictures/commit-activity.png>
+<pictures/commit-hours.png, id=83, 642.4pt x 240.9pt>
+File: pictures/commit-hours.png Graphic file (type png)
+
+<use pictures/commit-hours.png> [3 <./pictures/commit-activity.png> <./pictures
+/commit-hours.png>] [4] [5]
+<pictures/avg_events_time_coefficients.png, id=118, 417.05812pt x 207.77625pt>
+File: pictures/avg_events_time_coefficients.png Graphic file (type png)
+
+<use pictures/avg_events_time_coefficients.png>
+<pictures/avg_activities_time_coefficients.png, id=122, 418.56375pt x 249.18094
+pt>
+File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
+ <use pictures/avg_activities_time_coefficients.png>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[3] <pictures/commit-hours.png, id=70, 642.4pt x 240.9pt>
-File: pictures/commit-hours.png Graphic file (type png)
 
-<use pictures/commit-hours.png> [4 <./pictures/commit-activity.png> <./pictures
-/commit-hours.png>] [5] [6]
+<pictures/commit_percentiles_time_coefficients.png, id=124, 417.81094pt x 258.9
+675pt>
+File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
 
-LaTeX Warning: File `pictures/avg_events_time_coefficients.png' not found on in
-put line 196.
+ <use pictures/commit_percentiles_time_coefficients.png>
 
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-! Package pdftex.def Error: File `pictures/avg_events_time_coefficients.png' no
-t found.
+[6 <./pictures/avg_events_time_coefficients.png (PNG copy)>] [7 <./pictures/avg
+_activities_time_coefficients.png (PNG copy)> <./pictures/commit_percentiles_ti
+me_coefficients.png (PNG copy)>]
 
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.196 ...ictures/avg_events_time_coefficients.png}
-                                                  
-? 
-! Emergency stop.
- ...                                              
-                                                  
-l.196 ...ictures/avg_events_time_coefficients.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
- 
+[8] [9] [10] [11] [12] (./final_paper.aux) ) 
 Here is how much of TeX's memory you used:
- 4705 strings out of 493857
- 68959 string characters out of 1153305
- 156933 words of memory out of 3000000
- 7904 multiletter control sequences out of 15000+50000
- 9021 words of font info for 32 fonts, out of 3000000 for 9000
- 714 hyphenation exceptions out of 8191
- 38i,12n,36p,854b,371s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 4741 strings out of 495061
+ 69505 string characters out of 1182621
+ 158980 words of memory out of 3000000
+ 7816 multiletter control sequences out of 15000+50000
+ 9326 words of font info for 33 fonts, out of 3000000 for 9000
+ 28 hyphenation exceptions out of 8191
+ 38i,12n,36p,987b,389s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmbx9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mex10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/t
+exmf-texlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive
+/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmmi9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
+onts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr1
+2.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/
+amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mr9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></u
+sr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/tex
+mf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/f
+onts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf-texlive/fonts/type1/p
+ublic/amsfonts/cm/cmti8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfon
+ts/cm/cmtt9.pfb>
+Output written on final_paper.pdf (12 pages, 376304 bytes).
+PDF statistics:
+ 259 PDF objects out of 1000 (max. 8388607)
+ 44 named destinations out of 1000 (max. 500000)
+ 114 words of extra memory for PDF output out of 10000 (max. 10000000)
+
