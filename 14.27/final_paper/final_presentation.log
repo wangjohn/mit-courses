@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  30 NOV 2012 14:50
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  30 NOV 2012 18:20
 entering extended mode
  %&-line parsing enabled.
 **final_presentation.tex
@@ -697,8 +697,7 @@ Style option: `fancybox' v1.3 <2000/09/19> (tvz)
 \EndVerbatimTokens=\toks46
 \Verbatim@Outfile=\write5
 \Verbatim@Infile=\read2
-)
-No file final_presentation.aux.
+) (./final_presentation.aux)
 \openout1 = `final_presentation.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
@@ -715,6 +714,7 @@ LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
+
 *geometry auto-detecting driver*
 *geometry detected driver: pdftex*
 -------------------- Geometry parameters
@@ -781,6 +781,8 @@ Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
 )
 LaTeX Info: Redefining \ref on input line 17.
 LaTeX Info: Redefining \pageref on input line 17.
+
+(./final_presentation.out) (./final_presentation.out)
 \@outlinefile=\write6
 \openout6 = `final_presentation.out'.
 
@@ -851,8 +853,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 (/usr/share/texmf/tex/latex/beamer/base/translator/dicts/translator-theorem-dic
 tionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
-)
-No file final_presentation.nav.
+) (./final_presentation.nav)
 
 LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <4> not available
 (Font)              size <5> substituted on input line 19.
@@ -861,11 +862,10 @@ LaTeX Font Warning: Font shape `OT1/cmss/bx/n' in size <4> not available
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
 (Font)              size <5> substituted on input line 19.
 
-[1
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-No file final_presentation.toc.
-[2
+]
+(./final_presentation.toc) [2
 
 ] [3
 
@@ -878,20 +878,343 @@ No file final_presentation.toc.
 l.58 }
       
 ? 
-! Emergency stop.
-\endminipage ...\expandafter \@iiiparbox \@mpargs 
-                                                  {\unvbox \@tempboxa }
-l.58 }
-      
-End of file on the terminal!
+! Argument of \@iiiparbox has an extra }.
+<inserted text> 
+                \par 
+l.100 }
+       
+? 
+Runaway argument?
+\@checkend {minipage}\expandafter \endgroup \if@endpe \@doendpe \fi \if@ignore 
+\ETC.
+! Paragraph ended before \@iiiparbox was complete.
+<to be read again> 
+                   \par 
+l.100 }
+       
+? 
+! Extra }, or forgotten \endgroup.
+<recently read> }
+                 
+l.100 }
+       
+? 
+LaTeX Font Info:    Try loading font information for U+msa on input line 121.
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 121.
 
- 
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+) [5
+
+]
+<pictures/commit-hours.png, id=240, 642.4pt x 240.9pt>
+File: pictures/commit-hours.png Graphic file (type png)
+
+<use pictures/commit-hours.png> [6
+
+ <./pictures/commit-hours.png>] [7
+
+]
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.190 }
+       
+? 
+
+Overfull \vbox (17.0654pt too high) detected at line 190
+ []
+
+[8
+
+]
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.228 }
+       
+? 
+
+Overfull \vbox (17.0654pt too high) detected at line 228
+ []
+
+[9
+
+] [10
+
+]
+<pictures/avg_activities_time_coefficients.png, id=413, 418.56375pt x 249.18094
+pt>
+File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
+ <use pictures/avg_activities_time_coefficients.png>
+Overfull \vbox (20.70483pt too high) detected at line 255
+ []
+
+[11
+
+ <./pictures/avg_activities_time_coefficients.png (PNG copy)>]
+<pictures/avg_events_time_coefficients.png, id=447, 417.05812pt x 207.77625pt>
+File: pictures/avg_events_time_coefficients.png Graphic file (type png)
+
+<use pictures/avg_events_time_coefficients.png> [12
+
+ <./pictures/avg_events_time_coefficients.png (PNG copy)>]
+<pictures/commit_percentiles_time_coefficients.png, id=480, 417.81094pt x 258.9
+675pt>
+File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
+
+ <use pictures/commit_percentiles_time_coefficients.png>
+Overfull \vbox (14.35664pt too high) detected at line 278
+ []
+
+[13
+
+ <./pictures/commit_percentiles_time_coefficients.png (PNG copy)>] [14
+
+]
+! Undefined control sequence.
+\beamer@doifinframe ...xogeneous shocks. \subitem 
+                                                  Changes are unannounced \s...
+l.300 }
+       
+? 
+! Undefined control sequence.
+\beamer@doifinframe ...s are unannounced \subitem 
+                                                  Only extremely large chang...
+l.300 }
+       
+? 
+[15
+
+] <pictures/search_page.png, id=575, 1031.855pt x 618.31pt>
+File: pictures/search_page.png Graphic file (type png)
+
+<use pictures/search_page.png> [16
+
+ <./pictures/search_page.png>] [17
+
+] [18
+
+]
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.361 }
+       
+? 
+
+Overfull \hbox (18.96107pt too wide) in paragraph at lines 361--361
+[][] 
+ []
+
+
+Overfull \vbox (0.11562pt too high) detected at line 361
+ []
+
+[19
+
+]
+\tf@nav=\write7
+\openout7 = `final_presentation.nav'.
+
+\tf@toc=\write8
+\openout8 = `final_presentation.toc'.
+
+\tf@snm=\write9
+\openout9 = `final_presentation.snm'.
+
+
+
+! LaTeX Error: \begin{beamer@frameslide} on input line 58 ended by \end{documen
+t}.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.363 \end{document}
+                    
+? 
+(./final_presentation.aux)
+
+LaTeX Font Warning: Size substitutions with differences
+(Font)              up to 1.0pt have occurred.
+
+ )
+(\end occurred inside a group at level 1)
+
+### semi simple group (level 1) entered at line 58 (\begingroup)
+### bottom level 
 Here is how much of TeX's memory you used:
- 14914 strings out of 495061
- 279214 string characters out of 1182621
- 346560 words of memory out of 3000000
- 17702 multiletter control sequences out of 15000+50000
- 6040 words of font info for 22 fonts, out of 3000000 for 9000
+ 15256 strings out of 495061
+ 285918 string characters out of 1182621
+ 357560 words of memory out of 3000000
+ 17958 multiletter control sequences out of 15000+50000
+ 16411 words of font info for 61 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 55i,16n,57p,436b,549s stack positions out of 5000i,500n,10000p,200000b,50000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 55i,19n,62p,436b,790s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10
+.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/s
+hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-
+texlive/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmss8.pfb></usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmss9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmssbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi
+10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi8.pfb></us
+r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi9.pfb></usr/share/tex
+mf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/
+fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/
+public/amsfonts/cm/cmsy8.pfb>
+Output written on final_presentation.pdf (19 pages, 496328 bytes).
+PDF statistics:
+ 755 PDF objects out of 1000 (max. 8388607)
+ 54 named destinations out of 1000 (max. 500000)
+ 154 words of extra memory for PDF output out of 10000 (max. 10000000)
+
