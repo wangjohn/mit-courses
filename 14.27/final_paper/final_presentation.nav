@@ -92,8 +92,17 @@
 \headcommand {\beamer@framepages {36}{36}}
 \headcommand {\slideentry {3}{4}{3}{37/37}{Differential Controller Effects}{0}}
 \headcommand {\beamer@framepages {37}{37}}
-\headcommand {\beamer@partpages {1}{37}}
-\headcommand {\beamer@subsectionpages {35}{37}}
+\headcommand {\sectionentry {4}{Conclusion}{38}{Conclusion}{0}}
 \headcommand {\beamer@sectionpages {24}{37}}
-\headcommand {\beamer@documentpages {37}}
-\headcommand {\def \inserttotalframenumber {37}}
+\headcommand {\beamer@subsectionpages {35}{37}}
+\headcommand {\slideentry {4}{0}{4}{38/38}{}{0}}
+\headcommand {\beamer@framepages {38}{38}}
+\headcommand {\slideentry {4}{0}{5}{39/39}{}{0}}
+\headcommand {\beamer@framepages {39}{39}}
+\headcommand {\slideentry {4}{0}{6}{40/40}{}{0}}
+\headcommand {\beamer@framepages {40}{40}}
+\headcommand {\beamer@partpages {1}{40}}
+\headcommand {\beamer@subsectionpages {38}{40}}
+\headcommand {\beamer@sectionpages {38}{40}}
+\headcommand {\beamer@documentpages {40}}
+\headcommand {\def \inserttotalframenumber {40}}
