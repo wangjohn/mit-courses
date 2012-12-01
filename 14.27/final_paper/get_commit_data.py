@@ -95,7 +95,7 @@ def writerows(filename, rows):
 
 if __name__ == '__main__':
     # controller = 'my_panjiva'
-    controllers = ['my_panjiva', 'us_imports', 'us_exports', 'customs', 'communication', 'profile', 'project', 'info']
+    controllers = ['my_panjiva', 'us_imports', 'us_exports', 'customs', 'communication', 'profile', 'project', 'info', 'search']
     commits = {}
     for controller in controllers:
         commits[controller] = get_controller_commits(controller + "_controller.rb", "11/25/2012", "7/14/2011")
