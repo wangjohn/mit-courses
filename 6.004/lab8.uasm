@@ -1,0 +1,728 @@
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Lab #8: Simple OS demo for 6.004 Beta processor
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+|||  This file is a modification of os.uasm, kernel.uasm and user.uasm,
+|||  all posted in /mit/6.004/bsim.  The original demo was constructed
+|||  in Fall of 1994 by Steve Ward.
+
+|||  This program implements a primitive OS kernel for the Beta
+|||  along with three simple user-mode processes hooked together thru
+|||  a semaphore-controlled bounded buffer.
+|||
+|||  The three processes -- and the kernel -- share an address space;
+|||  each is allocated its own stack (for a total of 4 stacks), and
+|||  each process has its own virtual machine state (ie, registers).
+|||  The latter is stored in the kernel ProcTbl, which contains a data
+|||  structure for each process.
+
+||| Here's an unretouched sample of output from a BSIM run of the demo:
+||| 
+||| Start typing, Bunky.
+|||                                                
+||| 00000000> hello
+||| ELLOHAY
+||| 
+
+.include beta.uasm		| Define Beta instructions, etc.
+.options clock tty
+
+||| The following code is a primitive but complete timesharing kernel
+|||  sufficient to run three processes, plus handlers for a small
+|||  selection of supervisor calls (SVCs) to perform OS services.
+|||  The latter include simple console I/O and semaphores.
+|||
+||| All kernel code is executed with the Kernel-mode bit of the
+|||  program counter -- its high-order bit --- set.  This causes
+|||  new interrupt requests to be deferred until the kernel returns
+|||  to user mode.
+
+||| Interrupt vectors:
+
+. = VEC_RESET
+	BR(I_Reset)	| on Reset (start-up)
+. = VEC_II
+	BR(I_IllOp)	| on Illegal Instruction (eg SVC)
+. = VEC_CLK
+	BR(I_Clk)	| On clock interrupt
+. = VEC_KBD
+	BR(I_Kbd)	| on Keyboard interrupt
+. = VEC_MOUSE
+	BR(I_BadInt)	| on mouse interrupt
+
+||| The following macro is the first instruction to be entered for each
+||| asynchronous I/O interrupt handler.	 It adjusts XP (the interrupted
+||| PC) to account for the instruction skipped due to the pipeline bubble.
+.macro ENTER_INTERRUPT SUBC(XP,4,XP)
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Kernel Interrupt support code
+||| We use a slightly simpler (and less efficient) scheme here from
+|||  that in the text.	On kernel entry, the ENTIRE state -- 31
+|||  registers -- of the interrupted program is saved in a designated
+|||  region of kernel memory ("UserMState", below).  This entire state
+|||  is then restored on return to the interrupted program.
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+| Here's the SAVED STATE of the interrupted process, while we're
+| processing an interrupt.
+UserMState:
+	STORAGE(32)	| R0-R31... (PC is in XP!)
+
+| Here are macros to SAVE and RESTORE state -- 31 registers -- from
+|   the above storage.
+
+| N.B. - The following macro assumes that R0 is a macro for
+| the integer 0, R1 is a macro for the integer 1, etc.
+.macro SS(R) ST(R, UserMState+(4*R))	| (Auxiliary macro)
+
+.macro SAVESTATE() {
+	SS(0)  SS(1)  SS(2)  SS(3)  SS(4)  SS(5)  SS(6)	 SS(7)
+	SS(8)  SS(9)  SS(10) SS(11) SS(12) SS(13) SS(14) SS(15)
+	SS(16) SS(17) SS(18) SS(19) SS(20) SS(21) SS(22) SS(23)
+	SS(24) SS(25) SS(26) SS(27) SS(28) SS(29) SS(30) }
+
+| See comment for SS(R), above
+.macro RS(R) LD(UserMState+(4*R), R)	| (Auxiliary macro)
+
+.macro RESTORESTATE() {
+	RS(0)  RS(1)  RS(2)  RS(3)  RS(4)  RS(5)  RS(6)	 RS(7)
+	RS(8)  RS(9)  RS(10) RS(11) RS(12) RS(13) RS(14) RS(15)
+	RS(16) RS(17) RS(18) RS(19) RS(20) RS(21) RS(22) RS(23)
+	RS(24) RS(25) RS(26) RS(27) RS(28) RS(29) RS(30) }
+
+KStack:	LONG(.+4)		| Pointer to ...
+	STORAGE(256)		|  ... the kernel stack.
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Handler for unexpected interrupts
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+I_BadInt:
+	CALL(KWrMsg)			| Type out an error msg,
+	.text "Unexpected interrupt..."
+	HALT()
+	
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Handler for Illegal Instructions
+|||  (including SVCs)
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+I_IllOp:
+	SAVESTATE()		| Save the machine state.
+	LD(KStack, SP)		| Install kernel stack pointer.
+
+	LD(XP, -4, r0)		| Fetch the illegal instruction
+	SHRC(r0, 26, r0)	| Extract the 6-bit OPCODE
+	SHLC(r0, 2, r0)		| Make it a WORD (4-byte) index
+	LD(r0, UUOTbl, r0)	| Fetch UUOTbl[OPCODE]
+	JMP(r0)			| and dispatch to the UUO handler.
+
+.macro UUO(ADR) LONG(ADR+PC_SUPERVISOR)	| Auxiliary Macros
+.macro BAD()	UUO(UUOError)
+
+UUOTbl:	BAD()		UUO(SVC_UUO)	BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+	BAD()		BAD()		BAD()		BAD()
+
+||| Here's the handler for truly unused opcodes (not SVCs):
+UUOError:
+	CALL(KWrMsg)			| Type out an error msg,
+	.text "Illegal instruction "
+	LD(xp, -4, r0)			|   giving hex instr and location;
+	CALL(KHexPrt)
+	CALL(KWrMsg)
+	.text " at location 0x"
+	MOVE(xp,r0)
+	CALL(KHexPrt)
+	CALL(KWrMsg)
+	.text "! ....."
+	HALT()				| Then crash system.
+
+||| Here's the common exit sequence from Kernel interrupt handlers:
+||| Restore registers, and jump back to the interrupted user-mode
+||| program.
+
+I_Rtn:	RESTORESTATE()
+kexit:	JMP(XP)			| Good place for debugging breakpoint!
+
+||| Alternate return from interrupt handler which BACKS UP PC,
+||| and calls the scheduler prior to returning.	 This causes
+||| the trapped SVC to be re-executed when the process is
+||| eventually rescheduled...
+
+I_Wait:	LD(UserMState+(4*30), r0)	| Grab XP from saved MState,
+	SUBC(r0, 4, r0)			| back it up to point to
+	ST(r0, UserMState+(4*30))	|    SVC instruction
+
+	CALL(Scheduler)			| Switch current process,
+	BR(I_Rtn)			| and return to (some) user.
+
+||| Sub-handler for SVCs, called from I_IllOp on SVC opcode:
+
+SVC_UUO:
+	LD(XP, -4, r0)		| The faulting instruction.
+	ANDC(r0,0x7,r0)		| Pick out low bits,
+	SHLC(r0,2,r0)		| make a word index,
+	LD(r0,SVCTbl,r0)	| and fetch the table entry.
+	JMP(r0)
+
+SVCTbl:	UUO(HaltH)		| SVC(0): User-mode HALT instruction
+	UUO(WrMsgH)		| SVC(1): Write message
+	UUO(WrChH)		| SVC(2): Write Character
+	UUO(GetKeyH)		| SVC(3): Get Key
+	UUO(HexPrtH)		| SVC(4): Hex Print
+	UUO(WaitH)		| SVC(5): Wait(S) ,,, S in R3
+	UUO(SignalH)		| SVC(6): Signal(S), S in R3
+	UUO(YieldH)		| SVC(7): Yield()
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Keyboard handling
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Key_State: LONG(0)			| 1-char keyboard buffer.
+
+GetKeyH:				| return key code in r0, or block
+	LD(Key_State, r0)
+	BEQ(r0, I_Wait)			| on 0, just wait a while
+
+| key ready, return it and clear the key buffer
+	LD(Key_State, r0)		| Fetch character to return
+	ST(r0,UserMState)		| return it in R0.
+	ST(r31, Key_State)		| Clear kbd buffer
+	BR(I_Rtn)			| and return to user.
+
+
+||| Interrupt side: read key, store it into buffer.
+||| NB: This is a LIGHTWEIGHT interrupt handler, which doesn't
+|||   do a full state save.  It doesn't have to, since (1) it
+|||   only uses R0, and (2) it always returns to the same process
+|||   it interrupts.  By not saving all state, it manages
+|||   to save a LOT of time:  20 STs on entry, 30 LDs on exit:
+I_Kbd:	ENTER_INTERRUPT()		| Adjust the PC!
+	ST(r0, UserMState)		| Save ONLY r0...
+	RDCHAR()			| Read the character,
+	ST(r0,Key_State)		| save its code.
+	LD(UserMState, r0)		| restore r0, and
+	JMP(xp)				| and return to the user.
+
+WrChH:	LD(UserMState,r0)		| The user's <R0>
+	WRCHAR()			| Write out the character,
+	BR(I_Rtn)			| then return
+
+WrMsgH:	LD(UserMState+(4*30), r0)	| Fetch interrupted XP, then
+	CALL(KMsgAux)			| print text following SVC.
+	ST(r0,UserMState+(4*30))	| Store updated XP.
+	BR(I_Rtn)
+
+||| Handler for HexPrt(): print hex value from R0
+HexPrtH:
+	LD(UserMState,r0)		| Load user R0
+	CALL(KHexPrt)			| Print it out	
+	BR(I_Rtn)			| And return to user.
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Timesharing: 3-process round-robin scheduler
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+||| ProcTbl contains a 31-word data structure for each process,
+|||  including R0-R30.  R31, which always contains 0, is omitted.
+|||  The XP (R30) value stored for each process is the PC,
+|||  and points to the next instruction to be executed.
+
+||| The kernel variable CurProc always points to the ProcTbl entry
+|||  corresponding to the "swapped in" process.
+
+ProcTbl:
+	STORAGE(29)		| Process 0: R0-R28
+	LONG(P0Stack)		| Process 0: SP
+	LONG(P0Start)		| Process 0: XP (= PC)
+
+	STORAGE(29)		| Process 1: R0-R28
+	LONG(P1Stack)		| Process 1: SP
+	LONG(P1Start)		| Process 1: XP (= PC)
+
+	STORAGE(29)		| Process 2: R0-R28
+	LONG(P2Stack)		| Process 2: SP
+	LONG(P2Start)		| Process 2: XP (= PC)
+
+CurProc: LONG(ProcTbl)
+
+||| Schedule a new process.
+||| Swaps current process out of UserMState, swaps in a new one.
+
+Scheduler:
+	PUSH(LP)
+	CMOVE(UserMState, r0)
+	LD(CurProc, r1)
+	CALL(CopyMState)		| Copy UserMState -> CurProc
+
+	LD(CurProc, r0)
+	ADDC(r0, 4*31, r0)		| Increment to next process..
+	CMPLTC(r0,CurProc, r1)		| End of ProcTbl?
+	BT(r1, Sched1)			| Nope, its OK.
+	CMOVE(ProcTbl, r0)		| yup, back to Process 0.
+Sched1:	ST(r0, CurProc)			| Here's the new process;
+
+	ADDC(r31, UserMState, r1)	| Swap new process in.
+	CALL(CopyMState)
+	LD(Tics, r0)			| Reset TicsLeft counter
+	ST(r0, TicsLeft)		|   to Tics.
+	POP(LP)
+	JMP(LP)				| and return to caller.
+
+| Copy a 31-word MState structure from the address in <r0> to that in <r1>
+| Trashes r2, leaves r0-r1 unchanged.
+.macro CM(N) LD(r0, N*4, r2)  ST(r2, N*4, r1)	| Auxiliary macro
+CopyMState:
+	CM(0)	CM(1)	CM(2)	CM(3)	CM(4)	CM(5)	CM(6)	CM(7)
+	CM(8)	CM(9)	CM(10)	CM(11)	CM(12)	CM(13)	CM(14)	CM(15)
+	CM(16)	CM(17)	CM(18)	CM(19)	CM(20)	CM(21)	CM(22)	CM(23)
+	CM(24)	CM(25)	CM(26)	CM(27)	CM(28)	CM(29)	CM(30)
+	JMP(LP)
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Clock interrupt handler:  Invoke the scheduler.
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+||| Here's the deal:
+||| Each compute-bound process gets a quantum consisting of TICS clock
+|||   interrupts, where TICS is the number stored in the variable Tics
+|||   below.  To avoid overhead, we do a full state save only when the
+|||   clock interrupt will cause a process swap, using the TicsLeft
+|||   variable as a counter.
+||| We do a LIMITED state save (r0 only) in order to free up a register,
+|||   then count down TicsLeft stored below.  When it becomes negative,
+|||   we do a FULL state save and call the scheduler; otherwise we just
+|||   return, having burned only a few clock cycles on the interrupt.
+||| RECALL that the call to Scheduler sets TicsLeft to Tics, giving
+|||   the newly-swapped-in process a full quantum.
+
+Tics:	LONG(2)			| Number of clock interrupts/quantum.
+TicsLeft: LONG(0)		| Number of tics left in this quantum
+
+I_Clk:	ENTER_INTERRUPT()	| Adjust the PC!
+	ST(r0, UserMState)	| Save R0 ONLY, for now.
+	LD(TicsLeft, r0)	| Count down TicsLeft
+	SUBC(r0,1,r0)
+	ST(r0, TicsLeft)	| Now there's one left.
+	CMPLTC(r0, 0, r0)	| If new value is negative, then
+	BT(r0, DoSwap)		|   swap processes.
+	LD(UserMState, r0)	| Else restore r0, and
+	JMP(XP)			| return to same user.
+
+DoSwap:	LD(UserMState, r0)	| Restore r0, so we can do a
+	SAVESTATE()		|   FULL State save.
+	LD(KStack, SP)		| Install kernel stack pointer.
+	CALL(Scheduler)		| Swap it out!
+	BR(I_Rtn)		| and return to next process.
+
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| yield() SVC: voluntarily give up rest of time quantum.
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+YieldH: CALL(Scheduler)		| Schedule next process, and
+	BR(I_Rtn)		| and return to user.
+
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Here on start-up (reset):  Begin executing process 0.
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+I_Reset:
+	CMOVE(P0Stack, SP)
+	CMOVE(P0Start, XP)
+	JMP(XP)
+
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| SVC Sub-handler for user-mode HALTs
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+HaltH:	BR(I_Wait)			| SVC(0): User-mode HALT SVC
+
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Kernel support for User-mode Semaphores
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+||| User-mode access: macrodefinitions.	 Semaphore adr passed in r3,
+|||  which is saved & restored appropriately by macros:
+||| NB: Wait() and Signal() SVCs each pass the address of a semaphore
+|||  in R3.  Since the Illegal Opcode handler code doesn't change any
+|||  registers except R0, the R3 semaphore address is still intact
+|||  when we enter these handlers:
+
+||| Kernel handler: wait(s):
+||| ADDRESS of semaphore s in r3.
+
+WaitH:	LD(r3,0,r0)		| Fetch semaphore value.
+	BEQ(r0,I_Wait)		| If zero, block..
+
+	SUBC(r0,1,r0)		| else, decrement and return.
+	ST(r0,0,r3)		| Store back into semaphore
+	BR(I_Rtn)		| and return to user.
+
+||| Kernel handler: signal(s):
+||| ADDRESS of semaphore s in r3.
+
+SignalH:LD(r3,0,r0)		| Fetch semaphore value.
+	ADDC(r0,1,r0)		| increment it,
+	ST(r0,0,r3)		| Store new semaphore value.
+	BR(I_Rtn)		| and return to user.
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Kernel-callable Utility Routines
+||| NB: These routines use PRIVILEDGED instructions; hence they can be
+|||  called directly only from kernel code (ie, with the high-PC-bit
+|||  set).  Use SVC traps to accomplish the same functions from user-
+|||  level code.
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+||| Hex print procedure: prints longword in R0			     |||
+
+HexDig:	LONG('0') LONG('1') LONG('2') LONG('3') LONG('4') LONG('5')
+	LONG('6') LONG('7') LONG('8') LONG('9') LONG('A') LONG('B')
+	LONG('C') LONG('D') LONG('E') LONG('F')
+
+KHexPrt:
+	PUSH(r0)		| Saves all regs, incl r0
+	PUSH(r1)
+	PUSH(r2)
+	PUSH(lp)
+
+	CMOVE(8, r2)
+	MOVE(r0,r1)
+KHexPr1:
+	SRAC(r1,28,r0)			| Extract digit into r0.
+	MULC(r1, 16, r1)		| Next loop, next nybble...
+	ANDC(r0, 0xF, r0)
+	MULC(r0, 4, r0)
+	LD(r0, HexDig, r0)
+	WRCHAR ()
+	SUBC(r2,1,r2)
+	BNE(r2,KHexPr1)
+
+	POP(lp)
+	POP(r2)
+	POP(r1)
+	POP(r0)
+	RTN()
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Procedure to print out a zero-terminated message, packed one     |||
+|||    char/byte. Char data follows branch; returns to next 4-byte   |||
+|||    aligned location. Saves all regs.			     |||
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+KWrMsg:
+	PUSH (R0)
+	MOVE(LP, R0)
+	CALL(KMsgAux)
+	MOVE(R0, LP)
+	POP (R0)
+	RTN()
+
+
+| Auxiliary routine for sending a message to the console.
+| On entry, R0 should point to data; on return, R0 holds next
+| longword aligned location after data.
+| Note: Must be called while in supervisor mode.
+
+KMsgAux:
+	PUSH(r1)
+	PUSH(r2)
+	PUSH(r3)
+	PUSH(r4)
+
+	MOVE (R0, R1)
+
+WrWord:	LD (R1, 0, R2)		| Fetch a 4-byte word into R2
+	ADDC (R1, 4, R1)	| Increment word pointer
+	CMOVE(4,r3)		| Byte/word counter
+
+WrByte:	ANDC(r2, 0x7F, r0)	| Grab next byte -- LOW end first!
+	BEQ(r0, WrEnd)		| Zero byte means end of text.
+	WRCHAR()		| Print it.
+	SRAC(r2,8,r2)		| Shift out this byte
+	SUBC(r3,1,r3)		| Count down... done with this word?
+	BNE(r3,WrByte)		| Nope, continue.
+	BR(WrWord)		| Yup, on to next.
+
+WrEnd:
+	MOVE (R1, R0)
+	POP(r4)
+	POP(r3)
+	POP(r2)
+	POP(r1)
+	RTN()
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| User-mode code.  Includes 3 processes:
+|||
+||| PROCESS 0:
+|||   (1) Prompts the user for new lines of input.
+|||   (2) Reads lines from the keyboard (using the GetKey() SVC),
+|||       and pipes it to PROCESS 1 through a bounded buffer.
+|||       It does this using the Send procedure.
+|||
+||| PROCESS 1:
+|||   Reads lines of input from PROCESS 0, using the Rcv procedure,
+|||       translates them to Piglatin, and types them out (using
+|||       the SVCs WrCh() and WrMsg().
+|||
+|||   Note that Send and Rcv, used by processes 0 and 1, communicate
+|||       using a bounded buffer and synchronize using semaphores
+|||       implemented as the Wait(S) and Signal(S) SVCs.
+|||
+||| PROCESS 2:
+|||   On each quantum, simply increments a counter and uses the Yield()
+|||       SVC to give up the remainder of its quantum.  The resulting
+|||       count thus becomes a count of the number of quanta which have
+|||       been allocated to each process.  This count (in HEX) is used
+|||       as the prompt typed by process 0.
+|||
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+||| Definitions of macros used to interface with Kernel code:
+
+.macro Halt()	SVC(0)		| Stop a process.
+
+.macro WrMsg()	SVC(1)		| Write the 0-terminated msg following SVC
+.macro WrCh()	SVC(2)		| Write a character whose code is in R0
+
+.macro GetKey()	SVC(3)		| Read a key from the keyboard into R0
+.macro HexPrt()	SVC(4)		| Hex Print the value in R0.
+
+.macro Yield()	SVC(7)		| Give up remaining quantum
+
+||| Semaphore macros.
+||| Wait(S) waits on semaphore S; Signal(S) signals on S.
+||| Both preserve all registers, by pushing & popping R3.
+
+.macro Wait(S) {
+	PUSH(r3)		| Save old <r3>,
+	LDR(S,r3)		| put semaphore address into r3
+	SVC(5)			| Wait on semaphore whose adr is in R3
+	POP(r3) }		| and restore former <r3>
+
+.macro Signal(S) {
+	PUSH(r3)		| Save old <r3>,
+	LDR(S,r3)		| put semaphore address into r3
+	SVC(6)			| Signal on semaphore whose adr is in R3
+	POP(r3) }		| and restore former <r3>
+
+||| Allocate a semaphore: used like
+|||    name:   semaphore(size)
+.macro semaphore(N) {		| Allocate a semaphore, and build a ptr
+   LONG(.+4)			| Pointer to semaphore
+   LONG(N) }			| Semaphore itself, init value N.
+
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| User-mode code: Process 0
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+Prompt:	semaphore(1)		| To keep us from typing next prompt
+				| while P1 is typing previous output.
+
+P0Start:WrMsg()
+	.text "Start typing, Bunky.\n\n"
+
+P0Read:	Wait(Prompt)		| Wait until P1 has caught up...
+	WrMsg()			| First a newline character, then
+	.text "\n"
+	LD(Count3, r0)		| print out the quantum count
+	HexPrt()		|  as part of the count, then
+	 WrMsg()		|  the remainder.
+	.text "> "
+
+	LD(P0LinP, r3)		| ...then read a line into buffer...
+
+P0RdCh: GetKey()		| read next character,
+
+	WrCh()			| echo back to user
+	CALL(UCase)		| Convert it to upper case,
+	ST(r0,0,r3)		| Store it in buffer.
+	ADDC(r3,4,r3)		| Incr pointer to next char...
+
+	CMPEQC(r0,0xA,r1)	| End of line?
+	BT(r1,P0Send)		| yup, transmit buffer to P1
+
+	CMPEQC(r3,P0LinP-4,r1)	| are we at end of buffer?
+	BF(r1,P0RdCh)		| nope, read another char
+	CMOVE(0xA,r0)		| end of buffer, force a newline
+	ST(r0,0,r3)
+	WrCh()			| and echo it to the user
+
+P0Send:	LD(P0LinP,r2)		| Prepare to empty buffer.
+P0PutC: LD(r2,0,r0)		| read next char from buf,
+	CALL(Send)		| send to P1
+	CMPEQC(r0,0xA,r1)	| Is it end of line?
+	BT(r1,P0Read)		| Yup, read another line.
+
+	ADDC(r2,4,r2)		| Else move to next char.
+	BR(P0PutC)
+
+P0Line: STORAGE(100)		| Line buffer.
+P0LinP: LONG(P0Line)
+
+P0Stack:
+	STORAGE(256)
+
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Some auxilliaries for our little application:
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+| Auxilliary routine: convert char in r0 to upper case:
+UCase:	PUSH(r1)
+	CMPLEC(r0,'z',r1)	| Is it beyond 'z'?
+	BF(r1,UCase1)		| yup, don't convert.
+	CMPLTC(r0,'a',r1)	| Is it before 'a'?
+	BT(r1, UCase1)		| yup, no change.
+	SUBC(r0,'a'-'A',r0)	| Map to UPPER CASE...
+UCase1: POP(r1)
+	RTN()
+
+| Auxilliary routine: Test if <r0> is a vowel; boolean into r1.
+VowelP: CMPEQC(r0,'A',r1)	| Sorta brute force...
+	BT(r1,Vowel1)
+	CMPEQC(r0,'E',r1)	BT(r1,Vowel1)
+	CMPEQC(r0,'I',r1)	BT(r1,Vowel1)
+	CMPEQC(r0,'O',r1)	BT(r1,Vowel1)
+	CMPEQC(r0,'U',r1)	BT(r1,Vowel1)
+	CMPEQC(r0,'Y',r1)	BT(r1,Vowel1)
+	CMOVE(0,r1)		| Return FALSE.
+Vowel1: RTN()
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| Bounded-buffer FIFO routines for Beta USER MODE
+|||  CALL(Send) - sends datum in r0 thru pipe
+|||  CALL(Rcv)	- reads datum from pipe into r0
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+FIFOSIZE = 100
+FIFO:	STORAGE(FIFOSIZE)	| FIFO buffer.
+
+IN:	LONG(0)			| IN pointer: index into FIFO
+OUT:	LONG(0)			| OUT pointer: index into FIFO
+
+Chars:	semaphore(0)		| Flow-control semaphore 1
+Holes:	semaphore(FIFOSIZE)	| Flow-control semaphore 2
+
+||| Send: put <r0> into fifo.
+Send:	PUSH(r1)		| Save some regs...
+	PUSH(r2)
+	Wait(Holes)		| Wait for space in buffer...
+
+	LD(IN,r1)		| IN pointer...
+	MULC(r1,4,r2)		| Compute 4*IN, word offset
+	ST(r0,FIFO,r2)		| FIFO[IN] = ch
+	ADDC(r1,1,r1)		| Next time, next slot.
+	CMPEQC(r1,FIFOSIZE,r2)	| End of buffer?
+	BF(r2,Send1)		| nope.
+	CMOVE(0,r1)		| yup, wrap around.
+Send1:	ST(r1,IN)		| Tuck away input pointer
+
+	Signal(Chars)		| Now another Rcv() can happen
+	POP(R2)
+	POP(r1)
+	RTN()
+
+||| Rcv: Get char from fifo into r0.
+
+Rcv:	PUSH(r1)
+	PUSH(r2)
+	Wait(Chars)		| Wait until FIFO non-empty
+
+	LD(OUT,r1)		| OUT pointer...
+	MULC(r1,4,r2)		| Compute 4*OUT, word offset
+	LD(r2,FIFO,r0)		| result = FIFO[OUT]
+	ADDC(r1,1,r1)		| Next time, next slot.
+	CMPEQC(r1,FIFOSIZE,r2)	| End of buffer?
+	BF(r2,Rcv1)		| nope.
+	CMOVE(0,r1)		| yup, wrap around.
+Rcv1:	ST(r1,OUT)		| Tuck away input pointer
+
+	Signal(Holes)		| Now theres space for 1 more.
+	POP(R2)
+	POP(r1)
+	RTN()
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| USER MODE Process 1: Translate English to Piglatin
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+P1Start:
+	LD(P1BufP, r9)		 | Buffer pointer in r9.
+
+P1Word: MOVE(r9,r5)		| Read initial consonants.
+P1Cons: CALL(Rcv)
+	CALL(VowelP)		| Is it a vowel?
+	BT(r1,P1Vowl)		| yup, move on.
+	CMPLEC(r0,' ',r1)	| Is it white space?
+	BT(r1,P1Spc)
+
+	ST(r0,0,r5)		| Else store it into buffer...
+	ADDC(r5,4,r5)		| ... and bump pointer.
+	BR(P1Cons)		| Back for more.
+
+P1Vowl: WrCh()			| Output the vowel,
+	CALL(Rcv)		| then check again.
+	CMPLEC(r0,' ',r1)	| White space?
+	BF(r1,P1Vowl)
+
+P1Spc:	MOVE(r0,r3)		| Save input char, then
+	MOVE(r9,r4)		| Output initial consonant.
+P1Spc2: CMPEQ(r4,r5,r1)		| Any left?
+	BT(r1,P1Spc1)		| nope...
+	LD(r4,0,r0)		| Fetch next char,
+	ADDC(r4,4,r4)		| (next time, next char)
+	WrCh()			| and write it out.
+	BR(P1Spc2)
+
+P1Spc1:	WrMsg()			| Add the "AY" suffix.
+	.text "AY"
+	MOVE(r3,r0)		| Then the saved input char.
+	WrCh()
+	CMPEQC(r3,0xA,r0)	| Was it end-of-line?
+	BF(r0,P1Word)		| nope.
+
+	Signal(Prompt)		| it was; allow proc 0 to re-prompt.
+	BR(P1Word)		| ... and start another word.
+
+P1Buf:	STORAGE(100)		| Line buffer.
+P1BufP: LONG(P1Buf)		| Address of line buffer.
+P1Stack: STORAGE(256)		| Stack for process 2.
+
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+||| USER MODE Process 2: Simply counts quanta.
+||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+P2Start:
+	LD(Count3, r0)		| Another quantum, incr count3.
+	ADDC(r0,1,r0)
+	ST(r0,Count3)
+	Yield()			| Invoke scheduler
+	BR(P2Start)		| return here after others run.
+
+P2Stack: STORAGE(256)
+
+Count3: LONG(0)
