@@ -11,5 +11,5 @@
 \beamer@subsectionintoc {3}{1}{Why Micro-Level Data?}{19}{0}{3}
 \beamer@subsectionintoc {3}{2}{Search Controller}{22}{0}{3}
 \beamer@subsectionintoc {3}{3}{Commit Types}{26}{0}{3}
-\beamer@subsectionintoc {3}{4}{Differential Controller Effects}{29}{0}{3}
-\beamer@sectionintoc {4}{Conclusion}{32}{0}{4}
+\beamer@subsectionintoc {3}{4}{Differential Controller Effects}{28}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{33}{0}{4}

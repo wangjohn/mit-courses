@@ -310,22 +310,6 @@ percentile
 
 \frame
 {
-    \frametitle{Specification}
-    \begin{eqnarray}
-    num\_views\_day\_later_{it} &=& \beta_0 after\_commit_{it} + \beta_1 insertionspercentile_{it} + \beta_2 deletionspercentile_{it} \\ \nonumber
-    &+& \beta_3 insertionspercentile_{it} * after\_commit_{it} \\ \nonumber
-    &+& \beta_4 deletionspercentile_{it} * after\_commit_{it} \\ \nonumber
-    &+& \beta_5 hour\_dummies_{it} + c_0 +  \epsilon_{it}
-    \end{eqnarray}
-
-    \begin{itemize}
-        \item Interaction term coefficients $\beta_3$ and $\beta_4$ give incremental percentile coefficients after the commit
-        \item Same specification, but including interaction terms to see additive effect
-    \end{itemize}
-}
-
-\frame
-{
     \frametitle{Differences in Commits}
     \begin{table}
     \centering
@@ -429,6 +413,64 @@ percentile
     \end{table}
 }
 
+\frame
+{
+    \frametitle{Observations}
+    \begin{itemize}
+        \item Search controller has 1.4 million observations, while Project and My\_Panjiva have less than 100 thousand
+        \item Maybe users respond differently to changes on popular vs. not-popular pages
+        \item Must control for previous popularity
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{Controlling for Popularity}
+    \begin{table}[h!]
+        \centering
+        \tiny
+    {
+        \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+        \begin{tabular}{l*{2}{c}}
+        \hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+            &\multicolumn{1}{c}{num\_views\_day\_later}&\multicolumn{1}{c}{num\_views\_day\_later}\\
+            \hline
+            after\_commit&      -13.79\sym{***}&      -9.618\sym{***}\\
+            &     (-9.02)         &     (-6.40)         \\
+            [0.65em]
+            insertionspercentile&      -108.8\sym{***}&      -104.9\sym{***}\\
+            &    (-52.39)         &    (-51.40)         \\
+            [0.65em]
+            deletionspercentile&      -5.528\sym{**} &      -6.231\sym{**} \\
+            &     (-2.70)         &     (-3.10)         \\
+            [0.65em]
+            insertionspercentile *&       63.96\sym{***}&       54.02\sym{***}\\
+            after\_commit &     (20.91)         &     (17.96)         \\
+            [0.65em]
+            deletionspercentile *&       67.98\sym{***}&       67.61\sym{***}\\
+            after\_commit&     (22.53)         &     (22.79)         \\
+            [0.65em]
+            num\_controller\_views&      0.0475\sym{***}&      0.0469\sym{***}\\
+            &   (1780.26)         &   (1751.65)         \\
+            [0.65em]
+            num\_controller\_views *&     -0.0138\sym{***}&     -0.0134\sym{***}\\
+            after\_commit&   (-333.01)         &   (-328.18)         \\
+            [0.65em]
+            Hour Dummies?  &      No               &    Yes        \\
+            [0.65em]
+            \_cons      &      -47.43\sym{***}&      -69.41\sym{***}\\
+            &    (-44.85)         &    (-26.29)         \\
+            \hline
+            \(N\)       &     3858943         &     3858943         \\
+            \hline\hline
+            \end{tabular}
+    }
+    \label{table:full-controller-micro}
+    \end{table}
+}
+
+
 \section{Conclusion}
 
 \frame{\tableofcontents[currentsection]}
@@ -437,10 +479,9 @@ percentile
 {
     \frametitle{Conclusions}
     \begin{itemize}
-        \item Code changes require particular factors for success
         \item Users respond negatively to low quality code (total and average user activity decreased when more files were changed)
-        \item Changes to highly trafficked pages have greater chance of success
-        \item Code changes can negatively affect user behavior
+        \item Changes to highly trafficked pages tend to decrease short term user behavior 
+        \item Thoughtless code changes can negative affect user experience
     \end{itemize}
 }
 
