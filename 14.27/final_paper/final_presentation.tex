@@ -18,12 +18,13 @@
 
 \frame{\titlepage}
 
-\section[Outline]{}
 \frame{\tableofcontents}
 
 \section[Introduction]{Introduction}
 
-\subsection[Silicon Valley]{Silicon Valley Mindset}
+\frame{\tableofcontents[currentsubsection]}
+
+\subsection{Silicon Valley Mindset}
 
 \frame{
     \frametitle{The Silicon Valley Mindset}
@@ -35,17 +36,23 @@
 }
 
 \subsection{What We Know}
+
+\frame{\tableofcontents[currentsubsection]}
+
 \frame
 {
     \frametitle{Background and Previous Research}
     \begin{itemize}
-        \item Levitt and Fryer 2004
-        \item Neal 2005
-        \item Brooks Gunn et al 1993, 1996, 2000
+        \item Academia has little to say on code changes and user behavior
+        \item Most of the data is hidden away in large tech companies
+        \item Although these companies probably run experiments, results aren't necessarily made public
     \end{itemize}
 }
 
 \subsection{Questions to Ask}
+
+\frame{\tableofcontents[currentsubsection]}
+
 \frame
 {
     \frametitle{Lingering Questions}
@@ -54,10 +61,11 @@
         \item How do users react to different types of change?
         \item How do different characteristics of users affect their reactions to change?
     \end{itemize}
-    \end{block}
 }
 
 \subsection{Panjiva Dataset}
+
+\frame{\tableofcontents[currentsubsection]}
 
 \frame
 {
@@ -92,10 +100,10 @@
 
 \frame
 {
-    \frametitle[Event and Activity Logs}
+    \frametitle{Event and Activity Logs}
     \begin{itemize}
-        \item Event Logs contain records of all user actions $\sim 124$ million records
-        \item Activity Logs contain records of actions of users who are registered with Panjiva $\sim 13$ million records
+        \item Event Logs contain records of all user actions 124 million records
+        \item Activity Logs contain records of actions of users who are registered with Panjiva 13 million records
     \end{itemize}
 }
 
@@ -136,6 +144,8 @@
 
 \subsection{Daily Effects of Code Changes}
 
+\frame{\tableofcontents[currentsubsection]}
+
 \frame
 {
     \frametitle{Specification}
@@ -154,8 +164,8 @@
 \frame
 {
     \frametitle{Effect of Commits on User Activity}
-    \begin{table}[h!]
-    \footnotesize
+    \begin{table}
+    \scriptsize
     \centering
     {
         \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
@@ -182,8 +192,8 @@ percentile
         \hline
         \(N\)       &         474         &         475     \\
         \hline\hline
-        \multicolumn{3}{l}{\footnotesize \textit{t} statistics in parentheses}\\
-        \multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \multicolumn{3}{l}{\textit{t} statistics in parentheses}\\
+        \multicolumn{3}{l}{\sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
         \end{tabular}
     }
     \end{table}
@@ -193,7 +203,7 @@ percentile
 {
     \frametitle{Effect of Commits on User Activity}
     \begin{table}[h!]
-    \footnotesize
+    \scriptsize
     \centering
     {
         \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
@@ -220,14 +230,16 @@ percentile
         \hline
         \(N\)       &         474         &         475     \\
         \hline\hline
-        \multicolumn{3}{l}{\footnotesize \textit{t} statistics in parentheses}\\
-        \multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \multicolumn{3}{l}{\textit{t} statistics in parentheses}\\
+        \multicolumn{3}{l}{\sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
         \end{tabular}
     }
     \end{table}
 }
 
 \subsection{Lagged Effects of Code Changes}
+
+\frame{\tableofcontents[currentsubsection]}
 
 \frame
 {
@@ -248,7 +260,7 @@ percentile
     \frametitle{Average Activity Logs Per Distinct User}
     \begin{figure}[h!]
     \centering
-    \includegraphics[width=4in]{pictures/avg_activities_time_coefficients.png}
+    \includegraphics[width=3.8in]{pictures/avg_activities_time_coefficients.png}
     \label{fig:avg-activities-time-coefficients}
     \caption{$\gamma$ Coefficients with Varying Lags, Regressed on Average Activity Logs per User}
     \end{figure}
@@ -279,6 +291,10 @@ percentile
 
 \section{Micro-Level Results}
 
+\subsection{Why Micro-Level Data?}
+
+\frame{\tableofcontents[currentsubsection]}
+
 \frame
 {
     \frametitle{Problems with Macro-Level Data}
@@ -294,12 +310,14 @@ percentile
     \begin{itemize}
     \item Panjiva has data on the page and time that any action was performed.
     \item Code changes (commits) can be thought of as exogeneous shocks.
-        \subitem Changes are unannounced
-        \subitem Only extremely large changes are announced on blog (less than 1\% of Panjiva's total pageviews come from blog).
+    \item Almost all changes are unannounced
+    \item Only extremely large changes are announced on blog (less than 1\% of Panjiva's total pageviews come from blog).
     \end{itemize}
 }
 
 \subsection{Search Controller}
+
+\frame{\tableofcontents[currentsubsection]}
 
 \frame
 {
@@ -327,18 +345,21 @@ percentile
 \frame
 {
     \frametitle{Visualization of Variables}
+    \includegraphics[width=4.5in]{pictures/specification_diagram.png}
 
 }
 
 \frame
 {
     \frametitle{Search Regression Results}
+    \begin{table}
+    \scriptsize
     \centering
     {
         \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
         \begin{tabular}{l*{4}{c}}
         \hline\hline
-            & \multicolumn{4}{l}{Independent Variable: num\_views\_day\_later} \\
+            & \multicolumn{4}{l}{Dependent Variable: num\_views\_day\_later} \\
             &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
             \hline
             after\_commit&       5.541\sym{***}&               &       3.378\sym{***}&                     \\
@@ -355,11 +376,137 @@ percentile
             \hline
             \(N\)       &     2345617       &     2345617         &     2345617         &     2345617         \\
             \hline\hline
-            \multicolumn{5}{l}{\footnotesize \textit{t} statistics in parentheses, \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+            \multicolumn{5}{l}{\scriptsize \textit{t} statistics in parentheses, \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
             \end{tabular}
-        }
+    }
+    \end{table}
 }
 
+\subsection{Commit Types}
+
+\frame{\tableofcontents[currentsubsection]}
+
+\frame
+{
+    \frametitle{Specification}
+    \begin{eqnarray}
+    num\_views\_day\_later_{it} &=& \beta_0 after\_commit_{it} + \beta_1 insertionspercentile_{it} + \beta_2 deletionspercentile_{it} \\ \nonumber
+    &+& \beta_3 insertionspercentile_{it} * after\_commit_{it} \\ \nonumber
+    &+& \beta_4 deletionspercentile_{it} * after\_commit_{it} \\ \nonumber
+    &+& \beta_5 hour\_dummies_{it} + c_0 +  \epsilon_{it}
+    \end{eqnarray}
+
+    \begin{itemize}
+        \item Interaction term coefficients $\beta_3$ and $\beta_4$ give incremental percentile coefficients after the commit
+        \item Same specification, but including interaction terms to see additive effect
+    \end{itemize}
+}
+
+\frame
+{
+    \frametitle{Differences in Commits}
+    \begin{table}
+    \centering
+    \scriptsize
+    {
+        \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+        \begin{tabular}{l*{4}{c}}
+        \hline\hline
+            & \multicolumn{4}{c}{Dependent Variable: num\_views\_day\_later} \\
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
+            \hline
+            after\_commit&      -10.86\sym{***}&      -13.79\sym{***}&      -325.5\sym{***}&      -305.9\sym{***}\\
+            &    (-16.90)         &    (-22.03)         &   (-154.63)         &   (-149.28)         \\
+            [0.5em]
+            insertionspercentile&      -50.97\sym{***}&      -50.76\sym{***}&      -650.6\sym{***}&      -609.5\sym{***}\\
+            &    (-54.12)         &    (-55.34)         &   (-218.09)         &   (-209.88)         \\
+            [0.5em]
+            deletionspercentile&       66.31\sym{***}&       63.35\sym{***}&       251.5\sym{***}&       230.8\sym{***}\\
+            &     (70.67)         &     (69.34)         &     (84.73)         &     (79.94)         \\
+            [0.5em]
+            insertionspercentile *&       57.00\sym{***}&       58.05\sym{***}&       393.0\sym{***}&       365.1\sym{***}\\
+            after\_commit&     (41.21)         &     (43.09)         &     (89.07)         &     (85.01)         \\
+            [0.5em]
+            deletionspercentile * &      -24.16\sym{***}&      -23.64\sym{***}&       2.306         &       3.295         \\
+            after\_commit&    (-17.65)         &    (-17.74)         &      (0.53)         &      (0.77)         \\
+            [0.5em]
+            Hour Dummies?&      No               &    Yes &          No           &     Yes\\
+            [0.5em]
+            Controllers Used&      Search               &    Search &         All           &     All\\
+            [0.5em]
+            \_cons      &       150.1\sym{***}&       133.2\sym{***}&       606.5\sym{***}&       491.0\sym{***}\\
+            &    (336.67)         &    (116.37)         &    (420.98)         &    (130.17)         \\
+            \hline
+            \(N\)       &     2345617         &     2345617         &     3858943         &     3858943         \\
+            \hline\hline
+        \end{tabular}
+        }
+    \end{table}
+}
+
+\subsection{Differential Controller Effects}
+
+\frame{\tableofcontents[currentsubsection]}
+
+\frame{
+    \frametitle{Effects of Each Controller}
+    \begin{eqnarray*}
+    num\_views\_day\_later_{it} &=& \beta_0 after\_commit_{it} + \bar{\beta}_1 \overline{controllers}_{it} \\ \nonumber
+    &+& \bar{\beta}_2 \overline{controllers}_{it}^T \times \overline{after\_commit}_{it} \\ \nonumber
+    &+& \beta_3 hour\_dummies_{it} + \epsilon_{it} \nonumber
+    \end{eqnarray*}
+
+    \begin{itemize}
+        \item Looking for the impact of controller $k$ on user activity after a commit
+        \item Want to examine $\Gamma_k = \beta_{2k} + \beta_{1k} + \beta_0 - \beta_{1k} = \beta_{2k} + \beta_0$.
+        \item Standard errors given by:
+        \begin{eqnarray*}
+        SE_{sum} = \sqrt{ SE_{cont_{2k}}^2 + SE_{ac}^2 + 2 Cov(cont_{2k}, ac)}
+        \end{eqnarray*}
+
+    \end{itemize}
+}
+
+\frame{
+    \frametitle{Controller Results}
+    \begin{table}
+    \scriptsize
+    \centering
+    {
+        \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+        \begin{tabular}{l*{2}{c}}
+        \hline\hline
+            &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+            &\multicolumn{1}{c}{No Hour Controls}&\multicolumn{1}{c}{With Hour Controls}\\
+            \hline
+            Communication & -2.673 & 5.111 \\
+            & (-0.50) & (0.98) \\
+            [.3em]
+            My\_Panjiva & -41.718\sym{*} & -54.530\sym{***} \\
+            & (-1.98) & (-2.68) \\
+            [.3em]
+            Profile & -8.167 & -6.339 \\
+            & (-1.30) & (-1.04) \\
+            [.3em]
+            Project & -410.438\sym{***} & -388.496\sym{***} \\
+            & (-235.55) & (-228.27) \\
+            [.3em]
+            Search & 5.541\sym{***} & 1.516 \\
+            & (4.37) & (1.23) \\
+            [.3em]
+            US\_Exports & 10.318 & -28.946 \\
+            & (0.28) & (-0.80) \\
+            [.3em]
+            US\_Imports & -12.487 & -8.73 \\
+            & (-0.82) & (-0.59)\\
+            \hline
+            \(N\)       & 3858943  & 3858943   \\
+            \hline \hline
+        \end{tabular}
+    }
+    \end{table}
+
+}
 \end{document}
 
 
