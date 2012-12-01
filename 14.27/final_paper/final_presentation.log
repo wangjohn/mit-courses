@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  1 DEC 2012 00:53
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  1 DEC 2012 14:27
 entering extended mode
  %&-line parsing enabled.
 **final_presentation.tex
@@ -1021,7 +1021,7 @@ l.196 }
 ] [17
 
 ]
-<pictures/avg_activities_time_coefficients.png, id=764, 418.56375pt x 249.18094
+<pictures/avg_activities_time_coefficients.png, id=760, 418.56375pt x 249.18094
 pt>
 File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
  <use pictures/avg_activities_time_coefficients.png>
@@ -1040,13 +1040,13 @@ Overfull \vbox (12.10048pt too high) detected at line 225
 ] (./final_presentation.toc) [22
 
 ]
-<pictures/search_page.png, id=963, 1031.855pt x 618.31pt>
+<pictures/search_page.png, id=959, 1031.855pt x 618.31pt>
 File: pictures/search_page.png Graphic file (type png)
 
 <use pictures/search_page.png> [23
 
  <./pictures/search_page.png>]
-<pictures/specification_diagram.png, id=997, 705.38531pt x 256.70906pt>
+<pictures/specification_diagram.png, id=994, 705.38531pt x 256.70906pt>
 File: pictures/specification_diagram.png Graphic file (type png)
 
 <use pictures/specification_diagram.png>
@@ -1116,139 +1116,191 @@ l.305 }
 ] (./final_presentation.toc) [26
 
 ]
-Overfull \hbox (131.39066pt too wide) in alignment at lines 325--325
- [][][] []
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.351 }
+       
+? 
+
+Overfull \vbox (6.31581pt too high) detected at line 351
  []
 
 [27
 
-]
-! Illegal parameter number in definition of \iterate.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \iterate.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \iterate.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \iterate.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \iterate.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \iterate.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \beamer@doifinframe.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \beamer@doifinframe.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
-! Illegal parameter number in definition of \beamer@doifinframe.
-<to be read again> 
-                   1
-l.367 }
-       
-? 
+] (./final_presentation.toc) [28
 
-Overfull \vbox (6.31581pt too high) detected at line 367
- []
-
-[28
-
-] (./final_presentation.toc) [29
-
-] [30
+] [29
 
 ]
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \beamer@doifinframe.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \beamer@doifinframe.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
 ! Illegal parameter number in definition of \beamer@doifinframe.
 <to be read again> 
                    1
-l.430 }
+l.414 }
        
 ? 
-[31
+[30
 
-] (./final_presentation.toc) [32
+] [31
 
-] [33
+]
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \iterate.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+! Illegal parameter number in definition of \beamer@doifinframe.
+<to be read again> 
+                   1
+l.471 }
+       
+? 
+[32
+
+] (./final_presentation.toc) [33
 
 ] [34
+
+] [35
 
 ]
 \tf@nav=\write7
@@ -1265,62 +1317,30 @@ l.430 }
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
  ) 
 Here is how much of TeX's memory you used:
- 15381 strings out of 495061
- 287781 string characters out of 1182621
- 362559 words of memory out of 3000000
- 18026 multiletter control sequences out of 15000+50000
+ 15361 strings out of 495061
+ 287508 string characters out of 1182621
+ 362560 words of memory out of 3000000
+ 18013 multiletter control sequences out of 15000+50000
  14670 words of font info for 55 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
  55i,19n,63p,436b,641s stack positions out of 5000i,500n,10000p,200000b,50000s
-pdfTeX warning (dest): name{Navigation37} has been referenced but does not ex
-ist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Navigation35} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Navigation38} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Navigation40} has been referenced but does not exis
-t, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.3.4.35} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.3.3.32} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.3.2.27} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.3.1.24} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.2.2.19} has been referenced but does not e
-xist, replaced by a fixed one
-
-pdfTeX warning (dest): name{Outline0.2.1.15} has been referenced but does not e
-xist, replaced by a fixed one
-
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share
-/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texl
-ive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-texlive/fonts/type1/public/
-amsfonts/cm/cmss12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
-/cmss8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssbx10.pf
-b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/font
-s/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/publ
-ic/amsfonts/cm/cmtt10.pfb>
-Output written on final_presentation.pdf (34 pages, 614343 bytes).
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmss10.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cm/cmss12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmss8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssbx10.
+pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texmf
+-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fo
+nts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmtt10.pfb>
+Output written on final_presentation.pdf (35 pages, 628675 bytes).
 PDF statistics:
- 1467 PDF objects out of 1728 (max. 8388607)
- 95 named destinations out of 1000 (max. 500000)
+ 1495 PDF objects out of 1728 (max. 8388607)
+ 88 named destinations out of 1000 (max. 500000)
  196 words of extra memory for PDF output out of 10000 (max. 10000000)
 
