@@ -1,0 +1,15 @@
+\beamer@endinputifotherversion {3.10pt}
+\beamer@sectionintoc {1}{Introduction}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Silicon Valley Mindset}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{What We Know}{5}{0}{1}
+\beamer@subsectionintoc {1}{3}{Questions to Ask}{7}{0}{1}
+\beamer@subsectionintoc {1}{4}{Panjiva Dataset}{9}{0}{1}
+\beamer@sectionintoc {2}{Macro-Level Results}{12}{0}{2}
+\beamer@subsectionintoc {2}{1}{Daily Effects of Code Changes}{12}{0}{2}
+\beamer@subsectionintoc {2}{2}{Lagged Effects of Code Changes}{16}{0}{2}
+\beamer@sectionintoc {3}{Micro-Level Results}{19}{0}{3}
+\beamer@subsectionintoc {3}{1}{Why Micro-Level Data?}{19}{0}{3}
+\beamer@subsectionintoc {3}{2}{Search Controller}{22}{0}{3}
+\beamer@subsectionintoc {3}{3}{Commit Types}{26}{0}{3}
+\beamer@subsectionintoc {3}{4}{Differential Controller Effects}{28}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{33}{0}{4}
