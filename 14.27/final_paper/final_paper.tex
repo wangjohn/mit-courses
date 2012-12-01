@@ -264,7 +264,7 @@ Where $i$ indexes the $i$th commit and $t$ indexes the $t$th view in the 4 day w
     \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
     \begin{tabular}{l*{4}{c}}
     \hline\hline
-        & \multicolumn{4}{l}{Independent Variable: num\_views\_day\_later} \\ 
+        & \multicolumn{4}{l}{Dependent Variable: num\_views\_day\_later} \\ 
         &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}\\
         \hline
         after\_commit&       5.541\sym{***}&               &       3.378\sym{***}&                     \\
@@ -431,14 +431,71 @@ These differential controller effects $\Gamma_k$ are given in table \ref{table:g
 
 Examining the differential effects, one can see that there is no significant effect to user behavior when there are changes in most of the controllers. There is a significant and negative effect for the My\_Panjiva and Project controllers, and a positive effect for the Search controller. Moreover, the magnitude of the coefficients differ greatly accross controllers. The magnitude of the Project controller's $\Gamma$ is much larger than the $\Gamma$ for the search controller. 
 
-Therefore, it seems that there is significant variation in user responses across different controller types. Interestingly, the My\_Panjiva and Project controllers do not tend to be repeatedly used, unlike the Search controller which has many repeat views. It seems then, that code changes have a positive effect on user activity only on pages which users repeatedly use.  
+Therefore, it seems that there is significant variation in user responses across different controller types. Interestingly, the My\_Panjiva and Project controllers do not tend to be repeatedly used, unlike the Search controller which has many repeat views. One hypothesis could be that code changes have a positive effect on user activity only on pages which users repeatedly use. However, one could also notice that controllers with more repeated views are more likely in general to have a higher number of views on any given day. Thus, the difference in the number of views after a commit could be due solely to the fact that a viewer visits a certain page more often.
+
+Thus, to determine the effect of commits on controllers with different frequencies of use, one must include another variable that controls for how often a controller is usually viewed. A new variable, num\_controller\_views will be created for each observation. The variable will be equal to the total number of times the current user views the current controller (minus the num\_views\_day\_later variable so as to not introduce explicit multicollinearity). 
+
+The new regression specification will now contain the num\_controller\_views variable and also an interaction term between num\_controller\_views and after\_commit to see how the number of controller views affects the success of a commit. Results are shown in table \ref{table:full-controller-micro}.
+
+\begin{table}[h!]
+\centering
+\caption{Controller Popularity Effects}
+{
+    \def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+    \begin{tabular}{l*{2}{c}}
+    \hline\hline
+        &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}\\
+        &\multicolumn{1}{c}{num\_views\_day\_later}&\multicolumn{1}{c}{num\_views\_day\_later}\\
+        \hline
+        after\_commit&      -13.79\sym{***}&      -9.618\sym{***}\\
+        &     (-9.02)         &     (-6.40)         \\
+        [0.5em]
+        insertionspercentile&      -108.8\sym{***}&      -104.9\sym{***}\\
+        &    (-52.39)         &    (-51.40)         \\
+        [0.5em]
+        deletionspercentile&      -5.528\sym{**} &      -6.231\sym{**} \\
+        &     (-2.70)         &     (-3.10)         \\
+        [0.5em]
+        insertionspercentile *&       63.96\sym{***}&       54.02\sym{***}\\
+        after\_commit &     (20.91)         &     (17.96)         \\
+        [0.5em]
+        deletionspercentile *&       67.98\sym{***}&       67.61\sym{***}\\
+        after\_commit&     (22.53)         &     (22.79)         \\
+        [0.5em]
+        num\_controller\_views&      0.0475\sym{***}&      0.0469\sym{***}\\
+        &   (1780.26)         &   (1751.65)         \\
+        [0.5em]
+        num\_controller\_views *&     -0.0138\sym{***}&     -0.0134\sym{***}\\
+        after\_commit&   (-333.01)         &   (-328.18)         \\
+        [0.5em]
+        Hour Dummies?  &      No               &    Yes        \\
+        [0.5em]
+        \_cons      &      -47.43\sym{***}&      -69.41\sym{***}\\
+        &    (-44.85)         &    (-26.29)         \\
+        \hline
+        \(N\)       &     3858943         &     3858943         \\
+        \hline\hline
+        \multicolumn{3}{l}{\footnotesize \textit{t} statistics in parentheses}\\
+        \multicolumn{3}{l}{\footnotesize \sym{*} \(p<0.05\), \sym{**} \(p<0.01\), \sym{***} \(p<0.001\)}\\
+        \end{tabular}
+}
+\label{table:full-controller-micro}
+\end{table}
+
+From the table, one can see that both insertions and deletions increase the effectiveness of a commit (their interaction term coefficients with after\_commit are positive and statistically significant). This falls in line with previous results from the micro-level dataset. Interestingly, controllers with higher number of views tend to respond poorly to commits, ceteris paribus. 
+
+The coefficient on the num\_controller\_views $*$ after\_commit interaction term provides the change in slope after the commit. Past regression specifications did not account for the fact that already popular pages would have more views after a commit simply because of its past popularity. This specification, however, examines how commits change the number of views depending on the previous popularity of a page.
+
+The negative and significant interaction term coefficient implies that in fact, controlling for previous popularity, controllers which already have a high number of views tend to be adversely affected by commits. This might occur because users require adjustment time, especially for pages that they use frequently. Another explanation is that changes to infrequently used pages tend to increase user behavior more than changes to frequently used pages since users have less familiarity with the workflows of the former.
+
+One must take these results with caution however, since multicollinearity could be lurking. Its possible that the number of controller views is correlated with the number of views the day after an observation, even though explicit dependency has been removed. Thus, further research needs to be done in order to support this hypothesis fully.
 
 \section{Conclusion}
 
 This paper examined the effect of code changes on user activity. Total user activity tended to increase when the total number of code insertions increased. However, both total and average user activity tended to decrease when more files were changed. This phenomenon most likely occurs because of the high volume of code changes on Panjiva's website. Thus, it seems likely that users respond positively to higher quality code, or alternatively, that users respond negatively to low quality code. 
 
-Exploiting the granularity of Panjiva's dataset, the paper found that code changes on particular website pages, such as the Search page, resulted in a higher number of repeat views. Other webpages, usually the ones which weren't repeatedly viewed very often, were negatively affected by code changes. The micro-level dataset also reinforced the hypothesis that user activity tends to increase with an increase in the number of lines of code, ceteris paribus. 
+Exploiting the granularity of Panjiva's dataset, the paper found that code changes on particular website pages, such as the Search page, resulted in a higher number of repeat views. The micro-level dataset also reinforced the hypothesis that user activity tends to increase with an increase in the number of lines of code, ceteris paribus. Finally, the paper found that code changes tended to have negative affects on popular pages, possibly because of the time required to adjust to these changes.
 
-Code changes seem to have an ambiguous effect on user activity in general. They can be successful only with a confluence of factors. In particular, high quality changes and changes to highly trafficked pages tend to have a better chance of positively influencing users. Thus, it seems that change by itself does not tend to be a good strategy in general. Changes need to be targetted and of high quality in order for them to be successful. 
+Code changes seem to have an ambiguous effect on user activity in general. They can be successful only with a confluence of factors. In particular, high quality changes tend to have a better chance of positively influencing users. Also, changes to highly trafficked pages can have negative effects on user behavior. Thus, it seems that change by itself does not tend to be a good strategy in general. Changes need to be targetted and of high quality in order for them to be successful. 
 
 \end{document}
