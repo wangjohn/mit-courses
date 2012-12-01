@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  30 NOV 2012 23:45
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  1 DEC 2012 00:18
 entering extended mode
  %&-line parsing enabled.
 **final_presentation.tex
@@ -902,7 +902,7 @@ File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 ] [13
 
 ]
-<pictures/commit-hours.png, id=581, 642.4pt x 240.9pt>
+<pictures/commit-hours.png, id=605, 642.4pt x 240.9pt>
 File: pictures/commit-hours.png Graphic file (type png)
 
 <use pictures/commit-hours.png> [14
@@ -1031,7 +1031,7 @@ l.238 }
 ] [20
 
 ]
-<pictures/avg_activities_time_coefficients.png, id=836, 418.56375pt x 249.18094
+<pictures/avg_activities_time_coefficients.png, id=869, 418.56375pt x 249.18094
 pt>
 File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
  <use pictures/avg_activities_time_coefficients.png>
@@ -1041,13 +1041,13 @@ Overfull \vbox (12.10048pt too high) detected at line 267
 [21
 
  <./pictures/avg_activities_time_coefficients.png (PNG copy)>]
-<pictures/avg_events_time_coefficients.png, id=869, 417.05812pt x 207.77625pt>
+<pictures/avg_events_time_coefficients.png, id=903, 417.05812pt x 207.77625pt>
 File: pictures/avg_events_time_coefficients.png Graphic file (type png)
 
 <use pictures/avg_events_time_coefficients.png> [22
 
  <./pictures/avg_events_time_coefficients.png (PNG copy)>]
-<pictures/commit_percentiles_time_coefficients.png, id=901, 422.32782pt x 252.1
+<pictures/commit_percentiles_time_coefficients.png, id=936, 422.32782pt x 252.1
 9218pt>
 File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
 
@@ -1067,7 +1067,7 @@ Overfull \vbox (8.28859pt too high) detected at line 290
 ] (./final_presentation.toc) [27
 
 ]
-<pictures/search_page.png, id=1092, 1031.855pt x 618.31pt>
+<pictures/search_page.png, id=1135, 1031.855pt x 618.31pt>
 File: pictures/search_page.png Graphic file (type png)
 
 <use pictures/search_page.png> [28
@@ -1075,7 +1075,7 @@ File: pictures/search_page.png Graphic file (type png)
  <./pictures/search_page.png>] [29
 
 ]
-<pictures/specification_diagram.png, id=1159, 705.38531pt x 256.70906pt>
+<pictures/specification_diagram.png, id=1204, 705.38531pt x 256.70906pt>
 File: pictures/specification_diagram.png Graphic file (type png)
 
 <use pictures/specification_diagram.png>
@@ -1220,58 +1220,64 @@ Overfull \vbox (6.31581pt too high) detected at line 445
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \iterate.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \beamer@doifinframe.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \beamer@doifinframe.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 ! Illegal parameter number in definition of \beamer@doifinframe.
 <to be read again> 
                    1
-l.509 }
+l.508 }
        
 ? 
 [37
+
+] (./final_presentation.toc) [38
+
+] [39
+
+] [40
 
 ]
 \tf@nav=\write7
@@ -1290,13 +1296,13 @@ LaTeX Font Warning: Size substitutions with differences
 
  ) 
 Here is how much of TeX's memory you used:
- 15370 strings out of 495061
- 287811 string characters out of 1182621
- 362560 words of memory out of 3000000
- 18015 multiletter control sequences out of 15000+50000
+ 15402 strings out of 495061
+ 288474 string characters out of 1182621
+ 362558 words of memory out of 3000000
+ 18038 multiletter control sequences out of 15000+50000
  14670 words of font info for 55 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 55i,19n,63p,436b,597s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,19n,63p,436b,641s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-te
 xlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/
@@ -1308,9 +1314,9 @@ share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/share/texmf
 -texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fo
 nts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/pu
 blic/amsfonts/cm/cmtt10.pfb>
-Output written on final_presentation.pdf (37 pages, 672156 bytes).
+Output written on final_presentation.pdf (40 pages, 706375 bytes).
 PDF statistics:
- 1510 PDF objects out of 1728 (max. 8388607)
- 94 named destinations out of 1000 (max. 500000)
- 197 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1670 PDF objects out of 1728 (max. 8388607)
+ 101 named destinations out of 1000 (max. 500000)
+ 211 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -12,3 +12,4 @@
 \beamer@subsectionintoc {3}{2}{Search Controller}{27}{0}{3}
 \beamer@subsectionintoc {3}{3}{Commit Types}{32}{0}{3}
 \beamer@subsectionintoc {3}{4}{Differential Controller Effects}{35}{0}{3}
+\beamer@sectionintoc {4}{Conclusion}{38}{0}{4}
