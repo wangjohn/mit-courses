@@ -1,6 +1,2 @@
-\beamer@slide {table:panjiva-overview}{11}
-\beamer@slide {table:commit-stats}{13}
-\beamer@slide {fig:commit-hours}{14}
-\beamer@slide {fig:avg-activities-time-coefficients}{21}
-\beamer@slide {fig:avg-events-time-coefficients}{22}
-\beamer@slide {fig:insertions-deletions-time-coefficients}{23}
+\beamer@slide {table:commit-stats}{11}
+\beamer@slide {fig:avg-activities-time-coefficients}{18}
