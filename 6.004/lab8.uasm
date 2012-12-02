@@ -176,7 +176,7 @@ I_Wait:	LD(UserMState+(4*30), r0)	| Grab XP from saved MState,
 
 SVC_UUO:
 	LD(XP, -4, r0)		| The faulting instruction.
-	ANDC(r0,0x7,r0)		| Pick out low bits,
+	ANDC(r0,15,r0)		| Pick out low bits,
 	SHLC(r0,2,r0)		| make a word index,
 	LD(r0,SVCTbl,r0)	| and fetch the table entry.
 	JMP(r0)
@@ -189,7 +189,7 @@ SVCTbl:	UUO(HaltH)		| SVC(0): User-mode HALT instruction
 	UUO(WaitH)		| SVC(5): Wait(S) ,,, S in R3
 	UUO(SignalH)		| SVC(6): Signal(S), S in R3
 	UUO(YieldH)		| SVC(7): Yield()
-    UUO(GetMouseH)      | SVC(8): Get the Mouse Click Info
+    UUO(MouseH)      | SVC(8): Get the Mouse Click Info
 
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ||| Keyboard handling
@@ -352,7 +352,6 @@ YieldH: CALL(Scheduler)		| Schedule next process, and
 I_Reset:
 	CMOVE(P0Stack, SP)
 	CMOVE(P0Start, XP)
-    CMOVE(ReportClickStart, XP)
 	JMP(XP)
 
 
@@ -518,6 +517,7 @@ WrEnd:
 .macro HexPrt()	SVC(4)		| Hex Print the value in R0.
 
 .macro Yield()	SVC(7)		| Give up remaining quantum
+.macro Mouse()  SVC(8)
 
 ||| Semaphore macros.
 ||| Wait(S) waits on semaphore S; Signal(S) signals on S.
@@ -559,9 +559,21 @@ P0Read:	Wait(Prompt)		| Wait until P1 has caught up...
 	 WrMsg()		|  the remainder.
 	.text "> "
 
-	LD(P0LinP, r3)		| ...then read a line into buffer...
+    Signal(reportclicksem)
 
-P0RdCh: GetKey()		| read next character,
+	LD(P0LinP, r3)		| ...then read a line into buffer...
+    GetKey() | read next character, 
+    Wait(reportclicksem)
+
+    WrCh()          | echo back to user
+    CALL(UCase)     | Convert it to upper case,
+    ST(r0,0,r3)     | Store it in buffer.
+    ADDC(r3,4,r3)       | Incr pointer to next char...
+
+    CMPEQC(r0,0xA,r1)   | End of line?
+    BT(r1,P0Send)       | yup, transmit buffer to P1
+
+P0RdCh: GetKey() | read next character,
 
 	WrCh()			| echo back to user
 	CALL(UCase)		| Convert it to upper case,
@@ -723,7 +735,6 @@ P1Stack: STORAGE(256)		| Stack for process 2.
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 P2Start:
-    Mouse()
 	LD(Count3, r0)		| Another quantum, incr count3.
 	ADDC(r0,1,r0)
 	ST(r0,Count3)
@@ -738,11 +749,9 @@ Count3: LONG(0)
 ||| Mouse Handling
 |||||||||||||||||||||||||
 
-.macro Mouse() SVC(8)
-
 Mouse_State: LONG(0)
 
-GetMouseH:                | return mouse code in r0, or block
+MouseH:                | return mouse code in r0, or block
     LD(Mouse_State, r0)
     BEQ(r0, I_Wait)       | on 0, just wait a while
 
@@ -758,8 +767,9 @@ I_Mouse:
     CLICK()               | Read in information from click
     ST(r0, Mouse_State)   | Store it into the Mouse_State
     LD(UserMState, r0)    | Restore r0
-.breakpoint
+|.breakpoint
     JMP(xp)               | return to the user
+
 
 |||||||||||||||||||||||||||||||
 ||| Step 3: Fourth User mode Process that Reports Mouse Clicks
@@ -768,6 +778,7 @@ I_Mouse:
 reportclicksem: semaphore(0)
 
 ReportClickStart:
+
     Mouse()
 
     | Wait until the semaphore is ready and load the click value
@@ -778,7 +789,7 @@ ReportClickStart:
     SHRC(r0, 16, r1)      | store x value into r1
     ST(r1, UserMState)
 
-    | Write it down
+    | Write x down
     WrMsg()
     .text "\nClick at x="
     HexPrt()
@@ -787,14 +798,13 @@ ReportClickStart:
     ORC(r0, 0xFFFF, r2)   | store y value into r2
     ST(r2, UserMState)   
 
-    | Write it down
+    | Write y down
     WrMsg()
     .text ", y="
     HexPrt()
 
     | Let up the semaphore and go back to the start
     Signal(reportclicksem)
-    Yield()
     BR(ReportClickStart)
 
 ReportClickStack:
