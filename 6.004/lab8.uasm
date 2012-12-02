@@ -48,7 +48,7 @@
 . = VEC_KBD
 	BR(I_Kbd)	| on Keyboard interrupt
 . = VEC_MOUSE
-	BR(I_BadInt)	| on mouse interrupt
+	BR(I_Mouse)	| on mouse interrupt
 
 ||| The following macro is the first instruction to be entered for each
 ||| asynchronous I/O interrupt handler.	 It adjusts XP (the interrupted
@@ -189,6 +189,7 @@ SVCTbl:	UUO(HaltH)		| SVC(0): User-mode HALT instruction
 	UUO(WaitH)		| SVC(5): Wait(S) ,,, S in R3
 	UUO(SignalH)		| SVC(6): Signal(S), S in R3
 	UUO(YieldH)		| SVC(7): Yield()
+    UUO(GetMouseH)      | SVC(8): Get the Mouse Click Info
 
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 ||| Keyboard handling
@@ -259,6 +260,10 @@ ProcTbl:
 	STORAGE(29)		| Process 2: R0-R28
 	LONG(P2Stack)		| Process 2: SP
 	LONG(P2Start)		| Process 2: XP (= PC)
+
+    STORAGE(29)     | Process 3: r0-28
+    LONG(ReportClickStack)  | Get some stack space all up in here! 
+    LONG(ReportClickStart)  | Let's find some clicky shit!
 
 CurProc: LONG(ProcTbl)
 
@@ -347,6 +352,7 @@ YieldH: CALL(Scheduler)		| Schedule next process, and
 I_Reset:
 	CMOVE(P0Stack, SP)
 	CMOVE(P0Start, XP)
+    CMOVE(ReportClickStart, XP)
 	JMP(XP)
 
 
@@ -717,6 +723,7 @@ P1Stack: STORAGE(256)		| Stack for process 2.
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 P2Start:
+    Mouse()
 	LD(Count3, r0)		| Another quantum, incr count3.
 	ADDC(r0,1,r0)
 	ST(r0,Count3)
@@ -726,3 +733,69 @@ P2Start:
 P2Stack: STORAGE(256)
 
 Count3: LONG(0)
+
+|||||||||||||||||||||||||
+||| Mouse Handling
+|||||||||||||||||||||||||
+
+.macro Mouse() SVC(8)
+
+Mouse_State: LONG(0)
+
+GetMouseH:                | return mouse code in r0, or block
+    LD(Mouse_State, r0)
+    BEQ(r0, I_Wait)       | on 0, just wait a while
+
+| mouse info ready, return it and clear the mouse buffer
+    LD(Mouse_State, r0)   | Fetch mouse state to return
+    ST(r0, UserMState)    | return it in r0
+    ST(r31, Mouse_State)  | clear the mouse state storage
+    BR(I_Rtn)             | return
+
+I_Mouse:
+    ENTER_INTERRUPT()
+    ST(r0, UserMState)    | Save r0
+    CLICK()               | Read in information from click
+    ST(r0, Mouse_State)   | Store it into the Mouse_State
+    LD(UserMState, r0)    | Restore r0
+.breakpoint
+    JMP(xp)               | return to the user
+
+|||||||||||||||||||||||||||||||
+||| Step 3: Fourth User mode Process that Reports Mouse Clicks
+||||||||||||||||||||||||||||||
+
+reportclicksem: semaphore(0)
+
+ReportClickStart:
+    Mouse()
+
+    | Wait until the semaphore is ready and load the click value
+    Wait(reportclicksem)
+    LD(UserMState, r0)    | load click value into r0
+
+    | First get the value for x
+    SHRC(r0, 16, r1)      | store x value into r1
+    ST(r1, UserMState)
+
+    | Write it down
+    WrMsg()
+    .text "\nClick at x="
+    HexPrt()
+
+    | Now get the value for y
+    ORC(r0, 0xFFFF, r2)   | store y value into r2
+    ST(r2, UserMState)   
+
+    | Write it down
+    WrMsg()
+    .text ", y="
+    HexPrt()
+
+    | Let up the semaphore and go back to the start
+    Signal(reportclicksem)
+    Yield()
+    BR(ReportClickStart)
+
+ReportClickStack:
+    STORAGE(256)
