@@ -41,7 +41,7 @@
 .ends
 
 .subckt CarryLookAheadAdder32 a[31:0] b[31:0] c0 s[31:0]
-    * negate
+    * use a buffer 
     Xnegate b[31:0] bx[31:0] buffer 
 
     * carry select
@@ -139,21 +139,27 @@
 
 .subckt GetGP a b g p 
     * Compute G and P
-    XgetG a b g and2
-    XgetP a b p xor2
+    XgetG a b ginv nand2
+    XgetG2 ginv g inverter
+
+    XgetP a b pinv xnor2
+    XgetP2 pinv p inverter
 .ends
 
 .subckt LookAheadBlock g[1:0] p[1:0] ghl phl 
     * Does the logic for G_{hl} = G_h + P_h*G_l
-    Xghl0 p[1] g[0] y and2
-    xghl1 y g[1] ghl or2
+    Xghl0 p[1] g[0] yinv nand2
+    Xghl1 yinv y inverter
+    xghl2 y g[1] ghlinv nor2
+    xghl3 ghlinv ghl inverter
 
     * Does the logic for P_{hl} = P_h*P_l
-    Xphl p[1] p[0] phl and2
+    Xphl0 p[1] p[0] phlinv nand2
+    xphl1 phlinv phl inverter 
 .ends
 
 .subckt CarryBlock cin G P cout[1:0]
-    Xto cin P x nand2
+    Xt0 cin P x nand2
     Xt1 x y inverter
     Xt2 y G z nor2
     Xt3 z cout[1] inverter
@@ -161,8 +167,10 @@
 .ends
 
 .subckt xor3 a b c s
-    Xone a b x xor2
-    Xtwo x c s xor2
+    Xt0 a b xinv xnor2
+    Xt1 xinv x inverter
+    Xt2 x c sinv xnor2
+    Xt3 sinv s inverter
 .ends
 
 .subckt SHLR A[31:0] B[4:0] bool OUT[31:0]
