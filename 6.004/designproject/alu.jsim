@@ -40,101 +40,101 @@
     Xid2 A[31:1] B[31:1] C[30:0] OUT[31:1] C[31:1] FA 
 .ends
 
-.subckt CarryLookAheadAdder32 A[31:0] B[31:0] c0 S[31:0]
+.subckt CarryLookAheadAdder32 a[31:0] b[31:0] c0 s[31:0]
+    * negate
+    Xnegate b[31:0] bx[31:0] buffer 
 
-    * negate B
-    Xneg B[31:0] c0#32 Bx[31:0] xor2
-    Xcsa0 A[31:0] Bx[31:0] 0#32 szero[31:0] xor3
-    Xcsa1 A[31:0] Bx[31:0] 0#32 sone[31:0] xor3
+    * carry select
+    Xcsa0 a[31:0] bx[31:0] 0#32 szero[31:0] xor3
+    Xcsa1 a[31:0] bx[31:0] vdd#32 sone[31:0] xor3
     Xcsam cone[31:0] szero[31:0] sone[31:0] s[31:0] mux2
+    Xt1 a[31:0] bx[31:0] gin[31:0] pin[31:0] GetGP 
 
-    * do the carry lookahead
-    Xcl A[31:0] Bx[31:0] Gin[31:0] Pin[31:0] GetGP
-
-    *** Lookaheads ***
-    * lookaheads level 1
-    xl1a Gin[1:0] Pin[1:0] Gtwo[0] Ptwo[0] LookAheadBlock
-    xl1b Gin[3:2] Pin[3:2] Gtwo[1] Ptwo[1] LookAheadBlock
-    xl1c Gin[5:4] Pin[5:4] Gtwo[2] Ptwo[2] LookAheadBlock
-    xl1d Gin[7:6] Pin[7:6] Gtwo[3] Ptwo[3] LookAheadBlock
-    xl1e Gin[9:8] Pin[9:8] Gtwo[4] Ptwo[4] LookAheadBlock
-    xl1f Gin[11:10] Pin[11:10] Gtwo[5] Ptwo[5] LookAheadBlock
-    xl1g Gin[13:12] Pin[13:12] Gtwo[6] Ptwo[6] LookAheadBlock
-    xl1h Gin[15:14] Pin[15:14] Gtwo[7] Ptwo[7] LookAheadBlock
-    xl1i Gin[17:16] Pin[17:16] Gtwo[8] Ptwo[8] LookAheadBlock
-    xl1j Gin[19:18] Pin[19:18] Gtwo[9] Ptwo[9] LookAheadBlock
-    xl1k Gin[21:20] Pin[21:20] Gtwo[10] Ptwo[10] LookAheadBlock
-    xl1l Gin[23:22] Pin[23:22] Gtwo[11] Ptwo[11] LookAheadBlock
-    xl1m Gin[25:24] Pin[25:24] Gtwo[12] Ptwo[12] LookAheadBlock
-    xl1n Gin[27:26] Pin[27:26] Gtwo[13] Ptwo[13] LookAheadBlock
-    xl1o Gin[29:28] Pin[29:28] Gtwo[14] Ptwo[14] LookAheadBlock
-    xl1p Gin[31:30] Pin[31:30] Gtwo[15] Ptwo[15] LookAheadBlock
-
-    * lookaheads level 2
-    xl2a Gtwo[1:0]   Ptwo[1:0]   Gthree[0] Pthree[0] LookAheadBlock
-    xl2b Gtwo[3:2]   Ptwo[3:2]   Gthree[1] Pthree[1] LookAheadBlock
-    xl2c Gtwo[5:4]   Ptwo[5:4]   Gthree[2] Pthree[2] LookAheadBlock
-    xl2d Gtwo[7:6]   Ptwo[7:6]   Gthree[3] Pthree[3] LookAheadBlock
-    xl2e Gtwo[9:8]   Ptwo[9:8]   Gthree[4] Pthree[4] LookAheadBlock
-    xl2f Gtwo[11:10] Ptwo[11:10] Gthree[5] Pthree[5] LookAheadBlock
-    xl2g Gtwo[13:12] Ptwo[13:12] Gthree[6] Pthree[6] LookAheadBlock
-    xl2h Gtwo[15:14] Ptwo[15:14] Gthree[7] Pthree[7] LookAheadBlock
-
-    * lookaheads level 3
-    xl3a Gthree[1:0] Pthree[1:0] Gfour[0] Pfour[0] LookAheadBlock
-    xl3b Gthree[3:2] Pthree[3:2] Gfour[1] Pfour[1] LookAheadBlock
-    xl3c Gthree[5:4] Pthree[5:4] Gfour[2] Pfour[2] LookAheadBlock
-    xl3d Gthree[7:6] Pthree[7:6] Gfour[3] Pfour[3] LookAheadBlock
-
-    * lookaheads level 4
-    xl4a Gfour[1:0] Pfour[1:0] Gfive[0] Pfive[0] LookAheadBlock
-    xl4b Gfour[3:2] Pfour[3:2] Gfive[1] Pfive[1] LookAheadBlock
-
-    * lookaheads level 5
-    xl5a Gfive[1:0] Pfive[1:0] Gsix[0] Gsix[0] lookAheadBlock
+    * lookaheads
+    * level 2
+    Xl20 gin[1:0] pin[1:0] gthree[0] pthree[0] LookAheadBlock
+    Xl21 gin[3:2] pin[3:2] gthree[1] pthree[1] LookAheadBlock
+    Xl22 gin[5:4] pin[5:4] gthree[2] pthree[2] LookAheadBlock
+    Xl23 gin[7:6] pin[7:6] gthree[3] pthree[3] LookAheadBlock
+    Xl24 gin[9:8] pin[9:8] gthree[4] pthree[4] LookAheadBlock
+    Xl25 gin[11:10] pin[11:10] gthree[5] pthree[5] LookAheadBlock
+    Xl26 gin[13:12] pin[13:12] gthree[6] pthree[6] LookAheadBlock
+    Xl27 gin[15:14] pin[15:14] gthree[7] pthree[7] LookAheadBlock
+    Xl28 gin[17:16] pin[17:16] gthree[8] pthree[8] LookAheadBlock
+    Xl29 gin[19:18] pin[19:18] gthree[9] pthree[9] LookAheadBlock
+    Xl210 gin[21:20] pin[21:20] gthree[10] pthree[10] LookAheadBlock
+    Xl211 gin[23:22] pin[23:22] gthree[11] pthree[11] LookAheadBlock
+    Xl212 gin[25:24] pin[25:24] gthree[12] pthree[12] LookAheadBlock
+    Xl213 gin[27:26] pin[27:26] gthree[13] pthree[13] LookAheadBlock
+    Xl214 gin[29:28] pin[29:28] gthree[14] pthree[14] LookAheadBlock
+    Xl215 gin[31:30] pin[31:30] gthree[15] pthree[15] LookAheadBlock
 
 
-    *** Carries ***
-    * carries level 1
-    xc1a ctwo[0]  Gin[0]  Pin[0]  cone[0] Carry  
-    xc1b ctwo[1]  Gin[1]  Pin[1]  cone[1] Carry 
-    xc1c ctwo[2]  Gin[2]  Pin[2]  cone[2] Carry 
-    xc1d ctwo[3]  Gin[3]  Pin[3]  cone[3] Carry 
-    xc1e ctwo[4]  Gin[4]  Pin[4]  cone[4] Carry 
-    xc1f ctwo[5]  Gin[5]  Pin[5]  cone[5] Carry 
-    xc1g ctwo[6]  Gin[6]  Pin[6]  cone[6] Carry 
-    xc1h ctwo[7]  Gin[7]  Pin[7]  cone[7] Carry 
-    xc1i ctwo[8]  Gin[8]  Pin[8]  cone[8] Carry 
-    xc1j ctwo[9]  Gin[9]  Pin[9]  cone[9] Carry 
-    xc1k ctwo[10] Gin[10] Pin[10] cone[10] Carry 
-    xc1l ctwo[11] Gin[11] Pin[11] cone[11] Carry
-    xc1m ctwo[12] Gin[12] Pin[12] cone[12] Carry
-    xc1n ctwo[13] Gin[13] Pin[13] cone[13] Carry
-    xc1o ctwo[14] Gin[14] Pin[14] cone[14] Carry
-    xc1p ctwo[15] Gin[15] Pin[15] cone[15] Carry
+    * level 3
+    Xl30 gthree[1:0] pthree[1:0] gfour[0] pfour[0] LookAheadBlock
+    Xl31 gthree[3:2] pthree[3:2] gfour[1] pfour[1] LookAheadBlock
+    Xl32 gthree[5:4] pthree[5:4] gfour[2] pfour[2] LookAheadBlock
+    Xl33 gthree[7:6] pthree[7:6] gfour[3] pfour[3] LookAheadBlock
+    Xl34 gthree[9:8] pthree[9:8] gfour[4] pfour[4] LookAheadBlock
+    Xl35 gthree[11:10] pthree[11:10] gfour[5] pfour[5] LookAheadBlock
+    Xl36 gthree[13:12] pthree[13:12] gfour[6] pfour[6] LookAheadBlock
+    Xl37 gthree[15:14] pthree[15:14] gfour[7] pfour[7] LookAheadBlock
 
-    * carries level 2
-    xc1a cthree[0]  Gtwo[0]  Ptwo[0]  ctwo[0] Carry  
-    xc1b cthree[1]  Gtwo[1]  Ptwo[1]  ctwo[1] Carry 
-    xc1c cthree[2]  Gtwo[2]  Ptwo[2]  ctwo[2] Carry 
-    xc1d cthree[3]  Gtwo[3]  Ptwo[3]  ctwo[3] Carry 
-    xc1e cthree[4]  Gtwo[4]  Ptwo[4]  ctwo[4] Carry 
-    xc1f cthree[5]  Gtwo[5]  Ptwo[5]  ctwo[5] Carry 
-    xc1g cthree[6]  Gtwo[6]  Ptwo[6]  ctwo[6] Carry 
-    xc1h cthree[7]  Gtwo[7]  Ptwo[7]  ctwo[7] Carry 
+    * level 4
+    Xl40 gfour[1:0] pfour[1:0] gfive[0] pfive[0] LookAheadBlock
+    Xl41 gfour[3:2] pfour[3:2] gfive[1] pfive[1] LookAheadBlock
+    Xl42 gfour[5:4] pfour[5:4] gfive[2] pfive[2] LookAheadBlock
+    Xl43 gfour[7:6] pfour[7:6] gfive[3] pfive[3] LookAheadBlock
 
-    * carries level 3
-    xc1a cfour[0]  Gthree[0]  Pthree[0]  cthree[0] Carry  
-    xc1b cfour[1]  Gthree[1]  Pthree[1]  cthree[1] Carry 
-    xc1c cfour[2]  Gthree[2]  Pthree[2]  cthree[2] Carry 
-    xc1d cfour[3]  Gthree[3]  Pthree[3]  cthree[3] Carry 
+    * level 5
+    Xl50 gfive[1:0] pfive[1:0] gsix[0] psix[0] LookAheadBlock
+    Xl51 gfive[3:2] pfive[3:2] gsix[1] psix[1] LookAheadBlock
 
-    * carries level 4
-    xc1a cfive[0]  Gfour[0]  Pfour[0]  cfour[0] Carry  
-    xc1b cfive[1]  Gfour[1]  Pfour[1]  cfour[1] Carry 
+    * level 6
+    Xl60 gsix[1:0] psix[1:0] gseven[0] pseven[0] LookAheadBlock
 
-    * carries level 5
-    xc1a csix[0]  Gfive[0]  Pfive[0]  cfive[0] Carry  
+
+    * Carries
+    * level 2
+    Xc20 ctwo[0] gin[0] pin[0] cone[1:0] CarryBlock
+    Xc21 ctwo[1] gin[2] pin[2] cone[3:2] CarryBlock
+    Xc22 ctwo[2] gin[4] pin[4] cone[5:4] CarryBlock
+    Xc23 ctwo[3] gin[6] pin[6] cone[7:6] CarryBlock
+    Xc24 ctwo[4] gin[8] pin[8] cone[9:8] CarryBlock
+    Xc25 ctwo[5] gin[10] pin[10] cone[11:10] CarryBlock
+    Xc26 ctwo[6] gin[12] pin[12] cone[13:12] CarryBlock
+    Xc27 ctwo[7] gin[14] pin[14] cone[15:14] CarryBlock
+    Xc28 ctwo[8] gin[16] pin[16] cone[17:16] CarryBlock
+    Xc29 ctwo[9] gin[18] pin[18] cone[19:18] CarryBlock
+    Xc210 ctwo[10] gin[20] pin[20] cone[21:20] CarryBlock
+    Xc211 ctwo[11] gin[22] pin[22] cone[23:22] CarryBlock
+    Xc212 ctwo[12] gin[24] pin[24] cone[25:24] CarryBlock
+    Xc213 ctwo[13] gin[26] pin[26] cone[27:26] CarryBlock
+    Xc214 ctwo[14] gin[28] pin[28] cone[29:28] CarryBlock
+    Xc215 ctwo[15] gin[30] pin[30] cone[31:30] CarryBlock
+
+    * level 3
+    Xc30 cthree[0] gthree[0] pthree[0] ctwo[1:0] CarryBlock
+    Xc31 cthree[1] gthree[2] pthree[2] ctwo[3:2] CarryBlock
+    Xc32 cthree[2] gthree[4] pthree[4] ctwo[5:4] CarryBlock
+    Xc33 cthree[3] gthree[6] pthree[6] ctwo[7:6] CarryBlock
+    Xc34 cthree[4] gthree[8] pthree[8] ctwo[9:8] CarryBlock
+    Xc35 cthree[5] gthree[10] pthree[10] ctwo[11:10] CarryBlock
+    Xc36 cthree[6] gthree[12] pthree[12] ctwo[13:12] CarryBlock
+    Xc37 cthree[7] gthree[14] pthree[14] ctwo[15:14] CarryBlock
+
+    * level 4
+    Xc40 cfour[0] gfour[0] pfour[0] cthree[1:0] CarryBlock
+    Xc41 cfour[1] gfour[2] pfour[2] cthree[3:2] CarryBlock
+    Xc42 cfour[2] gfour[4] pfour[4] cthree[5:4] CarryBlock
+    Xc43 cfour[3] gfour[6] pfour[6] cthree[7:6] CarryBlock
+
+    * level 5
+    Xc50 cfive[0] gfive[0] pfive[0] cfour[1:0] CarryBlock
+    Xc51 cfive[1] gfive[2] pfive[2] cfour[3:2] CarryBlock
+
+    * level 6
+    Xc60 c0 gsix[0] psix[0] cfive[1:0] CarryBlock
 .ends
 
 .subckt GetGP a b g p 
@@ -143,24 +143,26 @@
     XgetP a b p xor2
 .ends
 
-.subckt LookAheadBlock gh ph gl pl ghl phl 
+.subckt LookAheadBlock g[1:0] p[1:0] ghl phl 
     * Does the logic for G_{hl} = G_h + P_h*G_l
-    Xphgl0 ph gl phglinv nand2
-    Xphgl phglinv phgl inv
-    Xghl0 gh phgl ghlinv nor2
-    Xghl ghlinv ghl inv
+    Xghl0 p[1] g[0] y and2
+    xghl1 y g[1] ghl or2
 
     * Does the logic for P_{hl} = P_h*P_l
-    Xphl0 ph pl phlinv nand2
-    xphl phlinv phl inv
+    Xphl p[1] p[0] phl and2
 .ends
 
-.subckt Carry cin G P cout[1:0]
+.subckt CarryBlock cin G P cout[1:0]
     Xto cin P x nand2
-    Xt1 x y inv
+    Xt1 x y inverter
     Xt2 y G z nor2
-    Xt3 z cout[1] inv
+    Xt3 z cout[1] inverter
     Xt4 cin cout[0] buffer
+.ends
+
+.subckt xor3 a b c s
+    Xone a b x xor2
+    Xtwo x c s xor2
 .ends
 
 .subckt SHLR A[31:0] B[4:0] bool OUT[31:0]

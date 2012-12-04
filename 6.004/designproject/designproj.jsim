@@ -19,6 +19,6 @@ Vreset reset 0 pwl(0ns 3.3v, 30ns 3.3v, 30.1ns 0v)
 // Run the simulation for 1205 cycles. Your design might require more or less
 // cycles depending on how it executes instructions. Run only as long as necessary
 // to complete the benchmark since the ending simulation time is used to compute
-// your circuitâs Benmark
+// your circuitÃÂ¢ÃÂÃÂs Benmark
 .tran 24100ns
 
