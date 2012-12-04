@@ -1,0 +1,135 @@
+* Helper Subcircuits
+
+* 3-input full adder: inputs are a, b, ci, outputs are s, co
+.subckt FA a b ci s co
+    Xg0 a b y xor2
+    Xg1 y ci s xor2
+    Xg2 a b d nand2
+    Xg3 b ci e nand2
+    Xg4 a ci f nand2
+    Xg5 d e f co nand3
+    Xg6 d e g nand2
+.ends
+
+.subckt NOR32 S[31:0] Z
+    Xnor0 S[31:24] S[23:16] S[15:8] S[7:0] I[7:0] nor4
+    Xnand0 I[7:6] I[5:4] I[3:2] I[1:0] I2[1:0] nand4
+    Xnor1 I2[1] I2[0] Z nor2
+.ends
+
+.subckt GETV A XB OUT V
+    Xid1 OUT notS inverter
+    Xid2 A notA inverter
+    Xid3 XB notXB inverter
+    Xid4 XB A notS r1 and3
+    Xid5 notA notXB OUT r2 and3
+    Xid6 r1 r2 V or2
+.ends
+
+.subckt CMPLT N V LT
+    Xor N V LT xor2
+.ends
+
+.subckt CMPLE Z N V L
+    Xid1 N V LT xor2
+    Xid2 Z LT L or2
+.ends
+
+.subckt ADDER32 A[31:0] B[31:0] ci OUT[31:0] 
+    Xid1 A[0] B[0] ci OUT[0] C[0] FA
+    Xid2 A[31:1] B[31:1] C[30:0] OUT[31:1] C[31:1] FA 
+.ends
+
+.subckt ADDER32CarrySelect A[31:0] B[31:0] ci OUT[31:0]
+    Xlevel1 A[0]    
+
+.ends
+
+.subckt FACarrySelect a b ci s co
+    Xaddcarry0 a b 0 s0 co0 FA
+    Xaddcarry1 a b vdd s1 co1 FA
+    Xmux2 ci s0 s1 s mux2
+    Xmux2 ci co0 co1 co mux2
+.ends
+
+.subckt SHLR A[31:0] B[4:0] bool OUT[31:0]
+    Xmux bool#32 A[31:0] A[0:31] AX[31:0] mux2
+
+    Xb4a B[4]#16 AX[31:16] AX[15:0] W[31:16] mux2
+    Xb4b B[4]#16 AX[15:0] 0#16 W[15:0] mux2
+
+    Xb3a B[3]#24 W[31:8] W[23:0] X[31:8] mux2
+    Xb3b B[3]#8 W[7:0] 0#8 X[7:0] mux2
+
+    Xb2a B[2]#28 X[31:4] X[27:0] Y[31:4] mux2
+    Xb2b B[2]#4 X[3:0] 0#4 Y[3:0] mux2
+
+    Xb1a B[1]#30 Y[31:2] Y[29:0] Z[31:2] mux2
+    Xb1b B[1]#2 Y[1:0] 0#2 Z[1:0] mux2
+
+    Xb0a B[0]#31 Z[31:1] Z[30:0] SL[31:1] mux2
+    Xb0b B[0] Z[0] 0 SL[0] mux2
+
+    Xmux2 bool#32 SL[31:0] SL[0:31] OUT[31:0] mux2
+.ends
+
+.subckt SRA A[31:0] B[4:0] SL[31:0]
+    Xb4a B[4]#16 A[15:0] A[31:16] W[15:0] mux2
+    Xb4b B[4]#16 A[31:16] A[31]#16 W[31:16] mux2
+
+    Xb3a B[3]#24 W[23:0] W[31:8] X[23:0] mux2
+    Xb3b B[3]#8 W[31:24] A[31]#8 X[31:24] mux2
+
+    Xb2a B[2]#28 X[27:0] X[31:4] Y[27:0] mux2
+    Xb2b B[2]#4 X[31:28] A[31]#4 Y[31:28] mux2
+
+    Xb1a B[1]#30 Y[29:0] Y[31:2] Z[29:0] mux2
+    Xb1b B[1]#2 Y[31:30] A[31]#2 Z[31:30] mux2
+
+    Xb0a B[0]#31 Z[30:0] Z[31:1] SL[30:0] mux2
+    Xb0b B[0] Z[31] A[31] SL[31] mux2
+.ends
+
+
+
+* END OF HELPER FUNCTIONS
+
+.subckt BOOL alufn[3:0] A[31:0] B[31:0] OUT[31:0]
+    Xmux4 A[31:0] B[31:0] alufn[0]#32 alufn[1]#32 alufn[2]#32 alufn[3]#32 OUT[31:0] mux4
+.ends
+
+.subckt ARITH alufn[1:0] A[31:0] B[31:0] OUT[31:0] Z V N
+    Xid1 B[31:0] alufn[0]#32 XB[31:0] xor2
+    Xid2 A[31:0] XB[31:0] alufn[0] SUM[31:0] ADDER32
+    Xid4 alufn[1]#32 SUM[31:0] 0#32 OUT[31:0] mux2
+    Xid5 SUM[31] N buffer
+    Xid6 SUM[31:0] Z NOR32
+    Xid7 A[31] XB[31] SUM[31] V GETV
+.ends
+
+.subckt SHIFT alufn[1:0] A[31:0] B[31:0] OUT[31:0]
+    Xsra A[31:0] B[4:0] SRA[31:0] SRA
+    Xshlr A[31:0] B[4:0] alufn[0] SHLR[31:0] SHLR
+    Xmux alufn[0]#32 0#32 SRA[31:0] SR[31:0] mux2
+    Xmux2 alufn[1]#32 SHLR[31:0] SR[31:0] OUT[31:0] mux2
+.ends
+
+.subckt CMP alufn3 alufn1 Z V N OUT[31:0]
+    Xlt N V LT CMPLT
+    Xle Z N V LE CMPLE
+    Xmux4 alufn1 alufn3 Z LT LE 0 OUT[0] mux4
+    .connect OUT[31:1] 0
+.ends
+
+.subckt alu alufn[4:0] a[31:0] b[31:0] out[31:0] z v n
+    *** Generate outputs from each of BOOL, SHIFT, ARITH, CMP subcircuits:
+    xbool alufn[3:0] a[31:0] b[31:0] boolout[31:0] BOOL
+    xshift alufn[1:0] a[31:0] b[31:0] shiftout[31:0] SHIFT
+    xarith alufn[1:0] a[31:0] b[31:0] arithout[31:0] z v n ARITH
+    xcmp alufn[3] alufn[1] z v n cmpout[31:0] CMP
+
+    *** Combine them, using three multiplexors:
+    xmux1 alufn[4]#32 nonbool[31:0] boolout[31:0] out[31:0] mux2
+    xmux2 alufn[2]#32 arithshift[31:0] cmpout[31:0] nonbool[31:0] mux2
+    xmux3 alufn[3]#32 arithout[31:0] shiftout[31:0] arithshift[31:0] mux2
+.ends

@@ -1,0 +1,24 @@
+.include "beta.jsim"
+.include "/mit/6.004/jsim/projcheckoff.jsim"
+
+// matches .subckt above w/ IRQ tied to ground
+Xbeta clk reset 0 ia[31:0] id[31:0] ma[31:0] moe mrd[31:0] wr mwd[31:0] beta
+// your memory must also be called Xmem (so the checkoff code can find it!) but
+// can have a different number of ports. It should however be initialized with
+// the contents shown below -- the benchmark suite. A file containing these
+// values can be found at /mit/6.004/jsim/projcheckoff.bin.
+Xmem
++ vdd 0 0 ia[11:2] id[31:0]
++ moe 0 0 ma[11:2] mrd[31:0]
++ 0 clk wr ma[11:2] mwd[31:0]
++ $memory width=32 nlocations=1024
++ file="/mit/6.004/jsim/projcheckoff.bin"
+// 20ns cycle time, assert RESET for first cycle. Your cycle time may vary...
+Vclk clk 0 pulse(3.3,0,2.99ns,.01ns,.01ns,9.99ns)
+Vreset reset 0 pwl(0ns 3.3v, 30ns 3.3v, 30.1ns 0v)
+// Run the simulation for 1205 cycles. Your design might require more or less
+// cycles depending on how it executes instructions. Run only as long as necessary
+// to complete the benchmark since the ending simulation time is used to compute
+// your circuitâs Benmark
+.tran 24100ns
+
