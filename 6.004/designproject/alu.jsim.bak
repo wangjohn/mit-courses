@@ -1,190 +1,210 @@
 * Helper Subcircuits
 
+.include "/mit/6.004/jsim/nominal.jsim"
+.include "/mit/6.004/jsim/stdcell.jsim"
+.include "/mit/6.004/jsim/lab3_test_adder.jsim"
+
 * 3-input full adder: inputs are a, b, ci, outputs are s, co
 .subckt FA a b ci s co
-Xg0 a b y xor2
-Xg1 y ci s xor2
-Xg2 a b d nand2
-Xg3 b ci e nand2
-Xg4 a ci f nand2
-Xg5 d e f co nand3
-Xg6 d e g nand2
+    Xg0 a b y xor2
+    Xg1 y ci s xor2
+    Xg2 a b d nand2
+    Xg3 b ci e nand2
+    Xg4 a ci f nand2
+    Xg5 d e f co nand3
+    Xg6 d e g nand2
 .ends
 
 .subckt NOR32 S[31:0] Z
-Xnor0 S[31:24] S[23:16] S[15:8] S[7:0] I[7:0] nor4
-Xnand0 I[7:6] I[5:4] I[3:2] I[1:0] I2[1:0] nand4
-Xnor1 I2[1] I2[0] Z nor2
+    Xnor0 S[31:24] S[23:16] S[15:8] S[7:0] I[7:0] nor4
+    Xnand0 I[7:6] I[5:4] I[3:2] I[1:0] I2[1:0] nand4
+    Xnor1 I2[1] I2[0] Z nor2
 .ends
 
-
-
 .subckt GETV A XB OUT V
-Xid1 OUT notS inverter
-Xid2 A notA inverter
-Xid3 XB notXB inverter
-Xid4 XB A notS r1 and3
-Xid5 notA notXB OUT r2 and3
-Xid6 r1 r2 V or2
+    Xid1 OUT notS inverter
+    Xid2 A notA inverter
+    Xid3 XB notXB inverter
+    Xid4 XB A notS r1 and3
+    Xid5 notA notXB OUT r2 and3
+    Xid6 r1 r2 V or2
 .ends
 
 .subckt CMPLT N V LT
-Xor N V LT xor2
+    Xor N V LT xor2
 .ends
 
 .subckt CMPLE Z N V L
-Xid1 N V LT xor2
-Xid2 Z LT L or2
+    Xid1 N V LT xor2
+    Xid2 Z LT L or2
 .ends
-
-
 
 .subckt ADDER32 A[31:0] B[31:0] ci OUT[31:0] 
-Xid1 A[0] B[0] ci OUT[0] C[0] FA
-Xid2 A[31:1] B[31:1] C[30:0] OUT[31:1] C[31:1] FA 
+    Xid1 A[0] B[0] ci OUT[0] C[0] FA
+    Xid2 A[31:1] B[31:1] C[30:0] OUT[31:1] C[31:1] FA 
 .ends
 
-.subckt MULTIPLY A[31:0] B[31:0] OUT[31:0] 
-Xbanda A[31:0] B[0]#32 Banda[31:0] and2
-Xbandb A[30:0] B[1]#31 Bandb[30:0] and2
-Xbandc A[29:0] B[2]#30 Bandc[29:0] and2
-Xbandd A[28:0] B[3]#29 Bandd[28:0] and2
-Xbande A[27:0] B[4]#28 Bande[27:0] and2
-Xbandf A[26:0] B[5]#27 Bandf[26:0] and2
-Xbandg A[25:0] B[6]#26 Bandg[25:0] and2
-Xbandh A[24:0] B[7]#25 Bandh[24:0] and2
-Xbandi A[23:0] B[8]#24 Bandi[23:0] and2
-Xbandj A[22:0] B[9]#23 Bandj[22:0] and2
-Xbandk A[21:0] B[10]#22 Bandk[21:0] and2
-Xbandl A[20:0] B[11]#21 Bandl[20:0] and2
-Xbandm A[19:0] B[12]#20 Bandm[19:0] and2
-Xbandn A[18:0] B[13]#19 Bandn[18:0] and2
-Xbando A[17:0] B[14]#18 Bando[17:0] and2
-Xbandp A[16:0] B[15]#17 Bandp[16:0] and2
-Xbandq A[15:0] B[16]#16 Bandq[15:0] and2
-Xbandr A[14:0] B[17]#15 Bandr[14:0] and2
-Xbands A[13:0] B[18]#14 Bands[13:0] and2
-Xbandt A[12:0] B[19]#13 Bandt[12:0] and2
-Xbandu A[11:0] B[20]#12 Bandu[11:0] and2
-Xbandv A[10:0] B[21]#11 Bandv[10:0] and2
-Xbandw A[9:0] B[22]#10 Bandw[9:0] and2
-Xbandx A[8:0] B[23]#9 Bandx[8:0] and2
-Xbandy A[7:0] B[24]#8 Bandy[7:0] and2
-Xbandz A[6:0] B[25]#7 Bandz[6:0] and2
-Xbandaa A[5:0] B[26]#6 Bandaa[5:0] and2
-Xbandab A[4:0] B[27]#5 Bandab[4:0] and2
-Xbandac A[3:0] B[28]#4 Bandac[3:0] and2
-Xbandad A[2:0] B[29]#3 Bandad[2:0] and2
-Xbandae A[1:0] B[30]#2 Bandae[1:0] and2
-Xbandaf A[0] B[31] Bandaf[0] and2
+.subckt CarryLookAheadAdder32 a[31:0] b[31:0] c0 s[31:0]
+    * negate
+    Xnegate b[31:0] c0#32 bx[31:0] xor2 
 
-Xfa1a Banda[1] Bandb[0] 0 OUT[1] COb[0] FA
-Xfa1b Banda[31:2] Bandb[30:1] COb[29:0] FASb[29:0] COb[30:1] FA
+    * carry select
+    Xcsa0 a[31:0] bx[31:0] 0#32 szero[31:0] xor3
+    Xcsa1 a[31:0] bx[31:0] vdd#32 sone[31:0] xor3
+    Xcsam cone[31:0] szero[31:0] sone[31:0] s[31:0] mux2
+    Xt1 a[31:0] b[31:0] gin[31:0] pin[31:0] GetGP 
 
-Xfa2a FASb[0] Bandc[0] 0 OUT[2] COc[0] FA
-Xfa2b FASb[29:1] Bandc[29:1] COc[28:0] FASc[28:0] COc[29:1] FA
-Xfa3a FASc[0] Bandd[0] 0 OUT[3] COd[0] FA
-Xfa3b FASc[28:1] Bandd[28:1] COd[27:0] FASd[27:0] COd[28:1] FA
-Xfa4a FASd[0] Bande[0] 0 OUT[4] COe[0] FA
-Xfa4b FASd[27:1] Bande[27:1] COe[26:0] FASe[26:0] COe[27:1] FA
-Xfa5a FASe[0] Bandf[0] 0 OUT[5] COf[0] FA
-Xfa5b FASe[26:1] Bandf[26:1] COf[25:0] FASf[25:0] COf[26:1] FA
-Xfa6a FASf[0] Bandg[0] 0 OUT[6] COg[0] FA
-Xfa6b FASf[25:1] Bandg[25:1] COg[24:0] FASg[24:0] COg[25:1] FA
-Xfa7a FASg[0] Bandh[0] 0 OUT[7] COh[0] FA
-Xfa7b FASg[24:1] Bandh[24:1] COh[23:0] FASh[23:0] COh[24:1] FA
-Xfa8a FASh[0] Bandi[0] 0 OUT[8] COi[0] FA
-Xfa8b FASh[23:1] Bandi[23:1] COi[22:0] FASi[22:0] COi[23:1] FA
-Xfa9a FASi[0] Bandj[0] 0 OUT[9] COj[0] FA
-Xfa9b FASi[22:1] Bandj[22:1] COj[21:0] FASj[21:0] COj[22:1] FA
-Xfa10a FASj[0] Bandk[0] 0 OUT[10] COk[0] FA
-Xfa10b FASj[21:1] Bandk[21:1] COk[20:0] FASk[20:0] COk[21:1] FA
-Xfa11a FASk[0] Bandl[0] 0 OUT[11] COl[0] FA
-Xfa11b FASk[20:1] Bandl[20:1] COl[19:0] FASl[19:0] COl[20:1] FA
-Xfa12a FASl[0] Bandm[0] 0 OUT[12] COm[0] FA
-Xfa12b FASl[19:1] Bandm[19:1] COm[18:0] FASm[18:0] COm[19:1] FA
-Xfa13a FASm[0] Bandn[0] 0 OUT[13] COn[0] FA
-Xfa13b FASm[18:1] Bandn[18:1] COn[17:0] FASn[17:0] COn[18:1] FA
-Xfa14a FASn[0] Bando[0] 0 OUT[14] COo[0] FA
-Xfa14b FASn[17:1] Bando[17:1] COo[16:0] FASo[16:0] COo[17:1] FA
-Xfa15a FASo[0] Bandp[0] 0 OUT[15] COp[0] FA
-Xfa15b FASo[16:1] Bandp[16:1] COp[15:0] FASp[15:0] COp[16:1] FA
-Xfa16a FASp[0] Bandq[0] 0 OUT[16] COq[0] FA
-Xfa16b FASp[15:1] Bandq[15:1] COq[14:0] FASq[14:0] COq[15:1] FA
-Xfa17a FASq[0] Bandr[0] 0 OUT[17] COr[0] FA
-Xfa17b FASq[14:1] Bandr[14:1] COr[13:0] FASr[13:0] COr[14:1] FA
-Xfa18a FASr[0] Bands[0] 0 OUT[18] COs[0] FA
-Xfa18b FASr[13:1] Bands[13:1] COs[12:0] FASs[12:0] COs[13:1] FA
-Xfa19a FASs[0] Bandt[0] 0 OUT[19] COt[0] FA
-Xfa19b FASs[12:1] Bandt[12:1] COt[11:0] FASt[11:0] COt[12:1] FA
-Xfa20a FASt[0] Bandu[0] 0 OUT[20] COu[0] FA
-Xfa20b FASt[11:1] Bandu[11:1] COu[10:0] FASu[10:0] COu[11:1] FA
-Xfa21a FASu[0] Bandv[0] 0 OUT[21] COv[0] FA
-Xfa21b FASu[10:1] Bandv[10:1] COv[9:0] FASv[9:0] COv[10:1] FA
-Xfa22a FASv[0] Bandw[0] 0 OUT[22] COw[0] FA
-Xfa22b FASv[9:1] Bandw[9:1] COw[8:0] FASw[8:0] COw[9:1] FA
-Xfa23a FASw[0] Bandx[0] 0 OUT[23] COx[0] FA
-Xfa23b FASw[8:1] Bandx[8:1] COx[7:0] FASx[7:0] COx[8:1] FA
-Xfa24a FASx[0] Bandy[0] 0 OUT[24] COy[0] FA
-Xfa24b FASx[7:1] Bandy[7:1] COy[6:0] FASy[6:0] COy[7:1] FA
-Xfa25a FASy[0] Bandz[0] 0 OUT[25] COz[0] FA
-Xfa25b FASy[6:1] Bandz[6:1] COz[5:0] FASz[5:0] COz[6:1] FA
-Xfa26a FASz[0] Bandaa[0] 0 OUT[26] COaa[0] FA
-Xfa26b FASz[5:1] Bandaa[5:1] COaa[4:0] FASaa[4:0] COaa[5:1] FA
-Xfa27a FASaa[0] Bandab[0] 0 OUT[27] COab[0] FA
-Xfa27b FASaa[4:1] Bandab[4:1] COab[3:0] FASab[3:0] COab[4:1] FA
-Xfa28a FASab[0] Bandac[0] 0 OUT[28] COac[0] FA
-Xfa28b FASab[3:1] Bandac[3:1] COac[2:0] FASac[2:0] COac[3:1] FA
-Xfa29a FASac[0] Bandad[0] 0 OUT[29] COad[0] FA
-Xfa29b FASac[2:1] Bandad[2:1] COad[1:0] FASad[1:0] COad[2:1] FA
-Xfa30a FASad[0] Bandae[0] 0 OUT[30] COae[0] FA
-Xfa30b FASad[1] Bandae[1] COae[0] FASae[0] COae[1] FA
+    * lookaheads
+    * level 2
+    Xl20 gin[1:0] pin[1:0] gthree[0] pthree[0] LookAheadBlock
+    Xl21 gin[3:2] pin[3:2] gthree[1] pthree[1] LookAheadBlock
+    Xl22 gin[5:4] pin[5:4] gthree[2] pthree[2] LookAheadBlock
+    Xl23 gin[7:6] pin[7:6] gthree[3] pthree[3] LookAheadBlock
+    Xl24 gin[9:8] pin[9:8] gthree[4] pthree[4] LookAheadBlock
+    Xl25 gin[11:10] pin[11:10] gthree[5] pthree[5] LookAheadBlock
+    Xl26 gin[13:12] pin[13:12] gthree[6] pthree[6] LookAheadBlock
+    Xl27 gin[15:14] pin[15:14] gthree[7] pthree[7] LookAheadBlock
+    Xl28 gin[17:16] pin[17:16] gthree[8] pthree[8] LookAheadBlock
+    Xl29 gin[19:18] pin[19:18] gthree[9] pthree[9] LookAheadBlock
+    Xl210 gin[21:20] pin[21:20] gthree[10] pthree[10] LookAheadBlock
+    Xl211 gin[23:22] pin[23:22] gthree[11] pthree[11] LookAheadBlock
+    Xl212 gin[25:24] pin[25:24] gthree[12] pthree[12] LookAheadBlock
+    Xl213 gin[27:26] pin[27:26] gthree[13] pthree[13] LookAheadBlock
+    Xl214 gin[29:28] pin[29:28] gthree[14] pthree[14] LookAheadBlock
+    Xl215 gin[31:30] pin[31:30] gthree[15] pthree[15] LookAheadBlock
 
-Xfa31b FASae[0] Bandaf[0] 0 OUT[31] COaf FA
 
-.connect OUT[0] Banda[0]
+    * level 3
+    Xl30 gthree[1:0] pthree[1:0] gfour[0] pfour[0] LookAheadBlock
+    Xl31 gthree[3:2] pthree[3:2] gfour[1] pfour[1] LookAheadBlock
+    Xl32 gthree[5:4] pthree[5:4] gfour[2] pfour[2] LookAheadBlock
+    Xl33 gthree[7:6] pthree[7:6] gfour[3] pfour[3] LookAheadBlock
+    Xl34 gthree[9:8] pthree[9:8] gfour[4] pfour[4] LookAheadBlock
+    Xl35 gthree[11:10] pthree[11:10] gfour[5] pfour[5] LookAheadBlock
+    Xl36 gthree[13:12] pthree[13:12] gfour[6] pfour[6] LookAheadBlock
+    Xl37 gthree[15:14] pthree[15:14] gfour[7] pfour[7] LookAheadBlock
 
+    * level 4
+    Xl40 gfour[1:0] pfour[1:0] gfive[0] pfive[0] LookAheadBlock
+    Xl41 gfour[3:2] pfour[3:2] gfive[1] pfive[1] LookAheadBlock
+    Xl42 gfour[5:4] pfour[5:4] gfive[2] pfive[2] LookAheadBlock
+    Xl43 gfour[7:6] pfour[7:6] gfive[3] pfive[3] LookAheadBlock
+
+    * level 5
+    Xl50 gfive[1:0] pfive[1:0] gsix[0] psix[0] LookAheadBlock
+    Xl51 gfive[3:2] pfive[3:2] gsix[1] psix[1] LookAheadBlock
+
+    * level 6
+    Xl60 gsix[1:0] psix[1:0] gseven[0] pseven[0] LookAheadBlock
+
+
+    * Carries
+    * level 2
+    Xc20 ctwo[0] gin[0] pin[0] cone[1:0] CarryBlock
+    Xc21 ctwo[1] gin[2] pin[2] cone[3:2] CarryBlock
+    Xc22 ctwo[2] gin[4] pin[4] cone[5:4] CarryBlock
+    Xc23 ctwo[3] gin[6] pin[6] cone[7:6] CarryBlock
+    Xc24 ctwo[4] gin[8] pin[8] cone[9:8] CarryBlock
+    Xc25 ctwo[5] gin[10] pin[10] cone[11:10] CarryBlock
+    Xc26 ctwo[6] gin[12] pin[12] cone[13:12] CarryBlock
+    Xc27 ctwo[7] gin[14] pin[14] cone[15:14] CarryBlock
+    Xc28 ctwo[8] gin[16] pin[16] cone[17:16] CarryBlock
+    Xc29 ctwo[9] gin[18] pin[18] cone[19:18] CarryBlock
+    Xc210 ctwo[10] gin[20] pin[20] cone[21:20] CarryBlock
+    Xc211 ctwo[11] gin[22] pin[22] cone[23:22] CarryBlock
+    Xc212 ctwo[12] gin[24] pin[24] cone[25:24] CarryBlock
+    Xc213 ctwo[13] gin[26] pin[26] cone[27:26] CarryBlock
+    Xc214 ctwo[14] gin[28] pin[28] cone[29:28] CarryBlock
+    Xc215 ctwo[15] gin[30] pin[30] cone[31:30] CarryBlock
+
+    * level 3
+    Xc30 cthree[0] gthree[0] pthree[0] ctwo[1:0] CarryBlock
+    Xc31 cthree[1] gthree[2] pthree[2] ctwo[3:2] CarryBlock
+    Xc32 cthree[2] gthree[4] pthree[4] ctwo[5:4] CarryBlock
+    Xc33 cthree[3] gthree[6] pthree[6] ctwo[7:6] CarryBlock
+    Xc34 cthree[4] gthree[8] pthree[8] ctwo[9:8] CarryBlock
+    Xc35 cthree[5] gthree[10] pthree[10] ctwo[11:10] CarryBlock
+    Xc36 cthree[6] gthree[12] pthree[12] ctwo[13:12] CarryBlock
+    Xc37 cthree[7] gthree[14] pthree[14] ctwo[15:14] CarryBlock
+
+    * level 4
+    Xc40 cfour[0] gfour[0] pfour[0] cthree[1:0] CarryBlock
+    Xc41 cfour[1] gfour[2] pfour[2] cthree[3:2] CarryBlock
+    Xc42 cfour[2] gfour[4] pfour[4] cthree[5:4] CarryBlock
+    Xc43 cfour[3] gfour[6] pfour[6] cthree[7:6] CarryBlock
+
+    * level 5
+    Xc50 cfive[0] gfive[0] pfive[0] cfour[1:0] CarryBlock
+    Xc51 cfive[1] gfive[2] pfive[2] cfour[3:2] CarryBlock
+
+    * level 6
+    Xc60 c0 gsix[0] psix[0] cfive[1:0] CarryBlock
+.ends
+
+.subckt GetGP a b g p 
+    * Compute G and P
+    XgetG a b g and2
+    XgetP a b p xor2
+.ends
+
+.subckt LookAheadBlock g[1:0] p[1:0] ghl phl 
+    * Does the logic for G_{hl} = G_h + P_h*G_l
+    Xghl0 p[1] g[0] y and2
+    xghl1 y g[1] ghl or2
+
+    * Does the logic for P_{hl} = P_h*P_l
+    Xphl p[1] p[0] phl and2
+.ends
+
+.subckt CarryBlock cin G P cout[1:0]
+    Xto cin P x nand2
+    Xt1 x y inverter
+    Xt2 y G z nor2
+    Xt3 z cout[1] inverter
+    Xt4 cin cout[0] buffer
+.ends
+
+.subckt xor3 a b c s
+    Xone a b x xor2
+    Xtwo x c s xor2
 .ends
 
 .subckt SHLR A[31:0] B[4:0] bool OUT[31:0]
+    Xmux bool#32 A[31:0] A[0:31] AX[31:0] mux2
 
-Xmux bool#32 A[31:0] A[0:31] AX[31:0] mux2
+    Xb4a B[4]#16 AX[31:16] AX[15:0] W[31:16] mux2
+    Xb4b B[4]#16 AX[15:0] 0#16 W[15:0] mux2
 
-Xb4a B[4]#16 AX[31:16] AX[15:0] W[31:16] mux2
-Xb4b B[4]#16 AX[15:0] 0#16 W[15:0] mux2
+    Xb3a B[3]#24 W[31:8] W[23:0] X[31:8] mux2
+    Xb3b B[3]#8 W[7:0] 0#8 X[7:0] mux2
 
-Xb3a B[3]#24 W[31:8] W[23:0] X[31:8] mux2
-Xb3b B[3]#8 W[7:0] 0#8 X[7:0] mux2
+    Xb2a B[2]#28 X[31:4] X[27:0] Y[31:4] mux2
+    Xb2b B[2]#4 X[3:0] 0#4 Y[3:0] mux2
 
-Xb2a B[2]#28 X[31:4] X[27:0] Y[31:4] mux2
-Xb2b B[2]#4 X[3:0] 0#4 Y[3:0] mux2
+    Xb1a B[1]#30 Y[31:2] Y[29:0] Z[31:2] mux2
+    Xb1b B[1]#2 Y[1:0] 0#2 Z[1:0] mux2
 
-Xb1a B[1]#30 Y[31:2] Y[29:0] Z[31:2] mux2
-Xb1b B[1]#2 Y[1:0] 0#2 Z[1:0] mux2
+    Xb0a B[0]#31 Z[31:1] Z[30:0] SL[31:1] mux2
+    Xb0b B[0] Z[0] 0 SL[0] mux2
 
-Xb0a B[0]#31 Z[31:1] Z[30:0] SL[31:1] mux2
-Xb0b B[0] Z[0] 0 SL[0] mux2
-
-Xmux2 bool#32 SL[31:0] SL[0:31] OUT[31:0] mux2
-
+    Xmux2 bool#32 SL[31:0] SL[0:31] OUT[31:0] mux2
 .ends
 
 .subckt SRA A[31:0] B[4:0] SL[31:0]
-Xb4a B[4]#16 A[15:0] A[31:16] W[15:0] mux2
-Xb4b B[4]#16 A[31:16] A[31]#16 W[31:16] mux2
+    Xb4a B[4]#16 A[15:0] A[31:16] W[15:0] mux2
+    Xb4b B[4]#16 A[31:16] A[31]#16 W[31:16] mux2
 
-Xb3a B[3]#24 W[23:0] W[31:8] X[23:0] mux2
-Xb3b B[3]#8 W[31:24] A[31]#8 X[31:24] mux2
+    Xb3a B[3]#24 W[23:0] W[31:8] X[23:0] mux2
+    Xb3b B[3]#8 W[31:24] A[31]#8 X[31:24] mux2
 
-Xb2a B[2]#28 X[27:0] X[31:4] Y[27:0] mux2
-Xb2b B[2]#4 X[31:28] A[31]#4 Y[31:28] mux2
+    Xb2a B[2]#28 X[27:0] X[31:4] Y[27:0] mux2
+    Xb2b B[2]#4 X[31:28] A[31]#4 Y[31:28] mux2
 
-Xb1a B[1]#30 Y[29:0] Y[31:2] Z[29:0] mux2
-Xb1b B[1]#2 Y[31:30] A[31]#2 Z[31:30] mux2
+    Xb1a B[1]#30 Y[29:0] Y[31:2] Z[29:0] mux2
+    Xb1b B[1]#2 Y[31:30] A[31]#2 Z[31:30] mux2
 
-Xb0a B[0]#31 Z[30:0] Z[31:1] SL[30:0] mux2
-Xb0b B[0] Z[31] A[31] SL[31] mux2
-
+    Xb0a B[0]#31 Z[30:0] Z[31:1] SL[30:0] mux2
+    Xb0b B[0] Z[31] A[31] SL[31] mux2
 .ends
 
 
@@ -192,43 +212,41 @@ Xb0b B[0] Z[31] A[31] SL[31] mux2
 * END OF HELPER FUNCTIONS
 
 .subckt BOOL alufn[3:0] A[31:0] B[31:0] OUT[31:0]
-Xmux4 A[31:0] B[31:0] alufn[0]#32 alufn[1]#32 alufn[2]#32 alufn[3]#32 OUT[31:0] mux4
+    Xmux4 A[31:0] B[31:0] alufn[0]#32 alufn[1]#32 alufn[2]#32 alufn[3]#32 OUT[31:0] mux4
 .ends
 
 .subckt ARITH alufn[1:0] A[31:0] B[31:0] OUT[31:0] Z V N
-Xid1 B[31:0] alufn[0]#32 XB[31:0] xor2
-Xid2 A[31:0] XB[31:0] alufn[0] SUM[31:0] ADDER32
-Xid3 A[31:0] B[31:0] PROD[31:0] MULTIPLY
-Xid4 alufn[1]#32 SUM[31:0] PROD[31:0] OUT[31:0] mux2
-Xid5 SUM[31] N buffer
-Xid6 SUM[31:0] Z NOR32
-Xid7 A[31] XB[31] SUM[31] V GETV
+    Xid1 B[31:0] alufn[0]#32 XB[31:0] xor2
+    Xid2 A[31:0] XB[31:0] alufn[0] SUM[31:0] CarryLookAheadAdder32
+    Xid4 alufn[1]#32 SUM[31:0] 0#32 OUT[31:0] mux2
+    Xid5 SUM[31] N buffer
+    Xid6 SUM[31:0] Z NOR32
+    Xid7 A[31] XB[31] SUM[31] V GETV
 .ends
 
 .subckt SHIFT alufn[1:0] A[31:0] B[31:0] OUT[31:0]
-Xsra A[31:0] B[4:0] SRA[31:0] SRA
-Xshlr A[31:0] B[4:0] alufn[0] SHLR[31:0] SHLR
-Xmux alufn[0]#32 0#32 SRA[31:0] SR[31:0] mux2
-Xmux2 alufn[1]#32 SHLR[31:0] SR[31:0] OUT[31:0] mux2
+    Xsra A[31:0] B[4:0] SRA[31:0] SRA
+    Xshlr A[31:0] B[4:0] alufn[0] SHLR[31:0] SHLR
+    Xmux alufn[0]#32 0#32 SRA[31:0] SR[31:0] mux2
+    Xmux2 alufn[1]#32 SHLR[31:0] SR[31:0] OUT[31:0] mux2
 .ends
 
 .subckt CMP alufn3 alufn1 Z V N OUT[31:0]
-Xlt N V LT CMPLT
-Xle Z N V LE CMPLE
-Xmux4 alufn1 alufn3 Z LT LE 0 OUT[0] mux4
-.connect OUT[31:1] 0
+    Xlt N V LT CMPLT
+    Xle Z N V LE CMPLE
+    Xmux4 alufn1 alufn3 Z LT LE 0 OUT[0] mux4
+    .connect OUT[31:1] 0
 .ends
 
 .subckt alu alufn[4:0] a[31:0] b[31:0] out[31:0] z v n
-*** Generate outputs from each of BOOL, SHIFT, ARITH, CMP subcircuits:
-xbool alufn[3:0] a[31:0] b[31:0] boolout[31:0] BOOL
-xshift alufn[1:0] a[31:0] b[31:0] shiftout[31:0] SHIFT
-xarith alufn[1:0] a[31:0] b[31:0] arithout[31:0] z v n ARITH
-xcmp alufn[3] alufn[1] z v n cmpout[31:0] CMP
+    *** Generate outputs from each of BOOL, SHIFT, ARITH, CMP subcircuits:
+    xbool alufn[3:0] a[31:0] b[31:0] boolout[31:0] BOOL
+    xshift alufn[1:0] a[31:0] b[31:0] shiftout[31:0] SHIFT
+    xarith alufn[1:0] a[31:0] b[31:0] arithout[31:0] z v n ARITH
+    xcmp alufn[3] alufn[1] z v n cmpout[31:0] CMP
 
-*** Combine them, using three multiplexors:
-xmux1 alufn[4]#32 nonbool[31:0] boolout[31:0] out[31:0] mux2
-xmux2 alufn[2]#32 arithshift[31:0] cmpout[31:0] nonbool[31:0] mux2
-xmux3 alufn[3]#32 arithout[31:0] shiftout[31:0] arithshift[31:0] mux2
-
+    *** Combine them, using three multiplexors:
+    xmux1 alufn[4]#32 nonbool[31:0] boolout[31:0] out[31:0] mux2
+    xmux2 alufn[2]#32 arithshift[31:0] cmpout[31:0] nonbool[31:0] mux2
+    xmux3 alufn[3]#32 arithout[31:0] shiftout[31:0] arithshift[31:0] mux2
 .ends
