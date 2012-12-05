@@ -1,4 +1,4 @@
-\documentclass[10pt]{article}
+\documentclass[12pt]{article}
 
 %-------Packages---------
 \usepackage{enumerate}
@@ -41,7 +41,7 @@ Panjiva's competitive advantage rests in its ability to parse government import 
 
 The dataset used in this paper comes from the event and activity logs of Panjiva's website. Each time a user performs some significant event or activity on the Panjiva website, an entry will be created in either the event or activity log. If the user has a registered account with Panjiva, the action will be recorded in the activity logs. All activities, regardless of whether a user has an account, are recorded in the event logs. All nontrivial features of the website, including supplier search, U.S. import and export search, and profiles views, are accounted for and stored in a SQL database.
 
-The data in the event and activity logs are organized so that one can trace the exact user or subscribed account for which the entry. In particular, the logs contain information on the ip address of the user, the time the activity was performed, the webpage the activity occurred on, and extra data depending on the type of activity performed. 
+The data in the event and activity logs are organized so that one can trace the exact user or subscribed account for which the entry correspodns to. In particular, the logs contain information on the ip address of the user, the time the activity was performed, the webpage the activity occurred on, and extra data depending on the type of activity performed. 
 
 The enormous quantity and granularity of this data enable the analysis of user-level interactions. The event logs contain about 124 million entries while the activity logs contain about 13 million entries. Moreover, the data in each of these logs extends for multiple years, allowing one to analyze the growth of Panjiva as a company and the effect of different changes to the website.
 
@@ -54,7 +54,7 @@ Summary statistics providing an overview of Panjiva's business and website are p
 \caption{Panjiva Overview}
 \begin{tabular}{l || l}
 \hline
-Total Users & 121,653 \\
+Total Registered Users & 121,653 \\
 Subscribing Users & 2,985 \\
 Monthly Site Visits & 903,426 \\
 Monthly Unique Visitors & 762,723 \\
@@ -65,7 +65,7 @@ Average Visit Duration & 1 min 18 sec \\
 \label{table:panjiva-overview}
 \end{table}
 
-Commits can be thought of as changes to the code. In each commit, a software developer will introduce new code or delete old code which will then be launched to the production website. Typically a single developer at Panjiva will commit a couple of times throughout the workday. Figure \ref{fig:commit-history} shows a histogram of the number of commits throughout a 52 week period ending on 11/24/2012. Commit activity varies depending on the season and the week. In particular, commits during the summer spike upwards and there will be one or two weeks each quarter when commits fall to low levels. The second phenomenon is due to the fact that Panjiva holds a quarterly retreat where engineers reflect upon the work done over the quarter. Typically the amount of code written decreases during these weeks. 
+``Commits'' can be thought of as changes to the code. In each commit, a software developer will introduce new code or delete old code which will then be launched to the production website. Typically a single developer at Panjiva will commit a couple of times throughout the workday. Figure \ref{fig:commit-history} shows a histogram of the number of commits throughout a 52 week period ending on 11/24/2012. Commit activity varies depending on the season and the week. In particular, commits during the summer spike upwards and there will be one or two weeks each quarter when commits fall to low levels. The second phenomenon is due to the fact that Panjiva holds a quarterly retreat where engineers reflect upon the work done over the quarter. Typically the amount of code written decreases during these weeks. 
 
 \begin{figure}[h!]
 \centering
@@ -106,7 +106,7 @@ Finally, note that almost no commits occur on weekends. Only 5\% of the commits 
 
 \section{Macro-Level Results}
 
-This section examines how code changes affect the total amount of user activity across the entire website (macro-level effects). In particular, this section analyzes the change in a number of metrics of user activity controlling for the amount of code changed in a particular day. The regression specification used will the as follows:
+This section examines how code changes affect the total amount of user activity across the entire website (macro-level effects). In particular, this section analyzes the change in a number of metrics of user activity controlling for the amount of code changed in a particular day. The regression specification used will be as follows:
 
 \begin{eqnarray}
 y^i_{t} = c_0 + \bar{\gamma}^T \bar{M}_t + \bar{\beta}^T \bar{\chi}_t + \epsilon_t
@@ -116,11 +116,11 @@ Where $t$ indexes day, $y^i_t$ corresponds to the $i$th metric of user activity 
 
 The first two metrics for user actions are the total number of entries in the activity or event logs for a particular time period. Recall that event logs are database records for actions performed by anyone, while activity logs are records for only those users who have a registered account with Panjiva.
 
-Another set of metrics are the total number of distinct users performing either activities or events in a given time period. Finally, one might also use the average number of actions per user, whether action is defined using records from activity or event logs. One would expect the each of these metrics to measure a different aspect of user behavior. 
+Another set of metrics are the total number of distinct users performing either activities or events in a given time period. Finally, one might also use the average number of actions per user, whether action is defined using records from activity or event logs. One would expect each of these metrics to measure a different aspect of user behavior. 
 
 \subsection{Daily Effects of Code Changes}
 
-Table \ref{table:macro-action-results} displays the results from using the total action count as a metric for user activity. The regressions in table \ref{table:macro-action-results} attempt to find the effect of different changes in the code base on different measures of user activity. A commit can be measured by the number of files it changes, or the number of lines of code it changes. Changes in lines of code can be either insertions or deletions. Each of these measures is percentilized (sorted rank is divided by the total number of observations). The regressions below are performed on aggregated statistics per day, with a dummy variable equal to 1 on the weekends and 0 otherwise.  
+Table \ref{table:macro-action-results} displays the results from using the total action count as a metric for user activity. The regressions in table \ref{table:macro-action-results} attempt to find the effect of different changes in the code base on different measures of user activity. A commit can be measured by the number of files it changes, or the number of lines of code it changes. Changes in lines of code can be either insertions or deletions. Each of these measures is percentilized (see the data appendix for details). The regressions below are performed on aggregated statistics per day, with a dummy variable equal to 1 on the weekends and 0 otherwise.  
 
 \begin{sidewaystable}[p]
 \centering
@@ -497,5 +497,28 @@ This paper examined the effect of code changes on user activity. Total user acti
 Exploiting the granularity of Panjiva's dataset, the paper found that code changes on particular website pages, such as the Search page, resulted in a higher number of repeat views. The micro-level dataset also reinforced the hypothesis that user activity tends to increase with an increase in the number of lines of code, ceteris paribus. Finally, the paper found that code changes tended to have negative affects on popular pages, possibly because of the time required to adjust to these changes.
 
 Code changes seem to have an ambiguous effect on user activity in general. They can be successful only with a confluence of factors. In particular, high quality changes tend to have a better chance of positively influencing users. Also, changes to highly trafficked pages can have negative effects on user behavior. Thus, it seems that change by itself does not tend to be a good strategy in general. Changes need to be targetted and of high quality in order for them to be successful. 
+
+\appendix
+
+\section{Explanation of Dataset}
+
+The original event and activity log datasets are tables in a PostgreSQL database. Panjiva uses a Ruby on Rails framework for its entire website, and stores ruby objects in the PostgreSql database. The activity and event logs each contain certain attributes that can be queried for. The attributes are listed below:
+
+\begin{table}[h!]
+\caption{Activity Log Attributes}
+\begin{tabular}{l | l | l}
+Attribute Name & Attribute Type & Comment\\
+\hline \hline
+$id                          $& integer  & Unique id for each record   \\ 
+$user\_account\_id             $& integer  & Id of the associated user account   \\
+$controller                  $& string(255) & Controller viewed \\
+$action                      $& string(255) & Specific action of the controller viewed \\
+$model\_id                    $& integer    & Id of the database model \\
+$status                      $& string(255) & Status of completion of request \\
+$created\_at                  $& datetime   & Time the record was created \\ 
+$ip\_address                  $& string     &  \\
+$session\_id                  $& integer    & Id of the browser session \\
+\end{tabular}
+\end{table}
 
 \end{document}
