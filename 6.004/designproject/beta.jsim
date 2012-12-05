@@ -10,7 +10,7 @@
     Xand ia[31] jt[31] newpc31 and2
 
     // the pc31 will be incremented by 4 in accordance to the program counter convention
-    Xadd1 ia[31:0] iaplusfour[31:0] PCPlusFourAdder32
+    Xadd1 ia[31:0] 0#29 vdd 0#2 iaplusfour[31:0] CarryLookAheadAdder32
     // 
     Xadd2 iaplusfour[31:0] c[29:0] 0#3 cplus[31:0] CarryLookAheadAdder32
     
