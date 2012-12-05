@@ -41,12 +41,12 @@
 .ends
 
 
-.subkct PCPlusFourAdder32 pc[31:0] pcplusfour[31:0] 
-    Xadd4_b0 pc[1:0] pcplusfour[1:0] buffer
-    Xadd4_b1 vdd c[2] buffer
-
-    Xadd4_s ia[31:2] c[31:2] pcplusfour[31:2] xor2
-    Xadd4_c ia[30:2] c[30:2] c[31:3] and2
+.subckt PCPlusFourAdder32 pc[31:0] pcplusfour[31:0] 
+    Xcad pc[31:0] 0#29 vdd 0#3 pcplusfour[31:0] CarryLookAheadAdder32
+    *Xadd4_b0 pc[1:0] pcplusfour[1:0] buffer
+    *Xadd4_b1 vdd c[2] buffer
+    *Xadd4_s ia[31:2] c[31:2] pcplusfour[31:2] xor2
+    *Xadd4_c ia[30:2] c[30:2] c[31:3] and2
 .ends
 
 .subckt CarryLookAheadAdder32 a[31:0] b[31:0] c0 s[31:0]

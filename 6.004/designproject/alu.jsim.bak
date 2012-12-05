@@ -1,9 +1,5 @@
 * Helper Subcircuits
 
-.include "/mit/6.004/jsim/nominal.jsim"
-.include "/mit/6.004/jsim/stdcell.jsim"
-.include "/mit/6.004/jsim/lab3_test_adder.jsim"
-
 * 3-input full adder: inputs are a, b, ci, outputs are s, co
 .subckt FA a b ci s co
     Xg0 a b y xor2
@@ -44,15 +40,24 @@
     Xid2 A[31:1] B[31:1] C[30:0] OUT[31:1] C[31:1] FA 
 .ends
 
+
+.subckt PCPlusFourAdder32 pc[31:0] pcplusfour[31:0] 
+    Xcad pc[31:0] 0#28 vdd 0#4 pcplusfour[31:0] CarryLookAheadAdder32
+    *Xadd4_b0 pc[1:0] pcplusfour[1:0] buffer
+    *Xadd4_b1 vdd c[2] buffer
+    *Xadd4_s ia[31:2] c[31:2] pcplusfour[31:2] xor2
+    *Xadd4_c ia[30:2] c[30:2] c[31:3] and2
+.ends
+
 .subckt CarryLookAheadAdder32 a[31:0] b[31:0] c0 s[31:0]
-    * negate
-    Xnegate b[31:0] c0#32 bx[31:0] xor2 
+    * use a buffer 
+    Xnegate b[31:0] bx[31:0] buffer 
 
     * carry select
     Xcsa0 a[31:0] bx[31:0] 0#32 szero[31:0] xor3
     Xcsa1 a[31:0] bx[31:0] vdd#32 sone[31:0] xor3
     Xcsam cone[31:0] szero[31:0] sone[31:0] s[31:0] mux2
-    Xt1 a[31:0] b[31:0] gin[31:0] pin[31:0] GetGP 
+    Xt1 a[31:0] bx[31:0] gin[31:0] pin[31:0] GetGP 
 
     * lookaheads
     * level 2
@@ -143,21 +148,27 @@
 
 .subckt GetGP a b g p 
     * Compute G and P
-    XgetG a b g and2
-    XgetP a b p xor2
+    XgetG a b ginv nand2
+    XgetG2 ginv g inverter
+
+    XgetP a b pinv xnor2
+    XgetP2 pinv p inverter
 .ends
 
 .subckt LookAheadBlock g[1:0] p[1:0] ghl phl 
     * Does the logic for G_{hl} = G_h + P_h*G_l
-    Xghl0 p[1] g[0] y and2
-    xghl1 y g[1] ghl or2
+    Xghl0 p[1] g[0] yinv nand2
+    Xghl1 yinv y inverter
+    xghl2 y g[1] ghlinv nor2
+    xghl3 ghlinv ghl inverter
 
     * Does the logic for P_{hl} = P_h*P_l
-    Xphl p[1] p[0] phl and2
+    Xphl0 p[1] p[0] phlinv nand2
+    xphl1 phlinv phl inverter 
 .ends
 
 .subckt CarryBlock cin G P cout[1:0]
-    Xto cin P x nand2
+    Xt0 cin P x nand2
     Xt1 x y inverter
     Xt2 y G z nor2
     Xt3 z cout[1] inverter
@@ -165,8 +176,10 @@
 .ends
 
 .subckt xor3 a b c s
-    Xone a b x xor2
-    Xtwo x c s xor2
+    Xt0 a b xinv xnor2
+    Xt1 xinv x inverter
+    Xt2 x c sinv xnor2
+    Xt3 sinv s inverter
 .ends
 
 .subckt SHLR A[31:0] B[4:0] bool OUT[31:0]
