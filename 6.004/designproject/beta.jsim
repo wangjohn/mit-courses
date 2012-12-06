@@ -4,13 +4,13 @@
 
 //Pc
 
-.subckt pc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] c[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0] aluoutput[31:0]
+.subckt pc clk reset pcsel[2:0] xadr[31:0] illop[31:0] jt[31:0] c[31:0] ia[31:0] iaplusfour[31:0] aluoutput[31:0]
 
     // making sure that the newpc31 bit only changes when both oldpc31 and jt31 are 1s
     Xand ia[31] jt[31] newpc31 and2
 
     // the pc31 will be incremented by 4 in accordance to the program counter convention
-    Xadd1 ia[31:0] 0#29 vdd 0#2 iaplusfour[31:0] CarryLookAheadAdder32
+    Xadd1 ia[31:0] 0#29 vdd 0#3 iaplusfour[31:0] CarryLookAheadAdder32
     
     Xmux1 pcsel[0]#32 pcsel[1]#32 iaplusfour[31:0] ia[31] aluoutput[30:0] newpc31 jt[30:2] 0#2 illop[31:0] intermedout[31:0] mux4
     Xmux2 pcsel[2]#32 intermedout[31:0] xadr[31:0] muxout[31:0] mux2
@@ -81,7 +81,7 @@
         + 0b000001100000001100 //  BEQ
         + 0b000001100000001100 //  BNE
         + 0b011100000000000100 // 
-        + 0b000010001101010110 //  LDR
+        + 0b000010101101001100 //  LDR
         + 0b000000000000001100 //  ADD
         + 0b000000000000101100 //  SUB
         + 0b000000000001001100 //  MUL 
@@ -138,7 +138,7 @@
 
     // component pieces of the beta: pc, regfile, ctl
     // pc
-    Xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] cext[31:0] ia[31:0] cplus[31:0] iaplusfour[31:0] aluoutput[31:0] pc
+    Xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] cext[31:0] ia[31:0] iaplusfour[31:0] aluoutput[31:0] pc
     // regfile 
     Xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] wdata[31:0] radata[31:0] mwd[31:0] wasel regfile
     // ctl
@@ -154,7 +154,7 @@
     
     // muxes for the beta
     // aselmux: selects what goes into a of alu
-    Xaselmux asel#32 radata[31:0] 0 cplus[30:0] adata[31:0] mux2 
+    Xaselmux asel#32 radata[31:0] 0 iaplusfour[30:0] adata[31:0] mux2 
     // bsel mux: selects what goes into b of alu
     Xbselmux bsel[0]#32 mwd[31:0] cext[31:0] bintermed[31:0] mux2
     Xbselmux2 bsel[1]#32 bintermed[31:0] fourtimescext[31:0] bdata[31:0] mux2
@@ -180,7 +180,7 @@
     // connect id and cext
     Xconnectcirc1 cext[31:16] id[15]#16 connectcirc
     Xconnectcirc2 id[15:0] cext[15:0] connectcirc
-    Xfourtimes cext[31:0] 0#29 vdd 0#2 fourtimescext[31:0] SHLR
+    Xfourtimes cext[31:0] 0#2 vdd 0#3 fourtimescext[31:0] SHLR
 
     Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z1 v1 n1 alu
     Xaluoutputbuffer ma[31:0] aluoutput[31:0] buffer
