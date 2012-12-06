@@ -749,16 +749,18 @@ Count3: LONG(0)
 ||| Mouse Handling
 |||||||||||||||||||||||||
 
-Mouse_State: LONG(0)
+Mouse_State: LONG(-1)
 
 MouseH:                | return mouse code in r0, or block
     LD(Mouse_State, r0)
-    BEQ(r0, I_Wait)       | on 0, just wait a while
+    CMPEQC(r0, -1, r1)
+    BNE(r1, I_Wait)       | if r0 == -1, wait a while
 
 | mouse info ready, return it and clear the mouse buffer
     LD(Mouse_State, r0)   | Fetch mouse state to return
     ST(r0, UserMState)    | return it in r0
-    ST(r31, Mouse_State)  | clear the mouse state storage
+    CMOVE(-1, r1)
+    ST(r1, Mouse_State)  | clear the mouse state storage
     BR(I_Rtn)             | return
 
 I_Mouse:
@@ -786,8 +788,9 @@ ReportClickStart:
     LD(UserMState, r0)    | load click value into r0
 
     | First get the value for x
-    SHRC(r0, 16, r1)      | store x value into r1
-    ST(r1, UserMState)
+    ADD(r0, r31, r1)
+    SHRC(r0, 16, r0)      | store x value into r1
+    ST(r0, UserMState)
 
     | Write x down
     WrMsg()
@@ -795,8 +798,10 @@ ReportClickStart:
     HexPrt()
 
     | Now get the value for y
-    ORC(r0, 0xFFFF, r2)   | store y value into r2
-    ST(r2, UserMState)   
+    SHLC(r1, 16 ,r1)
+    SHRC(r1, 16, r1)
+    ADD(r1, r31, r0)
+    ST(r0, UserMState)
 
     | Write y down
     WrMsg()
