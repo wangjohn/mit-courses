@@ -40,6 +40,12 @@
     Xid2 A[31:1] B[31:1] C[30:0] OUT[31:1] C[31:1] FA 
 .ends
 
+.subckt PCPlusFour32 A[31:0] OUT[31:0]
+    Xbuff A[1:0] OUT[1:0] buffer
+    Xid1 A[2] vdd 0 OUT[2] C[0] FA
+    Xid2 A[31:3] 0#29 C[28:0] OUT[31:3] C[29:1] FA
+.ends
+
 .subckt check0and1 a b out 
     Xinv a ainv inverter
     Xand ainv b out and2
