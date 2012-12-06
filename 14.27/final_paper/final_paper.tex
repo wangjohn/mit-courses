@@ -500,13 +500,14 @@ Code changes seem to have an ambiguous effect on user activity in general. They 
 
 \appendix
 
-\section{Explanation of Dataset}
+\section{Appendix: Explanation of Dataset}
 
 The original event and activity log datasets are tables in a PostgreSQL database. Panjiva uses a Ruby on Rails framework for its entire website, and stores ruby objects in the PostgreSql database. The activity and event logs each contain certain attributes that can be queried for. The attributes are listed below:
 
 \begin{table}[h!]
 \caption{Activity Log Attributes}
 \begin{tabular}{l | l | l}
+\centering
 Attribute Name & Attribute Type & Comment\\
 \hline \hline
 $id                          $& integer  & Unique id for each record   \\ 
@@ -520,5 +521,9 @@ $ip\_address                  $& string     &  \\
 $session\_id                  $& integer    & Id of the browser session \\
 \end{tabular}
 \end{table}
+
+The event log attributes are very similar except there is less informative data. In particular, the event logs do not have data on the controller or actions viewed by a given user. Note that activity logs only record actions performed by users who have registered with Panjiva and have sigend into the website. Event logs tracks actions performed both both registered users and by those who have not logged in. Consequently, the event log is much larger, but has less informative data.
+
+
 
 \end{document}
