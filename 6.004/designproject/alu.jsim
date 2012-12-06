@@ -40,62 +40,6 @@
     Xid2 A[31:1] B[31:1] C[30:0] OUT[31:1] C[31:1] FA 
 .ends
 
-
-.subckt PCPlusFourAdder32 pc[31:0] pcplusfour[31:0] 
-    *move the first two bits of pc to pcplusfour
-    Xbuffer pc[1:0] pcplusfour[1:0] buffer
-
-    *check to find when the ones stop
-    Xt1a pc[3:2]   level1[0] and2
-    Xt1b pc[5:4]   level1[1] and2
-    Xt1c pc[7:6]   level1[2] and2
-    Xt1d pc[9:8]   level1[3] and2
-    Xt1e pc[11:10] level1[4] and2
-    Xt1f pc[13:12] level1[5] and2
-    Xt1g pc[15:14] level1[6] and2
-    Xt1h pc[17:16] level1[7] and2
-    Xt1i pc[19:18] level1[8] and2 
-    Xt1j pc[21:20] level1[9] and2
-    Xt1k pc[23:22] level1[10] and2
-    Xt1l pc[25:24] level1[11] and2
-    Xt1m pc[27:26] level1[12] and2
-    Xt1n pc[29:28] level1[13] and2
-    Xt1o pc[31:30] level1[14] and2
-
-    Xt2a level1[1:0]   level2[0] and2
-    Xt2b level1[3:2]   level2[1] and2
-    Xt2c level1[5:4]   level2[2] and2
-    Xt2d level1[7:6]   level2[3] and2
-    Xt2e level1[9:8]   level2[4] and2
-    Xt2f level1[11:10] level2[5] and2
-    Xt2g level1[13:12] level2[6] and2
-    Xt2h level1[14] level2[7] buffer
-
-    Xt3a level2[1:0]  level3[0] and2
-    Xt3b level2[3:2]  level3[1] and2
-    Xt3c level2[5:4]  level3[2] and2
-    Xt3d level2[7:6]  level3[3] and2
-
-    Xt4a level3[1:0]  level4[0] and2
-    Xt4b level3[3:2]  level5[1] and2
-
-    Xt5a level4[1:0]  level6[0] and2
-
-    # create the buffers to zero
-    Xm5a level6[0] 0#30 pc[31:2] pcplusfour[31:2] mux2
-    Xm5na level6[0] 0 level5[0] level5new[0] mux2
-    Xm5nb level6[0] 0 level5[1] level5new[1] mux2
-    * if level5[0] == 1 and level5[1] == 0 then change the bit (we will not need to do any more calculations, so set new levels to 0).
-    Xm5ca level5[1] level5[0] level5done[0] check0and1
-    Xm5ca 
-
-    
-    Xm4a level5new[0] 0#16 pc[31:16] pcplusfour[31:16] mux2
-    Xm4a level5new[1] 0#14 pc[15:2] pcplusfour[15:2] mux2
-    Xm4na level5new[1]#2 0#2 level4[1:0] level4new[1:0] mux2
-
-.ends
-
 .subckt check0and1 a b out 
     Xinv a ainv inverter
     Xand ainv b out and2
