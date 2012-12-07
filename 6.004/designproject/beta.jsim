@@ -157,24 +157,32 @@
     Xreg2 instruction[31:0] clk idEXE[31:0] dreg
     Xreg3 werf clk werfEXE dreg
     Xreg4 ra2sel clk ra2selEXE dreg
-    Xreg5 
-    Xreg3 ia[31] clk iaEXE[31] dreg
+    Xreg5 asel clk aselEXE dreg
+    Xreg6 bsel clk bselEXE dreg
+    Xreg7 alufn[4:0] clk alufnEXE[4:0] dreg
+    Xreg8 wdseltemp[1:0] clk wdseltempEXE[1:0] dreg
+    Xreg9 werftemp clk werftempEXE dreg
+    Xreg10 moe clk moeEXE dreg
+    Xreg11 wrtemp clk wrtempEXE dreg
+    Xreg12 xpcsel[2:0] clk xpcselEXE[2:0] dreg
+    Xreg13 waseltemp clk waseltempEXE dreg
+    Xreg14 ia[31] clk iaEXE[31] dreg
     
 
     // inverter logic
     Xum iaEXE[31] usermode inverter
     Xinvlogic1 irq usermode shouldinterrupt and2
-    Xinvlogic2 shouldinterrupt waseltemp vdd wasel mux2
-    Xinvlogic3 shouldinterrupt werftemp vdd werf mux2
-    Xinvlogic4 shouldinterrupt#2 wdseltemp[1:0] 0#2 wdsel[1:0] mux2
-    Xinvlogic5 shouldinterrupt wrtemp 0 wr mux2
+    Xinvlogic2 shouldinterrupt waseltempEXE vdd wasel mux2
+    Xinvlogic3 shouldinterrupt werftempEXE vdd werf mux2
+    Xinvlogic4 shouldinterrupt#2 wdseltempEXE[1:0] 0#2 wdsel[1:0] mux2
+    Xinvlogic5 shouldinterrupt wrtempEXE 0 wr mux2
     
     // muxes for the beta
     // aselmux: selects what goes into a of alu
-    Xaselmux asel#32 radata[31:0] 0 iaplusfourEXE[30:0] adata[31:0] mux2 
+    Xaselmux aselEXE#32 radata[31:0] 0 iaplusfourEXE[30:0] adata[31:0] mux2 
     // bsel mux: selects what goes into b of alu
-    Xbselmux bsel[0]#32 mwd[31:0] cext[31:0] bintermed[31:0] mux2
-    Xbselmux2 bsel[1]#32 bintermed[31:0] fourtimescext[31:0] bdata[31:0] mux2
+    Xbselmux bselEXE[0]#32 mwd[31:0] cext[31:0] bintermed[31:0] mux2
+    Xbselmux2 bselEXE[1]#32 bintermed[31:0] fourtimescext[31:0] bdata[31:0] mux2
     // wdsel mux: 
     Xwdselmux wdsel[1]#32 wdsel[0]#32 iaEXE[31] iaplusfourEXE[30:0] mrd[31:0] ma[31:0] ma[31:0] wdata[31:0] mux4
     // pcsel mux: selects how to increment the program counter
