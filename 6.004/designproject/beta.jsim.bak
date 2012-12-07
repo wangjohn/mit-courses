@@ -1,7 +1,7 @@
 .include "nominal.jsim"
 .include "stdcell.jsim"
 .include "alu.jsim"
-*.include "/mit/6.004/jsim/lab6checkoff.jsim"
+.include "/mit/6.004/jsim/lab6checkoff.jsim"
 
 //Pc
 
@@ -11,9 +11,7 @@
     Xand ia[31] jt[31] newpc31 and2
 
     // the pc31 will be incremented by 4 in accordance to the program counter convention
-    Xincrement ia[31:0] iaplusfour[31:0] PCPlusFour32
-    *Xadd1 ia[31:0] 0#29 vdd 0#3 iaplusfour[31:0] CarryLookAheadAdder32
-    *Xadd1 ia[31:0] 0#29 vdd 0#3 iaplusfour[31:0] ADDER32
+    Xadd1 ia[31:0] 0#29 vdd 0#3 iaplusfour[31:0] CarryLookAheadAdder32
     
     Xmux1 pcsel[0]#32 pcsel[1]#32 iaplusfour[31:0] ia[31] aluoutput[30:0] newpc31 jt[30:2] 0#2 illop[31:0] intermedout[31:0] mux4
     Xmux2 pcsel[2]#32 intermedout[31:0] xadr[31:0] muxout[31:0] mux2
@@ -143,26 +141,12 @@
     // pc
     Xpc clk reset pcsel[2:0] xadr[31:0] illop[31:0] radata[31:0] ia[31:0] iaplusfour[31:0] aluoutput[31:0] pc
     // regfile 
-    Xregfile clk werf ra2sel idEXE[20:16] idEXE[15:11] idEXE[25:21] wdata[31:0] radata[31:0] mwd[31:0] wasel regfile
+    Xregfile clk werf ra2sel id[20:16] id[15:11] id[25:21] wdata[31:0] radata[31:0] mwd[31:0] wasel regfile
     // ctl
     Xctl reset z id[31:26] ra2sel bsel[1:0] alufn[4:0] wdseltemp[1:0] werftemp moe wrtemp xpcsel[2:0] waseltemp asel ctl
     
-    // Create an ADD(31, 31, 31) instruction for a NOP and select with annulIF
-    // 100000 11111 11111 11111 00000000000
-    Xnop1 vdd 0#5 vdd#15 0#11 nopinstruct[31:0] buffer 
-    Xinst1 annulIF#32 id[31:0] nopinstruct[31:0] instruction[31:0] mux2
-
-    // registers that separate the IF and the EXE portions in 2-stage pipeline
-    Xreg1 iaplusfour[31:0] clk iaplusfourEXE[31:0] dreg
-    Xreg2 instruction[31:0] clk idEXE[31:0] dreg
-    Xreg3 werf clk werfEXE dreg
-    Xreg4 ra2sel clk ra2selEXE dreg
-    Xreg5 
-    Xreg3 ia[31] clk iaEXE[31] dreg
-    
-
     // inverter logic
-    Xum iaEXE[31] usermode inverter
+    Xum ia[31] usermode inverter
     Xinvlogic1 irq usermode shouldinterrupt and2
     Xinvlogic2 shouldinterrupt waseltemp vdd wasel mux2
     Xinvlogic3 shouldinterrupt werftemp vdd werf mux2
@@ -171,12 +155,12 @@
     
     // muxes for the beta
     // aselmux: selects what goes into a of alu
-    Xaselmux asel#32 radata[31:0] 0 iaplusfourEXE[30:0] adata[31:0] mux2 
+    Xaselmux asel#32 radata[31:0] 0 iaplusfour[30:0] adata[31:0] mux2 
     // bsel mux: selects what goes into b of alu
     Xbselmux bsel[0]#32 mwd[31:0] cext[31:0] bintermed[31:0] mux2
     Xbselmux2 bsel[1]#32 bintermed[31:0] fourtimescext[31:0] bdata[31:0] mux2
     // wdsel mux: 
-    Xwdselmux wdsel[1]#32 wdsel[0]#32 iaEXE[31] iaplusfourEXE[30:0] mrd[31:0] ma[31:0] ma[31:0] wdata[31:0] mux4
+    Xwdselmux wdsel[1]#32 wdsel[0]#32 ia[31] iaplusfour[30:0] mrd[31:0] ma[31:0] ma[31:0] wdata[31:0] mux4
     // pcsel mux: selects how to increment the program counter
     Xpcselmux shouldinterrupt#3 xpcsel[2:0] vdd 0 0 pcsel[2:0] mux2
 
@@ -195,8 +179,8 @@
     Xnor20 nor10 nor11 z and2
     
     // connect id and cext
-    Xconnectcirc1 idEXE[15]#16 cext[31:16] connectcirc
-    Xconnectcirc2 idEXE[15:0] cext[15:0] connectcirc
+    Xconnectcirc1 id[15]#16 cext[31:16] connectcirc
+    Xconnectcirc2 id[15:0] cext[15:0] connectcirc
     Xfourtimes cext[31:0] 0#3 vdd 0#2 fourtimescext[31:0] SHLR
 
     Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z1 v1 n1 alu
