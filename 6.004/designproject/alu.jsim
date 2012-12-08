@@ -11,12 +11,6 @@
     Xg6 d e g nand2
 .ends
 
-.subckt NOR32 S[31:0] Z
-    Xnor0 S[31:24] S[23:16] S[15:8] S[7:0] I[7:0] nor4
-    Xnand0 I[7:6] I[5:4] I[3:2] I[1:0] I2[1:0] nand4
-    Xnor1 I2[1] I2[0] Z nor2
-.ends
-
 .subckt GETV A XB OUT V
     Xid1 OUT notS inverter
     Xid2 A notA inverter
