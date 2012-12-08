@@ -14,11 +14,11 @@ Xmem
 + $memory width=32 nlocations=1024
 + file="/mit/6.004/jsim/projcheckoff.bin"
 // 20ns cycle time, assert RESET for first cycle. Your cycle time may vary...
-Vclk clk 0 pulse(3.3,0,7.285ns,.01ns,.01ns,7.285ns)
+Vclk clk 0 pulse(3.3,0,7.2ns,.01ns,.01ns,7.2ns)
 Vreset reset 0 pwl(0ns 3.3v, 30ns 3.3v, 30.1ns 0v)
 // Run the simulation for 1205 cycles. Your design might require more or less
 // cycles depending on how it executes instructions. Run only as long as necessary
 // to complete the benchmark since the ending simulation time is used to compute
 // your circuit Benmark
-.tran 13775ns
+.tran 13075ns
 
