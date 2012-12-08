@@ -524,6 +524,42 @@ $session\_id                  $& integer    & Id of the browser session \\
 
 The event log attributes are very similar except there is less informative data. In particular, the event logs do not have data on the controller or actions viewed by a given user. Note that activity logs only record actions performed by users who have registered with Panjiva and have sigend into the website. Event logs tracks actions performed both both registered users and by those who have not logged in. Consequently, the event log is much larger, but has less informative data.
 
+The event logs contain about 124 million records, while the action logs contain 13 million records. The data in the PostgreSql database was parsed into macro level and micro level datasets. 
+
+\subsection{Macro-Level Dataset}
+
+The macro-level dataset contains aggregated count statistics for each active day after 7/14/2011. The dataset was created by making a SQL query to find the total count of actions on the event and activity logs, as well as the total distinct users. This populated the $activitylog\_count$, $activitylog\_distinct\_user\_count$, $eventlog\_count$, and $eventlog\_distinct\_user\_count$ variables (since these were broken down by day, the $date$ and $ay\_of\_week$ variables were also created). 
+
+To get information about commits, such as the insertions, deletions, and files changed for a given day, the version control system used by Panjiva was mined. Panjiva uses git and Github to store and track changes in its source code. In order to find the total number of lines and files changed in a given day, the master git repository (the version of the code which is public and launched to production) was programmatically scraped for information. Note that the variable $lineschanged$ counts every line that was changed, whether an insertion or deletion, and is simply equal to $insertions + deletions$. The variable $fileschanged$ is the number of distinct files for which at least one line was inserted or deleted. 
+
+\begin{table}[h!]
+\begin{tabular}{l | l | l}
+\centering
+Attribute Name & Attribute Type & Comment \\
+\hline \hline
+$date$ & $date$ & Date of the record \\  
+$day\_of\_week$ & $integer$ & Sunday = 0 and Saturday = 6 \\
+$lineschanged$ & $integer$ & Total number of lines changed \\
+$fileschanged$ & $integer$ & Total number of files chanegd \\
+$insertions$ & $integer$ & Number of lines changed that were insertions \\
+$deletions$ & $integer$ & Number of lines changed that were deletions \\
+$fileschanged\_percentile$ & $float$ & See description below \\
+$insertions\_percentile$ & $float$ & See description below \\
+$deletions\_percentile$ & $float$ & See description below \\
+$activitylog\_count$ & $integer$ & Count of all activity log actions in the current day \\
+$eventlog\_count$ & $integer$ & Count of all event log actions in the current day \\
+$activitylog\_distinct\_user\_count$ & $integer$ & Number of distinct users that appeared in the activity logs in the current day \\
+$eventlog\_distinct\_user\_count$ & $integer$ & Number of distinct users that appeared in the event logs in the current day \\
+\end{tabular}
+\end{table}
+
+The percentile variables were created by sorting the base variable and dividing the index by the number of days. For example, if the number of lines changed was $[10,5,2,3,12]$ for days 0 through 4 respectively, then the list would first be sorted to $[2,3,5,10,12]$ and the day corresponding to two lines changed would have a percentile of $0/5 = 0$, while the day corresponding to three would have a percentile of $1/5 = 0.2$. This would continue upwards until the last day with a percentile of $4/5 = 0.8$. Thus, the percentiles for days 0 through 4 would be $[3/5, 2/5, 0/5, 1/5, 4/5]$. 
+
+The percentile variables are simply the ranked percentile of a given observation in comparison to the entire distribution. In essence, one can think of the percentile transformation as mapping an arbitrary distribution to a uniform distribution. The transformation was done for fileschanged, deletions, and insertions.
+
+\subsection{Micro-Level Dataset}
+
+The micro-level dataset was obtained in a similar manner, however, much more attention was paid to each commit. First, the git repository was searched for all commits in the period from 7/14/2011 until 11/26/2012 concerning a given page of the site. Each of these commits had a timestamp, the exact lines of code changed, and the author of the change. For each commit, the timestamp was examined, and the activity logs were searched for all actions that occurred within two days of the commit's timestamp (a four day window corresponding to two days before and two days after) and occurred on a page changed by the commit. For each of these observations, the number of total views of the page in the twenty four hours following the observation's date were recorded in $num\_views\_day\_later$. Dummies for the controller were created for each observation.   
 
 
 \end{document}
