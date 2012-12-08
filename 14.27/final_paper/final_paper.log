@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  8 DEC 2012 12:22
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  8 DEC 2012 12:51
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -308,22 +308,22 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <12> on input line 55.
 
-<pictures/commit-activity.png, id=67, 892.33376pt x 134.5025pt>
+<pictures/commit-activity.png, id=93, 892.33376pt x 134.5025pt>
 File: pictures/commit-activity.png Graphic file (type png)
 
 <use pictures/commit-activity.png> [3 <./pictures/commit-activity.png>]
-<pictures/commit-hours.png, id=77, 642.4pt x 240.9pt>
+<pictures/commit-hours.png, id=103, 642.4pt x 240.9pt>
 File: pictures/commit-hours.png Graphic file (type png)
 
 <use pictures/commit-hours.png>
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 154.
  [4 <./pictures/commit-hours.png>] [5] [6]
-<pictures/avg_events_time_coefficients.png, id=108, 417.05812pt x 207.77625pt>
+<pictures/avg_events_time_coefficients.png, id=134, 417.05812pt x 207.77625pt>
 File: pictures/avg_events_time_coefficients.png Graphic file (type png)
 
 <use pictures/avg_events_time_coefficients.png>
-<pictures/avg_activities_time_coefficients.png, id=112, 418.56375pt x 249.18094
+<pictures/avg_activities_time_coefficients.png, id=138, 418.56375pt x 249.18094
 pt>
 File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
  <use pictures/avg_activities_time_coefficients.png>
@@ -331,7 +331,7 @@ File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<pictures/commit_percentiles_time_coefficients.png, id=114, 422.32782pt x 252.1
+<pictures/commit_percentiles_time_coefficients.png, id=140, 422.32782pt x 252.1
 9218pt>
 File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
 
@@ -362,19 +362,24 @@ tics for each ac-tive day af-ter 7/14/2011.
  []
 
 
-Overfull \hbox (169.15419pt too wide) in paragraph at lines 536--554
+Overfull \hbox (169.15419pt too wide) in paragraph at lines 537--555
 [][] 
  []
 
-[16] [17] (./final_paper.aux) ) 
+[16]
+Overfull \hbox (268.77574pt too wide) in paragraph at lines 570--589
+ [][] 
+ []
+
+[17] [18] (./final_paper.aux) ) 
 Here is how much of TeX's memory you used:
- 4753 strings out of 493848
- 69800 string characters out of 1152823
+ 4759 strings out of 493848
+ 69866 string characters out of 1152823
  156300 words of memory out of 3000000
- 7917 multiletter control sequences out of 15000+50000
+ 7920 multiletter control sequences out of 15000+50000
  10239 words of font info for 36 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,12n,36p,987b,389s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 38i,12n,36p,1008b,389s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/ams
 fonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
 bx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></
@@ -391,9 +396,9 @@ texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts
 m/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share
 /texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (17 pages, 349871 bytes).
+Output written on final_paper.pdf (18 pages, 362206 bytes).
 PDF statistics:
- 261 PDF objects out of 1000 (max. 8388607)
- 54 named destinations out of 1000 (max. 500000)
- 114 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 291 PDF objects out of 1000 (max. 8388607)
+ 57 named destinations out of 1000 (max. 500000)
+ 138 words of extra memory for PDF output out of 10000 (max. 10000000)
 
