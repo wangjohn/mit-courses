@@ -533,6 +533,7 @@ The macro-level dataset contains aggregated count statistics for each active day
 To get information about commits, such as the insertions, deletions, and files changed for a given day, the version control system used by Panjiva was mined. Panjiva uses git and Github to store and track changes in its source code. In order to find the total number of lines and files changed in a given day, the master git repository (the version of the code which is public and launched to production) was programmatically scraped for information. Note that the variable $lineschanged$ counts every line that was changed, whether an insertion or deletion, and is simply equal to $insertions + deletions$. The variable $fileschanged$ is the number of distinct files for which at least one line was inserted or deleted. 
 
 \begin{table}[h!]
+\footnotesize
 \centering
 \caption{Variables used in the Macro-Level Dataset}
 \begin{tabular}{l | l | l}
@@ -567,6 +568,7 @@ The micro-level dataset was obtained in a similar manner, however, much more att
 For each commit, the number of files changed, insertions, and deletions was also calculated (and percentilized by the method used above). The final list of variables for the micro-level dataset is given below:
 
 \begin{table}
+\footnotesize
 \centering
 \caption{Variables used in the Micro-Level Dataset}
 \begin{tabular}{l | l | l}
