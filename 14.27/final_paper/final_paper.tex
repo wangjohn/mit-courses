@@ -505,9 +505,9 @@ Code changes seem to have an ambiguous effect on user activity in general. They 
 The original event and activity log datasets are tables in a PostgreSQL database. Panjiva uses a Ruby on Rails framework for its entire website, and stores ruby objects in the PostgreSql database. The activity and event logs each contain certain attributes that can be queried for. The attributes are listed below:
 
 \begin{table}[h!]
+\centering
 \caption{Activity Log Attributes}
 \begin{tabular}{l | l | l}
-\centering
 Attribute Name & Attribute Type & Comment\\
 \hline \hline
 $id                          $& $integer$  & Unique id for each record   \\ 
@@ -533,9 +533,9 @@ The macro-level dataset contains aggregated count statistics for each active day
 To get information about commits, such as the insertions, deletions, and files changed for a given day, the version control system used by Panjiva was mined. Panjiva uses git and Github to store and track changes in its source code. In order to find the total number of lines and files changed in a given day, the master git repository (the version of the code which is public and launched to production) was programmatically scraped for information. Note that the variable $lineschanged$ counts every line that was changed, whether an insertion or deletion, and is simply equal to $insertions + deletions$. The variable $fileschanged$ is the number of distinct files for which at least one line was inserted or deleted. 
 
 \begin{table}[h!]
+\centering
 \caption{Variables used in the Macro-Level Dataset}
 \begin{tabular}{l | l | l}
-\centering
 Attribute Name & Attribute Type & Comment \\
 \hline \hline
 $date$ & $date$ & Date of the record \\  
@@ -549,8 +549,10 @@ $insertions\_percentile$ & $float$ & See description below \\
 $deletions\_percentile$ & $float$ & See description below \\
 $activitylog\_count$ & $integer$ & Count of all activity log actions in the current day \\
 $eventlog\_count$ & $integer$ & Count of all event log actions in the current day \\
-$activitylog\_distinct\_user\_count$ & $integer$ & Number of distinct users that appeared in the activity logs in the current day \\
-$eventlog\_distinct\_user\_count$ & $integer$ & Number of distinct users that appeared in the event logs in the current day \\
+$activitylog\_distinct\_user\_count$ & $integer$ & Number of distinct users that \\
+ & & appeared in the activity logs in the current day \\
+$eventlog\_distinct\_user\_count$ & $integer$ & Number of distinct users that \\
+ & &appeared in the event logs in the current day \\
 \end{tabular}
 \end{table}
 
@@ -571,13 +573,18 @@ For each commit, the number of files changed, insertions, and deletions was also
 Attribute Name & Attribute Type & Comment \\
 \hline \hline
 $user\_account\_id$ & $long$ & ID of the user which performed the action \\
-$controller$ & $string$ & Controller on which the action occurred (later processed into individual dummy variables) \\
+$controller$ & $string$ & Controller on which the action occurred \\
+ & & (later processed into individual dummy variables) \\
 $created\_at$ & $datetime$ & Time and date at which the action was performed \\
 $session\_id$ & $long$ & ID which identifies the browser session of the user \\
-$time\_from\_event$ & $float$ & Seconds elapsed between the commit and the action (negative when action occurred before the commit) \\
-$num\_controller\_views$ & $integer$ & Total number of times the current user viewed the controller all the logs \\
-$after\_commit$ & $boolean$ & Dummy variable equal to 1 if action occured after the commit and 0 otherwise \\
-$num\_views\_day\_later$ & $integer$ & Number of views of the controller in the day after the action \\
+$time\_from\_event$ & $float$ & Seconds elapsed between the commit and the \\
+ & & action (negative when action occurred before the commit) \\
+$num\_controller\_views$ & $integer$ & Total number of times the current \\ 
+ & & user viewed the controller all the logs \\
+$after\_commit$ & $boolean$ & Dummy variable equal to 1 if action occured \\ 
+ & & after the commit and 0 otherwise \\
+$num\_views\_day\_later$ & $integer$ & Number of views of the controller \\
+ & & in the day after the action \\
 $commit\_date$ & $datetime$ & Date at which the commit occurred \\
 $fileschanged$ & $integer$ & Total number of files chanegd \\
 $insertions$ & $integer$ & Number of lines changed that were insertions \\
