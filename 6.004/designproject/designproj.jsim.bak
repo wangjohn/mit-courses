@@ -8,17 +8,31 @@ Xbeta clk reset 0 ia[31:0] id[31:0] ma[31:0] moe mrd[31:0] wr mwd[31:0] beta
 // the contents shown below -- the benchmark suite. A file containing these
 // values can be found at /mit/6.004/jsim/projcheckoff.bin.
 Xmem
-+ vdd 0 0 ia[11:2] id[31:0]
 + moe 0 0 ma[11:2] mrd[31:0]
++ vdd 0 0 ia[11:2] id[31:0]
 + 0 clk wr ma[11:2] mwd[31:0]
+//+ vr[2] vr[1] vr[0] controller[11:2] vout[31:0] 
 + $memory width=32 nlocations=1024
 + file="/mit/6.004/jsim/projcheckoff.bin"
 // 20ns cycle time, assert RESET for first cycle. Your cycle time may vary...
-Vclk clk 0 pulse(3.3,0,7.20ns,.01ns,.01ns,7.20ns)
+Vclk clk 0 pulse(3.3,0,7.265ns,.01ns,.01ns,7.265ns)
 Vreset reset 0 pwl(0ns 3.3v, 30ns 3.3v, 30.1ns 0v)
 // Run the simulation for 1205 cycles. Your design might require more or less
 // cycles depending on how it executes instructions. Run only as long as necessary
 // to complete the benchmark since the ending simulation time is used to compute
 // your circuit Benmark
-.tran 13600ns
+.tran 13755ns
+
+
+//Xmux02 wr#3 vdd 0 0 0 clk wr vr[2:0] mux2
+//Xmux12 wr#10 ia[11:2] ma[11:2] controller[11:2] mux2
+//
+//Xmux32 wr#32 vout[31:0] 0#32 id[31:0] mux2
+//Xmux22 wr#32 mwd[31:0] vout[31:0] tristate 
+
+
+.plot wr
+//.plot vout[31:0]
+.plot id[31:0]
+.plot mwd[31:0]
 
