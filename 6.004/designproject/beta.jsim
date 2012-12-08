@@ -25,7 +25,7 @@
 //Regfile
 
 .subckt regfile clk werf ra2sel ra[4:0] rb[4:0] rc[4:0]
-+ wdata[31:0] radata[31:0] rbdata[31:0] wasel
++ wdata[31:0] radata[31:0] rbdata[31:0] wasel 
 
     Xmux ra2sel#5 rb[4:0] rc[4:0] ra2mux[4:0] mux2
     Xcheck31a ra[4:0] raout checkthirtyone
@@ -43,7 +43,6 @@
     + vdd 0 0 ra2mux[4:0] bdata[31:0] // B read port
     + 0 clk werf wa[4:0] wdata[31:0]  // write port
     + $memory width=32 nlocations=31
-
 .ends
 
 //Ctl
@@ -176,6 +175,19 @@
     Xpcselmux shouldinterrupt#3 xpcsel[2:0] vdd 0 0 pcsel[2:0] mux2
 
     // Get z
+    Xnors radata[31:0] z nor32
+    
+    // connect id and cext
+    Xconnectcirc1 id[15]#16 cext[31:16] connectcirc
+    Xconnectcirc2 id[15:0] cext[15:0] connectcirc
+    Xfourtimes cext[31:0] 0#3 vdd 0#2 fourtimescext[31:0] SHLR
+
+    Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z1 v1 n1 alu
+    Xaluoutputbuffer ma[31:0] aluoutput[31:0] buffer
+
+.ends
+
+.subckt nor32 radata[31:0] z 
     Xnor01 radata[3:0] nors01 nor4
     Xnor02 radata[7:4] nors02 nor4
     Xnor03 radata[11:8] nors03 nor4
@@ -188,15 +200,8 @@
     Xnor10 nors01 nors02 nors03 nors04 nor10 and4
     Xnor11 nors05 nors06 nors07 nors08 nor11 and4
     Xnor20 nor10 nor11 z and2
-    
-    // connect id and cext
-    Xconnectcirc1 id[15]#16 cext[31:16] connectcirc
-    Xconnectcirc2 id[15:0] cext[15:0] connectcirc
-    Xfourtimes cext[31:0] 0#3 vdd 0#2 fourtimescext[31:0] SHLR
-
-    Xalu alufn[4:0] adata[31:0] bdata[31:0] ma[31:0] z1 v1 n1 alu
-    Xaluoutputbuffer ma[31:0] aluoutput[31:0] buffer
 .ends
+
 
 // helper subcircuits
 
@@ -205,8 +210,10 @@
 .ends
 
 .subckt checkthirtyone A[4:0] out
-    Xand1 A[4:1] out1 and4
-    Xand2 A[0] out1 out and2
+    Xand1 A[4:1] outinv1 nand4
+    Xinv1 outinv1 out1 inverter
+    Xand2 A[0] out1 outinv nand2
+    Xinv2 outinv out inverter
 .ends
 
 
