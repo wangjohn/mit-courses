@@ -170,6 +170,10 @@
 .ends
 
 .subckt CarryBlock cin G P cout[1:0]
+    *Xt0 cin P y and2
+    *Xt1 y G cout[1] or2
+    *Xt2 cin cout[0] buffer
+
     Xt0 cin P x nand2
     Xt1 x y inverter
     Xt2 y G z nor2
