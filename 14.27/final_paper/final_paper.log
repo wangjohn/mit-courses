@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  8 DEC 2012 12:56
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  8 DEC 2012 12:59
 entering extended mode
  %&-line parsing enabled.
-**final_paper.
+**final_paper.tex
 (./final_paper.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
@@ -14,8 +14,8 @@ orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
 rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
 (/usr/share/texmf-texlive/tex/latex/base/article.cls
 Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-(/usr/share/texmf-texlive/tex/latex/base/size12.clo
-File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+(/usr/share/texmf-texlive/tex/latex/base/size11.clo
+File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -249,10 +249,10 @@ driver: pdftex
 \headheight 12.0pt
 \headsep    25.0pt
 \footskip   30.0pt
-\marginparwidth 44.0pt
+\marginparwidth 59.0pt
 \marginparsep   10.0pt
 \columnsep  10.0pt
-\skip\footins  10.8pt plus 4.0pt minus 2.0pt
+\skip\footins  10.0pt plus 4.0pt minus 2.0pt
 \hoffset 0.0pt
 \voffset 0.0pt
 \mag 1000
@@ -289,106 +289,102 @@ LaTeX Info: Redefining \pageref on input line 20.
 
 \AtBeginShipoutBox=\box28
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 23.
+(Font)              <12> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 23.
+(Font)              <8> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 24.
+(Font)              <6> on input line 23.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 24.
+(Font)              <7> on input line 24.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 24.
+(Font)              <5> on input line 24.
  (./final_paper.toc)
 \tf@toc=\write4
 \openout4 = `final_paper.toc'.
 
  [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 55.
+(Font)              <10.95> on input line 55.
 
-<pictures/commit-activity.png, id=93, 892.33376pt x 134.5025pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[2] <pictures/commit-activity.png, id=95, 892.33376pt x 134.5025pt>
 File: pictures/commit-activity.png Graphic file (type png)
 
-<use pictures/commit-activity.png> [3 <./pictures/commit-activity.png>]
-<pictures/commit-hours.png, id=103, 642.4pt x 240.9pt>
+<use pictures/commit-activity.png>
+<pictures/commit-hours.png, id=98, 642.4pt x 240.9pt>
 File: pictures/commit-hours.png Graphic file (type png)
 
-<use pictures/commit-hours.png>
+<use pictures/commit-hours.png> [3 <./pictures/commit-activity.png> <./pictures
+/commit-hours.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 154.
- [4 <./pictures/commit-hours.png>] [5] [6]
-<pictures/avg_events_time_coefficients.png, id=134, 417.05812pt x 207.77625pt>
+(Font)              <9> on input line 154.
+ [4] [5]
+<pictures/avg_events_time_coefficients.png, id=129, 417.05812pt x 207.77625pt>
 File: pictures/avg_events_time_coefficients.png Graphic file (type png)
 
 <use pictures/avg_events_time_coefficients.png>
-<pictures/avg_activities_time_coefficients.png, id=138, 418.56375pt x 249.18094
+<pictures/avg_activities_time_coefficients.png, id=133, 418.56375pt x 249.18094
 pt>
 File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
  <use pictures/avg_activities_time_coefficients.png>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-
-<pictures/commit_percentiles_time_coefficients.png, id=140, 422.32782pt x 252.1
+[6 <./pictures/avg_events_time_coefficients.png (PNG copy)>]
+<pictures/commit_percentiles_time_coefficients.png, id=143, 422.32782pt x 252.1
 9218pt>
 File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
 
- <use pictures/commit_percentiles_time_coefficients.png> [7 <./pictures/avg_eve
-nts_time_coefficients.png (PNG copy)>]
-Overfull \hbox (14.63165pt too wide) in alignment at lines 229--231
- [][][] []
+ <use pictures/commit_percentiles_time_coefficients.png> [7 <./pictures/avg_act
+ivities_time_coefficients.png (PNG copy)> <./pictures/commit_percentiles_time_c
+oefficients.png (PNG copy)>] [8] [9] [10] [11] [12] [13] [14]
+Overfull \hbox (18.89127pt too wide) in paragraph at lines 535--536
+\OT1/cmr/m/n/10 logs, as well as the to-tal dis-tinct users. This pop-u-lated t
+he $\OML/cmm/m/it/10 activitylog[]count$\OT1/cmr/m/n/10 , $\OML/cmm/m/it/10 act
+ivitylog[]distinct[]user[]count$\OT1/cmr/m/n/10 ,
  []
 
-[8 <./pictures/avg_activities_time_coefficients.png (PNG copy)> <./pictures/com
-mit_percentiles_time_coefficients.png (PNG copy)>] [9] [10]
-Overfull \hbox (28.84702pt too wide) in alignment at lines 304--309
- [][][] []
- []
-
-[11] [12]
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[13]
+[15] [16] (./final_paper.aux)
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-[14] [15]
-Overfull \hbox (3.14822pt too wide) in paragraph at lines 531--532
-\OT1/cmr/m/n/10.95 The macro-level dataset con-tains ag-gre-gated count statis-
-tics for each ac-tive day af-ter 7/14/2011.
- []
-
-[16] [17] [18] (./final_paper.aux) ) 
+ ) 
 Here is how much of TeX's memory you used:
  4760 strings out of 493848
- 69867 string characters out of 1152823
- 156300 words of memory out of 3000000
+ 69842 string characters out of 1152823
+ 159300 words of memory out of 3000000
  7920 multiletter control sequences out of 15000+50000
- 10239 words of font info for 36 fonts, out of 3000000 for 9000
+ 10236 words of font info for 36 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 38i,12n,36p,1005b,389s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/publi
-c/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
-cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.p
-fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
-m/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/t
-exmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8
-.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
-share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (18 pages, 360374 bytes).
+ 38i,12n,36p,1008b,391s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi9.pfb
+></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share
+/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texli
+ve/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
+fonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7
+.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/
+type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cm/cmsy8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm
+/cmti9.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+
+Output written on final_paper.pdf (16 pages, 374643 bytes).
 PDF statistics:
  291 PDF objects out of 1000 (max. 8388607)
- 57 named destinations out of 1000 (max. 500000)
+ 55 named destinations out of 1000 (max. 500000)
  138 words of extra memory for PDF output out of 10000 (max. 10000000)
 

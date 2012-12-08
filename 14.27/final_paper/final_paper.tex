@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
 %-------Packages---------
 \usepackage{enumerate}
@@ -498,6 +498,9 @@ Exploiting the granularity of Panjiva's dataset, the paper found that code chang
 
 Code changes seem to have an ambiguous effect on user activity in general. They can be successful only with a confluence of factors. In particular, high quality changes tend to have a better chance of positively influencing users. Also, changes to highly trafficked pages can have negative effects on user behavior. Thus, it seems that change by itself does not tend to be a good strategy in general. Changes need to be targetted and of high quality in order for them to be successful. 
 
+
+\newpage
+
 \appendix
 
 \section{Data Appendix}
@@ -505,6 +508,7 @@ Code changes seem to have an ambiguous effect on user activity in general. They 
 The original event and activity log datasets are tables in a PostgreSQL database. Panjiva uses a Ruby on Rails framework for its entire website, and stores ruby objects in the PostgreSql database. The activity and event logs each contain certain attributes that can be queried for. The attributes are listed below:
 
 \begin{table}[h!]
+\footnotesize
 \centering
 \caption{Activity Log Attributes}
 \begin{tabular}{l | l | l}
