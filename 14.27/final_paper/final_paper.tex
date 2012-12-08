@@ -50,6 +50,7 @@ The enormous quantity and granularity of this data enable the analysis of user-l
 Summary statistics providing an overview of Panjiva's business and website are provided in table \ref{table:panjiva-overview}. Panjiva was incorporated in 2008 and has since developed a customer base composed mostly of buyers of manufactured goods. The website provides free services (a limited number of searches) for free users, and provides many more services to subscribers (there are multiple levels of subscription).\footnote{Note that although there exists data for multiple years, due to time constraints, this paper only examines data in the range from 7/24/2011 to 11/25/2012. The summary statistics, however, provide data for all years of operation.} 
 
 \begin{table}[h!]
+\footnotesize
 \centering
 \caption{Panjiva Overview}
 \begin{tabular}{l || l}
@@ -77,6 +78,7 @@ Average Visit Duration & 1 min 18 sec \\
 Table \ref{table:commit-stats} shows statistics on a snapshot of the commit repository made on 11/25/2012. The table shows an enormous number of changes throughout the history of the website.
 
 \begin{table}[h!]
+\footnotesize
 \centering
 \caption{Overall Commit Statistics - 11/25/2012}
 \begin{tabular}{l || l }
@@ -112,13 +114,14 @@ This section examines how code changes affect the total amount of user activity 
 y_{t} = c_0 + \bar{\gamma}^T \bar{M}_t + \bar{\beta}^T \bar{\chi}_t + \epsilon_t
 \end{eqnarray}
 
-Where $t$ indexes day, $y_t$ corresponds to some metric of user activity on day $t$ ($activitylog\_count$ or $eventlog\_count$ are examples of $y_t$), $\bar{M}_t$ corresponds to a vector of covariates that represent changes in the code, $\bar{\chi}_t$ is a vector of controls, and $\epsilon_t$ is an error term. We will use a number of different metrics for user activity and the specification will be run with each of them.\footnote{See the data appendix for the definition of the variables used in the macro-level dataset.} 
+Where $t$ indexes day, $y_t$ corresponds to some metric of total user activity occuring only on day $t$ ($activitylog\_count$ or $eventlog\_count$ are examples of $y_t$), $\bar{M}_t$ corresponds to a vector of covariates that represent changes in the code, $\bar{\chi}_t$ is a vector of controls, and $\epsilon_t$ is an error term. We will use a number of different metrics for user activity and the specification will be run with each of them.\footnote{See the data appendix for the definition of the variables used in the macro-level dataset.} 
 
 \subsection{Daily Effects of Code Changes}
 
-Table \ref{table:macro-action-results} displays the results from using the total action count as a metric for user activity. The regressions in table \ref{table:macro-action-results} attempt to find the effect of different changes in the code base on different measures of user activity. A commit can be measured by the number of files it changes, or the number of lines of code it changes. Changes in lines of code can be either insertions or deletions. Each of these measures is percentilized (see the data appendix for details). The regressions below are performed on aggregated statistics per day, with a dummy variable equal to 1 on the weekends and 0 otherwise.  
+Table \ref{table:macro-action-results} displays the results from using the total action count, total distinct user count, and average actions per user as metrics for user activity. The regressions in table \ref{table:macro-action-results} attempt to find the effect of different changes in the code base on different measures of user activity. A commit can be measured by the number of files it changes, or the number of lines of code it changes. Changes in lines of code can be either insertions or deletions. Each of these measures is percentilized (see the data appendix for details). The regressions below are performed on aggregated statistics per day, with a dummy variable equal to 1 on the weekends and 0 otherwise.  
 
 \begin{sidewaystable}[p]
+\footnotesize
 \centering
 \caption{Effect of Commits on User Activity}
 {
@@ -129,13 +132,13 @@ Table \ref{table:macro-action-results} displays the results from using the total
         &\multicolumn{1}{c}{activitylog\_count}&\multicolumn{1}{c}{eventlog\_count}&\multicolumn{1}{c}{activitylog}&\multicolumn{1}{c}{eventlog}&\multicolumn{1}{c}{avg\_user\_activity}&\multicolumn{1}{c}{avg\_user\_events}\\
         &\multicolumn{1}{c}{}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{distinct\_user\_count}&\multicolumn{1}{c}{distinct\_user\_count}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{}\\
         \hline
-        fileschangedpercentile&     -5530.7         &    -60589.4\sym{*}  &       460.5         &       492.7         &      -10.40\sym{*}  &      -148.6         \\
+        fileschanged\_percentile&     -5530.7         &    -60589.4\sym{*}  &       460.5         &       492.7         &      -10.40\sym{*}  &      -148.6         \\
         &     (-1.91)         &     (-2.26)         &      (0.65)         &      (0.71)         &     (-2.01)         &     (-1.52)         \\
         [1em]
-        insertionspercentile&      4868.8\sym{*}  &     47053.7\sym{*}  &       284.2         &       118.6         &       2.817         &       79.92         \\
+        insertions\_percentile&      4868.8\sym{*}  &     47053.7\sym{*}  &       284.2         &       118.6         &       2.817         &       79.92         \\
         &      (2.12)         &      (2.22)         &      (0.51)         &      (0.22)         &      (0.69)         &      (1.03)         \\
         [1em]
-        deletionspercentile&      2778.9         &     29970.6         &      -192.2         &      -184.4         &       4.670         &       49.47         \\
+        deletions\_percentile&      2778.9         &     29970.6         &      -192.2         &      -184.4         &       4.670         &       49.47         \\
         &      (1.29)         &      (1.50)         &     (-0.36)         &     (-0.36)         &      (1.21)         &      (0.68)         \\
         [1em]
         weekend     &    -14708.0\sym{***}&    -79769.8\sym{***}&     -1060.6\sym{***}&      -816.2\sym{***}&      -0.297         &       257.0\sym{***}\\
@@ -169,7 +172,7 @@ Table \ref{table:macro-action-results} displays the results from using the total
 \label{table:macro-action-results}
 \end{sidewaystable}
 
-The table shows the effect of commits on same day user activity. In general, changes to the code have minor and insignificant effects on metrics derived from the event logs. There are only significant effects for the eventlogcount. However, code changes have a stronger effect on metrics derived from the activity logs. Notice that for activitylogcount, the insertionspercentile variable is significant and the fileschangedpercentile and deletionspercentile are within the 10\% significance level. Moreover, fileschangedpercentile has a significant effect on the average number of activities per user. The number of files changed and number of insertions are the only significant regressors, and they have opposing signs. 
+The table shows the effect of commits on same day user activity. In general, changes to the code have minor and insignificant effects on metrics derived from the event logs. There are only significant effects for the $eventlog\_count$. However, code changes have a stronger effect on metrics derived from the activity logs. Notice that for $activitylog\_count$, the $insertions\_percentile$ variable is significant and the fileschangedpercentile and deletions\_percentile are within the 10\% significance level. Moreover, fileschangedpercentile has a significant effect on the average number of activities per user. The number of files changed and number of insertions are the only significant regressors, and they have opposing signs. 
 
 Increasing the number of files changed tends to decrease user activity, while increasing the number of code insertions tends to increase user activity. Although this result seems perplexing, there are a number of possible explanations. First, it is possible that the commits which change fewer files tend to be higher quality commits. Thus, if a commit touches a large number of files, there is a higher likelihood that this commit would introduce a bug or contain low quality changes. However, it seems that introducing new code, instead of deleting code, has a positive effect on user activity, controlling for the number of files changed. 
 
@@ -215,18 +218,18 @@ Figure \ref{fig:avg-activities-time-coefficients} shows large and consistent neg
 However, the number of files changed per day has a significant and negative coefficient throughout all time lags, reinforcing the results from the previous section that the more files changed on a particular day, the lower user activity tends to be. This result stays consistent across time, suggesting that lower user activity begins early and persists for a number of days. This provides more evidence that increasing the number of files changed per day, given the current number of files changed, will decrease user average user activity from users who are registered on Panjiva. 
 
 \begin{figure}[h!]
-\caption{$\gamma_0$ and $\gamma_1$ Coefficients with Varying Lags. Regressed on Average Activity Logs per User, the graph displays the coefficients on insertionspercentile and deletionspercentile as time lags range from 0 to 30.}
+\caption{$\gamma_0$ and $\gamma_1$ Coefficients with Varying Lags. Regressed on Average Activity Logs per User, the graph displays the coefficients on insertions\_percentile and deletions\_percentile as time lags range from 0 to 30.}
 \centering
 \includegraphics[width=4.5in]{pictures/commit_percentiles_time_coefficients.png}
 \label{fig:insertions-deletions-time-coefficients}
 \end{figure}
 
-Figure \ref{fig:insertions-deletions-time-coefficients} examines the change in average user activity due to insertions and deletions of code. This graph makes the behavior of coefficients on insertionspercentile and deletionspercentile from the original regressions more clear. The figure displays the $\gamma_0$ and $\gamma_1$ coefficients from the following regression:
+Figure \ref{fig:insertions-deletions-time-coefficients} examines the change in average user activity due to insertions and deletions of code. This graph makes the behavior of coefficients on insertions\_percentile and deletions\_percentile from the original regressions more clear. The figure displays the $\gamma_0$ and $\gamma_1$ coefficients from the following regression:
 \begin{eqnarray}
-avguseractivity_{tx} = c_0 + \gamma_0 insertionspercentile_t + \gamma_1 deletionspercentile_t + \beta weekend_t + \epsilon_t
+avguseractivity_{tx} = c_0 + \gamma_0 insertions\_percentile_t + \gamma_1 deletions\_percentile_t + \beta weekend_t + \epsilon_t
 \end{eqnarray}
 
-The graph remains consistent across different levels of lags-insertionspercentile's coefficient tends to be negative while deletionspercentile's coefficient tends to be positive. Although there exist multiple lags for which either $\gamma_0$ or $\gamma_1$ is not significantly different from 0, it is never the case that the $\gamma_0$ and $\gamma_1$ coefficients switch sign. This implies that the actual effect of increasing the insertion percentile is likely correlated with lower average user activity while increasing the deletion percentile does the opposite.
+The graph remains consistent across different levels of lags-insertions\_percentile's coefficient tends to be negative while deletions\_percentile's coefficient tends to be positive. Although there exist multiple lags for which either $\gamma_0$ or $\gamma_1$ is not significantly different from 0, it is never the case that the $\gamma_0$ and $\gamma_1$ coefficients switch sign. This implies that the actual effect of increasing the insertion percentile is likely correlated with lower average user activity while increasing the deletion percentile does the opposite.
 
 This finding seems to imply that removing code tends to be better than adding code. Although this hypothesis was reached on macro-level data, it is still an interesting idea. Perhaps removing code is correlated with making better code, and inserting new code usually happens with a new, possibly buggy feature being added. If this is the case, then it seems that users respond better to clean, non-buggy code. To investigate this further, regressions are performed on a more granular level.
 
@@ -242,7 +245,7 @@ Even better, most of the code changes made throughout the day can be thought of 
 
 The search page has always been Panjiva's most trafficked page. Possibly due to this, it has received a number of code changes, both in terms of back-end structure and also in terms of the user interface. There is, correspondingly a large amount of variation in the number of lines of code changed and the times at which code was changed on the search page. To exploit this variation, this section will examine user activity before and after a code change. 
 
-In particular, this section limits the activity log dataset to only users who have seen the search page both two days before and after a particular change. Thus, for each code change in the search page, the users that had recently seen the unchanged page and also the changed page were examined. Any users seeing the search page over two days before the change were dropped, as were users who saw the search page over two days after the change. User activity was measured with the $num_views_day_after$ variable, which corresponds to the number of views of the search page in the day after the current view of the page. Note that day after is defined as 86,400 seconds after the original view occurred. 
+In particular, this section limits the activity log dataset to only users who have seen the search page both two days before and after a particular change. Thus, for each code change in the search page, the users that had recently seen the unchanged page and also the changed page were examined. Any users seeing the search page over two days before the change were dropped, as were users who saw the search page over two days after the change. User activity was measured with the $num\_views\_day\_later$ variable. For a particular user page view, the $num\_views\_day\_later$ variable is equal to the number of views by that user of that particular page in the 24 hours after the original view. 
 
 Since the dataset was confined to only users who saw both the original website and the changed website, one can take the difference between the number of views before and after the change as the effect of the change (assuming that commits are exogeneous). Another refinement made to the dataset is that only commits to the search controller were examined.\footnote{A controller in a Model-View-Controller web framework is typically the piece of the code that manages the data and sends it along to the user interface. For Panjiva, almost all of the heavy-lifting is done in the controller (this includes data processing and the search algorithm itself).} This choice was made because a significant portion of the user interface code is antiquated and left in the code-base. Therefore, large changes to the user interface code could spuriously affect parts of the code that no longer are seen on the production website. 
 
@@ -251,9 +254,19 @@ The time period from 7/14/2011 until 11/25/2012 was examined (to confine the dat
 num\_views\_day\_after_{it} = c_0 + \beta_0 \mu_{it} + \beta_1 hour\_dummies_{it} + \epsilon_{it}
 \end{eqnarray}
 
-Where $i$ indexes the $i$th commit and $t$ indexes the $t$th view in the 4 day window surrounding the $i$th commit. Here $\mu_{it}$ is either a dummy variable $after\_commit$ which is equal to 1 if the view of the search page occurred after the commit and 0 otherwsie, or it is equal to $time\_from\_event$ which is the number of seconds since the commit. Therefore, if a view of the search controller occured at time $T_1$ and the commit occurred at time $T_2$, then $time\_from\_event = T_1 - T_2$.  
+Where $i$ indexes the commit and $t$ indexes the distinct views of any user seeing the commit. Here $\mu_{it}$ is either a dummy variable $after\_commit$ which is equal to 1 if the view of the search page occurred after the commit and 0 otherwsie, or it is equal to $time\_from\_event$ which is the number of seconds since the commit. Therefore, if a view of the search controller occured at time $T_1$ and the commit occurred at time $T_2$, then $time\_from\_event = T_1 - T_2$.  
+
+\begin{figure}[h!]
+\centering
+\caption{Regression Specification for Micro-Level Analysis}
+\includegraphics[width=4.5in]{pictures/specification_diagram.png}
+\label{fig:specification-diagram}
+\end{figure}
+
+To understand the above specification, a diagram is provided in figure \ref{fig:specification-diagram}. Each grey dot represents a page view by user $j$. The regression takes all of the grey dots surrounding a given commit (for all users) and uses $num\_views\_day\_after$ as the dependent variable. This is done for all commits on a particular page.
 
 \begin{table}[h!]
+\footnotesize
 \caption{Search Controller Micro-Level Results}
 \centering
 {
@@ -290,17 +303,18 @@ Where $i$ indexes the $i$th commit and $t$ indexes the $t$th view in the 4 day w
 \label{table:search-micro-commit-results}
 \end{table}
 
-There are about 2.3 million observations in this refined dataset and table \ref{table:search-micro-commit-results} shows the regression results of the specification defined above. The table shows that actions recorded after the commit occurs have a significantly higher number of views. Moreover, the positive coefficient on the time\_from\_event variable shows that as one gets further away from the commit time, the number of views of the search page increases. Thus, the number of views that occur after the commit is greater than the number of views before the commit (since time\_from\_event is negative before a commit and positive afterwards). The coefficients on after\_commit and time\_from\_event are strongly statistically significant (much higher than normal levels), which suggests that commits have a large positive effect on user actiivty. 
+There are about 2.3 million observations in this refined dataset and table \ref{table:search-micro-commit-results} shows the regression results of the specification defined above. The table shows that actions recorded after the commit occurs have a significantly higher number of views. Moreover, the positive coefficient on the $time\_from\_event$ variable shows that as one gets further away from the commit time, the number of views of the search page increases. Thus, the number of views that occur after the commit is greater than the number of views before the commit (since $time\_from\_event$ is negative before a commit and positive afterwards). The coefficients on $after\_commit$ and $time\_from\_event$ are strongly statistically significant (much higher than normal levels), which suggests that commits have a large positive effect on user actiivty. 
 
-The statistical significance remains even when hour dummies are included (a set of 24 dummy variables where created\_at\_hour\_i = 1 if the activity record was created in the $i$th hour of the day and 0 otherwise). This provides strong evidence that code changes in the search controller significantly affect user behavior. Since commits are most likely exogeneous, user activity seems to increase significantly due to the changes in the search controller. 
+The statistical significance remains even when hour dummies are included (a set of 24 dummy variables where $created\_at\_hour\_i$ = 1 if the activity record was created in the $i$th hour of the day and 0 otherwise). This provides strong evidence that code changes in the search controller significantly affect user behavior. Since commits are most likely exogeneous, user activity seems to increase significantly due to the changes in the search controller. 
 
 \subsection{Insertions and Deletions}
 
 However, it is still unclear from these regressions why user activity increases. To examine this in more detail, a regression with the following specification was conducted:
 \begin{eqnarray}
-num\_views\_day\_later_{it} &=& \beta_0 after\_commit_{it} + \beta_1 insertionspercentile_{it} + \beta_2 deletionspercentile_{it} \\ \nonumber
-&+& \beta_3 insertionspercentile_{it} * after\_commit_{it} \\ \nonumber
-&+& \beta_4 deletionspercentile_{it} * after\_commit_{it} \\ \nonumber
+num\_views\_day\_later_{it} &=& \beta_0 after\_commit_{it} + \beta_1 insertions\_percentile_{it} \\ \nonumber
+&+& \beta_2 deletions\_percentile_{it} \\ \nonumber
+&+& \beta_3 insertions\_percentile_{it} * after\_commit_{it} \\ \nonumber
+&+& \beta_4 deletions\_percentile_{it} * after\_commit_{it} \\ \nonumber
 &+& \beta_5 hour\_dummies_{it} + c_0 +  \epsilon_{it}
 \end{eqnarray}
 
@@ -313,6 +327,7 @@ Including all of the controllers almost doubles the number of observations avail
 This implies that insertions in the code tend to increase the number of views a user will have on a particular page $p$ of the site, with respect to how much that user viewed $p$ before the code change. Deletions in the code tend to have the opposite effect, though this seems to depend on the controller affect. Although the negativitiy of $\beta_4$ is highly statistically significant on only the search controller, it loses its significance once all controllers are included in the regression in columns 3 and 4. However, one can say that deletions in the code, at least in the search controller, have a significant negative effect on the number of pages a user will view in the future.
 
 \begin{sidewaystable}[p]
+\footnotesize
 \centering
 \caption{Types of Commits and User Responses to Code Changes}
 {
@@ -325,16 +340,16 @@ This implies that insertions in the code tend to increase the number of views a 
         after\_commit&      -10.86\sym{***}&      -13.79\sym{***}&      -325.5\sym{***}&      -305.9\sym{***}\\
         &    (-16.90)         &    (-22.03)         &   (-154.63)         &   (-149.28)         \\
         [1em]
-        insertionspercentile&      -50.97\sym{***}&      -50.76\sym{***}&      -650.6\sym{***}&      -609.5\sym{***}\\
+        insertions\_percentile&      -50.97\sym{***}&      -50.76\sym{***}&      -650.6\sym{***}&      -609.5\sym{***}\\
         &    (-54.12)         &    (-55.34)         &   (-218.09)         &   (-209.88)         \\
         [1em]
-        deletionspercentile&       66.31\sym{***}&       63.35\sym{***}&       251.5\sym{***}&       230.8\sym{***}\\
+        deletions\_percentile&       66.31\sym{***}&       63.35\sym{***}&       251.5\sym{***}&       230.8\sym{***}\\
         &     (70.67)         &     (69.34)         &     (84.73)         &     (79.94)         \\
         [1em]
-        insertionspercentile *&       57.00\sym{***}&       58.05\sym{***}&       393.0\sym{***}&       365.1\sym{***}\\
+        insertions\_percentile *&       57.00\sym{***}&       58.05\sym{***}&       393.0\sym{***}&       365.1\sym{***}\\
         after\_commit&     (41.21)         &     (43.09)         &     (89.07)         &     (85.01)         \\
         [1em]
-        deletionspercentile * &      -24.16\sym{***}&      -23.64\sym{***}&       2.306         &       3.295         \\
+        deletions\_percentile * &      -24.16\sym{***}&      -23.64\sym{***}&       2.306         &       3.295         \\
         after\_commit&    (-17.65)         &    (-17.74)         &      (0.53)         &      (0.77)         \\
         [1em]
         created\_at\_hour&      No               &    Yes &          No           &     Yes\\
@@ -355,7 +370,7 @@ This implies that insertions in the code tend to increase the number of views a 
         \multicolumn{5}{l}{if the current observation occurs after the commit that it corresponds to. All observations are within a four day}\\
         \multicolumn{5}{l}{window of the commit (2 days before and 2 days after) and contain only users who have seen page $p$ both before the}\\
         \multicolumn{5}{l}{commit and after the commit.}\\
-        \multicolumn{5}{l}{The variables insertionspercentile and deletionspercentile are calculated as the percentile rank of the number of}\\
+        \multicolumn{5}{l}{The variables insertions\_percentile and deletions\_percentile are calculated as the percentile rank of the number of}\\
         \multicolumn{5}{l}{insertions and deletions for the current commit, respectively. The created\_at\_hour dummies correspond to dummies}\\
         \multicolumn{5}{l}{equaling 1 if the hour is equal to $i$ and 0 otherwise for $i \in [1,24]$.}\\ 
         \multicolumn{5}{l}{The dataset is either confined to the search controller, or uses all the controllers in the following list:}\\
@@ -386,6 +401,7 @@ SE_{sum} = \sqrt{ SE_{controller_{2k}}^2 + SE_{after\_commit}^2 + 2 Cov(controll
 These differential controller effects $\Gamma_k$ are given in table \ref{table:gamma-effects}. It is clear that each controller has a different effect. In particular, one can see why the effects for all the controllers in table \ref{table:commit-percentiles-micro} differ from the effects found for just the search controller in table \ref{table:search-micro-commit-results}. Both the My\_Panjiva controllers and the Project controllers have negative and significant $\Gamma$ coefficients. 
 
 \begin{table}[h!]
+\footnotesize
 \centering
 \caption{Differential Controller Effects on After Commit User Activity}
 {
@@ -434,6 +450,7 @@ Thus, to determine the effect of commits on controllers with different frequenci
 The new regression specification will now contain the num\_controller\_views variable and also an interaction term between num\_controller\_views and after\_commit to see how the number of controller views affects the success of a commit. Results are shown in table \ref{table:full-controller-micro}.
 
 \begin{table}[h!]
+\footnotesize
 \centering
 \caption{Controller Popularity Effects}
 {
@@ -446,16 +463,16 @@ The new regression specification will now contain the num\_controller\_views var
         after\_commit&      -13.79\sym{***}&      -9.618\sym{***}\\
         &     (-9.02)         &     (-6.40)         \\
         [0.5em]
-        insertionspercentile&      -108.8\sym{***}&      -104.9\sym{***}\\
+        insertions\_percentile&      -108.8\sym{***}&      -104.9\sym{***}\\
         &    (-52.39)         &    (-51.40)         \\
         [0.5em]
-        deletionspercentile&      -5.528\sym{**} &      -6.231\sym{**} \\
+        deletions\_percentile&      -5.528\sym{**} &      -6.231\sym{**} \\
         &     (-2.70)         &     (-3.10)         \\
         [0.5em]
-        insertionspercentile *&       63.96\sym{***}&       54.02\sym{***}\\
+        insertions\_percentile *&       63.96\sym{***}&       54.02\sym{***}\\
         after\_commit &     (20.91)         &     (17.96)         \\
         [0.5em]
-        deletionspercentile *&       67.98\sym{***}&       67.61\sym{***}\\
+        deletions\_percentile *&       67.98\sym{***}&       67.61\sym{***}\\
         after\_commit&     (22.53)         &     (22.79)         \\
         [0.5em]
         num\_controller\_views&      0.0475\sym{***}&      0.0469\sym{***}\\
