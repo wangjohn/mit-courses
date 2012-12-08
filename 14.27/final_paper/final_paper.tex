@@ -109,14 +109,10 @@ Finally, note that almost no commits occur on weekends. Only 5\% of the commits 
 This section examines how code changes affect the total amount of user activity across the entire website (macro-level effects). In particular, this section analyzes the change in a number of metrics of user activity controlling for the amount of code changed in a particular day. The regression specification used will be as follows:
 
 \begin{eqnarray}
-y^i_{t} = c_0 + \bar{\gamma}^T \bar{M}_t + \bar{\beta}^T \bar{\chi}_t + \epsilon_t
+y_{t} = c_0 + \bar{\gamma}^T \bar{M}_t + \bar{\beta}^T \bar{\chi}_t + \epsilon_t
 \end{eqnarray}
 
-Where $t$ indexes day, $y^i_t$ corresponds to the $i$th metric of user activity on day $t$, $\bar{M}_t$ corresponds to a vector of covariates that represent changes in the code, $\bar{\chi}_t$ is a vector of controls, and $\epsilon_t$ is an error term. We will use a number of different metrics for user activity and the specification will be run with each of them. 
-
-The first two metrics for user actions are the total number of entries in the activity or event logs for a particular time period. Recall that event logs are database records for actions performed by anyone, while activity logs are records for only those users who have a registered account with Panjiva.
-
-Another set of metrics are the total number of distinct users performing either activities or events in a given time period. Finally, one might also use the average number of actions per user, whether action is defined using records from activity or event logs. One would expect each of these metrics to measure a different aspect of user behavior. 
+Where $t$ indexes day, $y_t$ corresponds to some metric of user activity on day $t$ ($activitylog\_count$ or $eventlog\_count$ are examples of $y_t$), $\bar{M}_t$ corresponds to a vector of covariates that represent changes in the code, $\bar{\chi}_t$ is a vector of controls, and $\epsilon_t$ is an error term. We will use a number of different metrics for user activity and the specification will be run with each of them.\footnote{See the data appendix for the definition of the variables used in the macro-level dataset.} 
 
 \subsection{Daily Effects of Code Changes}
 
@@ -130,8 +126,8 @@ Table \ref{table:macro-action-results} displays the results from using the total
     \begin{tabular}{l*{6}{c}}
     \hline\hline
         &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}\\
-        &\multicolumn{1}{c}{activitylogcount}&\multicolumn{1}{c}{eventlogcount}&\multicolumn{1}{c}{activitylog}&\multicolumn{1}{c}{eventlog}&\multicolumn{1}{c}{avguseractivity}&\multicolumn{1}{c}{avguserevents}\\
-        &\multicolumn{1}{c}{}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{distinctusercount}&\multicolumn{1}{c}{distinctusercount}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{}\\
+        &\multicolumn{1}{c}{activitylog\_count}&\multicolumn{1}{c}{eventlog\_count}&\multicolumn{1}{c}{activitylog}&\multicolumn{1}{c}{eventlog}&\multicolumn{1}{c}{avg\_user\_activity}&\multicolumn{1}{c}{avg\_user\_events}\\
+        &\multicolumn{1}{c}{}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{distinct\_user\_count}&\multicolumn{1}{c}{distinct\_user\_count}&\multicolumn{1}{c}{}&\multicolumn{1}{c}{}\\
         \hline
         fileschangedpercentile&     -5530.7         &    -60589.4\sym{*}  &       460.5         &       492.7         &      -10.40\sym{*}  &      -148.6         \\
         &     (-1.91)         &     (-2.26)         &      (0.65)         &      (0.71)         &     (-2.01)         &     (-1.52)         \\
@@ -557,7 +553,11 @@ $eventlog\_count$ & $integer$ & Count of all event log actions in the current da
 $activitylog\_distinct\_user\_count$ & $integer$ & Number of distinct users that \\
  & & appeared in the activity logs in the current day \\
 $eventlog\_distinct\_user\_count$ & $integer$ & Number of distinct users that \\
- & &appeared in the event logs in the current day \\
+ & & appeared in the event logs in the current day \\
+$avg\_user\_activites$ & $float$ & Average number of actions per distinct user in \\
+ & & the activity logs \\
+$avg\_user\_events$ & $float$ & Average number of actions per distinct user in \\
+ & & the event logs \\
 \end{tabular}
 \end{table}
 
