@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  8 DEC 2012 12:51
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.18)  8 DEC 2012 12:55
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -362,12 +362,12 @@ tics for each ac-tive day af-ter 7/14/2011.
  []
 
 
-Overfull \hbox (169.15419pt too wide) in paragraph at lines 537--555
-[][] 
+Overfull \hbox (28.94315pt too wide) in paragraph at lines 538--557
+ [][] 
  []
 
 [16]
-Overfull \hbox (268.77574pt too wide) in paragraph at lines 570--589
+Overfull \hbox (32.0157pt too wide) in paragraph at lines 572--596
  [][] 
  []
 
@@ -396,7 +396,7 @@ texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts
 m/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share
 /texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (18 pages, 362133 bytes).
+Output written on final_paper.pdf (18 pages, 362080 bytes).
 PDF statistics:
  291 PDF objects out of 1000 (max. 8388607)
  57 named destinations out of 1000 (max. 500000)
