@@ -4,10 +4,10 @@
 \contentsline {section}{\numberline {3}Macro-Level Results}{4}{section.3}
 \contentsline {subsection}{\numberline {3.1}Daily Effects of Code Changes}{4}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}Lagged Effects of Code Changes}{6}{subsection.3.2}
-\contentsline {section}{\numberline {4}Micro-Level Results}{9}{section.4}
-\contentsline {subsection}{\numberline {4.1}Search Controller}{9}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Insertions and Deletions}{11}{subsection.4.2}
-\contentsline {subsection}{\numberline {4.3}Differential Controller Effects}{12}{subsection.4.3}
+\contentsline {section}{\numberline {4}Micro-Level Results}{8}{section.4}
+\contentsline {subsection}{\numberline {4.1}Search Controller}{8}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Insertions and Deletions}{10}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Differential Controller Effects}{11}{subsection.4.3}
 \contentsline {section}{\numberline {5}Conclusion}{15}{section.5}
 \contentsline {section}{\numberline {A}Data Appendix}{16}{appendix.A}
 \contentsline {subsection}{\numberline {A.1}Macro-Level Dataset}{16}{subsection.A.1}
