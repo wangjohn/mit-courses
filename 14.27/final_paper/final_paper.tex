@@ -510,15 +510,15 @@ The original event and activity log datasets are tables in a PostgreSQL database
 \centering
 Attribute Name & Attribute Type & Comment\\
 \hline \hline
-$id                          $& integer  & Unique id for each record   \\ 
-$user\_account\_id             $& integer  & Id of the associated user account   \\
-$controller                  $& string(255) & Controller viewed \\
-$action                      $& string(255) & Specific action of the controller viewed \\
-$model\_id                    $& integer    & Id of the database model \\
-$status                      $& string(255) & Status of completion of request \\
-$created\_at                  $& datetime   & Time the record was created \\ 
-$ip\_address                  $& string     &  \\
-$session\_id                  $& integer    & Id of the browser session \\
+$id                          $& $integer$  & Unique id for each record   \\ 
+$user\_account\_id             $& $integer$  & Id of the associated user account   \\
+$controller                  $& $string(255)$ & Controller viewed \\
+$action                      $& $string(255)$ & Specific action of the controller viewed \\
+$model\_id                    $& $integer$    & Id of the database model \\
+$status                      $& $string(255)$ & Status of completion of request \\
+$created\_at                  $& $datetime$   & Time the record was created \\ 
+$ip\_address                  $& $string$     &  \\
+$session\_id                  $& $integer$    & Id of the browser session \\
 \end{tabular}
 \end{table}
 
@@ -533,6 +533,7 @@ The macro-level dataset contains aggregated count statistics for each active day
 To get information about commits, such as the insertions, deletions, and files changed for a given day, the version control system used by Panjiva was mined. Panjiva uses git and Github to store and track changes in its source code. In order to find the total number of lines and files changed in a given day, the master git repository (the version of the code which is public and launched to production) was programmatically scraped for information. Note that the variable $lineschanged$ counts every line that was changed, whether an insertion or deletion, and is simply equal to $insertions + deletions$. The variable $fileschanged$ is the number of distinct files for which at least one line was inserted or deleted. 
 
 \begin{table}[h!]
+\caption{Variables used in the Macro-Level Dataset}
 \begin{tabular}{l | l | l}
 \centering
 Attribute Name & Attribute Type & Comment \\
@@ -559,7 +560,34 @@ The percentile variables are simply the ranked percentile of a given observation
 
 \subsection{Micro-Level Dataset}
 
-The micro-level dataset was obtained in a similar manner, however, much more attention was paid to each commit. First, the git repository was searched for all commits in the period from 7/14/2011 until 11/26/2012 concerning a given page of the site. Each of these commits had a timestamp, the exact lines of code changed, and the author of the change. For each commit, the timestamp was examined, and the activity logs were searched for all actions that occurred within two days of the commit's timestamp (a four day window corresponding to two days before and two days after) and occurred on a page changed by the commit. For each of these observations, the number of total views of the page in the twenty four hours following the observation's date were recorded in $num\_views\_day\_later$. Dummies for the controller were created for each observation.   
+The micro-level dataset was obtained in a similar manner, however, much more attention was paid to each commit. First, the git repository was searched for all commits in the period from 7/14/2011 until 11/26/2012 concerning a given page of the site. Each of these commits had a timestamp, the exact lines of code changed, and the author of the change. For each commit, the timestamp was examined, and the activity logs were searched for all actions that occurred within two days of the commit's timestamp (a four day window corresponding to two days before and two days after) and occurred on a page changed by the commit. For each of these observations, the number of total views of the page in the twenty four hours following the observation's date were recorded in $num\_views\_day\_later$. Dummies for the controller were created for each observation. A dummy $after\_commit$ was also created for observations that occurred after a commit (1 if after and 0 otherwise. 
 
+For each commit, the number of files changed, insertions, and deletions was also calculated (and percentilized by the method used above). The final list of variables for the micro-level dataset is given below:
+
+\begin{table}
+\centering
+\caption{Variables used in the Micro-Level Dataset}
+\begin{tabular}{l | l | l}
+Attribute Name & Attribute Type & Comment \\
+\hline \hline
+$user\_account\_id$ & $long$ & ID of the user which performed the action \\
+$controller$ & $string$ & Controller on which the action occurred (later processed into individual dummy variables) \\
+$created\_at$ & $datetime$ & Time and date at which the action was performed \\
+$session\_id$ & $long$ & ID which identifies the browser session of the user \\
+$time\_from\_event$ & $float$ & Seconds elapsed between the commit and the action (negative when action occurred before the commit) \\
+$num\_controller\_views$ & $integer$ & Total number of times the current user viewed the controller all the logs \\
+$after\_commit$ & $boolean$ & Dummy variable equal to 1 if action occured after the commit and 0 otherwise \\
+$num\_views\_day\_later$ & $integer$ & Number of views of the controller in the day after the action \\
+$commit\_date$ & $datetime$ & Date at which the commit occurred \\
+$fileschanged$ & $integer$ & Total number of files chanegd \\
+$insertions$ & $integer$ & Number of lines changed that were insertions \\
+$deletions$ & $integer$ & Number of lines changed that were deletions \\
+$fileschanged\_percentile$ & $float$ & See description below \\
+$insertions\_percentile$ & $float$ & See description below \\
+$deletions\_percentile$ & $float$ & See description below \\
+\end{tabular}
+\end{table}
+
+The total number of controller views was also calculated for each user and incorporated into the dataset in the form of the $num\_controller\_views$ varaible. The variable contains a count of the total number of times a user performed an action in the given controller across the time period from 7/14/2011 to 11/25/2012. 
 
 \end{document}
