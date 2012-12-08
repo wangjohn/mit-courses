@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[12pt]{article}
 
 %-------Packages---------
 \usepackage{enumerate}
@@ -21,7 +21,7 @@ Using Panjiva Data to Examine Code Changes}
 
 \maketitle
 
-\abstract{Most software developers implicitly believe that change tends to improve a website. However, the story seems far more complicated. This paper examines how code changes affect user behavior on the internet by analyzing a particular website, \url{http://www.panjiva.com} and its database of activity logs. The paper identifies some factors which affect how code changes influence user activity levels and finds patterns in how users respond to change. Users tend to increase their repeat usage when code changes are of high quality and when the changes affect portions of a website which users already frequent. Users respond negatively to changes in areas of the website with low traffic. A massive volume of code change, in general, does not necessarily lead to higher user activity on a website and in fact may negatively impact the user experience.}  
+\abstract{Most software developers implicitly believe that change tends to improve a website. However, the story seems far more complicated. This paper examines how code changes affect user behavior on the internet by analyzing a particular website, \url{http://www.panjiva.com} and its database of activity logs. The paper identifies some factors which affect how code changes influence user activity levels and finds patterns in how users respond to change. Users tend to increase their repeat usage when code changes are of high quality. Users respond more negatively to changes in areas of the website they already frequent than to changes in areas that they do not know as well. A massive volume of code change, in general, does not necessarily lead to higher user activity on a website and in fact may negatively impact the user experience.}  
 
 \tableofcontents
 
@@ -29,7 +29,7 @@ Using Panjiva Data to Examine Code Changes}
 
 \section{Introduction}
 
-Silicon Valley has historically been built on constant change. Indeed, one of the tenets of technology companies and web-based startups is the idea of change. For example, Facebook's official motto is ``Move fast and break things.''  However, few people have examined the effects of website and product changes on user activity. Do users tend to respond favorably to website changes? Moreover, how do users react to different types of changes? Can different characteristics of users change how users respond to certain changes?
+Silicon Valley has historically been built on constant change. Indeed, one of the tenets of technology companies and web-based startups is the idea of change. For example, Facebook's official motto is ``Move fast and break things.''  However, few people have examined the effects of website and product changes on user activity and a number of questions still inger. For instance, do users tend to respond favorably to website changes? Moreover, how do users react to different types of changes? Can different characteristics of users change how users respond to certain changes?
 
 All of these questions are crucial and allow developers to create better websites and tools for their users. This paper examines the effects of code changes on user activity. In particular, the paper focuses on the short term effects of everyday changes to a website. The paper exploits a unique dataset and examines how short-term user activity (both overall on the entire website and on a more granular, per-user level) are affected by code changes. The unique dataset comes from Panjiva, Inc., which provided the author access to its entire database.
 
@@ -41,13 +41,13 @@ Panjiva's competitive advantage rests in its ability to parse government import 
 
 The dataset used in this paper comes from the event and activity logs of Panjiva's website. Each time a user performs some significant event or activity on the Panjiva website, an entry will be created in either the event or activity log. If the user has a registered account with Panjiva, the action will be recorded in the activity logs. All activities, regardless of whether a user has an account, are recorded in the event logs. All nontrivial features of the website, including supplier search, U.S. import and export search, and profiles views, are accounted for and stored in a SQL database.
 
-The data in the event and activity logs are organized so that one can trace the exact user or subscribed account for which the entry correspodns to. In particular, the logs contain information on the ip address of the user, the time the activity was performed, the webpage the activity occurred on, and extra data depending on the type of activity performed. 
+The data in the event and activity logs are organized so that one can trace the exact user or subscribed account for which the entry corresponds to. In particular, the logs contain information on the ip address of the user, the time the activity was performed, the webpage the activity occurred on, and extra data depending on the type of activity performed. 
 
 The enormous quantity and granularity of this data enable the analysis of user-level interactions. The event logs contain about 124 million entries while the activity logs contain about 13 million entries. Moreover, the data in each of these logs extends for multiple years, allowing one to analyze the growth of Panjiva as a company and the effect of different changes to the website.
 
 \subsection{Summary Statistics}
 
-Summary statistics providing an overview of Panjiva's business and website are provided in table \ref{table:panjiva-overview}. Panjiva was incorporated in 2008 and has since developed a customer base composed mostly of buyers of manufactured goods. The website provides free services (a limited number of searches) for free users, and provides many more services to subscribers (there are multiple levels of subscription). 
+Summary statistics providing an overview of Panjiva's business and website are provided in table \ref{table:panjiva-overview}. Panjiva was incorporated in 2008 and has since developed a customer base composed mostly of buyers of manufactured goods. The website provides free services (a limited number of searches) for free users, and provides many more services to subscribers (there are multiple levels of subscription).\footnote{Note that although there exists data for multiple years, due to time constraints, this paper only examines data in the range from 7/24/2011 to 11/25/2012. The summary statistics, however, provide data for all years of operation.} 
 
 \begin{table}[h!]
 \centering
@@ -74,7 +74,7 @@ Average Visit Duration & 1 min 18 sec \\
 \label{fig:commit-history}
 \end{figure}
 
-Table \ref{table:commit-stats} shows statistics on a snapshot of the commit repository made on 11/25/2012. The table shows an enormous number of changes throughout the history of the website. In addition, the 1.3 million lines of code show that one can use the variation in the lines of code that a commit changes in order to better understand how each commit affects user behavior.
+Table \ref{table:commit-stats} shows statistics on a snapshot of the commit repository made on 11/25/2012. The table shows an enormous number of changes throughout the history of the website.
 
 \begin{table}[h!]
 \centering
