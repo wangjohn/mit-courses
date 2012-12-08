@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  8 DEC 2012 14:48
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  8 DEC 2012 18:11
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -314,51 +314,32 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 [3 <./pictures/commit-activity.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 173.
+(Font)              <12> on input line 170.
  [4 <./pictures/commit-hours.png>] [5]
-[6]
-<pictures/avg_events_time_coefficients.png, id=139, 417.05812pt x 207.77625pt>
-File: pictures/avg_events_time_coefficients.png Graphic file (type png)
-
-<use pictures/avg_events_time_coefficients.png>
-<pictures/avg_activities_time_coefficients.png, id=143, 418.56375pt x 249.18094
-pt>
-File: pictures/avg_activities_time_coefficients.png Graphic file (type png)
- <use pictures/avg_activities_time_coefficients.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-<pictures/commit_percentiles_time_coefficients.png, id=145, 422.32782pt x 252.1
-9218pt>
-File: pictures/commit_percentiles_time_coefficients.png Graphic file (type png)
-
- <use pictures/commit_percentiles_time_coefficients.png>
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Overfull \hbox (22.51566pt too wide) in alignment at lines 228--230
- [][][] []
+Overfull \hbox (7.2328pt too wide) in paragraph at lines 180--181
+\OT1/cmr/m/n/10.95 a neg-a-tive co-ef-fi-cient on $\OML/cmm/m/it/10.95 insertio
+ns[]percentile$ \OT1/cmr/m/n/10.95 even when in-creas-ing the $\OML/cmm/m/it/10
+.95 lineschanged[]percentile$
  []
 
-[7 <./pictures/avg_events_time_coefficients.png (PNG copy)>] [8 <./pictures/avg
-_activities_time_coefficients.png (PNG copy)> <./pictures/commit_percentiles_ti
-me_coefficients.png (PNG copy)>] [9]
-<pictures/specification_diagram.png, id=165, 705.38531pt x 256.70906pt>
+
+<pictures/coefficient_diffs_across_time.png, id=133, 561.59813pt x 651.93562pt>
+File: pictures/coefficient_diffs_across_time.png Graphic file (type png)
+<use pictures/coefficient_diffs_across_time.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6] [7 <./pictures/coefficient_diffs_across_time.png (PNG copy)>] [8]
+<pictures/specification_diagram.png, id=152, 705.38531pt x 256.70906pt>
 File: pictures/specification_diagram.png Graphic file (type png)
 
-<use pictures/specification_diagram.png> [10 <./pictures/specification_diagram.
-png (PNG copy)>] [11]
+<use pictures/specification_diagram.png>
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[12] [13]
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
+[9 <./pictures/specification_diagram.png (PNG copy)>] [10] [11] [12] [13]
 [14] [15]
-Overfull \hbox (3.14822pt too wide) in paragraph at lines 548--549
+Overfull \hbox (3.14822pt too wide) in paragraph at lines 517--518
 \OT1/cmr/m/n/10.95 The macro-level dataset con-tains ag-gre-gated count statis-
 tics for each ac-tive day af-ter 7/14/2011.
  []
@@ -366,33 +347,38 @@ tics for each ac-tive day af-ter 7/14/2011.
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[16] [17] [18] (./final_paper.aux) ) 
+[16] [17] [18] (./final_paper.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
- 4768 strings out of 495061
- 70009 string characters out of 1182621
- 159111 words of memory out of 3000000
- 7829 multiletter control sequences out of 15000+50000
+ 4754 strings out of 495061
+ 69425 string characters out of 1182621
+ 157139 words of memory out of 3000000
+ 7819 multiletter control sequences out of 15000+50000
  10239 words of font info for 36 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 38i,12n,36p,1008b,417s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/publi
-c/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
-cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.p
-fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texmf-texlive/fonts/type1/publi
-c/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
-m/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr17.pfb>
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/t
-exmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/
-fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/p
-ublic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
-nts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti1
-0.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (18 pages, 361110 bytes).
+ 38i,14n,36p,1194b,417s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-te
+xlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmmi12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmmi6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pf
+b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/shar
+e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texl
+ive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/ty
+pe1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/a
+msfonts/cm/cmr6.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
+r7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf
+-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/pu
+blic/amsfonts/cm/cmtt10.pfb>
+Output written on final_paper.pdf (18 pages, 362431 bytes).
 PDF statistics:
- 294 PDF objects out of 1000 (max. 8388607)
- 60 named destinations out of 1000 (max. 500000)
- 143 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 292 PDF objects out of 1000 (max. 8388607)
+ 58 named destinations out of 1000 (max. 500000)
+ 133 words of extra memory for PDF output out of 10000 (max. 10000000)
 
