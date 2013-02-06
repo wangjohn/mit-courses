@@ -1,0 +1,111 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+\newenvironment{def}{{\bfseries Definition:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 1}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction to Cryptography}
+
+\begin{def}
+\emph{Security} is computing or communicating in the presence of adversaries.
+\end{def}
+
+The presence of adversaries make security interesting, because you're working against the cleverness of other people. You are in the worst case scenario. Note that this is different than error correcting codes, for instance, where there is no adversary.
+
+\section{Security Policies}
+
+\begin{def}
+\emph{Security policy} describes what is being protected and what activities or events should be protected.
+\end{def}
+
+If you don't have a policy, then you don't have security, because nothing is defined yet. Security policy is usually in terms of:
+\begin{itemize}
+\item Principals (actors or participants).
+\item Permissible (or inpermissible) actions or operations.
+\item Classes of objects. 
+\end{itemize}
+
+\subsection{Examples}
+
+Security Policy: ``Each registered voter may vote at most once.'' Principals are the voters and permissible actions are voting at most once.
+Security Policy: ``Only an administrator can modify file $x$.'' 
+Security Policy: ``The recipient of an email should be able to authenticate the sender.'' 
+
+\subsection{Types of Policies}
+
+\begin{itemize}
+\item C - confidentiality policies. Prevents unauthorized disclosure.
+\item I - integrity policies. Information should not be modifiable in an unauthorized manner.
+\item A - availability policies. Systems should remain available.
+\end{itemize}
+
+\section{Security Mechanisms}
+
+\begin{def}
+\emph{Security mechanisms} are means for achieving security policies.
+\end{def}
+
+Examples: smart card for voters, password for sysadmin, digital signature for email, physical security.
+
+Security mechanisms are usually one of two forms:
+\begin{itemize}
+\item Prevention: keeps policy from being violated.
+\item Detection: discovers if the policy has been violated.
+\end{itemize}
+
+If the detection mechanism goes off, then what? You must have a \emph{recovery mechanism} for getting the system back to a good state. Notice that preventation and detection are not entirely unrelated. Detection system may involve deterrence, which helps prevents attacks. 
+
+\section{Adversaries}
+
+The adversaries may be outsider or insider (ex: voter may want to be able to vote twice). Need to figure out who the adversary is. Note that there can be many adversaries. 
+
+What do the adversaries know? Usually, you assume that the adversary knows the engineering of the system and the security mechanisms. Security analysis is usually scenario based which is different depending on the assumptions one makes about the adversary and what he/she knows.
+
+What resources does the adversary have? Does the adversary have a supercomputer or the ability to corrupt insiders or mathematical knowledge?
+
+What are his motivations? Is the adversary economically motivated or is he just evil? Sometimes it is useful to assume that adversaries are rational economic players.
+
+The best systems are those which are robust even in the worst-case scenarios. You want to have a system that is secure even when you have a perfect adversary.
+
+\section{Vulnerability}
+
+\begin{def}
+\emph{Vulnerability} is a weakness in the system that can be exploited by the adversary.
+\end{def}
+
+Examples: poor password, buffer overflows, etc.
+
+There is a distinction between the system as designed and the system as implemented. Implementations tend to have bugs, which could potentially introduce security vulnerabilities. Even if the design is perfect, the implemented system could weaken security.
+
+There are \emph{threats} to exploit vulnerability and \emph{risk} that the vulnerability will be exploited.
+
+\end{document}
