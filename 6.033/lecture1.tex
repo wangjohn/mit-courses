@@ -1,0 +1,109 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 1}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Complexity: The Essential Challenge}
+
+\begin{itemize}
+\item Large number of components, connections
+\item Irregular
+\item Many people required to maintain/build
+\end{itemize}
+
+Complexity limits what we can build (not the underlying technology). The limit is usually the designers' understanding. We need to think of structured ways to understand designs.
+
+\subsection{Problems due to Complexity}
+
+\begin{itemize}
+\item Emergent properties. Surprises. Example: Ethernet. All computers share single cable. Goal is reliable delivery and listen while sending to detect collisions. Listen while send detects. There is a global constraint that emerges in ethernet which requires the header byte to be larger than some minimum threshold. Otherwise, it is impossible to detect collisions. 
+\item Propagation of effects. Small changes lead to big effects,
+\item Scaling. Design for small model may not scale to larger systems. Example: Internet. When the internet was designed, only a couple hundred computers were a part of the system. Routing tables require $O(n^2)$ time for computing shortest paths. This lead to hierarchical routing on network numbers, only route on the top 16 bits of the 32 bit address. Shrinks the size of routing tables. Scaling further was done with IPv6 where the protocol is completely redesigned. 
+\end{itemize}
+
+\subsection{Sources of Complexity}
+
+\begin{itemize}
+\item Many goals/requirements. Example: Unix Kernel. In 1975, there were 10,500 lines of code in the Unix Kernel, but as of 2008 there are 8 million lines of code. There are more lines of code because people want more out of their OS than they wanted in the 70's. New processes and drivers and protocols.
+\item Interaction of features. Example: Call forwarding. If you are busy in a phone call, forward call to another phone number. This single feature has interactions. What if two phones have call forwarding and an infinite loop ensues. You can add more features: itemized billing and number blocking. If someone wants to get itemized billing but the person who's calling has number blocking, what happens?  
+\item Performance.
+\end{itemize}
+
+\subsection{Coping with Complexity}
+
+\begin{itemize}
+\item Simplifying design principles. Example: avoid excessive generality.
+\item Modularity. Split up system and consider parts separately. Example: Procedure call or methods. Two procedures F and G don't expose internals. In the stack, there is a calling contract between F and G, where F sets the stack pointer for G and G doesn't modify F's variables. Another example: Client server organization. Client does a particular thing and sends a request to the server. Server is a black-box and returns a response. Modules interact through messages. Internals are never exposed. Enforced modularity by protecting memory content - each has its own separate resources. There is no fate sharing, if the server fails, the client is still alive and vice versa. Forces a narrow specification but bugs can still propogate through messages and implementation could be flawed. 
+\item Abstraction. Interfaces and hiding help avoid propagation of effects.
+\item Hierarchy and Layering. Example: DNS and the Internet. Take abstractions and stack them on top of each other.
+\end{itemize}
+
+\section{Client/Server Modularity}
+
+\subsection{Modularity}
+
+\begin{itemize}
+
+\item Client does a particular thing and sends a request to the server. Server is a black-box and returns a response.
+\item Modules interact through messages. Internals are never exposed. 
+\item Enforced modularity by protecting memory content - each has its own separate resources.
+\item There is no fate sharing, if the server fails, the client is still alive and vice versa.
+\item Forces a narrow specification but bugs can still propogate through messages and implementation could be flawed. 
+\end{itemize}
+
+\subsection{Uses of Client/Server}
+
+\begin{itemize}
+\item Allows computers to share data
+\item Allows remote access
+\item Allows trusted third party (E-bay provides controlled sharing of auction data).
+\end{itemize}
+
+\subsection{Remote Procedure Calls}
+
+Use Client/Server idea in procedure calls. The procedure sends a response to the ``server'' or other procedure. Wait until the procedure sends back a response and continue.
+
+RPCs are not the same as procedure calls. There are some challenges:
+
+\begin{itemize}
+\item Network can lose requests. Approach: retry after time out, but doesn't always work because you might get two packets. Second approach: send a unique id with each message. The server and client can keep tables of uid.  
+\item This is not sufficient because tables can fail. If server fails, then table disappears. Server has to respond with an ``unknown'' outcome. 
+\end{itemize}
+
+\section{Summary}
+
+\begin{itemize}
+\item Designing systems in difficult.
+\item Systems fail due to complexity, but there's no algorithm for successful design.
+\end{itemize}
+
+\end{document}
