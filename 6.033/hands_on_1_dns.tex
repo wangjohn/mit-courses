@@ -1,0 +1,63 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Hands On 1: DNS}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Getting Started}
+
+\begin{enumerate}
+  \item The ip address is 18.26.0.122.
+  \item CNAME is what chapter 4 calls a ``synonym'' or ``indirect name.'' These are bindings which redirect one domain name to another.
+  \item Expiration time is 177 seconds, given as the second argument under the Answer Section.
+  \item For ``ai'', the ip address is 128.52.32.80. For ``ai.'', the ip address is 209.59.119.34.
+  \item The results are different because a trailing dot in the domain name signals an absolute path. Therefore, DNS looks for ``ai'' alone when there is a trailing dot. When there is no trailing dot, the dig command looked for ``ai'' within the mit.edu domain.
+
+\section{Understanding Hierarchy}
+
+  \item To look for lirone.csail.mit.edu from the root servers without recursion, I used the command \textbf{dig @a.root-servers.net lirone.csil.mit.edu +norecurs}. 
+  \item I used the following list of commands:
+    \begin{verbatim}
+    dig @a.root-servers.net lirone.csil.mit.edu +norecurs
+    dig @a.edu-servers.net lirone.csail.mit.edu +norecurs
+    dig @bitsy.mit.edu lirone.csail.mit.edu +norecurs
+    dig @AUTH-NS2.csail.mit.edu lirone.csail.mit.edu +norecurs
+    \end{verbatim}
+
+    After this series of commands, I discovered that lirone.csail.mit.edu has an ip address of 18.26.1.36 and that it is actually a synonym for lirone.lcs.mit.edu.
+
+\section{Understanding Caching}
+
+  \item I used the command \textbf{dig www.dmoz.org +norecurs}. This sends a DNS request to the default server 127.0.0.1. However, the default server did have the answer in its cache because it provided me the ip address of www.dmoz.org in the answer section of the results. The query took 5 milliseconds. I looked for a domain name ``www.thetimes.com'' and discovered it was not in the default server's cache. I know this because when I ran \textbf{dig www.thetimes.com +norecurs}, I was sent to the .com DNS servers, which means I had to go to the root servers and start a hierarchical query.
+  \item I ran \textbf{dig www.thetimes.com} and it returned in 68 milliseconds.
+  \item I ran \textbf{dig www.thetimes.com} and it returned in 5 milliseconds. The cache has served its purpose because it significantly decreased the amount of time it took to get the ip address of www.thetimes.com.
+\end{enumerate}
+
+\end{document}

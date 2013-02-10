@@ -76,7 +76,7 @@ def get_controller_commits(controller_name, before, after):
         all_commits[i].deletionspercentile = float(i)/len(all_commits)
     return all_commits
 
-def write_out_data(commits, find_user_set, controller, k, row_results):
+def write_out_data(commits, find_user_set, controller, k, output_object):
     both_ba_list = []
     for commit in commits:
         both_ba = find_user_set.find_users(find_user_set.activity_logs, controller, commit.datetime, k)
@@ -85,7 +85,7 @@ def write_out_data(commits, find_user_set, controller, k, row_results):
     for i in xrange(len(both_ba_list)):
         both_ba = both_ba_list[i]
         commit = commits[i]
-        find_user_set.format_both_ba_into_rows_meancentered(both_ba, row_results, commit)
+        find_user_set.format_both_ba_into_rows_meancentered(both_ba, output_object, commit)
 
 def writerows(filename, rows):
     with open(filename, 'wb') as f:
@@ -103,9 +103,11 @@ if __name__ == '__main__':
     all_logs = read_in_data("data/activity_log_out.csv")
     print 'all_loaded'
     fus = FindUserSets(all_logs)
-    row_results = [['id', 'user_account_id', 'controller', 'action', 'model_id', 'created_at', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'num_controller_views', 'after_commit', 'num_views_day_later', 'commit_date', 'fileschanged', 'insertions', 'deletions', 'fileschangedpercentile', 'lineschangedpercentile', 'insertionspercentile', 'deletionspercentile']]
+    headers = ['id', 'user_account_id', 'controller', 'action', 'model_id', 'created_at', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'num_controller_views', 'after_commit', 'num_views_day_later', 'commit_date', 'fileschanged', 'insertions', 'deletions', 'fileschangedpercentile', 'lineschangedpercentile', 'insertionspercentile', 'deletionspercentile']
+    output_object = OutputRowResult(headers)
     for controller in controllers:
         current_commits = commits[controller]
-        write_out_data(current_commits, fus, controller, 3, row_results)
-    writerows("all_controller_data.csv", row_results)
+        write_out_data(current_commits, fus, controller, 3, output_object)
+    writerows("all_controller_data.csv", output_object.get_output()):w
+    
 

@@ -2,6 +2,17 @@ import csv
 import datetime
 from dateutil import parser
 
+class OutputRowResult:
+    def __init__(self, headers):
+        self.headers = headers
+        self.data_rows = []
+
+    def add(self, row):
+        self.data_rows.append(row)
+
+    def get_output(self):
+        return self.headers + self.data_rows
+
 class ActivityLog:
     def __init__(self, input_lines):
         self.id = int(input_lines[0])
@@ -88,19 +99,7 @@ class FindUserSets:
                     both_ba[current_activity_log.user_account_id] = [before_users[current_activity_log.user_account_id], [current_activity_log]]
         return both_ba
 
-    def format_both_ba_into_rows_aggregated(self, both_ba, output_rows, extra_data, extra_data_names):
-        column_names = extra_data_names
-        column_names.extend(['user_account_id', 'num_before', 'num_after', 'total'])
-        for user_account_id, activity_logs_list in both_ba.iteritems():
-            activity_logs_list[0][0].convert_to_row()
-            num_before = len(activity_logs_list[0])
-            num_after = len(activity_logs_list[1])
-            output_rows.append(extra_data + [user_account_id, num_before, num_after, num_before + num_after])
-        return output_rows
-
-    def format_both_ba_into_rows_meancentered(self, both_ba, output_rows, commit):
-        #column_names = ['id', 'user_account_id', 'controller', 'action', 'model_id', 'status', 'created_at', 'query_params', 'ip_address', 'next_profile_activity_log_id', 'session_id', 'impersonated', 'time_from_event', 'after_commit', 'num_views_day_later']
-        
+    def format_both_ba_into_rows_meancentered(self, both_ba, output_object, commit):
         extra_commit_data = [commit.datetime, commit.files_changed, commit.insertions, commit.deletions, commit.fileschangedpercentile, commit.lineschangedpercentile, commit.insertionspercentile, commit.deletionspercentile]
         for user_account_id, activity_logs_list in both_ba.iteritems():
             combined_list = activity_logs_list[0] + activity_logs_list[1]
@@ -108,13 +107,15 @@ class FindUserSets:
                 activity_log_before = activity_logs_list[0][i]
                 if abs(activity_log_before.created_at.replace(tzinfo=None) - commit.datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
                     j = binary_search_on_attribute(combined_list, activity_log_before.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
-                    output_rows.append(activity_log_before.convert_to_row() + [0, j-i] + extra_commit_data)
+                    output_object.add(activity_log_before.convert_to_row() + [0, j-i] + extra_commit_data)
             for i in xrange(len(activity_logs_list[1])):
                 activity_log_after = activity_logs_list[1][i]
                 if abs(activity_log_after.created_at.replace(tzinfo=None) - commit.datetime.replace(tzinfo=None)) < datetime.timedelta(days=2):
                     j = binary_search_on_attribute(combined_list, activity_log_after.created_at + datetime.timedelta(days=1), 0, len(combined_list)-1)
-                    output_rows.append(activity_log_after.convert_to_row() + [1, j-(i+len(activity_logs_list[0])-1)] + extra_commit_data)
-        return output_rows
+                    output_object.add(activity_log_after.convert_to_row() + [1, j-(i+len(activity_logs_list[0])-1)] + extra_commit_data)
+        return output_object
+
+    def get_activity_in_range(start_date, lag, user_account_id):
 
     def get_user_account_views(self, activity_logs, touched_logs):
         activity_logs = sorted(activity_logs, key = lambda k : k.user_account_id)
