@@ -1,0 +1,137 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+\newenvironment{def}{{\bfseries Definition:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 2}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction to Cryptography}
+
+\subsection{Security Mechanisms}
+
+\begin{itemize}
+\item \emph{Identification} of principals (username).
+\item \emph{Authentication} of principals (password, biometric). Means by which one can prove identity.
+\item \emph{Authorization}. Does the individual have permission to perform particular actions?
+\item \emph{Physical Protection}. 
+\item \emph{Cryptography}. Using number theory for protection.
+\item \emph{Economics}. Sometimes can assume that attackers are influenced by economic motivations.
+\item \emph{Deception}. Try to deceive adversary. For example: honeypots are fake machines.
+\item \emph{Randomness and Unpredictability}. Adversary is at a disadvantage because principals have done something that is unpredictable. Not having a good source of randomness has turned out to very bad.
+\end{itemize}
+
+\subsection{Principles}
+
+\begin{itemize}
+\item \emph{Be skeptical}. People make mistakes.
+\item \emph{Be paranoid}. Things are likely not to be secure unless someone really convinces you.
+\item \emph{Think adversarially}. What can an adversary do against this system? What could possibly go wrong with this system?
+\item \emph{Think about user-supplied input}. User supplied input can be anything, so make sure to handle it properly.
+\item \emph{Don't aim for perfection}. Bugs are a fact of life, so don't aim to try to be perfect.
+\item \emph{Tradeoffs between cost and security}. To halve risk, does it double the cost?
+\item \emph{Be prepared for losses}. Try to have the ability to rollback.
+\item \emph{KISS}. Keep it simple. Complicated systems have more vulnerabilities and it is harder to tell what is going on.
+\item \emph{Ease of use is important}. Don't have extremely long, convoluted process.
+\item \emph{Separation of privilege}. For example: Two people need to sign off on a transaction.
+\item \emph{Least privilege}. Don't give access to more than what someone needs.
+\item \emph{Defense in depth}. 
+\item \emph{Complete mediation}. 
+\item \emph{Education}. Make sure people understand what is happening.
+\item \emph{Transparency}. People should talk about exactly what they're doing.
+\end{itemize}
+
+\section{Growth of Cryptography}
+
+\subsection{Early Cryptography}
+
+Greeks: knew there were infinitely many primes, and also the GCD is easily computed by Euclid's algorithm. The Scytale wrapped paper around a rod of the same diameter for sender and receiver. If the attacker didn't have a rod of the correct diameter, he couldn't read it.
+
+Fermat: Fermat's little theorem $a^{p-1} \equiv 1 \pmod p$ for any prime $p$ and $1 \leq a < p$. 
+
+Euler: Generalize FLT to Euler's Theorem: if $gcd(a,n) = 1$ then $a^{\phi(n)} \equiv 1 \pmod n$. Where $\phi(n)$ is the Euler totient function.
+
+
+\subsection{World War I}
+
+The radio was a marvelous new communication technology -- enabled instantaneous communication with remote ships and forces, but you also absolutely need to have encrpytion. Decipherment of the Zimmerman telegram from Germany to Mexico got America involved in World War I.
+
+\subsection{Alan Turing}
+
+Developed the theory of computability, but also worked a lot on cryptography. He and others deciphed the Axis Enigma machines, which had great impact on the war. Cryptanalytic effort involved development and use of early computers.
+
+\subsection{Claude Shannon}
+
+First post-war analysis of security systems. 
+
+\subsection{DES - U.S. Data Encryption Standard}
+
+IBM designed DES, Horst Feistel was a key architect of the standard. NSA helped in return for keeping the size at 56 bits. 
+
+Scheme was in use for a long time (but it was also controversial). 
+
+\subsection{Computational Complexity}
+
+People started asking question of how much time does it take to perform a certain operation. Key notions were polynomial time reductions, NP-completeness. For things that we know are computable in principle may still be infeasible because of the amount of time it takes to run.
+
+\section{Public Key Cryptography}
+
+Ralph Merkle, Marty Hellman, and Whit Diffie invented the notion of public-key cryptography. In 1976, Diffie and Hellman proclaim ``We are at the brink of a revolution in cryptography.''
+
+Each party $A$ has a public key $PK_A$ others can use to encrypt messages to A: $C = PK_A(M)$. Each party $A$ also has a secret key $SK_A$ for decrypting a received ciphertext $C$: $M = SK_A(C)$. 
+
+It is easy to compute matching public/secret key pairs but publishing $PK_A$ should not compromise $SK_A$. Idea: sign with $SK_A$ and verify signature with $PK_A$. $A$ produces signature $\sigma$ for message $M$ with $\sigma = SK_A(M)$. Given $PK_A, M,$ and $\sigma$, anyone can verify validity of signature $\sigma$ by checking $M = PK_A(\sigma)$. 
+
+However, Diffie and Hellman didn't know how to implement these ideas.
+
+\subsection{RSA (Rivest, Shamir, Adleman 1977)}
+
+Security relies on the inability to factor product $n$ and two large primes $p, q$. So we set $PK = (n,e)$ where $n = pq$ and $gcd(e, \phi(n)) = 1$. 
+
+$SK = d$ where $de = 1 \mod \phi(n)$. 
+
+\subsection{Digital Certificates}
+
+Loren Kohnfelder's proposed notion of digital certificate, a digitally signed message attesting to another party's public key.
+
+\subsection{RC4 Stream Cipher}
+
+Most widely used software stream cipher. Not public-key, it exclusive-ors stream of pseudo-random bytes with plaintet to derive ciphertext. Extremely simple and fast, uses array $S[0..255]$ to keep a permutation of 0..255, initialized using secret key and two points into S. Created by Rivest.
+
+\subsection{MD5 Hash}
+
+Proposed as a pseudo random function mapping files to fingerprints. Collision resistance was design goal, it should be infeasible to find two files with the same fingerprint. Model for many later hash function designs.
+
+\subsection{World Wide Web}
+
+Just as radio did, this new communication medium drove demand for cryptography to new heights. Cemented transition of cryptography from primarily military to primarily commercial.
+
+\end{document}
