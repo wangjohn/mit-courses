@@ -1,0 +1,79 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 2: Naming}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Named Objects}
+
+Modules operate on named objects. Modules can access objects either by value or by reference (name). When you try to access by value, the module gets a copy of that object. The module will operate on the copy, and the original object will not be modified. If you want the module to modify the original object, then you typically pass that object by reference. Value gives you more isolation, but references and names gives you more power to create interactions between modules.
+
+\section{Goals of Naming}
+
+\begin{itemize}
+\item Sharing. You can pass an object and mutliple modules will have the same object. Can be achieved by passing the object using a reference or name.
+\item Retrieval. You can access an object by calling a name. 
+\item Indirection. There are multiple levels of indirection, which each have a binding (or mapping) to some object. You can map one name to another which then maps to an object. Multiple levels of indirection allow you to change names easily. 
+\item Hiding. You can hide implementation details. Also, it can be used for security - access control.
+\end{itemize}
+
+One of the most important goals of naming is to create \emph{user-friendly names}. The main initial reason why people used names for ip addresses was to make it more convenient for people to remember those names.
+
+\section{Components of Naming}
+
+Name space is a set of all possible names. Each name in the namespace maps to some value. For instance, pdos-csail.mit.edu maps to ip address 18.26.4.9. In this system, the ip address is a value (but you can also use the ip address to look up the actual physical address it maps to, in which case it becomes a name). 
+
+There is a lookup algorithm tells you have to map a name from the namespace to a value in the valuespace. The lookup algorithm takes a particular context. Context allows you to translate to value even when a particular name is not unique in general. Context means that name lookups provide completely different values sometimes.
+
+Note that multiple names can map to the same value. This helps with load balancing and fault tolerance. Additionally, a single name can map to multiple values. Also helps with load balancing and fault tolerance.
+
+\subsection{Getting Context}
+
+\begin{itemize}
+\item Embedded in the name. You can explicitly use the full, unique name.
+\item Embedded in the environment. If you don't tell about the directory, the current directory is assumed.
+\end{itemize}
+
+Notice that context changes depending on environment (for most things). This isn't the case for universal/global names.
+
+\subsection{Lookup Algorithm}
+
+The simplest way is to have a table lookup. Example: phone directory. 
+
+Recursive map - the way DNS does it. Each name space is resolved, which leads to another name, until you reach the final result which you wanted. 
+
+Complex - Search paths. Each directory has its own path (like in Unix). 
+
+\section{Case Study: DNS}
+
+Needed to find a scalable naming system for the internet. There is a root server, and then a hierarchy from that root. To resolve a name, you send a query to the root of the system, then the root sends to the next level, and the next level recursively sends to the next level until the name is finally resolved.
+
+\end{document}
