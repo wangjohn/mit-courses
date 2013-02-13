@@ -1,0 +1,88 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 2}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{DNS}
+
+DNS converts host names to ip addresses. Allows us to route messages, since geographic information is provided by the ip addresses. 
+
+\subsection{IP Addresses}
+
+IPv4: about 99\% of the internet uses this, and there are $2^{32}$ different addresses.
+
+IPv6: about 1\% of the internet uses this, but there are $2^{128}$ different addresses.
+
+IP addresses are usually represented as $2^8.2^8.2^8.2^8$. There are about 4 billion ip addresses, and we've completely exhausted them. We are now attempting to shift to IPv6, but the shift is slow because the protocols are not compatible.
+
+MIT owns 18.-.-.- because it was one of the first hubs of ARPANet. This huge namespace behind 18 is essentially just used for MIT internal use (may not be the best utilization of these addresses). 
+
+\subsection{Possible Mapping Schemes}
+
+\begin{itemize}
+  \item Centralized. One place has all of the ip addresses. It's easy to update, but it doesn't scale at all.
+  \item Distributed. Each computer has its own mapping of hostname to ip addresses. Phonebook scheme where everyone has a phonebook. Problem is that it's incredibly hard to update all of the copies.
+  \item Hierarchical. An amalgamation of centralized and distributed.
+\end{itemize}
+
+\subsection{Requests in DNS}
+
+Requesting www.mit.edu between user and root server. First user sends request to the root server. Then, root server sends back the address of the .edu server. User then sends a request to .edu server for www.mit.edu, and .edu server knows about .mit server and sends it back to the user. The user sends a message to the .mit server, which replies with the ip address for www.mit.edu.
+
+This is an iterative (non-recursive) method for resolving a hostname.
+
+\subsection{Recursive Servers}
+
+If a server is recursive, then the server will resolve all of the requests before sending an ip address back to the user. Thus, if the server does not have the ip address of a hostname, it will go through all the requests to other servers and send the final result back to the user. Two reasons for doing this:
+
+\begin{itemize}
+  \item Less load on the user. The user only have to make a single request so the user experience is much better because the server does all of the heavy lifting.
+  \item Caching.
+\end{itemize}
+
+\subsection{Caching}
+
+A table of hostnames and ip addresses which have previously been used. Problem is that things could be outdated. Thus, you need to add a TTL column (time to live) which is the time after which you throw things out. The size of the cache isn't very relevant for DNS caching. The most important thing is to keep ip addresses relevant and up to date.
+
+The TTL depends on the different host names. Maximum TTL is 68 years.
+
+\section{Content Distribution Networks (CDNs)}
+
+For example: Akamai (possibly the biggest CDN in the world).
+
+What do CDNs do? If you are a user in Japan and want to get a video from Youtube, root server in Oklahoma, then Akamai provides a means for you to access youtube locally from Japan. 
+
+This is done by sending you to www.akamai.com. The user then asks the Akamai server for a Youtube video, and the Akamai server picks a local Akamai server (let's say Akamai Japan), and sends the address back to the user. The user then asks Akamai Japan for the Youtube video. From then on, the Youtube video will stream from Akamai Japan.
+
+This can be done easily because you can easily update table with different names and indirection.
+
+\end{document}

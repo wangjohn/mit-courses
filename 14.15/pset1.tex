@@ -1,0 +1,128 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{14.15 \\
+Networks \\
+Problem Set 1}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+Collaborators:
+
+\section{Problem 1}
+
+\begin{prob}
+Consider an undirected tree of $n$ vertices. A particular edge in the tree joins vertices 1 and 2 and divides the tree into two disjoint regions of $n_1$ and $n_2$ vertices.
+
+Show that the closeness centralities $C_1$ and $C_2$ of the two vertices, are related by
+\begin{eqnarray}
+  \frac{1}{C_1} + \frac{n_1}{n} = \frac{1}{C_2} + \frac{n_2}{n}.
+\end{eqnarray}
+\end{prob}
+\begin{sol}
+  First we notice that the sum of the distances of all shortest paths from $1$ $\sum_{j} d_{1j}$ has the following relation with $\sum_{j} d_{2j}$:
+  \begin{eqnarray}
+    \sum_{j} d_{1j} = \sum_{j} d_{2j} + n_2 - n_1
+  \end{eqnarray}
+
+  The above relation follows because the shortest distance from vertex 1 to all vertices in group $n_1$ is exactly one smaller than the shortest distance from vertex 2 to all vertices in group $n_1$. This follows because the only path to from vertex 2 to $n_1$ is through vertex 1 since that edge divides the tree into two disjoint regions. Moreover, by the same logic, the shortest distance from vertex 1 to group $n_2$ is exactly one larger than the shortest distance from vertex 2 to all vertices in group $n_2$. Using this logic, we see that $\sum_{j} d_{1j}$ is simply $\sum_{j} d_{2j}$ corrected for vertex 1 being one closer to all vertices in group $n_1$ and one further from all vertices in group $n_2$. Therefore, we have derived the above relation.
+
+  Now, assuming that $n \neq 0$, we can obtain the following:
+  \begin{eqnarray}
+    \frac{\sum_{j} d_{1j}}{n} &=& \frac{\sum_{j} d_{2j} + (n_2 - n_1)}{n} \\
+    \frac{1}{C_1} &=& \frac{1}{C_2} + \frac{n_2}{n} - \frac{n_1}{n} \\
+    \frac{1}{C_1} + \frac{n_1}{n} &=& \frac{1}{C_2} + \frac{n_2}{n}
+  \end{eqnarray}
+
+  The final expression is what we wanted to show.
+\end{sol}
+
+\section{Problem 2}
+
+Consider an undirected (connected) tree of $n$ vertices. Suppose that a particular vertex in the tree has degree $k$ so that its removal would divide the tree into $k$ disjoint regions, and suppose that the sizes of those regions are $n_1, \ldots, n_k$. 
+
+\begin{prob}
+  Show that the unnormalized betweenness centrality of $x$ of the vertex is $x = n^2 - \sum_{m=1}^k n^2_m$.
+\end{prob}
+\begin{sol}
+First, notice that within each of the $k$ disjoint regions, the vertex $x$ does not fall on any shortest path between vertices $i$ and $j$, where $i,j$ are both in the same disjoint region. Without loss of generality, let us examine the $l$th disjoint region. Here, $x$ connects to some vertex $j$ in $l$. However, $j$ is strictly closer than $x$ to any other vertex $i$ in $l$. If this were not the case, then there must be some path from $x$ to $j$ which does not pass through $j$, but this is impossible because this path would lead to a closed loop (and there are no closed loops in trees).
+
+It is obvious, then, that no shortest paths between two vertices in $l$ will pass through $x$. However, we know that the shortest path for vertex $i$ in one region and $j$ in a different region must pass through $x$ because $x$ is the only vertex which connects these two regions. Deleting $x$ causes the regions to become separated, which implies that $x$ is necessarily the only node connecting these regions and hence is in all shortest paths between these regions.
+
+Thus we see that $x$ is contained in all shortest paths between two nodes $i$ and $j$ unless $i$ and $j$ are in the same region.
+
+Notice that the number of shortest paths between $k$ nodes is $k^2$. It follows that the number of shortest paths which go through $x$ is the total possible number of shortest paths ($n^2$) minus the number of possible shortest paths through each region ($\sum_{m=1}^k n_m^2$). Thus, we find:
+
+\begin{eqnarray}
+x = n^2 - \sum_{m=1}^k n^2_m.
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}
+Hence, or otherwise, calculate the betweeness of the $i$th vertex from the end of a line graph of $n$ vertices.
+\end{prob}
+\begin{sol}
+We can apply the theorem that we proved above. Notice that the $i$th vertex has degree 2 and its removal would divide up the line (which is also a tree) into 2 distinct regions. The first region has $i-1$ nodes, while the second region has $n-i$ nodes. This means the betweenness of the $i$th vertex by the above theorem is
+\begin{eqnarray}
+n^2 - (i-1)^2 - (n-i)^2
+\end{eqnarray}
+\end{sol}
+
+\section{Problem 3}
+
+\begin{prob}
+Describe an example of a graph where the diameter is more than three times as large as the average path length.
+\end{prob}
+\begin{sol}
+Consider a star graph, where there is a center vertex, and all other vertices have an edge attached to the center vertex. A graph with a high diameter to average path length ratio is a ring graph with a long tail. Thus, if there is a single path of length $D$ connecting to the center vertex, and all other vertices are connected by a single edge to the center, then it is possible to find $n$ and $D$ such that the diameter is three times as large as the average path length.
+
+To see this, we will provide an upper bound for the average path length. Let us define $D$ as the length of the long path (so we know that the diameter of the graph is also $D$). Now, we know that there are $n-D$ vertices which are connected to the center graph, and we also know that the maximum geodesic length is 2. Thus, we see there are $(n-D)^2$ shortest paths of length 2 in this group.
+
+For all other paths, we know there is a maximum length of $D$. Since there are $n^2$ total possible paths, we can have at most $n^2 - (n-D)^2$ shortest paths of length $D$. Therefore, the average path length can be upper bounded by:
+\begin{eqnarray}
+  \frac{1}{n^2} \left(2 (n-D)^2 + D(n^2 - (n-D)^2)\right)
+\end{eqnarray}
+
+If we want the diameter to be greater than three times the average path length, we only need to set that expression to be less than $D/3$ and solve for possible values of $D$ and $n$.
+
+For instance, if we choose $D = 10$ and $n = 120$ in the star graph with long tail as described, we will have a diameter which is three times as large as the average path length.
+\end{sol}
+
+\begin{prob}
+  Describe how you could extend your construction to produce graphs in which the diameter exceeds the average path length by as large a factor as you like.
+\end{prob}
+\begin{sol}
+  We will use the logic given from above. However, we now have some constant $c$ in place of 3. This means that we want to satisfy the inequality:
+  \begin{eqnarray}
+    \frac{1}{n^2} \left(2 (n-D)^2 + D(n^2 - (n-D)^2)\right) < \frac{D}{c}
+  \end{eqnarray}
+
+  By picking some value of $D$, one can solve for possible values of $n$ which satisfy this inequality or vice versa. Therefore, using the star graph with long tail from the previous question, we can achieve an arbitrary factor for which the diameter exceeds the average path length.
+\end{sol}
+
+\end{document}
