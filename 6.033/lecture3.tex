@@ -1,0 +1,100 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 3: Operating Systems}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Goals of an Operating System}
+
+Turn hardware into something useful.
+\begin{itemize}
+\item Multiplexing: run many problems
+\item Isolation: enforce modularity between programs
+\item Cooperation: allow programs to interact
+\item Portability: allow some program to run on different hardware
+\item Performance: help programs run fast.
+\end{itemize}
+
+The two fundamental challenges are isolation and controlled sharing. Techniques for doing this are virtualization and abstraction. Virtualization creates a layer between hardware and software, give the program the illusion of its own memory and cpu. Abstraction defines new hardware-independent interfaces that provides more convienent features. Many hardware features are abstracted away into some easy way to interact with them.
+
+\subsection{Dealing with Multiple Programs}
+
+Running a single program is pretty easy. Memory holds instructions and data, and cpu interprets the instructions. Many processors implement this directly. Address point is incremented after each instruction, and modified by other instructions like JMP or CALL.
+
+For multiple programs, each program will get its own processor and set of data and instructions. The problem is that there is no isolation or boundaries between the programs. Program 1 can modify program 2's data, since all of the data is sitting in the same memory. Once in a while, your program might not work because someone else jumped into your program without you knowing about it.
+
+We want to be able to enforce modularity to give each program its private memory for code, stack, and data. Allow sharing between programs only when needed. 
+
+Demonstration: Two processes, parent and child, try to write to a memory address outside of the program's memory. The parent does something stupid: writes to an address which is not in its memory. The parent fails (segmentation fault) because the operating system handles this. However, parent failing doesn't affect the child.
+
+\section{Memory Virtualization}
+
+The operating system isolated the two programs using virtual memory. When the parent and child invoke instructions, the addresses weren't actually physical memory addresses. Instead, these were virtual addresses. A hardware device translates these virtual addresses to a physical address in RAM. The virtual address is an address on the table which stores where the actual physical address is.
+
+Both programs can therefore use address 0. However, the virtual address 0 corresponds to two different physical locations. If program 1 tries to write to an address which doesn't even exist in it's virtual address table, there is no way to overwrite the physical memory.
+
+\subsection{Page Table}
+
+The page map has structure to it so that the virtual memory isn't huge. The address consists of a page number and offset, which makes the map space efficient. In the beta from 6.004, the first 20 bits are the page number and the last 12 bits are physical offset.
+
+In actual implementations, there is a two level page table. The virtual address has a directory, table, and page offset. There is another layer of page tables (imagine a second page table after the first page table).
+
+The page table also has other bits such as R/W which tells you if its writeable. Page fault when $W = 0$ and writing. User mode references U/S are included so that page fault when U=0 and user references an address. Present bit P, page fault when P = 0. Behind the back of the application, the operating system has a lot of control because the application only sees virtual addresses.
+
+We also need some way of protecting page tables. Malicious program could change page table address register. The operating system handles this by creating two modes: user and kernel mode. Processor maintains U/K bits to distinguish between user and kernel mode. Code in kernel mode can set page table register, and attempts to change page table in user mode will throw a page fault. The kernel program is completely trusted.
+
+To move from user to kernel mode, you have a special instruction, e.g. int in x86. When this instruction is run, then the U/K bit is set to kernel mode and we lookup the number passed to int in the table of handlers, then the handler is run. There is another instruction for return which sets the U/K bit back to user mode and returns.
+
+How do we protect kernel's memory from user programs? The stupid plan is to switch page pointer when changing modes, alternative is to use the U bit in the page table entry. Pages for kernel code don't have the U bit so kernel code and user code can fit in the same address space, and kernel can refer to user data but not the other way around.
+
+\subsection{Page Fault}
+
+Page faults switch processor to a predifined handler in operating system software. The handler could stop the program and raise an error or update the page map and resume after the halted instruction. This allows the operating system to change page tables while the program is runing.
+
+Note that you can also share a certain piece of physical memory among multiple programs, and some programs will only have read privileges while others will have read and write.
+
+\subsection{Naming View}
+
+We can apply the naming model. The virtual memory system really is just a naming system. Names are the virtual address, and the values are the physical addresses. The context of names is the page map. Different page maps lead to different virtual address to physical address mappings. The lookup algorithm is just an index into the page map. 
+
+The benefits of naming are sharing, hiding, and indirection.
+
+\section{Abstractions}
+
+Virtualization is good for some things but not for others. It would be very inconvenient if the disk were virtualizated. Also virtualization is often not enough because of portability and cooperation. Example abstractions: disk to filesystem, display to windows. 
+
+Where do abstractions live? Shouldn't be in user space because user's shouldn't be able to overwrite these abstractions. Therefore, the abstractions are in the kernel. 
+
+\subsection{Modularity}
+
+Kernel is in charge of enforcing modularity. It must set page tables correctly and enforcing abstractions. Any bug in the kernel is really bad because this is the trusted, privileged code. 
+
+\end{document}
