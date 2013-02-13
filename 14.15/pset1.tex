@@ -93,4 +93,36 @@ n^2 - (i-1)^2 - (n-i)^2
 \end{eqnarray}
 \end{sol}
 
+\section{Problem 3}
+
+\begin{prob}
+Describe an example of a graph where the diameter is more than three times as large as the average path length.
+\end{prob}
+\begin{sol}
+Consider a star graph, where there is a center vertex, and all other vertices have an edge attached to the center vertex. A graph with a high diameter to average path length ratio is a ring graph with a long tail. Thus, if there is a single path of length $D$ connecting to the center vertex, and all other vertices are connected by a single edge to the center, then it is possible to find $n$ and $D$ such that the diameter is three times as large as the average path length.
+
+To see this, we will provide an upper bound for the average path length. Let us define $D$ as the length of the long path (so we know that the diameter of the graph is also $D$). Now, we know that there are $n-D$ vertices which are connected to the center graph, and we also know that the maximum geodesic length is 2. Thus, we see there are $(n-D)^2$ shortest paths of length 2 in this group.
+
+For all other paths, we know there is a maximum length of $D$. Since there are $n^2$ total possible paths, we can have at most $n^2 - (n-D)^2$ shortest paths of length $D$. Therefore, the average path length can be upper bounded by:
+\begin{eqnarray}
+  \frac{1}{n^2} \left(2 (n-D)^2 + D(n^2 - (n-D)^2)\right)
+\end{eqnarray}
+
+If we want the diameter to be greater than three times the average path length, we only need to set that expression to be less than $D/3$ and solve for possible values of $D$ and $n$.
+
+For instance, if we choose $D = 10$ and $n = 120$ in the star graph with long tail as described, we will have a diameter which is three times as large as the average path length.
+\end{sol}
+
+\begin{prob}
+  Describe how you could extend your construction to produce graphs in which the diameter exceeds the average path length by as large a factor as you like.
+\end{prob}
+\begin{sol}
+  We will use the logic given from above. However, we now have some constant $c$ in place of 3. This means that we want to satisfy the inequality:
+  \begin{eqnarray}
+    \frac{1}{n^2} \left(2 (n-D)^2 + D(n^2 - (n-D)^2)\right) < \frac{D}{c}
+  \end{eqnarray}
+
+  By picking some value of $D$, one can solve for possible values of $n$ which satisfy this inequality or vice versa. Therefore, using the star graph with long tail from the previous question, we can achieve an arbitrary factor for which the diameter exceeds the average path length.
+\end{sol}
+
 \end{document}
