@@ -1,0 +1,125 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{bbold}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+\newenvironment{def}{{\bfseries Definition:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 3}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Growth of Cryptography - Continued}
+
+\subsection{Zero Knowledge Proofs}
+
+I can convince you that I know a solution to a hard problem while telling you nothing about my solution. I want to make sure you don't know anything about my solution.
+
+Important for say, logging into a computer where you want to convince the computer that you know the secret key, but don't want to give the computer any information about the secret key.
+
+\subsection{Micro Payments}
+
+Micali and Rivest (2001). If you want to pay small amounts of money, how do you create a system for this?
+
+Paying ten cents is equivalent to paying \$1 with probability 1/10. Uses pseudorandom digital signatures for verifiable fair dice. Neither the buyer or seller arranges the coin flips, there must be a cryptographically fair way of flipping the coin.
+
+\subsection{Voting Systems}
+
+There are new end-to-end cryptographic voting systems. All ballots are posted on the web and are encrypted, and the voters verify their votes are correct. Anyone can see the final tally. 
+
+Uses cryptography for increasing transparency and verifiability. You don't want people selling their own vote. 
+
+\subsection{Fully Homomorphic Encryption}
+
+Can you compute on encrypted data, while keeping it encrypted? Given two encrypted data, are there ways to perform operations on them to create a new encrypted answer?
+
+Craig Gentry in 2009 showed that you can do arbitrary computations on encrypted data based on the use of latticecs. Potential applications for cloud computing.
+
+\section{Encryption and One Time Pads}
+
+How do we get messages from Alice to Bob in a way that Eve can't listen in. There's some communication channel that Eve can listen to. Give Bob some key $K$, and Eve does not know $K$. 
+
+Alice encrypts message $m$ and sends over $c \leftarrow enc(m)$ the encrpyted message over the channel.
+
+Algorithms: 
+\begin{itemize}
+\item Key generation $K \leftarrow gen(\matbb{1}^\lambda)$ where $\lambda$ is key length. Here $\leftarrow$ denotes a randomized computation and $\mathbb{1}$ is a single bit. 
+\item Encryption $c \leftarrow enc(K, m)$, where $c$ is the ciphertext that is sent over the channel.
+\item Decryption $m = dec(K, c)$. Note that decryption is deterministic. 
+\end{itemize}
+
+\subsection{Notion of Encryption}
+
+Ideas of what encryption is:
+\begin{itemize}
+\item Eve should not be able to produce $m$ from $c$. 
+\item Can't identify any information about message and authenticate that the message is complete.
+\item Shouldn't see patterns in messages.
+\end{itemize}
+
+The encryption game: Eve can't distinguish $enc(K,m_1)$ from $enc(K, m_2)$ where $m_1 \neq m_2$ and $|m_1| = |m_2|$ if $K$ is chosen randomly and Eve doesn't know $K$. Eve chooses $m_1, m_2$. Alice chooses one message $m_b$ and encrypts that $c \leftarrow enc(k, m_b)$. Eve tries to guess $b$ given ciphertext $c$.
+
+\subsection{One Time Pad (Vernam 1917)}
+
+Message $m$, ciphertext $c$, key $k$ are all $\lambda$ bit quantities. The key $k$ is also called the pad. 
+
+Generation: Flip coin $\lambda$ times to get a pad $k$. 
+
+Encryption: Bitwise exclusive-or, $c = m \oplus k$.
+
+Decryption: Exlusive-or, $m = c \oplus k$. This works because $m = m \oplus k \oplus k$.
+
+\subsection{Proof of Security}
+
+\begin{thm}
+One Time Pad is unconditionally/information-theoretically secure (Eve may have infinite computing power). 
+\end{thm}
+\begin{proof}
+Let $P(m)$ be Eve's a priori probability of message $m$, or Eve's state of knowledge. Need to show $P(m | c) = P(m)$. 
+
+We know that $|m| = |c| = |k| = \lambda$. We are assuming that $k$ is chosen randomly and the probability of any particular key is $P(k) = 2^{-\lambda}$. We know that $P(c|m) = 2^{-\lambda}$ = probability of $c$ given the message = probability that $k = m \oplus c$ = $2^{-\lambda}$.
+
+\begin{eqnarray}
+P(c) = \sum_{m} P(c|m) P(m) = \sum_{m} 2^{-\lambda) P(m) = 2^{-\lambda}
+\end{eqnarray}
+
+Where the last follows because $P(m) = 0$ unless $m$ is the actual message sent, in which case $P(m) = 1$. 
+
+Now let us look at $P(m|c)$ which is the probability that Eve thinks message is $m$ having seen $c$.
+\begin{eqnarray}
+P(m|c) &=& \frac{P(c | m) P(m)}{P(c)} \\
+&=& \frac{2^{-\lambda} P(m)}{2^{-\lambda}} \\
+&=& P(m).
+\end{eqnarray}
+
+Thus, the ciphertext does not give Eve any information.
+\end{proof}
+
+
+\end{document}
