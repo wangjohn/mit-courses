@@ -61,7 +61,13 @@ Since the \emph{/dev/random} function was intended to be strong and secure, it h
   \item Fast recovery from compromise of the entropy pool. If an adversary obtains knowledge about the entropy pool, the function should be resilient. In addition, if the cryptographic hash function used is broken, the function should have countermeasures that prevent the random numbers it generates from being completely predictable.
 \end{itemize}
 
-However, the function makes many assumptions about the environment it operates in and the inputs it obtains. 
+However, the function makes many assumptions about the environment it operates in and the inputs it obtains. Some of these assumptions are more tenuous than others and have lead to weaknesses in \emph{/dev/random}. Some of the more critical assumptions are given below:
+\begin{itemize}
+  \item The input values are unpredictable. The function assumes that the environmental input values cannot be copied or known by an adversary. For keyboard and mouse input by users, the assumption may hold. However, for servers with no human interaction, the environmental input comes from disk writes, time, and other somewhat predictable inputs which weakens the security of \emph{/dev/random}. This assumption is crucial especially during boot, when the input values are usually very predictable and can lead to vulnerabilities in the function.
+  \item The SHA hash function is secure. Since the \emph{/dev/random} function uses SHA to mix the entropy pool and return random bits (by digesting the entire pool), the security of the \emph{/dev/random} function relies on the difficulty of predicting outputs from the SHA hash.
+  \item The internal state of the entropy pool cannot be determined by an attacker. If the attacker could obtain access to the contents of the entropy pool, then the attacker could simulate the SHA digest and know the random numbers to be generated from \emph{/dev/random}.
+  \item The entropy pool at system startup is unpredictable. As an added security feature, \emph{/dev/random} makes sure that the entropy pool persists between shutdown and startup. Since the boot process is predictable, the helps ensure that an attacker cannot predict random numbers while the computer is still booting. This assumption could break down, however, in cases where the computer has been shutdown for a long time and the entropy pool's bits are zeroed.
+\end{itemize}
 
 The \emph{/dev/random} function assumes that its input values are unpredictable.
 \end{document}
