@@ -81,7 +81,11 @@ To illustrate a weakness in Ben Bitdiddle's proposal, imagine that a machine boo
 
 In particular, one could solve the CICO (constrained input constrained output) problem. It is well-known that Keccak can be solved with a system of equations of $(n_r + 1)b$ variables and $(n_r+1)b + n_r - r$ equations, where $n_r$ is the number of rounds. In fact, KeccakTools was written by the authors of Keccak to provide this system of equations. Since $n_r = 1$ in this case, the amount of computation required to solve this system is greatly reduced compared to a full application of Keccak.
 
-There are other weaknesses that result from a low number of rounds. 
+There are other weaknesses that result from a low number of rounds. Amplified boomerang and rectangle attacks, which construct chains of differentials over small numbers of rounds, are more easily used for Keccak with a small number of rounds. Higher order differentials, the authors claim, do not pose a significant threat because of the high average diffusion of Keccak. However, the diffusion in Keccak occurs in proportion to the number of rounds. Therefore, with a small number of rounds, the average diffusion of Keccak may be low enough to make it vulnerable to higher order differential attacks. 
+
+Other attacks, such as impossible differentials, also work better with a lower number of rounds. The authors have provided empirical evidence that Keccak-$f$ permutations behave randomly. The authors dismissed these attacks because they suggested that the number of rounds of Keccak was sufficient to avoid low-weight differential trails.
+
+Therefore, most attacks are more potent when Keccak has a low number of rounds. The fact that Ben Bitdiddle's proposal for \emph{/dev/random} can be attacked on these grounds significantly weakens his proposal. For his proposal to work, the Keccak-$f$ permutations would have to have a high security margin even for a low number of rounds.
 
 \end{document}
 
