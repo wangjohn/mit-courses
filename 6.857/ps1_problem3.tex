@@ -69,6 +69,11 @@ However, the function makes many assumptions about the environment it operates i
   \item The entropy pool at system startup is unpredictable. As an added security feature, \emph{/dev/random} makes sure that the entropy pool persists between shutdown and startup. Since the boot process is predictable, the helps ensure that an attacker cannot predict random numbers while the computer is still booting. This assumption could break down, however, in cases where the computer has been shutdown for a long time and the entropy pool's bits are zeroed.
 \end{itemize}
 
-The \emph{/dev/random} function assumes that its input values are unpredictable.
+The assumptions underlying \emph{/dev/random} make it more easy to exploit, especially if an attacker knows about the interrupt operations on the machine in question and is able to attack the machine on startup. For most cases, however, \emph{/dev/random} generates keys which are hard to predict.
+
+\section{Problem 3.b}
+
+The proposal to use the sponge construction in \emph{/dev/random} would require a number of properties about SHA-3 and the sponge construction it uses. 
+
 \end{document}
 
