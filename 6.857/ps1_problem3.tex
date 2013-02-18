@@ -73,7 +73,15 @@ The assumptions underlying \emph{/dev/random} make it more easy to exploit, espe
 
 \section{Problem 3.b}
 
-The proposal to use the sponge construction in \emph{/dev/random} would require a number of properties about SHA-3 and the sponge construction it uses. 
+The proposal to use the sponge construction in \emph{/dev/random} would require a number of properties to be true about SHA-3 and the sponge construction it uses. Ben Bitdiddle's proposal means that every $r$ new bits of information will be absorbed into the entropy pool by xor-ing them with the current state and calling the Keccak-$f$ function on the new state. When $r$ bits are extracted, then the Keccak-$f$ function will be applied to the entropy pool.
+
+This proposal, at face value, seems innocuous. However, taking a closer look at this proposal, one can see that the creator's of Keccak did not have this as an intended use. In particular, there are a couple of cases where the proposal would have weaknesses. The Keccak team assumed that the number of rounds of application of Keccak-$f$ would be greater than or equal to the suggested number of rounds. The security and diffusion properties do not hold up well when few rounds are applied.
+
+To illustrate a weakness in Ben Bitdiddle's proposal, imagine that a machine boots up and that an adversary knows the exact boot sequence of the machine. In this case, the adversary will know the beginning state of the entropy pool. Now, suppose the user has some keyboard or mouse input, and \emph{/dev/random} is called to generate some SSL keys. In this case, there is only a single round of Keccak-$f$ application before the output from the randomization function is provided. It is known, however, that low numbers of rounds of Keccak-$f$ are vulnerable to attack.
+
+In particular, one could solve the CICO (constrained input constrained output) problem. It is well-known that Keccak can be solved with a system of equations of $(n_r + 1)b$ variables and $(n_r+1)b + n_r - r$ equations, where $n_r$ is the number of rounds. In fact, KeccakTools was written by the authors of Keccak to provide this system of equations. Since $n_r = 1$ in this case, the amount of computation required to solve this system is greatly reduced compared to a full application of Keccak.
+
+There are other weaknesses that result from a low number of rounds. 
 
 \end{document}
 
