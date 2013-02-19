@@ -1,0 +1,86 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usepackage{bbold}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+\newenvironment{def}{{\bfseries Definition:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 4}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{One Time Pad}
+
+Surprising that it's not used more often. However, you need to have large secrets. Need to share them securely and keep them secret. These properties give some impact on usability. Most cryptography has small secrets that should be passed. 
+
+Another thing: you can't reuse the one time pad. 
+\begin{eqnarray}
+C_1 \oplus C_2 &=& (M_1 \oplus P) \oplus (M_2 \oplus P) \\
+ &=& M_1 \oplus M_2 \oplus (P \oplus P) \\
+ &=& M_1 \oplus M_2
+\end{eqnarray}
+
+Famous attack from the NSA called Venona on the Russians. 
+
+Note that the One Time Pad (OTP) is malleable, which means it doesn't provide any message authentication. If the adversary attempts to change the bits over the channel, then the receiver of the message can't tell. The OTP provides superb confidentiality, but provides zero authentication. So we need to layer on top of it more techniques to achieve both of these.
+
+Common mistake to think that just because something is encrypted, it can get to the receiver all hunky dorey.
+
+\section{Generating Randomness}
+
+\begin{itemize}
+\item Flipping coins
+\item Environmental noise (microphone, keyboard, camera)
+\item Radioactive decay (bits in memory changing)
+\item Hard disk drive speed variations
+\item Intel new instructions (using the metastable state)
+\item Quantum randomness.
+\end{itemize}
+
+\section{Cryptographic Hash Functions}
+
+\emph{Cryptographic Hash Function} maps strings of arbitrary finite length to strings of fixed length ($d$ bits). $h: \{0, 1 \}^* \rightarrow \{0,1\}^d$. We sometimes call $h(x)$ the hash of $x$ or the digest of $x$.
+
+These functinos should be efficiently computable, but it shouldn't sacrifice efficiency for security. There is no secret key, it should be a completely public function.
+
+\subsection{Examples}
+
+Rivest's functions: MD4, MD5. 
+
+NIST standards: SHA-1, SHA-2: (SHA-256, SHA-512), SHA-3 (Keccak). 
+
+\subsection{Random Oracle Model (ROM)}
+
+Specification of what the ideal cryptographic hash function would be. The user sends the oracle $x$, and the oracle sends the user back $h(x)$. If a second user sends the oracle $x$, the oracle will send back the same $h(x)$. 
+
+Oracle's Process: Receives $x$. If $x$ is in the book, look up $h(x)$ and return it. Otherwise, flip a coin $d$ times and call that $h(x)$. Write this $h(x)$ in the book and return it.
+
+This is both consistent and random (the ideal of a cryptographic hash function).
+
+\end{document}
