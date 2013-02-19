@@ -1,0 +1,76 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 4: Client/Server in One Computer; Atomicity}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Bounded Buffers}
+
+We use a bounded buffer because maybe the sender process gets a bunch of messages at the same time. The buffer allows the receiver to work away while the sender is blitzing these messages.
+
+The buffer of of some size $n$, and we have two variables $in$ and $out$ which are the number of messages sent and received, respectively. For send, we write to the buffer at position $in \mod n$ if $in - out < n$. For receive, you read from the buffer at position $out \mod n$ if $in > out$ 
+
+\subsection{Assumptions}
+\begin{itemize}
+  \item One sender and one receiver
+  \item One CPU per sender/receiver
+  \item Memory operations happen in the order shown
+\end{itemize}
+
+\section{Locking}
+
+\subsection{Concurrent Send}
+
+We have process $A$ which sends message $m_1$ and $B$ which sends message $m_2$. The outcome should be that both $m_1$ and $m_2$ get in the bounded buffer in any order. You can do this by using locks to make sure only one person is using a block of code at a time.
+
+\subsection{Locking Strategies}
+
+Coarse grained locking: simple and easy to get right. Not much concurrency. This is just one lock for every large operation, hence it's coarse.
+
+Fine grained locking: more concurrency and possibly better performance. However, it's harder to make sure that it works, deadlock. Usual way to avoid deadlock is to order the locks. If you look at linux code for locks, you can see that locking is actually pretty hard.
+
+\subsection{Implementing Locks}
+
+It's hard to implement a lock in software because you have the same concurrency problem with locks that locks are supposed to be solving. Can't just increment and decrement a counter. Most computers implement locks by asking the hardware to provide an atomic instruction so that nothing can get interleaved.
+
+In x86, there is an XCHG instruction which runs on a register and address. It swaps whatever was in the register for whatever was in the memory location of that address, and the process guarantees that this is atomic. Given this primitive, we can implement acquire in a correct fashion:
+
+\begin{verbatim}
+acquire(l)
+  do:
+    r <- 1
+    XCHG r, l
+  while r == 1
+\end{verbatim}
+
+Now we can implement an atomic acquire on top of an atomic instruction primitive built on hardware.
+
+\end{document}
