@@ -81,6 +81,56 @@ Specification of what the ideal cryptographic hash function would be. The user s
 
 Oracle's Process: Receives $x$. If $x$ is in the book, look up $h(x)$ and return it. Otherwise, flip a coin $d$ times and call that $h(x)$. Write this $h(x)$ in the book and return it.
 
-This is both consistent and random (the ideal of a cryptographic hash function).
+This is both consistent and random (the ideal of a cryptographic hash function). In the random oracle model, if $x \neq y$:
+\begin{eqnarray}
+P[h(x) = h(y)] = \frac{1}{2^d} 
+\end{eqnarray}
+
+\subsection{Properties}
+
+\begin{itemize}
+\item One-wayness (OW) - preimage resistance. If $h(x) = y$ then $x$ is the preimage of $y$ and $y$ is the image of $x$. It should be hard to go from $y$ back to $x$. 
+
+Infeasible for anyone given $y \in_{r} \{0, 1\}^d$ (where $\in_r$ denotes randomly chosen) to find any $x$ such that $h(x) = y$. Infeasible means that work is proportional to $2^d$, which is just brute forcing every possible $x$ and checking if it matches a $y$. Maybe take $d \geq 90$ to make this hard. 
+
+\item Collision resistance (strong collision resistance).
+
+Infeasible for anyone to find $x$ and $x'$ such that $x \neq x'$ and $h(x) = h(x')$. 
+
+In Random Orcale Model, difficulty is $\theta(2^{d/2})$ for finding any collision. The work should eceed $2^90$ if $d > 180$. You lose a factor of 2 because of the birthday paradox.  
+\begin{eqnarray}
+x_1 &\to& y_1 \\
+x_2 &\to& y_2 \\
+&\vdots& \\
+x_n &\to& y_n
+\end{eqnarray}
+
+\begin{eqnarray}
+E[\textrm{collisions}] &=& \sum_{i \neq j} Pr[h(x_i) = h(x_j)] \\
+&=& \sum_{i \neq j} \frac{1}{2^d} \\
+&=& { {n \choose 2 } }  2^{-d} \\
+&=& \frac{n (n-1)}{2} \frac{1}{2^{d}} 
+\end{eqnarray}
+
+This is roughly $n^2 2^{-d}$, which means that if $n > 2^{-d/2}$, the expected number of collisions is greater than 1.
+
+\item Weak collision resistance (target collision resistance) (WCR).
+
+Infeasible given $x \in_r \{0, 1\}^*$ to find $x' \neq x$ such that $h(x) = h(x')$. Like pairwise resistance, work is $\theta(2^d)$ in ROM. 
+
+\item Pseudorandomness. Indistinguishable from a random oracle. Hard to define well. 
+
+\item Non-malleability. 
+
+Infeasible given $h(x)$ to produce $h(x')$ where $x$ and $x'$ are related. 
+\end{itemize}
+
+\subsection{Applications}
+
+\begin{itemize}
+\item Password storage: store $h(p)$ instead of string $p$. System compares $h(p)$ to $h(t)$ where $t$ is the typed in password attempt. For a given user, this depends on the one-wayness property. 
+\item 
+
+\end{itemize}
 
 \end{document}
