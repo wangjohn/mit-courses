@@ -1,0 +1,86 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 5: Threads}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{The Thread Abstraction}
+
+Threads will store program state. This includes all of the registers (the regular registers, the PC, SP, etc) as well as the memory (stack, heap, code, etc). There should be a way to run suspend/resume for each thread.
+
+\subsection{Yield()}
+
+The yield statement does the following:
+\begin{enumerate}
+  \item Suspends the current thread
+  \item Picks a new thread
+  \item Resumes the new thread
+\end{enumerate}
+
+\subsection{Thread Implementation}
+
+There will be a threads table and a cpu table. The cpu table stores the thread id that is currently running on each processor. The thread table stores the stack pointer and state for each thread. The states can be either ``RUNNABLE'' if the thread is no longer running on any processor or ``RUNNING'' if the thread is currently running. The stack pointer SP holds all of the state of the current thread.
+
+How does this work if we have two CPUs originally running $t_0$ and $t_1$? Here, $CPU_0$ does the following:
+\begin{enumerate}
+  \item We have $t_0$ running.
+  \item yield().
+  \item Save $t_0$'s SP and set $t_0$'s state to runnable.
+  \item Go to $t_2$ and set the new state as running, set stack pointer to the save SP in $t_2$.
+\end{enumerate}
+
+Then $CPU_1$ does this:
+\begin{enumerate}
+  \item We have $t_1$ running.
+  \item yield().
+  \item Save $t_1$'s SP and set the state to runnable.
+  \item Go to the next thread with runnable state, which is $t_0$. Set SP to $t_1$'s stack pointer.
+\end{enumerate}
+
+Now we have $t_1$ running on $CPU_0$ and $t_2$ running on $CPU_0$.
+
+This should be an atomic operation by using a lock. We don't want two CPUs trying to run the same chunk of code, so only one CPU should be running any thread. Thus, you make a lock that you acquire at the beginning of yield, and release at the end of the function. The lock also makes sure that setting the stack pointer and setting the state of the thread is atomic.
+
+\subsection{Condition Variable (CV)}
+
+wait(cv, lock): release lock, go to sleep, re-acquire lock.
+notify(cv): wake up all waiters.
+
+People usually think of condition variables as stateless. It doesn't matter how many times you may have modified it in the past.
+\begin{itemize}
+  \item wait + notifty: wake up
+  \item notify + wait: keep sleeping
+\end{itemize}
+
+Note that wait and notify must have to be atomic. If these functions are atomic, then we get correctness. So how do we implement these functions?
+\begin{itemize}
+  \item Add state WAITING
+  \item Add threads\[\].cv
+\end{itemize}
+
+We can do this by grabbing $t_lock$ in wait, so there is never a point in time when we are not holding one of the locks.
+
+\end{document}

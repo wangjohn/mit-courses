@@ -1,0 +1,88 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 5}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Hash Function Applications}
+
+\subsection{Password Storage}
+
+System stores $h(pw)$ rather than $pw$ itself. System might also store username, salt, etc.
+
+\subsection{File Modification Detector}
+
+You want to monitor to detect when files have been changed. For each file, store $h(F)$ securely. You can check to see if the files have been modified by recomputing the hash. Provides detection (not prevention).
+
+\subsection{Digital Signatures (hash and sign)}
+
+\begin{itemize}
+  \item $PK_A$ is Alice's public key (for signature verification). 
+  \item $SK_A$ is Alice's secret key (for signing). 
+  \item Signing: $\sigma = sign(SK_A, m)$ and $\sigma$ is Alice's signature on message. 
+  \item Verification: $verify(M, \sigma, PK_A) \in \{true, false\}$. 
+\end{itemize}
+
+Idea: computing $h(m)$ is fast, so sign $h(m)$ instead of signing $m$. We do $sign(m, SK_A) = sign(m', SK_A)$ if $h(m) = h(m')$.
+
+Problem is that if $h(m) = h(m')$, then asking Alice to sign $m$, her signature $\sigma$ is also a signature for $m'$.
+
+\subsection{Commitments}
+
+Alice has value $x$ which is her bid. She computes $C(x)$ and gives auctioneer $C(x)$, which is her sealed bid. When bidding is over, Alice should be able to open $C(x)$ to reveal $x$.
+
+Want these properties:
+\begin{itemize}
+  \item Binding: Alice should not be able to open $C(x)$ in more than one way.
+  \item Secrecy: Anyone seeing $C(x)$ should have no information about $x$.
+  \item Non-malleability: Anyone seeing $C(x)$ shouldn't be able to come up with a related bid, e.g. $C(x+1)$.
+\end{itemize}
+
+Let's try $C(x) = h(\textrm{username} || x || r)$ where $r$ is a random value which is secret to Alice. To make sure that the hash function satisfies all of the above properties, we need to have collision resistance (for binding), one-wayness (for secrecy, but we need a little more, we don't want to leak at any information on $x$), and non-malleability.
+
+To open the bid, everyone sends in their bids once the auction is over, and you check to make sure the messages hash to their commitment value.
+
+\subsection{Merkle Tree}
+
+Authenticate a collection of objects $x_1, x_2, \ldots, x_n$. You go up the tree, computing hash values of two children below it. The hash value at the top of the tree is the root value. To check if some $x$ is a member of the collection, then you must get $x$'s brother, and you can compute up the tree if you are also given the other values of the nodes.
+
+We have to have target collision resistance (to make sure you can't find another value that leads to the root hash), also collision resistance because maybe the guy making the tree made another tree as well.
+
+\section{Merkle-Damgard Construction}
+
+Start off the machine with a state of all zeros. Then you concatenate $m_1$ with the current state and hash this. This results in a new state $c_1$, and you concatenate $m_2$ with it and hash to result in $c_2$. Keep doing this for some number of iterations until you get $h(m)$ which is some partition of $c_n$.
+
+Common design pattern for function $f$ is $f(c_{i-1}, m) = C_{i-1} \oplus E(m_i, c_{i-1})$ where $m_i$ is the key and $c_{i-1}$ is the message.
+
+\section{Keccak}
+
+This is an iterative algorithm and there are two components to the state. The width is composed of $r + c$. You first take $r \oplus m_1$ and send that as well as $c$ copied over to $f$, where $f$ is a permutation of $\{0,1\}^{c + r} \rightarrow \{0,1\}^{c + r}$. It's a random looking object, and it's also public. One we've finished with all the message parts, then $h(m)$ is just $r$ from the output state.
+
+The compression is happening at the xor.
+
+\end{document}
