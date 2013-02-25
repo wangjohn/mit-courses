@@ -1,0 +1,97 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 6: Opearting Systems Structures}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Operating System Abstractions}
+
+Kernel is one large C program, but there is no enforced modularity or internal structure. There are abstractions, like virtual memory, threads, file systems, inter-process communication.
+
+Linux kernel has bugs (5000 bugs fixed in about 7 years). But how bad is a bug, can it make the linux kernel crash? 
+
+Demonstration: Insert kernel module, every 10 seconds it overwrites $n$ locations in physical memory. Let's look at different values of $n$, and what value of $n$ makes linux crash? After $n=64$ we got some bad behavior.
+
+Severity of the bug really depends, but maybe files were corrupted and you don't know. Bugs aren't great because each one is an opportunity for an attacker. So how do we enforce modularity within the kernel?
+
+\subsection{Microkernel Organization}
+
+What about applying client/server modularity to the kernel? Whenever we make a system call, the kernel just forwards each interrupt call to somewhere that handles the interrupt, then send that result back.
+
+But its not as simple as it sounds.
+\begin{itemize}
+  \item Communication cost is high, much higher than a procedure call. If you don't split things into very fine grain, then you have huge modules which aren't that helpful. Sharing information among fine grade components requires a lot of communication time.
+  \item Sharing between subsystems is dificult. You have to share a buffer cache between the pager and file system.
+  \item Requires a careful redesign of the entire kernel.
+\end{itemize}
+
+Why is Linux not a pure microkernel? Many dependencies between components and redesign is challenging. There is a tradeoff between new design and new features. You can't do both, so you have to make a choice. Linux community thinks that new features are more important. Also, some services are run as user programs like SQL databases, USB drivers, DNS servers, SSH, etc.
+
+Redesign is painful, but you still want to be able to protect against bugs in the kernel. What do you do? \emph{Idea: run different programs on different computers.} Each computer has its own kernel, if one crashes, others are unaffected so you get strong isolation. Problem is that strong isolation is expensive, so lets try to use virtualization and abstraction. We have a new constraint, however, which is compatibility: we want to run the same linux kernel as before.
+
+\section{Virtual Machines}
+
+This leads to the development of virtual machines. A virtual machine monitor is going to multiplex a bunch of linux kernels across the same hardware. Problem is how to implement this. The guest linux kernels will be runing on top of the host virtual machine monitor. If there is a bug in one linux kernel, it won't affect the other linux kernels.
+
+\subsection{Implementation}
+
+One way is to use \emph{emulation.} Write an interpreter for every guest instruction. The virtual machine monitor will interpret guest instructions, decode it, and emulate it. Every instruction is interpreted. You're basically writing a C program that exactly emulates the hardware. However, you get a huge slowdown because you have to interpret each instruction.
+
+Emulation works, but it's typically used only to develop operating systems, not to run virtual machines because of the performance disadvantages. Goal is to emulate quickly.
+
+Observation: guest instructions are the same as hardware instructions. Idea is to run most instructions directly. Fine for user instructions like (add, sub, mul) but not for privileged instructions. We need to virtualize some hardware state to run several existing kernels.
+
+Each kernel assumes it manages physical memory, page-table pointer, U/K bit, interrupts, registers, etc. We need to virtualize all of these.
+
+\subsection{Memory Virtualization}
+
+Idea: an extra level of page tables. Guest virtual addresses go to guest physical addresses which are then mapped to host physical addresses. We now have two page tables. One is the kernel page table for each guest kernel. The second is the virtual machine monitor page table, which maps guest physical addersses to host physical addresses. We apply the exact same idea as before.
+
+We need to be careful though, because we don't want to give the guest kernel direct access to physical addresses. Each kernel has to think it has its own copy of a page table. Need to replace guest physical addresses with corresponding host physical addresses. To do this, virtual machine monitor iterates over guest page table and constructs a shadow page table. The shadow page table takes a mapping from guest physical address to host physical address.
+
+Each time you switch kernels, you have to loop over the entire guest page table and update the shadow page table. We need to make sure that if the guest operating system changes its page table, that the shadow page table reflects that. We can just make the page table read only, so that a page fault is thrown, so control flows up to the virtual machine monitor. Then the VMM can modify the shadow page table and resume the guest operating system as if the page table was changed.
+
+\subsection{Virtualizing the U/K bit}
+
+We want to run the guest operating system with user bit enabled. But now guest cannot execute privileged instructions. We can generate the trap-and-emulate we used before (of throwing an error and leading to a exception that goes to the VMM). The VMM stores the guest U/K bit somewhere, and runs the guest kernel with U set. Privileged instructions will cause an exception and VMM will obtain control, then it will emulate the privileged instruction.
+
+If there is an actual interrupt that's supposed to go to the guest kernel, then the VMM notices this and doesn't do anything, it just sends the interrupt down to the guest kernel.
+
+\subsection{Hardware Support for Virtualization}
+
+There's now support for virtualization inside the hardware. Both AMD and Intel support VMM operating mode which provides two levels of page tables. Simplifies the job of VMM implementer.
+
+\subsection{Virtualizing Devices}
+
+Guest accesses the disk through special instructions. You can use the same trap-and-emulate approach. Write disk block to a file in host system, raises and exception, then we send it back up to the virtual machine monitor. Once the virtual machine monitor has control, it can go ahead and write, then give the result back to the guest operating system.
+
+\section{Benefits of Virtual Machines}
+
+Now you can share hardware between unrelated services with enforced modularity (server consolidation). You can also run different operating systems. Level of indirection tricks allow you to take snapshots of an operating system. You can also move guest from on physical machine to another very easily.
+
+Virtual machines and microkernels solve orthogonal problems. Microkernel splits up monolithic designs, while virtual machines are really a different beast. VM runs many instances of the existing OS on the same hardware. You don't get strong isolation with a single virtual machine, you get strong isolation between multiple virtual machines that are running.
+
+\end{document}
