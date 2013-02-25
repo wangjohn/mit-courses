@@ -1,0 +1,95 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Recitation 2}
+
+\author{Lecturer: Ada Raluca Popa\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Fast Exponentiation}
+
+\subsection{Euler's Theorem}
+
+\emph{Theorem:} Take any element $a \in \mathrm{Z}_{n}^*$, then for all $n \in \mathrm{N}$, we have $a^{\phi(n)} \equiv 1 \pmod{n}$, where $\phi(n)$ is the order of the group.
+
+\emph{Corollary:} $\forall n \in \mathrm{N}$ and $\forall a \in \mathrm{Z}_n^*$, we have $a^{d} \equiv a ^{d \mod \phi(n)} \pmod{n}$. 
+
+For any prime $p$, we have $\phi(p) = p -1$. As a consequence, we obtain \emph{Fermat's Little Theorem:} $a^{\phi(p)} \equiv a^{p-1} \equiv 1 \pmod{n}$. 
+
+\subsection{Exercises with Euler's Theorem}
+
+\begin{eqnarray}
+3^{25} \pmod{13} = 3^{25 \mod 12} = 3 \mod{13}
+\end{eqnarray}
+
+\begin{eqnarray}
+7^10 \mod{10} \equiv 7^{10 \mod{4}} \mod{10} \equiv 9 \mod{10}
+\end{eqnarray}
+
+Because we know that $10 = (2)(5)$ so that $\phi(10) = \phi(2) \phi(5) = 4$. 
+
+\section{Chinese Remainder Theorem}
+
+\emph{Theorem:} For all $m_1, \ldots, m_r < N$ where $gcd(m_i, m_j) = 1$ for all $i,j$, $m = m_1 \ldots m_r < N$, and for all $a_1, \ldots, a_r< N$, there exists an integer $y$ such that
+\begin{eqnarray}
+  y &\equiv& a_1 \mod{m_1} \\
+  y &\equiv& a_2 \mod{m_2} \\
+    &\vdots& \\
+  y &\equiv& a_r \mod{m_r}
+\end{eqnarray}
+
+Moreover, $y$ is easy to find (can be found in $\theta(\log N)$. 
+
+\subsection{Proof of CRT}
+
+\begin{enumerate}
+  \item $n_i = \frac{m}{m_i}$ for all $i$. So for instance $n_i = m_1 m_2 \ldots m_{i-1} m_{i+1} \ldots m_r$. 
+  \item Compute $b_i$ which is the inverse of $n_i \mod m_i$. So compute $b_i n_i \equiv 1 \mod m_i$. 
+  We know that if $gcd(c,d) = 1$, then $cx + dy \equiv 1 \mod{d}$, which implies $cx \equiv 1 \mod{d}$. But we know that $gcd(n_i, m_i) = 1$ because all of the factors of $n_i$ are $m_j$ where $j \neq i$ and we have pairwise $gcd(m_i, m_j) = 1$.
+  \item $y = \sum_i n_i b_i a_i \mod{m}$
+\end{enumerate}
+
+  Proof: Straightforward, see wikipedia.
+
+\subsection{Example}
+
+  Find $y$ such that $y \equiv 6 \mod 7$ and $y \equiv 8 \mod{11}$.
+
+  We can do this by using CRT. We know $a_1 = 6, a_2 = 8, m_1 = 7, m_2 = 11$. So $n_1 = 11$, $n_2 = 7$. Now we can compute the inverses, $b_1 = 2$ because $2 (11) \equiv 1 \mod{7}$ and $b_2 = 8$ because $8 (7) \mod{11}$. So we know that $y = (11)(2)(6) + (7)(8)(8) \mod 77 = 41 \mod 77$.
+
+\section{Passwords}
+
+The \emph{goal} is that the best attacker strategy should be to guess the password.
+
+\subsection{Password Operation}
+
+You have a user and server. The server stores a table of username mapped to hash of password. Whenever user types a password, the server computes the hash of the password and checks to see if that is mapped to the correct password in the table.
+
+\subsection{Possible Attacks}
+\begin{itemize}
+  \item Adversary knows nothing. He has to to guess the password. Don't need one-wayness because the adversary doesn't know anything so you could have no hash at all. Don't need collision resistance because to guess the hash, you still need to guess the password or the passwords that collide with the correct password. We want pseudorandomness, hash values are distributed close to a uniform distribution.
+  \item Aversary knows username and hash. We need one-wayness (adversary cannot find the password that leads to the same hash), because the only way to authenticate is picking the correct password.
+\end{itemize}
+
+\end{document}

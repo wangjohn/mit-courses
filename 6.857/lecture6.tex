@@ -1,0 +1,119 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 6}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{The Web}
+
+The web works with http requests and responses.
+
+\subsection{HTTP Request}
+
+You have a method, path, and http version. The url specifies protocol, domain, port, etc using the DNS lookup system.
+
+\subsection{HTTP Response}
+
+Contains status code with reason text (200 is OK, 404 is not found, etc). You also have headers which contain server information, as well as possibly a cookie in the header. Then after the headers, there is the data content.
+
+However, note that http server is stateless. Server and client don't know about each other (supposedly). You can maintain state using the cookies sent in the header of the HTTP response or a database on the server.
+
+Cookies are files stored on the client. The database stores information about the users.
+
+\subsection{Data Content}
+
+The data content is the html file and references, where references are things like css, javascript, or flash plugins. The data content is structure in html in a tree structure. 
+
+\section{Web security}
+
+\subsection{Authentication}
+
+The goal of web security: safely browse the web. Users should be able to visit a variety of websites without incurring harm. Hackers shouldn't be able to steal, change, or read user's information.
+
+Server authenticates and checks to make sure that a user $U$ is indeed $U$. The most common method is passwords.
+
+\subsection{Passwords}
+
+The goal is to make guessing passwords the attacker's best strategy. User has a password and a username. In naive implementation the server has a database of usernames and passwords. The user sends the username and password. The server needs to check that these match. But stealing the database means all the username and passwords are given up.
+
+Round 2: try storing the hash of the password. If the attacker steals the hashed password, you want one-wayness for the hash.
+
+\subsection{Dictionary Attacks}
+
+The attacker chooses a dictionary and picks password from the dictionary. Online attacks: the attacker doesn't have any way of figuring out if the password is correct other than sending a request to the server. To stop this, you can just rate limit. Offline attack, the attacker has the hash, so finding $h(pw)$ requires $O(|dict|)$.
+
+But, you can try a batch offline dictionary attack. For every word in the dictionary, you computer the hash of the word. So now you have a list $L: \{w, h(w) \}$. Then you intersect this list with the database of passwords. Requires $O(|dict| + |T|)$ where $T$ is the size of the intersection.
+
+We can try to prevent these types of attacks by salting. Now, the server stores a username, password, and a random salt. The server then computes hash of the salt and the password. Therefore, the batch offline dictionary attack needs to compute passwords for every salt, so best attacker strategy is to just go through all possible passwords in the dictionary for each hash $O(|Dict||T|)$.
+
+\subsection{Generating Multiple Client Passwords}
+
+Problem with passwords is that people reuse passwords for each site. What we want is to create different passwords for different sites with some client software that can be accessed with a single password $pw$. We can hash $h(pw, server\_id)$ for each server. The hash needs to be one-way (given the hash don't want to be able to figure out the password) and non-malleability (given a hash of one website, I don't want to be able to figure out the hash of another website).
+
+\subsection{Cookies}
+
+Cookies are file stored by the server at the client. They help to maintain state, but they're also useful for authentication. Avoids sending the password over the network many times. Don't want to have to type in a password every time. You also don't want to send a password every single time you log in. However, if the adversary gets access to the cookie, then he has complete access to your account.
+
+Cookies contain:
+\begin{itemize}
+  \item name
+  \item value (like user id, number of visits)
+  \item domain (mit.edu)
+  \item path (/courses/2013)
+  \item expiration
+\end{itemize}
+
+Each browser contains a ``cookie jar,'' these cookies are obtained in the following manner: user logs in with username and password. Server sends back an http response where the header contains a cookie. The next http request by the user uses the cookie that it obtained from the last time. The server now sends back an http response with an updated cookie.
+
+These are dangerous, however, because of an adversary could just fake a cookie. We want the browser to not be able to come up with a fake cookie. To do this, we want a hash of username, expiration date, and a secret key from the server.
+
+The server can now check that the cookie value is equal to the hash of username, expiration date, and secret key, this is how the server can check to make sure the cookies haven't been faked.
+
+The hash needs to have one-wayness, non-malleability, but also unforgeability. Would suffice if hashes were random oracles.
+
+\section{Attacks on Web Applications}
+
+\subsection{SQL Injection}
+
+Attacker sends malicious input to the server, but the server has bad input checking which leads to an actual sql query. For example, user sends the username and password. If the inputs come directly from the user without checking, you could send something like ``or 1=1 --'' which always evaluates to true then comments out the rest of the query. The authentication will always return true.
+
+CardSystems had a SQL injection which allowed attackers to steal 263,000 credit card numbers. To fix these types of attacks, you need to sanitize inputs, make sure SQL arguments are properly escaped.
+
+\subsection{CSRF: Cross Site Request Forgery}
+
+Bad website sends a request to a good web site pretending to be the browser of an innoCent user, using the credentials of an innocent victim. Let's say the user has already authenticated with a good website. Then the user goes to a malicious webpage, and the malicious webpage returns something which asks the browser to use its cookie to authenticate with the good website.
+
+Countermeasure: Good server needs to distinguish between good user and attacker. The user actually fetches a page, fills in the form for the request, and sends the request. The attacker never fetches a page, sends the request directly. Include some random token in the fetched page. When good user fetches a page, server embeds a random token in the forms and server stores it in the database.
+
+When user sends the form, the token is sent to server along with the user cookie. The server checks to see that the token is correct. The attacker never knows the token because he never went to the page, he just tried to post a request using a url.
+
+\subsection{XSS: Cross Site Scripting}
+
+Attackers send data with script to server. Server stores it thinking it is data and serves it to other users. Now, when the website is visited by other users, the website pulls out the information from the database. However, when the browser renders the page, the browser executes the script. The script can steal all user cookies or other credentials to someone else or change the rest of the webpage to ask for credit card number.
+
+Difficult to prevent, must employ a set of fixes. One way to fix is to escape special characters in any user-provided data before sending it to others.
+
+\end{document}
