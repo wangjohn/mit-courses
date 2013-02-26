@@ -3,23 +3,29 @@ import sys
 
 def centrality(matrix):
   size = len(matrix)
-  triples = {}
-  triangles = {}
+  triples = 0
+  triangles = 0
   for i in xrange(size):
     for j in xrange(size):
       for k in xrange(size):
-        if matrix[i][j] == 1 and matrix[j][k] == 1:
-          key = sorted([i,j,k])
-          triples[tuple(key)] = 1
-          if matrix[k][i] == 1:
-            triangles[tuple(key)] = 1
+        if i != j and j != k and i != k:
+          if matrix[i][j] == 1 and matrix[j][k] == 1:
+            print i,j,k
+            triples += 1
+            if matrix[k][i] == 1:
+              triangles += 1
 
-  return 3.0*len(triangles)/len(triples)
+  return 3.0*(triangles)/(triples)
 
 def average_path_length(matrix):
   size = len(matrix)
   shortest_paths = floyd_warshall(matrix)
-  total_sum = sum([sum(row) for row in shortest_paths])
+
+  adjusted_sp = []
+  for row in shortest_paths:
+    adjusted_sp.append([i for i in row if i < sys.maxint])
+
+  total_sum = sum([sum(row) for row in adjusted_sp])
 
   return float(total_sum) / (size**2 - size)
 
@@ -38,7 +44,6 @@ def floyd_warshall(matrix):
         if shortest_paths[i][k] + shortest_paths[k][j] < shortest_paths[i][j]:
           shortest_paths[i][j] = shortest_paths[i][k] + shortest_paths[k][j]
 
-  print shortest_paths
   return shortest_paths
 
 def csv_to_matrix(filename):
