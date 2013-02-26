@@ -1,0 +1,91 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 3: UNIX}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{The UNIX Filesystem}
+
+\subsection{Timesharing}
+
+There were systems that people were using when UNIX was being developed where the files required 80 characters per line. This is a relic of physical cards. Files looked like punchcards, with a fixed line width. Advantage is that the OS can enforce a set of rules to the filesystem.
+
+In UNIX, a file is just an array of bytes, doesn't impose any structure to the file. Advantage is that you have flexibility.
+
+On other timesharing systems, each user obtained their own block of disk space. Advantage is fewer disk accesses, so better performance since you read memory sequentially. In UNIX, there is a file system tree, and each directory or file is owned by a particular user. This checks permissions on the files.
+
+\subsection{Special Files}
+
+For instance, devices are special files: \emph{/dev/mouse} or \emph{/dev/sound}. Making everything a file makes it very easy to chain things together. There are also things like \emph{/dev/random} which seem like files.
+
+\subsection{Links}
+
+There are two types of links, soft and hard links. Soft link: a human readable path to a file. Hard link: points to an inode number. Hard links cannot point to a directory, but soft links can. Moreover, hard links cannot point across file systems or mounted devices.
+
+Hard links can't point to directories because if they do, then they can point to themselves, so even if a directory has no more external links, it still has a non-zero reference count. This prevents deletion of the directory. This same logic works for any disconnected cycle, so the system will never be able to reclaim it.
+
+\section{Processes and Pipes}
+
+\subsection{Images}
+
+``Image'' is the state of a process. It has all of he memory and registers, as well as UNIX specific state, such as process id, working directory, etc. An image also contains file descriptors. Procedures like \emph{open(filename,...)} returns a file descriptor. File descriptors are usually small integers. Standard input, output, and error messages are also file descriptors.
+
+\subsection{Forking}
+
+``fork()'' copies the entire process over to a child process. One process will be the child and one will be the parent, determined by the return values of the ``fork()'' method.
+
+\subsection{Piping}
+
+``pipe()'' creates a new open file descriptor where one process can write to it, and one process can read from it.
+
+\begin{verbatim}
+  rd, wr = pipe(); \\ get new file descriptors
+  if (fork()) {
+    \\ replace standard out with the write file descriptor
+    dup2(wr, stdout);
+    close(rd);
+  } else {
+    \\ replace standard in with the read file descriptor
+    dup2(rd, stdin);
+    close(wr);
+  }
+\end{verbatim}
+
+\subsection{Writing a Shell}
+
+``execute()'' takes in a program name and runs it. ``wait()'' pauses the process until one of its children is finished. Once the child is finished, it calls the ``exit()'' system call. To write a shell, we want the following
+
+\begin{verbatim}
+  if (fork() == 0){
+    execute(``process_name'');
+  } else {
+    wait();
+  }
+\end{verbatim}
+
+\end{document}
