@@ -1,0 +1,83 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 7: Performance}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Moore's Law}
+
+Number of transistors on a chip doubles every 18 months. However, latency improves slowly (speed of light stays constant and DRAM access latency improves slowly, much more slowly than change in processing power).
+
+Many times performance improves just because the underlying technology improves. Sometimes, such as for latency, you need to think in order to improve performance.
+
+\section{Performance and System Design}
+
+\subsection{Approach to Performance Problems}
+
+Users complain that system is too slow. First you start measuring the system and find the bottleneck. Then, fix the bottleneck. Metrics are throughput (request per time) and latency (time per request). Throughput is for many requests and latency concerns a single request. Oftentimes, latency and throughput are unrelated.
+
+Heavily loaded systems will queue up. The throughput will increase until you reach the maximum throughput for your system. When you hit the maximum, you want the throughput to stay constant. As system still has idle resources, the latency stays the same. Once you hit the bottleneck and maximum throughput, then the latency shoots up.
+
+\subsection{Approaches to Finding Bottlenecks}
+
+\begin{itemize}
+  \item Measure utilization of each resource.
+  \item Model performance of your system. What performance do you expect?
+  \item Guess, check, and iterate.
+\end{itemize}
+
+\section{Fixing a Bottleneck}
+
+Let's look at the IO example of diskspace. They're really cheap so we'd rather use them. The disk arm has to physically move the platter and read the magnetic information. Latency consists of seek + rotate + reading/writing:
+\begin{eqnarray}
+  \item Seek time: 1 - 15 ms, average is 8.2 ms
+  \item Rotation time: 0 - 8.3 ms
+  \item Read/writing bits: 35-62 MB/s
+\end{eqnarray}
+
+So if you want to read 4KB, latency is 8.2ms + 4.1 ms + 0.1 ms = 12.4ms. Throughput is 4KB/12.4ms = 322 KB/s, but 99\% of your time is spent moving the disk and only 1\% of time reading.
+
+\subsection{Batching}
+
+Batch into reads/writes of large sequential transfers. Do one rotation on the entire track, so you're reading 512KB/9.1ms = 55MB/s, which is as fast as LAN so it's less likely to be a bottleneck.
+
+System design implications means that you need to lay out large files contiguously on disk. If the system reads/writes many small files, group them together on a single track.
+
+Modern UNIX puts directory, inodes, and data together.
+
+\subsection{Caching}
+
+Use DRAM to remember recently read sectors. Most operating systems use most of the DRAM for caching, which makes latency and throughput orders of magnitude better. But the problem is to figure out what to cache, because you can't cache everything.
+
+The performance model: average time to read with cache is: $hit\_time \times hit\_rate + miss\_time \times miss\_rate$. For example, 100 sectors, 90\% hit rate for 10 sectors. Without cache, 10 ms per sector. With cache $0ms * 0.9 + 10ms * 0.1 = 1ms$. But we notice that hit rate must be high in order to make caching work well.
+
+Must have a good replacement policy. Many caches have a bounded size so you want to evict cache entrys that are unlikely to be used soon. Try to predict the future based on past behavior. For example, Least Recently Used (LRU). Easy to implement and works well for popular data. LRU fails, however, for sequential access of file larger than cache because LRU evicts all useful data. Better policy for this is Most Recently Used (MRU).
+
+So caches work well when all data fits in the cache or when access pattern has temporal locality (things are used together in time) and spatial locality (things are used together in space on disk). Problem is that not all patterns have locality.
+
+
+
+\end{document}
