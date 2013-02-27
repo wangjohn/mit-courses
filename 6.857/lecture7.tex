@@ -1,0 +1,104 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 7: Buffer Overflows}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Buffer Overflow Overview}
+
+\emph{Buffer overflows} are a code injection attack. Buffer overflows occur at a lower abstraction level than say, a SQL injection. They result in overwriting existing data in the memory. They exploit the layout of programs in memory. Also take advantage of how C deals with arrays.
+
+\subsection{Contents of Memory}
+
+The contents of memory are as follows (from top to bottom of the memory stack):
+\begin{enumerate}
+  \item Program code
+  \item Data segments for the global variables
+  \item Heap. Grows downward. Dynamically allocated memory (e.g. malloc)
+  \item Stack. Grows upward. Stores program execution context (e.g. function calls bool variables)
+\end{enumerate}
+
+\subsection{Stack Frames}
+
+Here's an example C program:
+
+\begin{verbatim}
+  void test(int a, int b) {
+    int flag;
+    char buffer[10];
+  }
+\end{verbatim}
+
+On the stack, you have your return address, variables a and b, as well as a stack frame pointer. Then, the function dynamically allocates some memory using malloc and so you can make space for flag and buffer on the stack.
+
+C string ``hello world'' is just an array of bytes that ends with a null byte. C functions like strcpy copies bytes from the string until it hits a null byte. If we strcpy ``hello world'' into the buffer, it will go and fill up the entire buffer, but it will still have more bytes so it will keep going and overwrite the first two flags of byte.
+
+If you have too much user input that overwrites buffer, then you get a segmentation fault because you're trying to access memory locations which are invalid (because you've probably overwritten the return address to something that's invalid).
+
+\subsection{Consequences of Buffer Overflows}
+
+Buffer overflows can:
+\begin{itemize}
+  \item Crash programs
+  \item Overwrite variables with new values
+  \item Execute arbitrary code. You could change the return address to a new valid value. If you get the return address correct to point to a spot where you have put in arbitrary code, then that code will just start executing. One common location is the buffer itself.
+\end{itemize}
+
+\subsection{Shell Code}
+
+One of the most useful pieces of code to execute would be to open up a command shell. Shell code is code that opens up a command shell (\emph{exec()}). However, its not so simple because you need to insert code which avoids null bytes (or else strcpy will stop copying to the buffer).
+
+For x86, you can get shell code that is 31 bytes and which is composed of ASCII characters.
+
+To get the attack to work, you can place a bunch of the same return addresses to the end of the buffer, and a bunch of NOPs (non-operation) to the beginning of the buffer before the shell code. Even if you don't know the exact location in memory, you can still get the program to go to the top to where the NOPs are placed, then run into the shell code. You don't need to know the exact location in memory.
+
+\subsection{Return to libc Attack}
+
+Pretty much every stack will have libc, which includes \emph{printf()}, \emph{exec()}. Set up stack to look like function calls to functions in libc.
+
+\section{Buffer Overflow Prevention}
+
+\subsection{Canary Values}
+
+Insert a random value on the stack between the local variables and the control information. If that random value is changed to something else, then we probably have a buffer overflow. The value needs to be random so that the attacker can't predict it and just write it in on the buffer overflow.
+
+You must check the canary value before returning. Typically, the value is stored in a register so that it will always be there. If it matches, then continue and return. However, if the value has been changed, you should just crash the program. Many major compilers use the canary idea.
+
+\subsection{Safe Functions}
+
+Have functions which make sure that everything you are handling is safe. For example \emph{strncpy} which takes in a length as a parameter and copies until it hits a null byte or it reaches the length passed in.
+
+If you only use safe functions, then you don't have to worry about buffer overflows. However, using safe functions require that you always use them and always use a valid, correct length.
+
+\subsection{Non-executable Stack}
+
+You should never be executing code in the stack. Execution context should never be in the stack, only at the text part of the program. This is often done in hardware, called NX. Also there are software emulations (ExecShield, W\^X). These programs make sure that you don't have the ability to execute programs when you're in the stack, and you only have execution inside of the actual program code text.
+
+\subsection{Address Space Layout Randomizaion (ASLR)}
+
+Make the guessing of the address space very difficult. The text, stack, global varaibles, and heap all live at a random point in address space. If you have a large address space, it probably doesn't matter that these are in a random place. Makes it more difficult for the attacker to supply a correct return address.
+
+\end{document}

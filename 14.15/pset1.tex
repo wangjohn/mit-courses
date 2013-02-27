@@ -2,14 +2,11 @@
 
 %-------Packages---------
 \usepackage{amssymb,amsfonts}
-\usepackage[all,arc]{xy}
 \usepackage{enumerate}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsthm}
 \usepackage{theorem}
 \usepackage{verbatim}
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
 
 \newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
 \newenvironment{prob}{{\bfseries Problem:}}
@@ -95,6 +92,7 @@ n^2 - (i-1)^2 - (n-i)^2
 
 \section{Problem 3}
 
+\subsection{Problem 3.1}
 \begin{prob}
 Describe an example of a graph where the diameter is more than three times as large as the average path length.
 \end{prob}
@@ -113,6 +111,7 @@ If we want the diameter to be greater than three times the average path length, 
 For instance, if we choose $D = 10$ and $n = 120$ in the star graph with long tail as described, we will have a diameter which is three times as large as the average path length.
 \end{sol}
 
+\subsection{Problem 3.2}
 \begin{prob}
   Describe how you could extend your construction to produce graphs in which the diameter exceeds the average path length by as large a factor as you like.
 \end{prob}
@@ -124,5 +123,192 @@ For instance, if we choose $D = 10$ and $n = 120$ in the star graph with long ta
 
   By picking some value of $D$, one can solve for possible values of $n$ which satisfy this inequality or vice versa. Therefore, using the star graph with long tail from the previous question, we can achieve an arbitrary factor for which the diameter exceeds the average path length.
 \end{sol}
+
+\section{Problem 4}
+
+\section{Problem 6}
+
+\subsection{Problem 6.1}
+\begin{prob}
+Determine the signs of $a$ and $b$ to reflect the behavior of Romeo and Juliet.
+\end{prob}
+\begin{sol}
+  We must have $a > 0$ and $b < 0$. If this is the case, then Romeo will respond positively to Juliet's love, but Juliet will respond negatively to Romeo's love.
+\end{sol}
+
+\subsection{Problem 6.2}
+\begin{prob}
+For what ranges of parameters $a$ and $b$ will Romeo's and Juliet's love fizzle away regardless of where they start?
+\end{prob}
+\begin{sol}
+  We first take the system of equations we are given and notice that exchanging $k+1$ for $k$, we can write $x(k+2) = x(k+1) + a y(k+1)$. Therefore, we can obtain an equation for $x(k+2)$ if we substitute for $y(k+1)$:
+  \begin{eqnarray}
+    x(k+2) &=& x(k+1) + a b x(k) + a y(k)
+  \end{eqnarray}
+
+  However, we know that $x(k+1) = x(k) + a y(k)$ so that $a y(k) = x(k+1) - x(k)$. We can substitute this into the above expression and find:
+  \begin{eqnarray}
+    x(k+2) &=& 2 x(k+1) + (ab - 1) x(k) \\
+    x(k+2) - 2 x(k+1 + (1 - ab) x(k) &=& 0
+  \end{eqnarray}
+
+  We can solve this difference equation by obtaining the roots of the characteristic polynomial $p(x) = x^2 - 2x + (1-ab)$. These are obtained from the quadratic equation:
+  \begin{eqnarray}
+    \lambda &=& \frac{2 \pm \sqrt{4 - 4(1-ab)}}{2} \\
+      &=& 1 \pm \sqrt{1 - (1 - ab)} \\
+      &=& 1 \pm \sqrt{ab}
+  \end{eqnarray}
+
+  Now, we know that Romeo and Juliet's love will fizzle away when $|\lambda| < 1$ for all $\lambda$. However, we know that at least one $\lambda$ will have magnitude greater than or equal to 1, therefore, their love will never go away. Thus, there are no ranges of $a$ and $b$ values for which their love fizzles.
+\end{sol}
+
+\subsection{Problem 6.3}
+\begin{prob}
+  For what ranges of parameters $a$ and $b$ will Romeo's and Juliet's love be forever caught in a cycle of love and hate?
+\end{prob}
+\begin{sol}
+  We simply need to look for values of $a$ and $b$ which cause $\lambda$ to have a non-negative imaginary part. Thus, we need to find values of $a$ and $b$ which make $\lambda = 1 \pm \sqrt{ab}$ imaginary. This occurs whenever $ab < 0$. This occurs when $a < 0, b > 0$ or when $b > 0, a < 0$.
+\end{sol}
+
+\subsection{Problem 6.4}
+\begin{prob}
+  Both Romeo and Juliet were burnt before from loving someone else that does not love them. As a result, their love tomorrow discounts their own love today by a factor of 0.5. Rewrite the model and answer questions 1 and 2.
+\end{prob}
+\begin{sol}
+Now, the more love that either person has, the less they love the other tomorrow. Thus, we can rewrite the model as the following:
+\begin{eqnarray}
+  x(k+1) &=& -0.5x(k) + a y(k) \\
+  y(k+1) &=& b x(k) - 0.5 y(k)
+\end{eqnarray}
+
+We can use the same technique we used before. We write $x(k+2) = -0.5 x(k+1) + a y(k+1)$ and subsitute in our equation for $y(k+1)$ to obtain:
+\begin{eqnarray}
+  x(k+2) = -0.5 x(k+1) + a b x(k) - a (0.5) y(k)
+\end{eqnarray}
+
+Now, we substitute the fact that $a y(k) = x(k+1) + 0.5 x(k)$ and obtain:
+\begin{eqnarray}
+  x(k+2) &=& -0.5 x(k+1) + a b x(k) - 0.5 (x(k+1) + 0.5 x(k)) \\
+    &=& - x(k+1) + (ab - 0.5) x(k)
+\end{eqnarray}
+
+We can now obtain a characteristic polynomial $p(x) = x^2 + x + (0.5 - ab)$. Solving for the roots, we have:
+\begin{eqnarray}
+  \lambda &=& \frac{1 \pm \sqrt{1 - 4(0.5 - ab)}}{2} \\
+    &=& \frac{1}{2} \pm \sqrt{-\frac{1}{4} + ab}
+\end{eqnarray}
+
+For question 1, we keep our original answer and say that $a > 0$ and $b < 0$, which would make Romeo love Juliet more when she loves him, and vice versa for Juliet.
+
+For question 2, we want to find values of $a,b$ such that $\frac{1}{2} > \sqrt{-\frac{1}{4} + ab}$. This occurs when $\frac{1}{2} > ab$ by solving the equality. Thus, we will have eigenvalues less than 1 when $\frac{1}{2} > ab$, so Romeo and Juliet's love will always fizzle when $ab < \frac{1}{2}$.
+\end{sol}
+
+\subsection{Problem 6.5}
+\begin{prob}
+  What happens if both Romeo's and Juliet's love increases by one unit every single time regardless of the actions of the other? Answer questions 1 and 2. Do this for the initial model.
+\end{prob}
+\begin{sol}
+  If Romeo and Juliet's loves increase by 1 regardless of the other's love, then $y(k)$ has a coefficient of $0$ in Romeo's equation and $x(k)$ has a coefficient of $0$ in Juliet's equation. We now have a system of equations as follows:
+  \begin{eqnarray}
+    x(k+1) &=& x(k) + 1 \\
+    y(k+1) &=& y(k) + 1
+  \end{eqnarray}
+
+  This is trivial to solve and the resulting system has a slope of 1 for each trajectory $x(k)$ and $y(k)$ regardless of initial condition. If Romeo and Juliet's love increase by 1 in addition to the other dynamics, then we have the system:
+  \begin{eqnarray}
+    x(k+1) &=& x(k) + a y(k) + 1 \\
+    y(k+1) &=& b x(k) + y(k) + 1
+  \end{eqnarray}
+
+  We can solve this by using the same technique as before. We know $x(k+2) = x(k+1) + a y(k+1) + 1$ so that $x(k+2) = x(k+1) + a (b x(k) + y(k) + 1) + 1$. Since $a y(k) = x(k+1) - x(k) - 1$, we can substitute and find:
+  \begin{eqnarray}
+    x(k+2) &=& x(k+1) + ab x(k) + a + 1 + x(k+1) - x(k) - 1\\
+      &=& 2 x(k+1) + (ab - 1) x(k) + a
+  \end{eqnarray}
+
+  Rearranging, we find that we have:
+  \begin{eqnarray}
+    x(k+2) - 2 x(k+1) + (1 - ab) x(k) = a
+  \end{eqnarray}
+
+  The characteristic polynomial leads to the same roots as before, so we know that $\lambda = 1 \pm \sqrt{ab}$. However, we now have a particular solution $x_p = \frac{a}{1-ab}$.
+
+  We know that the answer to question 1 remains the same. However, when we look at when Romeo and Juliet's love fizzles away, we can see that there is the particular solution. This means that even if $|\lambda| < 1$ for all $\lambda$, the love of Romeo and Juliet will converge to $x_p = \frac{a}{1- ab}$ which is a non-negative value. Therefore, we see that Romeo and Juliet's love will never fizzle away.
+
+\end{sol}
+
+
+\section{Problem 7}
+
+\subsection{Problem 7.1}
+
+\begin{prob}
+  Please go back to the example in the lecture on epidemics and verify the steps outlined above. In that example, we had two equilibria; 0; 1. Verify that 1 is stable for any initial condition in the interval (0; 1] (all points except 0).
+\end{prob}
+\begin{sol}
+  Recall that our system of equations was:
+  \begin{eqnarray}
+    I(k+1) &=& I(k) + \beta I(k) S(k) \\
+    S(k+1) &=& S(k) - \beta I(k) S(k)
+  \end{eqnarray}
+
+  We can combine these equations into a single equation by using the fact that $S(k+1) = S(k) ( 1 - \beta I(k) )$ and $I(k) + S(k) = 1$. This means that $I(k+1) = 1 - S(k+1) = 1 - S(k) (1 - \beta I(k))$. Moreover, since $S(k) = 1 - I(k)$, we have that $I(k+1) = 1 - (1 - I(k))(1 - \beta I(k))$. Simplifying this expression, we obtain:
+  \begin{eqnarray}
+    I(k+1) = (1 + \beta) I(k) - \beta I(k)^2
+  \end{eqnarray}
+
+  Now we want to examine the dynamics shifted about the equilibrium at $1$, so let $I(k) = 1 + y(k)$ where $y(k)$ is a small disturbance. We have the equation
+  \begin{eqnarray}
+    1 + y(k+1) &=& (1 + \beta)(1 + y(k)) - \beta (1 + y(k))^2 \\
+        y(k+1) &=& (1 + \beta) y(k) + \beta - \beta ( 1 - 2y(k) + y(k)^2) \\
+        y(k+1) &=& (1 - \beta) y(k) - \beta y(k)^2
+  \end{eqnarray}
+
+  Now, we can attempt to derive an energy function $V$ for this expression. Take $V(y) = y^2$. It satisfies the requirements of the energy function because $0^2 = 0$ and $y^2 > 0$ for all $y \neq 0$. Now, if we compute $\Delta y$, we have the following:
+  \begin{eqnarray}
+    \Delta y &=& ((1 - \beta) y - \beta y^2)^2 - y^2 \\
+             &=& (1 - \beta)^2 y^2 - 2 \beta (1 - \beta) y^3 + \beta^2 y^4 - y^2 \\
+             &=& y^2 \left( -2 \beta + \beta^2 - 2 \beta ( 1 - \beta) y + \beta^2 y^2  \right) \\
+             &=& \beta y^2 \left( -2 + \beta - 2 ( 1 - \beta)y + \beta y^2  \right) \\
+             &=& - \beta y^2 \left( 2 - \beta + 2 ( 1 - \beta) y - \beta y^2 \right)
+  \end{eqnarray}
+
+  Since $0 < \beta < 1$, we know that $2 - \beta > 0$ and that $2 ( 1 - \beta) > 0$. For small values of $y$, all second order terms $y^2$ fall away in comparison to first order terms, so that $(2 - \beta) + 2 ( 1 - \beta) y - \beta y^2 > 0$ for small values of $y$. This means, since $- \beta y^2 < 0$, that $\Delta y < 0$ for small values of $y$. This shows the stability of the equilibrium at $1$.
+\end{sol}
+
+\subsection{Problem 7.2}
+\begin{prob}
+  What can you say about the equilibrium 0?
+\end{prob}
+\begin{sol}
+  We know that the equilibrium at 0 is unstable. This is because we can set $I(k) = 0 + y(k)$ and we will have the equation $y(k+1) = (1 + \beta) y(k) - \beta y(k)^2$. However, for small values of $y$, we know that $y^2$ will be dominated by first order terms. Thus, we see that $y(k+1) \approx (1 + \beta) y(k) > y(k)$. Therefore, we see that $y(k)$ is increasing as $k$ gets larger.
+
+  This shows that $0$ is an unstable equilibrium.
+\end{sol}
+
+\subsection{Problem 7.3}
+\begin{prob}
+  Show that $x(k+1) = - x(k)^3$ is stable at 0.
+\end{prob}
+\begin{sol}
+  Let us substitute $x(k) = 0 + y(k)$ so that we have small perturbations $y(k)$ about 0. Substituting, we have the equation $y(k+1) = - y(k)^3$. Now take the energy function $V(y) = y^2$. As argued from problem 1, this satisfies the requirements of an energy function. Moreover, we have:
+  \begin{eqnarray}
+    \Delta y &=& (-y^3)^2 - y^2 \\
+             &=& y^6 - y^2 \\
+             &=& y^2(y^4 - 1)
+  \end{eqnarray}
+
+  But we know that $y$ is small such that $y << 1$, so that $y^4 - 1 < 0$. This means that $y^2 ( y^4 - 1) < 0$ which means that $\Delta y < 0$. This shows that the equilbirium at 0 is stable.
+\end{sol}
+
+\subsection{Problem 7.4}
+\begin{prob}
+Is the system $x(k + 1) = -x(k)^2$ stable at 0?
+\end{prob}
+\begin{sol}
+  Yes, we can use the same reasoning to look at an energy function $V(y) = y^2$. We see that the equilibrium about 0 gives the following change in $y$ near 0: $\Delta y &=& y^2( y^2 - 1) < 0$ which shows stability.
+\end{sol}
+
+
 
 \end{document}
