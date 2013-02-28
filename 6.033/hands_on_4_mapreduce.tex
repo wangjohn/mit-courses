@@ -1,0 +1,56 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Hands On 4: MapReduce}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Studying mapreduce.py}
+
+\begin{enumerate}
+  \item The first two parameters of WordCount are the number of map tasks and reduce tasks that the WordCount job will span, respectively. The number of map tasks splits up the inputs into that many temporary files, and the number of reduce tasks splits up the work into that many different processes.
+  \item The run() method is called from WordCount's superclass, which is the MapReduce class. The run() method first calls the doMap() method for all of the map tasks, then proceeds to call the doReduce() method for all the reduce tasks. The doMap() method works by taking in the split input and calling the Map() function defined in WordCount on that input, and dumping the results into a file so that the doReduce() method can read them and reduce everything. After all the doMap() jobs are finished, the doReduce() methods begin. These methods take in the files that were created during the doMap() phase, and call Reduce() on the files as defined in the WordCount function.
+  \item The keyvalue is byte offset from the beginning of the bible file. It serves as a key to the portion of the bible file which the Map() job will be considering. The value is the portion of the bible file which the Map() job is running over.
+  \item The key represents the word which is found inside of the bible file, and the keyvalues represent a list of tuples. Each tuple in the list inside keyvalues contains the word as the first item, and the number of occurrences of the word as the second item.
+
+\section{Modifying mapreduce.py}
+  \item There are 4 calls to doMap() and 2 calls to doReduce(). This occurs because these values were the values set in our initialization of the WordCount object to be the number of map and reduce jobs, respectively, that the WordCount object would spawn. Recall that the first two parameters in the WordCount object initialization corresponded to the number of map and reduce jobs to start.
+  \item All of the doMap() jobs should run in parallel. In addition, the doReduce() jobs should also run in parallel. This is the case because the code that calls these jobs is the following:
+    \begin{verbatim}
+    regions = pool.map(self.doMap, range(0, self.maptask))
+    partitions = pool.map(self.doReduce, range(0, self.reducetask))
+    \end{verbatim}
+
+  These two commands spawn multiple processes to carry out the doMap commands, and also the doReduce commands. They spawn a number of processes equal to the number of map and reduce jobs that were set at the beginning of the WordCount object instantiation.
+  \item A single doMap() processes about 1208690 bytes of input, but this number changes by a couple bytes because the inputs are split at the first whitespace character that is greater than the chunk size of 1208690.
+  \item A single doReduce() processes about 2250 keys, but this number is not exact and depends on the number of title words in the associated map jobs for each doReduce() job.
+
+
+\end{enumerate}
+\end{document}
