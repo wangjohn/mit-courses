@@ -7,6 +7,8 @@
 \usepackage{amsthm}
 \usepackage{theorem}
 \usepackage{verbatim}
+\usepackage{graphics}
+\usepackage{float}
 
 \newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
 \newenvironment{prob}{{\bfseries Problem:}}
@@ -29,7 +31,7 @@ Problem Set 1}
 
 \maketitle
 
-Collaborators:
+Collaborators: Bonny Jain
 
 \section{Problem 1}
 
@@ -125,6 +127,81 @@ For instance, if we choose $D = 10$ and $n = 120$ in the star graph with long ta
 \end{sol}
 
 \section{Problem 4}
+
+I obtained the clustering coefficient by having three nested for loops, where the last for loop iterated over values from the second index' + 1 to the size of the matrix. Then I counted the number of times that there were a pair of adjacent edges, as well a triangle. I found that the clustering coefficient was $0.499$.
+
+To obtain the diameter, I used the Floyd Warshall all pairs shortest path algorithm. I found that the largest distance in the matrix was 5, so the diameter of the graph is 5.
+
+To find the average path length, I took the sum of the Floyd Warshall matrix and divided by the size of the matrix squared minus the size of the matrix (because of the diagonals). I found the average path length was 2.607.
+
+I will show the degree distribution below:
+\begin{figure}[H]
+  \includegraphics{degree_distribution.png}
+\end{figure}
+
+\section{Problem 5}
+
+\subsection{Problem 5.1}
+\begin{prob}
+  Construct the adjacency matrix for this graph.
+\end{prob}
+\begin{sol}
+  For $m = 5$, the adjacency matrix looks like the following:
+
+  \begin{figure}[H]
+    \includegraphics{pset1_adj_matrix.png}
+  \end{figure}
+
+  In general, the top left hand corner is a square of size $m-1$ of all ones except for the diagonals which are zero. The bottom right hand corner is a square of size $m$ of all ones except for the diagonals which are zero. The middle of the adjacency matrix consists of a square of size 3 of ones except for the middle element which is zero.
+\end{sol}
+
+\subsection{Problem 5.2}
+\begin{prob}
+Compute the first and second eignvalues of $AD^{−1}$ for $m = 5, 10, 15, 20$.
+\end{prob}
+\begin{sol}
+  First we notice that $D$ is just the sum across each row in the adjacency matrix. Thus, we will use the following matlab code to find the eigenvalues:
+  \begin{verbatim}
+    D = diag(sum(A));
+    eig(A*D^(-1))
+  \end{verbatim}
+
+  This gives us the eigenvalues ordered from largest to smallest, and we can simply obtain the first two values in the array to find $\lambda_1$ and $\lambda_2$. Doing this for $m = 5, 10, 15, 20$, we obtain the following:
+
+  \begin{figure}[h!]
+  \begin{tabular}{ l | c | c}
+    m & $\lambda_1$ & $\lambda_2$ \\
+    \hline
+    5 & 1.00 & 0.88 \\
+   10 & 1.00 & 0.97 \\
+   15 & 1.00 & 0.99 \\
+   20 & 1.00 & 0.99
+  \end{tabular}
+\end{figure}
+\end{sol}
+
+\subsection{Problem 5.3}
+\begin{prob}
+  Assume the initial vector is $x(0) = (1, 1 . . . 0, 0 . . . )$ where the value 1 is supported on the first $m$ components. For the cases of $m = 5, 10$, plot the response of $x_1 (k), x_{m+1} (k),$ and $x_{2m} (k)$.
+\end{prob}
+\begin{sol}
+  We can simulate the response by iteratively taking $x(k+1) = AD^{-1} x(k)$. This allows us to plot the responses over time in matlab by taking $x = adinv*x$ and using $x(1), x(m+1), x(2m)$ and plotting the values across time. The results are given below:
+
+\begin{figure}[H]
+  \includegraphics{pset1_m5_response.png}
+\end{figure}
+\begin{figure}[H]
+  \includegraphics{pset1_m10_response.png}
+\end{figure}
+\end{sol}
+
+\subsection{Problem 5.4}
+\begin{prob}
+  What are your observations about the convergence rates of $(AD^{-1})^k$.
+\end{prob}
+\begin{sol}
+  It is clear that the $(AD^{-1})^k$ takes longer to converge when $m$ is larger. We see that for $m=10$ it takes more than twice as long for the responses to converge than when $m=5$. Therefore, we see that convergence slows down with larger $m$. Repeating the same exercise for $m=15$ and $m=20$ gives the same results (though figures are not provided).
+\end{sol}
 
 \section{Problem 6}
 
@@ -306,9 +383,33 @@ For question 2, we want to find values of $a,b$ such that $\frac{1}{2} > \sqrt{-
 Is the system $x(k + 1) = -x(k)^2$ stable at 0?
 \end{prob}
 \begin{sol}
-  Yes, we can use the same reasoning to look at an energy function $V(y) = y^2$. We see that the equilibrium about 0 gives the following change in $y$ near 0: $\Delta y &=& y^2( y^2 - 1) < 0$ which shows stability.
+  Yes, we can use the same reasoning to look at an energy function $V(y) = y^2$. We see that the equilibrium about 0 gives the following change in $y$ near 0: $\Delta y = y^2( y^2 - 1) < 0$ which shows stability.
 \end{sol}
 
+\subsection{Problem 7.5}
+\begin{prob}
+  If $f(x)$ is a continuous and convex funcion on $\mathrm{R}$ then show that the iterative algorithm $x(k+1) = x(k) - \gamma f'(x(k))$ converges for $\gamma$ small enough.
+\end{prob}
+\begin{sol}
+  We know that convex functions satisfy the inequality
+  \begin{eqnarray}
+    f(\alpha x_1 + \beta x_2) \leq \alpha f(x_1) + \beta f(x_2)
+  \end{eqnarray}
 
+  Moreover, we know that continuous and convex functions also satisfy the inequality
+  \begin{eqnarray}
+    f(x_1) - f(x_2) \geq f'(x_1) | x_2 - x_1|
+  \end{eqnarray}
+
+  Finally, we know that since $f$ is convex and only has a single global minimum, it is sufficient to show that $f$ converges in order to show that $f$ converges to its minimum. This follows because there is no other equilibrium that it can converge to.
+
+  So, we have the following:
+  \begin{eqnarray}
+    f(x(k+1)) - f(x(k)) &=& f(x(k) - \gamma f'(x(k))) - f(x(k)) - f(x(k)) \\
+                        &\leq& - \gamma |f'(x(k))|^2
+  \end{eqnarray}
+
+  Thus it is clear that for small $\gamma$, $f$ will converge.
+\end{sol}
 
 \end{document}

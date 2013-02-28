@@ -7,15 +7,15 @@ def centrality(matrix):
   triangles = 0
   for i in xrange(size):
     for j in xrange(size):
-      for k in xrange(size):
-        if i != j and j != k and i != k:
-          if matrix[i][j] == 1 and matrix[j][k] == 1:
-            print i,j,k
-            triples += 1
-            if matrix[k][i] == 1:
-              triangles += 1
+      for k in xrange(j+1,size):
+        if matrix[i][j] == 1 and matrix[i][k] == 1:
+          triples += 1
+          if matrix[j][k] == 1:
+            triangles += 1
 
-  return 3.0*(triangles)/(triples)
+  print triangles
+  print triples
+  return float(triangles)/((triples))
 
 def average_path_length(matrix):
   size = len(matrix)
@@ -56,7 +56,7 @@ def csv_to_matrix(filename):
   return matrix
 
 if __name__ == '__main__':
-  matrix = csv_to_matrix('pset1_data.csv')
+  matrix = csv_to_matrix('les_miserable.csv')
   print centrality(matrix)
   print average_path_length(matrix)
 
