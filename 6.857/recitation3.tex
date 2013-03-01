@@ -1,0 +1,97 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Recitation 3: Hashing and Encryption for File Systems}
+
+\author{Lecturer: Ada Raluca Popa\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Encrypted File Systems}
+
+Client has get and put requests to the server. Get data from the server using \emph{get(fid): data} and change data with \emph{put(fid, data)}, which will update the file.
+
+Attacks:
+\begin{itemize}
+  \item Data confidentiality. You don't want unauthorized users to have access to your data.
+  \item Integrity. You don't want people to be able to change your data. Server cannot change files. Freshness: server should always return the last version of the file when client issues a get (and not an old version)
+\end{itemize}
+
+\section{Ensuring Filesystem Properties}
+
+\subsection{Confidentiality}
+
+Make sure to encrypt the data before sending it over to the server. For example, use symmetric-key encryption. Three algorithms key generation, encryption, and decryption.
+
+\begin{itemize}
+  \item Keygen $\mathrm{1}^k$. The larger the security the parameter, the more secure but the slower the system becomes. Keygen algorithm produces $SK$ secret key.
+  \item Encryption $Enc(SK, data) \rightarrow ct$.
+  \item Decrpytion $Dec(SK, ct) \rightarrow data$.
+\end{itemize}
+
+Security: no information about the data leaks. We want a scheme that has reusable secret key. We don't want one time pads because we'd have to store information that is as large as the file itself, so we'd have to store information on the client. Now the way we store data is as follows:
+
+\begin{verbatim}
+get(fid):
+  ask for ct for fid
+  data <- Dec(SK, ct)
+
+put(fid, data):
+  ct <- Enc(SK, data)
+  send(ct, fid)
+\end{verbatim}
+
+\subsection{Integrity}
+
+First, easy solution is to hash each file and store the files on the client. This requires that you store a hash for each file, however, and this becomes expensive.
+
+Better solution is to use the Merkel Tree. Suppose we have $n$ files $f_1, f_2, \ldots, f_n$. Each file has a hash $h_1, h_2, \ldots, h_n$. Now we can take the merkel hash $mh_{12}, mh_{34}, \ldots, mh_{(n-1)n}$ which hashes $h_{i-1}$ and $h_{i}$. Keep going up recursively until we have computed the root merkel hash.
+
+The client just needs to store the root Merkel Hash. When the client gets a file, he can check to see that it is unchanged using the root merkel hash. We need to hashes of everything on the path from the file to the root of the tree (plus each sibling on the path). The number of files we need is $2 \log n$ because for every node on the path, we need the sibling at each level as well as the original hash. He checks this using the following methods. 
+
+\begin{verbatim}
+get(fid):
+  data <- Dec(SK, ct)
+  get the path for fid, and hash up the until you get to the root.
+
+put(fid, data):
+  ask server for path for fid
+  check that hash of path matches root merkel hash of client
+  compute updated file's hash
+  compute through path until obtaining new root merkel hash
+\end{verbatim}
+
+The hash needs to be collision resistant for this to work. If $(f_1, \ldots, f_n) \neq (f_1', \ldots, f_2')$ then we need $mh \neq mh'$. We want that given $mh$ and $f_1, \ldots, f_n$, server should not be able to find $f_1', \ldots, f_n'$ such that $merkle(f_1', \ldots, f_n') = mh$.
+
+If we have collision resistance, let's prove that is the case. Assume that the server found $f_1', \ldots, f_n'$ such that $mh' = mh$ and $(f_1', \ldots, f_n') \neq (f_1, \ldots, f_n)$. In the first tree, we have $mh'$ at the root, and $mh'_{12}$ which hashes $h_1', h_2'$ and $mh'_{34}$ which hashes $h_3', h_4'$. The real tree looks the same but with the client's actual files. 
+
+If $(mh_{12}', mh_{34}') \neq (mh_{12}, mh_{34})$, then the server found a collision. But if the hash is collision resistant, this cannot be the case. So we must go down further in the tree because the hashes are the same. We go down recursively until we go down to the files. If the hashes of the files are the same, then each of files must be the same because of collision resistance. But if all the files are the same, then we have a contradiction, so we have proven our result. Thus, if we have collision resistance, than the server cannot find different files which have the same root merkle hash.
+
+\subsection{Integrity of History}
+
+For simplicity, assume there is only one file that is stored on the server. Let's say the current version is $i=100$, if he asks for $get(file, 50)$, you get the version at $i=50$.
+
+We can do this with a chain hash $ch$. We have $ch_0 = h_0$. For the second version, we have $ch_1 = h(h_1 || ch_0)$. So we have $ch_{i} = h(h_{i} || ch_{i-1})$. So now $ch_{i}$ depends on the entire history of the file.
+
+When you ask for the 50th version of the file, the server returns the file, $ch_{50}$ as well as $h_{50}, \ldots, h_{100}$. So for version $i$ you ask for $ch_{i}$ and $h_{i}, \ldots, h_{n}$. Then you can compute $ch_{n}$ and check if it matches.
+\end{document}
