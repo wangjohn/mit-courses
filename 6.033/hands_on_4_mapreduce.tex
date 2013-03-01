@@ -8,6 +8,7 @@
 \usepackage{theorem}
 \usepackage{verbatim}
 \usepackage{tikz}
+\usepackage{multirow}
 \usetikzlibrary{shapes,arrows}
 
 \newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
@@ -50,6 +51,24 @@ Hands On 4: MapReduce}
   These two commands spawn multiple processes to carry out the doMap commands, and also the doReduce commands. They spawn a number of processes equal to the number of map and reduce jobs that were set at the beginning of the WordCount object instantiation.
   \item A single doMap() processes about 1208690 bytes of input, but this number changes by a couple bytes because the inputs are split at the first whitespace character that is greater than the chunk size of 1208690.
   \item A single doReduce() processes about 2250 keys, but this number is not exact and depends on the number of title words in the associated map jobs for each doReduce() job.
+  \item The table below shows a number of trials for different parameters. I observe speedup for a medium number of map and reduce jobs. For large numbers of map and reduce jobs (for example 13 map jobs), I saw significant performance dropoffs. This may have resulted from the fact that my machine only has 4 cores and was therefore unable to take advantage of the concurrency in the program.
+
+    \begin{figure}
+    \begin{tabular}{l l | c  c  c  c  c}
+      &  & \multicolumn{5}{c}{\# Reduce Jobs} \\
+      & & 1& 4 & 7 & 10 & 13 \\
+      \cline{2-7}
+    \multirow{5}{*}{\# Map Jobs}      &  1 & 18.6 & 20.2 & 16.8 & 16.4 & 15.8 \\
+                                      &  4 & 15.7 & 16.1 & 17.1 & 16.3 & 16.8 \\
+                                      &  7 & 17.5 & 18.3 & 18.1 & 18.4 & 19.6 \\
+                                      & 10 & 20.0 & 18.9 & 19.8 & 19.1 & 18.4 \\
+                                      & 13 & 21.9 & 48.0 & 41.3 & 31.1 & 21.8
+    \end{tabular}
+    \caption{Seconds required to count words for different number of map and reduce jobs. Note that 3 trials were run for each set of map and reduce jobs.}
+    \end{figure}
+
+    \section{Reverse Word Index}
+  \item It took me two hours and 30 minutes to complete the assignment.
 
 
 \end{enumerate}
