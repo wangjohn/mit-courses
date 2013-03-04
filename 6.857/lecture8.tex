@@ -1,0 +1,104 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 7: Block Ciphers}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Overview of Block Ciphers}
+
+Take in some plaintext $p$ and a key $k$, then encrypt the plaintext to obtain ciphertext $c$. Each of $p$, $c$, $k$ depend on the standard.
+
+\begin{itemize}
+  \item Data Encryption Standard (DES): $|p| = |c| = 64$ bits, $|k| = 56$ bits.
+  \item Advanced Encryption Standard (AES): $|p| = |c| = 128$ bits, $|k| = 128, 192, 256$ bits.
+\end{itemize}
+
+The above is the framework for a block cipher, which is usually the building block of more advanced crpytographic techniques.
+
+\section{Data Encryption Standard (DES)}
+
+Feistel Cipher: created a structure which you can undo. Feistel proposed an input block divided into two parts $L_0$ and $R_0$. Based on multiple rounds of encryption. In the first round, you take $R_0$ and call a function on $f(R_0, K_0)$, then xor the result with $L_0$. Once you are done, the new result becomes $R_1$ and the old $R_0$ becomes $L_1$. That is a single round of the algorithm, do this 16 times.
+
+Notice that this is an invertible operation, even though $f$ doesn't need to be invertible.
+
+\section{Types of Attacks}
+
+\subsection{Differential Analysis}
+
+Invented in the public domain by Shamir and Biham. Lets take a message $M$ and run it through the encryption box, and it returns $c$. Now take $M \oplus \Delta$ where $\Delta$ is a small change in the message. This causes a result $c + \delta$. What happens when you change some bits of the message. You can track the changes of the bits down the entire structure.
+
+It improves the number of things you need to run. Instead of $2^{56}$ brute force attacks, a differential attack could lead to only $2^{47}$ chosen messages. This is strictly better than what you could do if you didn't have the differential attack.
+
+\subsection{Linear Attacks (Matsui)}
+
+The idea is that maybe $f$ is non-linear but can be approximated by something linear. Maybe most of the time it is linear. For example, suppose that the equation below was satisfied with probability $1/2 + \epsilon$:
+\begin{eqnarray}
+  M_3 \oplus M_{15} \oplus C_{2} \oplus K_{14} = 0
+\end{eqnarray}
+
+Run a bunch of message pairs, get the cipher text and solve for the key bit. Since this is true with probability $1/2 + \epsilon$, you can just take the average and it will give you the correct answer using the law of large numbers.
+
+This actually works even better than differential attacks, only $2^{43}$ pairs needed.
+
+\section{Advanced Encryption Standard}
+
+Rijndael was the winner. It has a fixed length input and output block of 128 bits. They key size is either 128, 192, or 256 bit keys and you can have 10, 12, or 14 rounds.
+
+Byte-oriented design. Can think of these as an element in $GF(2^8)$. You can think of 128 bits as a 4 by 4 array of bytes. Derive round keys which are each 128 bits (the keys are different for each round). Now each round has 4 steps:
+\begin{enumerate}
+  \item XOR the round-key into the message to derive the 4 by 4 table.
+  \item Substitute bytes from a lookup table. Takes an 8 bit input and gives an 8 bit output. This is the only nonlinear operation in the standard.
+  \item Rotate rows, each by different amounts. If bytes were in the same column, they are rotated so they are no longer in the same column.
+  \item Mix each column to become $C \leftarrow A C$ where $A$ is some matrix.
+\end{enumerate}
+
+The above steps are run for each round and the final state is outputted from the algorithm.
+
+\section{Ideal Block Cipher}
+
+There are now two inputs, a key and a message. The ciphertext only needs to be invertible for each key. The ideal block cipher: \emph{each key independently has a random permutation of the message space}. Thus, for each key, we have different random permutation of the message space. The information from one key doesn't give you any information about the other key.
+
+\section{Confidentiality}
+
+We want confidentiality, aside from the length of the message. Variable-length inputs from some message space $\mathrm{M} = \{0,1\}^{*}$. How do we make sure we get confientiality?
+
+\subsection{Electronic Code Book (ECB)}
+
+We take our message and divide it into blocks $M_1, M_2, \ldots, M_n$. Get ciphertext for each block using some key to get $C_1, C_2, \ldots, C_n$. The concatenated result is the full ciphertext.
+
+We need to make sure that the message ends up to be exactly $128$ bits to make sure we can use block ciphers. To make sure this is the case, we can just pad our messages to make sure that this is true. We want the padding to be invertible (because we'll have to remove the padding). A typical approach is to always append a 1 and then as many 0s as necessary. If we always append a 1 no matter what, then we're fine no matter what message was inside.
+
+This isn't very good, though, because repeated patterns in the message usually end up as repeated pattern in the cipher text, since the same key is being used the entire way through.
+
+Because of this issue, ECB is pretty much deprecated except for very short messages or random data.
+
+\subsection{CTR Mode}
+
+We start a $128$ bit counter at some bit $i$. We encrypt the counter $i$ with some secret key $K$ and get $x_i$. Then, we XOR this random looking quantity $x_i$ with our first message block $M_1$ to get $C_1$. To get more ciphertext, add one to the counter, encrpyt it to be $x_{i+1}$ and XOR $M_2$ with $x_{i+1}$ to get $C_2$. Repeat until you get to the end.
+
+The set of $x_{i}, x_{i+1}, \ldots, x_{i+n-1}$ is equivalent to the pad. Once you have this, then you send $i, C_1, C_2, \ldots, C_n$. The legitimate decrypter just needs to encrypt $i, i+1, \ldots, i+n-1$ with $K$, which allows you to XOR $x_{i}$ with $C_1$ to get $M_1$.
+
+\end{document}
