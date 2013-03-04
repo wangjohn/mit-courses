@@ -190,8 +190,8 @@ if __name__ == '__main__':
     print "Program requires path to file for reading!"
     sys.exit(1)
 
-  for m in xrange(1,16,4):
-    for r in xrange(1,16,4):
+  for m in xrange(1,16,3):
+    for r in xrange(1,16,3):
       print m, r
       print timeit.timeit("run_everything(%s, %s)" % (m, r), setup='from __main__ import run_everything', number=5)
 
