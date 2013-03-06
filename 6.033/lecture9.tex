@@ -1,0 +1,77 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 9: Computer Networks Layering and Routing 2}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Scaling a Network}
+
+We talked last time about how to scale the internet. We do this by using hierarchies and hierarchical addresses. For example, any address that starts with 18 will be under the MIT namespace.
+
+Another example:
+18.26.128/17
+
+The first 17 bits of the IP address are specified and the rest can be anything. This means only the first bit of the 128 needs to be specified. You take the prefix and the first 17 bits of the prefix are the meaningful parts of the prefix.
+
+\subsection{Co-Location}
+
+The great thing about the hierarchy is that we can colocate addresses by the hierarchy we just defined. For instance, all addresses under 18 are next to each other in the MIT network. The router in Berekley doesn't need to have a specific IP address in its routing table, all it needs is 18 in its routing table, once the packet is sent to 18, then the MIT network takes care of the rest of the IP address.
+
+All MIT addresses are just a single entry, so everyone on the internet doesn't need to change IP addresses as people leave and enter the network.
+
+\subsection{Hierarchical Address Setting}
+
+MIT has all of 18/8. This means it has control of all IP addresses under this so we can do as we wish with these addresses. You can divide the addresses according to labs or something else. Each subsequent group can then assign addresses to different entities as well. Keep doing this hierarchically, and you don't have to worry about setting each address individually.
+
+A router will send you to the IP address which is the longest match. For instance, maybe a router has 18/8, 18.26/16, 18.26.128/17 and the IP address that the router got was 18.26.128.1. The routing table will look for the longest match with the IP address and send the user to that IP address. In this case, the router would send to 18.26.128/17.
+
+\section{Policy Routing}
+
+\subsection{Transit Links}
+
+There are customers (MIT) and providers (Cogent). Cogent is a regional provider, and may have to go to a larger provider (Tier 1 provider like AT\&T) and buy service. Now Cogent becomes a customer of AT\&T.
+
+There are also peering links. This occurs when customers put a link straight to another customer so you don't have to go to a provider. 
+
+\subsection{Policy Based Routing Rules}
+
+The golden rule for a provider is to forward traffic only if it makes money. There are two types of sub-policies for this: incoming traffic and outgoing traffic.
+
+Customer pays for both incoming and outgoing traffic. Desirable incoming traffic is any traffic that goes to a customer or to the provider itself. Enforce this policy by advertising customer to everyone.
+
+For outgoing traffic, the provider determines a preferred route (which makes him the most money). However, it keeps the other routes available in case the route goes down. It needs the next preferred route to put it into the forwarding table.
+
+This is different than a distance vector algorithm, because you have multiple routes per destination. In the forwarding table, there's only one route at any time, which is the preferred route. However, the protocol still needs to take care of loops.
+
+\section{Border Gateway Protocol (BGP)}
+
+The protocol used to route between providers on the internet. Sometimes its referred to as path vector routing - you advertise the entire path. This gives you a mechanism to deal with loops because each node can tell if its already in the path.
+
+Updates from neighbor: filter the imported routes and update the routing table. Then pick the preferred route for forwarding and advertise the preferred route according to some policy.
+
+To advertise a route, it MUST be conformant with the preferred route in the forwarding table.
+
+\end{document}
