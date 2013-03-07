@@ -1,0 +1,61 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Problem Set 2, Problem 1}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1.a}
+
+To show that $e_1$ is not invertible, consider the two inputs $010$ and $01$. The resulting encodings will be $01$ concatenated with 510 zeros, which are both the same. Thus, we have found a collision. To show that $e_1$ is not prefix free, consider the two inputs $1$ and $1000\ldots0$ where the second string is of length 513. The first input will be padded to look exactly like the second input before any encoding and the second encoding will have 511 zeros padded to the end. Thus, the first input's encoding is a prefix of the second one.
+
+\section{Problem 1.b}
+
+To show that $e_2$ is not prefix free, consider the two inputs $1$ and $11000\ldots0$ where the second input is of length 512. The first input gets padded with a one then 510 zeros, so it looks exactly like the unpadded version of the second input. When the second input gets padded, we see that the first input becomes a prefix of it.
+
+To show that $e_2$ is invertible, suppose we have any $x_1 \neq x_2$. There are two cases.
+
+In the first case, suppose WLOG that $|x_1| < |x_2|$. In this case, the end of $x_1$ will be padded with a single 1 and many zeros. The 1 will be at position $|x_1| + 1$. However, $x_2$ will also be padded with a one and many zeros, but the one will occur at position $|x_2| + 1$. Since $|x_2| + 1 > |x_1| + 1$ and all values greater than $|x_1| + 1$ in $x_1$ are zero, then we know that $e_2(x_1) \neq e_2(x_2)$. 
+
+Now suppose $|x_1| = |x_2|$. If this is the case, then we are done because already the padded values will necessarily be different because they only add bits to the end of the input, and the inputs are already different.
+
+Therefore, we see that $e_2$ is invertible.
+
+\section{Problem 1.c}
+
+To show that $e_3$ is invertible, we simply note that $e_2$ is invertible. Thus, for $x_1 \neq x_2$, then $e_2(x_1) \neq e_2(x_2)$, which implies that $e_2(x_1) || EOF$ is not equal to $e_2(x_2) || EOF$, which is exactly showing that $e_3$ is invertible.
+
+To show that $e_3$ is prefix free, we note that EOF is only found at the end of the sequence. There are two cases for $x_1 \neq x_2$. Case one is that $|e_3(x_1)| = |e_3(x_2)|$, in which case $e_3(x_1) \neq e_3(x_2)$ because $e_3$ is invertible, which means that they are not prefixes of each other. If $|e_3(x_1)| < |e_3(x_2)|$ then the EOF symbol of the first input occurs before the EOF of the second symbol. Since EOF appears only once in an encoding, we see that $e_3(x_1)$ is necessarily not a prefix of $e_3(x_2)$ because the position of the former's EOF symbol clashes with some symbol which is not EOF in $e_3(x_2)$.
+
+\section{Problem 1.d}
+
+By the paper, we know that $f$ is prefix free. This means that for two inputs $x \neq x'$, then $f(x)$ is not a prefix of $f(x')$ or vice versa. We know that $e_3$ is invertible by our previous problem. This means that for two inputs $x \neq x'$ that $e_3(x) \neq e_3(x')$. Therefore, if we take two inputs to $f(e_3(.))$, say $x_1 \neq x_2$, then we know that $y_1 = e_3(x_1)$ is not equal to $y_2 = e_3(x_2)$ by invertibility of $e_3$. Therefore, we know that $f(y_1)$ and $f(y_2)$ are not prefixes of each other by the prefix property of $f$. This shows that $e(x)$ is prefix free.
+
+Now, we must show that $e(x)$ is invertible. We already know that $e_3(x)$ is invertible. This means that for any input $x$, we have $y = e_3(x)$ which is uniquely determined. Therefore, we have uniquely determined inputs to $f$. If $f$ is also invertible, then $z = f(y)$ is uniquely determined, which shows the $e(x)$ is invertible. This is because $z$ is uniquely determined by the original $x$ input. Thus, we need to only show that $f$ is invertible for our inputs.
+
+To show this, consider the algorithm for $f$ with some input from derived from $e_3$. In the first pass of $f$, two elements paired together form a number with an alphabet of size $(B+1)^2$, which can be mapped into two elements of alphabets of size $B-3i$ and $B+3i$ (where $i$ is the position in the input). At this point, the elements are still invertible because the two elements $x_1 \in [B-3i]^*$ and $x_2 \in [B+3i]^*$ can be used to uniquely identify the number $y \in [(B+1)^2]^*$ which can then be used to uniquely identify the two numbers $a \in [B]^*$ and $b \in [B]^*$ which we originally started with. In phase 2 of $f$, when elements are regrouped to the set $B > (B - 3i) (B + 3i)$, we can still invert the value of $k_1 \in [B]^*$ and $k_2 \in [B]^*$ to $x_1$ and $x_2$ because the mapping is injective. Therefore, the final result is invertible, which finishes the proof.
+
+\end{document}
