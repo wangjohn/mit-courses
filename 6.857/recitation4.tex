@@ -1,0 +1,62 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Recitation 4: UFE Mode and IND-CCA Security}
+
+\author{Lecturer: Ada Raluca Popa\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{IND-CCA Security}
+
+A scheme is IND-CCA secure if all adversaries win the game with probability $p \leq \frac{1}{2} + \epsilon$. The adversary gets access to the ecnryption and decryption boxes $Enc(K, m_d)$ and $Dec(K, m_d)$ for any messages that he wants.
+
+\subsection{Cipher Block Chaining (CBC)}
+
+For example, Cipher Block Chaining does not satisfy IND-CCA Security. Recall that CBC takes a random IV variable. Take message block $M_1$ and use the operation $M_1 \oplus IV = C_1$. To obtain the next ciphertext block, use the operation $M_2 \oplus C_1 = C_2$. Continue onwards for $M_{i} \oplus C_{i-1} = C_{i}$ until you reach $i = n$. The ciphertext consists of $\{IV, C_1, C_2, \ldots, C_n\}$.
+
+This doesn't satisfy IND-CCA because:
+\begin{itemize}
+  \item Prefix attack. Have message $M_0$ and get ciphertext $C_0$. Append some value $r$ to $C_0$ and decrypt it, you get two messages. If you need fixed length message, take off a block of $C_0$ and add some random bits.
+  \item Change IV. Keep the same ciphertext. If you ask the decrypter to decrpyt something with a different IV, only the message of the first block will be bad, but the decryption of all the other blocks will work because they use $C_i \oplus M_{i+1}$ which means that you will get the correct decryption for everything but the first block.
+  \item Zero out everything.
+  \item Change the suffix. Much like the prefix attack.
+\end{itemize}
+
+\section{Unbalanced Fiestel Mode (UFM)}
+
+\begin{eqnarray}
+  M &=& (M_1, M_2, M_3) \\
+  k &=& (k_1, k_2, k_3) \\
+  r &\leftarrow& \{0,1\}^*
+\end{eqnarray}
+
+Take the random vector $r$ and encode it with CTR mode with key $k_1$. Recall that CTR uses some value $i$, and encrypts $i$ with key $k$ to get $i_{e}$. Then $c_1 = i_{e} \oplus M_1$. Next, you get $i+1$ encrypted to $(i+1)_{e}$ and you get $c_2 = (i+1)_e \oplus M_2$, etc.
+
+Recall CBC-MAC. We use $IV = 0, k, k'$ where $k'$ is only used for the last block. We take $M_1 \oplus 0$  and encrypted the result with $k$ to get $x_1$. Next, take $M_2 \oplus x_1$ and encrypt the result to get $x_2$. Keep going until we get to the last block, in which we use $k'$. The resulting value is $R = x_n$, which is sent. We need to use $k'$ because otherwise you could use two MACs to get a new valid MAC. Suppose we have $M = (M_1, M_2)$ and $N = (N_1, N_2)$. If we take the message $(M_1, M_2, N_1 \oplus R_M, N_2) \rightarrow R_N$ because the result of the first two is just $R_M$, so if we XOR $R_M$ with $N_1 \oplus R_M$ we get $N_1$ again, so you can get a collision.
+
+UFM gets a result $y$ from running $r$ through CTR with key $k_1$. Then we take $C = y \oplus M$ to get the ciphertext. Next, feed the entire ciphertext through CBC-MAC using keys $k_2, k_3$ to get $x$. Then, get $\sigma = x \oplus r$.
+
+Decryption is easy by first computing CBC-MAC and getting $r$.
+
+\end{document}
