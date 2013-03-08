@@ -1,0 +1,88 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 9: Modes of Operation for Block Ciphers}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Cipher Block Schemes}
+
+\subsection{Cipher Block Chaining (CBC)}
+
+There exists some initialization vector (IV) which is chosen at random by the sender. This is a starting point, but it's not a secret key. We do $IV \oplus M_1$ then encrypt the result to get ciphertext $C_1$. For the next block of message, we could XOR with IV like before, but that's not as good because we could give away the encryption. Therefore, we use the previous ciphertext and get $C_1 \oplus M_2$ and encrypt that to get $C_2$.
+
+The basic pattern is then $C_{i-1} \oplus M_i$, which is encrypted to obtain $C_i$. Think of $C_{0} = IV$. Thus, even if you change one bit, it changes the entire pattern down the line.
+
+Ciphertext stealing is a cute trick for dealing with messages that are not exactly 128 bits in length. We transmit $IV, C_1, C_2, \ldots, C_n$. Decryption steps can be processed by decrypting $C_1$ and XORing it with IV to obtain $M_1$. Continue onwards until you have all $M_{i}$.
+
+Interesting thing about CBC is that a single bit change will ripple down through the chain.
+
+\subsection{Cipher Feedback Mode (CFB)}
+
+You have an initialization vector (IV) and a secret key $K$. You encrypt the IV using the secrety key and XOR the resulting value with $M_1$. This results in $C_1$. Then, encrypt $C_1$ and XOR the resulting value with $M_2$ to get $C_2$. Continue XORing the encrypted block of $C_{i-1}$ with $M_i$ to get $C_i$.
+
+To decrypt we start off encrypting IV and XOR with ciphertext to get the message. Continue onwards in this manner.
+
+Very similar to Cipher Block Chaining, and has many of the same properties like single bit rippling.
+
+\section{Ciphertext Indistinguishability}
+
+To prove that our cipher block schemes are secure, we need to define what it means to be secure. Let's define a game with the adversary. Our mode is secure if the adversary can't win the IND-CCA (Indistinguishability under Chosen Ciphertext Attack) game with probability significantly more than half the time.
+
+Let's set up the game. The adversary is going to be asked, what is the message behind the ciphertext? The adversary will supply the plaintext messages to be encrypted, and he needs to guess which one is being encrypted. The key is chosen ahead of time in a random fashion.
+
+Phase 1: ("Find"). Adversary makes up two messages $m_0 \neq m_1$ such that $|m_0| = |m_1|$. Adversary is given access to encryption oracle $E_k(.)$ and decryption oracle $D_k(.)$.
+
+Phase 2: ("Guess"). Examiner picks $d \leftarrow \{0, 1\}$ is a random bit (either 0 or 1). Then examiner encrypts message $d$ and obtains $y = E_k (m_d)$. Adversary is given $y$ and any state information $s$. Remember, adversary has access to $E_k(.), D_k(.)$ except on $y$. The adversary then gives $\hat{d}$ which is the adversary's guess for $d$.
+
+The adversary's advantage is $|Pr[\hat{d} = d] - \frac{1}{2} |$. The scheme is secure against IND-CCA if adversary's advantage is negligible (should be done in probabilitistics polynomial time).
+
+To be secure in IND-CCA, encryption must be randomized, otherwise the adversary could just pick two messages beforehand and compute the ciphertext. Notice that under IND-CCA, the CBC and CFB modes are not secure. You could just send the decrypter the first half of the cipher text, and you will get the first half of the message.
+
+This is the strongest definition of security that we know about.
+
+\section{Unbalanced Fiestel Encryption Mode (UFE)}
+
+Let's say that we have a message $M$ and we're going to use CTR mode for some key $k_1$. We use counter on $r$ and XOR result with $M$. This results in ciphertex which is then sent to CBC MAC with IV = 0 and a new secret key $k_2$.
+
+We have $k = (k_1, k_2, k_2)$ and $r \leftarrow \{0, 1\}^b$ randomly chosen. The pad is $P = P_1, P_2, \ldots, P_n$ where $P_1 = E_{k_1} ( r + i)$. The resulting ciphertext is $C = c_1, c_2, \ldots, c_n$ where $c_i = m_i \oplus P_i$. Then in CBC-MAC we have $x_0 = 0^b$ and set $x_1 = E_{k_2} (x_{i-1} \oplus c_i)$ and $x_n = E_{k_3} (x_{n-1} \oplus c_n)$. 
+
+Result is $\sigma = r \oplus X_n$ and $c_1, c_2, \ldots, c_n$. 
+
+Idea is that you send $r$ implicitly through $\sigma$. The receiver can obtain $r$ by sending $C$ through the CBC-MAC and obtain $X_n$, so then you can XOR $X_n$ with $\sigma$ to obtain $r$. This allows you go to go ahead and compute $P$, which gives you the message by doing $P \oplus C$.
+
+\section{Message Authentication Codes (MAC)}
+
+Alice wants to send some message to Bob, and Bob wants to be able to know if Eve has intercepted the message and changed the message. Alice sends $M$ and $MAC_{k}(M)$ which is a message authentication code. Bob can check if $MAC_{k}(M)$ is correct by recomputing it. It can't be recomputed by Eve because she doesn't know the secret key $k$. If Bob doesn't get the correct message authentication code, then he knows Eve has changed the message.
+
+If $MAC_{k}(M)$ is correct, then Bob proceeds, otherwise Bob rejects. Remember that Eve can replay old messages and $MAC_{k}(M)$.
+
+\subsection{MAC Game}
+
+Alice and Bob share $K$. Eve wins if Bob accepts ($M', MAC_{k}(M')$) where $M'$ is different from anything that Eve has heard on the line. We give Eve oracle access to the $MAC_{k}$ function, but these queries don't count as wins for Eve.
+
+Eve wants to forge a new message authentication code. A good scheme should not allow an adversary to create valid MACs which have not already been seen.
+
+\end{document}
