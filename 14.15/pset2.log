@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  10 MAR 2013 11:37
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  10 MAR 2013 20:52
 entering extended mode
  %&-line parsing enabled.
 **pset2.tex
@@ -268,15 +268,19 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[4] (./pset2.aux) ) 
+[4]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[5] (./pset2.aux) ) 
 Here is how much of TeX's memory you used:
- 2714 strings out of 495061
- 32623 string characters out of 1182621
- 98100 words of memory out of 3000000
- 5723 multiletter control sequences out of 15000+50000
+ 2717 strings out of 495061
+ 32652 string characters out of 1182621
+ 96107 words of memory out of 3000000
+ 5726 multiletter control sequences out of 15000+50000
  9048 words of font info for 36 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 34i,13n,32p,651b,210s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,13n,32p,651b,240s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmb
 x10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></
 usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/t
@@ -291,9 +295,9 @@ onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/
 public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfo
 nts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/
 msam10.pfb>
-Output written on pset2.pdf (4 pages, 180318 bytes).
+Output written on pset2.pdf (5 pages, 190076 bytes).
 PDF statistics:
- 75 PDF objects out of 1000 (max. 8388607)
+ 78 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

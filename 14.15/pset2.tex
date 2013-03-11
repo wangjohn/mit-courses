@@ -31,7 +31,7 @@ Problem Set 2}
 
 \maketitle
 
-Collaborators: Ryan Liu
+Collaborators: Ryan Liu, Bonny Jain
 
 \section{Problem 1}
 
@@ -134,35 +134,115 @@ We can show it is nilpotent by taking the $A^5$ with gives the zero matrix. Intu
   Compute the Katz centrality with $\beta = 1$. Explain your answer.
 \end{prob}
 \begin{sol}
-
+  The easiest node to compute the Katz centrality for is the first node, since no other nodes point to it. Therefore, the sum of all incoming centralities for that node is zero, and so it's centrality is just given by $\beta$. The node that it points to has the centrality of the previous node multiplied by $\alpha$ added with $\beta$. Thus, the second node has centrality $\alpha \beta + \beta = \alpha + 1$. We can continue on to get the formula for node $i$: $x_i = \sum_{j=1}^i \alpha^j$. Thus, Katz centrality vector is the following:
+  \begin{eqnarray}
+    \left[
+    \begin{array}{c}
+      1 \\
+      \alpha + 1 \\
+      \alpha^2 + \alpha + 1 \\
+      \alpha^3 + \alpha^2 + \alpha + 1 \\
+      \alpha^4 + \alpha^3 + \alpha^2 + \alpha + 1
+    \end{array}
+  \right]
+  \end{eqnarray}
 \end{sol}
 
 \section{Problem 4}
 
-\begin{prob}
-\end{prob}
-\begin{sol}
-\end{sol}
+\subsection{Problem 4.1}
 
 \begin{prob}
+  Compute the Katz centrality using $\alpha = 0.01, 0.04$ and $\beta = 1$.
 \end{prob}
 \begin{sol}
+  We will compute the Katz centrality by iteratively computing $x = \alpha A x + \hat{\beta}$ where $\hat{\beta}$ is an $n \times 1$ vector of $\beta$, and $A$ is the adjacency matrix. Doing this for $1000$ iterations, the following nodes have the highest centrality in the resulting $x$ vector:
+  \begin{table}[H]
+    \begin{tabular}{c | c c | c c}
+      Rank & Node ($\alpha = 0.01$) & Centrality ($\alpha = 0.01$) & Node ($\alpha = 0.04$) & Centrality ($\alpha = 0.04$) \\
+      \hline \hline
+         1 & 54  & 2.05 & 54  & 5.74 \\
+         2 & 53  & 1.95 & 53  & 5.24 \\
+         3 & 15  & 1.51 & 18  & 3.98 \\
+         4 & 18  & 1.50 & 222 & 3.50 \\
+         5 & 222 & 1.39 & 15  & 3.30
+    \end{tabular}
+    \caption{Katz Centrality}
+  \end{table}
 \end{sol}
 
+\subsection{Problem 4.2}
+
 \begin{prob}
+  Compute the PageRank centrality for $\alpha = 0.01, 0.04$ and $\beta = 1$.
 \end{prob}
 \begin{sol}
+  We will compute the PageRank centrality much like the Katz centrality was computed. However, there is a new term in the PageRank centrality which takes the column sums and divides the terms by them. The code basically implements the following: $x = \alpha A K x + \hat{\beta}$ where $\hat{\beta}$ as before is an $n \times 1 $ vector of $\beta$ and $K$ is a created by using the following Matlab code: $diag(1./sum(A))$, where we create $K = D^{-1}$. This results in:
+  \begin{table}[H]
+    \begin{tabular}{c | c c | c c}
+      Rank & Node ($\alpha = 0.01$) & Centrality ($\alpha = 0.01$) & Node ($\alpha = 0.04$) & Centrality ($\alpha = 0.04$) \\
+      \hline \hline
+         1 & 54  & 1.73 & 54  & 3.93 \\
+         2 & 53  & 1.59 & 53  & 3.37 \\
+         3 & 15  & 1.27 & 15  & 2.10 \\
+         4 & 18  & 1.20 & 18  & 1.80 \\
+         5 & 9   & 1.16 & 7   & 1.70
+    \end{tabular}
+    \caption{PageRank Centrality}
+  \end{table}
+\end{sol}
+
+\subsection{Problem 4.3}
+
+\begin{prob}
+  Compute the hub and authority scores
+\end{prob}
+\begin{sol}
+  We compute the authority scores by using the iterative technique $x = AA^T x$ (then normalizing after each iteration using the Euclidean norm so that $x_i = \frac{x_i}{(\sum_{j} x_j^2)^{1/2}}$ to prevent the $x_i$'s from getting too large). Hub scores are computed similarly with $x = A^T A x$, also using normalization. I ran the algorithm for a time step of 1000 iterations. The results are below:
+  \begin{table}[H]
+    \begin{tabular}{c | c c | c c}
+      Rank & Authority Node & Authority Score & Hub Node & Hub Score \\
+      \hline \hline
+         1 & 235  & 0.19 & 1    & 0.61 \\
+         2 & 229  & 0.18 & 229  & 0.20 \\
+         3 & 230  & 0.18 & 231  & 0.20 \\
+         4 & 231  & 0.18 & 232  & 0.20 \\
+         5 & 232  & 0.18 & 234  & 0.20
+    \end{tabular}
+    \caption{Hub and Authority Scores}
+  \end{table}
 \end{sol}
 
 \section{Problem 5}
 
 \begin{prob}
+  Devise an algorithm to rank the teams. Explain your reasoning.
 \end{prob}
 \begin{sol}
+  I chose to use Katz centrality on the matrix of football teams. This is because one can construct a graph of teams who have won games against other teams from the matrix provided in the data. An incoming edge to node $x$ from node $y$ means that team $x$ has defeated node $y$. Thus, intuitively it seems like the teams with more incoming edges would be better.
+
+  Moreover, Katz centrality takes into account how important each team is. For example, if team $x$ beats team $y$, and team $y$ is a very good team, then team $x$ should get a large boost from that win. Likewise, if team $x$ beats team $z$ but team $z$ is not a very good team, that win should not contribute very much.
+
+  Katz centrality takes this into account and provides a ranking of the team based on the importance of the teams that you beat. Moreover, using some other algorithms, such as PageRank, will not work because the degree matrix is singular.
 \end{sol}
+
 \begin{prob}
+  Implement your algorithm and compute the ranking.
 \end{prob}
 \begin{sol}
+  I choose to use a very large $\alpha$ and small $\beta$ so that differences in teams would account for a lot of the ranking (bad teams wouldn't be bouyed by large $\beta$ values). Thus, I choose to use $\alpha = 0.5$ and $\beta = 0.01$. I ran the Katz centrality algorithm for 20 iterations and obtained the following ranking:
+  \begin{table}[H]
+    \begin{tabular}{c | c c }
+      Rank & Team & Score \\
+      \hline \hline
+      1 & Western Kentucky  & 5.74 \\
+      2 & North Texas       & 5.00 \\
+      3 & Louisiana-Lafayette & 4.66 \\
+      4 & Arkansas State    & 2.88 \\
+      5 & Middle Tennessee State & 2.79
+    \end{tabular}
+    \caption{Top Ranked Football Teams}
+  \end{table}
 \end{sol}
 
 \section{Problem 6}
