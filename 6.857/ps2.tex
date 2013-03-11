@@ -70,7 +70,22 @@ We choose $l = d$. The identity function $f(x) = x$ is then a hash which maps $\
 
  A function is one-way if it is ``infeasible to find an $x$ such that $h(x) = y$ for a given $y$ chosen at random.'' Therefore, if we have an algorithm that breaks one-way for $h$, then that function must give us an $x$ that hashes to a given $y$. To break collision resistance, we simply choose some random $x_1$ and hash it to a $y_1$. If we apply our one-way breaker to $y_1$, we'll get either $x_1$ or $x_2$, where $x_2$ is the other input that hashes to $y_1$. Because we chose $x_1$ at random, we are equally likely to get $x_1$ or $x_2$. Therefore, our algorithm will find a collision with 50 percent probability, which is certainly non-negligable.
 
-\section{Problem 4}
+ \section{Problem 2.3}
+
+ \subsection{Problem 2.3.a}
+ After analyzing the code we realized we could simply overflow the password user input and fill the expected password hash value with our own SHA1 hash value.  Each time a method is called, a so called stack frame is placed onto the stack in memory.  The stack frame is organized such that all local variables are located right next to each other.  Because the stack grows up, and the expected value of hashed password was defined right above the pasword user input, all we needed to do was create a small C script that could:
+
+     \begin{enumerate}[(1)]
+       \item Create a password that was the max length of the password buffer
+       \item Take that password and create a SHA1 hash of it
+       \item Concatenate these values (with a null terminator in between both values)
+       \item Use this string as our pasword input.
+     \end{enumerate}
+
+ \subsection{Problem 2.3.b}
+    Introducing a random canary variable after the return address should not prevent our approach from working.  By introducing a random canary value, the code will check whether or not this value has been overwritten at runtime.  Our approach only smashes the expectedhash value.  We do not try and overwrite the return adress or any other variables besides one local variable; therefore, this value should not be changed.
+
+\section{Problem 2.4}
 
 The Pass-The-Hash-Toolkit attack is an attack which focuses on Windows operating systems. The attack allows an attacker to pass a username and the hash of the user's password to the server to gain access to parts of the system. Instead of obtaining the plaintext password, it is sufficient in this context for the attacker to obtained the hashed version of the password. The attack is carried out by mimicking the code that sends logon credentials to the server.
 

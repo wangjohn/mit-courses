@@ -1,0 +1,101 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 10: MACs}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Authentication}
+
+Eve should not be able to fool Bob that Alice didn't actually create. This is the core of authentication. Eve can forge with probability $2^{-|T|}$ where $T$ is the length of the MAC. Eve wins the game if she can forge with higher probability than that.o
+
+\subsection{CBC-MAC}
+
+Start with message $M_1$ and a vector of zeros. Take $0 \oplus M_1$ and encrypt the result. The result of this encryption is sent to be XORed with $M_2$. Continue encrypting the result and sending this encrypted result to XOR with $M_i$ until you get to the last block. The encryption in the first $n-1$ blocks all use the same key $K$. The last block, however, uses a different key $K'$. The resulting output of the last block is the MAC that you send over.
+
+\subsection{PRF-MAC Hash Function}
+
+Use the following MAC: $MAC_{k}(M) = H(k || m)$ and truncate to $\tau$ bits. This is actually defective in practice because the hash functions are computed in a sequential manner so you might get a length extension attack. Sometimes people can get $m'$ which is just an extension of $m$ so that the entire $m'$ isn't used in computing the hash, so that the MAC is defective.
+
+Isn't necessarily used very often in practice because of this. Better idea is:
+\begin{eqnarray}
+  HMAC_{k}(M) = H(K_1 || H(K_0 || M))
+\end{eqnarray}
+
+Where $K_0 \leftarrow K \oplus (pad)_0$ and $K_1 \leftarrow K \oplus (pad)_1$. HMAC is used much more frequently in practice.
+
+\subsection{Combining MAC and Encryption}
+
+People really want something that does encryption and mac at the same time. We encrypt then MAC.
+\begin{eqnarray}
+  ENC_{k_1}(M) \rightarrow C
+  MAC_{k_1}(C) \rightarrow T
+\end{eqnarray}
+
+Then, you send $\{C, T\}$. The receiver can check $T$ and see if you want to decrypt the message. Make sure the ordering is that you encrypt, compute MAC, then on the otherside decrypt the MAC, and decrypt. You can get into difficulties if you don't do it the right way. 
+
+\section{EAX Mode: Authenticated Encryption}
+
+Bellare, Rogaway, Wagner created EAX mode. \emph{Nonce} is a value only used once, never repeats, could be a counter. $E_{k}(N)$ looks random. Associated data should be authenticated but doesn't need to be encrypted. We will call this the header $H$. Message $M$ to be encrypted.
+
+EAX uses one key and is online -- no need to know length ahead of time. 
+
+\subsection{Workings of EAX}
+
+Takes as input variable $\tau$, variable length nonce, arbitrary block cipher. Take the message $M$, and send it through counter mode with key $K$, results in ciphertext $C$. The starting value of the counter mode comes from the nonce $N$. The MAC of the nonce creates the starting counter value. The ciphertext is sent through a MAC of key $K$, as is the header, and the MACs of the nonce, message, and header are all XORed together and the result is $T$. 
+
+Use $MAC_{k}^i (m) \approx CBC-MAC(i || m)$ as the MAC, using $i=0$ for the nonce and $i =2$ for the message and header.
+
+The following is transmitted: $N, C, H, T$.
+
+\section{Finite Fields}
+
+Set $S$ and two binary operations $\times, +$.
+\begin{itemize}
+  \item $S$ is finite containing 0 and 1.
+  \item ($S$, +) is an abelian (commutative) group.
+    \begin{itemize}
+      \item Identity 0 : $a + 0 = a$
+      \item Associativity: $((a+b) + c ) = (a + (b+ c))$
+      \item Inverses: $\forall a$ $\exist b$ s.t. $a + b = 0$
+    \end{itemize}
+  \item ($S^*$, $\times)$ is an abelian group with identity 1. $a \times 1 = 1 \times a = a$, $a \times b = b \times a$. $\forall a \in S^*$ $\exist b \in S^{*}$ s.t. $ a \times b = 1$.
+\end{itemize}
+
+Cryptography likes finite sets. Take $Z_p = GF(p)$, how do we solve $0 = ax + b \mod p$? We just do $a = a^{-1} (-b) \mod p$.
+
+$GF(q)$ exists for $q = p^k$ for any $k \geq 1$. For example $GF(2^8)$. Polynomials in $x$ with degree less than $8$. Coefficient in $GF(2)$ is $1 + x + x^5 + x^7$ mod out by some fixed polynomial $f(x)$. 
+
+Repeated squaring to compute $a^b$ where $a$ is in the field and $b \geq 0$ is an integer.
+\begin{eqnarray}
+  a^b = \left\{ \begin{array}{c c}
+    1 & \text{if} b = 0 \\
+      (a^{b/2})^2 & \text{if} b > 0, b \pmod{2} = 0 \\
+        a a^{b-1} & \text{if} b > 0, b \pmod{2} = 1
+  \end{array}\right\}
+\end{eqnarray}
+
+Theorem: In $GF(q)$ for all $a \in GF(q)^{*}$, we have $a^{q-1} = 1$. Thus, $a^{q} = a$ for all $a \in GF(q)$. This means that $a a^{q-2} = 1$. This means that $a^{-1} = a^{q-2}$. 
+\end{document}
