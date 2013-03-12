@@ -27,6 +27,8 @@ Hands On 5: TCP Dump}
 
 \begin{document}
 
+\maketitle
+
 \begin{enumerate}
   \item The ip address for willow is 128.30.4.222 and the address for maple is 128.30.4.223, this can be obtained by using the ``-n'' option which stops \emph{tcpdump} from converting ip addresses to names.
   \item The largest sequence number that was acked was 1,572,889. Since the sequence numbers represent bytes, there were 1572 kilobytes that were transferred. The last communication occurred at 0:34:44.339015 and the first communication occurred at 00:34:41.473036. Thus, 2.866 seconds elapsed from the first to the last communication. This means the rate of message sending was $1,572,889 bytes / 2.866s = 549 KiloBytes/s$.

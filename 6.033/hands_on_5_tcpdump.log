@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  11 MAR 2013 21:10
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  11 MAR 2013 21:11
 entering extended mode
  %&-line parsing enabled.
 **hands_on_5_tcpdump.tex
@@ -221,7 +221,7 @@ driver: pdftex
 (1in=72.27pt, 1cm=28.45pt)
 -----------------------
 
-Overfull \hbox (6.60703pt too wide) in paragraph at lines 33--34
+Overfull \hbox (6.60703pt too wide) in paragraph at lines 35--36
 []\OT1/cmr/m/n/10 Packet 1473:2921 was sent out at 00:34:41.474225, while the a
 c-knowl-edge-ment came at 00:34:41.482047.
  []
@@ -229,22 +229,24 @@ c-knowl-edge-ment came at 00:34:41.482047.
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 (./hands_on_5_tcpdump.aux) ) 
 Here is how much of TeX's memory you used:
- 2063 strings out of 495061
- 24392 string characters out of 1182621
+ 2065 strings out of 495061
+ 24413 string characters out of 1182621
  78430 words of memory out of 3000000
- 5094 multiletter control sequences out of 15000+50000
- 9086 words of font info for 36 fonts, out of 3000000 for 9000
+ 5095 multiletter control sequences out of 15000+50000
+ 9394 words of font info for 37 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 34i,5n,32p,787b,164s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,5n,32p,787b,192s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfon
-ts/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi
-10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr
-/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-
-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fon
-ts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on hands_on_5_tcpdump.pdf (1 page, 74731 bytes).
+ts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc
+10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
+r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texm
+f-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmti10.pfb>
+Output written on hands_on_5_tcpdump.pdf (1 page, 97728 bytes).
 PDF statistics:
- 30 PDF objects out of 1000 (max. 8388607)
+ 38 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
