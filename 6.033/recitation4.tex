@@ -1,0 +1,65 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 4: Map Reduce}
+
+\author{John Wang}
+
+\begin{document}
+
+\section{Basic Algebraic Structure}
+
+The naive map operation can parallel the set of output operations because you can simply operate $f$ on $x_i$ at the same time. In the reduce process, you need associativity and commutativity in order to break down the reduce operation. With these properties you can reduce with $g(g(\ldots, \ldots), g(\ldots, \ldots))$ where the reduce is finished in a recursive tree-like structure.
+
+\begin{eqnarray}
+map(f, \{x_1, \ldots, x_n\}) = \{f(x_1), \ldots, f(x_n) \} \\
+reduce(q, \{y_1, \ldots, y_n\}) = g(y_n, \ldots g(y_3, g(y_1, y_2)))
+\end{eqnarray}
+
+\section{Example Tasks for Map Reduce}
+
+List of triples of city, state, and temperature. We want to figure out the lowest temperature on record for each city in the database in Massachusetts. Cities in general will appear multiple times. The dataset is already split across multiple files.
+
+We need to write the map(key, value) function and the reduce(key, values) function.
+
+\begin{verbatim}
+map(key, value):
+  for (city, state, temp) in value:
+    if state == "MA":
+      Emit(city, temp)
+
+reduce(key, values):
+  Emit(key, min(values))
+\end{verbatim}
+
+Emit is used so that MapReduce can start working on the values while they're still getting mapped. The MapReduce framework can do some optimizations. 
+
+\section{Failures}
+
+\begin{itemize}
+  \item Stragglers (workers that take a long time to finish). At the end, when most of the nodes are finsihed, reassign the remaining jobs to backup nodes which are asked to compute the same function. If the original machine is running slowly, then the new version might finish much more quickly.
+  \item Master node failure. They don't have a solution for this.
+  \item Worker fails. Master periodically pings nodes and reassigns jobs when nodes fail.
+\end{itemize}
+
+\end{document}
