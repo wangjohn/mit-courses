@@ -1,0 +1,99 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 11: Cryptography Math}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Finite Fields}
+
+Finite fields $(S, +, \times)$ where $S$ is a finite set. $GF(q)$ is the finite fields with $q$ elements.
+
+\emph{Theorem:} $GF(q)$ exists if and only if $q = p^k$ for some prime $p$ and integer $k > 0$.
+
+Usually, if $p$ is prime then $GF(p) = Z_p$ so we have addition modulo $p$ and the field is $Z_{p} = \{0, 1, \ldots, p-1\}$. But consider $GF(2^2)$, we can't just take $Z_{4}$ because 2 does not have an inverse. Elements are polynomials in $x$ of degree less than $k$ with coefficients in $GF(p)$. So for $GF(2^2)$ we have: $\{0, 1, x, x+1 \}$. Notice that coefficents are modulo 2. We just need to defined addition and multiplication for these. Addition is easy: take modulo 2 in each position, for example $x + (x+1) = 2x + 1 = 0x + 1 = 1$. Multiplication is a little trickier, but we do something very similar to $GF(p)$. Work modulo a polynomial of degree $k$ which is irreducible. $x^2, x^2 + 1, x^2 + x$ are all reducible, so we should use $x^2 + x + 1$. All multiplication is done modulo this polynomial.
+
+We can build up a multiplication table:
+
+\begin{eqnarray}
+  \begin{array}{l c | c | c | c}
+    & 0 & 1 & x & x+1 \\
+  0 & 0 & 0 & 0 & 0 \\
+  1 & 0 & 1 & x & x + 1 \\
+  x & 0 & x & x+1 & 1 \\
+x+1 & 0 & x +1 & 1 & x
+  \end{array}
+\end{eqnarray}
+
+What is $x^2 \mod {x^2 + x + 1}$? We have $1$ remainder $-x -1$ but we know that $-x = x \mod{2}$ and we know that $-1 = 1$. So we have $x+1$ as the remainder. So $x^2 = x+1$. 
+
+\subsection{Computing Powers}
+
+Given the ability to compute products, we can compute $a^b$ in time $O(\log b)$. One of the reasons this is useful is because we have Euler's Theorem: in $GF(q)$, $forall a \in GF(q)^*$ then $a^{q-1} = 1$. Note that $GF(q)^*$ is all elements in $GF(q)$ which are non-zero. Want to work in $GF(p)$ but we need to find a large prime number.
+
+Finding large prime numbers: turns out to be easy. This is because primes are relatively common.
+
+\subsection{Generate and Test Primes}
+
+Generate a number $p$ of the desired size at random and test it for primality. This is good as long as there are a sufficient number of primes and the test for primality is cheap.
+
+Prime number theorem: Number of primes less than x is equal to $x / \ln(x)$. For us, $x = 2^k$, so we have $\approx 2^k / k$. There are $2^k$ total numbers of $k$ bits, so you have $1/k$ probability of finding a prime. This is pretty good.
+
+\subsection{Testing for Primality}
+
+If $p$ is prime then $\forall a \in Z_{p}^*$ we have $a^{p-1} \equiv 1 \pmod{p}$. Going backwards the other way doesn't always work (Carmichael numbers) but they work with high probability. It almost suffices to test $2^{p-1} = 1 \pmod{p}$ for large $p$. In good implementations, you probably want to check to make sure these aren't Carmichael numbers.
+
+\section{One-time MAC}
+
+Recall the basic setup of Alice sending messages to Bob where both of them have a secret key $K$. Eve tries to listen in and has infinite computational power, but doesn't have the key. She tries to intercept the message and the MAC tag $(M,T)$ and send a changed message $(M', T')$. Eve wins the game if Bob accepts the altered message with probability greater than chance.
+
+$T = MAC_{k}(m) = a M + b \pmod{p}$ where $p$ is a prime and the key is $K=(a,b)$ where $0 \leq a, b \leq p$. The message satisfies $0 \leq M \leq p$. 
+
+\emph{Theorem:} Eve can only achieve success with probability $1/p$ for the One-Time MAC.
+\emph{Proof:} Given $M'$. For each $T'$ that she could guess, there exists a unique key $K=(a,b)$ such that both $T = aM + b \pmod{p}$ and $T' = aM' + b \pmod{p}$. Both of these conditions must hold in order for Eve to succeed. Need to find $a = (T - T')/(M - M')$, and we can do this because $M \neq M'$. Then we can solve for $b = T - a M$. There is exactly one key that makes this work. Therefore, Eve's chances of making $M', T'$ work is the chance that Alice and Bob have picked the key. The probability of picking that particular key is $1/p$ because Alice and Bob already have the equation $T = aM +b$, so picking $T' = a M' +b$ requires probability $1/p$.
+
+\section{Number Theory}
+
+$d | a$ means that $d$ divides $a$ so that there exists a $k$ such that $dk = a$. We know that $d$ is a divisor of $a$ if $d \geq 0$ and $d | a$. For all $d$, $d | 0$, and for all $a$, $1 | a$. 
+
+If $d$ is a divisor of $a$, and $d$ is a divisor of $b$, then $d$ is a common divisor of $a$ and $b$. The greatest common divisor is the largest of the common divisors. We specify $gcd(0,0) = 0$ by definition and $gcd(0, 5) = 5$. We can compute $gcd(24, 30) = 6$, etc.
+
+Definition: two numbers $a$ and $b$ are relatively prime if $gcd(a,b) = 1$. 
+
+\subsection{Euclid's Algorithm for GCDs}
+
+For $a,b \geq 0$, we have:
+\begin{eqnarray}
+  gcd(a,b) = \left\{\begin{array}{c c}
+    a & \text{if } b = 0
+    gcd(a, a \mod b}) & \text{else}
+  \end{array}\right.
+\end{eqnarray}
+
+We see that $a \mod b$ is strictly less than $b$, so we know this will terminate. 
+
+One of the most important implications of this is to compute multiplicative inverses when two numbers are relatively prime. Suppose $a \in Z_{p}^*$ and we want to compute $a^{-1} \pmod{p} = a^{p-2} \pmod{p}$. This works when $p$ is prime, but if $p$ is not prime, and $a \in Z_{n}^*$, then we need to find $ax + ny = 1$ so that $ax = 1 \pmod{n}$ and $x = a^{-1} \pmod{n}$. 
+
+\end{document}

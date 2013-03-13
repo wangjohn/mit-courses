@@ -1,0 +1,59 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 10: Congestion Control}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+We need to control transmission rate so we don't overflow the link and the queues. This is congestion control. Must have both efficiency and fairness.
+Want to get to the maximum capacity possible. But we also want to be able to get to the maximum possible capacity as fairly as possible.
+
+For each source, try to maximize based on the demand of each node. Sometimes you want to maximize the minimum demand, or you want to do priority (people who are more important get a bigger share).
+
+The internet tries to approximate maximizing the minimum demand. Example, a link of 9mb/s and demands of 1mb/s, 7mb/s, and $\infty$mb/s. To maximize the minimum demand, you can give each 1mb/s, 4mb/s, 4mb/s respectively.
+
+\section{TCP Congestion Control}
+
+Feedback signal is the lack of acknowledgements. This means that your network is starting to get congested.
+
+Idea: As long as there are no packet drops, then increase the rate. If there are packet drops, then decrease the rate.
+
+Definitions: \emph{Round Trip Time (RTT)} - The time from when the source sends the packet until the acknowledgement returns to the source.\emph{Congestion Window (cwnd)} - A group of packets that are sent without needing to receive an acknowledgement for any packet in that window. When the packet gets acked, then the window slides over to the next packet.
+
+Throughput = (Window Size) / (RTT).
+
+Additive increase, Multiplicative Decrease (ALMD). Every RTT if no dropped packet, then the congestion window increases by 1, otherwise if there is a drop, then the congestion window is halved. This is a good policy because we really don't want to create congestion in the network, we want to be very conservative.
+
+\subsection{Fairness and Efficiency of AIMD}
+
+Lets assume there are 2 TCPs and each has the same RTT. Think of a plot of cwnd1 on y-axis and cwind2 on x-axis. The fairness starts at the origin and moves upwards to the top right at 45 degrees. The line for efficiency is just cwnd1 + cwind2 = maxcongestion so it slopes downwards and to the right. If both people increase their windows by one packet, then we move 45 degrees to the top right, parallel to the fairness line. If one person drops, then you get closer to the fairness line.
+
+\subsection{Slow Start}
+
+Notice that every congestion window, you are doubling the congestion window if you get all acks from the window (because each ack increases the congestion window by 1). This means that you have exponential growth on start.
+
+\end{document}

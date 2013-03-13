@@ -1,0 +1,386 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{graphics}
+\usepackage{float}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{14.15 \\
+Networks \\
+Problem Set 2}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+Collaborators: Ryan Liu, Bonny Jain
+
+\section{Problem 1}
+
+\begin{prob}
+  Let the directed graph $G$ be a ring: node $i$ is connected to $i + 1$ if $i < m$ and $m$ is connected to 1. Compute both eigenvalue centrality and Katz centrality (with $\beta = 1$). Comment on your result.
+
+  Do the same for a $k$-regular undirected network (i.e., an undirected network in which every vertex has degree $k$). You may find the steps outlined in Newman Problem 7.1 helpful. Comment on your result.
+\end{prob}
+\begin{sol}
+For the directed ring, there are edges from nodes $i$ to $i+1$, except when $i = m$, in which case there is an edge from $m$ to 1. Thus, the adjacency matrix looks like the following:
+\begin{eqnarray}
+  A^T = \left[
+  \begin{array}{c c c c c}
+    0 & 1 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 & 0 \\
+    0 & 0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0 & 1 \\
+    1 & 0 & 0 & 0 & 0
+  \end{array}
+  \right]
+\end{eqnarray}
+
+There is a set of ones above the diagonal, and a one in the bottom left hand side of the matrix.
+
+To compute the eigenvalue centrality, we first need to compute the largest eigenvalue. However, we note that the adjacency matrix is doubly stochastic and therefore that the largest eigenvalue is 1. To compute the eigenvalue centrality, we have the following formula:
+\begin{eqnarray}
+  x_i = \frac{1}{\lambda} \sum_{j \in M(i)} x_j
+\end{eqnarray}
+
+Since we know that $\sum_{j \in M(i)} x_j = 1$, we see that $x_j = 1$ for all nodes. Therefore the eigenvalue centrality is 1 for all nodes.
+
+As for Katz centrality for a ring graph, we have $x_{i}(k+1) = \alpha x_j + 1$. We know by symmetry that all nodes should have the same Katz centrality. Therefore, we see that $x_{i} = x_{j}$ so that $x_i = \frac{1}{1-\alpha}$. Thus, we find that the Katz centrality is $\frac{1}{1- \alpha}$.
+
+Now let us move on to the $k$ regular graph. First, we notice that if every vertex has degree $k$, then each column in the adjacency matrix sums to $k$. This means that if we divide the entire matrix by $k$, then each column sums to 1 and we have a stochastic matrix. This implies that the largest eigenvalue is $1$. If we multiply this matrix by $k$ and obtain our original adjacency matrix, we see that the largest eigenvalue is $k$. Therefore, we can obtain our eigenvalue centrality using symmetry again so that $x_i = x_j \forall j$ which implies $x_v = \frac{1}{k}$. Therefore, we see that the eigenvalue centrality is $\frac{1}{k}$.
+
+For Katz centrality of the $k$ regular graph, we know that $x_i = \alpha \sum_{j} A_{ij} x_j + 1$. This becomes $x_i = \alpha k x_j + 1$ by symmetry so that we have $x_i (1 - \alpha k) = 1$. Therefore, we find that the Katz centrality is $\frac{1}{1 - \alpha k}$.
+
+The result is interesting because one can think of the ring as a $1$ regular graph. We see that if we set $k=1$, then the formulas for the Katz and eigenvalue centralities of both graphs agree.
+\end{sol}
+
+\section{Problem 2}
+
+\begin{prob}
+Suppose a directed network takes the form of a tree with all edges pointing inward towards a central vertex. What is the PageRank centrality of the central vertex in terms of the single parameter $\alpha$ appearing in the definition of PageRank and the geodesic distances $d_i$ from each vertex $i$ to the central vertex?
+\end{prob}
+\begin{sol}
+  We know that the PageRank centrality is given by the following formula:
+  \begin{eqnarray}
+    x_{i} = \alpha \sum_{j} A_{ij} \frac{x_j}{L(j)} + \beta
+  \end{eqnarray}
+
+  Here $L(j)$ is the out degree of node $j$. We see that in tree example, each node (except for the center node) has an out degree of $1$ so that $L(j) = 1$. Thus, our expression becomes $x_{i} = \alpha \sum_{j} A_{ij} x_j + \beta$.
+
+  Now consider a particular node which is not the center node. We will figure out how much it contributes to the center node's PageRank centrality. The node starts with $\beta$ of contribution. Then, when it progresses to it's parent, the parent has a contribution of $\alpha (2 \beta) + \beta$ of which $\alpha \beta$ is the contribution of the original node. Continuing onwards, we can see that the contribution of the original node is $\alpha^{L} \beta$, where $L$ is the distance from the center node. However, this is just given by $L = d_i$.
+
+  We can sum over all nodes $i$ and obtain the PageRank for the center node:
+  \begin{eqnarray}
+    \beta \sum_{i=1}^n \alpha^{d_i}
+  \end{eqnarray}
+\end{sol}
+
+\section{Problem 3}
+
+\subsection{Problem 3.1}
+
+\begin{prob}
+Give an example of such a graph with 5 nodes.
+\end{prob}
+\begin{sol}
+  I will use the example of a broken ring graph's adjacency matrix. This matrix is the following:
+\begin{eqnarray}
+  \left[
+  \begin{array}{c c c c c}
+    0 & 1 & 0 & 0 & 0 \\
+    0 & 0 & 1 & 0 & 0 \\
+    0 & 0 & 0 & 1 & 0 \\
+    0 & 0 & 0 & 0 & 1 \\
+    0 & 0 & 0 & 0 & 0
+  \end{array}
+  \right]
+\end{eqnarray}
+
+We can show it is nilpotent by taking the $A^5$ with gives the zero matrix. Intuitively, this can be verified by noting that $A^5$ gives all the possible routes of path $5$ from one node to another. Since this ring is broken, there are no such routes.
+\end{sol}
+
+\subsection{Problem 3.2}
+
+\begin{prob}
+  Compute the eigenvalue centrality. Explain your answer.
+\end{prob}
+\begin{sol}
+  All eigenvalues of this matrix are 0. To see how this is the case, we notice that $A^k \to 0$ as $k \to \infty$ by the fact that $A^5 = 0$ so that $A^{5 + j} = 0 \forall j > 0$. By the decomposition of the expression of $A^k x = v_1 \lambda_1 + \ldots v_5 \lambda_5$, we see that all eigenvalues must be 0.
+
+  We must therefore look at the left eigenvector associated with an eigenvalue of $0$. By inspection, we see that this eigenvector is $(1, 0, 0, 0, 0)$, so that the eigenvalue centrality of the first node is $1$ while the centrality of all the other nodes is $0$.
+\end{sol}
+
+\subsection{Problem 3.3}
+
+\begin{prob}
+  Compute the Katz centrality with $\beta = 1$. Explain your answer.
+\end{prob}
+\begin{sol}
+  The easiest node to compute the Katz centrality for is the first node, since no other nodes point to it. Therefore, the sum of all incoming centralities for that node is zero, and so it's centrality is just given by $\beta$. The node that it points to has the centrality of the previous node multiplied by $\alpha$ added with $\beta$. Thus, the second node has centrality $\alpha \beta + \beta = \alpha + 1$. We can continue on to get the formula for node $i$: $x_i = \sum_{j=1}^i \alpha^j$. Thus, Katz centrality vector is the following:
+  \begin{eqnarray}
+    \left[
+    \begin{array}{c}
+      1 \\
+      \alpha + 1 \\
+      \alpha^2 + \alpha + 1 \\
+      \alpha^3 + \alpha^2 + \alpha + 1 \\
+      \alpha^4 + \alpha^3 + \alpha^2 + \alpha + 1
+    \end{array}
+  \right]
+  \end{eqnarray}
+\end{sol}
+
+\section{Problem 4}
+
+\subsection{Problem 4.1}
+
+\begin{prob}
+  Compute the Katz centrality using $\alpha = 0.01, 0.04$ and $\beta = 1$.
+\end{prob}
+\begin{sol}
+  We will compute the Katz centrality by iteratively computing $x = \alpha A x + \hat{\beta}$ where $\hat{\beta}$ is an $n \times 1$ vector of $\beta$, and $A$ is the adjacency matrix. Doing this for $1000$ iterations, the following nodes have the highest centrality in the resulting $x$ vector:
+  \begin{table}[H]
+    \begin{tabular}{c | c c | c c}
+      Rank & Node ($\alpha = 0.01$) & Centrality ($\alpha = 0.01$) & Node ($\alpha = 0.04$) & Centrality ($\alpha = 0.04$) \\
+      \hline \hline
+         1 & 54  & 2.05 & 54  & 5.74 \\
+         2 & 53  & 1.95 & 53  & 5.24 \\
+         3 & 15  & 1.51 & 18  & 3.98 \\
+         4 & 18  & 1.50 & 222 & 3.50 \\
+         5 & 222 & 1.39 & 15  & 3.30
+    \end{tabular}
+    \caption{Katz Centrality}
+  \end{table}
+\end{sol}
+
+\subsection{Problem 4.2}
+
+\begin{prob}
+  Compute the PageRank centrality for $\alpha = 0.01, 0.04$ and $\beta = 1$.
+\end{prob}
+\begin{sol}
+  We will compute the PageRank centrality much like the Katz centrality was computed. However, there is a new term in the PageRank centrality which takes the column sums and divides the terms by them. The code basically implements the following: $x = \alpha A K x + \hat{\beta}$ where $\hat{\beta}$ as before is an $n \times 1 $ vector of $\beta$ and $K$ is a created by using the following Matlab code: $diag(1./sum(A))$, where we create $K = D^{-1}$. This results in:
+  \begin{table}[H]
+    \begin{tabular}{c | c c | c c}
+      Rank & Node ($\alpha = 0.01$) & Centrality ($\alpha = 0.01$) & Node ($\alpha = 0.04$) & Centrality ($\alpha = 0.04$) \\
+      \hline \hline
+         1 & 54  & 1.73 & 54  & 3.93 \\
+         2 & 53  & 1.59 & 53  & 3.37 \\
+         3 & 15  & 1.27 & 15  & 2.10 \\
+         4 & 18  & 1.20 & 18  & 1.80 \\
+         5 & 9   & 1.16 & 7   & 1.70
+    \end{tabular}
+    \caption{PageRank Centrality}
+  \end{table}
+\end{sol}
+
+\subsection{Problem 4.3}
+
+\begin{prob}
+  Compute the hub and authority scores
+\end{prob}
+\begin{sol}
+  We compute the authority scores by using the iterative technique $x = AA^T x$ (then normalizing after each iteration using the Euclidean norm so that $x_i = \frac{x_i}{(\sum_{j} x_j^2)^{1/2}}$ to prevent the $x_i$'s from getting too large). Hub scores are computed similarly with $x = A^T A x$, also using normalization. I ran the algorithm for a time step of 1000 iterations. The results are below:
+  \begin{table}[H]
+    \begin{tabular}{c | c c | c c}
+      Rank & Authority Node & Authority Score & Hub Node & Hub Score \\
+      \hline \hline
+         1 & 235  & 0.19 & 1    & 0.61 \\
+         2 & 229  & 0.18 & 229  & 0.20 \\
+         3 & 230  & 0.18 & 231  & 0.20 \\
+         4 & 231  & 0.18 & 232  & 0.20 \\
+         5 & 232  & 0.18 & 234  & 0.20
+    \end{tabular}
+    \caption{Hub and Authority Scores}
+  \end{table}
+\end{sol}
+
+\section{Problem 5}
+
+\begin{prob}
+  Devise an algorithm to rank the teams. Explain your reasoning.
+\end{prob}
+\begin{sol}
+  I chose to use Katz centrality on the matrix of football teams. This is because one can construct a graph of teams who have won games against other teams from the matrix provided in the data. An incoming edge to node $x$ from node $y$ means that team $x$ has defeated node $y$. Thus, intuitively it seems like the teams with more incoming edges would be better.
+
+  Moreover, Katz centrality takes into account how important each team is. For example, if team $x$ beats team $y$, and team $y$ is a very good team, then team $x$ should get a large boost from that win. Likewise, if team $x$ beats team $z$ but team $z$ is not a very good team, that win should not contribute very much.
+
+  Katz centrality takes this into account and provides a ranking of the team based on the importance of the teams that you beat. Moreover, using some other algorithms, such as PageRank, will not work because the degree matrix is singular.
+\end{sol}
+
+\begin{prob}
+  Implement your algorithm and compute the ranking.
+\end{prob}
+\begin{sol}
+  I choose to use a very large $\alpha$ and small $\beta$ so that differences in teams would account for a lot of the ranking (bad teams wouldn't be bouyed by large $\beta$ values). Thus, I choose to use $\alpha = 0.5$ and $\beta = 0.01$. I ran the Katz centrality algorithm for 20 iterations and obtained the following ranking:
+  \begin{table}[H]
+    \begin{tabular}{c | c c }
+      Rank & Team & Score \\
+      \hline \hline
+      1 & Western Kentucky  & 5.74 \\
+      2 & North Texas       & 5.00 \\
+      3 & Louisiana-Lafayette & 4.66 \\
+      4 & Arkansas State    & 2.88 \\
+      5 & Middle Tennessee State & 2.79
+    \end{tabular}
+    \caption{Top Ranked Football Teams}
+  \end{table}
+\end{sol}
+
+\section{Problem 6}
+
+\begin{prob}
+  Following the notation used in lecture, consider the MC on an undirected graph with adjacency matrix $A$ given by the transition matrix $AD^{-1}$. Assume that a steady state distribution  exists. Give an explicit expression of $\pi$ in terms of $A$ and $D$.
+\end{prob}
+\begin{sol}
+The stationary distribution must satisfy the following $\pi = AD^{-1} \pi$ by definition. We will show that $\pi = \frac{diag(D^{-1})}{\sum_{j \in M} D_jj}$ is the stationary distribution where $diag(D^{-1})$ is the diagonal of $D^{-1}$ converted into a column vector.
+
+If I show that this satisfies $\pi = AD^{-1} \pi$, then it is a valid stationary distribution. First, since matrices are association, we can consider $A(D^{-1} \pi)$:
+\begin{eqnarray}
+D^{-1}\pi = \left[
+  \begin{array}{c c c}
+    \frac{1}{d_1} & 0 & 0 \\
+    0 & \frac{1}{d_2} & 0 \\
+    0 & 0 & \frac{1}{d_3}
+  \end{array}
+\right]
+\left[
+  \begin{array}{c}
+    \frac{d_1}{\sum_i d_i} \\
+    \frac{d_2}{\sum_i d_i} \\
+    \frac{d_3}{\sum_i d_i} \\
+  \end{array}
+\right] =
+\left[
+  \begin{array}{c}
+    \frac{1}{\sum_{i} d_i} \\
+    \frac{1}{\sum_{i} d_i} \\
+    \frac{1}{\sum_{i} d_i} \\
+  \end{array}
+\right]
+\end{eqnarray}
+
+Notice that $D^{-1}\pi$ is just a vector of reciprocal of the sum of all degrees. Thus, when one takes this matrix and multiplies by $A$ to get $A (D^{-1} \pi)$. In this multiplication, notice that the adjacency matrix $A$ will be multiplied by $\frac{1}{\sum_i d_i}$ by the number of degrees that of each node to obtain the $i$th row in the resulting vector. This is just $\frac{d_i}{\sum_j d_j}$. However, this is exactly the resulting vector $\pi$, which shows that we have found a stationary distribution.
+\end{sol}
+
+\section{Problem 7}
+
+\subsection{Problem 7.1}
+
+\begin{prob}
+  Show that the transition probability to $s$ from node $i$ is given by $p_{is} = \sum_{j \in S} p_{ij}$.
+\end{prob}
+\begin{sol}
+  Consider all possible ways to enter $S$ from node $i$. These are only given by paths which connect $i$ to some node $j \in S$. Therefore, the total probability of entering $S$ is just the sum of the probabilities of following those paths, which is $\sum_{j \in S} p_{ij}$.
+\end{sol}
+
+\subsection{Problem 7.2}
+
+\begin{prob}
+  Show that $\mu = 1 + P_s \mu$ were $P_s$ is the matrix $\{ p_{ij} \}_1^n$.
+\end{prob}
+\begin{sol}
+  We note that there is a simple recursive formula for each $\mu_i$ which depends on each $\mu_j$ for $j \neq i$, and the probability of leaving on each path to $s$. However, leaving on that path increases the path length by 1. Thus, we have the formula:
+  \begin{eqnarray}
+    \mu_i = 1 + \sum_{j \in S} \mu_j p_{ij}
+  \end{eqnarray}
+
+  The formula $\mu = 1 + P_s \mu$ follows by putting this in matrix form.
+\end{sol}
+
+\subsection{Problem 7.3}
+
+\begin{prob}
+  Show that $p_{is} = 1 - \sum_{j=1}^n p_{ij}$.
+\end{prob}
+\begin{sol}
+  We know that $p_{is} = \sum_{j \in S} p_{ij}$ from problem 1. However, we know that $j \in S$ implies $j \notin n$. Therefore, we can rewrite $p_{is} = \sum_{j \notin n} p_{ij}$. Yet we know that the following is true by the fact that probabilities sum to 1:
+  \begin{eqnarray}
+    \sum_{j \in n} p_{ij} + \sum_{j \notin n} p_{ij} = 1
+  \end{eqnarray}
+
+  Thus, we can rearrange and solve for $p_{is}$ and we find that $p_{is} = 1 - \sum_{j \in n} p_{ij}$.
+\end{sol}
+
+\subsection{Problem 7.4}
+
+\begin{prob}
+  Let $1' P_s = (\hat{P}_1, \ldots, \hat{P}_n)$. Show that $0 \leq \hat{P}_i \leq 1$.
+\end{prob}
+\begin{sol}
+  Notice that $\hat{P}_i$ is just the column sum of the $i$th column in $P_s$. Since $P$ is doubly stochastic we know that $\sum_{j \in s} p_{ij} + \sum_{j \in n} p_{ij} = 1$. Since $p_{ij} \geq 0$, we know that $\sum_{j \in s} p_{ij} \leq 1$. Moreover, this shows us that $\sum_{j \in s} p_{ij} \geq 0$. Since $\hat{P}_i = \sum_{j \in s} p_{ij}$, then we see that  $0 \leq \hat{P}_i \leq 1$.
+\end{sol}
+
+\subsection{Problem 7.5}
+
+\begin{prob}
+Show that $n = (1 - \hat{P}_1, \ldots, 1 - \hat{P}_n)\mu$.
+\end{prob}
+\begin{sol}
+  Expanding out the right hand side of the above expression, we obtain:
+  \begin{eqnarray}
+    (1 - \hat{P}_1, \ldots, 1 - \hat{P}_n)\mu &=& \sum_{i=1}^n \mu_i - \sum_{i=1}^n \hat{P}_i \mu_i \\
+                                              &=& \sum_{i=1}^n \mu_i - 1' P_S \sum_{i=1}^n \mu_i \\
+                                              &=& \sum_{i=1}^n \mu_i - 1' (\mu - 1) \\
+                                              &=& n
+  \end{eqnarray}
+
+  The second expression comes from problem 4, while the third expression comes from rearranging problem 2: $\mu - 1 = P_s \mu$. Finally, we obtain $n$ because $1' \mu = \sum_{i=1}^n \mu_i$ and because $1' 1 = n$.
+\end{sol}
+
+\subsection{Problem 7.6}
+
+\begin{prob}
+  Show that $n \leq (\max_j \mu_j) (1 - \hat{P}_1, \ldots, 1 - \hat{P}_n) 1$.
+\end{prob}
+\begin{sol}
+  We know that $\mu_i \leq \max_j \mu_j$ for all $i$. Therefore, we see that
+  \begin{eqnarray}
+    n = (1 - \hat{P}_1, \ldots, 1 - \hat{P}_n) \mu \leq (1 - \hat{P}_1, \ldots, 1 - \hat{P}_n) 1 (\max_j \mu_j)
+  \end{eqnarray}
+\end{sol}
+
+\subsection{Problem 7.7}
+
+\begin{prob}
+  Verify that $\frac{1}{n}(1 - \hat{P}_1, \ldots, 1 - \hat{P}_n) = \frac{1}{n} \sum_{i=1}^n p_{is} = \Phi(S)$.
+\end{prob}
+\begin{sol}
+  We know that $\hat{P}_i$ is the sum of columns of $P_s$ so that $1 - \hat{P}_i = 1 - \sum_{j=1}^n p_{ij} = 1 - p_{is}$. Therefore, we see that the left hand side can be rewritten as:
+  \begin{eqnarray}
+    \frac{1}{n} ( 1 - \hat{P}_1, \ldots, 1 - \hat{P}_n) 1 &=& \frac{1}{n}(p_{1s}, \ldots, p_{ns}) 1 \\
+                                                          &=& \frac{1}{n} \sum_{i=1}^n p_{is} \\
+                                                          &=& \Phi(s)
+  \end{eqnarray}
+\end{sol}
+
+\subsection{Problem 7.8}
+
+\begin{prob}
+  Conclude that $(\max_j \mu_j) \geq \frac{1}{\Phi(s)}$. 
+\end{prob}
+\begin{sol}
+  We know from 6 that we have $\frac{1}{(\max_j \mu_j)} \leq \frac{(1 - \hat{P}_1, \ldots, 1 - \hat{P}_n)}{n} = \Phi(s)$. Thus, if we divide both sides by $\Phi(s)$ we obtain:
+  \begin{eqnarray}
+    (\max_j \mu_j) \geq \frac{1}{\Phi(s)}.
+  \end{eqnarray}
+\end{sol}
+\end{document}

@@ -1,0 +1,52 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 8: Computer Networks Layering and Routing}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Internet Design Principles}
+
+\begin{itemize}
+  \item Scalability. The internet grows so the network should be able to cope with new users.
+  \item Performance. Internet shouldn't slow down as more users are added.
+  \item Modularity/Dealing with complexity.
+\end{itemize}
+
+\subsection{Routing Protocols}
+
+The objective is to find a path in the network from source to the destination. Optimizes some metric. The real internet using routing which maximizes the revenue of the ISPs. Also, there should be no loops in the routes.
+
+\section{Distance Vector Routing}
+
+Initialization involves:
+\begin{itemize}
+  \item Setting distance to self to zero and next hop to self.
+  \item Set distance to anyone else at infinity.
+\end{itemize}
+
+Then, we go into the announce cycles. Every $T$ seconds, each node tells its neighbors the distances to all destinations.
+
+\end{document}

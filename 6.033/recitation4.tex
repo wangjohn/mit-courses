@@ -2,11 +2,20 @@
 
 %-------Packages---------
 \usepackage{amssymb,amsfonts}
+<<<<<<< HEAD
+=======
+\usepackage[all,arc]{xy}
+>>>>>>> 3ce631216db7adc6a82ac36f63e602ac002a9f99
 \usepackage{enumerate}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsthm}
 \usepackage{theorem}
 \usepackage{verbatim}
+<<<<<<< HEAD
+=======
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+>>>>>>> 3ce631216db7adc6a82ac36f63e602ac002a9f99
 
 \newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
 \newenvironment{prob}{{\bfseries Problem:}}
@@ -21,12 +30,17 @@
 %--------Meta Data: Fill in your info------
 \title{6.033 \\
 Computer Systems Engineering \\
+<<<<<<< HEAD
 Recitation 4: Map Reduce}
+=======
+Recitation 3}
+>>>>>>> 3ce631216db7adc6a82ac36f63e602ac002a9f99
 
 \author{John Wang}
 
 \begin{document}
 
+<<<<<<< HEAD
 \section{Basic Algebraic Structure}
 
 The naive map operation can parallel the set of output operations because you can simply operate $f$ on $x_i$ at the same time. In the reduce process, you need associativity and commutativity in order to break down the reduce operation. With these properties you can reduce with $g(g(\ldots, \ldots), g(\ldots, \ldots))$ where the reduce is finished in a recursive tree-like structure.
@@ -62,4 +76,68 @@ Emit is used so that MapReduce can start working on the values while they're sti
   \item Worker fails. Master periodically pings nodes and reassigns jobs when nodes fail.
 \end{itemize}
 
+=======
+\maketitle
+
+\section{Concurrency Overview}
+
+Suppose we're using a web server and it's getting a bunch of jobs. One way is to have multiple CPUs and run the jobs concurrently. Perhaps you have CPU and a disk, then maybe you can read from the disk while you're using the CPU (so run something else).
+
+In reality, it's hard to get 100\% utilization, but it is one of the motivations for concurrency. Unfortunately it's not easy to write concurrent programs in the this style.
+
+For example:
+\begin{verbatim}
+x = 0
+Thread 1: ++x
+Thread 2: ++x
+\end{verbatim}
+
+After both threads have finished, it isn't necessarily the case that $x = 2$. If we expand out the commands, we first have to assign a temporary variable to the value of $x$, then increment the value of the temporary variable, then set the variable back. You might get a race condition.
+
+Classic solution is to add a lock to the program, so you need to lock before access to the variable and unlock after you are finished. The thread's code looks like the following:
+\begin{verbatim}
+lock(l)
+++x
+unlock(l)
+\end{verbatim}
+
+Key property of the lock: at most one thread has ownership of the lock.
+
+One example: there's a high constant overhead with interacting with memory. So each processor has its own private view of the contents of memory (a buffer). You write and read variables inside the buffer, and flushes periodically. Thus, we need for lock and unlock instructions to flush the buffer.
+
+\section{Eraser}
+
+\subsection{Static vs. Dynamic Program Analysis}
+
+Eraser uses dynamic program analysis. The difference is that static is a compile-time approach so you can apply it to languages beforehand and dynamic is a run-time approach.
+
+Dynamic analysis only looks at things that happen, not all things that could happen. Dynamic could also have performance or unanticipated effects on the program. It only tells you about code that actually gets executed.
+
+In general static is harder to do because you have to build a model of what your code is doing.
+
+\subsection{Lockset Algorithm}
+
+Define $C(v)$ as the set of locks that are always held when accessing variable $v$. Eraser keeps two states, one of the set of locks held and the other is $C(v)$ for the variable that is being used. Intersect the current lock set with the locks held, this gives the new lock set.
+
+No race conditions if all lock sets contain at least one lock. This guarantees that at least one lock is always held when a variable is used.
+
+\subsection{False Positive}
+
+One way to raise a false positive of Eraser, you could have the following code which reuses memory addresses:
+
+\begin{verbatim}
+p = malloc()
+lock(l1)
+*p = 0
+lock(l1)
+
+free(p)
+q = malloc()
+lock(l2)
+*q = 0
+lock(l2)
+\end{verbatim}
+
+We have freed the memory and allocated the memory with a different variable which has a different lock set. This is not an actual race condition because the original variable is not there anymore. Eraser doesn't operate on variables, only memory addresses.
+>>>>>>> 3ce631216db7adc6a82ac36f63e602ac002a9f99
 \end{document}
