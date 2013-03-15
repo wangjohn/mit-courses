@@ -1,0 +1,163 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{float}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Hands On 5: Traceroute}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Round Trip Times}
+
+\begin{enumerate}
+  \item For each host, I had 100\% successful response rates.
+    \begin{table}[H]
+      \begin{tabular}{c | c c c}
+        Website & Minimum & Average & Maximum \\
+        \hline \hline
+        www.csail.mit.edu & 2.458 & 7.654 & 17.737 \\
+     www.berkeley.mit.edu & 96.639 & 111.165 & 163.418 \\
+           www.uwa.edu.au & 283.356 & 287.964 & 293.441 \\
+        www.kyoto-u.ac.jp & 215.458 & 227.225 & 270.459
+      \end{tabular}
+    \caption{Minimum, Average, and Maximum Round Trip Times in milliseconds}
+    \end{table}
+
+  \item We see that the minimum RTT to www.csail.mit.edu is a measly 2.5 seconds. This is because the csail host is probably very close to Boston. However, the trips to the Berkeley server in California or the Kyoto server in Japan is even further away, which increases the length of the RTT.
+
+  \item The minimum, average, and maximum trip times are given in the table below. We see that the minimum round trip times for the same hosts tend to increase with larger packet sizes. This is probably because packets with larger sizes tend to take slightly longer to process and forward at the intermediate routers.
+    \begin{table}[H]
+      \begin{tabular}{c | c c c c}
+        Website & Packet Size &  Minimum & Average & Maximum \\
+        \hline \hline
+        www.csail.mit.edu & 56 & 2.458 & 7.654 & 17.737 \\
+        www.csail.mit.edu & 512 & 2.516 & 9.019 & 13.929 \\
+        www.csail.mit.edu & 1024 & 2.582 & 27.864 & 77.964 \\
+     www.berkeley.mit.edu & 56 & 96.639 & 111.165 & 163.418 \\
+     www.berkeley.mit.edu & 512 & 95.671 & 100.461 & 05.355 \\
+     www.berkeley.mit.edu & 1024 & 97.584 & 105.808 & 146.374 \\
+           www.uwa.edu.au & 56 & 283.356 & 287.964 & 293.441 \\
+           www.uwa.edu.au & 512 & 283.201 & 291.591 & 334.079 \\
+           www.uwa.edu.au & 1024 & 283.559 & 307.653 & 345.397 \\
+        www.kyoto-u.ac.jp & 56 & 215.458 & 227.225 & 270.459 \\
+        www.kyoto-u.ac.jp & 512 & 215.779 & 221.357 & 232.799 \\
+        www.kyoto-u.ac.jp & 1024 & 216.315 & 226.866 & 249.595
+      \end{tabular}
+    \caption{Minimum, Average, and Maximum Round Trip Times in Milliseconds for Different Packet Sizes}
+    \end{table}
+
+    \section{Unanswered Pings}
+
+  \item For both hosts, I had 100\% packet loss and none of my packets had responses. However, the browser is able to pick up both websites. There could be a couple of reasons for this. It is possible that neither of these websites the ICMP protocol, in which case pings would not work. Another possibility is that these addresses forward you to other IP addresses on the client, but ping is unable to see the forwarding. 
+
+    \section{Understanding Internet Routes Using TraceRoute}
+
+  \item Traceroute uses the value of the time to live (ttl) field in an ICMP packet to cause a time exceeded message to be sent back from the router. This message identifies the router, and incrementing the ttl field by one will allow the packet to go to the next router in the sequence and have a message sent back.
+
+    \section{Route Asymmetries}
+
+  \item The following is the traceroute from slac.stanford.edu to the athena machine:
+    \begin{verbatim}
+    1  rtr-servcore1-serv01-webserv.slac.stanford.edu (134.79.197.130)  0.544 ms
+    2  rtr-core1-p2p-servcore1.slac.stanford.edu (134.79.252.166)  0.371 ms
+    3  rtr-border1-p2p-core1.slac.stanford.edu (134.79.252.133)  0.534 ms
+    4  rtr-border2-p2p-border1.slac.stanford.edu (192.68.191.253)  0.511 ms
+    5  esnet-lhc1-slac.es.net (198.124.80.25)  0.378 ms
+    6  sunncr5-ip-a-slacmr2.es.net (134.55.36.21)  1.245 ms
+    7  sacrcr5-ip-a-sunncr5.es.net (134.55.40.5)  5.198 ms
+    8  denvcr5-ip-a-sacrcr5.es.net (134.55.50.202)  26.184 ms
+    9  kanscr5-ip-a-denvcr5.es.net (134.55.49.58)  36.686 ms
+    10  chiccr5-ip-a-kanscr5.es.net (134.55.43.81)  47.721 ms
+    11  washcr5-ip-a-chiccr5.es.net (134.55.36.46)  64.913 ms
+    12  aofacr5-ip-a-washcr5.es.net (134.55.36.33)  70.174 ms
+    13  64.57.30.229 (64.57.30.229)  69.828 ms
+    14  TEN-THOUSAND-DOLLAR-BILL.MIT.EDU (18.9.64.25)  79.536 ms
+    \end{verbatim}
+
+    The following is the traceroute from my athena machine to the slac.stanford.edu server:
+    \begin{verbatim}
+    1  18.9.64.3 (18.9.64.3)  0.429 ms  0.431 ms  0.447 ms
+    2  BACKBONE-RTR-1.MIT.EDU (18.168.1.1)  0.440 ms  0.494 ms  0.529 ms
+    3  DMZ-RTR-1-BACKBONE-RTR-1.MIT.EDU (18.168.5.2)  0.596 ms  0.648 ms  0.680 ms
+    4  NY32-RTR-1-DMZ-RTR-1.MIT.EDU (18.192.5.2)  84.154 ms  84.253 ms  84.332 ms
+    5  64.57.30.229 (64.57.30.229)  7.158 ms  7.178 ms  7.160 ms
+    6  aofacr5-ip-d-aofasdn1.es.net (134.55.41.197)  7.398 ms aofacr5-ip-c-aofasdn1.es.net (134.55.40.245)  7.508 ms aofacr5-ip-b-aofasdn1.es.net (134.55.38.205)  7.481 ms
+    7  washcr5-ip-a-aofacr5.es.net (134.55.36.34)  12.712 ms  12.740 ms  12.763 ms
+    8  chiccr5-ip-a-washcr5.es.net (134.55.36.45)  29.865 ms  29.872 ms  29.853 ms
+    9  kanscr5-ip-a-chiccr5.es.net (134.55.43.82)  41.513 ms  40.945 ms  40.937 ms
+    10  denvcr5-ip-a-kanscr5.es.net (134.55.49.57)  51.860 ms  51.935 ms  52.082 ms
+    11  sacrcr5-ip-a-denvcr5.es.net (134.55.50.201)  74.413 ms  74.378 ms  74.334 ms
+    12  sunncr5-ip-a-sacrcr5.es.net (134.55.40.6)  77.219 ms  76.231 ms  76.245 ms
+    13  esnet-lhc1-slac.es.net (198.124.80.25)  76.466 ms  80.503 ms  80.870 ms
+    14  slac-lhc1-esnet.es.net (198.124.80.26)  80.964 ms !X * *
+    \end{verbatim}
+
+  \item The same routers are not traversed in both directions. In fact, when I use a traceroute from my athena computer, I obtain traces from many more MIT based servers. When I use a traceroute from the slac server, there are many more slac based servers. One of the reasons this might happen is because, due to the border gateway protocol, one of the providers along the path to slac determines that its better to send the packet on a different route. This could be the case if MIT is a customer of provider $A$ but not $B$, and both are traversed on the path to slac. Another reason the routers might not be the same are because a link could have failed.
+
+  \section{Blackholes}
+
+  \item The output of the traceroute is given below. The asterisks show that there was no response received within 5 seconds of sending out a request. This means that the packets after the MITNET.TRANTOR.CSAIL.MIT.EDU address were dropped (for some reason, there was no response).
+    \begin{verbatim}
+    1  18.9.64.3 (18.9.64.3)  0.490 ms  0.469 ms  0.474 ms
+    2  B24-RTR-2-BACKBONE.MIT.EDU (18.168.0.23)  0.710 ms  0.797 ms  0.870 ms
+    3  MITNET.TRANTOR.CSAIL.MIT.EDU (18.4.7.65)  0.548 ms  0.612 ms  0.688 ms
+    4  * * *
+    5  * * *
+    6  * * *
+    7  * * *
+    8  * * *
+    9  * * *
+    10  * * *
+    11  * * *
+    12  * * *
+    13  * * *
+    14  * * *
+    15  * * *
+    16  * * *
+    17  * * *
+    18  * * *
+    19  * * *
+    20  * * *
+    21  * * *
+    22  * * *
+    23  * * *
+    24  * * *
+    25  * * *
+    26  * * *
+    27  * * *
+    28  * * *
+    29  * * *
+    30  * * *
+    \end{verbatim}
+
+    \section{Border Gateway Protocol}
+
+  \item The autonomous system number of $i$ corresponds to MIT because it is the final node in all paths to the 18.0.0.0 network.
+
+  \item The autonomous system numbers of all ASs which advertise a direct link to MIT is $3$ because $3$ is the only path that leads to $i$, which is MIT.
+
+\end{enumerate}
+\end{document}

@@ -1,8 +1,8 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  11 MAR 2013 21:11
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  14 MAR 2013 21:31
 entering extended mode
  %&-line parsing enabled.
-**hands_on_5_tcpdump.tex
-(./hands_on_5_tcpdump.tex
+**hands_on_5_traceroute.tex
+(./hands_on_5_traceroute.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
 yphenation, loaded.
@@ -139,10 +139,18 @@ Package ifvtex Info: VTeX not detected.
 \Gm@even@mp=\dimen117
 \Gm@dimlist=\toks27
 )
+(/usr/share/texmf-texlive/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count102
+\float@exts=\toks28
+\float@box=\box29
+\@float@everytoks=\toks29
+\@floatcapt=\box30
+)
 (/usr/share/texmf-texlive/tex/latex/tools/theorem.sty
 Package: theorem 1995/11/23 v2.2c Theorem extension package (FMi)
-\theorem@style=\toks28
-\theorem@bodyfont=\toks29
+\theorem@style=\toks30
+\theorem@bodyfont=\toks31
 \theorempreskipamount=\skip51
 \theorempostskipamount=\skip52
 
@@ -151,32 +159,34 @@ File: thp.sty 1995/11/23 v2.2c Theorem extension package (FMi)
 ))
 (/usr/share/texmf-texlive/tex/latex/tools/verbatim.sty
 Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
-\every@verbatim=\toks30
-\verbatim@line=\toks31
+\every@verbatim=\toks32
+\verbatim@line=\toks33
 \verbatim@in@stream=\read1
 )
 \bibstyle{plain}
-(./hands_on_5_tcpdump.aux)
-\openout1 = `hands_on_5_tcpdump.aux'.
+(./hands_on_5_traceroute.aux)
+\openout1 = `hands_on_5_traceroute.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
-LaTeX Font Info:    ... okay on input line 28.
-LaTeX Font Info:    Try loading font information for U+msa on input line 28.
- (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 29.
+LaTeX Font Info:    ... okay on input line 29.
+LaTeX Font Info:    Try loading font information for U+msa on input line 29.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 28.
- (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
+LaTeX Font Info:    Try loading font information for U+msb on input line 29.
+
+(/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
 )
 *geometry auto-detecting driver*
@@ -220,33 +230,46 @@ driver: pdftex
 \@twosidetrue \@mparswitchtrue 
 (1in=72.27pt, 1cm=28.45pt)
 -----------------------
-
-Overfull \hbox (6.60703pt too wide) in paragraph at lines 35--36
-[]\OT1/cmr/m/n/10 Packet 1473:2921 was sent out at 00:34:41.474225, while the a
-c-knowl-edge-ment came at 00:34:41.482047.
+[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Overfull \hbox (462.76498pt too wide) in paragraph at lines 107--107
+ []    \OT1/cmtt/m/n/10 6  aofacr5-ip-d-aofasdn1.es.net (134.55.41.197)  7.398 
+ms aofacr5-ip-c-aofasdn1.es.net (134.55.40.245)  7.508 ms aofacr5-ip-b-aofasdn1
+.es.net (134.55.38.205)  7.481 ms[] 
  []
 
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-(./hands_on_5_tcpdump.aux) ) 
+
+Overfull \hbox (6.01897pt too wide) in paragraph at lines 112--112
+ []    \OT1/cmtt/m/n/10 11  sacrcr5-ip-a-denvcr5.es.net (134.55.50.201)  74.413
+ ms  74.378 ms  74.334 ms[] 
+ []
+
+
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[2]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[3] (./hands_on_5_traceroute.aux) ) 
 Here is how much of TeX's memory you used:
- 2065 strings out of 495061
- 24413 string characters out of 1182621
- 78430 words of memory out of 3000000
- 5095 multiletter control sequences out of 15000+50000
- 9394 words of font info for 37 fonts, out of 3000000 for 9000
+ 2125 strings out of 495061
+ 25187 string characters out of 1182621
+ 82715 words of memory out of 3000000
+ 5151 multiletter control sequences out of 15000+50000
+ 9216 words of font info for 37 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 34i,5n,32p,787b,192s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfon
-ts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc
-10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></us
-r/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texm
-f-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fon
-ts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1/publ
-ic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
-/cm/cmti10.pfb>
-Output written on hands_on_5_tcpdump.pdf (1 page, 97728 bytes).
+ 34i,8n,32p,696b,396s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public
+/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
+m/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texl
+ive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/typ
+e1/public/amsfonts/cm/cmtt10.pfb>
+Output written on hands_on_5_traceroute.pdf (3 pages, 106951 bytes).
 PDF statistics:
- 38 PDF objects out of 1000 (max. 8388607)
+ 40 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
