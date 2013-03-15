@@ -1,0 +1,99 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 11: TCP Congestion}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{TCP Congestion}
+
+Every RTT, if there are no drops, then window increases by one. Otherwise, the window gets halved. What is the relation between throughput and loss rate?
+
+We have one drop every $(cwnd/2)^2 + (1/2)(cwnd/2)^2 = 3 cwnd^2 / 8$. You can see this by looking at the graph of cwnd and time, which looks like a sawtooth. The number of packets sent in some period of time is the area under the saw tooth because we send an entire $cwnd$ per unit time. So the drop rate is $p = \frac{8}{3 cwnd^2}$.
+
+We have a throughput of $cwnd/RTT$. But we know that $cwnd$ on average is $3/4 cwnd$ so that we get the average throughput as $3/4 cwnd/RTT$. Substituting $cwnd$ from the above equation for the probability of dropping a packet, we get throughput $\frac{\sqrt{3/2}}{RTT \sqrt{p}} = \lambda_{avg}$.
+
+Notice that the throughput is inversely proportional to your RTT. Thus if you have a very large RTT, then you have a low throughput. Notice that this means TCP isn't absolutely fair, if you're trying to send 10 packets to Berkeley from MIT and someone else is trying to send 10 packets to Kendall, the other person will get much higher throughput.
+
+\section[Queues}
+
+The router at a bottleneck is going to suffer because its queue is going to get larger. The router needs to transmit packets in order to drain the queue.
+
+The key thing to note about queues is that even though the congestion window may get halved, the utilization will still stay at 100\% because there will still be packets in the queue. The utilization will only start dropping when the queue has been emptied completely. However, once this happens, the congestion window is already increasing so the behavior will repeat.
+
+Also remember that the RTT depends on the queue size. If the queue size is constant, then RTT is constant. However, if the queue is growing, then RTT is also growing.
+
+When your queue increases, you start getting large delays.
+
+\subsection{The Role of the Queue}
+
+If this queue did not exist, the minute that you drop a packet and decrease the congestion window, then your utilization drops by 50\%. The role of the queue is to be able to absorb these large fluctuations.
+
+Buffer size being too large is bad as well. This is because you could get arbitrarily long delays as the RTT increases. On the other hand, if you have a very small queue, you will drop packets early and won't be able to absorb the variation in incoming packet rates. The queue size is important in order to have good utilization and latency in the network.
+
+\subsection{Transient vs Persistent Queues}
+
+Let's look at the queue at the bottleneck. If the queue doesn't drain within multiple RTTs, then the queue is persistent and it takes a long time to get rid of a packet, it's not very good. The persistent queue is the amount of the queue size that is always there. 
+
+The transient queue is the queue that changes very rapidly (changing the size of the queue from large to small). Each queue has both transient and persistent parts. The goal is to make the persistent queue as small as possible. 
+
+\subsection{DropTail Queues}
+
+These are the queues used in the internet. Upon packet arrival, if the queue is full then it drops the packet. Otherwise, it queues the packet if the queue is not full. There is some maximum buffer size. As long as the queue has some spot in it, it will keep adding packets. Eventually, you may hit the maximum buffer size and you will drop the packet.
+
+The design of the queue means that TCP will surely fill up the queue. There is bad behavior, however:
+\begin{itemize}
+  \item Unnecessarily long delay
+  \item Synchronization, which leads to oscillation. All the senders are synchronized and decreasing their congestion windows together. This is because packets start to drop exactly when the queue fills up. This means that everyone hits this at the same time, so everyone oscillates in the same way. Ideally, you would prefer something where the oscillations are offset so that the oscillations average out.
+\end{itemize}
+
+The synchronization problem stinks for Droptail. People started to think about new queues. The solution was called Random Early Detection (RED). 
+
+\subsection{Random Early Detection (RED) Queues}
+
+The idea in this type of queue is to look at the persistent queue, and drop packets when it is large. You decide when to drop, and when not to drop. RED looks at the average queue (low pass filter over the values). We have $q_{avg}(i+1) = \omega q_{inst}(i) + (1 - \omega) q_{avg}(i)$ for some $w \in [0,1]$. If we take the probability of dropping a paket in the queue $p$ as some function of $q_{avg}$, then we can get better behavior. We set $p = f(q_{avg})$.
+
+We want to keep the queue in the region $q_{min}$ and $q_{max}$. If we exceed this region, then drop with probability 1. Otherwise, if you are inside this region, then increase the drop rate linearly between $q_{min}$ and $q_{max}$.
+
+If the RED queueing system is behaving properly, the average queue size will hover somewhere between $q_{min}$ and $q_{max}$.
+
+\subsection{Comparison of Droptail and RED}
+
+Droptail Advantages:
+\begin{itemize}
+  \item Simple, don't need a random number generator.
+  \item You won't unnecessarily drop packets.
+  \item You only have one parameter to pick.
+\end{itemize}
+
+RED Advantages:
+\begin{itemize}
+  \item Smaller persistent queue in the steady state.
+  \item Oscillation of drops doesn't get sychronized across senders.
+\end{itemize}
+
+Picking the parameters is the hard, if you pick the parameters correctly, RED is great. If you don't pick them correctly, you get an unstable control loop.
+
+\end{document}
