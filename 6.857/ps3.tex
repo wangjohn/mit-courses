@@ -1,0 +1,123 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Problem Set 3}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 3.1}
+
+\subsection*{Problem 3.1.a}
+
+To identify $Z$, we will take a number of samples of $Z$ and average the results of the samples. We will choose $X$ or $Y$ depending on whether the average is closer to the expected value of $X$ or $Y$. We can also do this by choosing an output depending on whether or not the average of the samples is greater or less than a particular threshold.
+
+First, notice that the distributions of $X$ and $Y$ are identical binomial distributions, except that $Y$'s probability density function is shifted up by 1 from $X$'s probability density function. We want to be able to find a threshold value $\gamma$ for which we will choose either $X$ or $Y$ depending on whether the sampled average is above or below the threshold $\gamma$. Since $X$ and $Y$ have symmetric distributions, the best threshold value that can be picked is the value at which the two distributions intersect.
+
+This is because it minimizes the probability of an incorrect choice. To see this, say $p_{X}$ and $p_{Y}$ are the probability density functions of $X$ and $Y$ respectively. Then we want to choose a threshold value $\gamma$ which minimizes $\int_{\gamma}^{\infty} p_{X}(x) dx + \int_{-\infty}^\gamma p_Y(x) dx$. We know that $p_{Y}(x) = p_{X}(x-1)$ for all $x$, so that we really want to minimize:
+
+\begin{eqnarray}
+  \min_{\gamma} \int_{\gamma}^{\infty} p_{X}(x) dx + \int_{-\infty}^{\gamma} p_{X}(x-1) dx
+\end{eqnarray}
+
+One could use the fact that $p_X(x) = {t \choose x} p^x (1-p)^{t-x}$ where $p = 1/2$ and explicitly minimize the above expression. However, it is clear that the minimum is achieved where the distributions intersect. Concretely, this is where the error of the $Y$ distribution is equal to the error of the $X$ distribution.
+
+Thus, we want to choose a threshold $\gamma = (E[X] + E[Y])/2$. Since we know that $Y = X + 1$, we can use linearity of expectation to derive $\gamma = (2E[X] + 1)/2 = E[X] + 1/2$. Since $X$ is a binomial random variable with $p = 1/2$, we have $E[x] = t/2$. Thus, our algorithm is as follows:
+
+\begin{verbatim}
+  Take n samples of Z and compute the average q.
+  If q > t/2 + 1/2:
+    return Z = Y
+  else:
+    return Z = X
+\end{verbatim}
+
+Now, let us determine how many samples $n$ we need in order to be confident in our result. First, let us say we want to pick the incorrect $Z$ with probability less than some $c$. For this, we shall use Chebyshev's inequality: $P(|K - E[K]| > \alpha) \leq \frac{Var(k)}{\alpha^2}$. 
+
+To do this, we define $K_{X} = \frac{1}{n} \sum_{i=1}^n X_i$ as the sample average of $n$ trials of $X$ and $K_{Y} = \frac{1}{n} \sum_{i=1}^n X_i$ as the sample average of $n$ trials of $Y$. We note that our algorithm chooses an incorrect result when $K_{X} - E[K_{X}] \geq \frac{1}{2}$ or when $E[K_{Y}] - K_{Y} \geq \frac{1}{2}$. Firt, we will set $K = K_{X}$ and use the Chebyshev inequality to find the following:
+
+\begin{eqnarray}
+  P(incorrect) &=& P \left(|K_{X}-E[K_{X}]| \geq \frac{1}{2} \right) + P \left(|K_{Y} - E[K_{Y}]| \geq \frac{1}{2} \right) \\
+               &\leq& \frac{Var(K_{X}) + Var(K_{Y}}{(1/2)^2} \\
+               &=& \frac{2 Var(K_{X})}{1/4} \\
+               &=& 8 Var(K_{X})
+\end{eqnarray}
+
+Where we noticed that $Var(K_{X}) = Var(K_{Y})$ by the fact that they are the same distribution just shifted. Thus, we simply need to find some $n$ such that $8 Var(K_{X}) = c$ in order to pick incorrectly with probability less than $c$. To choose $n$, we must find $Var(K_{X})$. Since we know that each trail $X_i$ is independent, we know their variances add:
+
+\begin{eqnarray}
+  Var(K_X) &=& Var\left( \frac{1}{n} \sum_{i=1}^n X_i \right) \\
+          &=& \frac{1}{n^2} Var\left(\sum_{i=1}^n X_i \right) \\
+          &=& \frac{1}{n^2} \sum_{i=1}^n Var(X_i) \\
+          &=& \frac{1}{n^2} \sum_{i=1}^n \frac{1}{4}t \\
+          &=& \frac{t}{4n}
+\end{eqnarray}
+
+Where we know that $X_i$ is a binomial random variable so that its variance is given by $t p (1-p)$ where $p$ is the probability of flipping a heads. Thus $Var(X_i) = t (1/2)(1 - 1/2) = \frac{1}{4} t$. Thus, we only need to solve the following equation for $n$:
+\begin{eqnarray}
+  8 Var(K_X) &=& c \\
+  8 \frac{t}{4n} &=& c \\
+               n &=& \frac{2t}{c}
+\end{eqnarray}
+
+Thus, if we choose $c = 0.01$ so that there is a 1\% chance that we are incorrect with our choice of $Z$, then we must make $200t$ trials.
+
+
+\subsection{Problem 3.1.b}
+
+To recover the secret key $k$, we use the result from above. We know that there are $1408$ total possible ``coin flips'' in the AES algorithm during the XOR stages. We expect $704$ total ones bits. To get the first bit of the secret key, we select only triples where the first bit of the plaintext input is $1$. In this case, if the secret key's first bit is a 1, then the first bit of the XOR state will be zero. If the secret key's first bit is a 0, then the first bit of the XOR state will be one. Thus the first XOR bit depends entirely on the first bit of the secret key, but there are $t = 1407$ other XOR bits which are randomly determined when we look at input with 1's in the first bit of the plaintext.
+
+We expect there to be $1407/2 = 703.5$ ones if the first bit of the secret key is 1 and $703.5 + 1 = 704.5$ ones if the first bit of the secret key is 0. By the reasoning from the first problem, we know that can choose a threshold of $704$ to determine whether the secret key is 1 or 0.
+
+For the $i$th bit of the secret key, we do the same thing, except we select only inputs where the $i$th plaintext bit is 1. The algorithm is as follows:
+
+\begin{verbatim}
+for ith bit in the secret key:
+  average the ones for triples where ith bit of plaintext is 1
+  if average > 704:
+    set ith bit of secret key to 0
+  else:
+    set ith bit of secret key to 1
+\end{verbatim}
+
+\subsection{Problem 3.1.c}
+
+We can run the algorithm, and it provides us with the following key (16 bytes in an array):
+\begin{verbatim}
+[89, 111, 117, 32, 109, 97, 100, 101, 32, 105, 116, 32, 116, 101, 97, 109]
+\end{verbatim}
+
+Converted using ascii, this reads as:
+\begin{verbatim}
+['Y', 'o', 'u', ' ', 'm', 'a', 'd', 'e', ' ', 'i', 't', ' ', 't', 'e', 'a', 'm']
+\end{verbatim}
+
+\subsection{Problem 3.1.d}
+
+We used 123,830 triples. Using the result from first part of this problem that $\frac{2t}{c} = n$, we can compute the upper bound on the probability that we obtained an incorrect key $c$. Since $t = 1407$, we have $\frac{2 \times 1407}{123 830} = 0.022$. Thus, we only have a 2\% chance of getting an incorrect answer.
+
+To obtain a reasonable incorrectness probability (say 20\%), we would only need to have used $\frac{2 \times 1407}{0.2} = 14070$ triples.
+
+\end{document}
