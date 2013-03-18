@@ -1,5 +1,5 @@
 from collections import defaultdict
-from aes import aes_round, add_round_key
+import aes
 
 def input_to_triples(inputs):
   triples = inputs.split("; ")
@@ -56,7 +56,7 @@ class AESCracker:
     for position, count_list in self.counter_cache.iteritems():
       average_count = float(sum(count_list))/len(count_list)
       diff = (average_count - expected_result)
-      value = 1 if diff > 0 else 0
+      value = 1 if diff < 0 else 0
       result[position] = value
 
     # Compute the confidence that we have
@@ -88,28 +88,25 @@ class AESCracker:
     return "".join(['0' for i in xrange(padding_size)]) + binary
 
 
-def get_full_key(filename):
+def get_full_key(filename, secret_key=None):
   with open(filename, 'r') as f:
     input_data = f.read()
     triples = input_to_triples(input_data)
 
-  key = []
-  for rnd in xrange(11):
-    cracker = AESCracker()
-    print "Round %s: " % rnd
-    cracker.process_triples(triples)
-    round_key = cracker.get_result()
-    print round_key
-    key.append(round_key)
+    if secret_key == None:
+      cracker = AESCracker()
+      cracker.process_triples(triples)
+      secret_key = cracker.get_result()
 
-    round_key_byte_array = convert_key_to_byte_array(round_key)
-    print "Round Key Byte Array: "
-    print round_key_byte_array
-    for triple in triples:
-      add_round_key(triple.plaintext, round_key_byte_array)
+      print "Secret Key Bits: "
+      print secret_key
 
-  print "Final Result: "
-  return key
+      secret_key = convert_key_to_byte_array(secret_key)
+      print "Secret Key Byte Array: "
+      print secret_key
+
+    check_secret_key(secret_key, triples)
+  return secret_key
 
 def convert_key_to_byte_array(round_key):
   byte_array = []
@@ -118,12 +115,28 @@ def convert_key_to_byte_array(round_key):
 
     byte_in_decimal = 0
     for i in xrange(8):
-      byte_in_decimal += byte_bits[i]*(2**(i))
+      byte_in_decimal += byte_bits[i]*(2**(8-i-1))
 
     byte_array.append(byte_in_decimal)
   return byte_array
 
+def check_secret_key(secret_key, triples):
+  num_wrong = 0
+  num_processed = 0
+  aes_algo = aes.AES()
+  for triple in triples:
+    encrypted_form = aes_algo.encrypt(triple.plaintext, secret_key, 16)
+    if encrypted_form != triple.ciphertext:
+      num_wrong += 1
+    num_processed += 1
+
+    if num_processed % 10000 == 0:
+      print "Processed: ", num_processed
+      print "Percentage Incorrect: ", float(num_wrong)/num_processed
+
+  print "Final Result: "
+  print "Percentage Incorrect: ", float(num_wrong)/len(triples)
 
 if __name__ == '__main__':
   filename = 'triples_data'
-  print get_full_key(filename)
+  get_full_key(filename)
