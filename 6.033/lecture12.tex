@@ -1,0 +1,107 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 12: Peer to Peer Systems}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Basic Concepts of Peer to Peer}
+
+We don't have a central server. These networks are a form of overlay networks. Important question: how do you find something? There are a lot of nodes, how do you figure out who has a particular file? This is the lookup problem.
+
+The types of servers that we've seen are client-server systems. There is a link layer, network layer, transport layer, and a client. The client sends information over these layers to the server.
+
+\subsection{Downsides of Client Server}
+
+\begin{itemize}
+  \item Single point of failutre. If the server crashes, then all of the clients are left out to dry. There are ways to deal with this (replication of the server) but this takes effort and someone actually has to implement this system.
+  \item High management overhead. Need to take care of the servers over time. Some systems where this overhead is not justified.
+  \item No obvious central server. For instance, if peers want to share information, who is the server and who is the client? It doesn't always make sense to define a client/server relationship.
+  \item Lack ability to exploit client resources. You can't use the clients to get more resources. You have to deploy more resources in order to scale.
+\end{itemize}
+
+\subsection{P2P Challenges}
+
+No central server! A number of different challenges that we need to overcome:
+
+\begin{itemize}
+  \item How do you find other nodes/data?
+  \item You also need to know how to split the data across multiple nodes?
+  \item How do you make sure there is fault tolerance and replication of data?
+\end{itemize}
+
+\section{Bit Torrent}
+
+There is a tracker, a seed, and peers. The seed is the guy who starts sharing some content with everyone. The tracker figures out who has what pieces.
+
+The seed (guy who starts with a file) breaks the file up into a bunch of pieces. Each piece is a quarter of a megabyte. The seed creates a summary of each piece, and the summary is a signature of that piece (using cryptographic hash). 
+
+\subsection{Distribution Process}
+
+Torrent uses a bunch of heuristics.
+
+At first, you pick a random piece. This makes sure that the seed (or any of the peers with a particular piece) aren't hammered too hard.
+
+In the middle of torrenting, you get the rarest piece first. This allows the system to distribute the pieces as best as possible.
+
+At the end, you parallelize and divide each piece into subpieces. Then it asks peers for these subpieces.
+
+\section{Distributed Hash Table (DHT)}
+
+However, notice that Bit Torrent isn't completely P2P because it has a tracker. To make the system completely P2P, we need the concept of a distributed hash table. This takes the tracker functionality, and distributes it throughout the network. To implement this, each node has some part of the full hash table (the hash table is just made up of key value pairs). However, it doesn't scale for each node to know everyone else in the network.
+
+\subsection{Chord}
+
+This is a simple, efficient, scalable, and robust algorithm for creating a distributed hash table. Lookups and state are $O(\log n)$, where $n$ is the total number of servers. Chord is robust and can survive massive failures.
+
+The key identifier is a SHA-1 hash, and the node identifier is a SHA-1 hash. Thus, both the key and node identifiers are uniformly distributed and both exist in the same ID space. Note that the original node identifier is an IP address. We just need to map key id's to the node id's.
+
+\subsection{Consistent Hashing}
+
+Chord uses the idea of consistent hashing. A key is stored at its successor (the node with the next higher ID). Let's say we have a 7-bit ID space, adding or removing a node only requires a constant number of operations, because the higher and lower nodes just need to be changed.
+
+Each node keeps track of its own successor. If it knows that, then it can look up any key in the network. However, the time to get to the key is $O(n)$. If the key is between your ID and the next node, then we know that the next node has the key.
+
+However, if you keep track of only one successor, you could lose keys.
+
+\subsection{Finger Table}
+
+We can reduce lookup time using a finger table. It has roughly $O(\log n)$ pointers. It has a pointer to $1/2, 1/4, 1/8, \ldots$ way through the ciruclar network. This allows you to jump to some point in the network.
+
+You just look at the highest node $n$ such that the node id's is less than $n$. The lookup time is $O(\log n)$ because every time you are halving the distance that you need to look at.
+
+\subsection{Joining Networks with Finger Tables}
+
+To add a new node to the network using the finger table, you can find your successor by going into the network and looking for yourself. Once you've found your successor, you figure out what keys that your successor delegates to you. It copies these keys (however its not yet a part of the finger table).
+
+It becomes a part of the hash table when it's predecessor changes it pointer to it, and it haves a link to the successor. You can then go ahead and update the finger tables of everything in the background.
+
+\subsection{Handling Failures}
+
+Failures could cause incorrect lookup because you lose the successors. To handle failures, you keep a list of $r$ immediate successors. After failure you will still know about the next live successor. This is only a probabilistic guarantee.
+
+The probability that the entire successor list is dead is $p^r$ where $p$ is the loss rate. This gets small very quickly, so it is very improbably that all of your successors have died.
+
+\end{document}
