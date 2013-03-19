@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  18 MAR 2013 01:45
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  18 MAR 2013 21:01
 entering extended mode
  %&-line parsing enabled.
 **ps3.tex
@@ -589,7 +589,7 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Here is how much of TeX's memory you used:
  12914 strings out of 495061
  252959 string characters out of 1182621
- 332957 words of memory out of 3000000
+ 332958 words of memory out of 3000000
  15683 multiletter control sequences out of 15000+50000
  9216 words of font info for 37 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
@@ -605,7 +605,7 @@ fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/shar
 e/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-tex
 live/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/t
 ype1/public/amsfonts/cm/cmtt10.pfb>
-Output written on ps3.pdf (3 pages, 158472 bytes).
+Output written on ps3.pdf (3 pages, 159062 bytes).
 PDF statistics:
  63 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
