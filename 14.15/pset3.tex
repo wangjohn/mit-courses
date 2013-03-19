@@ -113,6 +113,39 @@ To show this we note that $P(X \leq 0) = P(E[X] - X \geq E[X]) \leq \frac{\mathr
   Show that the clustering coefficient is $C = \frac{1}{2c+1}$.
 \end{prob}
 \begin{sol}
+  We want to figure out the number of triangles, as well as the number of triples, that we expect to appear in this graph model. We will find the clustering coefficient in the case where multiedges cannot occur, then show that multiedges occur with low enough probability that this approximation is valid. Now consider the case where the graph is simple.
+
+  First, we shall find the expected number of triangles. This is just the probability that three vertices $i,j,k$ end up forming a triangle. This could happen in two ways. The first is that the nodes form a trio and this trio becomes a triangle, this happens with probability $p = \frac{c}{{n-1 \choose 2}}$. The other possibility is that the nodes do not form a trio, but that three edges form from other triangles. This happens if $\{i,j\}, \{j,k\},$ and $\{k,i\}$ each are part of a new triangle. This surrounds the area between $i,j,k$ and forms a triangle. Each edge appears with probability $p(n-3)$. This is because for each pair of nodes, there are $n-3$ other nodes that this pair can form a triangle with (the pair cannot form a triangle with the last node in the trio because then we would be in the first case). Forming these triangles is an independent event, so we have $(p(n-3))^3$ probability of having our trio surrounded by triangles. The total probability of the trio being a triangle is thus $p + (1-p)(p(n-3))^3$ because in the second case, we cannot have the trio form a triangle.
+
+  Now, let us examine how many triples we obtain. Again consider three vertices $i,j,k$. When $i,j,k$ form a triangle then 3 triples are formed. Otherwise, a triple is created whenever $\{i,j\}$ and $\{j,k\}$ each are part of a triangle. Each pair of nodes has $(n-3)$ other nodes to form a triangle with, and the event of forming a triangle is independent. So the probability that the $\{i,j\}$ and $\{j,k\}$ edges form is $(p(n-3))^2$. Now the probability that only these two triangle form is $(1-p)(p(n-3))^2$ because otherwise the original $i,j,k$ trio would form a triangle. There are 3 different ways that one can select two edges to create. Therefore, the probability of a triple is just 3 times the probability of forming a triangle plus 3 times the probability of $\{i,j\}, \{j,k\}$ forming a triple. This is $3(p + (1-p)(p(n-3))^3 + (1-p)(p(n-3))^2)$.
+
+  The clustering coefficient is therefore:
+  \begin{eqnarray}
+    \frac{3(p + (1-p)(p(n-3))^3)}{3(p + (1-p)(p(n-3))^3 + (1-p)(p(n-3))^2)} &=& \frac{\frac{p}{(p(n-3))^2} + (1-p)(p(n-3))}{\frac{p}{(p(n-3))^2} + (1-p)(p(n-3)) + (1-p)}
+  \end{eqnarray}
+
+  We can take the limit as $n \to \infty$ and note that $p = \frac{c}{{n-1 \choose 2}} = \frac{2c(n-3)!}{(n-1)!} = \frac{2c}{(n-1)(n-2)} \approx \frac{2c}{n^2}$ to obtain the following expression:
+  \begin{eqnarray}
+    Cl(G) &=& \frac{\frac{1}{p n^2} + pn}{\frac{1}{pn^2} + pn + 1 - \frac{2c}{n^2}} \\
+          &=& \frac{\frac{1}{2c}}{\frac{1}{2c} + 1} \\
+          &=& \frac{1}{2c+1}
+  \end{eqnarray}
+
+  Now we want to show that multiedges do not happen with high probability. In particular, I will show that the ratio of multiedges to single edges goes to zero, which means that our above analysis is correct as $n \to \infty$. First, we want to figure out the probability of a $k$-edge for two nodes $i,j$. There are $n-2$ total other nodes that these nodes can form triangles with. Thus, to have a $k$-edge, there must be exactly $k$ triangles which are formed between $i,j$ and $k$ other nodes. Thus, there are ${n-2 \choose k}$ ways to choose these $k$ other nodes. Each of these choices of a group of nodes has probability $p^k (1-p)^{n-2-k}$ of forming a $k$-edge. Thus, the total probability of forming a $k$ edge on nodes $i,j$ is ${n-2 \choose k} p^k (1-p)^{n-2-k}$. The ratio $R$ of multiedges to single edges is:
+  \begin{eqnarray}
+    R &=& \frac{{n-2 \choose k} p^k (1-p)^{n-2-k}}{{n-2 \choose 1} p (1-p)^{n-3}} \\
+      &=& \frac{\frac{(n-2)!}{(n-2-k)!k!} p^k(1-p)^{n-2-k}}{(n-2) p (1-p)^{n-3}} \\
+      &=& \frac{\frac{(n-3)\ldots(n-1-k)}{k!} p^{k-1}}{1-p)^{k+1}}\\
+      &\leq& \frac{n^k p^{k-1}}{k! (1-p)^{k+1}}
+  \end{eqnarray}
+
+  Now, as $n \to \infty$ we know that $p = \frac{2c}{n^2}$ so that we have the following:
+  \begin{eqnarray}
+    R &\leq& \frac{n^k (2c)^{k-1}}{k! n^{2k}} \\
+      &=& \frac{(2c)^{k-1}}{n^2 k!} \\
+  \end{eqnarray}
+
+  Which goes to zero. Therefore, we see that the probability of single edges is much higher than the probability of $k$-edges for $k > 1$, so much so, that the probability goes to zero for all $k > 1$. Thus, we can ignore multiedges in our analysis and our previous analysis of the clustering coefficient is sound.
 \end{sol}
 
 \subsection{Problem 2.d}
@@ -158,6 +191,7 @@ To show this we note that $P(X \leq 0) = P(E[X] - X \geq E[X]) \leq \frac{\mathr
 \section{Problem 3}
 
 \begin{prob}
+  A $k$-regular graphs (i.e. a graph where all nodes have degree $k$).
 \end{prob}
 \begin{sol}
 \end{sol}

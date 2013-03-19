@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  18 MAR 2013 21:59
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  19 MAR 2013 18:52
 entering extended mode
  %&-line parsing enabled.
 **pset3.tex
@@ -274,31 +274,39 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[4] (./pset3.aux) ) 
+[4]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[5] (./pset3.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
  2714 strings out of 495061
  32623 string characters out of 1182621
- 96107 words of memory out of 3000000
+ 97093 words of memory out of 3000000
  5723 multiletter control sequences out of 15000+50000
  9048 words of font info for 36 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 34i,17n,32p,839b,204s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmb
-x10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></
-usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/t
-exmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texliv
-e/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type
-1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
-fonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
-5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/s
-hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-te
-xlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/publi
-c/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/s
-ymbols/msam10.pfb>
-Output written on pset3.pdf (4 pages, 180266 bytes).
+ 34i,17n,32p,1129b,214s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
+re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmmi5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pf
+b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share
+/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texliv
+e/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/ams
+fonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cms
+y7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/symbols/msam10.pfb
+>
+Output written on pset3.pdf (5 pages, 187917 bytes).
 PDF statistics:
- 71 PDF objects out of 1000 (max. 8388607)
+ 74 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
