@@ -161,21 +161,45 @@ To show this we note that $P(X \leq 0) = P(E[X] - X \geq E[X]) \leq \frac{\mathr
 \end{prob}
 \begin{sol}
 \end{sol}
+
 \begin{prob}
 \end{prob}
 \begin{sol}
 \end{sol}
+
 \begin{prob}
 \end{prob}
 \begin{sol}
 \end{sol}
+
+\section{Problem 4}
+
 \begin{prob}
+  Consider a graph G with n nodes generated according to the configuration model with a particular degree distribution $P(d)$. Show that the overall clustering coefficient is given by $Cl(G) = \frac{\langle d\rangle }{n} \left[\frac{\langle d^2\rangle  - \langle d\rangle }{\langle d\rangle ^2}\right]^2$.
 \end{prob}
 \begin{sol}
-\end{sol}
-\begin{prob}
-\end{prob}
-\begin{sol}
+  We note that the clustering coefficient $Cl$ is the average probability that two neighbors of a vertex are neighbor of each other as wel. Thus, we are looking for the probability that if $i$ and $j$ are connected, given that they are connected to $v$. First, we know that the probability of an edge between nodes $i$ and $j$ is given by $\frac{k_i k_j}{2m}$, were $k_i$ is the degree of node $i$. This is because there are $k_j$ edges coming into node $j$, so there is a $k_j/2m$ probability that any edge goes to $j$. Since there are $k_i$ edges leaving node $i$, there are $k_i$ times the probability of any given edge going to $j$. Therefore, we see that the probability of an edge existing between nodes $i$ and $j$ is $\frac{k_i k_j}{2m}$.
+
+  Next, we notice that the excess degree distribution for node $i$ can be given by $q_k = \frac{k+1}{k} p_{k+1}$. This can be seen from the derivation in Newman (Equation 13.46). Thus, the probability that any node $i$, which is already connected to some node $v$, has degree of $k$ is given by $q_{k}$. Thus, we can write the clustering coefficient as the sum over all possible degrees $k_i, k_j$ for nodes $i$ and $j$ of the probability of obtaining $k_i$ and $k_j$ times the probability of an edge between nodes $i$ and $j$. This is given by:
+  \begin{eqnarray}
+    Cl(G) &=& \sum_{k_i = 0}^\infty \sum_{k_j = 0}^\infty q_{k_i} q_{k_j} \frac{k_i k_j}{2m} \\
+          &=& \frac{1}{2m} \left( \sum_{k=0}^\infty k q_{k} \right)^2 \\
+          &=& \frac{1}{2m} \left( \sum_{k=0}^\infty (k+1) p_{k+1} \right)^2
+  \end{eqnarray}
+ 
+  This was obtaining by noting that $q_k = \frac{k+1}{k} p_{k+1}$. Next, we notice that if we multiply by $\frac{\langle k\rangle ^2}{\langle k\rangle ^2} = 1$ and make a change of variable for $k = k+1$, we obtain the following expression:
+  \begin{eqnarray}
+    Cl(G) &=& \frac{1}{2m \langle k\rangle ^2} \left( \sum_{k=0}^\infty k (k+1) p_{k+1} \right)^2 \\
+          &=& \frac{1}{2m \langle k\rangle ^2} \left( \sum_{k=0}^\infty (k-1) k p_k \right)^2
+  \end{eqnarray}
+
+  Since $2m$ is the total number of edges in the graph, we know that $2m = n\langle k\rangle $ so we can substitute in the denominator of the fraction and expand $(k-1) k p_k = k^2 p_k - k p_k$ to obtain:
+  \begin{eqnarray}
+    Cl(G) &=& \frac{1}{n\langle k\rangle ^3} \left( \sum_{k=0}^\infty k^2 p_k - k p_k \right)^2 \\
+          &=& \frac{1}{n\langle k\rangle ^3} \left( \langle k^2\rangle  - \langle k\rangle  \right)^2
+  \end{eqnarray}
+
+  Now, set $d = k$ and we see that $Cl(G) = \frac{\langle d\rangle }{n} \left[\frac{\langle d^2\rangle  - \langle d\rangle }{\langle d\rangle ^2}\right]^2$, which is what we wanted.
 \end{sol}
 
 \end{document}
