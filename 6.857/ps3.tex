@@ -116,8 +116,8 @@ Converted using ascii, this reads as:
 
 \subsection{Problem 3.1.d}
 
-We used 123,830 triples. Using the result from first part of this problem that $\frac{2t}{c} = n$, we can compute the upper bound on the probability that we obtained an incorrect key $c$. Since $t = 1407$, we have $\frac{2 \times 1407}{123 830} = 0.022$. Thus, we only have a 2\% chance of getting an incorrect answer.
+We used 123,830 triples. However, for each bit, only about half of those triples will be useful (since the other half will be 0s). Thus we can set $n = 123830/2 = 61915$. Using the result from first part of this problem that $\frac{2t}{c} = n$, we can compute the upper bound on the probability that we obtained an incorrect key $c$. Since $t = 1407$, we have $\frac{2t}{n} = \frac{2 \times 1407}{61915} = 0.044$. Thus, we only have a 4\% chance of getting an incorrect answer.
 
-To obtain a reasonable incorrectness probability (say 20\%), we would only need to have used $\frac{2 \times 1407}{0.2} = 14070$ triples.
+To obtain a reasonable incorrectness probability (say 20\%), we would only need to have used $\frac{2 \times 1407}{0.2} = 14070$ triples. However, the 14070 triples must be doubled because half of them will be unusable (will have a 0 digit in the $i$th bit). Thus, to get 20\% incorrectness probability, we must obtain about 28140 triples.
 
 \end{document}

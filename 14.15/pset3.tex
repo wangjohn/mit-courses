@@ -40,49 +40,228 @@ Collaborators: Ryan Liu, Bonny Jain
   Let $A_1$ denote the event that node 1 has at least $l \in \mathrm{Z}^{+}$ neighbhors. Do we observe a phase transition for this event? If so, finnd the threshold function and explain your reasoning.
 \end{prob}
 \begin{sol}
+  Yes, we do observe a phase transition when $t(n) = \frac{l}{n-1}$. To show that there exists a phase transition, lut us examine the case when $\frac{p(n)}{t(n)} = \frac{p(n) (n-1)}{l} \to 0$. In this case we can use Markov's inequality. We define $X$ as a random variable of the number of neighbors of node 1 and we note that $P(A_1) = P(X \geq l)$. Thus, we want to obtain the expected value of $X$. However, we know that a node has an expected $(n-1) p(n)$ neighbors, because each neighbor has a $p(n)$ probability of being connected by an edge, and there are $n-1$ neighbors. Thus, we see that $E[A_1] = (n-1) p(n)$. Markov's inequality allows us to obtain the following bound:
+  \begin{eqnarray}
+    P(A_1) = P(X \geq l) \leq \frac{E[A_1]}{l} = \frac{p(n) (n-1)}{l}
+  \end{eqnarray}
+
+  However, since $\frac{p(n)}{t(n)} = \frac{p(n) (n-1)}{l} \to 0$, we see that $P(A_1) \to 0$ as well. Thus, we have shown that the first part of the phase transition, namely that under the threshold, $A_1$ does not occur. Now we shall show that above the threshold, the event occurs almost surely. We want to see what happens when $\frac{p(n)}{t(n)} = \frac{p(n) (n-1)}{l} \to \infty$. We shall use Chebyshev's inequality:
+\begin{eqnarray}
+  P(|X - E[X]| \geq |E[X] - l|) &\leq& \frac{\mathrm{Var}(X)}{(E[x] - l)^2} \\
+                                &=& \frac{p(n-1)}{((n-1)p - l)^2} \\
+                                &=& \frac{p(n-1)}{(n-1)^2p l^2 + l^2 - 2(n-1)pl} \\
+                                &=& \frac{1}{(n-1)l^2 + \frac{l^2}{(n-1)p} - 2l}
+\end{eqnarray}
+
+Where we know that $\mathrm{Var}(X) = E[X] = (n-1)p$ because $X$ can be approximated as a poisson random variable (see Newman p. 402) for large $n$. Moreover, we know that $l$ is a constant so that as $\frac{p(n)(n-1)}{l} \to \infty$ we have $\frac{l^2}{(n-1)p} \to 0$. Therefore, we also see that $P(|X - E[X]| \geq |E[X] - l|) \leq \frac{1}{(n-1) l^2 - 2l}$ as $\frac{p (n-1)}{l} \to \infty$. Since $l$ is a constant we see that $n \to \infty$ implies that this probability goes to zero. In other words, the probability that $X$ deviates by more than $E[X] - l$ from its expected value goes to zero. This shows that $P(A_1) \to 1$ when $E[X] \geq l$.
 \end{sol}
 
+\subsection{Problem 1.b}
+
 \begin{prob}
+  Let $B$ denote the event that a cycle with $k$ edges (for a fixed $k$) emerges in the graph. Do we observe a phase transition of this event? If so, find the threshold function and explain your reasoning.
 \end{prob}
 \begin{sol}
+  Yes a threshold function does exist for this event. Take $t(n) = \frac{1}{n}$ as the threshold function. We will first show that as $\frac{p}{t(n)} = pn \to 0$, then $P(B) \to 0$. We first want to find the expected number of cycles of length $k$ in the graph. Let $X$ denote the number of cycles of length $k$. We know that there are ${n \choose k}$ ways to select $k$ nodes, and that for each of these subsets of nodes, there are $(k-1)!/2$ ways to create a cycle. This follows because we set the first node of the cycle, then there are $k-1$ ways of picking the second node, $k-2$ ways of picking the third node, etc. We divide by two because we could go either backwards or forwards in this cycle (clockwise or counterclockwise). Each of these cycles has probability $p^k$ of emerging. Therefore, we have:
+  \begin{eqnarray}
+    E[X] &=& {n \choose k} \frac{(k-1)!}{2} p^k \\
+         &=& \frac{n!}{k!(n-k)!} \frac{(k-1)!}{2} p^k \\
+         &=& \frac{n!}{2k(n-k)!} p^k
+  \end{eqnarray}
+
+However, we know that $\frac{n!}{(n-k)!} = n (n-1) \ldots (n-k+1) \leq n^k$. This means that we have $E[X] \leq \frac{(np)^k}{2k}$. Thus, as $np \to 0$, we see that $E[X] \to 0$, which implies that $P(X \geq 1) \leq \frac{E[X]}{1} = E[X] \to 0$. Since $P(X \geq 1) = P(B)$, we see that $P(B) \to 0$ as $\frac{p}{t(n)} \to 0$. Now to show the second half of the phase transition, we need to show that as $\frac{p}{t(n)} \to \infty$ we have $P(B) \to 1$.
+
+To show this we note that $P(X \leq 0) = P(E[X] - X \geq E[X]) \leq \frac{\mathrm{Var}(X)}{E[X]^2}$ by Chebyshev. We can also bound $E[X]$ from below by using the fact that $\frac{n!}{(n-k)!} = n (n-1) \ldots (n-k+1) \geq (n-k)^k$. This shows that $E[X] \geq \frac{(n-k)^k p^k}{2k}$. Since $k$ is a constant we know that $nk - kp \to \infty$ when $np \to \infty$. Thus, we see that $(n-k) \to \infty$, which implies that $E[X] \geq \infty$ when $np \to \infty$.
+
+  Now we use the fact that $X$ can be approximated as a poission distribution to note the fact that $\mathrm{Var}(X) = E[X]$. This means that $P(X \leq 0) \leq \frac{1}{E[X]} \to 0$. This implies that $P(X \geq 0) \to \infty$, which means that $P(B) \to \infty$, just as we wanted.
 \end{sol}
+
+\section{Problem 2}
+
+\subsection{Problem 2.a}
 \begin{prob}
+  Show that the mean degree of a vertex in this network is $2c$.
 \end{prob}
 \begin{sol}
+  We know that the expected number of connected trios is the total possible number of triples of nodes times the probability each triple becomes a triangle. This is ${n \choose 3} \frac{c}{{n-1 \choose 2}} = \frac{n!}{3!(n-3)!} \frac{c}{(n-1)!} (n-1-2)! 2! = \frac{2!nc}{3!} = \frac{nc}{3}$. Since we know that the total number of edges is just $3$ times the number of triangles we have $nc$ total expected edges. Moreover, the expected total degree is 2 times the total number of expected edges (since each edge has two endpoints). This means we expect $2nc$ total degree in the graph, and since there are $n$ nodes, each node has an expected degree of $\frac{2nc}{n} = 2c$.
 \end{sol}
+
+\subsection{Problem 2.b}
 \begin{prob}
+  Show that the degree distribution is
+  \begin{eqnarray}
+    p_k = \left\{ \begin{array}{l l}
+      e^{-c} c^{k/2}/ (k/2)! & \text{if $k$ is even} \\
+                           0 & \text{if $k$ is odd}
+    \end{array}\right\}
+  \end{eqnarray}
 \end{prob}
 \begin{sol}
+  We can assume that the degree distribution is a poisson random variable because of the fact that each triangle is selected randomly with a particular probability. This is a binomial distribution, which converges to a poission distribution as $n$ grows large. Therefore, we only need to find the expected degree of a node. The probability that a node has degree $k$ is really equal to the probability that it is inside of $k/2$ triangles (because each triangle provide two edges). The expected value is given by the number of triangles that a node can connect to times the probability of occuring. This is just ${n-1 \choose 2} \frac{c}{{n-1 \choose 2}}$.
+
+    Therefore, we see that $\lambda = c$ in this poisson distribution and that there are $m = k/2$ different triangle possibilities. We therefore have the probability distribution of a possion random variable $\frac{\lambda^m e^{- \lambda}}{m!}$ which we can substitute $\lambda = c$ and $m = k/2$ to obtain $\frac{c^{k/2} e^{-c}}{(k/2)!}$. This is the degree distribution for when $k$ is even, because $k$ cannot be odd. This is because whenever a new triangle is added, 2 more edges are added to each node, and thus, one cannot have an odd degree. Therefore, we have shown that the degree distribution is given by:
+  \begin{eqnarray}
+    p_k = \left\{ \begin{array}{l l}
+      e^{-c} c^{k/2}/ (k/2)! & \text{if $k$ is even} \\
+                           0 & \text{if $k$ is odd}
+    \end{array}\right\}
+  \end{eqnarray}
 \end{sol}
+
+\subsection{Problem 2.c}
 \begin{prob}
+  Show that the clustering coefficient is $C = \frac{1}{2c+1}$.
 \end{prob}
 \begin{sol}
+  We want to figure out the number of triangles, as well as the number of triples, that we expect to appear in this graph model. We will find the clustering coefficient in the case where multiedges cannot occur, then show that multiedges occur with low enough probability that this approximation is valid. Now consider the case where the graph is simple.
+
+  First, we shall find the expected number of triangles. This is just the probability that three vertices $i,j,k$ end up forming a triangle. This could happen in two ways. The first is that the nodes form a trio and this trio becomes a triangle, this happens with probability $p = \frac{c}{{n-1 \choose 2}}$. The other possibility is that the nodes do not form a trio, but that three edges form from other triangles. This happens if $\{i,j\}, \{j,k\},$ and $\{k,i\}$ each are part of a new triangle. This surrounds the area between $i,j,k$ and forms a triangle. Each edge appears with probability $p(n-3)$. This is because for each pair of nodes, there are $n-3$ other nodes that this pair can form a triangle with (the pair cannot form a triangle with the last node in the trio because then we would be in the first case). Forming these triangles is an independent event, so we have $(p(n-3))^3$ probability of having our trio surrounded by triangles. The total probability of the trio being a triangle is thus $p + (1-p)(p(n-3))^3$ because in the second case, we cannot have the trio form a triangle.
+
+  Now, let us examine how many triples we obtain. Again consider three vertices $i,j,k$. When $i,j,k$ form a triangle then 3 triples are formed. Otherwise, a triple is created whenever $\{i,j\}$ and $\{j,k\}$ each are part of a triangle. Each pair of nodes has $(n-3)$ other nodes to form a triangle with, and the event of forming a triangle is independent. So the probability that the $\{i,j\}$ and $\{j,k\}$ edges form is $(p(n-3))^2$. Now the probability that only these two triangle form is $(1-p)(p(n-3))^2$ because otherwise the original $i,j,k$ trio would form a triangle. There are 3 different ways that one can select two edges to create. Therefore, the probability of a triple is just 3 times the probability of forming a triangle plus 3 times the probability of $\{i,j\}, \{j,k\}$ forming a triple. This is $3(p + (1-p)(p(n-3))^3 + (1-p)(p(n-3))^2)$.
+
+  The clustering coefficient is therefore:
+  \begin{eqnarray}
+    \frac{3(p + (1-p)(p(n-3))^3)}{3(p + (1-p)(p(n-3))^3 + (1-p)(p(n-3))^2)} &=& \frac{\frac{p}{(p(n-3))^2} + (1-p)(p(n-3))}{\frac{p}{(p(n-3))^2} + (1-p)(p(n-3)) + (1-p)}
+  \end{eqnarray}
+
+  We can take the limit as $n \to \infty$ and note that $p = \frac{c}{{n-1 \choose 2}} = \frac{2c(n-3)!}{(n-1)!} = \frac{2c}{(n-1)(n-2)} \approx \frac{2c}{n^2}$ to obtain the following expression:
+  \begin{eqnarray}
+    Cl(G) &=& \frac{\frac{1}{p n^2} + pn}{\frac{1}{pn^2} + pn + 1 - \frac{2c}{n^2}} \\
+          &=& \frac{\frac{1}{2c}}{\frac{1}{2c} + 1} \\
+          &=& \frac{1}{2c+1}
+  \end{eqnarray}
+
+  Now we want to show that multiedges do not happen with high probability. In particular, I will show that the ratio of multiedges to single edges goes to zero, which means that our above analysis is correct as $n \to \infty$. First, we want to figure out the probability of a $k$-edge for two nodes $i,j$. There are $n-2$ total other nodes that these nodes can form triangles with. Thus, to have a $k$-edge, there must be exactly $k$ triangles which are formed between $i,j$ and $k$ other nodes. Thus, there are ${n-2 \choose k}$ ways to choose these $k$ other nodes. Each of these choices of a group of nodes has probability $p^k (1-p)^{n-2-k}$ of forming a $k$-edge. Thus, the total probability of forming a $k$ edge on nodes $i,j$ is ${n-2 \choose k} p^k (1-p)^{n-2-k}$. The ratio $R$ of multiedges to single edges is:
+  \begin{eqnarray}
+    R &=& \frac{{n-2 \choose k} p^k (1-p)^{n-2-k}}{{n-2 \choose 1} p (1-p)^{n-3}} \\
+      &=& \frac{\frac{(n-2)!}{(n-2-k)!k!} p^k(1-p)^{n-2-k}}{(n-2) p (1-p)^{n-3}} \\
+      &=& \frac{\frac{(n-3)\ldots(n-1-k)}{k!} p^{k-1}}{1-p)^{k+1}}\\
+      &\leq& \frac{n^k p^{k-1}}{k! (1-p)^{k+1}}
+  \end{eqnarray}
+
+  Now, as $n \to \infty$ we know that $p = \frac{2c}{n^2}$ so that we have the following:
+  \begin{eqnarray}
+    R &\leq& \frac{n^k (2c)^{k-1}}{k! n^{2k}} \\
+      &=& \frac{(2c)^{k-1}}{n^2 k!} \\
+  \end{eqnarray}
+
+  Which goes to zero. Therefore, we see that the probability of single edges is much higher than the probability of $k$-edges for $k > 1$, so much so, that the probability goes to zero for all $k > 1$. Thus, we can ignore multiedges in our analysis and our previous analysis of the clustering coefficient is sound.
 \end{sol}
+
+\subsection{Problem 2.d}
 \begin{prob}
+  Show that when there is a giant component in the network, its expected size $S$, as a fraction of the network size, satisfies $S = 1-e^{-cS(2-S)}$.
 \end{prob}
 \begin{sol}
+  Suppose that $u_i$ is the probability that node $i$ does not belong to the giant component. For $i$ to not belong in the giant component we must either have 1) that $i$ is not connected to some triangle $j$ or 2) that $i$ is connected to the triangle $j$ but $j$ itself is not part of the giant component. The first occurs with probability $1-p$, while the second occurs with probability $p u_j^2$, since both nodes of the connecting triangle cannot belong to the giant component. This means the probaiblity that $i$ is not connected to the giant component through traingle $j$ is $1 - p + p u_j^2$.
+
+  Since each node is independent and triangles are randomly selected, we can say $u_i = u_j = u$. Since there are ${n-1 \choose 2}$ triangles for which we must do this analysis for, we see the following:
+  \begin{eqnarray}
+    u &=& (1 - p + pu^2)^{{n-1 \choose 2}} \\
+      &=& \left(1 - \frac{c}{{n-1 \choose 2}} + \frac{c}{{n-1 \choose 2}} u^2 \right)^{{n-1 \choose 2}}
+  \end{eqnarray}
+
+  Taking logs of both sides we see that we can simplify the expression:
+  \begin{eqnarray}
+    \ln u &=& {n-1 \choose 2} \ln \left(1 - \frac{c}{{n-1 \choose 2}} + \frac{c}{{n-1 \choose 2}} u^2 \right) \\
+          &=& {n-1 \choose 2} \frac{cu^2 - u}{{n-1 \choose 2}} \\
+          &=& cu^2 - u
+  \end{eqnarray}
+
+  Where we have used the fact that $\ln(1+x) = x$ for small $x$. Exponentiating both sides of the resulting expression gives us that $u = e^{cu^2 - u}$. However, we know that $S = 1-u$ because $u$ is the probability of any particular node not belong to the giant component, and $S$ is the probability of belonging to the giant component. Therefore, we see that $1-S = e^{-c + c (1-S)^2}$ which simplifies to $S = 1 - e^{-cS(2-s)}$, which proves our result.
 \end{sol}
+
+\subsection{Problem 2.e}
 \begin{prob}
+  What is the value of the clustering coefficient when the giant component fills half of the network?
 \end{prob}
 \begin{sol}
+  We choose $S = 1/2$ and we solve for $c$. We have:
+  \begin{eqnarray}
+    \frac{1}{2} &=& 1 - e^{\frac{1}{2} c \left(\frac{1}{2} - 2 \right)} \\
+    \frac{1}{2} &=& 1 - e^{- \frac{3}{4} c} \\
+    e^{-\frac{3}{4} c} &=& \frac{1}{2} \\
+    -\frac{3}{4} &=& - \ln(2) \\
+    c = \frac{4}{3} \ln(2)
+  \end{eqnarray}
+
+  Now, we substitute into our equation for the clustering coefficient of $C = \frac{1}{2c+1}$ so we obtain $C = \frac{1}{8\ln(2)/3 + 1}$.
 \end{sol}
+
+\section{Problem 3}
+
+\subsection{Problem 3.a}
 \begin{prob}
+  A $k$-regular graphs (i.e. a graph where all nodes have degree $k$).
 \end{prob}
 \begin{sol}
+  First we note that the smallest component that is possible in a $k$-regular subgraph is of size $k+1$. This is because each node must have $k$ edges, so there must be at least these $k$ other nodes in the component starting from some node $v$. Thus, naively, if $k = \Theta (n)$, then there must exist a giant component. More precisely, we will look at the sub/supercritical thresholds for this with the branching process.
+
+  Let us start at some node $1$. It will have $k-1$ neighbors in the next branch of the branching process. For each child, there will be $k-1$ neighbors as well. Thus, we have $\mu = k-1$. As long as $k > 2$, we have $\mu > 1$ and we are in the supercritical regime. However, for $k \leq 2$, we have $\mu \leq 1$ and we are in the subcritical regime. Thus, we see that a $k$-regular graph has a giant component in expectation as long as $k > 2$.
 \end{sol}
+
+\subsection{Problem 3.b}
 \begin{prob}
+A power law graph ($p_k = c k^{-\alpha}, \alpha < 3$).
 \end{prob}
 \begin{sol}
+  First we consider the case where $\alpha \leq 2$. In the branching process starting from some node $1$, we want to figure out the expected number of children. We can find this using the degree distribution. We see that there will be $k-1$ children if the node has a degree of $k$. Thus, we have the expected number of children as $\sum_{k=1}^\infty c p^{-\alpha} (k-1)$. We can find a bound for this when $\alpha \leq 2$:
+  \begin{eqnarray}
+    \sum_{k=1}^\infty c k^{-\alpha} (k-1) &=& c \sum_{k=1}^\infty \frac{k-1}{k^\alpha} \\
+                                         &\geq& c \sum_{k=1}^\infty \frac{1}{k} - \frac{1}{2} \frac{1}{k} \\
+                                         &\geq& c \sum_{k=1}^\infty \frac{1}{2k} = \infty
+  \end{eqnarray}
+
+  Since we see that the sum diverges for $\alpha \leq 2$, the expected number of children is greater than 1 and we are in a super critical regime so we will have a giant component. Now let us consider for $2 < \alpha < 3$. In this case we notice that we can use the Riemann Zeta function:
+  \begin{eqnarray}
+    \sum_{k=1}^\infty c k^{-\alpha} (k-1) &=& c \sum_{k=1}^\infty \frac{1}{k^{\alpha-1}} + \frac{1}{k^\alpha} \\
+                                          &=& c (\zeta(\alpha-1) + \zeta(\alpha))
+  \end{eqnarray}
+
+  This follows becaue $\sum_j \frac{1}{k^j}$ converges when $j > 1$ and is denoted as $\zeta(j)$. Moreover, we know that for $j \in (1,2)$ we have $\zeta(j)$ monotonically decreasing as $j$ increases. This implies that $\zeta(j-1) > \zeta(j)$ which implies that $\zeta(j-1) - \zeta(j) > 0$. This further implies that $c (\zeta(\alpha-1) + \zeta(\alpha)) > 0$ for $\alpha \in (2,3)$, which implies that the branching process always has a positive number of expected children. For large values of $c$, there exists a giant component.
+
+  Therefore, we see that there is indeed a giant component in expectation for the power law graph when $\alpha <3$.
 \end{sol}
+
+\subsection{Problem 3.c}
 \begin{prob}
+  A graph in which node degrees can only take values in $\{0,1,2,3\}$.
 \end{prob}
 \begin{sol}
+  We will examine when this graph becomes subcritical and supercritical. Let us assume that each node has degree $k$ with probability $p_{k}$ so that $\sum_{k=0}^3 p_k = 0$. We know that all nodes with degree $0$ will not form giant components because they will be isolated. We want to therefore look at the excess degree distributions of nodes where degrees $1,2,3$. Starting from node $1$, there is $p_{k}$ probability of obtaining a child vertex of degree $k$. This new node will have $k-1$ children. Thus, the expected number of children is $\sum_{k=1}^3 p_k (k-1) = p_2 + 2p_3$. Therefore, we see that $\mu = p_2 + 2 p_3$.
+
+  We see by the branching process argument that we will obtain a giant component in expectation whenever $\mu = p_2 + 2p_3 > 1$. For example, the degree distribution is uniformly distributed and $p_k = \frac{1}{4}$, then there will not exist a giant component. Other distributions such as power law distributions will not have a giant component either.
 \end{sol}
+
+\section{Problem 4}
+
+\subsection{Problem 4.a}
 \begin{prob}
+  Consider a graph G with n nodes generated according to the configuration model with a particular degree distribution $P(d)$. Show that the overall clustering coefficient is given by $Cl(G) = \frac{\langle d\rangle }{n} \left[\frac{\langle d^2\rangle  - \langle d\rangle }{\langle d\rangle ^2}\right]^2$.
 \end{prob}
 \begin{sol}
+  We note that the clustering coefficient $Cl$ is the average probability that two neighbors of a vertex are neighbor of each other as wel. Thus, we are looking for the probability that if $i$ and $j$ are connected, given that they are connected to $v$. First, we know that the probability of an edge between nodes $i$ and $j$ is given by $\frac{k_i k_j}{2m}$, were $k_i$ is the degree of node $i$. This is because there are $k_j$ edges coming into node $j$, so there is a $k_j/2m$ probability that any edge goes to $j$. Since there are $k_i$ edges leaving node $i$, there are $k_i$ times the probability of any given edge going to $j$. Therefore, we see that the probability of an edge existing between nodes $i$ and $j$ is $\frac{k_i k_j}{2m}$.
+
+  Next, we notice that the excess degree distribution for node $i$ can be given by $q_k = \frac{k+1}{k} p_{k+1}$. This can be seen from the derivation in Newman (Equation 13.46). Thus, the probability that any node $i$, which is already connected to some node $v$, has degree of $k$ is given by $q_{k}$. Thus, we can write the clustering coefficient as the sum over all possible degrees $k_i, k_j$ for nodes $i$ and $j$ of the probability of obtaining $k_i$ and $k_j$ times the probability of an edge between nodes $i$ and $j$. This is given by:
+  \begin{eqnarray}
+    Cl(G) &=& \sum_{k_i = 0}^\infty \sum_{k_j = 0}^\infty q_{k_i} q_{k_j} \frac{k_i k_j}{2m} \\
+          &=& \frac{1}{2m} \left( \sum_{k=0}^\infty k q_{k} \right)^2 \\
+          &=& \frac{1}{2m} \left( \sum_{k=0}^\infty (k+1) p_{k+1} \right)^2
+  \end{eqnarray}
+ 
+  This was obtaining by noting that $q_k = \frac{k+1}{k} p_{k+1}$. Next, we notice that if we multiply by $\frac{\langle k\rangle ^2}{\langle k\rangle ^2} = 1$ and make a change of variable for $k = k+1$, we obtain the following expression:
+  \begin{eqnarray}
+    Cl(G) &=& \frac{1}{2m \langle k\rangle ^2} \left( \sum_{k=0}^\infty k (k+1) p_{k+1} \right)^2 \\
+          &=& \frac{1}{2m \langle k\rangle ^2} \left( \sum_{k=0}^\infty (k-1) k p_k \right)^2
+  \end{eqnarray}
+
+  Since $2m$ is the total number of edges in the graph, we know that $2m = n\langle k\rangle $ so we can substitute in the denominator of the fraction and expand $(k-1) k p_k = k^2 p_k - k p_k$ to obtain:
+  \begin{eqnarray}
+    Cl(G) &=& \frac{1}{n\langle k\rangle ^3} \left( \sum_{k=0}^\infty k^2 p_k - k p_k \right)^2 \\
+          &=& \frac{1}{n\langle k\rangle ^3} \left( \langle k^2\rangle  - \langle k\rangle  \right)^2
+  \end{eqnarray}
+
+  Now, set $d = k$ and we see that $Cl(G) = \frac{\langle d\rangle }{n} \left[\frac{\langle d^2\rangle  - \langle d\rangle }{\langle d\rangle ^2}\right]^2$, which is what we wanted.
 \end{sol}
-\begin{prob}
-\end{prob}
-\begin{sol}
-\end{sol}
+
+\end{document}
