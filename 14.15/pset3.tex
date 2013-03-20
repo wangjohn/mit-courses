@@ -190,24 +190,36 @@ To show this we note that $P(X \leq 0) = P(E[X] - X \geq E[X]) \leq \frac{\mathr
 
 \section{Problem 3}
 
+\subsection{Problem 3.a}
 \begin{prob}
   A $k$-regular graphs (i.e. a graph where all nodes have degree $k$).
 \end{prob}
 \begin{sol}
+  First we note that the smallest component that is possible in a $k$-regular subgraph is of size $k+1$. This is because each node must have $k$ edges, so there must be at least these $k$ other nodes in the component starting from some node $v$. Thus, naively, if $k = \Theta (n)$, then there must exist a giant component. More precisely, we will look at the sub/supercritical thresholds for this with the branching process.
+
+  Let us start at some node $1$. It will have $k-1$ neighbors in the next branch of the branching process. For each child, there will be $k-1$ neighbors as well. Thus, we have $\mu = k-1$. As long as $k > 2$, we have $\mu > 1$ and we are in the supercritical regime. However, for $k \leq 2$, we have $\mu \leq 1$ and we are in the subcritical regime. Thus, we see that a $k$-regular graph has a giant component in expectation as long as $k > 2$.
 \end{sol}
 
+\subsection{Problem 3.b}
 \begin{prob}
+A power law graph ($p_k = c k^{-\alpha}, \alpha < 3$).
 \end{prob}
 \begin{sol}
 \end{sol}
 
+\subsection{Problem 3.c}
 \begin{prob}
+  A graph in which node degrees can only take values in $\{0,1,2,3\}$.
 \end{prob}
 \begin{sol}
+  We will examine when this graph becomes subcritical and supercritical. Let us assume that each node has degree $k$ with probability $p_{k}$ so that $\sum_{k=0}^3 p_k = 0$. We know that all nodes with degree $0$ will not form giant components because they will be isolated. We want to therefore look at the excess degree distributions of nodes where degrees $1,2,3$. Starting from node $1$, there is $p_{k}$ probability of obtaining a child vertex of degree $k$. This new node will have $k-1$ children. Thus, the expected number of children is $\sum_{k=1}^3 p_k (k-1) = p_2 + 2p_3$. Therefore, we see that $\mu = p_2 + 2 p_3$.
+
+  We see by the branching process argument that we will obtain a giant component in expectation whenever $\mu = p_2 + 2p_3 > 1$. For example, the degree distribution is uniformly distributed and $p_k = \frac{1}{4}$, then there will not exist a giant component. Other distributions such as power law distributions will not have a giant component either.
 \end{sol}
 
 \section{Problem 4}
 
+\subsection{Problem 4.a}
 \begin{prob}
   Consider a graph G with n nodes generated according to the configuration model with a particular degree distribution $P(d)$. Show that the overall clustering coefficient is given by $Cl(G) = \frac{\langle d\rangle }{n} \left[\frac{\langle d^2\rangle  - \langle d\rangle }{\langle d\rangle ^2}\right]^2$.
 \end{prob}
