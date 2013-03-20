@@ -49,54 +49,48 @@ Definition: If $\langle a \rangle = G$ then $G$ is yclic and $a$ is a generator 
 
 Fact: If $G$ is a cyclic group of order $t$ and $g$ is a generator of $G$, then the mapping $x \to g^x$ is one-to-one between $[0,1, \ldots, t-1]$ and $G$.
 
-\subsection{Orders of Elts}
+\subsection{Programming with Groups}
 
-The most common group we see in cryptography is $Z_{p}^* = \{1,2, \ldots, p-1 \}$. This is a pretty group, very simple, and nice to work with. We say that $order_{n}(a)$ is the order of $a$ modulo $n$, where $a \in Z_{n}^*$. The order is the smallest $t > 0$ such that $a^t \equiv 1 \mod n$.
+API for a group:
+\begin{itemize}
+  \item G $\leftarrow$ create\_group
+  \item g $\leftarrow$ G.generator() (could fail if the does not exist a generator)
+  \item identity, G.identity()
+  \item G.order\_elt(a) (could be really hard)
+  \item G.inverse(a)
+  \item G.cyclic $\rightarrow$ true/false
+  \item G.product(x,y)
+  \item G.random\_element
+  \item G.order()
+  \item G.exponentiation(a,k)
+  \item G.elements()
+  \item G.rep(M) (some element in the group representing message M).
+\end{itemize}
 
-Fermat's Little Theorem: If $p$ is prime, then $\forall a \in Z_{p}^*$ we have $a^{p-1} \equiv 1 \pmod{p}$.
+\section{Diffie-Hellman Key Exchange}
 
-Euler's Theorem: For all $n$ and forall $a \in Z_{n}^*$, we have $a^{\phi(n)} \equiv 1 \pmod{n}$, where $\phi(n)$ is the cardinality of the group so $\phi(n) = |\{a; 1 \leq a \leq n; gcd(a,n) = 1 \} |$. 
+Alice and Bob want to be able to talk openly about their new secret keys. They don't start off with any shared information at all. Suppose Alice generates secret key $x$ and Bob generates secret key $y$ from the group. Now Alice sends $a = g^x$ to Bob and Bob sends Alice $b = g^y$.
 
-For example: $Z_{10}^* = \{1, 3, 7, 9\}$. This is a multiplicative group, and $\phi(10) = 4$. Just to check, we have $3^{4} \equiv 1 \pmod{10}$.
+Alice can compute $b^x = (g^y)^x = g^{xy}$ and Bob can compute $a^y = (g^x)^y = g^{xy}$. The new secret key that is shared between Alice and Bob is $K = g^{xy}$.
 
-Notice that the order of $a$ mod $n$ is the length of the periodicity of $a^{i}$ for $i = \{1,2,3,\ldots\}$. We notice that $order_{n}(a) | |Z_{n}^*|$ so that the order always divides the size of the group.
+Given  $a = g^x$, Eve can't compute $x$ because we're assuming the discrete log problem is hard. Same thing for $b = g^y$. Given $a,b$, can Eve compute $K = g^{xy}$. This is a new problem.
 
-\subsection{Generators}
+Computational Diffie-Hellman (CDH): Given $a,b$ can you compute $g^{xy}$ where $a = g^{x}$ and $b = g^{y}$. This is assumed to be hard.
 
-Notation: define $<a> = \{a^i, i \geq 1 \}$. We have $order_{n}(a) = |<a>|$.
+Theorem: If CDH is hard, then Diffie-Hellman key exchange is secure.
 
-Definition: If $order_{n}(g) = |Z_{n}^*|$, then $g$ is called the generator of $Z_{n}^*$. In other words $<g> = Z_{n}^*$.
+\section{Different Types of Groups}
 
-Theorem: $Z_{n}^*$ has a generator (i.e. $Z_{n}^*$ is cyclic) if and only $n = 2,4, p^m, 2p^m$ for prime $p$ and $m \geq 1$.
+We've already learned about a number of groups:
+\begin{itemize}
+  \item $Z_{p}^* = \{a : 1 \leq a \leq p \}$ where $p$ is prime. We know that $Z_{p}^*$ is always cyclic and if $p=2q+1$ then have of $Z_p^*$ are generators.
+  \item $Q_p$ is the set of quadratic residues (squares) modulo $p$. So $Q_p = \{a^2 : 1 \leq a \leq p \}$. Notice that $Q_p \subset Z_p^*$. We also know that $|Q_p| = \frac{1}{2} |Z_p^*|$ because exactly two elements of $Z_p^*$ make into a single element in $Q_p$. Also, $Q_p$ is cyclic, so if $\langle g \rangle = Z_p^*$ then $\langle g^2 \rangle = Q_p$. If $p = 2q + 1$ then $Q_p$ is cyclic and any element not the identity in $Q_p$ is a generator.
+  \item $Z_n^* = \{a : gcd(a,n) = 1, 1 \leq a < n \}$. We see that $|Z_{n}^*| = \phi(n)$ by definition. If $n = pq$ where $p,q$ are distinct odd primes, then $Z_n^*$ is not cyclic and $Z_n^* = Z_p^* \times Z_q^*$. 
+  \item $Q_n = \{a^2 : 1 \leq a \leq n, gcd(a,n) = 1 \}$. If $n = pq$ and $p = 2r+1, q = 2s+1$ are safe primes, then $|Q_n| = rs$. $|Q_n|$ is cyclic.
+\end{itemize}
 
-Theorem: If $p$ is prime, then the number of generators mod $p$ is $\phi(p-1)$. For example $p = 11$ then $|Z_{p}^*| = 10$, and we have $\phi(10) = 4$.
+\subsection{Elliptic Curves}
 
-Theorem: If $p$ is prime and $g$ is a generator modulo $p$, then $g^{x} \equiv y \pmod{p}$ has a unique solution for $0 \leq x < p -1$ for each $y \in _Z_p^*$. We call $x$ the discrete logairthm of $y$, base $g$ modulo $p$.
-
-The discrete logarithm problem is the problem of computing $x$ from $y$ given some $p$ and $g$. It is assumed that this is hard, no one has found an algorithm which solves this problem quickly.
-
-\subsection{Generate and Test}
-
-Randomly pick $g$ in $Z_{p}^*$ and test its order. If the order is $p-1$, then $g$ is the generator. Fermat's Little Theorem implies that $g^{p-1} = 1 \pmod{p}$ and $g^{d} \not \equiv 1 \pmod{p}$ for $d$ which is a divisor of $p-1$.
-
-Assume we factored $p-1 = q_1^{e_1} q_2^{e_2} \ldots q_k^{e_k}$. Check that $g^{(p-1)/q} \not \equiv 1 \pmod{p}$ for each $q | (p-1)$.
-
-\section{Public Keys}
-
-Idea: Pick a large ``random'' $p$ such that we know the factorization of $p-1$. This is because factoring $p-1$ is hard.
-
-If $p$ and $q$ are both primes and $p = 2q+1$, then $p$ is called a safe prime and $q$ is called a Sophie Germain prime. The factorization of $p-1$ is just $2q+1-1$ so that factorization is $p-1 = 2 \times q$. To get pairing, we find $q$ first which is a prime, then let $p = 2q + 1$ and we test $p$ for primality.
-
-Theorem: If $p$ is a safe prime $p = 2q+1$ ($p-1 = 2-q$) then for all $a \in Z_p^*$ we have $order(a) \in \{1, 2, q, 2q\}$.
-
-To test of $g$ is a generator we know that we check if $g^{p-1} \equiv 1 \pmod{p}$ and $g^2 \not \equiv 1 \pmod{p}$ and $g^q \not \equiv 1 \pmod{p}$, which implies that $order_p(g) = p-1$ and so $g$ is a generator.
-
-If $p = 2q + 1$ and so $p$ is a safe prime then the number of generators mod $p$ is $\phi(p-1) = q-1$.
-
-Find large random prime $q$. Let $p = 2q + 1$ and test $p$ for primality. If not, loop and pick new $q$, otherwise output $p,q,g$. We can find $g$ by picking $g \in Z_{p}^*$ and test for $g$ being a generator. Since there are a lot of generators, we've got high probability of getting a generator.
-
-\subsection{Common Public Key Setup}
-
-We have $p$ prime and $g$ generator of $Z_{p}^*$ which are published. Alice chooses $x$ where $0 \leq x < p-1$ as her secret key. Publishes $g^{x} \equiv y \pmod{p}$ as her public key. Secrecy of $x$ depends on difficulty of computing $x = \log_{g,p} (y)$ (discrete logarithm problem) seems hard.
+Working in $Z_p$ and let $a,b$ be elements such that $4a^3 + 27b^2 \not \equiv 0 \pmod{p}$. Consider $y^2 = x^3 +ax + b \pmod{p}$. Then $E_{ab}$ is the elliptic curve and is the set of $(x,y)$ satisfying the equation modulo $p$. 
 
 \end{document}
