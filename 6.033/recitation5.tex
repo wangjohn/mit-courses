@@ -1,0 +1,67 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 5: RON}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Overview of BGP}
+
+RON is faster and better because it makes sure that every node in the RON network knows about everyone else (which is $n^2$). This works for a subset of the internet, but not the internet as a whole.
+
+In normal internet, we use a hierarchical structure. So everything gets subcategorized. Prefixes in the IP address makes sure that the packets get routed to the next hierarchical prefix.
+
+In BGP, the keep alive messages are being sent by each node. If a node doesn't receive a keep alive message from a different node for a particular period of time, then it drops that node from the routing table. However, after the nodes are removed, this needs to cascade throughout the network.
+
+BGP also protects against something called ``route flapping''. This is when the router is quickly changing its mind about a route being broken, so it is sending this out to the network and flooding the network with the new route. Takes a long time to propogate this and is also flooding the network with requests.
+
+\section{Overview of RON}
+
+The cost of route flapping is much lower on RON because it only picks a small number of nodes, so it's ok to have route flapping even when there is super linear cost in the number of nodes.
+
+Ron is good at 1) responding quickly to route failures and 2) creating application specific metrics for the quality of paths.
+
+\subsection{Path Metrics}
+
+Latency: The amount of time it takes to get from the source to the destination. Throughput: The total number of packets that can be sent along a path from the source to the destination. Loss: The number of packets lost in the path from source to destination. These are the three default measures.
+
+Examples: Voice over IP. You want low latency because this causes delay in speech and video. In general, any form of real time communication you want high latency. The loss rate isn't too important because these real time communication networks usually have built in error correction or error concealment protocols. Throughput isn't really important.
+
+You want high throughput if you are downloading a file. You want to get as many packets a quickly as possible. The more throughput, the faster the download time.
+
+\subsection{How RON Works}
+
+There is a small subset of nodes on the internet which are RON nodes. The virtual links between these nodes are connected using the normal internet IP protocol. You replace normal IP operation with RON operation. RON provides an alternate operation of the IP protocol.
+
+Each node in RON has a much larger routing table than in normal BGP. The routing table has different routing choices for each metric. So each metric has its own full routing table.
+
+Each node in the RON is trying to have an up to date picture of the link quality to all of the other nodes. They constantly measure latency and throughput using different heuristics. They compute latency using EWMA and loss using just the average of last 100 packets. The throughput is given as $\frac{1}{RTT \sqrt{p}}$.
+
+\end{document}
