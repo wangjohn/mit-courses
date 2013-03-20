@@ -205,6 +205,22 @@ To show this we note that $P(X \leq 0) = P(E[X] - X \geq E[X]) \leq \frac{\mathr
 A power law graph ($p_k = c k^{-\alpha}, \alpha < 3$).
 \end{prob}
 \begin{sol}
+  First we consider the case where $\alpha \leq 2$. In the branching process starting from some node $1$, we want to figure out the expected number of children. We can find this using the degree distribution. We see that there will be $k-1$ children if the node has a degree of $k$. Thus, we have the expected number of children as $\sum_{k=1}^\infty c p^{-\alpha} (k-1)$. We can find a bound for this when $\alpha \leq 2$:
+  \begin{eqnarray}
+    \sum_{k=1}^\infty c k^{-\alpha} (k-1) &=& c \sum_{k=1}^\infty \frac{k-1}{k^\alpha} \\
+                                         &\geq& c \sum_{k=1}^\infty \frac{1}{k} - \frac{1}{2} \frac{1}{k} \\
+                                         &\geq& c \sum_{k=1}^\infty \frac{1}{2k} = \infty
+  \end{eqnarray}
+
+  Since we see that the sum diverges for $\alpha \leq 2$, the expected number of children is greater than 1 and we are in a super critical regime so we will have a giant component. Now let us consider for $2 < \alpha < 3$. In this case we notice that we can use the Riemann Zeta function:
+  \begin{eqnarray}
+    \sum_{k=1}^\infty c k^{-\alpha} (k-1) &=& c \sum_{k=1}^\infty \frac{1}{k^{\alpha-1}} + \frac{1}{k^\alpha} \\
+                                          &=& c (\zeta(\alpha-1) + \zeta(\alpha))
+  \end{eqnarray}
+
+  This follows becaue $\sum_j \frac{1}{k^j}$ converges when $j > 1$ and is denoted as $\zeta(j)$. Moreover, we know that for $j \in (1,2)$ we have $\zeta(j)$ monotonically decreasing as $j$ increases. This implies that $\zeta(j-1) > \zeta(j)$ which implies that $\zeta(j-1) - \zeta(j) > 0$. This further implies that $c (\zeta(\alpha-1) + \zeta(\alpha)) > 0$ for $\alpha \in (2,3)$, which implies that the branching process always has a positive number of expected children. For large values of $c$, there exists a giant component.
+
+  Therefore, we see that there is indeed a giant component in expectation for the power law graph when $\alpha <3$.
 \end{sol}
 
 \subsection{Problem 3.c}
