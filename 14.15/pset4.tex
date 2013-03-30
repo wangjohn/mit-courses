@@ -128,8 +128,12 @@ Collaborators: Ryan Liu, Albert Wu
 \section{Problem 3}
 
 \begin{prob}
+  We have seen that real social networks typically exhibit a low diameter, a high clustering coefficient, and a power law degree distribution. We have also discussed various random graph models with one or more of these properties: Erdos-Renyi graphs have low diameter; small world graphs have high clustering coefficient; and graphs generated with preferential attachment have a power law degree distribution. But we have not proposed any model to generate random graphs that have all three properties. Briefly (in 3 paragraphs or less) suggest a random graph model that would have all three properties with high probability.
 \end{prob}
 \begin{sol}
+  I will create a model based on the Watts and Strogatz model which will have a power law distribution. To construct this model, one begins with a ring lattice where each vertex is connected to $c$ of its closest neighbors, just as in the Watts and Strogatz model. Now, one will iterate through each existing edge in the model and rewire that edge with probability $p$. If the edge is chosen to be rewired, one will pick two new vertices $i$ and $j$ and draw an edge between them. The first vertex is picked with probability proportional to $q_k + \alpha_k$ where $q_k$ is the degree of vertex $k$ and and $\alpha_k$ is a vertex-specific parameter. The second vertex is picked with probability proportional to $1/(q_k + \alpha_k)$. Exactly one vertex each time will be picked, so the probabilities for each vertex must sum to 1.
+
+  Notice that this is a combination of the Watts and Strogatz model with preferential attachment. It should exhibit low diameter and high clustering coefficient by the same logic that the Watts and Strogatz model exhibits these properties. Since the model starts with a ring lattice, it will have a high clustering coefficient. The low diameter comes from the fact that low degree vertices will likely be attached to high degree vertices, and mid-degree vertices will have moderate probability of being attached to anyone else. Therefore, the average path length will be relatively low since all vertices will have good probabilities of being attached to each other. Finally, the model should have a power law distribution because of the peferential attachment like behavior of the rewiring. The vertices that already have a lot of edges will continue to grow in size.
 \end{sol}
 
 \section{Problem 4}
