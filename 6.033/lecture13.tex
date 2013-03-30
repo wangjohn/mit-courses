@@ -1,0 +1,61 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 13: Types of Networks}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Wireless Networks}
+
+Traditional wifi is single hop, that is, your computer connects to a single access point, which is then connected to the rest of the internet. Thus, the network is really a bunch of clients connecting to access points with a single link.
+
+People have attempted to use multi-hop mesh networks. This occurs when you connect to another client, that client connects to another client, etc., until you get back to an access point which is connected to a wired network. Of course now you have a routing problem and you need to deal with that.
+
+\subsection{Characteristics of Wireless}
+
+What is special about wireless? Most special thing is that it is a broadcast. This is very different from having a link. In wireless, everyone can hear the signal that you have broadcast. Anyone can listen to your signal.
+
+You also get collisions. For example, if a transmitter $t_1$ is transmitting to $r_1$, but $t_2$ is transmitting to $r_2$, then there are going to be collisions at $r_1$ if the area of the transmitters overlap. It's like two people talking very loudly in the same room at the same time.
+
+Another characteristic is half duplex. Wireless receivers cannot receive as they are transmitting because they are overpowered by their own antenna. Thus, it is very hard to know about collisions. To get around this, you transmit assuming that the receiver is going to be able to receive the signal. If you don't receive an acknowledgement, you assume that there has been a collision and you send again.
+
+\subsection{Medium Access Control (MAC)}
+
+\begin{itemize}
+  \item FDMA
+  \item Divide in Time. For example, TDMA, Aloha, CSMA.
+\end{itemize}
+
+We will learn about Carrier Sense Multiple Access (CSMA). Listen to the medium until the medium no longer has a transmission on it. Wait for a little bit of time to ensure that it is really idle. This time is called the DIFs interval (on the order of a few tens of microseconds). Now divide time into $n$ slots and pick a random slot. This will be the slot when you attempt to translate.
+
+You wait until the slot that you have chosen until you transmit, still listening to the medium. The reason you don't automatically send a message is because if there are two people doing this, then you will always get a collision.
+
+After you send your message on the channel, you will receive an acknowledgement if the receiver got your message.
+
+Problem with CSMA is that the sender listens on the channel, but the collision happens at the receiver. Hidden terminal problem: the two senders can't hear each other because they are far away. When their messages get to the receiver, they collide.
+
+Opposite problem is the exposed terminal problem: Say there are two transmitters close to each other. First transmitter tries to send to receiver 1 and second tries to send to receiver 2. However, the transmitters can't send at the same time in CSMA because they hear the other sending. However, collisions wouldn't happen at the receiver, because the receivers are far away.
+
+\end{document}
