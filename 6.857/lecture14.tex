@@ -1,0 +1,100 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 14: Pedersen Commitments}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Pedersen Commitments}
+
+\subsection{Commitment Scheme Overview}
+
+Commitment Scheme Motivation: auctions. You want to commit to your bid, so you have to have the same bid as before. This can be thought of as a commitment. $Commit(x)$ is a commitment to $x$. $Reveal(x)$ opens the commitment and reveals $x$.
+
+For commitment schemes, you want to have the following properties:
+\begin{itemize}
+  \item Hiding: $Commit(x)$ shouldn't reveal anything about $x$.
+  \item Binding: Can only open commitment in one way, i.e. you can't find $x'$ such that $Commit(x') = Commit(x)$ where $x' \neq x$.
+  \item Non-malleability: Can't create $Commit(x+1)$ from $Commit(x)$.
+\end{itemize}
+
+\subsection{Pedersen Commitment Scheme}
+
+Our setup is as follows: we need two large primes $p,q$ such that $q | p-1$ (e.g. $p$ is a safe prime so that $p = 2q + 1$). Let $g$ be a generator of order $q$ subgroup of $Z_p^*$. Squares modulo $p = Q_p$ has order $q$. We let $h = g^a$ where $a$ is secret. It's hard to find $a$ because the discrete log problem is hard.
+
+We have $Commit(x)$ where $x \in Z_q$ so $0 \leq x < q$. Sender chooses some random $r \in Z_q$ and we have $Commit(x) = c = g^x h^r \pmod{p}$. To reveal, you give $x,r$ and the receiver checks that $c = g^x h^r \pmod{p}$.
+
+\subsection{Security of Pedersen Commitment Scheme}
+
+Perfectly Hiding: $c = g^x h^r \pmod{p}$. $c$ could be a commitment to any other $x'$ as well. Suppose $g^x h^r \equiv g^{x'} h^{r'} \pmod{p}$. Can this hold? Since $h = g^a$ we have $g^{x + ar} = g^{x' + ar'} \pmod{p}$. Since $g$ is a generator, exponents must be the same modulo the order, so we have $x+ar \equiv x' + ar' \pmod{q}$. This says that $r' \equiv (x - x')/a + r \pmod{q}$.
+
+Note that we can divide modulo $q$ because $q$ is prime, so we can divide modulo $q$, since $a$ is non-zero. We have just argued that $c$ could be a commitment to any value $x$! This seems like maybe I'm at risk of not really being committed to anything.
+
+We will show that we're actually computationally bound, even though it is theoretically possible for the committed value $c$ to be opened in more than one way. In principle, can you open $c$ as $(x,r)$ and $(x', r')$?
+
+Suppose $g^x h^r = g^{x'} h^{r'} \pmod{p}$. Then $x + ar = x' + ar' \pmod{q}$. We get $a = (x - x')/(r' - r) \pmod{q}$ because $r' \neq r$. Computing $a$ is hard because it is the discrete log of $h$ base $g \pmod{p}$. Therefore, you're computationally bound because the sender can't compute $a$. 
+
+\subsection{Malleability}
+
+However, this scheme is malleable. Consider $c = g^x h^r \pmod{p}$. But you can just get a commitment $c' = g c = g^{x+1} h^r \pmod{p}$ which is one higher than the other scheme. If the first person gives his $x,r$ before you do, then you're home free.
+
+\section{Public Key Encryption}
+
+Let $\lambda$ be a security parameter, which approximately gives you the key size. $1^{\lambda} = 1 1 \ldots 1$ is a set of ones of length $\lambda$. For key generation you have the following steps:
+
+\begin{enumerate}
+  \item $Keygen(1^{\lambda}) \to (PK, SK)$ which runs in polynomial time $poly(\lambda)$ and it must be randomized.
+  \item $Enc(PK, m) \to c$. Takes some message $m \in \mathrm{M} \to c \in \mathrm{C}$ and is probably randomized.
+  \item $Dec(SK, c) \to m$. Deterministic operation which should work for all $(PK, SK)$ pairs and all messages $m$. 
+\end{enumerate}
+
+\subsection{ElGamal Public Key Encryption}
+
+Let $G = \langle g \rangle$ be a cyclic group with generator $g$. $G \in Z_p^*$ where $|p| = \lambda$ bits. 
+
+Keygeneration: We pick $x$ at random from $[0, |G| - 1]$ and let $SK = x$, $PK = g^x \pmod{p}$. We then output $(PK, SK)$.
+
+Encryption: Take $m \in G$ and pick $k$ at random from $[0, |G| -1]$. Recipient's PK is $y = g^x \pmod{p}$. The shared secret key is going to be $y^k = g^{x}^k = g^{xk} \pmod{p}$. Output $(g^k, m y^k)$.
+
+Decryption: We have $c = (a,b)$ be the received ciphertext. We can compute $y^k = g^{xk} = (g^k)^x$ because we get $g^k = a$. Therefore, we can get our message back by doing $m = b/a^x$.
+
+Like DH key exchange, the receiver provides $y = g^{x}$ which is PK and the sender provides $a=g^k, m g^{xk}$.
+
+\subsection{Security of ElGamal}
+
+Let's analyze whether this is a secure scheme. Here are the phases of the game:
+
+\begin{itemize}
+  \item Phase I (``Find''): Examiner generates $(PK, SK)$ via $Keygen(1^{\lambda})$. $PK$ is then sent to the adversary. Adversary computes (in time polynomial in $\lambda$) and outputs two messages $m_0, m_1$ of the same length and state information.
+  \item Phase II (``Guess''): Examiner picks $b \leftarrow \{0,1\}$ which is randomly generated and computes $c_{*} = Enc(PK, m_b)$. The result $c_*$ is given to the adversary. Adversaries compute for time (polynomial in $\lambda$) and outputs his guess $\hat{b}$ for $b$. The adversary wins if $\hat{b} = b$.
+\end{itemize}
+
+In this game it takes no skill to win with probability $\frac{1}{2}$. The scheme is \emph{semantically secure} if the probability that the adversary wins is less than $\frac{1}{2} + \epsilon$ where $\epsilon = 2^{-\lambda}$ which is the probability of randomly choosing $SK$ correctly.
+
+Recall computational Diffie-Hellman (CDH) which is computing $g^{ab}$ from $g^a$ and $g^b$. We now have Decision Diffie-Hellman (DDH): distinguishing $(g^a, g^b, g^{ab})$ from $(g^a, g^b, g^c)$ is hard. These problems are related and $DDH$ implies $CDH$. 
+
+Theorem: ElGamal is semantically secure if and only if DDH holds in $G$.
+
+\end{document}

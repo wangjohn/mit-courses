@@ -1,0 +1,48 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 14: Fault-Tolerance}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Strong Form of Modularity: Client/Server}
+
+Limits propagation of effects, used in a single computer using OS or in a network using the Internet. The limitations is that it only isolates benign mistakes like programming errors and there is no recovery plan.
+
+Unfortunately, client/server doesn't provide fault tolerance. We want to be able to extend Client/Server to handle failure. Can we do better than just returning an error, for example, keep computing despite failures? Can we defend against malicious failures (attacks) as well?
+
+\section{Fault Tolerant Computing}
+
+\subsection{Threats}
+
+\begin{itemize}
+  \item Software faults (programming mistakes).
+  \item Hardware faults (e.g. disk overheats and fails).
+  \item Design faults.
+  \item Operational faults (most common fault, e.g. fat fingers or tripping over cables).
+  \item Environmental faults (earthquakes or tsunamis).
+\end{itemize}
+
+\end{document}
