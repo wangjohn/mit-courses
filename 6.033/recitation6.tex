@@ -1,0 +1,85 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 6: DCTCP}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Drop Tail}
+
+Queues are good because they allow you to handle a burst of traffic. You can deal with messages later as you successively process each one. Queues smooth out the performance of your network across time.
+
+The heuristic that TCP uses to figure out when to drop packets is called \emph{Droptail}. You start dropping packets when the queue is full. TCP halves the window size and sends fewer packets.
+
+\section{Random Early Detection (RED)}
+
+RED tries to handle dropping of packets in a smarter manner so that dropping of packets doesn't occur only when the buffer gets full. The idea is that each packet has some probability of getting dropped, and this probability increases as the queue size increases.
+
+\section{Explicit Congestion Notification (ECN)}
+
+Instead of physically dropping the packet in the queue, you just set the ECN bit to 1. The packet still moves through the queue, but with its ECN bit set to 1. When an acknowledgement is sent back to the sender, the ECN bit's information is sent back as well, so we don't physically drop the packet. Instead we keep the packet but let the sender know that there is more congestion.
+
+RED and ECN together is fairer than Droptail because there is some explicit randomness in the system. Consider a burst of packets from a single sender, those packets will likely be dropped in droptail, but with RED and ECN, the probability of dropping will be spread out more.
+
+\section{Data Center Workloads}
+
+DCTCP targets a very particular type of system (Partition/Aggregate):
+
+\subsection{Partition/Aggregate}
+
+In this system one node is the aggregator and is in charge of the complete search. The aggregator farms out work to mid level aggregators (MLAs). Then, each MLA farms out even more work to worker nodes.
+
+Each aggregator or worker gets a deadline that it has to meet. If it doesn't meet the deadline, that node's results are thrown away.
+
+\subsection{Query Traffic}
+
+Traffic which a person sends to an aggregator. The queries are small (2KB) and is latency sensitive.
+
+\subsection{Background Traffic}
+
+You have large updates (about 50MB in size) and they take a longer time to run. We care about throughput in these updates.
+
+\subsection{Incast Problem}
+
+Multiple packets appear at a buffer at the same time. Traditional fixes are jitter: add random delay to thepacket, decrease RTO min which increases the timeout, or reducing the message size. These traditional fixes aren't that great though because they increase round trip times.
+
+\subsection{Queue Buildup}
+
+This occurs when background jobs are running and you can't get your latency sensitive query packets to the receiver.
+
+\section{DCTCP Solution}
+
+The basic idea is to decrease window size by the extent of congestion, not the presence of congestion. Each of the senders keeps a running total $F$ which is the fraction of ECN marks over some time window. There's some constant $g$ which controls how sensitive you are to congestion. Then you have $\alpha \leftarrow (1 - g) \alpha + g F$.
+
+If $\alpha = 0$ there is no congestion and if $\alpha = 1$ there is a lot of congestion. Update congestion window using $cwnd \leftarrow cwnd ( 1 - \alpha/2)$.
+
+We don't use DCTCP on the internet because the internet has much longer latency. This means you can't get an instantaneous view of the congestion like you can in a data center. Also, you don't have a nice controlled environment to figure out $g$.
+
+\end{document}
