@@ -1,0 +1,124 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 15: ElGamal and RSA}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{ElGamal: Malleability and Homomorphisms}
+
+Recall that ElGamal works modulo $p$. We have $SK = x$ and $PK = g^x = y$. We encrypt a message by $Enc(m) = (g^k, m y^k)$ where $k$ is randomized.
+
+Unfortunately, ElGamal is malleable. If all you see is the ciphertext, is it hard for you to get an encryption of a related message? $Enc(2m) = (g^k, 2 (m y^k))$ so it's pretty easy to multiply by 2 and get a new ciphertext.
+
+It's even stronger than that though, we have homomorphic encryption.
+
+\subsection{El Gamal is Homomorphic}
+
+We have $c_1 = Enc(m_1) = (g^r, m_1 y^r)$ and a second cipher text $c_2 = Enc(m_2) = (g^s, m_2 y^s)$. We can obtain $c_1 c_2 = (g^{r+s}, (m_1 m_2) y^{r+s}) = Enc(m_1, m_2)$.
+
+Homomorphism could be wonderful or bad depending on what you want. For example, in CryptDB, a homomorphic encryption scheme is awesome. Computations can be done on the ciphertext which actually do operations on the underlying plaintext.
+
+To get a new encryption with a different secret key, pick some new secret key $t$ and compute $g^t$ and $y^t$. Then we can use $(g^t g^r, m_1 y^r y^t) = (g^{r+t}, m_1 y^{r+t})$ and this rerandomizes the ciphertet.
+
+For many applications, homomorphism is not what you want because you don't want the adversary to be able to change your inputs.
+
+\section{IND-CCA2 Security}
+
+Phase I:
+\begin{itemize}
+  \item Examiner generates ($PK, SK$) using $Keygen(1^\lambda)$.
+  \item Give the $PK$ to the adversary.
+  \item Adversary gets time to compute in time polynomial in $\lambda$ which access to $Dec(SK, x)$ oracle. (This is a new ability where he gets access to the decryption box).
+  \item Adversary outputs $m_0, m_1$ of the same length and notes $s$ which will be carried over to phase II.
+\end{itemize}
+
+Phase II:
+\begin{itemize}
+  \item Examiner picks $b \leftarray \{0,1\}$ randomly and computes $c_* = Enc(PK, m_b)$ and sends $c_*$ to adversary.
+  \item Adversary computes for time polynomial in $\lambda$ with access to $Dec(SK,*)$ except on $c_*$. Adversary outputs $\hat{b}$ (his guess for $b$) and wins if $\hat{b} = b$.
+\end{itemize}
+
+\emph{Definition:} PK enryption method is \emph{INDC-CCA2} secure (ACCA-secure) if $Prob(\text{Adv wins}) \leq \frac{1}{2} + \epsilon$ where $\epsilon = 2^{-\lambda}$.
+
+\subsection{El Gamal and IND-CCA2 Security}
+
+Let's say you have $c_* = (g^r, m_b y^r)$. You can make a new message $c_*' = (g^r, (2 m_b) y^r)$ and decrypt to get $2m$ as the message. You can therefore trivially get $m$. Thus, ElGamal is not IND-CCA2 secure.
+
+\section{Cramer Shoup}
+
+We have a group $G_q$ of size $q$ which is prime (this can be done by finding a safe prime $p$ and just deal with the group of quadratic residues modulo $p$). We'll have a keygen algorithm $g_1, g_2 \leftarrow G_q$ picked at random. We will have $SK = x_1, x_2, y_1, y_2, z \leftarrow Z_q$ picked at random. We set $c = g_1^{x_1} g_2^{x_2}$ and $d = g_1^{y_1} g_2^{y_2}$, as well as $h = g_1^{z}$.
+
+We will now have a public key $PK = (g_1, g_2, c, d, h)$.
+
+For encryption, we do $Enc(m)$: $r \leftarrow Z_q$ picked randomly, $u_1 = g_1^r$, $u_2 = g_2^r$, $e = h^r m$, $\alpha = H(u_1, u_2, e)$, $v = c^r d^{r \alpha}$. The ciphertext will be $c = (u_1, u_2, e, v)$.
+
+For decryption, we have $Dec(u_1, u_2, e, v)$: $\alpha = H(u_1, u_2, e)$ and does a check $u_1^{x_1 + y_1 \alpha} u_2^{x_2 + y_2 \alpha} = v$. If this check does not work, then we fail. Otherwise, we output our decrypted message $m = e/u_1^z$.
+
+Looking at the check:
+$u_1^{x_1} u_2^{x_2} = g_1^{r x_1} g_2^{r x_2} = c^r$
+$u_1^{y_1} u_2^{y_2} = d^r$
+$u_1^{z} = g_1^{r z} = h^r$.
+
+\emph{Theorem:} Cramer-Shoup is IND-CCA2 secure.
+
+\section{RSA}
+
+\subsection{Public Key Scheme}
+
+The public key scheme is proposed as follows:
+
+$Keygen(1^\lambda) \to (PK, SK, \mathrm{M}, \mathrm{C})$ where $|\mathrm{M}| = |\mathrm{C}|$. $Enc(PK, .)$ is efficiently computable, deterministic map from $\mathrm{M}$ to $\mathrm{C}$. $c = Enc(PK, m)$ is a unique ciphertext for message $m$.
+
+$Dec(SK,.)$ is efficiently computable inverse: $Dec(SK, c) = Dec(SK, Enc(PK, m)) = m$. It should be infeasible to decrypt knowing only $PK$. 
+
+\subsection{Keygen for RSA}
+
+Keygen: two large primes $p,q$ of length $\lambda$ bits. $n = pq$ and have $\phi(n) = |Z_n^*| = (p-1) (q-1)$. Key insight is that you don't know the size of the group $|Z_n^*|$. Randomly select $e \leftarrow Z_{\phi(n)}^*$ where $gcd(e, \phi(n)) = 1$. Now we set $d = e^{-1} \pmod{ \phi(n)}$ and we can run Euclid's algorithm to find $d$ quickly.
+
+$PK = (n,e)$ and $SK = (d, p, q)$. Now we have $\mathrm{M} = \mathrm{C} = Z_n$.
+
+\subsection{Encryption and Decryption}
+
+To encrypt, we just raise to a power. $Enc(PK,m) = c = m^e \pmod{n}$. You raise to the public exponent $e$.
+
+Decryption is similar. $Dec(SK, c) = c^d \pmod{n}$, execept you raise to the private exponent $d$.
+
+We assume the adversary cannot factor $n$, because if he could, he could repeat the keygeneration operations and compute $\phi(n)$. This allows him to compute the private exponent $d = e^{-1} \pmod{\phi(n)}$. Once the adversary knows $\phi(n)$, adversary has access to $SK$.
+
+\subsection{Proof of Correctness}
+
+Lemma (Chinese Remainder Theorem): Let $n = pq$. We have $x = y \pmod{n}$ if and only if $x = y \pmod{p}$ and $x = y \pmod{q}$.
+
+We know that $ed = 1 \pmod{\phi(n)}$ which means that $ed = 1 + t \phi(n) = 1 + t(p-1)(q-1)$ for some $t$. This implies that $ed = 1 \pmod{p-1}$.
+
+Correctness of RSA is just $(m^e)^d = m \pmod{n}$. By CRT, we only need to show that $(m^e)^d = m \pmod{p}$ and $(m^e)^d = m \pmod{q}$. We'll just argue the case of $p$ because the case of $q$ follows similarly.
+
+Case 1: $m = 0 \pmod{p}$. Then $(0^e)^d = 0 \pmod{p} = m \pmod{p}$ which works.
+
+Case 2: $m \neq 0 \pmod{p}$ and $m \in Z_p^*$. Then we know that $m^{p-1} = 1 \pmod{p}$. Thus, let $u = t(q-1)$ then we have $m^{ed} = m^{1 + u(p-1)} \pmod{p} = m (m^{p-1})^u = m 1 = m \pmod{p}$. This works.
+
+Therefore, we see that $m^{ed} = m \pmod{p}$ and $m^{ed} = m \pmod{q}$ for all $m$, which by CRT implies that for all $m$ we have $m^{ed} = m \pmod{n}$.
+\end{document}
