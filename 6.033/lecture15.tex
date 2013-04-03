@@ -1,0 +1,83 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 15: Transactions}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Replication and Error Correcting Codes}
+
+We can use RAID to help us when one disk goes out. But what happens when the entire disk array gets taken out? How do we reconstruct the correct system state again?
+
+We will have concurrency, failures, and transactions. Consider when we're adding and removing money from a bank account. We want to make sure all the bank account transactions are done correctly so people can't get more money than is in their account (even on a system failure).
+
+If the system fails as money is being transferred from one account to another, it is possible that money will be lost forever because some amount of money has been be subtracted from account $a$ then added to account $b$. If the system fails in between this, then you will lose the amount and not get it credited into account $b$.
+
+\section{Transactions}
+
+Transactions will allow you to fix many problems related to concurrency and failures. There are going to be a couple of primitives that are important for us:
+
+\begin{itemize}
+  \item begin. This signals the beginning of the operation.
+  \item abort. This stops the transaction from finishing.
+  \item commit. This finishes and commits the actions of the operation.
+\end{itemize}
+
+In the bank account case, we use ``begin'' before money changes at all, then ``commit'' when the entire transaction finishes. In the case of failures, we want to make sure that the transaction either happens completely, or not at all, in the case of failures.
+
+\subsection{Golden Rule}
+
+The Golden Rule: Never overwrite your only copy.
+
+\subsection{Shadow Copy}
+
+We create a temporary copy of the database, then write to that database. Once all the transactions have finished, just set the temporary copy as the real copy.
+
+To do this, we need \emph{commit points}. This is the point where we go from the old version to the new version. We assume it to be the case that rename is atomic both with respect to concurrency and failure, so as long as you make sure to rename only at commit points, you should have a fault tolerant design.
+
+But what if rename isn't atomic? Well if you call rename(accounts, accounts-new) then you do unlink(accounts), link(accounts-new, accounts), unlink(accounts-new). This doesn't implement all or nothing behavior and it is not atomic with respect to concurrency and failure. Therefore, rename doesn't actually have transactional semantics.
+
+\subsection{Reimplementing Rename}
+
+Let's try another way to implement rename and see if it works. Let's try Rename(x,y) defined as:
+\begin{verbatim}
+Rename(x,y):
+
+xi = lookup(x)
+yi = lookup(y)
+incrementref(xi)
+y = xi
+decrementref(yi)
+remove(x)
+decrementref(xi)
+\end{verbatim}
+
+We will never have too few reference counts (we might have too many reference counts though). Rename is fine, as long as $y = xi$ is itself an atomic operation with respect to failure. To make sure $y = xi$ is atomic, you have to make sure the sectors of disk writes are atomic. This is achieved by hardware guarantees (a capacitor to allow you to finish the current sector even in the presence of power failure).
+
+\subsection{Pros and Cons of Shadow Copies}
+
+Downsides: Big files, might take a long to copy. Recovery is slow. When there is more than 1 file, you get problems.
+
+\end{document}
