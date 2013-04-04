@@ -30,17 +30,12 @@
 %--------Meta Data: Fill in your info------
 \title{6.033 \\
 Computer Systems Engineering \\
-<<<<<<< HEAD
 Recitation 4: Map Reduce}
-=======
-Recitation 3}
->>>>>>> 3ce631216db7adc6a82ac36f63e602ac002a9f99
 
 \author{John Wang}
 
 \begin{document}
 
-<<<<<<< HEAD
 \section{Basic Algebraic Structure}
 
 The naive map operation can parallel the set of output operations because you can simply operate $f$ on $x_i$ at the same time. In the reduce process, you need associativity and commutativity in order to break down the reduce operation. With these properties you can reduce with $g(g(\ldots, \ldots), g(\ldots, \ldots))$ where the reduce is finished in a recursive tree-like structure.
@@ -76,7 +71,6 @@ Emit is used so that MapReduce can start working on the values while they're sti
   \item Worker fails. Master periodically pings nodes and reassigns jobs when nodes fail.
 \end{itemize}
 
-=======
 \maketitle
 
 \section{Concurrency Overview}
@@ -139,5 +133,4 @@ lock(l2)
 \end{verbatim}
 
 We have freed the memory and allocated the memory with a different variable which has a different lock set. This is not an actual race condition because the original variable is not there anymore. Eraser doesn't operate on variables, only memory addresses.
->>>>>>> 3ce631216db7adc6a82ac36f63e602ac002a9f99
 \end{document}
