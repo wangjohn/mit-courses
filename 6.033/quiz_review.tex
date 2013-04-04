@@ -1,0 +1,199 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Quiz Review
+}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Complex Systems and Therac-25}
+
+System: Interacting set of components with a specified behavior at the interface with its environment.
+
+Complexity problems:
+\begin{itemize}
+  \item Emergent properties. Show up only when the system is completed. Works piece by piece but not all together.
+  \item Propagation of effects. Small change leads to big effects.
+  \item Incommensurate scaling. Small models don't scale to larger models.
+  \item Tradeoffs. Fixing one problem results in another problem.
+\end{itemize}
+
+\subsection{Complexity}
+
+Source of complexity:
+\begin{itemize}
+  \item Excessive generality
+  \item Patches (adding new features might end up breaking something else)
+  \item Performance vs simplicity tradeoff. Higher performance gets rid of simplicity.
+\end{itemize}
+
+Symptoms of complexity:
+\begin{itemize}
+  \item Large number of components or connections
+  \item Many irregularities and exceptions
+  \item Hard to understand specifications
+  \item Large design team
+\end{itemize}
+
+Coping with compleixty:
+\begin{itemize}
+  \item Simplifying design principles (avoid excessive generality)
+  \item Modularity
+  \item Abstraction (RPC, Transactions)
+  \item Hierarchy (DNS)
+  \item Layering (internet)
+\end{itemize}
+
+\subsection{Client Server Model}
+
+Modularity: messages to request services. Fault tolerance: modules check messages for errors. Secure: messages are only avenue for attackers.
+
+On a single machine (soft modularity), there are problems like fate sharing when both systems crash because of one system's crash.
+
+With separate machines (enforced modularity), you can use remote-procedure calls (RPCs). But you need to account for an unreliable network.
+
+\subsection{Therac-25}
+
+Three modes of operation 1) electron therapy 2) x-ray 3) field-light. Requires manual positioning and other parameters.
+
+The Therac-20 had hardware interlocks, but the Therac-25 replaced them with software interlocks. The software interlocks were boolean flags which were based on the current state of the system. However, there were race conditions on the software interlocks.
+
+Three parallel threads: 1) keyboard input 2) turntable position 3) beam and other things.
+
+\subsection{Pitfalls of Therac-25}
+
+Key take away: complex systems fail for complex reasons. Faults:
+\begin{itemize}
+  \item Operator interface had too many useless error messages, no documentation, false alarms.
+  \item Software. Race conditions, overflows, lack of safety features.
+  \item System Design. Lack of failure analysis and made up numbers to prove system was reliable.
+  \item Design iteration. Previous problems with old Theracs which weren't fixed.
+\end{itemize}
+
+\subsection{Complexity Sample Question}
+
+Indirection: Being able to use a name to delay a binding. For example, if you are using a module, you can assume an existing module already exists.
+
+\section{Naming Systems and DNS}
+
+Naming systems: Maps a name to a value (usually with the aid of context information). Example: filesystem, memory management system, data storage system. DNS maps from hostname to an ip-address, where context is a search path (list of domains that indicates where you look).
+
+DNS: concept of absolute names vs relative names. Absolute names ends with a dot.
+
+If we're doing a name lookup, there are two resolvers: a stub resolver (it has an upstream nameserver which does all the work then returns the result to the client program), a recursive resolver (starts at the root name server, and iteratively looks for the next result once they get a result back from the last server). 
+
+CName records are indirect names. Instead of having an ip address, it has a record to another address. For example ("www.twitter.com" might have a cname to "www.twitter2.com"). 
+
+DNS Records: NS record (name server), A record (address), CName.
+
+CDN (content delivery network) instead of randomly picking which server to use as a backend server, there is a big computation that optimizes the server. Tries to get a server which is as close to the client as possible.
+
+\section{UNIX Operating Systems}
+
+Operating system interactions: system calls and shell. The system calls are implemented in C and are commands like ``open, read, write, close.'' Shell allows for the execution of programs, you can do redirection, filters, piping, etc.
+
+IO System Calls: 5 main ones: open, read, write, lseek, close.
+
+\begin{verbatim}
+open("file.txt")
+\end{verbatim}
+
+Open looks at the working directory and looks for the file descriptor inside of the directory's file. Each process has a file descriptor table. First, it goes and looks at the file table (only one on the entire system) which maps an file table index number to inode number. The file descriptor table maps the file descriptor number to a file table index.
+
+Every single open adds a new entry to file table. The file table contains a current position.
+
+Read works by getting the file descriptor, reading from the file descriptor table, then going to the file table and getting the inode number and cursor position and reading.
+
+lseek sets the cursor to a new position.
+
+Write will start writing at the cursor.
+
+Close will remove an entry from the file descriptor table as well as update the reference count in the file table. If the reference count in the file table goes to zero, it will free it.
+
+\subsection{Forking}
+
+Allows you to have more than one process. Fork just duplicates the current process with the exact same content except for one thing, which is the return value of fork. In the parent process, you get a non-zero return value. In the child, you get a zero return value, which lets you know who is parent and child.
+
+\subsection{Pipe}
+
+Way to communicate between two processes, but must be created by a common ancestor (i.e. a parent). The reader waits for a write to happen, and someone else will be writing to the pipe. For example, a parent could write to the pipe, and the child could read to the read. The child will wait and read from the pipe when there is data.
+
+\subsection{The Shell}
+
+Type in some commands and some arguments. The shell always forks a process, if the process is the parent, it waits for the child to finish. If its a child, it executes the program name and the program arguments using ``exec''. 
+
+Redirection: Instead of sending output to standard out, you can send it to a file by changing the file descriptor of standard out.
+
+\section{Eraser and Concurrency Bug}
+
+Key Idea: Eraser is not looking for data races, its looking for bad locking.
+
+Eraser makes sure that each shared variable is protected by a lock. Eraser slows down the program tremendously, but this is OK because its not looking for data races (which are probably harder to detect), but its looking for bad locking which remains the same.
+
+Eraser does this by maintaining a set of locks used on a particular shared variable. Eraser intersects the current set with the set of locks that are used whenever a shared variable is accessed.
+
+False positives: 
+\begin{itemize}
+  \item When you initialize a variable (no other thread has accessed because it hasn't actually been initialized yet). Try to solve this by not reporting negative only when another thread has accessed it (shared).
+  \item When many people read a variable at the same time. Solved this problem by making sure Eraser doesn't report anything until there is an access which is a write.
+  \item Private lock implementations. Eraser checks for the pthread library, but nothing else. Maybe there's a private implementation of a lock. No really good solution to this.
+  \item Benign races. Things which are race conditions but we don't care.
+\end{itemize}
+
+False negative: Eraser doesn't get run on all code (only the code that is run when eraser is being run). There might be code that is run very infrequently which Eraser doesn't get called on.
+
+Another False Negative: Dataraces don't just happen on shared variables.
+
+\section{MapReduce}
+
+If master fails, restart the job. If workers fail, reexecute.
+
+\section{BGP and RON}
+
+Internet Routing: internet is split into autonomous systems (AS) and BGP routes between ASs (MIT, Verizon, Sprint, etc). There are two relationships in BGP 1) transit (customer to a provider, constitutes a money relationship), 2) peering (peer to peer, no money).
+
+BGP is all about 2 things: 1) exporting routes (advertising) and 2) importing routes. The simple principle going into BGP is money. Only take a packet if you're making money out of it.
+
+Route Export:
+
+\begin{itemize}
+  \item AS tells everyone about its customers. Wants others to get to its customers through it.
+  \item AS tells customers about everyone (it knows). Wants customers to send packets through it.
+  \item AS only tells peers about its customers. Wants its peers to send packets to its customers.
+  \item AS doesn't tell others about its peers. AS doesn't want others to send packets through peering relationship, so that it doesn't get any money from a peering relationship.
+\end{itemize}
+
+Route Import:
+
+Prefer routes in order:
+\begin{itemize}
+  \item Customer. You can send this packet to your customer, which you get paid for.
+  \item Peer. You can send this packet to peer, which you don't pay for.
+  \item Provider. You pay for this.
+\end{itemize}
+
+All else equal, then prefer shorter AS-path.
+
+\end{document}
