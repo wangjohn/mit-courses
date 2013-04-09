@@ -1,3 +1,5 @@
+import time
+
 class ProblemStatement:
   def __init__(self, i, r, s, p, g, h):
     self.i = i
@@ -111,7 +113,10 @@ if __name__ == '__main__':
   ]
 
   for ps in problems:
+    start = time.time()
     discrete_log = QuadraticDiscreteLog(ps)
     a, b = discrete_log.solve_problem(z)
+    end = time.time()
+
+    print "Time: ", end - start
     print "a,b = ", a,b
-    print discrete_log.check_result(a, b, z)
