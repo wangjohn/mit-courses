@@ -1,0 +1,65 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Problem Set 4}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section*{Problem 4.1}
+
+\subsection*{Problem 4.1.a}
+
+We will use an algorithm that uses a hash table in order to take the space and time requirements of the discrete log problem down to $\theta(\sqrt{k})$. This will rely on the assumption that hash tables have expected $\theta(1)$ read and write time (which is a legitimate assumption for reasonable hash functions).
+
+Consider the following algorithm. First, we store $g^i$ for values of $i$ in the range $[0, m = 2^(k/2)]$. Then, for each $j$ in the same range, we check to see if $y (g^{-m})^j$ exists in the table. Formally, we have the following algorithm:
+
+\begin{verbatim}
+
+def discrete_log(p, g, y):
+  m = 2^(k/2)
+  g_results = {}
+  for i in range(0, m):
+    g_results[g^i % p] = i
+
+  k = y
+  for j in range(0, m):
+    if k % p in g_results:
+      i = g_results[k % p]
+      return (i,j)
+    else:
+      k = k*inverse(g^m)
+\end{verbatim}
+
+Here we see that if any pair $(i,j)$ is such that $g^i (g^{2^(k/2)})^j \equiv g^{i + j (2^{k/2})} \equiv y \pmod{p}$, then we will find it with this algorithm. This is because all possible combinations of $i$ and $j$ are iterated over in this algorithm, with the first loop iterating over all possible values of $i$ and the second loop iterating over all possible values of $j$.
+
+If any particular pair $(i,j)$ could be the correct pair for the discrete log problem with equal probability, then the expected number of pairs we must go through is $2^k$. However, we only need a runtime of $2^{k/2} (1 + 1/2)$ because we expect to finish halfway through the second loop. This is because we must complete the first loop in any given call to the \emph{discrete\_log} function, but each $j$ will have probability $1/m$ of hitting a correct result.
+
+The total space is given by the number of items in the hash table, which is $2^{k/2}$.
+
+\subsection{Problem 4.1.b}
+
+
+\end{document}
