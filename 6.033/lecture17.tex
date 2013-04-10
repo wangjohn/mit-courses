@@ -1,0 +1,119 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 17: Isolation}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Isolation Introduction}
+
+Plan: before or after atomicity.
+
+\begin{itemize}
+  \item Serializable
+  \item 2 Phase locking (read/write locks, and early release)
+  \item Weaker semantics
+\end{itemize}
+
+\subsection{Setting}
+
+We're on a single machine with multiple processes operating concurrently who are all trying to interact with the database system. Can even assume that the machine has multiple cores so that these processes can truly run in parallel.
+
+Let's assume that one process does $transfer(A,B)$ and the other does $transfer(C,D)$. We have a write set and a read set. For the first one, the write set is both $A,B$ and the read set is both $A.B$. Similar for the second transfer. If the read and write sets are completely independent then you can just run these transactions concurrently and not worry about anything.
+
+Let's go back to the bank account example and add a new operation. Before we only have transfer which was atomic, but we now also may want to calculate interest:
+
+\begin{verbatim}
+interest(rate)
+  begin
+  for each account x:
+    x = x * (1 + rate)
+  commit
+\end{verbatim}
+
+You could make sure that these actions run correctly if you have a global lock and an ordering. However, this isn't a good solution because you get correctness without any concurrency (so a huge performance penalty).
+
+\subsection{Correctness and Serializability}
+
+Let's make sure we know what correct outcomes are. \emph{Serializability:} any outcome a sequential or serial execution could have is a correct outcome.
+
+For example, let's run $transfer(A,B,10)$ and $interest(0.1)$. The only legal correct outcomes are the serial outcomes (let's say $A=100$ and $B=50$ at the beginning). Correct outcomes are:
+\begin{itemize}
+  \item $A = 99, B = 66$ when we run transfer first then interest.
+  \item $A = 100$, $B = 65$ when we run interest first then transfer.
+\end{itemize}
+
+Any outcome that doesn't give the above results are incorrect implementations under serializability.
+
+\subsection{Schedules}
+
+For example: Read and write $A$ on transfer, RW $A$ on interest, RW $B$ on transfer, RW $B$ on interst. This produces a valid result.
+
+Another example: Read $A$ on transfer, Read $A$ on interest, Write $A$ on transfer, Write $A$ on interest, RW $B$ on transfer, RW $B$ on interest. This is not a valid schedule and does not produce a correct result.
+
+The cool thing about our solution is that the database system is going to figure out correct schedules on its own. The programmer doesn't have to take care of locks so it is much cleaner for the programmer.
+
+\section{Obtaining Isolation}
+
+\subsection{First Attempt}
+
+Whenever we read a variable, we acquire the lock. Whenever we write a variable, we also acquire the variable's lock. But we need to figure out when we release the lock? We do this exactly on commit:
+
+\begin{verbatim}
+commit():
+  write commit record
+  release all locks
+\end{verbatim}
+
+Why is releasing the lock before the commit bad? It is because we might not be done writing, or we might abort something. We have to keep the locks until we have commit. It's fine the release after commit point because we're done writing in that transaction after the commit. 
+
+Notice the order writing the commit record, then releasing the lock. This is important because if you do the other way (i.e. release locks then commit the records), then there is the possibility that some other transaction writes a commit record before you write yours and then the system fails. Now when we recover, we undo the original commit, and we've lost serializability.
+
+\subsection{Deadlocks}
+
+However, locking leads to the possibility of deadlocks. Let's say you run $transfer(A,B)$ in one transaction and $interest(0.1)$ in another. Then the first transaction acquires lock $A$ and the second transaction might acquire lock $B$, which means they are both waiting for each other to release the locks.
+
+Solutions:
+\begin{itemize}
+  \item Order the locks. Used in practice quite often, but there are a couple of cases where this isn't the ideal solution. For example, some variables might get used really frequently while others not so frequently if theres a large backlog.
+  \item Detect deadlocks. Use a wait-for dependency graph (chapter 5). You check to see if the wait-for dependency graph has a cycle, which means it has a deadlock (edges from the lock to the variable on holding and waiting). If you detect a deadlock, then you can abort one of the transactions in the cycle.
+  \item Timeout and abort after a particular timeout.
+\end{itemize}
+
+\subsection{Optimizations}
+
+\begin{itemize}
+  \item Let's create reader and writer locks. Acquire a read lock, block if there are any writers. To acquire a write lock, you block if there are any readers or writers. This means there can be many readers (since they don't modify anything), but the writer needs to have everyone off the variable.
+  \item Cascading aborts (release write locks early). Release locks after they're done, not after commit. This means if you abort, you need to abort the transactions that have read the variables you're modifying. These other transactions cannot commit until you have committed.
+  \item Weaker semantics than seriabilizability (Read Committed isolation).
+\end{itemize}
+
+\subsection{Read Committed Isolation}
+
+You don't have read locks at all. This is what Postgres ships with. Usaully, a super accurate count isn't really worth it, and you don't really need the read locks.
+
+The big advantage of this approach is that you get a lot more concurrency and performance. Most people want their transaction systems to perform really fast.
+
+\end{document}
