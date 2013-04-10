@@ -1,0 +1,69 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 16: Logging}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Simple Logging}
+
+We're going to be focusing on the all of nothing atomicity. We'll use the example of bank accounts. Recall that we created all-or-nothing logging using a shadow copy, where we copied the current log into a temporary file, then replaced the original with the temporary file. This works only if the rename command is atomic (and it can be implemented in such a way).
+
+We discovered at the end of last lecture that although shadow copies are a cool idea, they're not always the best idea. What happens if all the data is spread around in multiple files? What if you are worried about performance, if the file is really large, created a new file is really expensive.
+
+Logging can implement these transactions in a clean way so we don't have to worry about the above.
+
+\subsection{Bank Account Example}
+
+In the first transaction, we have two accounts $A = 100$ and $B= 50$. In the second transaction, we have $A = A - 20$ and $B = B +20$. In the third transaction, we do $A = A + 30$.
+
+We need to implement primitives \emph{begin, abort, commit} which will start and end transactions.
+
+\subsection{Reading with a Log}
+
+Reads through the log backwards. If you find a commit in the log, you add the id to the transactions that have been committed. If something is of type update and the transaction id is in commits, and if the record's variable is the same as the current variable, then you just return the new value.o
+
+Basic idea: keep track of all the updates you have ever done. Writing is fast, you just append to the end of the log. Every time you read, you might have to scan from the end of the log to the beginning of the log (look until you get to the setter of a particular variable).
+
+This has great write and recovery time, but terrible read time.
+
+\section{Write Ahead Logging}
+
+Reading is incredibly non-performant, and you use read a lot, so we should try to get something that is faster.
+
+\subsection{Increasing Read Performance}
+
+We're going to have two storage objects, the database and the log. We'll keep things in cells in the database.
+
+To read, we just return whatever value is in the database cell for that variable. To write, we append the update to the log, and then we update the value in the database.
+
+Problem: Need to make sure that you first log then install on the database. Otherwise, if you you do the other way and failure happens between database and log steps, then you can't recover the database state. If you always log before database, you'll be sure that you can always recover the database. This is called \emph{write ahead loggin (WAL)}.
+
+\subsection{Recovery}
+
+In order to recover, we keep a set of transactions that are done. For each record in the log (reading backwards), if we have committed or aborted something, then we add that transaction to the set of done transactions. If the type is an update and the transaction is not done, then we write the old variable to the database cell. This performs an undo on everything that we haven't yet committed so that everything is atomic. We then add the transaction id to the set of aborted transactions.
+
+Once we finish, we write to the log all of the records that are in the aborted set.
+\end{document}

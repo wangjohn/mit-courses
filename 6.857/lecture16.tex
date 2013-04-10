@@ -1,0 +1,90 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 16: Making RSA IND-CCA2 Secure}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{RSA and IND-CCA2 Security}
+
+Factoring: $exp( c - (\ln n)^{1/3} (\ln \ln n)^{2/3} )$.
+
+In practice, we've seen factoring of 768 bit numbers and 1024 bit numbers.
+
+We need randomization in RSA and still have redundancy check.
+
+\subsection{The Scheme}
+
+$|r| = k_1$ bits and $|m| = t$ bits. $G: \{0, 1\}^{k_0} \to \{0,1\}^{t + k_1}$ is a random oracle function. We take $r$ which is $k_0$ bits and send it to $G$ and exclusive or the result with $m | 0^{k_1}$.
+
+Now we have $H: \{0,1\}^{t + k_1} \to \{0,1\}^{k_0}$. We can take the result of the exclusive or, and send it to $H$, take the result and exclusive or it with the $r$ message.
+
+The result is a string of $t + k_1 + k_0$ bits (just concatenate the two results), and now we feed that into RSA. We call the result $x$ and do $x^e \pmod{n}$. This is called OAEP (Optimal Asymmetric Encryption Padding). This really fixes a lot of the RSA problems.
+
+\subsection{Decryption}
+
+Set $x \leftarrow y^d \pmod{n}$. We invert OAEP and reject the output if $0^{k_1}$ is not present. Otherwise, if we don't reject, then we output $m$. 
+
+\subsection{IND-CCA2 Security}
+
+Theorem: RSA with OAEP is IND-CCA2 secure assuming a random oracle for the functions $G$ and $H$ and assuming RSA is hard to invert or random in paths.
+
+\subsection{Real World Attacks}
+
+There are still attacks that can occur on imperfect implementations in the real world:
+
+\begin{itemize}
+  \item Timing attacks. Figure out if different results have different times, then you can use the time to give you an idea of how to do things.
+  \item Power attacks. If the power usage depends on the bits, then you can look at the power trace of the operation and try to figure out things which are happening inside of the computer.
+\end{itemize}
+
+Try interrupting power supply. If people are using CRT to get $y^d \pmod{n}$. Let mod $p$ succeed and mod $q$ fail. Then you have $y^{d_1}$ but not $y^{d_2}$ (say $n = pq$). We have something that is correct mod $p$ (let's say the answer $z$), but incorrect mod $q$ lets say $z'$. This means that $z = z' \pmod{p}$ and $z \neq z' \pmod{q}$. This means $z - z' = 0 \pmod{p}$. This gives $gcd(z - z', n) = p$.
+
+
+It is ok for $e$ to be short, but not ok for $d$ to be short. For example $d < n^{1/4}$ is insecure. Recall that $\phi(n) = (p-1)(q-1)$ and $ed = q \pmod{\phi(n)}$.
+
+\section{Digital Signatures}
+
+Alice computes signature $\sigma_A(m) = sign(SK_A, m)$ and sends $m, \sigma_A(m)$ to Bob who uses Alice's public key. In digital signatures we have:
+\begin{itemize}
+  \item $Keygen(1^{\lambda}) \to (PK, SK)$.
+  \item $Sign(SK, m) \to \sigma_{SK}(m)$.
+  \item $Verify(PK_A, m, \sigma) \to boolean$. We want for all $m$, we have $Verify(PK_A, m, Sign(SK_A, m)) = True$.
+\end{itemize}
+
+The adversary wants to get Bob to accept something that Alice did not sign. The adversary is interested in foregery. We can set this up as a game.
+
+\subsection{}
+
+Definition: (Weak) existential unforgeability under adapative chosen message attack.
+
+\begin{itemize}
+  \item Examiner gets $(PK, SK)$ from $Keygen(1^\lambda)$ and $PK$ is given to the adversary.
+  \item Adversary obtains valid signature on messages $m_1, \ldots, m_q$ of his choice for $q = poly(\lambda)$.
+  \item Adversary outputs $(m, \sigma_{*})$ and adversary wins if $Verify(PK,m,\sigma_A) = True$ and $m \not \in \{m_1, \ldots, m_q \}$.
+\end{itemize}
+
+The scheme is secure if $Prob[Adversary wins]$ is negligible.
+\end{document}
