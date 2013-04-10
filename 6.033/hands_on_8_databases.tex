@@ -1,0 +1,69 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Hands On 8: Databases}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Using SQL}
+
+\begin{enumerate}
+  \item Completed
+  \item Completed
+  \item Displaying the fullname of a person with username bitdidd1:
+    \begin{verbatim}
+      SELECT fullname FROM accounts WHERE username = 'bitdidd1';
+    \end{verbatim}
+
+    Average account balance of people with at least 70 in account:
+    \begin{verbatim}
+      SELECT AVG(balance) FROM accounts WHERE balance > 70;
+    \end{verbatim}
+
+  \item 
+    \begin{verbatim}
+      UPDATE accounts SET balance = balance - 10 WHERE fullname = 'jones';
+      UPDATE accounts SET balance = balance + 10 WHERE fullname = 'mike';
+    \end{verbatim}
+
+    \section{Transactions}
+
+  \item The list of accounts from the two terminals are not the same. This is because the transaction of the second terminal has not yet been committed, so the first terminal does not see the insertion.
+  \item The list of accounts does not include this new record. This is because the second terminal is still in a transaction which has not completed yet, so it has not been updated with the information from the committed transaction from the first terminal.
+  \item Committing the transaction finally shows the newly added record in the list of accounts. This is because both transactions have finally committed so each transaction can see the new record.
+  \item The second update stops and blocks forever. This is because the first update has not been committed so the transaction prevents you from updating the balance until the first transaction commits or aborts.
+  \item Once I abort, the second transaction updates successfully inside of its transaction.
+  \item The resulting balance is 73 and mike has lost 10 (so only the second update was successful).
+  \item Nothing has changed yet because we have not committed the transaction.
+  \item The changes become visible only after the commit command has been called. This is because the transaction is supposed to be an atomic object, so all records are committed at the same time when the user calls commit.
+
+    \section{Transaction Isolation Levels}
+
+  \item Postgres probably implements READ COMMITTED as the default because it is simple. Usually, applications will not care about seeing things after commit or before commit (since those transactions will be fast). It takes incredibly long queries or other complex actions to make a noticable difference. Because of this, it seems excessive for the average user to have to understand SERIALIZABLE. In the normal case of usage, READ COMMITTED is simple and will suffice.
+\end{enumerate}
+
+\end{document}
