@@ -1,0 +1,88 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Lecture 17: Digital Signatures}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Hash and Sign}
+
+If you have some very long message $M$, it's a pain to use all these public key operations on such a long message. What's typically done is that we don't sign the entire message $M$, we sign $m = h(M)$ which is some hash of $M$ which is collission-resistant.
+
+We've reduced the problem to sign short values (say 256 bit messages). This is a straightforward idea and is a nice application of hash functions. This is the model we will be using.
+
+\section{RSA Based Signing}
+
+\subsection{PKCS}
+
+One of the first hash and sign methods was PKCS. It's just a padding approach. We're given a message $M$, so we compute its hash value $m = h(M)$. Now we want to pad it out to be the size of the RSA modulus. We define $pad(m) = 0x0001FF \ldots FF 00 || hashname || m$. There are a lot of pad bytes ($F$ in hexidecimal is just a series of 1s). The hashname is some identifier for the hash that you used.
+
+We take this padded value $pad(m)$ to produce a signature $\sigma(M) = (pad(m))^d \pmod{n}$.
+
+To verify: we take $x = \sigma(M)$ and we verify that $x^e \to pad(m)$ can be parsed with an acceptable hash function. We also check to make sure $m = h(M)$.
+
+The question is whether or not an adversary can forge these messages. This is not provably secure, it's heuristic in design.
+
+\subsection{PSS (Probabilistic Signature Scheme)}
+
+Created by Bellare and Rogaway in '96. It's a signature scheme based on RSA which uses randomization. We have a message $M$ and a random value $r$ as inputs. We want to combine these together and run them through RSA in some way. First, we hash the long message while putting randomization into it: $w = h(M, r)$. Now we take a new hash function $g_1$, and we compute $r \oplus g_1(w) = r^*$. Finally, we have a third hash function $g_2$ and we compute $g_2(w)$.
+
+The result of these operations is that we have $w, r^*, g_2(w)$. We can concatenate these together to obtain $y = 0 || w || r^* || g_2(w)$. Now we have a signature $\sigma(M) = y^d \pmod{n}$.
+
+Writing it out more carefully, $r \leftarrow \{0,1\}^{k_0}$ is randomly chosen, $w \leftarrow h(M || r)$, $r^* \leftarrow g_1(w) \oplus r$, $y \leftarrow 0 || w || r^* || g_2(w)$. Finally our signature is $\sigma(M) = y^d \pmod{n}$.
+
+The verifitication is to compute $y = \sigma(M)^e \pmod{n}$. Now we parse $y$ to get $b | w | r^* | \gamma$. We compute $r = r^* \oplus g_1(w)$ and we accept if $b = 0$ and $h(M || r) = w$ and $g_2(w) = \gamma$.
+
+Theorem: PSS is (weakly) existentially unforgeable against a chosen message attack in the Random Oracle Model and RSA being not invertible on random inputs.
+
+\section{ElGamal Based Signing}
+
+\subsection{ElGamal Digital Signatures}
+
+We have standard setup with large prime $p$ and a generator $g$ of $Z_p^*$. We have keygen $x \leftarrow \{0, 1, \ldots, p-2\}$ being a randomly chosen element (we know $|Z_p^*| = p-1|$). Now we set $y = g^x \pmod{p}$. So we have $SK = x$ and $PK = y$.
+
+Signing procedure ($Sign(M)$): compute $m = h(M)$ from hash and sign, assuming $h$ is collision resistance into $Z_{p-1}$. Pick a value $k \leftarrow Z_{p-1}^*$ at random such that $gcd(k, p-1) = 1$. Now take $r = g^k \pmod{p}$. This means that $r$ is currently indpenedent of message $M$! Now set $s = \frac{m - rx}{k} \pmod{p-1}$. We know that $k^{-1}$ exists modulo $p-1$. Now we have $\sigma(M) = (r,s)$.
+
+Veritification procedure ($Verify(M, y, (r,s))$): Check that $0 < r < p$ so that $r$ is in the correct range, otherwise reject. Now we check that $y^r r^s = g^m \pmod{p}$ where $m = h(M)$. We know that $y^r r^s = g^{rx} g^{ks} = g^{rx + ks} \pmod{p}}$. We want to know if this is equal to $g^m \pmod{p}$. These are equal if and only if their discrete logs are equal. This means that the equality is equivalent to $rx + ks \equiv m \pmod{p-1}$. This is the same as saying $s = \frac{m-rx}{k} \pmod{p-1}$. But this was our definition for $s$, so this checks out.
+
+Unfortunately this scheme isn't any good under our weak existential unforgeability. For example: lets choose $e \leftarrow Z_{p-1}$ which is chosen randomly. Now let $r = g^e y \pmod{p}$. We have $s = -r \pmod{p}$. Let $h(x) =x $ be the identity hash function (certainly collision resistant). Now we have $M = m = es \pmod {p-1}$. Now I claim that $m$ has a valid signature $(r,s)$. Let's check: $y^r r^s = g^m \pmod{p}$. This is just $g^{xr} (g^e y)^{-r} = g^{es} = g^m \pmod{p}$. We've forged a signature!
+
+However, we can fix this pretty easily using the same concept we used in PSS. Instead of using $m = h(M)$, let's add some randomization. So let's take a random value $r$ and compute $m = h(M || r)$.
+
+Theorem: Modified ElGamal Signature Scheme is existentially unforgeable against a chosen message attack in Random Oracle Model, assuming discrete logairthm problem is hard.
+
+\subsection{DSS}
+
+Setup: $q$ is a prime 160 bits long. $p = nq + 1$ where $|p|$ = 1024 bits. Now take $g_0$ which is a generator of $Z_p^*$ and $g = g_0^n$ which generates a subgroup of $Z_p^*$, $Z_q$, of order $q$.
+
+Keygen: $x \leftarrow Z_q$ is the SK and $|x| = 160$ bits and take $y = g^x \pmod{p}$, where $|y| = 1024$ bits.
+
+Signing ($Sign(M)$): We generate $k \leftarrow Z_q^*$ as a random value where $1 \leq k \leq q$. Now we have $r = (g^k \mod{p}) \pmod{q}$. Now compute $m = h(M)$ and $s = \frac{m + rx}{k} \pmod{q}$. Now $s, r$ each have 160 bits. Redo everything if $s = 0$ or $r = 0$. Now we have a signature $\sigma(M) = (r,s)$. 
+
+Verification: Check that $0 < r < q$, $0 < s < q$. Now we check that $y^{r/s} g^{m/s} \pmod{p} \pmod{q} = r$ where $m = h(M)$. This is just $g^{(rx + m)/s} = g^k = r \pmod{p} \pmod{q}$. 
+
+Like ElGamal, it's not unforgeable in this form, you need to add $r$ a random bit into $m = h(M || r)$ in order to get existential unforgeability.
+
+\end{document}
