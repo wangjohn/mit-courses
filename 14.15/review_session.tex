@@ -1,0 +1,173 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{14.15 \\
+Networks \\
+Quiz Review Session}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Centrality}
+
+\subsection{Eigenvector Centrality}
+
+Measures the extent to which you are talking to important people. $Ax = \lambda_1 x$ and $x = \frac{1}{\lambda_1} A x$ where $x$ is the eigenvector. The potential problem is that if a node has no incoming edges, then it can have 0 centrality, which can propogate.
+
+\subsection{Katz Centrality}
+
+$x = \alpha A x + \beta$. We account for the importance a node gets simply for existing. The $\beta$ provides this existence importance. Problem: if an important node points to another node, it gets too much importance.
+
+\subsection{PageRank Centrality}
+
+$x = \alpha A D^{-1} x + \beta$. Divides the node's importance by its out degree ($D$ is the diagonal matrix of the degrees).
+
+\subsection{Application of Centrality}
+
+Notation for directed networks: $A_{ij} = 1$ if and only if there exists an edge from $j$ to $i$. We use the same notation for probability matrices as well.
+
+Example: Consider a $k$-regular undirected network.
+\begin{itemize}
+  \item Show that 1 is an eigenvector with eigenvalue $k$: $A \vec{1} = [k, k, k, \ldots, k]^T = k \vec{1}$.
+  \item Find eigenvector centralities. Real and symmetric matrix for $A$. Every other eigenvector $\vec{v}$ satisfies $\vec{v} \cdot \vec{1} = 0$ so that $\vec{v}$ has negative entries. Therefore, we see that $\vec{1}$ is the only non-negative eigenvector. Perron-Frobenius tells us that the associated eigenvalue is the largest in magnitude. Therefore, we see that $\vec{1}$ gives the desired centralities.
+  \item Find Katz centralities. We know that $\vec{x} = (I - \alpha A)^{-1} \vec{1} = (I + \alpha A + \alpha^2 A^2 + \ldots) \vec{1}$. $A \vec{1} = k \vec{1}$ so $A^2 \vec{1} = A (A \vec{1}) = A (k \vec{1}) = k (A \vec{1}) = k^2 \vec{1}$. This means that the above is $x = \frac{1}{1 - \alpha k} \vec{1}$.
+  \item Betweenness, closeness will give different measures of centrality for each node.
+\end{itemize}
+
+\section{Consensus}
+
+$G = (V, E)$. For each node $i \in V$ we have $N(i)$ = neighbors of $i$ and we define $y_i$ = initial value of node $i$. Now let us define a gossip algorithm:
+
+\subsection{Gossip Algorithm}
+
+At time step $k$, every node does the following update:
+\begin{eqnarray}
+  x_i(k+1) = \sum_{j \in N(i)} b_{ij} x_j(k)$
+\end{eqnarray}
+
+We're interested in figuring out what happens with this kind of update. This has the form $x(k+1) = B x(k)$. If we repeat this many times we have the form $x(k) = B^k y$.
+
+\subsection{When do we get Consensus}
+
+We have consensus when $B$ is stochastic, so that $\vec{1} B = \vec{1}$. We get this because $x(k) \to \lambda_1^k v_1 w_1' y$ where $v_1$ is the left eigenvector and $w_1$ is the right eigenvector. We know that $v_1 = 1$ so that $x(k) = \lambda_1^k w_1' y = w_1' y$. This is when we get consensus. So you converge to $v_1 w_1' y$ (left eigenvector, right eigenvector, initial).
+
+\subsection{When do we get the average? $\frac{1}{n} \sum y$}
+
+We get this when $B$ is doubly stochastic. As before $1$ is a left eigenvector $\vec{1}' B = \vec{1}'$, but now it is also a right eigenvector $B \vec{1} = \vec{1}$.
+
+Therefore, we see that $x(k) \to \lambda_1^k v_1 w_1' y = 1 1 y = \sum_i y_i$.
+
+\section{Erdos Renyi Graphs and Phase Transitions}
+
+\subsection{How large should $p(n)$ be to observe a vertex with 3 neighbors?}
+
+Statement: $t(n) = \frac{r}{n^{4/3}}$ for $r > 0$ is a threshold function.
+
+This is a phase transition:
+1) WTS if $\frac{p(n)}{t(n)} \to 0$, then $P(structure exists) \to 0$ as $n \to \infty$.
+2) WTS if $\frac{p(n)}{t(n)} \to \infty$, then $P(structure exists) \to 1$ as $n \to \infty$.
+
+Let's figure out the expectation of the structure existing (this is how we guess the threshold function)
+\begin{eqnarray}
+  E[number of structures] = 4 {n \choose 4} p^3 \sim c n^4 p^3
+\end{eqnarray}
+
+Now lets prove the first statement:
+\begin{eqnarray}
+  E[number of structures] = c n^4 p^3 = c \left( \frac{p(n)}{t(n)} \right)^3 \to 0
+\end{eqnarray}
+
+This implies that $P(number of structures > 0) \to 0$.
+
+Now let's prove the second statement. 
+
+Trick: $P(number of structures = 0) \leq \frac{Var(number of structures)}{E^2[number of structures]}$. And we know that $Var(X) = \sum P(x)(x - E(x))^2 \geq |P(X = 0)|(0 - E(x))^2 = P(X = 0) E^2[X]$.
+
+Now lets focus on variance. Let $I_i$ be 1 if the $i$th structure exists and 0 otherwise. Then we can say that $Var(number of structures) = Var(\sum_{i =1}^T I_i)$, where $T = {n \choose 4} 4 \sim n^4/6$. Continuing to expand we get $Var(\sum_{i=1}^T I_i) = \sum_{i=1}^T Var(I_i) + \sum_{i \neq j} Cov(I_i, I_j)$.
+
+We know that $Var(I_i) = p^3 ( 1 - p^3) \leq p^3 $ because its a bernoulli random variable with variance $pq$. We have $T \leq n^4$ such terms. We know that $Cov(I_i, I_j) = E[I_i I_j] - E[I_i] E[I_j]$. If there are no common edges, then covariance is 0. If $i$ and $j$ have one edge in common, $p^5 - p^3 p^3 = p^5 - p^6 \leq p^5$, because we have 5 edges so we need all five edges to exist. There are about ${n \choose 6} = n^6$ of these. If $i$ and $j$ share two edges, then we have to have 4 edges show up $p^4$ probability. The covariance in this term is $p^4 - p^6 \leq p^4$. There are about ${n \choose 5} = n^5$ of these.
+
+\begin{eqnarray}
+  P(number of structures = 0) &\leq& \frac{n^4 p^3 + n^6 p^5 + n^5 p^4}{E^2[number of structures]} \\
+                              &=& \frac{(p/t)^3 + (p/t)^5 \frac{1}{n^{2/3}} + (p/t)^4 \frac{1}{n^{1/3}}}{((p/t)^3)^2} \\
+                              &\to& 0
+\end{eqnarray}
+
+This means that $P(structure emerges) \to 0$.
+
+\section{Barabasi and Albert and Master Method}
+
+$m$ nodes are fully connected. We introduce node, connect to $m$ nodes, probability proportional to $k$, degree of node.
+
+1) probability of connecting to a node with $k$ neighbors is $k p_k / (\sum_{k'} k' p_{k'}) = k p_k / (2m)$.
+
+2) Expected number of nodes with $k$ neighbors to receive an edge $E[X]$. This is just $\frac{m k p_k}{2m} = \frac{k p_k}{2}$.
+
+3) Let $p_k(n)$ be the fraction of nodes with degree $k$ at time $n$.
+
+For $k > m$:
+\begin{eqnarray}
+  (n+1) p_k(n+1) = n p_k(n) + \frac{1}{2} (k-1) p_{k-1}(n) - \frac{k}{2} p_k(n)
+\end{eqnarray}
+
+For $k = m$:
+\begin{eqnarray}
+  (n+1) p_m(n+1) = n p_m(n) + 1  - \frac{m}{2} p_m(n)
+\end{eqnarray}
+
+4) $p_k = \frac{1}{2}(k-1) p_{k-1} - \frac{1}{2} k p_k$ for $k > m$ and $p_k = 1 - \frac{1}{2} m p_m$ for $k = m$.
+
+5) $p_k = \frac{k-1}{k+2} p_{k-1}$ and $p_m = \frac{2}{m+2}$.
+
+6) Plug in and we get $p_k = \frac{(k-1)(k-2) \ldots m}{(k+2)(k+1) \ldots(m+3)} p_m = \frac{2m(m+1)}{(k+2)(k+1) k} \approx k^{-3}$. 
+
+\section{Pure and Mixed Strategy Nash Equilibrium}
+
+\subsection{Pure Strategy NE}
+
+A strategy profile $s^* \in S$ is a pure strategy NE if and only if $u_i(s_i^*, s_{-i}^*) \geq u_i(s_i, s_{-i}^*)$ for all $s_i \in S_i$ for all $i$.
+
+\subsection{Mixed Strategy NE}
+
+A strategy profile $\sigma^* \in \Sigma$ is a mixed strategy NE if and only if $u_i(\sigma_i^*, \sigma_{-i}^*) \geq u_i (\sigma_i, \sigma_{-i}^*)$ for all $\sigma_i \in \Sigma_i$ for all $i$.
+
+Mixed strategy is that each strategy has a probability weighting.
+
+\subsection{Battlefield Example}
+
+2 armies, 3 battlefields. A battle is won if the number of troops you put there is larger than the number of troops your opponent put in that battlefield. The war is won if you win 2 battles. If you have a tie, you toss a coin for the battlefield.
+
+In this game, there is no pure strategy NE. If you play different strategies, that is not a NE. If you play the same strategies, there exists a deviation away from this, so its not a NE. For example, we attempt to see if profile (3,3,0) vs. (3,3,0) is NE, we can deviate to (4,1,1).
+
+There exists at least one mixed strategy equilibrium. Note that (6,0,0) is a bad strategy. Every pure strategy in support of the mixed strategy nash equilibrium $\sigma^*$ is best response to $\sigma_{-1}^*$ and so each has equal payoff.
+
+Uniformly mixing at random at random is not a NE.
+
+Is the following a NE? Each player plays (0,3,3), (3,0,3), (3,3,0) each with $1/3$ probability? No it is not, and it suffices to come up with a pure strategy profile which is not one of these three and it does better against each of the strategies. For example: (1,4,1). I win on (0,3,3) and (3,3,0). This means I win with probability 2/3 for a pure strategy (1,4,1). Now for (0,3,3) pure strategy, expected value is $(1/3)(1/2) + (1/3)(1/2) + (1/3)(1/2) = 1/2$. In expectation, you're probability of winning is just $1/2$.
+
+This means you should deviate to $(1,4,1)$. Therefore, both players playing like the above is not a mixed strategy nash equilibrium.
+\end{document}
