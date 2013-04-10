@@ -1,4 +1,5 @@
 import time
+import math
 
 class ProblemStatement:
   def __init__(self, i, r, s, p, g, h):
@@ -15,6 +16,11 @@ class QuadraticDiscreteLog:
     self.prime = problem_statement.p
 
   def solve_problem(self, z):
+    a = self.discrete_logarithm(self.problem_statement.g, z, self.problem_statement.r)
+    b = self.discrete_logarithm(self.problem_statement.h, z, self.problem_statement.s)
+    return (a, b)
+
+  def naive_solve_problem(self, z):
     result_cache = {}
     g = self.problem_statement.g
     h = self.problem_statement.h
@@ -49,6 +55,31 @@ class QuadraticDiscreteLog:
   ########################
   #### Helper methods ####
   ########################
+
+  def naive_discrete_logarithm(self, generator, element, order):
+    current_power = 1
+    element %= self.prime
+    for j in xrange(order):
+      if element == current_power:
+        return j
+      current_power = (current_power * generator) % self.prime
+
+  def discrete_logarithm(self, generator, element, order):
+    max_iteration = int(math.ceil(math.sqrt(order)))
+    current_power = 1
+    result_cache = {}
+    for j in xrange(max_iteration):
+      result_cache[current_power] = j
+      current_power = (generator * current_power) % self.prime
+
+    inverse = self.find_inverse(generator)
+    inverse_gen = self.repeated_squaring(inverse, max_iteration, self.prime)
+    current_result = element
+    for i in xrange(max_iteration):
+      if current_result in result_cache:
+        return i*m + result_cache[current_result]
+
+      current_result = (current_result * inverse_gen) % self.prime
 
   def repeated_squaring(self, base, exponent, modulo):
     value = base
@@ -86,7 +117,8 @@ if __name__ == '__main__':
   #  'john': 146689,
   #  'hrishi': 22801,
   #  'mari': 58081
-  z = 146689 * 22801 * 58081
+  #  'chidubem': 4489
+  z = 146689 * 22801 * 58081 * 4489
 
   problems = [
     ProblemStatement(40,524309,524731,550242371759,519522491680,503576381150),
