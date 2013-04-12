@@ -16,8 +16,14 @@ class QuadraticDiscreteLog:
     self.prime = problem_statement.p
 
   def solve_problem(self, z):
-    a = self.discrete_logarithm(self.problem_statement.g, z, self.problem_statement.r)
-    b = self.discrete_logarithm(self.problem_statement.h, z, self.problem_statement.s)
+    z_to_stwo = self.repeated_squaring(z, 2*self.problem_statement.s, self.prime)
+    z_to_rtwo = self.repeated_squaring(z, 2*self.problem_statement.r, self.prime)
+    a = self.naive_discrete_logarithm(self.problem_statement.g, z_to_stwo, self.problem_statement.r)
+    b = self.naive_discrete_logarithm(self.problem_statement.h, z_to_rtwo, self.problem_statement.s)
+
+    a = self.modular_inverse(z_to_stwo, self.problem_statement.r)*a % self.problem_statement.r
+    b = self.modular_inverse(z_to_rtwo, self.problem_statement.s)*b % self.problem_statement.s
+
     return (a, b)
 
   def naive_solve_problem(self, z):
@@ -148,6 +154,7 @@ if __name__ == '__main__':
     start = time.time()
     discrete_log = QuadraticDiscreteLog(ps)
     a, b = discrete_log.solve_problem(z)
+    print "Result is correct? ", discrete_log.check_result(a,b,z)
     end = time.time()
 
     print "Time: ", end - start
