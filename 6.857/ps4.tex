@@ -61,5 +61,32 @@ The total space is given by the number of items in the hash table, which is $2^{
 
 \subsection{Problem 4.1.b}
 
+To solve, this problem, we noticed that we could solve two smaller but related problems. We noticed that computing $z^s$ or $z^r$ was equivalent to computing $g^{sa}$ and $h^{rb}$ respectively. This is because we have $g^a h^b \equiv z \pmod{p}$ and that $g^a h^b = (g_1^{s})^a (g_1^r)^b = g_1^{sa + rb}$. Now, this implies for $z^s$ (and equivalently for $z^r$ by symmetry):
+
+\begin{eqnarray}
+  z^s &\equiv& (g_1^{sa+rb})^s \pmod{p} \\
+      &\equiv& g_0^{2(sa + rb)s} \pmod{p} \\
+      &\equiv& g_0^{2sa} (g_0^{2rs})^b \pmod{p} \\
+      &\equiv& (g_0^{2})^{sa} 1^b \pmod{p} \\
+      &\equiv& (g_1^{s})^a \pmod{p} \\
+      &\equiv& g^{sa} \pmod{p}
+\end{eqnarray}
+
+Thus, we can take discrete logarithms for $x$ in the congruence $g^{x} \equiv z^s \pmod{p}$, since we know $x$ only takes on a total of $r$ values. Because of this, we only need to use an algorithm which iterates over the group with $r$ elements, which is relatively fast. Then, once we have found $x$, we can obtain $a$ by taking $a \equiv x s^{-1} \equiv s a s^{-1} \pmod{r}$. A symmetric argument can be applied to $b$.
+
+To solve the congruence $g^x \equiv z^s \pmod{p}$, we use a fast discrete log algorithm called baby-step giant-step. The algorithm iterates through all values of $g^{i}$ for $i \in [0, \sqrt{r}]$, and stores them in a hash table. Then, the algorithm checks if any values of $z^s g^{-j \sqrt{r}}$ are in the hash table for $j \in [0, \sqrt{r}]$. This works because you can decompose $x = jr + i$. This algorithm requires $O(\sqrt{r})$ time and space complexity when computing $g^x \equiv z^s \pmod{p}$ and $O(\sqrt{s})$ time and space complexity when $g^y \equiv z^r \pmod{p}$. Since $r,s \approx \sqrt{p}$, we can see that the total time for our algorithm is $O(\sqrt{s} + \sqrt{r}) = O(\sqrt{\sqrt{p}}) = O(p^{1/4})$. Note we could have used any discrete logarithm algorithm which computes relatively quickly (such as Pollard's Rho or Brent's algorithm), but we decided on the baby-step giant-step because of its ease of implementation.
+
+Our group's number is $z = 872037443554961401$ and our results are given below:
+\begin{table}[h!]
+  \begin{tabular}{c | c c}
+    $i$ & $a$ & $b$ \\
+    \hline \hline
+    40 & 44833 & 308847 \\
+    48 & 3972467 & 2996205 \\
+    56 & 97799205 & 6351201 \\
+    64 & 1789544324 & 1110942352 \\
+    72 & 14241181606 & 27418647169
+  \end{tabular}
+\end{table}
 
 \end{document}

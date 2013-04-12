@@ -2,14 +2,11 @@
 
 %-------Packages---------
 \usepackage{amssymb,amsfonts}
-\usepackage[all,arc]{xy}
 \usepackage{enumerate}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsthm}
 \usepackage{theorem}
 \usepackage{verbatim}
-\usepackage{tikz}
-\usetikzlibrary{shapes,arrows}
 
 \newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
 \newenvironment{prob}{{\bfseries Problem:}}
@@ -66,7 +63,7 @@ $G = (V, E)$. For each node $i \in V$ we have $N(i)$ = neighbors of $i$ and we d
 
 At time step $k$, every node does the following update:
 \begin{eqnarray}
-  x_i(k+1) = \sum_{j \in N(i)} b_{ij} x_j(k)$
+  x_i(k+1) = \sum_{j \in N(i)} b_{ij} x_j(k)
 \end{eqnarray}
 
 We're interested in figuring out what happens with this kind of update. This has the form $x(k+1) = B x(k)$. If we repeat this many times we have the form $x(k) = B^k y$.
