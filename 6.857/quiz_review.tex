@@ -1,0 +1,54 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.857 \\
+Network and Computer Security \\
+Quiz Review and Notes}
+
+\author{Lecturer: Ronald Rivest\\
+Scribe: John Wang}
+
+\begin{document}
+
+\section{Security Scheme Definitions}
+
+Security schemes are normally presented as a game, and cryptographic systems are tested in these games to see if they are secure if an adversary cannot win a disporportionate amount of the time it.
+
+\subsection{IND-CCA (Indistinguishability under Chosen Ciphertext Attack)}
+
+Phase I:
+\begin{itemize}
+  \item Examiner produces $(PK, SK) \leftarrow Keygen(1^\lambda)$.
+  \item Adversary is given $PK$.
+  \item Adversary computes in time $poly(\lambda)$ with access to decryption oracle $Dec(SK, \cdot)$ and outputs $m_0, m_1$ where $|m_0| = |m_1|$. The adversary can also store state information $s$ and obtain this information in the next phase.
+\end{itemize}
+
+Phase II:
+\begin{itemize}
+  \item Examiner chooses $b \leftarrow \{0,1\}$ and computes $y = Enc(SK, m_b)$.
+  \item Adversary is given access to state information $s$ and allowed to compute in time $poly(\lambda)$. Then, he produces a guess $\hat{b}$.
+\end{itemize}
+
+If adversary's advantage, defined as $|P(\hat{b} = b) - \frac{1}{2}|$, is negligible then the encryption scheme is deemed secure.
+
+Note: Encryption must be randomized, and random values cannot be easily observable for IND-CCA security.
+
+\subsection{IND-CCA2 (Indistinguishability under Adaptive Chosen Ciphertext Attack)}
+
+Adapativity is a stronger security claim than IND-CCA. Everything in IND-CCA2 is the same, except that in phase II, the adversary is given access to the decryption block $Dec(SK, \cdot)$ on all inputs except for $y$.
+
+\subsection{IND-CPA (Indistinguishability under Chosen Plaintext Attack)}
+
+\end{document}
