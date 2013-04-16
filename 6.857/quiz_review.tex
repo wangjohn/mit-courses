@@ -73,9 +73,66 @@ Examples of semantically secure algorithms:
   \item Paillier
 \end{itemize}
 
+\section{Commitment Schemes}
+
+\subsection{Pedersen Commitment Scheme}
+
+
 \section{Cryptographic Systems}
 
 \subsection{ElGamal Encryption}
+
+ElGamal is a public key encryption scheme. The system revolves around a cyclic group $G = \langle g \rangle$ with generator $g$.
+
+Key Generation: We pick $x$ uniformly at random from $[0, \ldots, |G|-1]$ and set $SK = x$ and $PK = g^x$.
+
+Encryption: Pick $k \leftarrow [0, \ldots, |G|-1]$ uniformly at random and assume $m$ can be represented as an element of $G$. Now let $y = g^x$ be the public key of the recipient, we send $c = (g^k, m y^k)$ as the ciphertext.
+
+Decryption: We let $c = (a,b)$ be the received ciphertext. Compute and output $b a^{-x}$ as $m$.
+
+Proof of Correctness: We just need to show that $b a^{-x} = m$. But, we know that $b = m y^k$ and $a = g^k$, which implies that $b a^{-x} = m y^k (g^k)^{-x} = m y^k (g^x)^{-k} = m y^k y^{-k} = m$. This proves correctness.
+
+We see that ElGamal encryption is related to the Diffie-Hellman key exchange because you encrypt by multiplying by a DH key and decrypt by dividing by a DH key.
+
+Also we should note some facts about ElGamal encryption. First, ElGamal is \emph{malleable}. Given some encryption $E(m) = (g^k, m y^k)$ we can get a new encryption by taking some constant $c$ and creating $E(m') = (g^k, c m y^k) = (g^k, m' y^k$ where $m' = c m$. More generally, ElGamal is \emph{homomorphic}, i.e. multiplying two ciphertexts will create a new ciphertext which is the multiplication of the original plaintexts. Suppose we're given $c_1 = (g^r, m_1 y^r)$ and $c_2 = (g^s, m_2 y^s)$, then we have $c_1 c_2 = (g^{r+s}, (m_1 m_2) y^{r+s}) = Enc(m_1, m_2)$.
+
+You can re-randomize the encryption by multiplying by $Enc(g^s, y^s)$. For example, if you have some ciphertext $c = (g^r, m y^r)$, you can re-randomize by creating $c' = (g^r g^s, m y^r y^s) = (g^{r+s}, m y^{r+s})$. The new coefficient that you randomly chose is now $r+s$.
+
+Unfortunately, malleability is not the best for some cases. If we want to create something which is IND-CCA2 secure, we need to exclude malleability. The next scheme (Cramer-Shoup) builds off of ElGamal and creates a scheme which is IND-CCA2 secure.
+
+\subsubsection{Cramer Shoup}
+
+Let $G_q$ be a group of prime order $q$. For example, we could use $G_q = Q_p$ where $p = 2q+1$ and $p,q$ are prime.
+
+Key Generation:
+\begin{itemize}
+  \item Pick two number $g_1, g_2 \leftarrow G_q$ uniformly at random from the group.
+  \item Pick five numbers $x_1, x_2, y_1, y_2, z \leftarrow Z_q$ uniformly at random from the integer group.
+  \item Set $c = g_1^{x_1} g_2^{x_2}$, $d = g_1^{y_1} g_2^{y_2}$, and $h = g_1^z$.
+  \item Output $PK = (g_1, g_2, c, d, h)$ and we obtain $SK = (x_1, x_2, y_1, y_2, z)$.
+\end{itemize}
+
+Encryption:
+\begin{itemize}
+  \item Select some number $r \leftarrow Z_q$ uniformly at random.
+  \item Set $u_1 = g_1^{r}$ and $u_2 = g_2^{r}$.
+  \item Compute $e = h^r m$ and $\alpha = H(u_1, u_2, e)$ where $H: G_q^{e} \to Z_q$.
+  \item Set $v = c^r d^{r \alpha}$ and return the ciphertext $(u_1, u_2, e, v)$.
+\end{itemize}
+
+Decryption:
+\begin{itemize}
+  \item Using $H$, compute $\alpha = H(u_1, u_2, e)$.
+  \item Check that $u_1^{x_1 + y_1 \alpha} u_2^{x_2 + y_2 \alpha} = v$. If not equal, reject the message. If equal, return $m = e u_1^{-z}$ as the message.
+\end{itemize}
+
+Proof of Correctness. Note that $e u_1^{-z} = h^r m u_1^{-z} = h^r m (g_1^{r})^{-z}$. But we have chosen $h$ such that $h = g_1^z$ so that $h^r m (g_1^{r})^{-z} = h^r m (h^{-1})^r = m$. Now to give intuition on the correctness condition, we note that:
+\begin{eqnarray}
+  (u_1^{x_1} u_2^{x_2})(u_1^{y_1 \alpha} u_2^{y_2 \alpha}) &=& ((g_1^{r})^{x_1}(g_2^{r})^{x_2})((g_1^{r})^{y_1 \alpha} (g_2^{r})^{y_2 \alpha}) \\
+                                                           &=& c^r (d^r)^\alpha
+\end{eqnarray}
+
+But we have defined $v$ such that $v = c^r d^{r \alpha}$, so we are merely checking that this condition is true.
 
 \subsection{RSA}
 
@@ -98,7 +155,29 @@ The basic assumptions underlying RSA is that the RSA problem is hard, i.e that g
 
 \subsubsection{RSA-OAEP}
 
-Regular RSA is not IND-CCA2 because it isn't randomized. In order to get it to IND-CCA2, people have developed a new method for encryption which builds off of RSA.
+Regular RSA is not semantically secure (i.e IND-CPA) and its not even randomized. Therefore, it's not IND-CCA2 secure either. In order to get it to IND-CCA2, people have developed a new method for encryption which builds off of RSA. The new method adds some extra bits of padding (in order to check validity) and also some extra random bits. The algorithm is a feistel network which uses random oracles $G$ and $H$ to create a new plaintext message to send into RSA.
 
+Functions have the mapping $G: \{0,1\}^{k_0} \to \{0,1\}^{t + k_1}$ and $H: \{0,1\}^{t + k_1} \to \{0,1\}^{k_0}$, where $t = |m|$ is the length of the message.
+
+Encoding using RSA-OAEP:
+\begin{itemize}
+  \item Start with $k_0$ number of random bits to add and $k_1$ number of extra bits to add to end of message. We have two starting messages $X_0 = m || 0^{k_1}$ and $Y_0 \leftarrow \{0,1\}^{k_0}$.
+  \item Obtain the result $X = X_0 \oplus G(Y_0)$.
+  \item Use the result $X$ to compute $Y = H(X) \oplus Y_0$.
+  \item The message $m' = X || Y$ is now passed into RSA and encrypted to become $(m')^e \pmod{n}$.
+\end{itemize}
+
+Notice that this encoding makes sure to include some random bits $Y$ and does some transformations in the middle so that the bits are scattered about. Decoding is easy:
+\begin{itemize}
+  \item Take the ciphertext $c' = (m')^e \pmod{n}$ and decrypt regularly in RSA (i.e. $m' = c'^d \pmod{n}$).
+  \item Parse the decrypted plaintext for $X$ and $Y$.
+  \item Obtain $Y_0$ by doing $Y_0 = H(X) \oplus Y$.
+  \item Use the result of $Y_0$ to compute $X_0 = G(Y_0) \oplus X$.
+  \item Check to make sure that the last $k_1$ bits in $X$ are all zeros. If this is not true, discard the message as invalid. If it is true, accept the message.
+\end{itemize}
+
+RSA-OAEP is IND-CCA2 secure, assuming ROM for $G$ and $H$ and RSA is hard to invert on random inputs.
+
+\section{Diffie-Hellman Key Exchange}
 
 \end{document}
