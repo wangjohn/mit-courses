@@ -23,20 +23,22 @@ Scribe: John Wang}
 
 \begin{document}
 
+\maketitle
+
 \section{Security Scheme Definitions}
 
 Security schemes are normally presented as a game, and cryptographic systems are tested in these games to see if they are secure if an adversary cannot win a disporportionate amount of the time it.
 
 \subsection{IND-CCA (Indistinguishability under Chosen Ciphertext Attack)}
 
-Phase I:
+\emph{Phase I:}
 \begin{itemize}
   \item Examiner produces $(PK, SK) \leftarrow Keygen(1^\lambda)$.
   \item Adversary is given $PK$.
   \item Adversary computes in time $poly(\lambda)$ with access to decryption oracle $Dec(SK, \cdot)$ and encryption oracle $Enc(PK, \cdot)$. Adversary outputs $m_0, m_1$ where $|m_0| = |m_1|$. The adversary can also store state information $s$ and obtain this information in the next phase.
 \end{itemize}
 
-Phase II:
+\emph{Phase II:}
 \begin{itemize}
   \item Examiner chooses $b \leftarrow \{0,1\}$ and computes $y = Enc(SK, m_b)$.
   \item Adversary is given access to state information $s$ and allowed to compute in time $poly(\lambda)$. Then, he produces a guess $\hat{b}$.
@@ -73,10 +75,23 @@ Examples of semantically secure algorithms:
   \item Paillier
 \end{itemize}
 
+\newpage
+
 \section{Commitment Schemes}
+
+Commitment schemes are schemes in which people give a bid and commit to that bid beforehand, yet other people are unable to see that bid until the committer of the bid reveals it. This is especially useful in auctions. You obviously would want some particular properties. These properties are:
+\begin{itemize}
+  \item Hiding. $Commit(x)$ should not be visible to anyone and one should not be able to gain information about $x$ from $Commit(x)$.
+  \item Non-malleability. Can't produce a related commitment from $Commit(x)$. For example, you shouldn't be able to get $Commit(x+1)$ from $Commit(x)$.
+  \item Binding. You can only open $Commit(x)$ and reveal the original $x$ which you committed with.
+\end{itemize}
+
+In commitment schemes, we have two functions $Commit(x)$ which creates a commitment to $x$ and $Reveal(c)$ which reveals the commitment $c$.
 
 \subsection{Pedersen Commitment Scheme}
 
+
+\newpage
 
 \section{Cryptographic Systems}
 
@@ -84,13 +99,13 @@ Examples of semantically secure algorithms:
 
 ElGamal is a public key encryption scheme. The system revolves around a cyclic group $G = \langle g \rangle$ with generator $g$.
 
-Key Generation: We pick $x$ uniformly at random from $[0, \ldots, |G|-1]$ and set $SK = x$ and $PK = g^x$.
+\emph{Key Generation}: We pick $x$ uniformly at random from $[0, \ldots, |G|-1]$ and set $SK = x$ and $PK = g^x$.
 
-Encryption: Pick $k \leftarrow [0, \ldots, |G|-1]$ uniformly at random and assume $m$ can be represented as an element of $G$. Now let $y = g^x$ be the public key of the recipient, we send $c = (g^k, m y^k)$ as the ciphertext.
+\emph{Encryption}: Pick $k \leftarrow [0, \ldots, |G|-1]$ uniformly at random and assume $m$ can be represented as an element of $G$. Now let $y = g^x$ be the public key of the recipient, we send $c = (g^k, m y^k)$ as the ciphertext.
 
-Decryption: We let $c = (a,b)$ be the received ciphertext. Compute and output $b a^{-x}$ as $m$.
+\emph{Decryption}: We let $c = (a,b)$ be the received ciphertext. Compute and output $b a^{-x}$ as $m$.
 
-Proof of Correctness: We just need to show that $b a^{-x} = m$. But, we know that $b = m y^k$ and $a = g^k$, which implies that $b a^{-x} = m y^k (g^k)^{-x} = m y^k (g^x)^{-k} = m y^k y^{-k} = m$. This proves correctness.
+\emph{Proof of Correctness}: We just need to show that $b a^{-x} = m$. But, we know that $b = m y^k$ and $a = g^k$, which implies that $b a^{-x} = m y^k (g^k)^{-x} = m y^k (g^x)^{-k} = m y^k y^{-k} = m$. This proves correctness.
 
 We see that ElGamal encryption is related to the Diffie-Hellman key exchange because you encrypt by multiplying by a DH key and decrypt by dividing by a DH key.
 
@@ -104,7 +119,7 @@ Unfortunately, malleability is not the best for some cases. If we want to create
 
 Let $G_q$ be a group of prime order $q$. For example, we could use $G_q = Q_p$ where $p = 2q+1$ and $p,q$ are prime.
 
-Key Generation:
+\emph{Key Generation:}
 \begin{itemize}
   \item Pick two number $g_1, g_2 \leftarrow G_q$ uniformly at random from the group.
   \item Pick five numbers $x_1, x_2, y_1, y_2, z \leftarrow Z_q$ uniformly at random from the integer group.
@@ -112,7 +127,7 @@ Key Generation:
   \item Output $PK = (g_1, g_2, c, d, h)$ and we obtain $SK = (x_1, x_2, y_1, y_2, z)$.
 \end{itemize}
 
-Encryption:
+\emph{Encryption:}
 \begin{itemize}
   \item Select some number $r \leftarrow Z_q$ uniformly at random.
   \item Set $u_1 = g_1^{r}$ and $u_2 = g_2^{r}$.
@@ -120,13 +135,13 @@ Encryption:
   \item Set $v = c^r d^{r \alpha}$ and return the ciphertext $(u_1, u_2, e, v)$.
 \end{itemize}
 
-Decryption:
+\emph{Decryption:}
 \begin{itemize}
   \item Using $H$, compute $\alpha = H(u_1, u_2, e)$.
   \item Check that $u_1^{x_1 + y_1 \alpha} u_2^{x_2 + y_2 \alpha} = v$. If not equal, reject the message. If equal, return $m = e u_1^{-z}$ as the message.
 \end{itemize}
 
-Proof of Correctness. Note that $e u_1^{-z} = h^r m u_1^{-z} = h^r m (g_1^{r})^{-z}$. But we have chosen $h$ such that $h = g_1^z$ so that $h^r m (g_1^{r})^{-z} = h^r m (h^{-1})^r = m$. Now to give intuition on the correctness condition, we note that:
+\emph{Proof of Correctness:} Note that $e u_1^{-z} = h^r m u_1^{-z} = h^r m (g_1^{r})^{-z}$. But we have chosen $h$ such that $h = g_1^z$ so that $h^r m (g_1^{r})^{-z} = h^r m (h^{-1})^r = m$. Now to give intuition on the correctness condition, we note that:
 \begin{eqnarray}
   (u_1^{x_1} u_2^{x_2})(u_1^{y_1 \alpha} u_2^{y_2 \alpha}) &=& ((g_1^{r})^{x_1}(g_2^{r})^{x_2})((g_1^{r})^{y_1 \alpha} (g_2^{r})^{y_2 \alpha}) \\
                                                            &=& c^r (d^r)^\alpha
@@ -134,22 +149,24 @@ Proof of Correctness. Note that $e u_1^{-z} = h^r m u_1^{-z} = h^r m (g_1^{r})^{
 
 But we have defined $v$ such that $v = c^r d^{r \alpha}$, so we are merely checking that this condition is true.
 
+Notes: Cramer-Shoup satisfies IND-CCA2 security if DDH and if $H$ is target collision resistant. Our strongest notion of security is achievable, but at some cost in terms of speed and conplexity of the algorithm.
+
 \subsection{RSA}
 
 RSA is a public key encryption system.
 
-Key Generation: We define $Keygen(1^\lambda)$ as the following process:
+\emph{Key Generation:} We define $Keygen(1^\lambda)$ as the following process:
 \begin{itemize}
   \item Pick two large primes $p,q$ and set $n = pq$.
   \item Pick some number $e \leftarrow Z_{\phi(n)}^*$ and compute $d = e^{-1} \pmod{\phi(n)}$. Note that picking $e$ is equivalent to picking some $e$ from $Z_n^*$ where $gcd(e, \phi(n)) = 1$.
   \item Set the keys as $PK = (n, e)$ and $SK = (d, p, q)$.
 \end{itemize}
 
-Encryption: We have some message $m \in Z_n$ and we define the encryption operation as $Enc(PK, m) = m^e \pmod{n}$.
+\emph{Encryption:} We have some message $m \in Z_n$ and we define the encryption operation as $Enc(PK, m) = m^e \pmod{n}$.
 
-Decryption: We have some ciphertext $c$ and define decryption as $Dec(SK, c) = c^d \pmod{n}$.
+\emph{Decryption:} We have some ciphertext $c$ and define decryption as $Dec(SK, c) = c^d \pmod{n}$.
 
-Proof of correctness: Note that by CRT, proving correctness for $(m^e)^d \pmod{n}$ is equivalent to proving correctness for $(m^e)^d \pmod{p}$ and $(m^e)^d \pmod{q}$. WLOG we will prove it correct for $p$. In this case, if $m = 0 \pmod{p}$, then $(m^e)^d \equiv 0 \pmod{p}$ so we have the relation $m = (m^e)^d \pmod{p}$. If $m \neq 0 \pmod{p}$, then we have $(m^e)^d = m^{ed} \pmod{p}$. But we know that $d = e^{-1} \pmod{\phi(n)}$ so that $ed = 1 \pmod{(p-1)(q-1)}$. This implies that $ed = 1 + t(q-1)(p-1) = 1 + u(p-1)$. Therefore, we have $m^{ed} = m^{1+u(p-1)} \pmod{p}$ and by FLT, we have $m^{ed} = m \pmod{p}$. Implies that $(m^e)^d = m \pmod{p}$, which completes the proof.
+\emph{Proof of Correctness:} Note that by CRT, proving correctness for $(m^e)^d \pmod{n}$ is equivalent to proving correctness for $(m^e)^d \pmod{p}$ and $(m^e)^d \pmod{q}$. WLOG we will prove it correct for $p$. In this case, if $m = 0 \pmod{p}$, then $(m^e)^d \equiv 0 \pmod{p}$ so we have the relation $m = (m^e)^d \pmod{p}$. If $m \neq 0 \pmod{p}$, then we have $(m^e)^d = m^{ed} \pmod{p}$. But we know that $d = e^{-1} \pmod{\phi(n)}$ so that $ed = 1 \pmod{(p-1)(q-1)}$. This implies that $ed = 1 + t(q-1)(p-1) = 1 + u(p-1)$. Therefore, we have $m^{ed} = m^{1+u(p-1)} \pmod{p}$ and by FLT, we have $m^{ed} = m \pmod{p}$. Implies that $(m^e)^d = m \pmod{p}$, which completes the proof.
 
 The basic assumptions underlying RSA is that the RSA problem is hard, i.e that given $c$ and $e$ the computation of $c = m^e \pmod{n}$ is difficult for $n$ large. The best known current way to solve this problem is by factoring $n$ and solving the congruence modulo smaller primes, via the Chinese Remainder Theorem.
 
