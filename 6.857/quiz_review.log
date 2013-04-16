@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.25)  16 APR 2013 16:30
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.25)  16 APR 2013 17:39
 entering extended mode
  %&-line parsing enabled.
 **quiz_review.tex
@@ -213,14 +213,22 @@ driver: pdftex
 (1in=72.27pt, 1cm=28.45pt)
 -----------------------
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
 [2]
-Overfull \vbox (4.51111pt too high) has occurred while \output is active []
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[3] (./quiz_review.aux)
+[3]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[4]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[5] (./quiz_review.aux)
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
@@ -232,19 +240,21 @@ Here is how much of TeX's memory you used:
  5145 multiletter control sequences out of 15000+50000
  9394 words of font info for 37 fonts, out of 3000000 for 9000
  875 hyphenation exceptions out of 8191
- 34i,6n,32p,700b,164s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,8n,32p,723b,198s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
 re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-t
 exlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/font
 s/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fonts/type1/publ
 ic/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
 cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb><
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/
-texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texliv
-e/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on quiz_review.pdf (3 pages, 144564 bytes).
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/te
+xmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive
+/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texlive/fonts/type1
+/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsf
+onts/cm/cmti10.pfb>
+Output written on quiz_review.pdf (5 pages, 187566 bytes).
 PDF statistics:
- 52 PDF objects out of 1000 (max. 8388607)
+ 66 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

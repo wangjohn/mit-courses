@@ -90,6 +90,26 @@ In commitment schemes, we have two functions $Commit(x)$ which creates a commitm
 
 \subsection{Pedersen Commitment Scheme}
 
+\emph{Setup:} Choose $p,q$ as large primes such that $q | p-1$ and $p$ is a safe prime. For example $p = 2q +1$ would work. Now let $q$ be the generator of the order $q$ subgroup of $Z_p^*$. Let $h = g^a$, where $a$ is secret.
+
+\emph{Commit:} We want some commitment $x$ where $x \in Z_q$. Then we choose $r \in Z_q$ uniformly at random and set $Commit(x) = c = g^x h^r \pmod{p}$.
+
+\emph{Reveal:} The sender reveals $x$ and $r$, and the receiver verifies that $c = g^x h^r \pmod{p}$.
+
+To make sure all the properties are satisfied, let's go through them:
+
+Hiding: Given $c = g^x h^r \pmod{p}$, this doesn't tell us anything about $x$ because any $x'$ could be possible. Just pick some $x' \in Z_q$ and we can find an $r'$ that matches this $x'$ in the following way:
+\begin{eqnarray}
+  g^{x} h^r &=& g^{x'} h^{r'} \pmod{p} \\
+  g^{x} g^{ar} &=& g^{x'} g^{ar'} \pmod{p} \\
+    g^{x + ar} &=& g^{x' + ar'} \pmod{p} \\
+        x + ar &=& x' + ar' \pmod{q} \\
+            r' &=& (x-x')/a + r \pmod{q}
+\end{eqnarray}
+
+Binding: Let's see if the sender can reveal the message $c$ in two different ways. He can't, as long as the DLP is hard, because he needs to compute $a$ in order to get $r'$ in the above equation. For $a$, you must solve $h = g^a \pmod{p}$.
+
+Non-malleable: Pedersen doesn't satisfy this. For instance, consider $c = g^x h^r$ and $c' = g c$, then we have $c' = g^{x+1} h^r$ so that $Commit(x+1) = Commit(x)g$. This is clearly mealleable.
 
 \newpage
 
@@ -196,5 +216,44 @@ Notice that this encoding makes sure to include some random bits $Y$ and does so
 RSA-OAEP is IND-CCA2 secure, assuming ROM for $G$ and $H$ and RSA is hard to invert on random inputs.
 
 \section{Diffie-Hellman Key Exchange}
+
+\subsection{Key Exchange Algorithm}
+
+The key idea behind Diffie-Hellman key exchange is that you want to establish a secret key between Alice and Bob, without Eve being able to listen in. If Eve can hear all communication that happens between Alice and Bob, this is somewhat hard, and you need to have a particular scheme that will prevent Eve from obtaining too much information. The Diffie-Hellman algorithm relies on the difficulty of the CDH problem in finite abelian groups.
+
+\emph{Setup:} We have a cyclic group $G = <g>$ with generator $g$. Both $G$ and $g$ are fixed and public. Alice picks some secret $x \leftarrow [0,\ldots,|G|-1]$ are random, and Bob picks some secret $y \leftarrow [0, \ldots, |G|-1]$ at random.
+
+\emph{Exchange:} Alice and Bob set their public keys as $g^x, g^y$ respectively and communicate these to each other.
+
+\emph{Computation of Shared Secret:} To compute the shared secret key, Alice takes Bob's secret key of $g^y$ and exponentiates to get $K = (g^y)^x = g^{xy}$. Likewise, Bob takes Alice's secret key $g^x$ and exponentiates to get $K = (g^x)^y = g^{xy}$ which is a shared secret.
+
+If the adversary doesn't know either $x$ or $y$, then it is hard for him to get $g^{xy}$ based on the difficulty of CDH.
+
+\subsection{Computational Diffie-Hellman (CDH)}
+
+This assumption arises from the Diffie-Hellman key exchange. We assume that if we are given $g^a, g^b$, it is computationaly infeasible to compute $g^{ab}$.
+
+\subsection{Decisional Diffie-Hellman (DDH)}
+
+There is a very related problem to CDH, called DDH. The DDH problem states that given a group $G$ with generator $g$, it is hard/infeasible to decide whether a given triple of elements was generated:
+\begin{eqnarray}
+  (g^a, g^b, g^c) \textrm{ vs. } (g^a, g^b, g^{ab})
+\end{eqnarray}
+
+Where $a,b,c$ are all randomly chosen from the group $G$.
+
+If DDH holds in a group, then you can't even recognize when the group key $g^{ab}$ is given to you.
+
+\subsection{Connection Between DDH and CDH}
+
+\subsubsection{DDH implies CDH}
+
+\emph{Theorem:} If DDH holds, then CDH holds as well.
+
+\emph{Proof:} Given that DDH holds, suppose that CDH does not hold. Then given $g^a, g^b$, it is not computationally intractable to compute $g^{ab}$, and so we can compute $g^{ab}$ in polynomial time. Then, this means that we can distinguish between $g^c$ and $g^{ab}$ if $c \neq ab$ because we can just check if $g^k = g^{ab}$ for some $g^k$. This is in contradiction to DDH. Therefore, we see that if DDH holds, then CDH must hold as well.
+
+\subsubsection{CDH is weaker than DDH}
+
+It is believed that CDH is a weaker assumption than DDH. That is, there are groups for which detecting DDH tuples is easy, but for which solving CDH problems is hard.
 
 \end{document}
