@@ -25,6 +25,12 @@ Scribe: John Wang}
 
 \maketitle
 
+\newpage
+
+\tableofcontents
+
+\newpage
+
 \section{Security Scheme Definitions}
 
 Security schemes are normally presented as a game, and cryptographic systems are tested in these games to see if they are secure if an adversary cannot win a disporportionate amount of the time it.
@@ -74,6 +80,59 @@ Examples of semantically secure algorithms:
   \item El Gamal
   \item Paillier
 \end{itemize}
+
+\newpage
+
+\section{Block Ciphers}
+
+We use block ciphers when we have a block of plaintext and want to encrypt it into a block of ciphertext. The idea behind this is that if you have a very large file, then you don't want to encrypt the entire thing, but rather parts of it. There are many ``modes of operation'' of block ciphers which handle variable length input.
+
+The basic way that a block cipher operates is by having some plaintext block $p$ and encrypting it with some key $k$ to obtain ciphertext $c$. The modes of operation provide an information service, such as confidentiality or authenticity.
+
+\subsection{Practical Block Ciphers}
+
+\subsubsection{Data Encryption Standard (DES)}
+
+This is an outdated mode of operation, but was one of the original modes of operation. Works on inputs of 64 bit plaintexts using 16 rounds. It uses a feistel structure to shuffle the bits around:
+\begin{itemize}
+  \item Divide the input into 32 bit halves ($l_0, r_0$).
+  \item Set $l_1 = r_0$ and compute $r_1 = l_0 \oplus f(r_0, k_0)$, where $f$ encrypts $r_0$ using key $k_0$.
+  \item Continue this for 16 rounds, each time using a new round key $k_i$.
+\end{itemize}
+
+The final result $l_{16}, r_{16}$ is concatenated back together to give the ciphertext. Inversion is easy because you can first take $l_{16}$ and compute $f(r_{16}, k_{16}) \oplus r_{16}$ to get $l_{15}$. Continue backwards until you get $l_0, r_0$.
+
+This mode is broken because it is subject to differential and linear attacks, and because the key is too short.
+
+\subsubsection{Advanced Encryption Standard (AES)}
+
+The standard that replaced DES. Uses 128-bit plaintext/ciphertext blocks and keys of size $128, 192,$ or $256$ bits in length. Can have $10, 12,$ or $14$ rounds depending on key length.
+
+Basically, this encryption standard uses a byte oriented design and views the 128 bit input as a 4 by 4 array of 16 bytes. The array is permutated with four different operations, and these permutations performed during each round. The permutations are as follows:
+\begin{itemize}
+  \item XOR the current state with the round key.
+  \item Substitute bytes from a lookup table (non-linear operation).
+  \item Rotate rows (each by different amounts).
+  \item Mix each column (by a linear operation).
+\end{itemize}
+
+Output the final state after however many rounds you are running. Can think of AES as an ideal block cipher, since it is pretty secure.
+
+\subsection{Common Modes of Operation}
+
+Modes of operation use an ideal block cipher (AES for example) and construct a system for encrypted inputs of variable length which are possibly longer than a single block.
+
+\subsubsection{ECB (Electronic Code Book)}
+
+Simplest mode of operation. Divide the input into blocks of $b$ bits in length, and encrypt each block with the same key. If the input is not the right length, you can pad the input with a single 1 bit, and enough 0s to make length a multiple of $b$.
+
+ECB preserves a lot of patterns and is really only good for sending random data.
+
+\subsubsection{CTR (Counter Mode)}
+
+Generate a pseudorandom sequence by starting at some integer $i$ and using the sequence $i, i+1, \ldots$. For each integer in this sequence, we encrypt the integer using a block cipher to get $x_i, x_{i+1}, \ldots$. The resulting sequence of $x_i$'s is a pseudorandom sequence, and we can obtain ciphertexts using $c_i = m_i \oplus x_i$.
+
+We can then transmit $i, c_1, c_2, \ldots$, and the receiver can decrypt these by just recreating the sequence of $x_i, x_{i+1}, \ldots$ and XORing with the received ciphertexts $c_1, c_2, \ldots$.
 
 \newpage
 
@@ -214,6 +273,8 @@ Notice that this encoding makes sure to include some random bits $Y$ and does so
 \end{itemize}
 
 RSA-OAEP is IND-CCA2 secure, assuming ROM for $G$ and $H$ and RSA is hard to invert on random inputs.
+
+\newpage
 
 \section{Diffie-Hellman Key Exchange}
 
