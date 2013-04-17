@@ -1,0 +1,41 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Hands On 9: Replicated State Machine}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Warmup}
+
+\begin{enumerate}
+  \item Yes, the balances in the temporary files are the same.
+  \item The error messages mean that the set of results from one pass over the set of servers produces more than one item. It prints this error message because you are connecting with two clients to the server, which means you will have two servers in the loop over the servers. Since both of these servers will respond with a result, you will have more than one pair of results in the results list, which will cause an error.
+  \item Completed by rerouting the client messages to the servers one message at a time, and only returning the first response.
+  \item Completed by sending the time from the coordinator, and having the servers update their time with the time sent over the socket, not their own local time.
+\end{enumerate}
+
+\end{document}
