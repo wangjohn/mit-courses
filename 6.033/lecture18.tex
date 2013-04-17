@@ -1,0 +1,86 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 18: Isolation and Distributed Transactions}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Isolation Review}
+
+We want to have the following properties:
+\begin{itemize}
+  \item All or nothing atomicity.
+  \item Before or after atomicity.
+\end{itemize}
+
+To obtain isolation, there are usually three ways to do this:
+\begin{itemize}
+  \item Serialization
+  \item Read/Committed
+  \item Snapshot Isolation
+\end{itemize}
+
+\subsection{Serialization}
+
+This is two-phase locking. There is a phase during which you acquire all the locks you need for you transaction. Once the lock point has passed, you go into the shrinking phase and you start to release the read locks. Finally, the commit happens, and you release all the remaining write locks.
+
+This is bad performance because you lock a ton of things as you are performing your transaction.
+
+One potential performance improvement: just get rid of read locks.
+
+\subsection{Read Committed}
+
+We have no read locks. This means that reads see the most recent writes.
+
+\subsection{Snapshot Isolation}
+
+No read locks. You get a snapshot of memory at the beginning of the transaction and you operate on this snapshot.
+
+\section{Distributed Transactions}
+
+Let's say there are multiple databases and we want to create a transaction that covers the entire database. We might have a network between two machines, and the database is distributed across the two machines. We have a couple of challenges:
+\begin{itemize}
+  \item The network might drop packages.
+  \item The machines fail independently.
+\end{itemize}
+
+Even worse, we can't tell whether the network failed or whether the machine failed. We need a new mechanism in order to perform distributed transactions. 
+
+Goal: All or nothing atomicity for the distributed transaction, i.e. either all records eventually get committed or they all abort.
+
+Assumptions:
+\begin{itemize}
+  \item Machines don't fail permanently
+  \item Network does not get fully disconnected.
+  \item Participants are known and coordinator is well defined.
+\end{itemize}
+
+\subsection{2-Phase Commit}
+
+We're going to have a the coordinator go to all of the databases that are affected and give them their queries. Each of the databases will create a tentative commit, and will give the coordinator a ready message. Once the coordinator gets all of the ready messages, the coordinator can commit the entire transaction. To do this, the coordinator writes to the log and commits. At this point, the coordinator has committed, but the participants don't know that all the other participants are ready. Thus, the coordinator sends the decision to all the participants. The participants then commit once they receive a decision and send an ack back to the coordinator. This finishes everything.
+
+We retransmit packets if we don't get acks or votes.
+
+\end{document}
