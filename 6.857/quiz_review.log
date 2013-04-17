@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  16 APR 2013 19:10
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  16 APR 2013 23:55
 entering extended mode
  %&-line parsing enabled.
 **quiz_review.tex
@@ -214,13 +214,6 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
 [2]
-Overfull \hbox (16.92781pt too wide) in paragraph at lines 129--130
- \OT1/cmr/m/n/10 2.1.2.\OT1/cmr/m/it/10 Advanced En-cryp-tion Stan-dard (AES).[
-] \OT1/cmr/m/n/10 The stan-dard that re-placed DES. Uses 128-bit plain-text/cip
-hertext
- []
-
-
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
@@ -229,6 +222,13 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
 [4]
+Overfull \hbox (16.92781pt too wide) in paragraph at lines 223--224
+ \OT1/cmr/m/n/10 4.1.2.\OT1/cmr/m/it/10 Advanced En-cryp-tion Stan-dard (AES).[
+] \OT1/cmr/m/n/10 The stan-dard that re-placed DES. Uses 128-bit plain-text/cip
+hertext
+ []
+
+
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
@@ -240,7 +240,35 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[7] (./quiz_review.aux) ) 
+[7]
+Overfull \hbox (6.11147pt too wide) in paragraph at lines 332--333
+\OML/cmm/m/it/10 poly\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^U\OT1/cmr/m/n/10 )$. W
+e al-low the ad-ver-sary to choose $\OML/cmm/m/it/10 m[]$ \OT1/cmr/m/n/10 based
+ on in-for-ma-tion ob-tained in mes-sages $\OML/cmm/m/it/10 m[]; [] ; m[]$\OT1/
+cmr/m/n/10 . 
+ []
+
+
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[8]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[9]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[10]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[11]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[12] (./quiz_review.aux) ) 
 Here is how much of TeX's memory you used:
  2010 strings out of 495061
  23397 string characters out of 1182621
@@ -248,21 +276,22 @@ Here is how much of TeX's memory you used:
  5045 multiletter control sequences out of 15000+50000
  9394 words of font info for 37 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 34i,8n,32p,723b,198s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/
-cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.
-pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/s
-hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
-cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
-usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/te
-xmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/
-fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on quiz_review.pdf (7 pages, 196673 bytes).
+ 34i,8n,32p,724b,198s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10
+.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf
+-texlive/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texmf-texlive/fon
+ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmr5.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb><
+/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/
+texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texmf-texliv
+e/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/fonts/type
+1/public/amsfonts/cm/cmti10.pfb>
+Output written on quiz_review.pdf (12 pages, 228917 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
+ 93 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

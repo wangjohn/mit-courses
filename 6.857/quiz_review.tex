@@ -51,6 +51,100 @@ Scribe: John Wang}
 
 \newpage
 
+\section{One Time Pad}
+
+\subsection{Basic Secret Key Encryption}
+
+In the most basic form of encryption, you have a secret key $K$ and you have the following operations in your cryptosystem:
+\begin{itemize}
+  \item $Keygen(1^{\lambda}) \to K$ generates a secret key $K$.
+  \item $Enc(K, m)$ encrypts a message $m$ into a ciphertext $c$.
+  \item $Dec(K, c)$ decrypts a ciphertext $c$ into the original message $m$.
+\end{itemize}
+
+\subsection{One Time Pad}
+
+The one time pad (OTP) is the simplest form of encryption and decryption. You have a secret key $K$ and message $m$ which are both the same length so that $|K| = |m| = \lambda$. You generate the secret key $K$ by randomly generating $\lambda$ bits so that $K \leftarrow \{0,1\}^{\lambda}$.
+
+Once we have created the secret key $K$, we can encrypt a message $m$ by simply setting the ciphertext as $m \oplus K = c$. Decryption is easy because XOR is an invertible operation so that $m = K \oplus c$. The operations are:
+\begin{itemize}
+  \item $Enc(K, m) = K \oplus m$.
+  \item $Dec(K, c) = K \oplus c$.
+\end{itemize}
+
+\subsection{Proof of Security of OTP}
+
+\emph{Theorem:} OTP is unconditionally secure.
+
+\emph{Definition:} Unconditional security is security regardless of the computing power and resources that an adversary might have, i.e. that a scheme is information-theoretically secure. The scheme should be secure even when the adversary has unlimited computing power.
+
+\emph{Proof of Unconditionally Security:} We want to show that $P(M) = P(M | c)$ so that Eve's prior probability that the message is $M$ is the same as Eve's posterior probability that the message is $M$ given that Eve sees ciphertext $c$.
+
+We compute $P(M|c) = P(c|M) P(M) / P(c)$. We want to compute $P(c|M)$, which is the probability that we have ciphertext $c$ given that the message is $M$. This is just the probability that the key is equal to $k = c \oplus M$. Since each key $k$ is equally likely, we have $P(c|M) = P(k) = 2^{-\lambda}$. To compute $P(c)$, we know that $P(c) = \sum_{M} P(c|M) P(M) = \sum_{M} 2^{-\lambda} P(M) = 2^{-\lambda} \sum_{M} P(M) = 2^{-\lambda}$. Therefore, we see that $P(M|c) = 2^{-\lambda} P(M) / 2^{-\lambda}$.
+
+Thus we see that $P(M) = P(M|c)$, which completes the proof.
+
+\newpage
+
+\section{Hash Functions}
+
+\subsection{Random Oracle Model (ROM)}
+
+The ROM is an idealized version of a hash function. It's been proven to be unachieveable in practice. The Oracle receives input $x \in \{0,1\}^*$ and outputs $h(x)$ such that $|h(x)| = d$ bits for some fixed $d$. The construction is as follows:
+\begin{itemize}
+  \item For a given input $x \in \{0,1\}^*$, if $x$ is not in the book then the oracle flips a random coin $d$ times and returns the sequence of heads. Oracle records $(x, h(x))$ in the book.
+  \item If $x$ is in the book, the oracle returns $h(x)$.
+\end{itemize}
+
+Thus, we see that $h(\cdot)$ is deterministic but returns a random answer for new inputs.
+
+\subsection{Properties}
+
+There are a number of properties that a good hash function should have (each property is dependent on what the function is being employed to do):
+\begin{itemize}
+  \item (OW) One-wayness. Preimage resistance.
+  \item (CR) Collision resistance. Strong collision resistance.
+  \item (TCR) Target collision resistance. Weak collision resistance. Second preimage resistance.
+  \item (NM) Non-malleability.
+  \item (PRF) Pseudo-randomness.
+\end{itemize}
+
+\emph{Theorem:} If hash function is collision resistant, then it is target collision resistant as well. The proof is by contradiction. If not target collision resistant, then you automatically find a collision. Converse is not true.
+
+\emph{Theorem:} If $h$ is one-way, then one does not necessarily know if $h$ is collision resistant. The converse is also true. For example, consider $h(x) = x$ which is collision resistant but not one-way.
+
+\subsection{Merkle Tree}
+
+To authenticate a collection of $n$ objects, you can do better than just authenticating everything. This is important in file systems, time-stamping data, etc.
+
+You create a merkle tree where the parent of values $x_i, x_{i+1}$ is $h(x_i || x_{i+1})$. You perform this recursively to create a tree of height $\log n$.
+
+To authenticate a value $x_i$, you give the sibling of $x_i$ and move up the tree, recursively authenticating the sibling of $x_i$ all the way up to the root. Authentication passes if authentication works for each value and its sibling. You need collision resistance for this to work, otherwise someone could create a new $x' = h(x_1' || x_2') = h(x_1, h_2)$.
+
+\subsection{Merkle-Damgard Construction}
+
+We create a mode of operation for dealing with fixed length input on a hash function $f$, if the $f$ takes only a specified input. We specify the following parameters:
+\begin{itemize}
+  \item Output size $d$.
+  \item Chaining variable size $c$.
+  \item Message block size $b$.
+  \item Compression function $f: \{0,1\}^b \times \{0,1\}^c \to \{0,1\}^{c}$.
+  \item Initialization Vector $IV$ which is $c$ bits in length.
+\end{itemize}
+
+From the above parameters, we can create a chain of functions which can handle an input of any length. We pad the input $m$ with $10^*$ and a fixed-length representation of the length of the message so we have a new message $M = m || 10* || |m|$. From there, we break $M$ into smaller blocks of size $b$ so we have $M_1, M_2, \ldots$.
+
+To hash, we start with $IV = c_0$ and we provide the function $f$ with inputs $c_0$ and $M_1$. This produces $c_1$. The general formula is:
+\begin{eqnarray}
+  f(c_{i-1}, m_i) = c_i
+\end{eqnarray}
+
+We take the last result $c_n$ as the hash that we output for message $m$ so that $h(m) = c_n$.
+
+Note that if $f$ is collision resistant or one-way, then so is $h$. Suppose not, then there exists some collision for $h$, and we can work our way back until we get to the first call to $f$, which leads to a contradiction. Same reasoning for one-wayness.
+
+\newpage
+
 \section{Security Scheme Definitions}
 
 Security schemes are normally presented as a game, and cryptographic systems are tested in these games to see if they are secure if an adversary cannot win a disporportionate amount of the time it.
@@ -217,6 +311,37 @@ Use the last block of the CBC block cipher mode. However, instead of using the o
 
 \section{Digital Signatures}
 
+The idea of the digital signature is to switch the roles of the secret key and the public key. We create a signature for the message that anyone can decrypt, but only one person can encrypt. Thus, encrypt the signature with the secret key and decrypt with the public key.
+
+\subsection{Description of Digital Signatures}
+
+Creating a digital signatures a standard set of procedures:
+\begin{itemize}
+  \item $Keygen(1^{\lambda}) \to (PK, SK)$.
+  \item $Sign(SK, m) \to \sigma_{SK}(m)$ creates a signature (which may be randomized).
+  \item $Verify(PK, m, \sigma)$ results in a boolean value.
+\end{itemize}
+
+A digital signature is correct if for all $m$, we have $Verify(PK, m, Sign(SK, m)) = True$.
+
+\subsection{Security of Digital Signature Schemes}
+
+Just like other security definitions, the security definition for digital signature schemes is created in terms of a game. We say a digital signature scheme has \emph{(weak) unforgeability under adapative chosen message attack} if adversary has no advantage in the following game:
+\begin{itemize}
+  \item Examiner obtains $(PK, SK)$ from $Keygen(1^{\lambda})$ and sends $PK$ to the adversary.
+  \item Adversary obtains signatures to a sequence of messages $m_1, m_2, \ldots, m_q$ of his choice where $q = poly(\lambda)$. We allow the adversary to choose $m_i$ based on information obtained in messages $m_1, \ldots, m_{i-1}$.
+  \item Adversary outputs a message/signature pair $(m, \sigma_*)$.
+\end{itemize}
+
+The adversary wins this game if $Verify(PK, m, \sigma_*) = True$ and $m \not \in \{m_1, \ldots, m_q \}$. Scheme is secure if the probability of the adversary winning is negligible.
+
+The digital signature scheme is \emph{strongly secure} if the adversary can't produce a new signature $(m, \sigma_*)$ for a message $m$ that he has previously seen (i.e. $m \in \{m_1, \ldots, m_q\}$).
+
+\subsection{Message Compression with Hash Functions}
+
+Often you don't want to sign the entire message $m$, but would rather sign a smaller number. You could use a cryptographic hash function to create $h(m)$ which is the desired length, and change $Sign(SK, m) = Sign(SK, h(m))$. In this, you need collision resistance to prevent someone from getting a message $m'$ and fake that you have signed $m'$ when you really only signed $m$. Notice that you don't need one-wayness because it's not necessary for you to hide $m$ given $h(m)$.
+
+\newpage
 
 \section{Commitment Schemes}
 
@@ -228,6 +353,17 @@ Commitment schemes are schemes in which people give a bid and commit to that bid
 \end{itemize}
 
 In commitment schemes, we have two functions $Commit(x)$ which creates a commitment to $x$ and $Reveal(c)$ which reveals the commitment $c$.
+
+\subsection{Hash Function Commitment Scheme}
+
+The simplest way to produce a commitment scheme is to have a good cryptographic hash function. Let's say we have some value $x$ that we want to seal. The sealer chooses some random value $r \leftarrow \{0,1\}^{b}$ where $b$ is some sufficiently large number and computes $Commit(x) = h(x || r)$.
+
+For this scheme to work, we need the following hash function properties:
+\begin{itemize}
+  \item One wayness. If you could turn invert $Commit(x)$ into $h(x || r)$, then you would be able to obtain $x$, and you wouldn't have the hiding property.
+  \item Target collision resistance. Given $h(x || r)$, you don't want someone to be able to produce a collision with $x || r$ using some $x' || r'$, otherwise the non-malleability property would be lost.
+  \item Non-malleability.
+\end{itemize}
 
 \subsection{Pedersen Commitment Scheme}
 
