@@ -1,17 +1,11 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.25)  16 APR 2013 18:16
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  16 APR 2013 19:10
 entering extended mode
  %&-line parsing enabled.
 **quiz_review.tex
 (./quiz_review.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
-ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
-9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
-skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
-orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
-, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
-rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
+yphenation, loaded.
 (/usr/share/texmf-texlive/tex/latex/amscls/amsart.cls
 Document Class: amsart 2009/07/02 v2.20.1
 \linespacing=\dimen102
@@ -144,29 +138,28 @@ Package ifvtex Info: VTeX not detected.
 \Gm@odd@mp=\dimen116
 \Gm@even@mp=\dimen117
 \Gm@dimlist=\toks27
-
-(/usr/share/texmf-texlive/tex/xelatex/xetexconfig/geometry.cfg))
+)
 \bibstyle{plain}
 (./quiz_review.aux)
 \openout1 = `quiz_review.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Try loading font information for U+msa on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Try loading font information for U+msa on input line 46.
  (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 24.
+LaTeX Font Info:    Try loading font information for U+msb on input line 46.
 
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2009/06/22 v3.00 AMS symbols B
@@ -212,27 +205,26 @@ driver: pdftex
 \@twosidetrue \@mparswitchtrue 
 (1in=72.27pt, 1cm=28.45pt)
 -----------------------
-[1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-No file quiz_review.toc.
+(./quiz_review.toc)
 \tf@toc=\write3
 \openout3 = `quiz_review.toc'.
 
-
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
 [2]
-Overfull \vbox (4.78334pt too high) has occurred while \output is active []
-
-
-[3]
-Overfull \hbox (16.92781pt too wide) in paragraph at lines 109--110
+Overfull \hbox (16.92781pt too wide) in paragraph at lines 129--130
  \OT1/cmr/m/n/10 2.1.2.\OT1/cmr/m/it/10 Advanced En-cryp-tion Stan-dard (AES).[
 ] \OT1/cmr/m/n/10 The stan-dard that re-placed DES. Uses 128-bit plain-text/cip
 hertext
  []
 
 
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[3]
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
@@ -248,18 +240,14 @@ Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[7]
-Overfull \vbox (4.78334pt too high) has occurred while \output is active []
-
-
-[8] (./quiz_review.aux) ) 
+[7] (./quiz_review.aux) ) 
 Here is how much of TeX's memory you used:
- 2012 strings out of 493848
- 23548 string characters out of 1152823
- 86953 words of memory out of 3000000
- 5145 multiletter control sequences out of 15000+50000
+ 2010 strings out of 495061
+ 23397 string characters out of 1182621
+ 85430 words of memory out of 3000000
+ 5045 multiletter control sequences out of 15000+50000
  9394 words of font info for 37 fonts, out of 3000000 for 9000
- 875 hyphenation exceptions out of 8191
+ 189 hyphenation exceptions out of 8191
  34i,8n,32p,723b,198s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/
 cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.
@@ -272,9 +260,9 @@ cmr8.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></
 usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/te
 xmf-texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/
 fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on quiz_review.pdf (8 pages, 196004 bytes).
+Output written on quiz_review.pdf (7 pages, 196673 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
+ 74 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

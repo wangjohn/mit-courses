@@ -1,17 +1,11 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.7.25)  16 APR 2013 21:58
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  16 APR 2013 22:06
 entering extended mode
  %&-line parsing enabled.
 **hands_on_9_state_machine.tex
 (./hands_on_9_state_machine.tex
 LaTeX2e <2009/09/24>
 Babel <v3.8l> and hyphenation patterns for english, usenglishmax, dumylang, noh
-yphenation, farsi, arabic, croatian, bulgarian, ukrainian, russian, czech, slov
-ak, danish, dutch, finnish, french, basque, ngerman, german, german-x-2009-06-1
-9, ngerman-x-2009-06-19, ibycus, monogreek, greek, ancientgreek, hungarian, san
-skrit, italian, latin, latvian, lithuanian, mongolian2a, mongolian, bokmal, nyn
-orsk, romanian, irish, coptic, serbian, turkish, welsh, esperanto, uppersorbian
-, estonian, indonesian, interlingua, icelandic, kurmanji, slovenian, polish, po
-rtuguese, spanish, galician, catalan, swedish, ukenglish, pinyin, loaded.
+yphenation, loaded.
 (/usr/share/texmf-texlive/tex/latex/amscls/amsart.cls
 Document Class: amsart 2009/07/02 v2.20.1
 \linespacing=\dimen102
@@ -144,8 +138,7 @@ Package ifvtex Info: VTeX not detected.
 \Gm@odd@mp=\dimen116
 \Gm@even@mp=\dimen117
 \Gm@dimlist=\toks27
-
-(/usr/share/texmf-texlive/tex/xelatex/xetexconfig/geometry.cfg))
+)
 (/usr/share/texmf-texlive/tex/latex/tools/theorem.sty
 Package: theorem 1995/11/23 v2.2c Theorem extension package (FMi)
 \theorem@style=\toks28
@@ -163,7 +156,7 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \verbatim@in@stream=\read1
 )
 \bibstyle{plain}
-No file hands_on_9_state_machine.aux.
+(./hands_on_9_state_machine.aux)
 \openout1 = `hands_on_9_state_machine.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 28.
@@ -179,6 +172,7 @@ LaTeX Font Info:    ... okay on input line 28.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 28.
 LaTeX Font Info:    ... okay on input line 28.
 LaTeX Font Info:    Try loading font information for U+msa on input line 28.
+
 (/usr/share/texmf-texlive/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2009/06/22 v3.00 AMS symbols A
 )
@@ -229,27 +223,38 @@ driver: pdftex
 (1in=72.27pt, 1cm=28.45pt)
 -----------------------
 [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-(./hands_on_9_state_machine.aux)
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
- ) 
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[2]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[3]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[4] (./hands_on_9_state_machine.aux) ) 
 Here is how much of TeX's memory you used:
- 2059 strings out of 493848
- 24493 string characters out of 1152823
- 76953 words of memory out of 3000000
- 5188 multiletter control sequences out of 15000+50000
- 7994 words of font info for 31 fonts, out of 3000000 for 9000
- 875 hyphenation exceptions out of 8191
- 34i,4n,32p,468b,192s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/sha
-re/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts
-/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texmf-texlive/fonts/type1/public
-/amsfonts/cm/cmr8.pfb>
-Output written on hands_on_9_state_machine.pdf (1 page, 58669 bytes).
+ 2059 strings out of 495061
+ 24389 string characters out of 1182621
+ 79430 words of memory out of 3000000
+ 5089 multiletter control sequences out of 15000+50000
+ 8162 words of font info for 32 fonts, out of 3000000 for 9000
+ 189 hyphenation exceptions out of 8191
+ 34i,5n,32p,468b,323s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmcsc10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10
+.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texmf-tex
+live/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on hands_on_9_state_machine.pdf (4 pages, 89510 bytes).
 PDF statistics:
- 26 PDF objects out of 1000 (max. 8388607)
+ 39 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

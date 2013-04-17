@@ -7,6 +7,28 @@
 
 \bibliographystyle{plain}
 
+\makeatletter
+\def\@tocline#1#2#3#4#5#6#7{\relax
+  \ifnum #1>\c@tocdepth % then omit
+  \else
+  \par \addpenalty\@secpenalty\addvspace{#2}%
+  \begingroup \hyphenpenalty\@M
+  \@ifempty{#4}{%
+    \@tempdima\csname r@tocindent\number#1\endcsname\relax
+  }{%
+    \@tempdima#4\relax
+  }%
+  \parindent\z@ \leftskip#3\relax \advance\leftskip\@tempdima\relax
+  \rightskip\@pnumwidth plus4em \parfillskip-\@pnumwidth
+  #5\leavevmode\hskip-\@tempdima
+  \ifcase #1
+  \or\or \hskip 1em \or \hskip 2em \else \hskip 3em \fi%
+  #6\nobreak\relax
+  \dotfill\hbox to\@pnumwidth{\@tocpagenum{#7}}\par
+  \nobreak
+  \endgroup
+  \fi}
+\makeatother
 \setcounter{secnumdepth}{3}
 \voffset = -10pt
 \headheight = 0pt
@@ -24,8 +46,6 @@ Scribe: John Wang}
 \begin{document}
 
 \maketitle
-
-\newpage
 
 \tableofcontents
 
@@ -134,7 +154,69 @@ Generate a pseudorandom sequence by starting at some integer $i$ and using the s
 
 We can then transmit $i, c_1, c_2, \ldots$, and the receiver can decrypt these by just recreating the sequence of $x_i, x_{i+1}, \ldots$ and XORing with the received ciphertexts $c_1, c_2, \ldots$.
 
+\subsubsection{CBC (Cipher Block Chaining)}
+
+We choose an initial value $IV$ which we shall use to create a new message for encryption in the first round. Take $m_1 \oplus IV$ and encrypt it with key $K$ to obtain $c_1$. Now encrypt $m_2$ using $m_2 \oplus c_1$ to obtain $c_2$. They key remains the same throughout all of the rounds.
+
+General form of this encryption is as follows: $c_i = Enc(K, c_{i-1} \oplus m_i)$ for all $i > 1$ and $c_1 = Enc(K, IV \oplus m_1)$ for $i = 1$. The ciphertext transmitted is $IV, c_1, c_2, \ldots$.
+
+Decryption is fast and parallelizable because you only need to know previous $c_{i-1}$ to decrypt $c_i$. To decrypt, you just do the inverse decryption on $c_i$ and XOR the result with $c_{i-1}$ to get $m_i$. As a formula, this is $Dec(K, c_{i}) \oplus c_{i-1} = m_i$.
+
+The last block $c_n$ is the CBC-MAC message for message $m$.
+
+\subsubsection{CFB (Cipher Feedback)}
+
+This mode chooses an initial value $IV$ and encrypts this value using key $k$. The result is XORed with the first message block to obtain $c_1 = m_1 \oplus Enc(k, IV)$. The next ciphertext block is created by taking $m_2 \oplus Enc(k, c_1)$, etc.
+
+The general formula for the CFB is then $c_i = m_i \oplus Enc(k, c_{i-1})$ for $i > 1$ and $c_1 = m_1 \oplus Enc(k, IV)$ for $i=1$.
+
+\subsubsection{UFE (Unbalanced Feistel Encryption)}
+
+None of the previous block-cipher modes were IND-CCA secure. This is because you can just choose $m_0 = 0^{\lambda}$ and $m_1 = 1^{\lambda}$. Then, encrypt $1^{\lambda-1}$ and use a length extension attack. All of the previous modes would provide you with the first part of the ciphertext, and so would fail IND-CCA security. The UFE mode attempts to prevent this.
+
+\emph{Setup:} We have a key $K = (k_1, k_2, k_3)$ and a random value $r \leftarrow \{0,1\}^\lambda$. 
+
+\emph{Encryption:} The random value $r$ is the starting value for CTR mode, and we use key $k_1$ to encrypt each of these values to obtain a sequence of pads $p_1, p_2, \ldots, p_n$ where $p_i = Enc(k_1, r+i)$. Next, we obtain the cipertext by finishing CTR mode, i.e. using $c_i = m_i \oplus p_i$. However, the MAC is different than in CTR mode. Instead, we use the $c_i$'s and send it through CBC-MAC with keys $k_2, k_3$ to obtain a sequence $x_i$. The $IV$ for the CBC-MAC is just $0^{\lambda}$ so we have $x_i = Enc(k_2, x_{i-1} \oplus c_i)$, $x_n = Enc(k_3, x_{n-1})$, and $x_1 = Enc(k_2, 0^{\lambda})$. We calculate $\sigma = r \oplus x_n$ and output $\sigma, c_1, c_2, \ldots, c_n$.
+
+\emph{Decryption:} Decryption of the scheme involves first computing the sequence of $x_i$'s again using $c_i$. Once this sequence is computing, you can find $r$ by using $r = x_n \oplus \sigma$. Finally, send $r$ through CTR mode to recompute the pad $p_i$, and use $m_i = p_i \oplus c_i$ to recover the message.
+
+The resulting UFE mode is IND-CCA secure, but it is only designed for confidentiality. There is no way to tell if the ciphertext has been changed at all, for that you need a message-authentication protocol.
+
 \newpage
+
+\section{Message Authentication Codes (MACs)}
+
+Often, you want to be able to provide integrity (not just confidentiality). This means that you want to be able to send a message and have the receiver of that message be sure that the message wasn't tampered with on its way over.
+
+This is an orthogonal concept to confidentiality, and you typically do both by appending a MAC to the ciphertext message. The game that Alice, Bob, and Eve play is as follows:
+
+\begin{itemize}
+  \item Alice computes $Mac(k, m)$ and appends it to $m$.
+  \item Bob recomputes $Mac(k, m)$ and verifies it is correct, rejects if the computed is different than the received MAC.
+  \item Adversary wants to forge $m', Mac(k, m')$ and may hear valid MACs previously sent (but she wants to forge to a new message $m'$ she has never seen).
+\end{itemize}
+
+\subsection{MAC using Random Oracle (PRF)}
+
+If you use a pseudorandom function family (PRF) to create a MAC, then all you have to do is use $Mac(k, m) = h(k || m)$. This holds only if $h$ is indistinguishable from a random oracle. Note that for sequential hash functions, this will not work and you need to take special care.
+
+\subsection{HMAC}
+
+One common method for creating an authentication code is to just use a cryptographic hash function in the HMAC protocol. Take $k_1 = k || opad$ and $k_2 = k || ipad$ where $opad$ and $ipad$ are fixed constants. Then you can use:
+\begin{eqnarray}
+  HMAC(k, m) = h(k_1 || h(k_2 || m))
+\end{eqnarray}
+
+This is good because it scrambles $m$ and prevents length extension attacks.
+
+\subsection{CBC-MAC}
+
+Use the last block of the CBC block cipher mode. However, instead of using the original key $k_c$ to encrypt the last block mode, you must use some new key $k' = k \oplus c$ where $c$ is a constant and $k$ is the key for the CBC-MAC. Then, you take the last encrypted block in CBC-MAC and encrypt it again with $k'$ in order to get CBC-MAC.
+
+\newpage
+
+\section{Digital Signatures}
+
 
 \section{Commitment Schemes}
 
