@@ -1,0 +1,99 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 8: System R}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction to Transactions}
+
+\begin{itemize}
+  \item Atomic: all or nothing.
+  \item Consistent: database enforces invariants. For example, in bank account transfers, an invariant would be that the sum across all the bank accounts stays the same.
+  \item Isolated: before or after.
+  \item Durable: if transaction commits, data is never lost.
+\end{itemize}
+
+\section{System R}
+
+\subsection{Interface of System R}
+
+We have some set of database records which are distinct from each other. We also have a set of transactions and they are accessing the same records of the database. To start out let's think of a naive way of making a database system. Naively we could just write whenever there is a write call. This doesn't enforce many of the things like atomic, consistent, isolated.
+
+We can go ahead and enforce isolation by using locks so that transactions can't step over each other and cause race conditions. Release the write locks until you are completely done with the entire transaction, but you can release read locks when you're done reading it.
+
+We need to prevent deadlocks as well. Ordering the locks is hard to do in general because you need to know what is going to be touched in advanced. Database systems detect deadlocks, pick a transaction involved, and aborts the transaction.
+
+\subsection{Organization of System R}
+
+The application talks to system R through the RDS (SQL language). Then, the RDS sends information to the RSS (records) which is composed of shadow files and the log. The log also contains a tape (archive). The shadow files/log connect to the disk via the buffer cache, so everything they write to the disk will be first stored in the buffer cache.
+
+\subsection{The Log (Ring Buffer)}
+
+The log on disk is a ring buffer. So you continue moving forward until you get to the end of the buffer, then you start wrapping around. The log starts at the earliest block we might need. Everything before that earliest point is present on the archival storage. This is advntageous because you can in constant time just forget about the blocks you don't need any more. We can figure out the earliest block we need to keep around by checking for the min of:
+\begin{itemize}
+  \item BEGIN of transactions that are still running.
+  \item Last entry that is archived.
+  \item Most recent checkpoint.
+\end{itemize}
+
+Long running transactions that could possibly overflow the storage space in the ring buffer are aborted.
+
+\subsection{The Buffer Cache}
+
+Consider the following transaction, and let's say that the disk starts out with an empty log and we have current values of $A=30$ and $B=20$. Assume the current and shadow state are the same for everything at the beginning:
+
+\begin{verbatim}
+BEGIN
+read A
+read B
+write A+10
+write B-10
+COMMIT
+\end{verbatim}
+
+When we read the $A$ and $B$ entries, they get put into the cache. When we write $A+10$, we can just make that change in the cache without touching the disk at all (same goes for $B$). Inside the log buffer, we start with a transaction begin record, then just before the writes, we create a record showing the change in the record (for eample $A:30 \rightarrow 40$). After both writes have been recorded in the log, we record a commit in the log as well.
+
+As soon as we record a commit to the cache, we flush the buffer and send it to disk.
+
+\subsection{Checkpoint}
+
+A checkpoint replaces the shadow data to the current data. The checkpoint writes a particular log entry to the end of the log, telling us about which transactions are still running.
+
+After a crash, we look for transactions that have some operation other than a commit or an abort. These are the losers because they didn't finish and we need to undo all their operations. To undo the operations, we go to the end of the log and reverse all of their actions (even if we go past the checkpoint).
+
+If there is a transaction that started and finished before the checkpoint, we don't need to do anything because the checkpoint keeps everything.
+
+If there is a transaction that started before the transaction and finished after the checkpoint, then we go to the checkpoint and redo all of the operations up to the commit.
+
+If there is a transactino that starts and finishes after the checkpoint but before the crash, then we just redo all of its actions.
+
+System R doesn't run checkpoints when all transactions are done because its pretty infrequent that no transactions are running. System R allows you to take transactions in the middle of transactions, but things are more complicated because of that and we have to do the above casework.
+\end{document}
