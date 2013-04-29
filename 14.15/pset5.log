@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 APR 2013 01:44
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.9.12)  29 APR 2013 10:55
 entering extended mode
  %&-line parsing enabled.
 **pset5.tex
@@ -257,18 +257,36 @@ driver: pdftex
 \MPnumerator=\count108
 \everyMPtoPDFconversion=\toks35
 ) [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+Missing character: There is no Ô in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+Missing character: There is no Å in font cmr10!
+Missing character: There is no Ô in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+Missing character: There is no Å in font cmr10!
+Missing character: There is no Ô in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+Missing character: There is no Å in font cmr10!
+
 Overfull \vbox (4.78334pt too high) has occurred while \output is active []
 
 
-[2] (./pset5.aux) ) 
+[2]
+Missing character: There is no Ô in font cmr10!
+Missing character: There is no ¨ in font cmr10!
+Missing character: There is no Å in font cmr10!
+
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[3] (./pset5.aux) ) 
 Here is how much of TeX's memory you used:
  2714 strings out of 495061
  32623 string characters out of 1182621
- 92100 words of memory out of 3000000
+ 94107 words of memory out of 3000000
  5723 multiletter control sequences out of 15000+50000
  9048 words of font info for 36 fonts, out of 3000000 for 9000
  189 hyphenation exceptions out of 8191
- 34i,14n,32p,739b,192s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 34i,14n,32p,739b,210s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmb
 x10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></
 usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/t
@@ -280,9 +298,9 @@ fonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr
 hare/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-
 texlive/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texmf-texlive/font
 s/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on pset5.pdf (2 pages, 133952 bytes).
+Output written on pset5.pdf (3 pages, 143444 bytes).
 PDF statistics:
- 57 PDF objects out of 1000 (max. 8388607)
+ 60 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

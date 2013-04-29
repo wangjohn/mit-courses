@@ -104,6 +104,72 @@ Collaborators: Ryan Liu, Albert Wu
 
 \end{sol}
 
+\section{Problem 4}
+
+\subsection{Problem 4.a}
+
+\begin{prob}
+Characterize a threshold value of this discount factor such that above this threshold, there exists a subgame perfect equilibrium in which there is a collusive equilibrium in which both ﬁrms charge a price equal to $R$ at each date.
+\end{prob}
+\begin{sol}
+  First, we note that in order to have a subgame perfect equilibrium on an infinitely-repeated game, we must have the same strategy repeated in each stage. In the context of a symmetric Bertrand competition game, this means that both firms must change the same price $R$.
+
+  For this to be true, it must be disadvantageous to deviate from $R$. Now, let us consider firm $x$'s decision to deviate. If $x$ deviates, then he will gain all of the market in the first stage, but he may forgo all the gains he would get in later stages because the second firm may outprice him. Thus, the payoff from deviating in the first stage must be greater than the payoff of splitting the demand with price $R$.
+
+  Let $\pi = (R - c) D(R)$ be the profit if one firm has the market at price $R$. We must therefore have:
+  \begin{eqnarray}
+    \pi &\leq& \frac{\pi}{2} (1 + \delta + \delta^2 + \ldots) \\
+        &=& \frac{1}{1- \delta} \frac{\pi}{2} \\
+  \end{eqnarray}
+
+  Thus, we see that the discount rate must be $\delta \geq \frac{1}{2}$.
+\end{sol}
+
+\subsection{Problem 4.b}
+
+\begin{prob}
+  Now suppose that the two ﬁrms have different discount factors $\delta_1 < \delta_2$. When is it subgame perfect equilibrium for both ﬁrms to charge a price of $R$ at each date?
+\end{prob}
+\begin{sol}
+  In order for it to be a subgame perfect equilibrium, it must be the case that deviating and losing all future profits while gaining the first stage's profits in totality is not as good as not deviating. Writing this out, we have the following conditions:
+  \begin{eqnarray}
+    (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2} ( 1 + \delta_1 + \delta_1^2 + \ldots) \\
+    (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2} ( 1 + \delta_2 + \delta_2^2 + \ldots) \\
+  \end{eqnarray}
+
+  Using the series representation of $\delta_1$ and $\delta_2$, both inequalities simplify to:
+  \begin{eqnarray}
+    (1 - \delta_1) (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2} \\
+    (1 - \delta_2) (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2}
+  \end{eqnarray}
+
+  Adding the inequalities together and simplifying further, we find:
+  \begin{eqnarray}
+    (1 - \delta_1) + (1 - \delta_2) &\leq& 1 \\
+                \delta_1 + \delta_2 &\geq& 1
+  \end{eqnarray}
+
+  Which is the condition we are looking for.
+\end{sol}
+
+\subsection{Problem 4.c}
+
+\begin{prob}
+  Now suppose that the marginal cost of production are $c_1 < c_2 < R$, and both ﬁrms have the same discount factor $\delta$. When is it a subgame perfect equilibrium for both for the charge $R$ at each date?
+\end{prob}
+\begin{sol}
+  Again, in order for this equilibrium to occur, it must be the case that deviating cannot increase the payoff of any actor. Thus, the payoff of winning a single stage is less than the payoff of halving all the stages. This can be written as:
+  \begin{eqnarray}
+    (R - c_1) D(R) &\leq& \frac{(R - c_1) D(R)}{2} ( 1 + \delta + \delta^2 + \ldots) \\
+    (R - c_2) D(R) &\leq& \frac{(R - c_2) D(R)}{2} ( 1 + \delta + \delta^2 + \ldots) \\
+  \end{eqnarray}
+
+  We divide both sides by $(R - c_i) D(R)$ to obtain the following (repeated) condition:
+  \begin{eqnarray}
+    1 &\leq& \frac{1}{2} \frac{1}{1 - \delta} \\
+    \frac{1}{2} &\leq& \delta
+  \end{eqnarray}
+\end{sol}
 \end{document}
 
 
