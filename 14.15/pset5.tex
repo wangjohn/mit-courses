@@ -31,7 +31,7 @@ Problem Set 5}
 
 \maketitle
 
-Collaborators: Ryan Liu, Albert Wu
+Collaborators: Ryan Liu
 
 \section{Problem 1}
 
@@ -101,7 +101,19 @@ Collaborators: Ryan Liu, Albert Wu
   Choosing the estate tax rate as an extensive form game
 \end{prob}
 \begin{sol}
+  We will use backwards induction in order to find an equilibrium to the extensive form game. The last stage of the game will be vote between $x_0$ and the winner of the first vote. Thus, there are two possibilities for this vote. We could have a vote between $x_0$ and $x_1$, or a vote between $x_0$ and $x_2$.
 
+  Let's consider the first case of the vote between $x_0$ and $x_1$. In order for either proposal to win, the proposal must garner 2 of the three groups. Thus, for $x_0$ to win, it must obtain both the Democrats and Moderates (Republicans will not vote for the bill because $x_1 \leq 0.5$ will be better for them). For $x_1$ to win, it must obtain the support of both the Republicans and Moderates (Democrats won't vote for it because $x_1 \leq 0.5$ so their payoff is less than $x_0 = 0.6$). Thus, in order for $x_1$ to win, it must win the Moderates, otherwise $x_0$ will win. This is possible in the regime where $0.4 \leq x_1 \leq 0.5$. When $x_1 < 0.4$, then $x_0$ will win.
+
+  Now we can consider the vote between $x_0$ and $x_2$ in a similar manner. If $x_2 < x_0$, then $x_2$ will need the support of both the Republicans and Moderates. Otherwise, if $x_2 \geq x_0$, it will need the support of both the Democrats and the Moderates.
+
+  Now, let us examine the previous phase of the game, where there is a vote between $x_1$ and $x_2$. Here, $x_1$ will win with the support of both the Republicans and Moderates and $x_2$ will win with the support of the Democrats and Moderates. If $x_1 < 0.4$ the moderates will vote $x_2$, or if $x_2 > 0.6$ the moderates will vote $x_1$.
+
+  We see that $x_1 \leq 0.4$ and $x_2 \leq 0.6$ because otherwise the proposals would not even be considered.
+
+  Consider some proposal $x_1$: what is the Democrat's best response $x_2$? Recall that we have bounded $0.4 \leq x_1 \leq 0.5$. Suppose the Democrats chose $x_2 = 1 - x_1$. In this case, the Moderates are indifferent between choosing $x_1$ or $x_2$, so the expected payoff for the democrats will be the expected value, or $(x_1 + x_2)/2$. However, if the democrats choose $x_2 = 1 - x_1 - 0.01$, then they will be guaranteed a payoff of $x_2$ because the moderates will choose $x_2$ over $x_1$, then will choose $x_2$ over $x_0$ since $0.5 \leq x_2 < x_0$. Thus, we see that the Democrat's best response is $x_2 = 1 - x_1 - 0.01$. 
+
+  Let us examine the Republican's move. If they choose $x_1 = 0.4$, then the Democrats will undercut them by choosing $x_2 = 1 - 0.4 - 0.01 = 0.59$. However, if the Republican's chose $x_1 = 0.41$, then the payoff for them would increase because the Democrats would be forced to choose $x_2 = 0.58$. Thus, the Republicans will increase their bid until it reaces $x_1 = 0.5$, at which time the Democrats will also choose $x_2 = 0.5$. This is the equilibrium.
 \end{sol}
 
 \section{Problem 4}
@@ -116,13 +128,15 @@ Characterize a threshold value of this discount factor such that above this thre
 
   For this to be true, it must be disadvantageous to deviate from $R$. Now, let us consider firm $x$'s decision to deviate. If $x$ deviates, then he will gain all of the market in the first stage, but he may forgo all the gains he would get in later stages because the second firm may outprice him. Thus, the payoff from deviating in the first stage must be greater than the payoff of splitting the demand with price $R$.
 
-  Let $\pi = (R - c) D(R)$ be the profit if one firm has the market at price $R$. We must therefore have:
+  We must therefore have:
   \begin{eqnarray}
-    \pi &\leq& \frac{\pi}{2} (1 + \delta + \delta^2 + \ldots) \\
-        &=& \frac{1}{1- \delta} \frac{\pi}{2} \\
+    (R - c) &\leq& \frac{1}{2} (R - c) D(R) ( 1 + \delta + \delta^2 + \ldots) \\
+            &=& \frac{(R - c) D(R)}{2(1 - \delta)} \\
+ 1 - \delta &\leq& \frac{D(R)}{2} \\
+    1 - \frac{D(R)}{2} &\leq& \delta
   \end{eqnarray}
 
-  Thus, we see that the discount rate must be $\delta \geq \frac{1}{2}$.
+  Thus, we see that the discount rate must be $1 - D(R)/2 \leq \delta$.
 \end{sol}
 
 \subsection{Problem 4.b}
@@ -131,25 +145,12 @@ Characterize a threshold value of this discount factor such that above this thre
   Now suppose that the two ﬁrms have different discount factors $\delta_1 < \delta_2$. When is it subgame perfect equilibrium for both ﬁrms to charge a price of $R$ at each date?
 \end{prob}
 \begin{sol}
-  In order for it to be a subgame perfect equilibrium, it must be the case that deviating and losing all future profits while gaining the first stage's profits in totality is not as good as not deviating. Writing this out, we have the following conditions:
+  In order for it to be a subgame perfect equilibrium, it must be the case that deviating and losing all future profits while gaining the first stage's profits in totality is not as good as not deviating. We have two separate inequalities for the two actors.
   \begin{eqnarray}
-    (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2} ( 1 + \delta_1 + \delta_1^2 + \ldots) \\
-    (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2} ( 1 + \delta_2 + \delta_2^2 + \ldots) \\
+    (R - c) &\leq& \frac{1}{2} (R - c) D(R) ( 1 + \delta_i + \delta_i^2 + \ldots) \\
   \end{eqnarray}
 
-  Using the series representation of $\delta_1$ and $\delta_2$, both inequalities simplify to:
-  \begin{eqnarray}
-    (1 - \delta_1) (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2} \\
-    (1 - \delta_2) (R - c) D(R) &\leq& \frac{(R - c) D(R)}{2}
-  \end{eqnarray}
-
-  Adding the inequalities together and simplifying further, we find:
-  \begin{eqnarray}
-    (1 - \delta_1) + (1 - \delta_2) &\leq& 1 \\
-                \delta_1 + \delta_2 &\geq& 1
-  \end{eqnarray}
-
-  Which is the condition we are looking for.
+  Solving the inequality for $\delta_i$, we see that we obtain the same result as part a. In particular, we have $1 - D(R)/2 \leq \delta_i$. Thus, both discount rates must now be greater than $1 - D(R)/2$ in order for equilibrium to occur.
 \end{sol}
 
 \subsection{Problem 4.c}
@@ -158,16 +159,11 @@ Characterize a threshold value of this discount factor such that above this thre
   Now suppose that the marginal cost of production are $c_1 < c_2 < R$, and both ﬁrms have the same discount factor $\delta$. When is it a subgame perfect equilibrium for both for the charge $R$ at each date?
 \end{prob}
 \begin{sol}
-  Again, in order for this equilibrium to occur, it must be the case that deviating cannot increase the payoff of any actor. Thus, the payoff of winning a single stage is less than the payoff of halving all the stages. This can be written as:
+  Again, in order for this equilibrium to occur, it must be the case that deviating cannot increase the payoff of any actor. Thus, the payoff of winning a single stage is less than the payoff of halving all the stages. To deviate, firm 1 will want to charge $c_2 - \epsilon \approx c_2$ to obtain the entire market. This condition can be written as:
   \begin{eqnarray}
-    (R - c_1) D(R) &\leq& \frac{(R - c_1) D(R)}{2} ( 1 + \delta + \delta^2 + \ldots) \\
-    (R - c_2) D(R) &\leq& \frac{(R - c_2) D(R)}{2} ( 1 + \delta + \delta^2 + \ldots) \\
-  \end{eqnarray}
-
-  We divide both sides by $(R - c_i) D(R)$ to obtain the following (repeated) condition:
-  \begin{eqnarray}
-    1 &\leq& \frac{1}{2} \frac{1}{1 - \delta} \\
-    \frac{1}{2} &\leq& \delta
+    \frac{(c_2 - c_1)}{1 - \delta} &\leq& \frac{(R - c_1) D(R)}{2(1 - \delta)} \\
+                       (c_2 - c_1) &\leq& \frac{(R - c_1) D(R)}{2} \\
+  \frac{2 (c_2 - c_1)}{D(R)} + c_1 &\leq& R
   \end{eqnarray}
 \end{sol}
 \end{document}
