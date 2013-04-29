@@ -1,0 +1,47 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 19: Replicated State Machines}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Goal: Fault-tolerant, Recovery, Availability.
+
+We want to have systems which replicate states. 
+
+Single Copy Consistency: Operations appear to execute as if there is only a single copy of the data.
+
+\subsection{General Approach}
+
+Build consistent replicas of the server.
+\begin{itemize}
+  \item Start with the same initial state.
+  \item Provide each replica with the same input and in same order.
+  \item Ensure all inputs are deterministic.
+\end{itemize}
+
+\end{document}

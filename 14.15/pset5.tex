@@ -1,0 +1,109 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{graphics}
+\usepackage{float}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{14.15 \\
+Networks \\
+Problem Set 5}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+Collaborators: Ryan Liu, Albert Wu
+
+\section{Problem 1}
+
+\begin{prob}
+  Sudoku as a game of cooperation
+\end{prob}
+\begin{sol}
+  We will use the potential function $- \Phi^*(\alpha) = \Phi(\alpha) = \sum_{i \in I} u_i(\alpha)$ where $I$ is the set of all agents playing the game. We shall show that this is a valid potential function for the game, making the game a potential game.
+
+  First, let us suppose that agent $j$ chooses between move $x$ and $z$ for one of his squares. In this case, the potential difference is given by $\Phi(x, \alpha^*) - \Phi(z, \alpha^*)$ where $\alpha^*$ is the vector of choices for the agents for all but the square corresponding to move $x$ and $z$. We have:
+  \begin{eqnarray}
+    \Phi(x, \alpha^*) - \phi(z, \alpha^*) &=& \sum_{i \in I} u_{i} (x, \alpha^*) - u_{i}(z, \alpha^*) \\
+                                          &=& \sum_{i \in I} \left( n_i^R(x, \alpha^*) + n_i^C(x, \alpha^*) + n_i^B(x, \alpha^*) \right) \\ 
+                                          &-& \left( n_i^R(z, \alpha^*) + n_i^C(z, \alpha^*) + n_i^B(z, \alpha^*) \right) \nonumber
+  \end{eqnarray}
+
+  However, we know that $n_i^R(x, \alpha^*) - n_i^R(z, \alpha^*) = 0$ except when $i$ is in the same row as the move that $j$ makes. Likewise, the difference between column and block sums are zero when the columns and blocks do not contain the block that player $j$ is changing with moves $x$ and $z$.
+
+  This means that we can simplify the above expression to:
+  \begin{eqnarray}
+    \Phi(x, \alpha^*) - \phi(z, \alpha^*)&=& \sum_{i \in R_j} n_i^R(x, \alpha^*) - n_i^R (z, \alpha^*) \\
+                                         &+& \sum_{i \in B_j} n_i^B(x, \alpha^*) - n_i^B(z, \alpha^*) + \sum_{i \in C_j} n_i^C(x, \alpha^*) - n_i^C(z, \alpha^*) \nonumber
+  \end{eqnarray}
+
+  Note, however, that for each row $i \in R_j$, the number of repetitions in the row remains the same for each square in the row. This means that $n_i^R(x, \alpha^*) = n_k^R(x, \alpha^*$ for $i, k \in R_j$. The same is true for blocks and columns. This means that we can simplify the above expression to:
+  \begin{eqnarray}
+    \Phi(x, \alpha^*) - \phi(z, \alpha^*) &=& 8 (n_i^R(x, \alpha^*) - n_i^R (z, \alpha^*)) + 8(n_i^C(x, \alpha^*) - n_i^C (z, \alpha^*)) + 8 (n_i^B(x, \alpha^*) - n_i^B (z, \alpha^*))
+  \end{eqnarray}
+
+  However, since we have defined the utility as $u_i(\alpha) = - (n_i^R(\alpha) + n_i^C (\alpha) + n_i^B (\alpha))$. This means that our potential function has the following property:
+  \begin{eqnarray}
+    \Phi^*(x, \alpha^*) - \Phi^*(z, \alpha^*) \geq 0 \textrm{ iif } u_i(x, \alpha^*) - u_i(z, \alpha^*)
+  \end{eqnarray}
+
+  This shows that the game is a potential game.
+\end{sol}
+
+\newpage
+
+\section{Problem 2}
+
+\begin{prob}
+  Sequential duel
+\end{prob}
+\begin{sol}
+  The sequential duel can be modelled as a sequential form game with two players $x,y$. We shall denote strategies on the $k$ stage of the duel as $s_i^k: H^k \to s_i$, where $H^k$ is the set of all possible stage-$k$ histories and $s_i$ is the set of all strategies. We have $s_i^k \in \{ \textrm{shoot}, \textrm{don't shoot} \}$. 
+
+  The utility for person $i$ at stage $k$ for strategy $s_j$ is given by $u_i^k(s_j)$:
+  \begin{eqnarray}
+    u_i^k(s_j) = \left\{ \begin{array}{ l l}
+        \pi_i^{k} (1 - p_j) & \textrm{if } s_j^k = \textrm{ shoot} \\
+                  \pi_i^{k} & \textrm{else}
+      \end{array}
+      \right.
+  \end{eqnarray}
+
+  Where we define $\pi_i^k$ as the probability of person $i$ surviving at stage $k$.
+
+  Now we shall show that no one shooting is a subgame perfect equilibrium. If both players have this strategy, then $\lim_{k \to \infty} \pi_i^{k} = 1$ and both players are guaranteed to survive. It is clear that this is a subgame perfect equilibrium because any deviation is not advantageous and cannot improve the outcome (since the outcome is already guaranteed to be the best possible). Any deviation, however, cause cause the other player to change their strategy in response, causing a probability of surviving to be lower, which is not optimal.
+
+  We shall now show that shooting with probability 1 is a subgame perfect equilibrium. Suppose $y$ shoots with probability $1$. Then we shall show that $x$ has no better deviation from shooting with probability $1$. Since the game is symmetric, this is show the strategy is subgame perfect.  Note that if $x$ shoots in this stage, then $y$ has probability $\pi_i^{k-1} (1 - p_j)$ of living in stage $k+1$. If $x$ does not shoot, then $y$ has probability $\pi_i^{k-1} > \pi_i^{k-1} (1 - p_j)$ of living. Since $x$ has a higher probability of killing $y$ in this stage and therefore surviving (since $y$ shall not change his strategy), then $x$'s best chance is to shoot. Therefore, shooting with probability 1 is an equilibrium.
+\end{sol}
+
+\section{Problem 3}
+
+\begin{prob}
+  Choosing the estate tax rate as an extensive form game
+\end{prob}
+\begin{sol}
+
+\end{sol}
+
+\end{document}
+
+
