@@ -1,0 +1,82 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 21: Security}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Attacks}
+
+\begin{itemize}
+  \item Viruses, worms, trojans
+  \item Botnets: spam, DOS attacks, extortion attacks
+  \item Phishing attacks - trying to be someone you're not
+  \item Phones - stealing data on the phone
+  \item Embedded systems (zipcar)
+\end{itemize}
+
+\section{Security Definition}
+
+\emph{Security:} achieve goal despite adversaries.
+
+\subsection{Physical World vs. Computer Security}
+
+Things in Common:
+\begin{itemize}
+  \item Modularity is good
+  \item Audits of the system
+  \item Using the legal system as a deterrant
+\end{itemize}
+
+Different things:
+\begin{itemize}
+  \item Attacks are fast, cheap, and can scale. This is because computers are connected via the internet, so attacks can spread very quickly
+  \item Legal system is complex because security becomes international and its hard to track these attacks.
+\end{itemize}
+
+\subsection{Security is a Negative Goal}
+
+Security is a negative goal.
+
+Suppose we have a server with the grades of 6.033 students on it. A positive goal would be to allow the instructor to read the grades. A negative goal would be to prevent others from reading the grades.
+
+\section{Approaching Security}
+
+\subsection{Policy}
+
+You need to know what security policy your system should achieve. This is the goal (and there may be multiple goals). Maybe you want secrecy and you don't want private information to be leaked. This is called confidentiality. Another goal is integrity: making sure that adversary can't change the data. Another is availability: make sure that the system stays available.
+
+\subsection{Threat Model}
+
+The threat model consists of the set of assumptions that you make about the adversary. For example, the Guard Model:
+
+\begin{itemize}
+  \item Client/Server provide correct mode.
+  \item Server invokes guard on every access.
+\end{itemize}
+
+The guard provides authentication, so the user needs to show that this is actually him. The guard also provides authorization with a user/kernel bit and a permissions system.
+
+\end{document}
