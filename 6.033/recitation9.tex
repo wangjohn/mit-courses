@@ -1,0 +1,85 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 9: Buffer Overflow}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Security Vulnerabilities}
+
+Security: worrying about malicious users.
+
+\subsection{Attacks}
+
+There are a couple common types of attacks:
+\begin{itemize}
+  \item Buffer overruns
+  \item Code injection. SQL injection: one of the most important categories of problem, allows you to run application code. Cross-site scripting: this is just like injection for javascript.
+  \item Social engineering. Phishing: faking a message to a user which seems to be from an authority. Password guessing based on passwords that occur frequently.
+  \item Denial of service.
+\end{itemize}
+
+\subsection{New Vulnerabilities Discovered By:}
+
+\begin{itemize}
+  \item Security conferences. Black hat vs white hat communities, where black hats want to exploit the vulnerabilities while the white hat communities want to solve the problem.
+  \item Vulnerability rewards programs.
+\end[itemize}
+
+\section{Buffer Overrun Attack}
+
+\subsection{Overview of the Stack}
+
+Let's say the heap runs from $0x00000000$ to $0x00002344$ and at the high end of the address space, the stack runs from $0x007FFB6$ to $0x008000000$. Some memory addresses are allocated for the heap and some for the stack. As you need more stack memory, the stack pointer moves to lower addresses, and as you need more heap memory, the heap pointer goes to higher locations.
+
+Thus, the heap grows downwards towards higher addresses and the stack grows upwards towards lower addresses.
+
+There is also a base pointer, which is the beginning of the part that belongs to the current function. You can generally do the same thing with the stack pointer but in general that is harder.
+
+\subsection{Stack Example}
+
+Lets say we're calling some function $f$ on $arg1$ and $arg2$. Then, we first push $arg1$ onto the stack, then $arg2$, and finally the return address. The old base pointer also gets put onto the stack after the return address. Now, if the function $f$ allocates a local variable, then the stack looks like this:
+\begin{verbatim}
+  local variable    <- SP
+  old BP
+  Return Address    <- New BP
+  arg2
+  arg1
+\end{verbatim}
+
+\subsection{Prevention of Buffer Overruns}
+
+\begin{itemize}
+  \item Non-executable stack.
+  \item Do bounds checks on all writes into arrays.
+  \item Randomization of the address space.
+\end{itemize}
+
+\end{document}
