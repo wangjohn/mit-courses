@@ -1,0 +1,81 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 22: Secure Channels}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Threat Model}
+
+Here are our assumptions:
+\begin{itemize}
+  \item Adversary can observe all packets
+  \item Adversary may modify/insert/delete packets
+\end{itemize}
+
+Goal: Confidentiality and integrity of message content.
+
+\subsection{Definitions}
+
+An eavesdropper is someone who can only observe all packets.
+
+A man in the middle can observe all packets, but can also modify, insert, or delete packets at will.
+
+\subsection{Cryptography Primitives}
+
+$Encrypt(K, m) = c$ and $Decrypt(K, c) = m$.
+
+$Mac(K_e, m) = t$.
+
+We send over $(m,t)$.
+
+\section{Key Exchange}
+
+\subsection{Diffie-Hellman}
+
+Prime $p$ with generator $g$. Its easy to compute $g^a \pmod{p}$. Its hard to get $a$ from $g^a \pmod{p}$ if you know $p, g$.
+
+Bob picks $b$ randomly and compute $B = g^{b} \pmod{p}$. Alice will pick $a$ randomly and compute $A = g^{a} \pmod{p}$. Alice and Bob send each other $A$ and $B$.
+
+Secret key is $g^{ab} \pmod{p}$. 
+
+\subsection{Man in the Middle Attack}
+
+Diffie Hellman prevents against eavesdropper but not man in the middle attack. The adversary pretends to be Bob and Alice to Alice and Bob respectively. The adversary just generates his own secret. Thus, adversary has 2 shared secret keys, one for Alice and one for Bob.
+
+Thus, we need some way to authenticate that the message is actually coming back from Alice and Bob.
+
+\subsection{Public Key Infrastructure}
+
+You create a public key and a private key. Digital signatures can be signed with your private key, and you can send a message with the signature, and you can check that the message is from you with your public key.
+
+Distribution:
+\begin{itemize}
+  \item Learn PK the first teim then store it. This is vulnerable to man in the middle attack on the first exchange.
+  \item Authority services.
+\end{itemize}
+
+
+\end{document}
