@@ -1,0 +1,32 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Problem Set 5}
+\author{John Wang}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{4.1 Unlinkable Serial Transactions}
+
+We were able to retrieve the strings by using two helper functions, \emph{exponentiate} and \emph{inverse}. The first helper function performs modular exponentiation by repeated squaring, and the second one finds the modular inverse using the extended euclidean algorithm. We also implemented blind, which is just $r^e v \pmod{n}$ for some value $v$ and random number $r \in Z_{n}^*$. We obtained a new version of $r$ in each round by using a random number generator.
+
+Obtaining the blinded new hash was as simple as taking the blind of the hash of the new nonce, where the new nonce was just a randomly generated random number in $Z_{n}^*$. Once blinded signed hash was returned from the server, we were able to recover the signed hash by multiplying the blinded signed hash by the inverse of $r$, computed using our \emph{inverse} helper.
+
+We obtained the following 8 strings:
+
+\begin{enumerate}
+  \item Do not meddle in the affairs of dragons, for you are crunchy and good with ketchup.
+  \item For thy sweet love remembered such wealth brings / That then I scorn to change my state with kings.
+  \item What says "Pieces of seven!  Pieces of seven!"?  A parroty error.
+  \item A computer once beat me at chess, but it was no match for me at kickboxing.
+  \item "It does not do to leave a live dragon out of your calculations...."--The Hobbit
+  \item "Computer science isn't any more about computers than astronomy is about telescopes." --Dijkstra
+  \item I wear a fez now.  Fezzes are cool.
+  \item Rosebud is his sled.
+  \item The sky above the port was the color of television, tuned to a dead channel.
+\end{enumerate}
+
+\end{document}
