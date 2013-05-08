@@ -1,0 +1,91 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Recitation 10: Trusting Trust}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+Interpreter: Source code gets sent to the interpreter, and the input is sent to the interpreter as well. The output comes out of the interpreter.
+
+Compiler: Source code goes to the compiler, which produces a binary. The input goes to the binary, and this combination produces an output.
+
+\section{Adding Features in C}
+
+Let's say we add a feature to the C source. Originally we have had some binary file $C_0$ when its compiled. Now, when we add a new feature in the source code, we can create a new compiled binary file $C_1$. Thus, both source files can keep working on $C_1$ if we've made a backwards compatible extension.
+
+We can keep using old C programs with the new compiled binary, and we should see the same results as before. At this point, we could consider deleting the old C source, because we now have the new source.
+
+Now let's say we use the new feature in a new extension. We need to compile it with $C_1$, which will give us a new compiled version $C_2$.
+
+Note: the compiler should be able to compile its own source code and produce the same compiled binary (compiler).
+
+\subsection{Thompson's New Feature}
+
+\begin{verbatim}
+c = next();
+if (c != '\\')
+  return c;
+c = next();
+if (c == 'n')
+  return '\n';
+if (c == 'v')
+  return '\v';
+\end{verbatim}
+
+\subsection{Thompson's Trojan Horse}
+
+First, there is the regular C compiler $C_0.c$ and that compiles to $C_0$ binary. There is also $login.c$ which gets compiled by $C_0$ to $login$. Now we create a new program $C_1.c$ which overwrites the original login file. Compiling this new program gives $C_1$.
+
+Now, let's say $C_2.c$ can compile the login program and replace it with a malicious login program. However, it also has a property so that if it is asked to compile $C_1.c$, then it compiles that to the bad compiler.
+
+We can delete the source code of $C_2.c$. Whenever the compiler is recompiled, the special cases will be reinserted.
+
+\begin{verbatim}
+def compile(s):
+  if s == "gcc.c":
+    compile("C2.c")
+    return
+  if s == "login.c":
+    compile("bad_login.c")
+
+  ... (whatever a compiler normally does)
+\end{verbatim}
+
+\section{Preventing Trojan Horses}
+
+Let's say we have two versions of compiler binaries, and we have a compiler source. Let's feed the compiler source to produce new compilers $C_3$ and $C_4$ with each binary. If the binaries are different, it's not neccesarily a bad sign because $C_1$ and $C_2$ binaries are possibly different compiler optimizations.
+
+However, when we feed $C.c$ to $C_3$ and $C_4$, we should get the same binary output from both of them because they are supposed to be the same compiler.
+
+\begin{itemize}
+  \item
+\end{itemize}
+
+\end{document}
