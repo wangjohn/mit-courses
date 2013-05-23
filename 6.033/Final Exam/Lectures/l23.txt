@@ -1,0 +1,259 @@
+6.033 2012 Lecture 23: Mobile code security
+
+Topics:
+  Mobile code
+  Unix security model
+  Android security model
+  Mechanism vs policy
+
+Mobile code.
+  Goal: safely run someone else's code on user's computer.
+  Many use cases.
+    Javascript.
+    Flash.
+    Downloaded programs on a mobile phone.
+
+Threat model.
+  Worst case scenario: assume the code user is running is malicious.
+    Code is designed to compromise user's system.
+  How realistic is this?
+    User may be tricked into visiting a malicious web site.
+    That web site will run malicious code in your browser.
+    Spam email may trick user into clicking on link to malicious site.
+    Malicious site could buy an advertisement on CNN.com.
+      Adversary's page loads when user visits CNN.com.
+    On mobile phones, users can also be misled to install a malicious app.
+      Adversaries purposely create apps that match popular search terms.
+      Mimic existing popular applications.
+  Today's case study: security on Android phones.
+
+Policy / goal:
+  Secrecy: user's data should not be disclosed.
+  Integrity: user's data should not be corrupted.
+
+Strawman: use virtual machines.
+  Mobile phone runs a virtual machine monitor (VMM).
+  Each application runs in a separate virtual machine.
+  User's data stored in each application's VM.
+    E.g., phonebook VM stores user's contacts, email VM stores messages, etc.
+  VMM ensures isolation between VMs.
+  Strong isolation in case of malicious applications.
+  Problem: applications may need to share data.
+    E.g., mapping app might want to access the phone's location (GPS).
+    E.g., phonebook app might want to send one entry via user's gmail account.
+    E.g., Facebook app might want to add an entry to the phone's calendar,
+          if user accepts an invitation to some event via Facebook.
+
+Goal: controlled sharing.
+  Applications should be able to interact (with each other, with user's data,
+    with phone's resources, etc), but only according to policy.
+
+Strawman: use Unix security mechanisms.
+  Principal: each user is assigned a 32-bit user ID (uid).
+    OS keeps track of the uid for each running process.
+  Objects: files.
+  Operations: read/write file.
+  Authorization: each file has an access control list.
+
+[ demo ]
+  nickolai% cd /tmp
+  nickolai% id -u
+  nickolai% echo hello > f.txt
+  nickolai% ls -l f.txt
+  nickolai% ls -ln f.txt
+
+  n% cd /tmp
+  n% id -u
+  n% cat f.txt
+  n% echo hi > f.txt
+
+  nickolai% chmod o+w f.txt
+  nickolai% ls -ln f.txt
+
+  n% echo hi > f.txt
+  n% cat f.txt
+
+Can we enforce our mobile code policies on a typical Unix system?
+  Hard to do: Unix mechanisms designed to protect users from each other,
+    on a computer with many users.
+  All user's processes run with the same uid.
+  All user's files are accessible to that uid.
+  Any program would have full access to user's system.
+  Mismatch between available mechanism and desired policy.
+
+How to do better?
+  Define an application model where security mechanisms fit our policies.
+
+Goals for a better application model.
+  Arbitrary applications, with different privileges.
+    Might want apps to be the principals, rather than the user.
+  Arbitrary resources, operations.
+    Unix only protects files, and mechanism controls read/write.
+    Might have many kinds of resources:
+      - contacts in phonebook
+      - events in Facebook app
+      - GPS location
+      - photos in the camera app
+    Resources and operations defined by applications.
+      - modifying a contact
+      - scheduling a meeting in calendar
+      - responding to an event in Facebook app
+  Arbitrary policies.
+    Similarly defined by applications & user.
+
+Android application model.
+  Applications have names (e.g., com.android.contacts).
+  Applications interact via messages, called "intents".
+  Each message (intent) contains:
+    - name of target (string)
+    - action (string)
+    - data (string)
+  Applications broken up into components that receive different messages.
+    Components are also named by strings.
+    Message targets are actually components.
+    E.g., "com.android.contacts / Database".
+
+Security model.
+  Applications are the principals.
+  Security policies are expressed in terms of "permission labels".
+  Application defines permission labels.
+    Free-form string: e.g., android.perm.READ_CONTACTS.
+  Application assigns a permission label to each component.
+    E.g., contacts db component labeled with android.perm.READ_CONTACTS.
+    This specifies the permission necessary to send messages to that component.
+  Application specifies permission labels that it requires.
+    List of permission label strings.
+    Each installed application maps to a list of permissions that it has.
+  Mechanism:
+    A can send message to B.C if A has B.C's permission label.
+
+  Principal: application.
+  Resource: component.
+  Operation: any message.
+  Policy: assignment of labels to components & applications.
+
+Who decides the policy?
+  Server app developer decides what permissions are important.
+  Client app developer decides what permissions it may need.
+  User decides whether it's OK with granting client app those permissions.
+  To help user, server app includes some text to explain each permission.
+
+Implementing Android's model.
+  All messages are sent via a "reference monitor" (RM).
+    RM in charge of checking permissions for all messages being sent.
+    Uses the mechanism defined above.
+    RM runs as its own uid, distinct from any app.
+  What ensures complete interposition?
+    Built on top of Linux, but uses Unix security mechanisms in new way.
+    Each app (principal) has its own uid.
+    Apps only listen for messages from reference monitor.
+    Linux kernel ensures isolation between different uid's.
+  Why check in the reference monitor?
+    Only party that knows the complete policy.
+    Client should not be trusted to make security checks.
+    Server may not know who's allowed to send it messages (user defined).
+
+[ demo ]
+  % emulator @x
+  % adb shell pm list permissions -g | less
+  ..
+  group:android.permission-group.PERSONAL_INFO
+    permission:android.permission.READ_USER_DICTIONARY
+    permission:android.permission.WRITE_CONTACTS
+    permission:com.android.browser.permission.WRITE_HISTORY_BOOKMARKS
+    permission:android.permission.BIND_APPWIDGET
+    permission:com.android.browser.permission.READ_HISTORY_BOOKMARKS
+    permission:com.android.alarm.permission.SET_ALARM
+  ..
+
+  [ show where the contacts database lives ]
+  % adb shell
+  # cd /data/data/com.android.providers.contacts/databases
+  # ls -l
+  [ app_9 is uid 10009 ]
+
+  # sqlite3 contacts2.db
+  sqlite> .tables
+  sqlite> select * from data;
+
+  % cd AndroidDemo
+  % less src/mit/six033demo/Demo.java
+  % ant debug
+  % adb uninstall mit.six033.demo
+  % adb push bin/Demo-debug.apk /sdcard/demo.apk
+  [ Apps -> ASTRO -> File mgr -> /sdcard -> demo.apk -> install ]
+  [ Apps -> 6.033 demo ]
+
+  [ edit AndroidManifest.xml, uncomment permission ]
+  % ant debug
+  % adb push bin/Demo-debug.apk /sdcard/demo.apk
+  [ Apps -> ASTRO -> File mgr -> /sdcard -> demo.apk -> install ]
+  [ Apps -> 6.033 demo ]
+
+Broadcast messages.
+  May want to send message to any application that's interested.
+  E.g., GPS service may want to provide periodic location updates.
+
+  Android mechanism: broadcast intents.
+    Components can request any broadcast message to specific action.
+    But now anyone can subscribe to receive location messages!
+  Solution: think of the receiver as asking the sender for the message.
+    In Android's label model, receiver would need label for sender's component.
+    So, sender includes a permission label in broadcast messages it sends.
+    Message delivered only to components whose application has that permission.
+
+Authenticating source of messages.
+  How can an application tell where the message came from?
+    E.g., android provides bootup / shutdown broadcast messages.
+    Want to prevent malicious app from sending a fake shutdown message.
+  Use labels: agree on a permission label for sending, e.g., system events.
+    Component that wants to receive these events has the appropriate label.
+    Only authentic events will be sent: others aren't allowed by label.
+  In practice, a number of applications get this wrong!
+    E.g., alarm service component.
+    E.g., settings app allowed anyone to toggle wifi, etc.
+
+Delegation.
+  E.g., run a spell checker on a post you're writing in some app.
+  E.g., view an attachment from an email message.
+  Ideally want to avoid sending data around all the time.
+
+  Android mechanism: delegation.
+  One app can allow a second app to send specific kinds of messages,
+        even if the second otherwise wouldn't be able to send them on its own.
+    E.g., read a particular email attachment, edit a particular post, etc.
+
+  Implementation: reference monitor keeps track of all delegations.
+  Delegation complicates reasoning about what principals can access a resource.
+  May want to delegate access temporarily.
+    Delegation usually requires a revocation mechanism.
+
+Authenticating applications.
+  Can one application rely on another application's names?
+    E.g., can my camera app safely send a picture to "com.facebook/WallPost"?
+  Not really: application names and permission names are first-come-first-serve.
+    Name maps to the first application that claimed that name.
+    Important to get naming right for security!
+
+What goes wrong in the Android model?
+  Goal is achieved only if permissions are granted to trustworthy applications.
+    At best, Android model limits damage of malicious code to what user allowed.
+    Users don't have a way to tell whether an app is malicious or trustworthy.
+    Users often install apps with any permissions.
+    Manifest vs runtime prompts?
+  Trusted components have bugs.
+    Linux kernel.
+    Privileged applications (e.g., logging service on some HTC devices, 2011).
+
+Can we enforce original goal (user's private data not leaked)?
+  Hard to enforce, because this property spans entire system, not just one app.
+  Strawman: prohibit any app that has both READ_CONTACTS and INTERNET.
+  App 1 might have READ_CONTACTS & export a component for leaking contacts info.
+  App 2 might have INTERNET & talk to app 1 to get leaked contacts info.
+
+Complementary approach: examine application code.
+  Apple's AppStore for iPhone applications.
+  Android's market / "Google play".
+
+[ slide: summary ]
+

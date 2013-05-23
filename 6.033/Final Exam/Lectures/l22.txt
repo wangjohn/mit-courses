@@ -1,0 +1,187 @@
+6.033 2012 Lecture 22: Authentication, passwords.
+
+Today: password case study.
+  Most systems use some form of passwords for authentication.
+  Will look at how different systems might use passwords.
+  Some failures, some good ideas.
+
+Password goals.
+  Authenticate user.
+  Adversary must guess (for random 8-letter passwords, ~26^8?).
+  Guessing is expensive.
+
+Start simple: logging into an account on a shared computer system.
+  [ slide: simple password-based authentication ]
+  Problem: can guess the password one character at a time.
+    [ diagram: allocate password 1 byte away from a page boundary, where the
+               next page is not mapped.  page fault means first char is ok. ]
+    Example of cross-layer interactions.
+  Problem: server has a copy of everyone's password.
+    If adversary exploits buffer overflow, can get a copy of all passwords.
+
+Idea: instead of storing password, store a hash of the password.
+  (Cryptographic) hash functions: arbitrary strings to fixed-length output.
+    Common output sizes are 160 bits, 256 bits, ..
+    One-way: given H(x), hard to recover x.
+    Collision-resistant: hard to find different x and y such that H(x)=H(y).
+    Evolve over time: SHA-0 and MD-5 used to be popular, now considered broken.
+  [ slide: password hashing ]
+
+  Accounts database stores hash of every user's password.
+  Compute hash, check if the hash matches.
+  Solves not only the password theft problem, but also the page-fault attack.
+  [ demo ]
+    % echo -n hello | sha1sum
+    % echo -n helloworld | sha1sum
+    % echo -n hello | sha1sum
+
+What happens if an adversary breaks into a popular web site with 1M accounts?
+  Adversary steals 1M hashes.
+  Problem: adversary can guess each password one-by-one.
+  Problem: worse yet, adversary can build table of hashes for common passwords.
+    Often called a "rainbow table".
+    Users are not great at choosing passwords, many common choices.
+    [ slide: password statistics ]
+  Important to think of human factors when designing security systems.
+    Not much we can do for users that chose "123456".
+    Plenty of bad passwords have numbers, uppercase, lowercase, etc.
+    What matters is the (un)popularity of a password, not letters/symbols.
+    But we can still make it a bit harder to guess less-embarrassing passwords.
+
+Salting: make the same password have different hash values.
+  Makes it harder to build a pre-defined lookup table.
+  [ slide: password hashing with salt ]
+  Choose random salt value when first storing the password (& store the salt).
+    Store hash of salt and password together.
+    Use the original salt to compute a matching hash when verifying password.
+    Every password has many possible hash values -> impractical to build table.
+  Typically, also want to use a much more expensive hash function.
+    For reference: look up "bcrypt" by Provos and Mazieres.
+  [ demo ]
+    % echo -n randomsalt:hello | sha1sum
+    % echo -n othersalt:hello | sha1sum
+    % echo -n randomsalt:hello | sha1sum
+
+Typical use of passwords: bootstrap authentication.
+  Don't want to continuously authenticate with password for every command.
+    Typing, storing, transmitting, checking password: risk of compromise.
+  In Unix, login process exchanges password for userid.
+  In web applications, often exchange password for a session cookie.
+    Can think of it as a temporary password that's good for limited time.
+
+Strawman design for session cookies.
+  First check username and password.
+  If ok, send { username, expiration, H(serverkey || username || expiration) }
+    Note: this is only a sketch!  Look up HMAC if you really want to do this.
+  Can use this tuple to authenticate user for some period of time.
+    Nice property: no need to store password in memory, or re-enter it often.
+    Serverkey is there to ensure users can't fabricate hash themselves.
+    Arbitrary secret string on server, can be changed (invalidating cookies).
+    Can verify that the username and expiration time is valid by checking hash.
+  Problem: the same hash can be used for different username/expiration pairs!
+    E.g., "Ben" and "22-May-2012".
+       or "Ben2" and "2-May-2012".
+    Concatenated string used to compute the hash is same in both cases!
+    Can impersonate someone with a similar username.
+  Principle: be explicit and unambiguous when it comes to security.
+    E.g., use an invertible delimiter scheme for hashing several parts together.
+
+Phishing attacks.
+  Adversary tricks user into visiting legitimate-looking web site (e.g., bank).
+  Asks for username/passwd.
+  Actually a different server operated by adversary.
+    E.g., bank0famerica.com instead of bankofamerica.com.
+  Stores any username/passwd entered by victims.
+  Adversary can now impersonate victims on the real web site.
+
+Key problem: once you send a password to the server, it can impersonate you.
+  We solved part of the problem by hashing the password database.
+  But we're still sending the password to the server to verify on login..
+
+Technique 1: challenge-response scheme.
+  Server chooses a random value R, sends it to client.
+  Client computes H(R + password) and sends to server.
+  Server checks if this matches its computation of hash with expected password.
+  If the server didn't already know password, still doesn't know..
+
+Technique 2: use passwords to authenticate the server.
+  Flip the challenge-response protocol, make the server prove it knows your pw.
+  Client chooses Q, sends to server, server computes H(Q + password), replies.
+  Only the authentic server would know your password!
+    Unfortunately, not many systems use this in practice.
+    In part because app developers just care about app authenticating user..
+  Complication: could be used with first scheme above to fool server!
+    First, try to log into the server: get the server's challenge R.
+    Then, decide you want to test the server: send it the same R.
+    Send server's reply back to it as response to the original challenge.
+  Principle: be explicit, again!
+    E.g., hash the intended recipient of response (e.g., client or server),
+          and have the recipient verify it.
+
+Slight problem: simple challenge-response can't be used with hashed passwords.
+  Need the original password to compute hash together with random challenge.
+  If we store the hashed password, its hash now becomes the effective password..
+  There's a protocol that allows both.
+    Store a "hash" of password, challenge-response auth.
+    Look up "SRP" if building a real system (details too complicated for 6.033).
+
+Technique 3: turn phishing attacks from offline into online attacks.
+  [ slide: sitekey example ]
+  What's the point?
+    If adversary doesn't have the right image, users will know the site is fake.
+    Adversary could talk to real site, fetch image for each user that logs in..
+  Why is it still useful, then?
+    Requires more effort on adversary's part to mount attack.
+    Even if adversary does this, bank can detect it.
+    Watch for many requests coming from a single computer.
+    That computer might be trying to impersonate site.
+    Turns an offline/passive attack into an online/active attack.
+  Key insight: don't need perfect security, small improvements can help.
+
+Technique 4: make passwords specific to a site.
+  Instead of sending password, send H(servername + password).
+  Just like a basic password scheme, from the server's point of view.
+    Except impersonator on another server gets diff passwd.
+
+Technique 5: one-time passwords.
+  If adversary intercepts password, can keep using it over and over.
+  Can implement one-time passwords: need to use a different password every time.
+  Design: construct a long chain of hashes.
+    Start with password and salt, as before.
+    Repeatedly apply hash, n times, to get n passwords.
+    Server stores x = H(H(H(H(...(H(salt+password)))))) = H^n(salt+password)
+  To authenticate, send token=H^{n-1}(salt+password).
+    Server verifies that x = H(token), then sets x <- token
+  User carries a printout of a few hashes, or uses smartphone to compute them.
+
+  Alternative design: include time in the hash (Google's 2-step verification).
+    Server and user's smartphone share some secret string K.
+    To authenticate, smartphone computes H(K || current time).
+    User sends hash value to server, server can check a few recent time values.
+
+Technique 6: bind authentication and request authorization.
+  One way to look at problem: sending password authorizes any request.
+    .. even requests by adversary that intercepts our password.
+  A different design: use password to authenticate any request.
+    req = { username, "write XX to grades.txt", H(password + "write ..") }
+    Server can check if this is a legitimate req from user using password.
+    Even if adversary intercepts request, cannot steal/misuse password.
+  In practice, don't want to use password, use some session token instead.
+    Could combine well with one-time passwords.
+
+Bootstrapping.
+  How to initially set a password for an account?
+    If adversary can subvert this process, cannot rely on much else.
+    MIT: admissions office vets each student, hands out account codes.
+    Many web sites: anyone with an email can create a new account.
+  Changing password (e.g., after compromise).
+    Need some additional mechanism to differentiate user vs attacker.
+    MIT: walk over to accounts office, show ID, admin can reset password.
+    Many web sites: additional "security" questions used to reset password.
+  Password bootstrap / reset mechanisms are part of the security system.
+    These mechanisms can sometimes be weaker than the password mechanisms.
+    Sarah Palin's Yahoo account was compromised by guessing security Q's.
+    Personal information can be easy to find online.
+
+[ slide: summary ]
+

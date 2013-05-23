@@ -1,0 +1,220 @@
+6.033 2012 Lecture 21: Security intro
+
+Topics:
+  Computer security challenges.
+  Threat models.
+  Guard model.
+
+Where are we in the course?
+  Previous lectures: know how to build reliable systems, despite failures.
+  Next few lectures: build systems that can deal with malicious attacks.
+  Security: upholding some goal despite actions by adversary.
+
+Attacks happen often.
+  Lots of personal info stolen.
+    [ slide: attackers broke into server w/ ~800K records on Utah patients ]
+  Phishing attacks.
+    [ slide: users at ORNL tricked by phishing email about benefits from HR ]
+  Millions of PCs are under control of an adversary, called a botnet.
+    [ slide: botnet ]
+  Stuxnet infected Iran's uranium processing facilities.
+    [ slide: stuxnet ]
+
+Real world vs. computer security.
+  Security in general not a particularly new concern.
+    Banks, military, legal system, etc have always worried about security.
+  Similarities with computer security:
+    Want to compartmentalize (different keys for bike vs. safe deposit box).
+    Log and audit for compromises.
+    Use legal system for deterrence.
+  Significant differences with computer security:
+    Internet makes attacks fast, cheap, and scalable.
+      Huge number of adversaries: bored teenagers, criminals worldwide, etc.
+      Adversaries are often anonymous: no strong identity on the internet.
+      Adversaries have lots of resources (compromised PCs in a botnet).
+      Attacks can often be automated: systems compromised faster than can react.
+    Users sometimes have poor intuition about computer security.
+      E.g., misunderstand implications of important security decisions.
+
+Why is security hard?
+  Security is a negative goal.
+    Want to achieve something despite whatever adversary might do.
+  Positive goal: "Frans can read grades.txt".
+    Ask Frans to check if our system meets this positive goal.
+  Negative goal: "John cannot read grades.txt".
+    Ask John if he can read grades.txt?
+    Good to check, but not nearly enough..
+    Must reason about all possible ways in which John might get the data.
+  How might John try to get the contents of grades.txt?
+    [ slides: many ways ]
+
+Q: when should we stop thinking of scenarios?
+  In general, cannot say that John will never get a copy of grades.txt.
+
+We've seen negative goals already: all-or-nothing atomicity w/ crashes.
+  With crashes, just had to think of where we might crash.
+  Much harder to consider all possible cases with an adversary.
+  Security is also often hard because system has many complex goals.
+
+Can we use fault-tolerance techniques to deal with adversaries?
+  One "failure" due to attack might be too many.
+    Disclosing grades file, launching rocket, etc.
+  Failures due to attack might be highly correlated.
+    In fault-tolerance, we generally assumed independent failures.
+    Adversary can cause every replica to crash in the same way.
+    Hard to reason about failure probabilities due to attacks.
+
+How to make progress in building a secure system?
+  Be clear about goals: "policy".
+  Be clear about assumptions: "threat model".
+
+Policy: goals.
+  Information security goals:
+    Privacy: limit who can read data.
+    Integrity: limit who can write data.
+  Liveness goals:
+    Availability: ensure service keeps operating.
+
+Threat model: assumptions.
+  Often don't know in advance who might attack, or what they might do.
+    Adversaries may have different goals, techniques, resources, expertise.
+  Cannot be secure against arbitrary adversaries, as we saw with John vs. Frans.
+    Adversary might be your hardware vendor, software vendor, administrator, ..
+    Need to make some plausible assumptions to make progress.
+  What does a threat model look like?
+    Adversary controls some computers, networks (but not all).
+    Adversary controls some software on computers he doesn't fully control.
+    Adversary knows some information, such as passwords or keys (but not all).
+    Adversary knows about bugs in your software?
+    Physical attacks?
+    Social engineering attacks?
+    Resources?  (Can be hard to estimate either resources or requirements!)
+  Many systems compromised due to unrealistic / incomplete threat models.
+    Adversary is outside of the company network / firewall.
+    Adversary doesn't know legitimate users' passwords.
+    Adversary won't figure out how the system works.
+  Despite this, important to have a threat model.
+    Can reason about assumptions, evolve threat model over time.
+    When a problem occurs, can figure out what exactly went wrong, re-design.
+  Overly-ambitious threat models not always a good thing.
+    Not all threats are equally important.
+    Stronger requirements can lead to more complexity.
+    Complex systems can develop subtle security problems.
+
+Guard model of security.
+  [ diagram: client, server, guard, resource ]
+  Client/server model; we are worried about security at the server.
+  Typically think of security goal as relating to some resource in server.
+    E.g., in a file server, resource might be the grades.txt file.
+  Server is responsible for checking all accesses to resource.
+    Consults a "guard" to make the access control decision.
+  Complete mediation: only way to access the resource involves the guard.
+    1. Must enforce client-server modularity
+       Adversary should not be able to access server's resources directly.
+       E.g., assume OS enforces modularity, or run server on separate machine.
+    2. Must ensure server properly invokes the guard in all the right places.
+    ==> Designs where complete mediation is inherent avoid many common pitfalls.
+
+Designing the guard.
+  Two functions often provided by a guard:
+    Authentication: request -> principal.
+      E.g., client's username, verified using password.
+    Authorization: (request, principal, resource) -> allow?
+      E.g., consult access control list (ACL) for resource.
+  Simplifies security: can consider the guards under threat model.
+    (But don't forget about complete mediation!)
+
+Example systems in terms of our security model.
+  Unix file system.
+    Resource: files, directories.
+    Server: OS kernel.
+    Client: process.
+    Requests: read, write system calls.
+    Mediation: U/K bit / system call implementation.
+    Principal: user ID.
+    Authentication: kernel keeps track of user ID for each process.
+    Authorization: permission bits & owner uid in each file's inode.
+  Typical web server running on Unix.
+    Resource: Wiki pages.
+    Client: any computer that speaks HTTP.
+    Server: web application, maybe written in Python.
+    Requests: read/write wiki pages.
+    Mediation: server stores data on local disk, accepts only HTTP reqs.
+      Note: requires setting file permissions, etc;
+            assumes OS kernel provides complete mediation.
+    Principal: username.
+    Authentication: password.
+    Authorization: list of usernames that can read/write each wiki page.
+  Firewall.
+    Resource: internal servers.
+    Client: any computer sending packets.
+    Server: the entire internal network.
+    Requests: packets.
+    Mediation:
+      - internal network must not be connected to internet in other ways.
+      - no open wifi access points on internal network for adversary to use.
+      - no internal computers that might be under control of adversary.
+    Principal, authentication: none.
+    Authorization: check for IP address & port in table of allowed connections.
+  Multiple instances of model typically present in any system.
+    Layering: Unix fs, web server, ..
+    Defense in depth: web server, firewall, ..
+
+Model seems straightforward: what goes wrong?
+
+1. Software bugs / complete mediation.
+  All ways to access resource must be checked by guard.
+  Common estimate: one bug per 1,000 lines of code.
+  Adversary may trick server code to do something unintended, bypass guard.
+  [ 3 slides: paymaxx ]
+
+  [ demo: SQL injection attack ]
+    http://localhost/cgi-bin/lookup.cgi
+    Look up nickolai, kaashoek, shanir.
+    Try shanir' OR username='
+    In recitation tomorrow, more examples of software bugs bypassing mediation.
+
+  Dealing with software bugs / incomplete mediation.
+    Any component that can arbitrarily access a resource must invoke the guard.
+      E.g., lookup.cgi in the demo.
+    If component has a bug or design mistake, can lead to incomplete mediation.
+    General plan: reduce the number of components that must invoke the guard.
+      E.g., arrange for DB server to check permissions on records returned.
+      Then security does not depend as much on lookup.cgi.
+    In security terminology, often called "principle of least privilege".
+
+  Security jargon: privileged components are "trusted".
+    Trusted is bad: you're in trouble if a trusted component breaks.
+    Untrusted components are good: doesn't matter if they break.
+    Good design has few trusted components, other things don't affect security.
+
+2. Policy vs. mechanism.
+  High-level policy is (ideally) concise and clear.
+  Security mechanisms (e.g., guards) often provide lower-level guarantees.
+  E.g., policy is that students cannot get a copy of grades.txt.
+    What should the permissions on the files be?
+    What should the firewall rules be?
+  Good idea: try to line up security mechanisms with desired policies.
+
+3. Interactions between layers, components.
+  [ 3 slides: symlink problem ]
+
+4. Users make mistakes.
+  Social engineering, phishing attacks.
+  Good idea: threat model should not assume users are perfect.
+
+5. Cost of security.
+  Users may be unwilling to pay cost (e.g., inconvenience) of security measures.
+    E.g., system requires frequent password changes -> users may write them down.
+  How far should 6.033 staff go to protect the grades file?
+    Put the file on a separate computer, to avoid sharing a file system?
+    Disconnect computer from the network, to avoid remotely exploitable OS bugs?
+    Put the server into a separate machine room?
+    Get a guard to physically protect the machine room?
+    ...
+  Good idea: cost of security mechanism should be commensurate with value.
+    Most security goals/policies not infinitely valuable, can tolerate attacks.
+    Security mechanisms can be expensive (e.g., wasted user time).
+
+[ slide: summary ]
+

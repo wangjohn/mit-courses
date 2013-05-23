@@ -1,0 +1,192 @@
+6.033 2012 Lecture 18: Multi-site atomicity
+
+Administrivia
+  Quiz 2 this Friday.
+  Quiz review today (Wednesday) 7:30-9:30pm in 32-123
+
+Last time: transactions provide all-or-nothing & before-or-after atomicity
+  All-or-nothing: shadow copy or logging.
+  Before-or-after: serializability using the 2PL locking protocol.
+  Works when each atomic action is wrapped in one begin/commit block,
+    on a single machine.
+
+Today:
+  Wrap-up isolation
+  Distributed transactions: spanning multiple machines.
+
+Isolation last lecture: serializability
+  the schedule produced by interleaving of concurrent trans == a schedule of serial trans
+     if not, then transaction system is incorrectly implemented
+  implementation: strict two-phase locking 
+     acquire and hold lock until lock point
+         various techniques to handle deadlock
+     release read locks after lock point
+     hold write locks until commit/abort
+  isolation & recoverability
+     The log must have a serializable schedule
+      --> no special action require for isolation during recovery
+
+Weaker forms of isolation:
+  Goal: get more concurrency
+  Approach: sacrifice serializability
+  Example from hands-on
+    Snap-shot isolation
+    Read-committed
+
+Snap-shot isolation: avoid read locks
+  2 concurrent transfers
+  T1 each write creates a new version of account
+  T2 reads version from when its transaction starts
+
+Read-committed isolation:
+   No read locks and no multi-version memory
+
+Behavior:
+  see demo-17.txt
+  Good way of understanding why serializability is important!
+ 
+Distributed (multi-site) transactions
+  Assumption so far:  all transactions run on a single machine
+  But what if you want to use several machines?
+     1 machine holds accounts A-K
+     1 machine holds accounts K-Z
+     transactions for that effects accounts on one machine can run in parallel
+     but what to do about a transfer(A, Z)?
+
+What makes this harder?
+  Nodes communicate over unreliable network.
+    Each node can fail independently.
+    Messages can be lost or re-ordered.
+    [ diagram of new scenario: internet connecting travel agent, bank, airline ]
+  All-or-nothing atomicity: how do we ensure that everyone commits or aborts?
+    Problem is, different components can fail independently.
+    - Contrast: in a single machine, entire system crashes if power goes out.
+    Problem: if one part crashes, other parts might not know about it.
+    - Is the network just broken, or is the other machine really crashed?
+    - Contrast: in a single computer, if disk is broken, get an error back.
+
+Approach: distributed transactions
+  Each site has its own transaction machinery: logging, recovery, etc.
+  Remaining problem: ensuring that either both commit or both abort.
+  We'll call the machine that started the transaction the coordinator,
+    it will be in charge of ensuring agreement between nodes.
+
+Distributed transaction steps:
+  1. Coordinator sends tasks to workers (xfer to bank, issue_tkt to airline).
+     Think of this as the PREPARE message in the 2PC protocol.
+  2. Nodes run txn, report status to coordinator (abort or tentative commit).
+     VOTE message in the 2PC protocol.
+     Tentatively committed: node has no choice on whether to commit anymore!
+       If coordinator says commit, it _must_ commit.
+       If coordinator says abort, it similarly _must_ abort.
+       In particular, must log to disk before sending tentative commit.
+  3. Coordinator waits for all replies, decides whether to commit or abort.
+     (e.g., if anyone aborted, then entire txn aborts; otherwise commit).
+     Send message to all nodes informing them of the outcome.
+     COMMIT message in the 2PC protocol (or ABORT).
+  4. Nodes acknowledge the commit (or abort) with ACK message.
+
+do l18-demo.txt
+
+Why wait for VOTEs, instead of just sending COMMIT to finished nodes?
+  If some node isn't in tentative commit, might crash and refuse to commit.
+  Now we're in trouble: some nodes have committed, others have aborted.
+
+What happens with packet loss?
+  Use retransmission and duplicate suppression (keep old responses).
+
+What happens if a worker node crashes?
+  Crash before it wrote tentative-commit record.
+    Coordinator resends PREPARE, worker will respond with VOTE ABORT.
+  Crash after it wrote tentative-commit, before it sent VOTE.
+    Coordinator resends PREPARE, worker will respond with VOTE COMMIT.
+  Crash after it sent VOTE.
+    Coordinator resends COMMIT, worker will turn tentative commit into commit.
+
+What happens if the coordinator crashes?
+  Need to remember what happened to the parent transaction!
+  Coordinator maintains a log with each distributed transaction's outcome.
+  Crash before coordinator sends PREPARE.
+    No workers have promised to commit, can timeout.
+  Crash after coordinator sent some (but not all) PREPAREs.
+    Some workers promised to commit.
+    Will resend VOTE to coordinator, coordinator can reply to abort.
+  Crash after coordinator got all VOTEs and wrote its commit record.
+    Workers will resend VOTEs, coordinator will send out COMMIT.
+
+When can we garbage-collect the logs?
+  Coordinator must hear ACK from every worker before removing commit log.
+    Otherwise, crashed worker might need to re-ask if some txn committed.
+    Coordinator writes a "done" record when it receives all ACKs.
+  Workers must keep around log in tentative-commit until coordinator decides.
+    Worker not allowed to abort, even if the coordinator has crashed..
+    After all, it may be the network just being slow: cannot tell.
+  2PC guarantees that _eventually_ everyone will agree on outcome.
+    But cannot guarantee when this will occur: might take arbitrarily long..
+    In the meantime, nodes must keep their logs, and maybe keep locks held.
+
+Summary
+  Distributed transactions
+  Two-phase commit can eventually agree on commit/abort (but no time bound).
+  2PC coordinator, workers may have to keep state for arbitrarily long time.
+
+--- Unused ---
+
+Why nested transactions?
+  Want to build a large transaction out of smaller components.
+  For example: buying an airline ticket, via a travel agency.
+  [ slide: buying a ticket with transactions ]
+  Existing programs might have transactions for xfer() and issue_tkt().
+  Travel agency wants to combine them into one transaction (purchase a ticket).
+  Might actually want xfer() and issue_tkt() to run concurrently, so still
+    want before-or-after atomicity for them, just in case.
+
+Why are nested transactions tricky?
+  Hard questions: when to log, commit, release locks, etc.
+  For example, xfer may commit, but computer crashes before purchase commits.
+  The transfer should not happen in this case.
+    Outer transaction supposedly has all-or-nothing atomicity.
+    Since it didn't commit, none of its parts should appear to have run.
+
+Easy strawman: ignore the begin and commit records for any sub-transaction.
+  Sort-of works: all-or-nothing atomicity for outer transaction.
+  Problem with aborts: causes entire outer txn to abort, not just sub-txn.
+  Would like xfer() to abort if customer doesn't have enough money, and
+    allow them to retry with a different account, without losing the ticket
+    (i.e., aborting the issue_tkt transaction).
+  Problem with concurrency: xfer() & issue_tkt() might not be before-or-after.
+    Need locking between sub-transactions to work.
+
+Nested transactions with independent aborts require several changes:
+  Modified locking protocol.
+  Modified logging/recovery.
+  New state for a transaction: tentatively committed.
+    Means that sub-transaction committed, but parent is still undecided.
+
+Nested locking protocol
+  When can we release locks held by issue_tkt() or xfer()?
+    Must hold on to locks until parent txn commits.
+  How can one sub-transaction read another sub-txn's data?
+    Check if lock is held by a tentatively-committed sub-txn with same parent.
+    If so, transfer lock ownership to the new sub-txn.
+
+Nested logging/recovery:
+  Need separate transaction IDs for each sub-txn.
+  If a sub-txn aborts, need to undo the change records for that sub-txn.
+  If a sub-txn commits, need to write a tentative commit record,
+    indicating it's part of some parent txn.
+  During recovery, need to figure out if parent txn committed.
+  If parent didn't commit, will need to abort the tentatively-committed txn.
+  Otherwise, approximately same recovery as before:
+    scan to determine winners, losers (take into account parent txns).
+    undo losers (backward scan).
+    redo winners (forward scan).
+
+Often, there are two more phases upfront:
+  - Send tasks to workers, but without the PREPARE message.
+  - Workers report back to coordinator their status, without tentative commit.
+  Only then does 2PC start (PREPARE, VOTE, COMMIT, ACK).
+  Reason is that tentative-commit state is expensive to maintain
+    Forced log writes and many messages
+    Node can't decide to abort, even if it would be convenient (e.g., crash).
+

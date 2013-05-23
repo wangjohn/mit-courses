@@ -1,0 +1,209 @@
+6.033 2012 Lecture 16: Logging
+
+Recall from last time:
+  Two kinds of atomicity: all-or-nothing, before-or-after
+  Shadow copy can provide all-or-nothing atomicity
+    [ slide: shadow copy ]
+    Golden rule of atomicity: never modify the only copy!
+    Typical way to achieve all-or-nothing atomicity.
+    Works because you can fall back to the old copy in case of failure.
+  Software can also use all-or-nothing atomicity to abort in case of error.
+    [ slide: shadow copy abort/commit ]
+  Drawbacks of shadow file approach:
+    - only works for single file (annoying but maybe fixable with shadow dirs)
+    - copy the entire file for every all-or-nothing action (harder to avoid)
+  Still, shadow copy is a simple and effective design when it suffices.
+    Many Unix applications (e.g., text editors) use it, owing to rename.
+
+Today, more general techniques for achieving all-or-nothing atomicity.
+  [ slide: transaction syntax ]
+  Idea: keep a log of all changes, and whether each change commits or aborts.
+  We will start out with a simple scheme that's all-or-nothing but slow.
+  Then, we will optimize its performance while preserving atomicity.
+
+  Consider our bank account example again.
+    Two accounts: A and B.
+    Accounts start out empty.
+  Run these all-or-nothing actions:
+    begin
+    A = 100
+    B = 50
+    commit
+
+    begin
+    A = A - 20
+    B = B + 20
+    commit
+
+    begin
+    A = A + 30
+    --CRASH--
+
+  What goes into the log?
+    We assign every all-or-nothing action a unique transaction ID.
+      Need to distinguish multiple actions in progress at the same time.
+    Two kinds of records in the log:
+      UPDATE records: both new and old value of some variable.
+        (we'll see in a bit why we need the old values..)
+      COMMIT/ABORT records: specify whether that action committed or aborted.
+
+        +-------+------+--------+-------+------+--------+-------+
+    TID |  T1   |  T1  |   T1   |  T2   |  T2  |   T2   |   T3  |
+    OLD | A=0   | B=0  |        | A=100 | B=50 |        | A=80  |
+    NEW | A=100 | B=50 | COMMIT | A=80  | B=70 | COMMIT | A=110 |
+        +-------+------+--------+-------+------+--------+-------+
+
+  What happens when a program runs now?
+    begin: allocate a new transaction ID.
+    write variable: append an entry to the log.
+    read variable: scan the log looking for last committed value.
+      [ slide: read with a log ]
+      As an aside: how to see your own updates?
+      Read uncommitted values from your own tid.
+    commit: write a commit record.
+      Expectedly, writing a commit record is the "commit point" for action,
+        because of the way read works (looks for commit record).
+      However, writing log records better be all-or-nothing.
+      One approach, from last time: make each record fit within one sector.
+    abort: do nothing (could write an abort record, but not strictly needed).
+    recover from a crash: do nothing.
+
+  Quick demo:
+    rm DB LOG
+    cat l16-demo.txt
+    ./wal-sys < l16-demo.txt
+    cat LOG
+
+What's the performance of this log-only approach?
+  Write performance is probably good: sequential writes, instead of random.
+    (Since we aren't using the old values yet, we could have skipped the read.)
+  Read performance is terrible: scan the log for every read!
+  Crash recovery is instantaneous: nothing to do.
+
+How can we optimize read performance?
+  Keep both a log and "cell storage".
+    Log is just as before: authoritative, provides all-or-nothing atomicity.
+    Cell storage: provides fast reads, but cannot provide all-or-nothing.
+    [ board: log, cell storage; updates going to both, read from cell storage ]
+    We will say we "log" an update when it's written to the log.
+    We will say we "install" an update when it's written to cell storage.
+    [ slide: read/write with cell storage ]
+  Two questions we have to answer now:
+    - how to update both the log and cell storage when an update happens?
+    - how to recover cell storage from the authoritative log after crash?
+
+Let's look at the above example in our situation.
+  Log still contains the same things.
+  As we're running, maintain cell storage for A and B.
+  Except one problem: after crash, A's value in cell storage is wrong.
+  Last action aborted (due to crash), but its changes to A are visible.
+  We're going to have to repair this in our recovery function.
+  Good thing we have the log to provide authoritative information.
+
+Ordering of logging and installing.
+  Why does this matter?
+    Because the two together don't have all-or-nothing atomicity.
+    Can crash inbetween, so just one of the two might have taken place.
+  What happens if we install first and then log?
+    If we crash, no idea what happened to cell storage, or how to fix it.
+    Bad idea, violates the golden rule ("Never modify the only copy").
+  The corresponding rule for logging is the "Write-ahead-log protocol" (WAL).
+    ==> Log the update before installing it. <==
+  If we crash, log is authoritative and intact, can repair cell storage.
+    (You can think of it as not being the only copy, once it's in the log.)
+
+Recovering cell storage.
+  What happens if we log an update, install it, but then abort/crash?
+  Need to undo that installed update.
+  Plan: scan log, determine what actions aborted ("losers"), undo them.
+  [ slide: recover cell storage from log ]
+  Why do we have to scan backwards?
+    Need to undo newest to oldest.
+    Also need to find outcome of action before we decide whether to undo.
+  In our example: done will be {1, 2}, we will set cellStorage[A] to 80.
+
+  Quick demo:
+    rm DB LOG
+    cat l16-demo.txt
+    ./wal-sys -undo < l16-demo.txt
+    cat LOG
+    cat DB
+    ./wal-sys -undo
+      show_state
+
+What if the programmer decides to abort explicitly, without crashing?
+  Use the log to find all update records that were part of this action.
+  Reset cell storage to old values from those records.
+  Do we need to write an abort record, or can we skip & pretend we crashed?
+    What if our example had a software abort instead of a crash?
+    We might access A again later, and write an update record for it.
+    After a crash, A will be undone to value before aborted action!
+    So, need an abort record, to indicate that no undo is necessary.
+  For the same reason, we need to record abort records after recovery.
+    [ slide: recover with abort logging ]
+    Otherwise, will keep rolling back to point before crashed action.
+
+What if we crash during recovery?
+  Idempotent: can keep recovering over and over again.
+  Crash during the undo phase: restarting is OK, will perform same undo.
+  Crash during logging aborts: restarting is OK, duplicate aborts.
+
+What's the performance going to be like now?
+  Writes might still be OK (but we do write twice: log & install).
+  Reads are fast: just look up in cell storage.
+  Recovery requires scanning the entire log
+
+Remaining performance problems:
+  We have to write to disk twice.
+  Scanning the log will take longer and longer, as the log grows.
+
+Optimization 1: defer installing updates, by storing them in a cache.
+  [ slide: read/write with a cache ]
+  writes can now be fast: just one write, instead of two.
+    the hope is that variable is modified several times in cache before flush.
+  reads go through the cache, since cache may contain more up-to-date values.
+  atomicity problem: cell storage (on disk) may be out-of-date.
+    is it possible to have changes that should be in cell storage, but aren't?
+      yes: might not have flushed the latest commits.
+    is it possible to have changes that shouldn't be in cell storage, but are?
+      yes: flushed some changes that then aborted (same as before).
+  during recovery, need to go through and re-apply changes to cell storage.
+    undo every abort (even if it had an explicit record).
+    redo every commit.
+  [ slide: recovery for caching ]
+    Don't treat actions with an abort record as "done".
+      -> there might be leftover changes from them in cell storage.
+    Re-do any actions that are committed (in the "done" set now).
+
+Optimization 2: truncate the log.
+  Current design requires log to grow without bound: not practical.
+  What part of the log can be discarded?
+    We must know the outcome of every action in that part of log.
+    Cell storage must reflect all of those log records (commits, aborts).
+  Truncating mechanism (assuming no pending actions):
+    Flush all cached updates to cell storage.
+    Write a checkpoint record, to save our place in the log.
+    Truncate log prior to checkpoint record.
+    (Often log implemented as a series of files, so can delete old log files.)
+  With pending actions, delete before checkpoint & earliest undecided record.
+
+Back to the log records: why do we need all of those parts?
+  ID: might need to distinguish between multiple actions at the same time.
+  Undo: roll back losers, in case we wrote to cell storage before abort/crash.
+  Redo: apply commits, in case we didn't write to cell storage before commit.
+
+Summary.
+  Logging is a general technique for achieving all-or-nothing atomicity.
+  Widely used: databases, file systems, ..
+  Can achieve reasonable performance with logging.
+    Writes are always fast: sequential.
+    Reads can be fast with cell storage.
+    Key idea 1: write-ahead logging, makes it safe to update cell storage.
+    Key idea 2: recovery protocol, undo losers / redo winners.
+
+What's coming?
+  Wednesday: dealing with concurrent actions, before-or-after atomicity.
+  Cannot deal with external actions as part of an all-or-nothing action.
+    E.g., dispensing money from an ATM: cannot undo or redo during recovery.
+    Some hope: we'll talk about distributed transactions next Monday.
+

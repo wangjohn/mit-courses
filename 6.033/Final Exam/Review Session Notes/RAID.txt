@@ -1,0 +1,46 @@
+- Reliability
+    - Big idea
+        - Make several (fractional?) copies
+        - Keep them in sync somehow
+        - Failures happen randomly
+        - When one fails, recover from another
+- RAID
+    - Problem
+        - CPU performance is scaling quickly
+        - Memory size is scaling quickly
+        - Disk performance is barely changing
+        - Need to keep feeding data to CPU, memory quickly enough
+    - Idea
+        - Some of these are achievable with big expensive disks, but
+          they're expensive
+        - Boost throughput by using many disk heads
+        - But: many disks mean high probability of loss
+        - Keep reliability up with several copies of data
+    - RAID 1
+        - Two disks with the same data
+        - Reads are fast --- you can pick either
+        - Writes are slow --- need to write to both
+        - Overhead is high: need two copies of everything
+    - RAID 2: bit-level ECC
+    - RAID 3: bit-level parity
+    - RAID 4: sector-level parity
+    - RAID 5:
+        - sector-level parity
+            - Unlike RAID 4, parity sector move between drives
+        - reads are okay
+            - Unlike RAID 1, need to access *each* drive, which may mean
+              contention
+        - large writes are good (compared to RAID1)
+            - can parallelize
+            - need to touch one more disk than non-RAID, not twice as
+              many
+        - small writes mediocre
+            - still touch multiple disks
+    - Ways to think about RAID variants
+        - Interleaving grain (none, bit, or sector)
+        - Redundancy (none, replication, ECC, parity)
+    - Test questions --- all quiz 2:
+        - 2011, problem 2
+        - 2010, problem 2
+        - 2009, problem 3
+        - 2007, problem III (good overview of types of RAIDs)

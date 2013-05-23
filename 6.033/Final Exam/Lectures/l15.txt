@@ -1,0 +1,186 @@
+6.033 2011 Lecture 15: Atomicity
+
+Plan: Atomicity
+  all-or-nothing atomicity
+  before-or-after atomicity
+  implementation using shadow copy
+  rename
+
+Recall overall goal: build reliable system out of unreliable components.
+
+Last lecture and recitation: use replication to tolerate disk failure.
+  Checksum used to detect faults.
+  If cannot read one disk, read data from replica(s) instead.
+  Weaker (but still very effective): error-correcting codes on disk platter.
+  Replication allows masking component failure.
+
+What happens if some component is not (sufficiently) replicated?
+  Often cannot afford to replicate everything in a system.
+  Many examples: processor, power supply, network (Internet), ..
+  Programming mistake faults cause failures in software modules; difficult to
+    replicate for fault-tolerance (n-version programming is tricky).
+  In these situations, we need to _reason_ about what happens due to failure.
+    Then write software that, based on that reasoning, deals with failure.
+    Hard to reason about arbitrary failures (without replication), so here
+      we will generally assume fail-stop or fail-fast failures.
+  This can be tricky: have to consider all possible ways a failure can occur.
+    E.g., may need to consider all possible times when CPU or power can fail.
+    May also need to consider concurrent operations that were in progress..
+
+Next several lectures, starting with this one: atomicity.
+  Enables sweeping simplifications in reasoning about failures, concurrency.
+  Makes (reasoning about) recovery, and concurrent execution, much simpler.
+
+Example: bank account application.
+  Let's consider the operaton xfer(a, b, amt): transfer amt from a to b.
+  [ slide: xfer code ]
+  Assume that the bank array (balances a and b) are stored on disk somehow.
+  If a disk fails, but we replicated the disk, xfer still operates correctly.
+  If system crashes between two statements (e.g., power fails): lost amt.
+    [ slide: xfer crash ]
+    Once system comes back up, there's less total money in the system.
+    Removed amt from a's account, but never added it to b's account.
+  Not just hardware/power failures:
+    Disk device driver / controller might crash, even with replicated disk
+    Python interpreter might crash
+    OS kernel might crash
+
+What do we want to happen if a crash occurs during xfer?
+  Transfer occurred completely.
+  Transfer did not occur at all.
+  Anything else is unexpected to xfer's caller:
+    - hard to reason about
+    - hard to recover from
+  We call this notion "all-or-nothing atomicity" (xfer doesn't have it, yet).
+    An all-or-nothing atomic action makes it easier to reason about failures.
+    No need to think about possible internal, intermediate failure states.
+    Easier to recover from failures by considering just two cases.
+
+Why specifically do we care about the balance being wrong after a crash?
+  Presumably there's another function, like audit(), which reads balances later.
+  [ slide: audit code ]
+  Our example crash causes audit() to return 150 after crash, instead of 200.
+  Turns out, similar problems can often occur with just concurrency (no crash).
+  [ slide: different audit values ]
+
+What do we want to happen during concurrency?
+  audit() ran before xfer()
+  audit() ran after xfer()
+  Don't want to see unexpected effects when audit, xfer run concurrently.
+  We call this "before-or-after atomicity".
+    Again, hiding intermediate states of each function.
+    Enables reasoning about entire functions, not their internal details.
+  Recall: locks can be used to achieve before-or-after atomicity.
+    Unfortunately, locks are hard to get right, require global reasoning.
+    We will look at better abstractions for before-or-after atomicity.
+
+Ultimate goal: transactions (both all-or-nothing & before-or-after atomicity).
+  [ slide: xfer, audit transactions ]
+  Very powerful abstraction.
+    "Just add begin and commit", no need for explicit locking.
+    Will ensure any concurrent xfers, audits execute "as if" sequentially.
+    Tricky to implement (4 lectures), but enables sweeping simplifications.
+
+---
+
+For the rest of this lecture, let's see how to get all-or-nothing atomic xfer.
+  Suppose all accounts stored in one large file.
+  [ slide: file xfer ]
+  Write account balances one at a time.
+  Problem: what if system crashes between the two write steps?
+  Problem: what if an audit runs?
+
+Demo: stresses inconsistent behavior due to concurrency (i.e., audit)
+
+Golden rule of atomicity: never modify the only copy
+
+Idea: write to a shadow copy of the file first, then rename file in one step.
+  [ slide: file xfer with shadow ]
+  Here, we assume rename() will replace existing bankfile with "newfile".
+  If system crashes before rename, bank contains old balances.
+  If system crashes after rename, bank contains new balances.
+  Of course, we need to ensure that only one operation runs at a time,
+    but we will talk about concurrency later.
+  We call the rename a "commit point".
+    Commit point: crash before gives old value, crash after gives new value.
+    Commit point must be itself an all-or-nothing action.
+    Need rename (our commit point) to have all-or-nothing atomicity..
+
+  Demo: with rename things are good
+
+How to implement all-or-nothing rename?
+  Can we use existing Unix file system ops link and unlink?
+    unlink(bankname)
+    link("newfile", bankname)
+    unlink("newfile")
+  No good: if we crash before link, no file "bank" at all.
+
+  [ slide: file system data structures ]
+  What needs to happen during rename?
+    Point "bank" directory entry at inode 13.
+    Remove "newfile" directory entry.
+    Remove refcount on inode 12.
+  First try at rename(x, y):
+    y's dirent gets x's inode #
+    decref(y's original inode)
+    remove x's dirent
+  What happens if we crash after modifying y's dirent?
+    Potentially problematic: two names point to inode 13, refcount is 1.
+    What if we increment refcount before, and decrement it afterwards?
+    rename(x, y):
+      newino = lookup(x)
+      oldino = lookup(y)
+
+      incref(newino)
+      change y's dirent to newino
+      decref(oldino)
+      remove x's dirent
+      decref(newino)
+    We never have too few refcounts, but still might have too many.
+    [ slides: rename in action ]
+  Q: What's the commit point?  Modifying y's dirent.
+  What if we crash during the commit point writing to the dirent?
+    Assume that writing to one sector on disk is all-or-nothing.
+    An ideal disk saves enough energy to complete one sector write.
+    Time spent writing a sector is small (remember, high sequential speed).
+    Small capacitor suffices to power disk for a few microseconds.
+    If write didn't start, no need to complete it: still all-or-nothing.
+
+Fixing up after a crash: salvage.
+  If we crash, our commit point ensures we have all-or-nothing atomicity.
+  But we still have a bit of a mess left over because of the crash.
+  If we crashed before commit: extra refcount on inode 13.
+  If we crashed after commit: extra refcount on inode 12.
+  In both cases: directory entry for "newfile" can be removed.
+  [ slide: salvage function ]
+
+Why does shadow copy give us all-or-nothing atomicity?
+  Write to a copy of data, atomically switch to new copy.
+  Switching can be done with one all-or-nothing operation (sector write).
+  Requires a small amount of all-or-nothing atomicity from lower layer (disk).
+  Main rule: only make one write to current/live copy of data.
+    In our example, sector write for rename.
+    Creates a well-defined commit point.
+
+Does the shadow copy approach work in general?
+  +: Works well for a single file.
+  -: Hard to generalize to multiple files or directories.
+     Might have to place all files in a single directory, or rename subdirs.
+  -: Requires copying the entire file for any (small) change.
+  -: Only one operation can happen at a time.
+  -: Only works for operations that happen on a single computer, single disk.
+
+Next lecture: more general techniques for all-or-nothing atomicity.
+
+Summary of this lecture:
+  Not always possible to use replication to avoid failures.
+  To recover from failure, need to reason about what happened to the system.
+  Atomicity makes it much easier to reason about possible system states:
+    All-or-nothing atomicity.
+    Before-or-after atomicity.
+  Today's approach to all-or-nothing atomicity: shadow copy.
+    Make all modifications to a shadow copy of data.
+    Replace old copy with new copy with an all-or-nothing write to one sector.
+      -> commit point
+    Rule: never modify live data (unless one sector write is all you need)
+

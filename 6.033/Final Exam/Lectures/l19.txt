@@ -1,0 +1,244 @@
+6.033 2013 Lecture 19: replicated state machine
+
+Plan:
+  Consistency semantics
+  Replicated state machine
+  Use view server to reach consensus
+
+Fault-tolerance
+  Goal: building reliable systems from unreliable components.
+  So far: transactions for crash-recovery on a single server
+    Important to recover from failures.
+  How to continue despite failures?
+    General plan: multiple servers, replication.
+    Already seen some cases: DNS, RAID, ..
+  This week: how to handle harder cases.
+    E.g., replicated storage (e.g., mail server, file server, etc.)
+    E.g., replicated master for 2PC
+    ..
+    Often shows up in data center infrastructure at Google, Facebook, Microsoft, etc.
+
+Ideal goal for replicated system: single-copy consistency.
+  Property of the externally-visible behavior of a replicated system.
+  Operations appear to execute as if there's only a single copy of the data.
+    Internally, there may be failures or disagreement, which we have to mask.
+  Similar to how we defined serializability goal ("as if executed serially").
+  Many systems give up on this ideal semantics, but some need it
+    E.g., Expensive to achieve in wide-area networks
+    DNS and PNUTS settle for weaker semantics
+
+Replicating a server (e.g., a bank account server).
+  [ diagram: two clients, two servers ]
+  Strawman: clients send requests to both servers.
+  Tolerating faults: if one server is down, clients send to the other.
+  Limit ourselves to two servers for now
+
+[ demo: replicating a server that tracks bank accounts ]
+  Two terminals, one on top of another, both with rxvt-font.sh xft:Monospace-18
+
+  top% cd rsm
+  top% less srv.py
+  top% ./srv.py /tmp/a 5001
+
+  bottom% less client.py
+  bottom% ./client.py 5001
+  ^C
+  bottom% cat /tmp/a
+
+  ^C
+  top% rm /tmp/a
+  top% ./srv.py /tmp/a 5001 &
+  top% ./srv.py /tmp/b 5002 &
+
+  bottom% ./client.py 5001 5002
+  ^C
+  bottom% cat /tmp/a
+  bottom% cat /tmp/b
+
+  ## multiple clients: what goes wrong?
+  bottom% ./client.py 5001 5002 &
+  bottom% ./client.py 5001 5002
+  ^S when first error appears
+  ^Q to resume
+  ^C
+
+  bottom% fg
+  ^C
+
+Problem: replicas can become inconsistent.
+  Issue: clients' requests to different servers can arrive in different order.
+  How do we ensure the servers remain consistent?
+
+Replicated state machines
+  A general approach to making consistent replicas of a server:
+  - Start with the same initial state on each server.
+  - Provide each replica with the same input operations, in the same order.
+  - Ensure all operations are deterministic.
+    E.g., no randomness, no reading of current time, etc.
+  These rules ensure each server will end up in the same final state.
+
+Assumption: Independent failure of replicas
+  But:
+  - Replicated bugs
+  - Shared network
+  ...
+  Easy to build non-fault-tolerant fault tolerant systems
+    E.g., Amazon EC2 failure, Gmail failure, etc.
+    http://research.microsoft.com/pubs/191008/FailureRecoveryBeEvil.pdf
+
+Simple implementation of RSM: replicated logs
+  We stick to the two replica example for now
+  [ diagram: each server has a log consisting of Wx, Ry ]
+  Log contains client operations, including both writes and reads.
+  Log entries are numbered.
+
+Key issue: agreeing on the order of operations
+  [ diagram: coordinator receives operations from clients, sends to replicas ]
+  Coordinator handles one client operation at a time.
+  Coordinator chooses an order for all operations (assigns log sequence number).
+  Coordinator issues the operation to each replica.
+  When is it OK to reply to client?
+    Must wait for majority of replicas to reply.
+    Otherwise, if a minority crashes, remaining servers may continue without op.
+
+Example 2-node RSM:
+  Primary server: coordinator + server
+  Backup server: server
+
+[ demo: coordinator ]
+  top% kill %1
+  top% kill %2
+  top% rm /tmp/a /tmp/b
+  top% ./srv.py /tmp/a 5001 &
+  top% ./srv.py /tmp/b 5002 &
+  top% ./coord.py 5099 5001 5002
+
+  bottom% ./client.py 5099 &
+  bottom% ./client.py 5099 &
+  bottom% jobs
+
+  bottom% kill %1
+  bottom% kill %2
+
+Deterministic operations
+  Coordinator performs non-deterministic operations and sends results to backup
+
+This prototype RSM can handle only a fail-stop primary failure
+ What wider classes of failure would we like to handle?
+  temporary or permanent loss of connectivity
+  network partitions
+  == can't know if a server is crashed or just not reachable
+
+Split brain syndrome
+  What would happen if RSM saw these failures?
+  clients, primary, backup might not agree about who is primary
+    or about whether backup is alive (and thus if it is up to date)
+  result:
+    two primaries
+    e.g. some clients switch to backup, others don't
+    or one client switches back and forth
+    they don't see each other's updates!
+    "split brain"
+    does *not* achieve goal of acting like single server
+  Example RSM is *incorrect* if there are network problems!
+
+More goals: 
+  Reach consensus who is primary, despite network partition
+  Replacement of failed servers
+
+An idea: view server
+  consensus/agreement:
+    "view server" decides who is primary and who is backup
+    clients and servers ask view server
+    they don't make independent decisions
+    only one view server, avoids multiple machines independently deciding who is primary
+  repair:
+    view server can co-opt "idle" server as backup after old backup becomes primary
+    primary initializes new backup's state
+  the tricky part:
+    1. only one primary!
+    2. primary must have state!
+  we will work out some rules to ensure these
+
+view server
+  maintains a sequence of "views"
+    view #, primary, backup
+    1: S1 S2
+    2: S2 --
+    3: S2 S3
+  monitors server liveness
+    each server periodically sends a Ping RPC
+    "dead" if missed N Pings in a row
+    "live" after single Ping
+  can be more than two servers Pinging view server
+    if more than two, "idle" servers
+  if primary is dead
+    new view with previous backup as primary
+  if backup is dead, or no backup
+    new view with previously idle server as backup
+  OK to have a view with just a primary, and no backup
+    but -- if an idle server is available, make it the backup
+
+how to ensure only one server acts as primary?
+  even though more than one may *think* it is primary
+  "acts as" == executes and responds to client requests
+  the basic idea:
+    1: S1 S2
+    2: S2 --
+    S1 still thinks it is primary
+    S1 must forward ops to S2
+    S2 thinks S2 is primary
+    so S2 can reject S1's forwarded ops
+
+the rules:
+  1. non-backup must reject forwarded requests
+  2. primary in view i must have been primary or backup in view i-1
+  3. non-primary must reject direct client requests
+  4. primary must wait for backup to accept each request
+
+example:
+  1: S1, S2
+     viewserver stops hearing Pings from S1
+  2: S2, --
+  it may be a while before S2 hears about view #2
+  before S2 hears about view #2
+    S1 can process ops from clients, S2 will accept forwarded requests
+    S2 will reject ops from clients who have heard about view #2
+  after S2 hears
+    if S1 receives client request, it will forward, S2 will reject
+      so S1 can no longer act as primary
+    S1 will send error to client, client will ask vs for new
+       view, client will re-send to S2
+  the true moment of switch-over occurs when S2 hears about view #2
+
+how can new backup get state?
+  if S2 is backup in view i, but was not in view i-1,
+    S2 should ask primary to transfer the complete state
+
+limitations of our example RSM with view server:
+  view server may fail
+  see next lecture: distributed consensus with Paxos
+
+---- more stuff ---
+
+how to ensure new primary has up-to-date replica of state?
+  only promote previous backup
+  i.e. don't make an idle server the primary
+  but what if the backup hasn't had time to acquire the state?
+
+how to avoid promoting a state-less backup?
+  example:
+    1: S1 S2
+             S1 stops pinging viewserver
+    2: S2 S3
+             S2 *immediately* stops pinging
+    3: S3 --
+    potential mistake: maybe S3 never got state from S2
+    better to stay with 2/S2/S3, maybe S2 will revive
+    how can viewserver know it's OK to change views?
+  one answer:
+    primary in each view must acknowledge that view to viewserver
+    viewserver must stay with current view until acknowledged
+    even if the primary seems to have failed
+    no point in proceeding since not acked == backup may not be initialize
+

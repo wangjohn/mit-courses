@@ -1,0 +1,241 @@
+6.033 2012 Lecture 17: Isolation
+
+Recall: goal is transactions: all-or-nothing and before-or-after atomicity.
+  Both forms are about hiding implementation details.
+  Last lectures: techniques for achieving all-or-nothing atomicity.
+    Shadow copy, logging.
+  Today: how to achieve before-or-after atomicity.
+    Much easier to reason about what happens when multiple actions run.
+    Allows concurrent actions to have all-or-nothing atomicity.
+    (If actions see each other's intermediate states, then not all-or-nothing..)
+    In database terminology, called "serializability" or "serial equivalence".
+
+One simple way to achieve before-or-after atomicity: serial execution.
+  Run all transactions in some serial order.
+  Use one system-wide lock to ensure no concurrent operations occur.
+  Why do we want anything more?  Performance
+  But manually inserting fine-grained locks is error-prone,
+    requires significant effort.
+  So we're going to come up with a more automated plan to acquire locks.
+
+Goal: higher throughput and parallelism
+  Exploit multiple CPUs and I/O overlapping
+  read-set = objects read by transactions
+  write-set = objects written by transactions
+  if read and write set are not intersecting, run them in parallel
+  if read sets intersecting, but write sets don't, run them in parallel
+  When intersecting, more tricky: what semantics do we want?
+
+Consider two concurrent operations in a bank application:
+  [ slide: concurrent actions ]
+  xfer(A, B, amt):
+    begin
+    A = A - amt
+    B = B + amt
+    commit
+
+  int(rate):
+    begin
+    for each account x:
+      x = x*(1+rate)
+    commit
+
+What happens if we have A=100, B=50, and concurrent xfer(A,B,10) & int(0.1)?
+  Serial executions:
+    .. -> [xfer] -> A=90,  B=60 -> [int]  -> A=99,  B=66
+    .. -> [int]  -> A=110, B=55 -> [xfer] -> A=100, B=65
+  Unless there's some apriori ordering of xfer and int, either outcome is OK
+    if xfer() & int() are executed concurrently.
+
+What could happen if we run these operations concurrently?
+  xfer:       int:
+   RA [100]
+   WA [90]
+               RA [90]
+               WA [99]
+   RB [50]
+   WB [60]
+               RB [60]
+               WB [66]
+  This is called a "schedule" for these two transactions.
+  The two transactions didn't run serially, but is this schedule serializable?
+  Yes: outcome is the same as if they ran sequentially.
+
+  xfer:       int:
+   RA [100]
+               RA [100]
+   WA [90]
+               WA [110]
+   RB [50]
+   WB [60]
+               RB [60]
+               WB [66]
+  Not serializable: could not have possibly gotten (A=110,B=66) serially.
+
+
+Achieving serializability: locking protocol.
+  We don't want to rely on programmers to get locking correct.
+  Need to devise a plan that guarantees serial-equivalent execution.
+  Plan: Associate a lock with every variable; grab lock before accessing var.
+  [ slide: locking protocol ]
+  Q: When should we release?
+    Should not release right after read/write operation.
+    Can we release after txn is done with some variable (e.g., A or B)?
+    xfer:       int:
+     RA [100]              \ T1 holds A.lock
+     WA [90]               /
+                 RA [90]      \ T2 holds A.lock
+                 WA [99]      /
+                 RB [50]      \ T2 holds B.lock
+                 WB [55]      /
+     RB [55]               \ T1 holds B.lock
+     WB [65]               /
+    No good: (99,65) is not serial-equivalent.
+  One solution that works is to release upon commit (or abort).
+  [ slide: locking protocol with release ]
+  Once T1 grabs A.lock, no other transaction that touches A can run before T1.
+
+Demo: waiting transactions
+   psql -h ud0.csail.mit.edu -U kaashoek in two different terminals
+   one terminal (blue):
+      begin; update accounts set balance=balance+5 where username='mike';
+   other terminal (red):
+      begin; update accounts set balance=balance-10 where username='mike';
+   transaction in red terminal hangs:
+      why?  because it conflicts with T1
+      would result in non-serializable behavior if it didnt; must block
+   abort blue transaction
+      2nd one commits
+      cool!
+
+Hands-on: several isolation levels in Postgres
+   Snapshot isolation (which is slightly different from serializability as defined above)
+   Read committed isolation  (which is weaker than snapshot and serializability)
+   I'll pretent that Postgres is using locking, even though it isn't for reads
+   (it use an optimistic multiversion scheme; see textbook 9.4.3).
+
+Deadlock
+  What if the int() function accessed B first, then A?
+  T1 (xfer) grabs A.lock, T2 (int) grabs B.lock.
+  Now both want each other's locks, and neither can make progress.
+  What are the solutions for deadlock?
+    - Lock ordering: not a great approach if set of locks not known apriori.
+    - Abort one of the deadlocked txns: make use of all-or-nothing atomicity.
+  How to detect deadlocks?
+    - Form a wait dependency graph: what each transaction has & wants.
+        T1: holds A, wants B (-> T2)
+        T2: holds B, wants A (-> T1)
+      If a cycle is found, then we have deadlock.
+      Requires a fair amount of book-keeping, analysis algorithm.
+    - Assume that any acquire that takes more than threshold is deadlock.
+      Simple, but doesn't deal well with long-running transactions.
+
+Optimization 1: reader-writer locks.
+  Recall that conflict required at least one operation to be a writer.
+  Multiple readers should be able to operate on same data concurrently.
+  We can use the idea of reader-writer locks to implement this.
+  [ slide: locking with rw locks ]
+  Instead of one acquire function, we have two: acquire_reader() and _writer().
+  A reader can acquire lock at the same time as other readers (but no writers).
+  A writer can acquire lock only if no other readers or writers.
+  One possible problem: fairness.
+    What if readers keep acquiring the lock, and a writer is waiting?
+    A naive impl might never allow the writer to proceed, if always 1+ reader.
+    Typical solution: if a writer is waiting, new readers wait too.
+  This is an instance of the more general lock compatibility idea.
+    Determine what pairs of operations are safe to execute concurrently.
+    Allow concurrent locks by those ops (& disallow any that are unsafe).
+    In general, need to understand operation semantics to determine compat.
+    Reader/writer locks don't require understand semantics.
+
+Optimization 2: releasing read-locks early.
+  Observation: once a txn has acquired all of its locks, it will not block.
+    The point at which all locks have been acquired is called the "lock point".
+  Once T1 reaches lock point, any conflicting transaction T2 will run later.
+    Intuition: if any other txn wants one of T1's locks, it will have to run
+      later, because T1 has already acquired all of its locks.
+  The serial order we get is the order in which txns reach their lock points.
+  If txn reached lock point and will no longer access x, can release x.lock.
+    Will not affect serialization order.
+    Will not affect x.
+  Our earlier example:
+    xfer:       int:
+     RA [100]              \ T1 holds A.lock
+     WA [90]               /
+      ...                  > T1 acquires B.lock, lock point, releases A.lock
+                 RA [90]      \ T2 holds A.lock
+                 WA [99]      /
+                 lock B: wait
+     RB [50]               \ T1 holds B.lock
+     WB [60]               /
+                 RB [60]      \ T2 holds B.lock, lock point, had to wait for T1
+                 WB [66]      /
+  This is called "two-phase locking" (2PL).
+    Phase 1: acquire read and write locks, until transaction reaches lock point.
+    Phase 2: release read-locks, after lock point & done with object.
+  To make this optimization work, need to know when we're done with object.
+    Requires input from programmer, or program analysis.
+
+Why hold write locks till commit?
+  Problem arises if some transaction doesn't commit (i.e., abort or crash).
+  If T1 releases a read lock and then aborts, not a problem.
+    Even if T2 acquired read or write lock, and committed, still serializable.
+  If T1 releases a write lock and then aborts, could reveal uncommitted values.
+    E.g., in our example above, if T1 (xfer) aborts, we would get (A=99, B=55).
+    Big problem: not all-or-nothing / before-or-after.
+    T2 saw intermediate effects of concurrent execution; T1's abort incomplete.
+  Two possible solutions:
+    - Hold write locks until commit (strict 2PL): do not reveal new values
+      until we know the transaction commits.  Typical.
+    - Abort any transaction that saw uncommitted results (e.g., T2).
+      This strategy is known as cascading aborts.
+      Requires bookkeeping to track readers,
+      Commit sometimes blocks, if txn read values that weren't committed yet.
+      Complicates crash recovery, ...
+
+Instead of making implementation faster, you can relax serializability
+  read-committed:
+    You saw other one in hands-on: read-committed.
+    Can it result in non-serializable schedules?  Yes.
+      a committed write from trans 1 will be visible to read in trans 2, even if
+      trans 2 started before trans 1.  if trans 2 performs 2 reads, they may
+      return two different results: one without the effects of trans 1 and one
+      with the effects fo trans 1. a serial schedule wouldn't allow this.
+    Implementation: reads don't take a read-lock
+    Why does Postgres allow it?
+       It is ok for some transactions. For example:
+         BEGIN;
+	  UPDATE accounts SET balance = balance + 100.00 WHERE username = 'mike';
+	  UPDATE accounts SET balance = balance - 100.00 WHERE username = 'jones';
+	 COMMIT;
+       More concurrency, more performance
+       But, difficult to reason about!
+
+  snap-shot isolation
+    Serializable in postgress means "snapshot isolation"
+       More serialization than read-commit, but still anomalies
+       T1
+          R(A)
+	  R(B)
+	  if R(A) and R(B):
+	     W(A)<-0
+        END
+       T1
+          R(A)
+	  R(B)
+	  if R(A) and R(B):
+	     W(B)<-0
+        END
+        write sets are independent, and are allowed to run in parallel
+	but now both A and B could be written 0, which is not serializable
+   Recently postgress (since 9.1) has serializable snapshot isolation due to Dan Ports
+     http://drkp.net/papers/ssi-vldb12.pdf
+     Wisconsin court system     
+
+Summary.
+  Technique for reasoning about concurrent actions: before-or-after atomicity,
+    or serializability.
+  Can check for serializability by considering ordering of conflicting ops.
+  2PL can ensure serializability by using locks to order conflicting ops.
+  Can recover from deadlock by aborting one of the deadlocked transactions.
+

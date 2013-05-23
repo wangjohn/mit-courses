@@ -1,0 +1,175 @@
+6.033 2012 Lecture 20: Paxos
+
+Replicated state machines.
+  A general approach to making consistent replicas of a server:
+  - Start with the same initial state on each server.
+  - Provide each replica with the same input operations, in the same order.
+  - Ensure all operations are deterministic.
+    E.g., no randomness, no reading of current time, etc.
+  These rules ensure each server will end up in the same final state.
+
+Primary
+  Orders messages
+  Handles no-determinism
+
+Challenge: network partitions
+  Risk: split-brain effect: two servers think they are primary
+    violates behaving like a single server
+  Last lecture: view server, but view server may fail
+  This lecture better plan: Paxos
+    http://pdos.csail.mit.edu/6.824/papers/paxos-simple.pdf
+  Advanced topic--won't quiz you on the details
+  Take 6.824 if you want to get into this topic
+
+Key insight in handling network partitions
+  Issue: servers may disagree about what servers are up.
+  Hard to solve in distributed manner with just 2 servers, but possible with 3 servers.
+  Idea: require a majority (strictly over half) servers to perform operation.
+    In case of 3 servers, 2 form a majority.
+    If a server can contact another server, it can perform operation (otherwise, wait).
+    Thus, can handle any 1 server failure.
+  Why does the majority rule work?
+    Important property: any two majority sets of servers must overlap.
+    Suppose two clients issue operations to a majority of servers.
+    Must have overlapped in at least one server, will help ensure single-copy.
+
+RSM setup with Paxos
+ Coordinator orders operations
+ Coordinator performs non-deterministic operations
+ Replicate coordinator
+  Tricky: can we get multiple coordinators due to network partition?
+  Tricky: what happens if coordinator crashes midway through an operation?
+
+Paxos: fault-tolerant consensus.
+  Set of machines can agree on one value.
+    E.g., X is the next operation that everyone will execute.
+    E.g., Y is the next coordinator.
+  Works despite node failures, network failures, delays.
+
+  Correctness:
+    All nodes agree on the same value.
+    The agreed-upon value was proposed by some node.
+  Fault-tolerance:
+    If less than N/2 nodes fail, rest should reach agreement w.h.p.
+    Liveness not guaranteed (may take an arbitrarily long time).
+  Assumes fail-stop machines.
+
+Each machine runs three logical functions in Paxos:
+  Proposer: tries to convince acceptors to agree on some value
+    (e.g., an operation it just received from a client).
+  Acceptor: persistently tracks proposals, vote on proposals.
+  Learner: does something with the value, once agreement is reached
+    (e.g., just the local RSM replica, which executes the chosen operation).
+
+Using Paxos to reach consensus on operation order.
+  Consider a single log entry (e.g., log entry #5).
+  OK for any given replica not to know what operation is #5 yet.
+  But all replicas that know about #5 must agree on what it is.
+  Plan: run a separate instance of Paxos to agree on each entry (including #5).
+
+Intuition for why fault-tolerant consensus difficult.
+  Strawman 1: proposers agree on a single acceptor they will propose to.
+    Acceptor approves the first proposal it receives, and rejects all others.
+    Correct because only a single acceptor.
+    Problem: not fault-tolerant!
+  Strawman 2: proposers send proposal to all acceptors.
+    Each acceptor approves the first proposal and rejects all others.
+    Proposers declare victory after approval from majority of acceptors.
+    Correct because there's only one majority, so at most one winner.
+    Problem: noone might get a majority, if we have 3 proposers!
+    Problem: proposer might get majority and then crash!
+
+Paxos: two phases for consensus.
+  Prepare: agree on a proposal number (value might not be decided yet).
+  Accept: agree on a value, for given proposal number.
+
+  Think of proposal numbers as different attempts to reach consensus.
+  If one attempt fails (e.g., 3 proposers can't get majority),
+    try again with a larger proposal number.
+  Key requirement: if an earlier proposal number accepted a value,
+    have to make sure later proposals accept the same value.
+
+Paxos state maintained by acceptor (persistent across reboots):
+  Np: largest proposal number seen in Prepare.
+  Na: largest proposal number seen in Accept.
+  Va: value accepted for proposal Na.
+
+[ slide: Paxos ]
+
+Example 0: Paxos accepting value 'x' with one proposer.
+  A1: Prep(10)->OK,None  Acc(10, x)->OK
+  A2: Prep(10)->OK,None  Acc(10, x)->OK
+  A3: Prep(10)->OK,None  Acc(10, x)->OK
+
+  Note: node ID is part of proposal number, for uniqueness.
+
+What is the commit point -- i.e., when is the value 'x' chosen?
+  Majority of acceptors write the corresponding Na / Va to disk.
+
+What if the Accept message to one of the acceptors is lost?
+  Before majority of acceptors wrote to disk -> no consensus yet, fine.
+  After consensus -> proposer can start a new round, will pick same Va.
+  Why?  At least one Prepare_OK reply will include that Va.
+
+Example 1: Paxos with two proposers, choosing between 'x' and 'y'.
+  One proposer has N=10, another has N=11 (e.g., low bits are the node ID).
+
+  A1: Prep(10)  Prep(11)  Acc(10, x)  Acc(11, y)
+  A2: Prep(10)  Prep(11)  Acc(10, x)  Acc(11, y)
+  A3: Prep(10)  Prep(11)  Acc(10, x)  Acc(11, y)
+
+  Both proposals were OKed by Prepare; can Paxos accept x and then y?
+  Steps:
+    First proposer issues Prepare, gets Prepare_OK.
+    Second proposer issues Prepare, gets Prepare_OK.
+    Second proposer sends out Accept, gets consensus.
+    First proposer sends out Accept, but gets ignored (proposal number is low)!
+  Key point: Accept() checks if it heard about a newer proposal.
+    If it has, then the older proposal number loses: Accept(10, x) will reject.
+    If it hasn't, will remember the accepted value: e.g., Prepare(11) is later.
+    Then, any newer Prepare() will learn about x.
+
+Example 2: Paxos with proposer crashing after majority of Accepts are processed.
+  A1: Prep(10)  Acc(10, x)  Prep(11)  Acc(11, x)
+  A2: Prep(10)  Acc(10, x)  Prep(11)  Acc(11, x)
+  A3: Prep(10)              Prep(11)  Acc(11, x)
+
+  Second proposer tries to agree on a new value y.
+  Gets Prepare_OK with first proposer's value.
+  Re-sends Accept messages with first proposer's value.
+
+  Key point: proposer conservatively uses a previous value from Prepare_OK().
+    Even if just one acceptor got it: could be the 1 overlap between majorities.
+
+What happens if acceptor fails after accepting, before sending Accept_OK?
+  Without a majority of acceptors left, must wait for acceptor to recover.
+  Acceptors must record Na/Va persistently on disk.
+
+What happens if acceptor fails after sending Prepare_OK?
+  Also need to remember Np persistently on disk.
+  Otherwise, example 1 fails if all acceptors reboot: should not accept (10, x).
+
+RSM with Paxos
+  Clients send messages to any replica
+  Replica runs paxos for that message for paxos instance #
+    If agreement is reached, then 
+      This causes the message to be inserted in the each replica's log
+      All replicates will have the message in the same position in the log
+    If no agreement,
+      Try again, because some other replicate to your paxos instance #
+  Replicates processes messages in order from the log
+  When the client's message turn is up, process it, and send reply to client
+  
+Paxos often not used to agree on every single operation.
+  Instead, Paxos used to build a view server
+  Coordinator can efficiently order requests (e.g., our simple RSM design).
+  When coordinator seems to be down, use Paxos to agree on new state.
+  Must also use Paxos to agree to some extra information:
+    - Set of all replicas, for when we need to elect the next coordinator.
+    - Last operation executed by the current (dead) coordinator, so we
+      don't lose track of it during switch over.
+  Can also add replicas at runtime: just agree on new replica set.
+    Need a way to transfer log state to the new replica.
+
+[ slide: summary ]
+

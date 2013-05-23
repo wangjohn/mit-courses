@@ -1,0 +1,241 @@
+6.033 2012 Lecture 24: Secure channels
+
+Topics:
+  Cryptographic primitives: encrypt/decrypt, MAC, sign/verify.
+  Key establishment.
+  MITM attacks.
+  Certificates.
+
+Administrivia: course eval.
+  [ slide ]
+
+Goal: extending our threat model to deal with network adversaries.
+
+Problem: many networks do not provide security guarantees.
+  Adversary can look at packets, corrupt them.
+    Easy to do on local network.
+    [ slide: sniffing wireless traffic ]
+    Might be possible over the internet, if adversary changes DNS.
+  Adversary can inject arbitrary packets, from almost anywhere.
+
+  Dropped packets: retransmit (as long as they eventually get through).
+  Randomly corrupted packets: use checksum to drop.
+  Carefully corrupted, injected, sniffed packets: need some new plan.
+
+Security goals for messages.
+  Secrecy: adversary cannot learn message contents.
+  Integrity: adversary cannot tamper with message contents.
+
+There are standard cryptographic protocols for constructing a secure channel.
+  E.g., TLS (sometimes called SSL, which was the predecessor of TLS)
+        is used by web browsers for https:// URLs.
+  This lecture will look at how secure channel protocols are built,
+    and what does it take to use them in a larger system.
+  There are many tricky details that are not covered in this lecture.
+  If you are building a real system, try to use an existing protocol like TLS.
+
+Cryptographic primitives.
+  Encrypt(ke, m) -> c; Decrypt(ke, c) -> m.
+    Ciphertext c is similar in length to m (usually slightly longer).
+    Hard to obtain plaintext m, given ciphertext c, without ke.
+    But adversary may change c to c', which decrypts to some other m'.
+  MAC(ka, m) -> t.
+    MAC stands for Message Authentication Code.
+    Output t is fixed length, similar to a hash function (e.g., 256 bits).
+    Hard to compute t for message m, without ka.
+  Common keys today are 128- or 256-bit long.
+
+Secure channel abstraction.
+  Send and receive messages, just as before, but protected from adversary.
+  Use Encrypt to ensure secrecy of a message.
+  Use MAC to ensure integrity (increases size of message).
+  Complication: replay of messages.
+    Include a sequence number in every message.
+    Choose a new random sequence number for every connection.
+  Complication: reflection of messages.
+    Recall: be explicit -- we're not explicit about what the MAC means.
+    Use different keys in each direction.
+
+Open vs. closed design.
+  Should system designer keep the details of Encrypt, Decrypt, and MAC secret?
+    Argument for: harder for adversary to reverse-engineer the system?
+    Argument against: hard to recover once adversary learns algorithms.
+    Argument against: very difficult to get all the details right by yourself.
+  Generally, want to make the weakest practical assumptions about adversary.
+    Typically, assume adversary knows algorithms, but doesn't know the key.
+    Advantage: get to reuse well-tested, proven crypto algorithms.
+    Advantage: if key disclosed, relatively easy to change (unlike algorithm).
+  Using an "open" design makes security assumptions clearer.
+
+Problem: key establishment.
+  Suppose client wants to communicate securely with a server.
+  How would a client get a secret key shared with some server?
+  Broken approaches:
+    Alice picks some random key, sends it to Bob.
+    Alice and Bob pick some random values, send them to each other, use XOR.
+
+Diffie-Hellman protocol.
+  Another cryptographic primitive.
+  [ 4 slides: DH protocol exchange ]
+    Crypto terminology: two parties, Alice and Bob, want to communicate.
+  Main properties of the protocol:
+    After exchanging messages, both parties end up with same key k.
+    Adversary cannot figure out k from g^a and g^b alone (if a+b are secret).
+  This works well, as long as the adversary only observes packets.
+
+Problem: man-in-the-middle attacks.
+  [ slide: MITM attack exchange ]
+  Active adversary intercepts messages between Alice and Bob.
+    Adversary need not literally intercept packets: can subvert DNS instead.
+    If adversary controls DNS, Alice may be tricked to send packets to Eve.
+  Both Alice and Bob think they've established a key.
+  Unfortunately, they've both established a key with Eve.
+  What went wrong: no way for Alice to know who she's talking to.
+    Need to authenticate messages during key exchange.
+    In particular, given the name (Bob) need to know if (g^b mod p) is from Bob.
+
+New primitive: signatures.
+  User generates a public-private key pair: (PK, SK).
+    PK stands for Public Key, can be given to anyone.
+    SK stands for Secret Key, must be kept private.
+  Two operations:
+    Sign(SK, m) -> sig.
+    Verify(PK, m, sig) -> yes/no.
+  Property: hard to compute sig without knowing SK.
+    "Better" than MAC: for MAC, two parties had to already share a secret key.
+    With signatures, the recipient only needs to know the sender's _public_ key.
+  We will denote the pair {m, sig=Sign(SK, m)} as {m}_SK.
+  Given {m}_SK and corresponding PK, know that m was signed by someone w/ SK.
+  [ slide: DH with signatures ]
+  [ slide: need to know the other party's public key ]
+
+Idea 1: Alice remembers key used to communicate with Bob last time.
+  Easy to implement, simple, effective against subsequent MITM attacks.
+  ssh uses this approach.
+  [ demo ]
+    % mv ~/.ssh/known_hosts{,.save}
+    % ssh pdos.csail.mit.edu
+    The authenticity of host 'pdos.csail.mit.edu (18.26.4.9)' can't be established.
+    RSA key fingerprint is aa:52:38:ac:cd:21:8a:1a:ab:87:66:bd:25:8b:3b:e2.
+    Are you sure you want to continue connecting (yes/no)? yes
+    Warning: Permanently added 'pdos.csail.mit.edu,18.26.4.9' (RSA) to the list of known hosts.
+    Password:
+    ...
+
+    % ssh pdos.csail.mit.edu
+    Password:
+    ...
+
+    [ edit /etc/hosts, add pdos.csail.mit.edu alias to localhost ]
+    % ssh pdos.csail.mit.edu
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    @    WARNING: REMOTE HOST IDENTIFICATION HAS CHANGED!     @
+    @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+    ...
+    The fingerprint for the RSA key sent by the remote host is
+    c7:34:c0:55:fd:96:e7:7c:7e:01:07:1d:38:4e:1e:c0.
+    ...
+
+  Doesn't protect against MITM attacks the first time around.
+  Doesn't allow server to change its key later on.
+
+Idea 2: consult some authority that knows everyone's public key.
+  Simple protocol.
+    Authority server has a table: name <-> public key.
+    Alice connects to authority server (using above key exchange protocol).
+    Client sends message asking for Bob's public key.
+    Server replies with PK_bob.
+  Alice must already know the authority server's public key, PK_as.
+    Otherwise, chicken-and-egg problem.
+  Works well, but doesn't scale.
+    Client must ask the authority server for public key for every connection.
+    .. or at least every time it sees new public key for a given name.
+
+Idea 3: authority responds the same way every time, so pre-compute responses.
+  Public/private keys can be used for more than just key exchange.
+  New protocol:
+    Authority server creates signed message { Bob, PK_bob }_(SK_as).
+    Anyone can verify that the authority signed this message, given PK_as.
+    When Alice wants to connect to Bob, need signed message from authority.
+  Authority's signed message usually called a "certificate".
+    Certificate attests to a binding between the name (Bob) and key (PK_bob).
+    Authority is called a certificate authority (CA).
+  Certificates are more scalable.
+    Doesn't matter where certificate comes from, as long as signature is OK.
+    Easy scalability solution: Bob sends his certificate to Alice.
+    (Similarly, Alice sends her certificate to Bob.)
+
+Who runs this certificate authority?
+  Today, a large number of certificate authorities.
+  [ demo: Firefox ]
+    Show certificate for https://www.google.com/.
+      Name in certificate is the web site's host name.
+    Show list of certificate authorities:
+      Edit -> Preferences -> Advanced -> Encryption
+           -> View certificates -> Authorities
+
+  If any of the CAs sign a certificate, browser will believe it.
+  Somewhat problematic.
+    Lots of CAs, controlled by many companies & governments.
+    If any are compromised or malicious, mostly game over.
+
+Where does this list of CAs come from?
+  Most of these CAs come with the browser.
+    Web browser developers carefully vet the list of default CAs.
+    Downloading list of CAs: need to already know someone's public key.
+  Bootstrapping: chicken-and-egg problem, as before.
+    Computer came with some initial browser from the manufacturer.
+    Manufacturer physically got a copy of Windows, including IE and its CAs.
+  MIT CA: download from a web server that has a certificate from well-known CA.
+
+How does the CA build its table of names <-> public keys?
+  1. How do we name principals?
+    Everyone must agree on what names will be used.
+    Depends on what's meaningful to the application.
+    Would having certificates for an IP address help a web browser?
+      Probably not: actually want to know if we're talking to the right server.
+      Since DNS untrusted, don't know what IP we want.
+      Knowing key belongs to IP is not useful.
+    For web servers, certificate contains server's host name (e.g., google.com).
+  2. How to check if a key corresponds to name?
+    Whatever mechanism CA decides is sufficient proof.
+    Some CAs send an email root@domain asking if they approve cert for domain.
+    Some CAs used to require faxed signed documents on company letterhead.
+
+What if a CA makes a mistake?
+  [ slide: CA mistakes ]
+  Whoever controls the corresponding secret keys can now impersonate sites.
+  Similarly problematic: attacker breaks into server, steals secret key.
+  Need to revoke certificates that should no longer be accepted.
+  Note this wasn't a problem when we queried the server for every connection.
+
+Technique 1: include an expiration time in certificate.
+  Certificate: { Bob, 10-Aug-2011, PK_bob }_(SK_as).
+  Clients will not accept expired certificates.
+  When certificate is compromised, wait until expiration time.
+  Useful in the long term, but not so useful for immediate problems.
+
+Technique 2: publish a certificate revocation list (CRL).
+  Can work in theory.
+  Clients need to periodically download the CRL from each CA.
+  MSFT 2001 problem: Verisign realized they forgot to publish their CRL address.
+  Things are a little better now, but still many CRLs are empty.
+  Principle: economy of mechanism, avoid rarely-used (untested) mechanisms.
+
+Technique 3: query an online server to check certificate freshness.
+  No need to download long CRL.
+  Checking status might be less costly than obtaining certificate.
+
+Idea 4 (for looking up public keys): use public keys as names.  [ SPKI/SDSI ]
+  Trivially solves the problem of finding the public key for a "name".
+  Avoids the need for certificate authorities altogether.
+  Might not work for names that users enter directly.
+  Can work well for names that users don't have to remember/enter.
+    Application referring to a file.
+    Web page referring to a link.
+  Additional attributes of a name can be verified by checking signatures.
+    Suppose each user in a system is named by a public key.
+    Can check user's email address by verifying a message signed by that key.
+
+[ slide: summary ]
+
