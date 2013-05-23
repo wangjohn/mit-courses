@@ -1,0 +1,56 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+\usetikzlibrary{shapes,arrows}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.033 \\
+Computer Systems Engineering \\
+Lecture 23: Denial of Service Attacks}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Let's recall our policies:
+
+\begin{itemize}
+  \item Authentication
+  \item Confidentiality
+  \item Integrity
+\end{itemize}
+
+Today we're going to talk about two more parts of the policy: anonymity and availability.
+
+\subsection{Anonymity}
+
+The person (source) does not want to be connected with the destination he is connecting to. There should be no way to map the source to the destination.
+
+The anonymizer's job is to remove personal information from the headers of packets. This probably isn't the best way to anonymize yourself because you are trusting the anonymizer server. Sometimes this isn't very good because maybe you can't trust the server.
+
+\subsection{Onion Routing (TOR)}
+
+The idea of this scheme is to make sure that any small subset of the nodes of TOR can be compromised, however, the system should still be anonymous. TOR has multiple nodes.
+
+\begin{itemize}
+  \item The source fetches a list of ROT routers and public keys
+  \item The source picks a path through the TOR routers
+  \item The source will Onion-Encrypt its packets to the destination using the public keys along the path.
+\end{itemize}
