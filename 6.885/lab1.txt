@@ -1,0 +1,7 @@
+Name: John Wang
+MongoDB Expression: db.animals.find( { type: "snake" }, { name: 1})
+Output:
+{ "_id" : ObjectId("5227e6c34ecfbd49de4f4d2c"), "name" : "bob" }
+{ "_id" : ObjectId("5227e7c9a1ba77544d4be870"), "name" : "bob" }
+{ "_id" : ObjectId("5227e7eba1ba77544d4be873"), "name" : "jim" }
+
