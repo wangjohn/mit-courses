@@ -1,0 +1,107 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.885 \\
+Data Processing \\
+What Goes Around Comes Around}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+This paper was written to provide a general overview of the database systems that have been used throughout the history of computer science. It is presented with the goal of preventing future generations from making the same mistakes as before.
+
+\section{IMS}
+
+Properties of an IMS system:
+\begin{itemize}
+  \item Record type: each record type defines the fields and the field types of all records in a database. All instances of a record type must abide by the provided definition.
+  \item Key: Some subset of the fields must provide a key that uniquely identifies a record.
+  \item Tree structure: Each record type must have a parent (except for the root). For example, a ``widget`` record type could be a child of the ``part`` record type.
+\end{itemize}
+
+Because of these properties, there are a couple of pitfalls. First, is \emph{repeated information} which is bad because of information consistency. Second is that \emph{existence depends on parents}.
+
+\emph{Physical data independence} is when the physical data is independent of the tuning parameters in the DBMS. This is good because a DBMS is usually not written all at once and you still want to have your data.
+
+\emph{Logical data independence} is when you have the ability to change the way the data is organized (i.e. make schema changes).
+
+\section{CODASYL}
+
+This database management system made it a point to represent data as a directed graph. Record types would be organized in a graph, with edges used to represent relations between record types. 
+
+\begin{itemize}
+  \item Set type: the named arcs in a directed graph with record types. 
+  \item Database is a set of record instances that obeys the structure of the CODASYL directed graph.
+\end{itemize}
+
+Tradeoff between more expressive directed graph which can express non-heirearchical data very easily, and the added complexity that it adds. No physical data independence.
+
+\section{Relational Era}
+
+\begin{itemize}
+  \item Store data in simple data structures (tables)
+  \item Access data through high level set-at-a-time language like SQL.
+  \item With a high level language, easier to provide physical data independence and with simple data structure, easier to provide logical data independence.
+\end{itemize}
+
+\section{Entity-Relationship Era}
+
+Database should be thought of as a collection of instances of entities: which are objects that exist independent of other entities in the database. Each entity has attributes. There are possibly relationships between entities.
+
+\section{R++ Era}
+
+This era saw many papers hoping to add an incremental improvement to relational databases. These incremental improvements were supposed to increase performance. Some improvements were:
+
+\begin{itemize}
+  \item Set-valued attributes. Attributes should be able to deal with sets of attributes.
+  \item Aggregation. Instead of using foreign keys directly, make them implicit and provide groups that can be referenced through them.
+  \item Generalization. Inheritance of attributes (like in oop).
+\end{itemize}
+
+\section{Semantic Data Model Era}
+
+Focused on the notion of classes: you could inherit/subclass from other classes, keep class variables, move around much like in OOP. Didn't really go too far because there was too much machinery which basically reimplemented relational data models in a more complicated way.
+
+\section{OO Era}
+
+\emph{Persistence Programming Language}: The variables in a language would represent disk based data as well as main memory data. These are much cleaner than SQL embedded code, but requires that the compiler understand the persistence programming language as well. This means it had to be done once for each compiler.
+
+\section{Object Relational Era}
+
+Added user defined functions, data types, operators, and access methods to relational models. Originally in response to two dimensional range queries over a geographical area (which could not be handled well with B-Trees).
+
+Postgres implemented notions of user defined functions. Previous databases hardcoded support for particular data types. Postgres allowed you to have that support in a more framework-esque way.
+
+\section{Semi Structured Data}
+
+\begin{itemize}
+  \item Schema can be built later (lower priority). A schema is not required in advance (schema later) or schemas should be fluid and easy to change (schema evolution). For a schema later interpretation, you must have data that is self describing. 
+  \item Complex graph-oriented data model.
+\end{itemize}
+
+
+
+\end{document}
