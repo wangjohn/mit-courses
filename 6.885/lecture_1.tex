@@ -1,0 +1,51 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage{enumerate}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsthm}
+\usepackage{theorem}
+\usepackage{verbatim}
+
+\newenvironment{sol}{{\bfseries Solution:}}{\qedsymbol}
+\newenvironment{prob}{{\bfseries Problem:}}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.885 \\
+Data Processing \\
+Lecture 1}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Data Independence}
+
+\emph{Data Independence:} change representation of data without changing programs that operate on it.
+
+Physical Data Independence: Changing the physical representation of data shouldn't affect the program. You shouldn't worry about how the data is stored, your query language should still be able to run correctly.
+\begin{itemize}
+  \item index
+  \item partition/distribute/replicate
+  \item compress
+  \item sort
+\end{itemize}
+
+Why did some existing systems fail to preserve this? In CODASYL you needed to give the programmer the indexes, sort order, etc. If you change the sort order then the program will break so there is no physical data independence.
+
+Logical Data Independence: Changing the schema shouldn't affect programs that operate on it. For example, making a transformation to the schema keeps the schema working. 
+\begin{itemize}
+  \item views: logical representation of the data (the view maps the physical to the logical so that existing programs continue to work).
+\end{itemize}
+
+\end{document}
