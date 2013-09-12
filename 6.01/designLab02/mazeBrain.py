@@ -53,6 +53,19 @@ class RobotMaze(Maze):
     def cellHeight(self):
         return (self.y1 - self.y0) / (self.height)
 
+    def isPassable(self, (r, c)):
+        extraHeightCells = int(math.ceil((0.44/2) / self.cellHeight()))
+        extraWidthCells = int(math.ceil((0.44/2) / self.cellWidth()))
+        for i in xrange(-extraWidthCells, extraWidthCells+1, 1):
+            if not Maze.isPassable(self, (r + i, c)):
+                print (r+i, c)
+                return False
+        for j in xrange(-extraHeightCells, extraHeightCells+1, 1):
+            if not Maze.isPassable(self, (r, c+j)):
+                print (r, c+j)
+                return False
+        return True
+
 # this function is called when the brain is loaded
 def setup():
     robot.maze = RobotMaze(world, *(bounds[worldname]))
@@ -92,7 +105,6 @@ def step():
     currentPoint = util.Point(x,y).add(robot.initialLocation)
     currentAngle = theta
     destinationPoint = robot.maze.indicesToPoint(robot.path[0])
-    print robot.maze.cellHeight(), robot.maze.cellWidth()
 
     desiredTheta = math.atan2(float(destinationPoint.y - currentPoint.y), float(destinationPoint.x - currentPoint.x))
     if desiredTheta < 0:
@@ -102,10 +114,19 @@ def step():
         io.setForward(0.3)
         io.setRotational(0)
     else:
-        io.setRotational(1.0)
         io.setForward(0)
+        if desiredTheta > theta:
+            if desiredTheta - theta < math.pi:
+                io.setRotational(.5)
+            else:
+                io.setRotational(-.5)
+        else:
+            if desiredTheta - theta < math.pi:
+                io.setRotational(-.5)
+            else:
+                io.setRotational(.5)
 
-    if closeToPoint(currentPoint, destinationPoint, 0.4):
+    if closeToPoint(currentPoint, destinationPoint, 0.1):
         if len(robot.path) > 0:
             robot.path.pop(0)
 
