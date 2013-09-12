@@ -53,10 +53,6 @@ class RobotMaze(Maze):
     def cellHeight(self):
         return (self.y1 - self.y0) / (self.height)
 
-    def isPassable(self, (r,c)):
-        if not Maze.isPassable(self, (r,c)):
-            return False
-
 # this function is called when the brain is loaded
 def setup():
     robot.maze = RobotMaze(world, *(bounds[worldname]))
@@ -97,7 +93,6 @@ def step():
     currentAngle = theta
     destinationPoint = robot.maze.indicesToPoint(robot.path[0])
     print robot.maze.cellHeight(), robot.maze.cellWidth()
-    print robot.maze.isPassable(robot.path[0])
 
     desiredTheta = math.atan2(float(destinationPoint.y - currentPoint.y), float(destinationPoint.x - currentPoint.x))
     if desiredTheta < 0:
@@ -122,8 +117,3 @@ def brainStop():
 # called when brain or world is reloaded (before setup)
 def shutdown():
     pass
-
-if __name__ == '__main__':
-    m = RobotMaze(world,2.,2.,12.,12.)
-    ans = m.indicesToPoint((3,5))
-    print m.pointToIndices(ans)
