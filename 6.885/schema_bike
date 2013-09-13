@@ -1,0 +1,33 @@
+Relational:
+
+  supplier: name
+  store: address
+  part: store_id, part_type_id, cost, supplier_id
+  part_type: name
+
+Hierarchy:
+
+  Parts
+    supplied_by
+      supplier
+
+  Example:
+    Wheels
+      supplied_by "store 1" at $5
+        "26 main st"
+      supplied_by "store 2" at $6
+        "32 vassar st"
+    Frame
+      supplied_by "store 1" at 12
+        "26 main st"
+
+Network:
+
+  parts
+  supplies
+  supplier
+
+  parts ---has--- supplies ---has--- supplier
+
+  Example:
+  Wheel ---has--- $5, $6   ---has--- store 1
