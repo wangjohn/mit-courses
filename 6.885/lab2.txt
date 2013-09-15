@@ -1,0 +1,176 @@
+ProtoBuffers:
+
+    Queries:
+    1. Counted the number of tweets for which the `is_deleted` field was a
+non-falsy value.
+    2. Counted the number of insert tweets for which the `reply_to` field was
+non-empty.
+    3. Created a hash map, mapping user ids to counts of the number of
+occurences of that id. Sorted the resulting map by the count and took the top
+five.
+    4. Created a hash map, mapping a place's id to a count of the number of
+times the place was seen. Sorted the resulting map by the count and took the
+top five.
+
+    Results:
+    1. 1554
+    2. 2531
+    3. 1269521828, 392695315, 424808364, 1706901902, 1471774728
+    4. 'T\xfcrkiye', 'Gambir', 'East Borneo', 'Mississippi', 'Nongsa'
+
+SQLite3:
+
+    Queries:
+    1. SELECT count(*) FROM tweets WHERE is_delete = 1;
+    2. SELECT count(*) FROM tweets WHERE reply_to IS NOT NULL AND reply_to IS NOT 0;
+    3. SELECT uid FROM tweets GROUP BY uid ORDER BY count(*) DESC LIMIT 5;
+    4. SELECT name FROM places GROUP BY id ORDER BY count(*) DESC LIMIT 5;
+
+    Results:
+    1. 1554
+    2. 2531
+    3. 320820996, 1106510150, 183997528, 118947331, 206109994
+    4. Türkiye, Gambir, East Borneo, Nongsa, Malalayang
+
+MongoDB:
+
+    Queries:
+    1. db.tweets.count({delete: {$exists: true}})
+    2. db.tweets.count({in_reply_to_status_id: {$exists: true, $ne: null}})
+    3. db.tweets.aggregate([
+         { $group: { _id: "$user.id", number: { $sum: 1 }}},
+         { $sort: { number: -1 }},
+         { $limit : 5 }
+       ])
+    4. db.tweets.aggregate([
+         { $group: { _id: "$place.name", number: { $sum: 1}}},
+         { $sort: { number: -1 }},
+         { $limit: 5 }
+       ])
+ 
+    Results:
+    1. 1554
+    2. 2531
+    3. 1269521828, 392695315, 1706901902, 424808364, 1279674000
+    4. Türkiye, Gambir, Mississippi, East Borneo, Malalayang
+
+Reflection:
+
+1. Read the schema and protocol buffer definition files. What are the main 
+differences between the two? Are there any similarities?
+
+        The SQL schema file builds its definitions off of the protocol buffer
+    defintion. The main difference is that the protocol buffer definition comes
+    straight from the `twitter.json` file, so the protocol buffer file must do a
+    lot more data cleaning. A lot of logic in the protocol buffer definition is
+    spent with if statements to check for the presence of a particular field. The
+    schema file has much less conditional logic because it has already been taken
+    care of in the protocol buffers. The schema also takes care of null values.
+
+        The two files are fairly similar, however, in the structure of the data.
+    The same types of data categories are available, such as an insert,
+    coordinate, place, etc. These different delineations of data stay the same
+    throughout both methods.
+
+2. Describe one question that would be easier to answer with protocol buffers
+than via a SQL query.
+
+        It would be easier to have complicated logic in protocol buffers because
+    they are directly implemented in the python programming language. This means
+    that the complexity of handling protocol buffers can be abstracted away and
+    modularized just like any other python code could be.
+
+        For a concrete example, imagine that you had email data, where each
+    incoming email had a pointer to the email previous to it in an email thread,
+    or nothing if it was the first email. The task would be to get the first email
+    in each thread, and give the number of emails in the thread originating from
+    that first email.
+
+        Doing something like this in SQL would require obscure functions (like
+    WITH RECURSIVE). However, the python language is expressive enough that this
+    wouldn't be too much of a challenge.
+
+3. Describe one question that would be easier to answer with MongoDB than via a
+SQL query.
+
+        Imagine that you wanted to figure out how many tweets there were, or how
+    many of the tweets that you have in your database has some property. This type
+    of very simple query is probably best done with MongoDB. The reason for this
+    is because it takes quite a while in order to actually structure the data and
+    set it into SQL format, but is almost instant for MongoDB.
+
+        The ability to quickly ingest data and start doing analysis is MongoDB's
+    real strength.
+
+4. Describe one question that would be easier to answer via a SQL query than
+using MongoDB.
+
+        SQL is very good at managing relations (hence it's name of a relational
+    database). For instance, if I wanted to know which users had tweets in two or
+    more locations, I could join two tables in a SQL query. Doing such a thing
+    using MongoDB would be relatively hard and you would need quite a few bits of
+    nesting. Since SQL flattens all of your data into a simple structure, you
+    don't need to worry about figuring out how the json in your data is nested
+    like you do in MongoDB.
+
+5. What fields in the original JSON structure would be difficult to convert to
+relational database schemas?
+
+        It would be very hard to construct a chain of tweet replies in a
+    relational database schema. The reason for this is because there is no natural
+    way to define grouping and order in a relationship database. You could imagine
+    creating a table for replies, and having a foreign key pointing the tweet that
+    the current tweet is replying to, but you don't get an easy way to identify
+    how long reply threads are, or what the ith tweet in the thread would be.
+
+
+6. In terms of lines of code, when did various approaches shine? Think about the
+challenges of defining schemas, loading and storing the data, and running
+queries.
+
+        The protobuffers were terrible in terms of lines of code. They required
+    quite a bit of configuration and coding before anything could work. 
+
+        The next worst was the SQL database. Most of the code came from the schema
+    definition. It took quite a bit of code to actual convert the JSON into a
+    format that SQL could understand.
+
+        The best approach was MongoDB, since importing the Twitter json file was a
+    piece of cake. Writing the queries were relatively simple once I got used to
+    the language. Unfortunately, since MongoDB doesn't have a schema, the
+    complexity of the MongoDB code was greater than the complexity of the SQL
+    code. There was definitely a trade off between organizing the data beforehand
+    and performing analysis on the data as is.
+
+7. What other metrics (e.g., time to implement, code redundancy, etc.) can we use
+to compare these different approaches? Which system is better by those
+measures?
+
+        Integration with existing programming languages. Databases are never used
+    in isolation, so you must always be concious that a querying language will be
+    used by a developer when creating an application. In this sense, either proto
+    buffers or MongoDB wins. Although proto buffers are baked in directly to a
+    programming language, they take so much set up time it may possibly be worth
+    it to write a MongoDB query.
+
+        Scalability. If you want to increase the size of your data dramatically,
+    it would probably be best to use MongoDB. Proto buffers do not seem to be a
+    good long term solution, and SQL is limited by how much memory there is on a
+    single machine. With MongoDB, you can easily add instances to a cluster of
+    machines.
+
+        Code complexity and readability. If someone new to your project comes
+    along and has to read your code, which approach will be best for him? There
+    really isn't a clear winner on this one, because it depends on how much
+    familiarity the new person has with each language, and I cannot a priori say
+    which language is best.
+
+        Debugging capabilties. Which language is it easiest to find bugs in? I
+    would argue that proto buffers are probably easiest because you don't need any
+    context switch to go from a particular programming language into a database
+    querying language.
+
+8. How long did this lab take you? We want to make sure to target future labs to
+not take too much of your time.
+
+    This lab took about 4 hours.
