@@ -14,7 +14,7 @@ top five.
 
     Results:
     1. 1554
-    2. 2531
+    2. 17
     3. 1269521828, 392695315, 424808364, 1706901902, 1471774728
     4. 'T\xfcrkiye', 'Gambir', 'East Borneo', 'Mississippi', 'Nongsa'
 
@@ -22,13 +22,14 @@ SQLite3:
 
     Queries:
     1. SELECT count(*) FROM tweets WHERE is_delete = 1;
-    2. SELECT count(*) FROM tweets WHERE reply_to IS NOT NULL AND reply_to IS NOT 0;
+    2. SELECT count(*) FROM tweets WHERE reply_to IS NOT NULL AND reply_to IS
+NOT 0 AND reply_to IN (SELECT id FROM tweets);
     3. SELECT uid FROM tweets GROUP BY uid ORDER BY count(*) DESC LIMIT 5;
     4. SELECT name FROM places GROUP BY id ORDER BY count(*) DESC LIMIT 5;
 
     Results:
     1. 1554
-    2. 2531
+    2. 17
     3. 320820996, 1106510150, 183997528, 118947331, 206109994
     4. Türkiye, Gambir, East Borneo, Nongsa, Malalayang
 
@@ -50,7 +51,7 @@ MongoDB:
  
     Results:
     1. 1554
-    2. 2531
+    2. 17
     3. 1269521828, 392695315, 1706901902, 424808364, 1279674000
     4. Türkiye, Gambir, Mississippi, East Borneo, Malalayang
 
