@@ -1,0 +1,7 @@
+* User based DBMS. This database would be optimized to handle user sessions.
+* DBMS which restructures itself to optimize access patterns. The database
+would keep track of access patterns and would perform internal restructures to
+make data access and write faster.
+* Data Dump application. Dump unstructured data into this application, and the
+application attempts to organize the data into cohesive groups. You can later
+go ahead and organize data.
