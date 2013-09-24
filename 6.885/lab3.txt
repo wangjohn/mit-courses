@@ -1,11 +1,9 @@
-Data Wrangler
-
-    synsets.txt
-
-        Unique Words: 75510
-
-    worldcup.txt
-
+Questions:
+  Synsets Dataset:
+    1. The file is included in the zip.
+    2. There are 75510 unique words in the synsets file.
+  Worldcup Dataset:
+    1. Each country has won the world cup the following number of times:
         BRA: 5
         ITA: 4
         GER: 3
@@ -14,18 +12,3 @@ Data Wrangler
         FRA: 1
         ENG: 1
         ESP: 1
-
-Command Line:
-
-    synsets.txt
-
-        cat synsets.txt | sed 's/[0-9]*,\(.*\),.*/\1/' | uniq -u | wc -l
-        cat synsets.txt | sed 's/[0-9]*,\(.*\)$/\1/' > synsets_command.csv
-
-    worldcup.txt
-
-        cat worldcup.txt | sed 's/\[\[\([0-9]*\)[^]]*\]\]/\1/g;
-s/.*fb|\([A-Za-z]*\)}}/\1/g; s/<sup><\/sup>//g; s/|bgcolor[^|]*//g;
-s/|align=center[^|]*//g' | tail -171 | head -168 | grep -v '-' | grep -v
-'|[0-9]\+\s\?$' | awk '/^[A-Z]/ {country = $0} !/^[A-Z]/ {print country, $0}'
-| sed 's/|[0-9]\+/ /g' |awk '/.*$/ {blah = $0} BEGIN { i = 0} { if (i == 4) { i = 1 } else { i += 1 }; print i, ",", blah }'
