@@ -1,3 +1,5 @@
+Name: John Wang
+
 Questions:
   Synsets Dataset:
     1. The file is included in the zip.
