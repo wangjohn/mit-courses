@@ -1,0 +1,30 @@
+Name: John Wang
+
+Questions:
+  Synsets Dataset:
+    1. The file is included in the zip.
+    2. There are 75510 unique words in the synsets file.
+  Worldcup Dataset:
+    1. Each country has won the world cup the following number of times:
+        BRA: 5
+        ITA: 4
+        GER: 3
+        ARG: 2
+        URU: 2
+        FRA: 1
+        ENG: 1
+        ESP: 1
+  General Questions:
+    2. Using Data Wrangler was a pretty terrible experience. The javascript
+version crashed very frequently when I attempted to do certain commands. The
+other thing about Data Wrangler is that it had no documentation, making it
+difficult to learn how to do anything that wasn't automatically suggested for
+you. The very specific syntax needed for some commands did not help, for
+instance like 'index in (1)'. The command line tools were in general much more
+reliable than Data Wrangler and provided a much neater interface. There were
+things that Data Wrangler just couldn't do (like edit or manipulate data).
+This was incredibly frustrating because that is one of the easiest parts of
+data processing.
+    3. It would be very useful if you could edit data in Data Wrangler. Right
+now, the edit tab does not work (or is unresponsive). It would also make sense
+to be able to create a column of data with numbers.
