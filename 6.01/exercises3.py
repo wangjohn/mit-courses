@@ -1,4 +1,4 @@
-from lib601.search import search
+from lib601.search import SearchNode,search
 
 class FGWCSearchNode(SearchNode):
     def __init__(self, state, parent):
@@ -9,7 +9,7 @@ class FGWCSearchNode(SearchNode):
         objectsWithFarmer = self._objectsWithFarmer(self.state)
         potential_states = []
         potential_states.append(self._changeTuple(self.state, [0]))
-        for i in xrange(len(objectsWithFarmer)):
+        for i in objectsWithFarmer:
             potential_states.append(self._changeTuple(self.state, [0, i]))
 
         return [FGWCSearchNode(state, self) for state in potential_states if self._isLegal(state)]
@@ -34,7 +34,7 @@ class FGWCSearchNode(SearchNode):
         return objects
 
     def _isLegal(self, state):
-        if state[1] == state[3] or state[1] == state[2]:
+        if (state[1] == state[3] and state[0] != state[1]) or (state[1] == state[2] and state[0] != state[1]):
             return False
         return True
 
@@ -42,5 +42,4 @@ def goalTest(s):
     return s == ('R', 'R', 'R', 'R')
 
 if __name__ == '__main__':
-    ans = [i.state for i in FGWCSearchNode(('R','R','L','L'),None).getChildren()]
-    print ans
+    print 100*(1.05)**(24)
