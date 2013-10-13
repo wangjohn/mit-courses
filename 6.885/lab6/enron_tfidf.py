@@ -20,10 +20,12 @@ lay = sc.textFile('s3n://AKIAJFDTPC4XX2LVETGA:<AWS KEY FROM PIAZZA>@6885public/e
 
 filtered_lay = lay.map(lambda x: json.loads(x)).filter(lambda x: x['sender'] in allowed_senders)
 
-terms = lay.flatMap(lambda x: [{ 'term': term, 'mid': x['mid'] } for term in x['text'].lower().split('[\s,.]')]).cache()
+terms = lay.flatMap(lambda x: [{ 'term': term, 'mid': x['mid'], 'sender': x['sender'] } for term in x['text'].lower().split('[\s,.]')]).cache()
 
-frequencies = terms.reduceByKey(add)
-print frequencies
+sender_term_counts = terms.map(lambda x: { 'sender': x['sender'], 'term': x['term'] }).reduceByKey(add)
+sender_sums = sender_term_counts.map(lambda x: (x[0]['sender'], x[1])).reduceByKey(add)
+print sender_sums.collect()
 
 doc_frequencies = terms.distinct().map(lambda x: x['term']).countByKey().map(lambda x: (x[0], math.log(x[1], 10)))
-print doc_frequencies
+print doc_frequencies.collect()
+
