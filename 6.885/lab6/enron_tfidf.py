@@ -43,12 +43,20 @@ sender_term_counts = lay.filter(lambda x: x['sender'] in allowed_senders)
 sender_totals = sender_term_counts.map(lambda x: (x[0][0], x[1])).reduceByKey(add).cache()
 sender_term_frequencies = sender_term_counts.map(lambda x: (x[0], compute_sender_term_frequency(x[1], sender_totals[x[0][0]])))
 
+print 'found sender term frequencies'
+print sender_term_frequencies.take(5).collect()
+
 document_counts = lay.map(lambda x: get_id_term_pair(x['mid'], x['text'])).distinct().map(lambda x: (x[1], 1.0)).reduceByKey(add)
 document_idfs = document_counts.map(lambda x: compute_idf(term, count))
+
+print 'found document idfs'
+print document_idfs.take(5).collect()
 
 tfidfs = sender_term_frequencies.map(lambda x: (x[0], x[1]*document_idfs[x[0][1]]))
                                 .groupBy(lambda x: x[0][0])
                                 .map(lambda x: (x[0], sorted(x[1], reverse=True)[:10]))
+
+print 'finished computing tfidfs'
 
 for sender, results in tfidfs.collect():
     print ''
