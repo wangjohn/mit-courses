@@ -13,16 +13,11 @@ allowed_senders = set([
     'rebecca.mark@enron.com'
     ])
 
-<<<<<<< HEAD
 senders_regex = re.compile(r"(kenneth\.lay|jeff\.skilling|jeff\.skilling|andrew\.fastow|rebecca\.mark)")
 
 def get_terms(text):
     pattern = re.compile(r"[\s\w]")
     return pattern.split(text.lower())
-=======
-def get_terms(text):
-    return text.lower().split('[\s,.]')
->>>>>>> 4db2b00a3f63b43d5122547e11278e644dd8df5c
 
 def compute_sender_term_count(sender, text):
     terms = get_terms(text)
