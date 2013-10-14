@@ -12,7 +12,7 @@ allowed_senders = set([
     'rebecca.mark@enron.com'
     ])
 
-def get_terms(text)
+def get_terms(text):
     return text.lower().split('[\s,.]')
 
 def compute_sender_term_count(sender, text):
@@ -37,8 +37,8 @@ sc = SparkContext("local", "Simple App")
 lay = sc.textFile('s3n://AKIAJFDTPC4XX2LVETGA:<AWS KEY FROM PIAZZA>@6885public/enron/lay-k.json')
 lay = lay.map(lambda x: json.loads(x))
 
-sender_term_counts = lay.filter(lambda x: x['sender'] in allowed_senders)
-                        .map(lambda x: compute_sender_term_count(x['sender'], x['text']))
+sender_term_counts = lay.filter(lambda x: x['sender'] in allowed_senders) \
+                        .map(lambda x: compute_sender_term_count(x['sender'], x['text'])) \
                         .reduceByKey(add)
 sender_totals = sender_term_counts.map(lambda x: (x[0][0], x[1])).reduceByKey(add).cache()
 sender_term_frequencies = sender_term_counts.map(lambda x: (x[0], compute_sender_term_frequency(x[1], sender_totals[x[0][0]])))
@@ -52,8 +52,8 @@ document_idfs = document_counts.map(lambda x: compute_idf(term, count))
 print 'found document idfs'
 print document_idfs.take(5).collect()
 
-tfidfs = sender_term_frequencies.map(lambda x: (x[0], x[1]*document_idfs[x[0][1]]))
-                                .groupBy(lambda x: x[0][0])
+tfidfs = sender_term_frequencies.map(lambda x: (x[0], x[1]*document_idfs[x[0][1]])) \
+                                .groupBy(lambda x: x[0][0]) \
                                 .map(lambda x: (x[0], sorted(x[1], reverse=True)[:10]))
 
 print 'finished computing tfidfs'
