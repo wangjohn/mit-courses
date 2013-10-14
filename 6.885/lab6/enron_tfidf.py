@@ -13,10 +13,10 @@ allowed_senders = set([
     'rebecca.mark@enron.com'
     ])
 
-senders_regex = re.compile(r"[(kenneth\.lay)(jeff\.skilling)(andrew\.fastow)(rebecca\.mark)]@enron\.com")
+senders_regex = re.compile(r"(kenneth\.lay|jeff\.skilling|jeff\.skilling|andrew\.fastow|rebecca\.mark)")
 
 def get_terms(text):
-    pattern = re.compile(r"[\s,.]")
+    pattern = re.compile(r"[\s\w]")
     return pattern.split(text.lower())
 
 def compute_sender_term_count(sender, text):
@@ -36,7 +36,7 @@ def compute_idf(term, count):
     return term, math.log( 516893.0 / float(count), 10)
 
 def is_valid_sender(sender):
-    return sender in allowed_senders
+    return re.search(senders_regex, sender)
 
 print 'loading'
 sc = SparkContext("local", "Simple App")
@@ -60,7 +60,6 @@ print sender_term_frequencies.take(5)
 print lay.flatMap(lambda x: get_id_term_pair(x['mid'], x['text'])).distinct().take(5)
 document_counts = lay.flatMap(lambda x: get_id_term_pair(x['mid'], x['text'])).distinct().map(lambda x: (x[1], 1.0)).reduceByKey(add)
 print document_counts.take(20)
-raise
 document_idfs = document_counts.map(lambda x: compute_idf(x[0], x[1]))
 
 print 'found document idfs'
@@ -70,7 +69,7 @@ tfidfs = sender_term_frequencies.map(lambda x: (x[0], x[1]*document_idfs[x[0][1]
                                 .groupBy(lambda x: x[0][0]) \
                                 .map(lambda x: (x[0], sorted(x[1], key=lambda j: j[1], reverse=True)[:10]))
 
-print 'finished computing tfidfs'
+prin 'finished computing tfidfs'
 
 for sender, results in tfidfs.collect():
     print ''
