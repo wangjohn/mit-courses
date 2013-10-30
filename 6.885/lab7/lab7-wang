@@ -1,12 +1,74 @@
-Top 10 Vertices:
+John Wang
+6.885 Lab 7
+Giraph Implementation
 
-1220
-39394
-214538
-2409
-4494
-13948
-214451
-134
-1772
-1776
+1. List the vertex ids of the top 10 PageRanks.
+
+  The top 10 vertices (in terms of PageRank) that I found were the following:
+
+    1.  1220
+    2.  39394
+    3.  214538
+    4.  2409
+    5.  4494
+    6.  13948
+    7.  214451
+    8.  134
+    9.  1772
+    10. 1776
+
+  I used the following formula for PageRank to compute these:
+
+  PR(i) = (1 - d) + d*(PR(j1) / L(j1) + PR(j2) / L(j2) + ... + PR(jn) / L(jn))
+
+  Where j1, ..., jn are the incoming edges to vertex i, and L(i) are the number of
+  outgoing links on a vertex i. I chose a damping factor of d = 0.9.
+
+2. Compare the PageRank implementation in Giraph with your thought experiments from the previous labs on: Hadoop, Spark.
+
+  The implementation of PageRank on Giraph was much cleaner than it would have 
+  been on Hadoop or Spark. This is due to a number of causes:
+
+  - In Giraph, you don't have to explicitly think about loops. In Hadoop, it is
+    difficult because you have to run the MR job some number of times, and the
+    startup cost for each job is large. Spark is a little better, but you still
+    have to create a loop construct, which doesn't seem as atuned to an iterative
+    algorithm like this.
+  - Giraph allows you to think about the PageRank implementation only a single
+    vertex, which seemed like a much cleaner model of computation than either
+    Hadoop or Spark provided. You don't have to worry about indices or any type
+    of matrix of all the vertices -- you just call getEdges() or a similar function.
+
+  One thing that was worse about Giraph is that it had a lot more syntax hurdles to
+  jump over than either Hadoop or Spark. You had to learn about input formats and
+  different Java classes to handle different types of inputs. In the other two
+  frameworks, you could organize the data however you wanted. In Giraph, you are
+  forced to build a lot of infrastructure in order to ingest non-standard data.
+
+3. Compare with the previous systems along the usability dimesion. What would you most likely use in the future?
+
+  Giraph was hard to use in terms of getting started. The documentation wasn't very
+  good when it came to configuring it. For example, it took a while to learn how to
+  set checkpointing on. The error messages weren't that great when the system ran
+  out of memory. Some of my map tasks failed because I forgot to set my Java memory
+  to an appropriate size, but the Giraph output didn't tell me that initially.
+
+  The other thing about Giraph that wasn't the greatest was the format for ingesting
+  data. It wasn't very clear why you needed to make these LongWritable and IntWritable
+  classes, and matching them correctly to the input data seemed a little more difficult
+  than it needed to be. The thing that really bugged me, however, was that it wasn't
+  possible to change input formats (for example to use my same PageRank implementation
+  on livesmall.txt vs tiny_graph.txt). I had to physically change the code or write a
+  new implementation for the different data formats. In my opinion, an algorithm
+  shouldn't change based on the format of the input data.
+
+4. What are the pros and cons of vertex-centric computation model? Did this even make sense to do?
+
+  For me the vertex-centric approach was a really good abstraction tool. Instead of
+  having to think about the entire graph in general, the vertex centric appraoch
+  made it very easy to think about a single thing and compute on that.
+
+  Also, a vertex-centric approach makes it easy to parallelize computations. Since
+  you can compute the PageRank on a vertex only using the messages sent to it from
+  the previous superstep, you can update PageRanks in parallel.
+
