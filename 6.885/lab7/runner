@@ -1,0 +1,7 @@
+hadoop jar giraph.jar  org.apache.giraph.GiraphRunner \
+ test.PageRankVertex  \
+ -eif org.apache.giraph.io.formats.IntNullTextEdgeInputFormat \
+ -eip livesmall.txt  \
+ -of org.apache.giraph.io.formats.IdWithValueTextOutputFormat \
+ -op livesmallOutput2  \
+ -w 2

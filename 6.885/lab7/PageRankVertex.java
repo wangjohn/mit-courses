@@ -23,8 +23,9 @@ import org.apache.giraph.Algorithm;
 import org.apache.giraph.conf.LongConfOption;
 import org.apache.giraph.edge.Edge;
 import org.apache.giraph.graph.Vertex;
+import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.io.FloatWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.log4j.Logger;
 
@@ -33,22 +34,19 @@ import org.apache.log4j.Logger;
     description = "Gets the page rank for all vertices in a graph"
 )
 public class PageRankVertex extends
-    Vertex<LongWritable, DoubleWritable,
-    FloatWritable, DoubleWritable> {
+    Vertex<IntWritable, DoubleWritable,
+    NullWritable, DoubleWritable> {
   /** Class logger */
   private static final Logger LOG =
       Logger.getLogger(PageRankVertex.class);
 
   public static final int MAX_SUPERSTEPS = 30;
 
-  public static final double DAMPING_FACTOR = 0.5;
-
-  private double initializationValue() {
-    return 1f / getTotalNumVertices();
-  }
+  public static final double DAMPING_FACTOR = 0.9;
 
   @Override
   public void compute(Iterable<DoubleWritable> messages) {
+    double vertexValue = 1.0;
     if (getSuperstep() == 1) {
       setValue(new DoubleWritable(1.0f / getTotalNumVertices()));
     } else {
@@ -57,8 +55,8 @@ public class PageRankVertex extends
         sum += message.get();
       }
 
-      DoubleWritable vertexValue = new DoubleWritable((1.0f - DAMPING_FACTOR) + (DAMPING_FACTOR * sum));
-      setValue(vertexValue);
+      vertexValue = (1.0f - DAMPING_FACTOR) + (DAMPING_FACTOR * sum);
+      setValue(new DoubleWritable(vertexValue));
       if (LOG.isDebugEnabled()) {
         LOG.debug("Vertex " + getId() + " got Sum = " + sum +
             " vertex value = " + getValue());
@@ -67,8 +65,8 @@ public class PageRankVertex extends
 
 
     if (getSuperstep() <= MAX_SUPERSTEPS) {
-      DoubleWritable value = new DoubleWritable(getValue() / getNumEdges());
-      for (Edge<IntWritable, NullWritable> edge : getEdges()) {
+      DoubleWritable value = new DoubleWritable((double) vertexValue / getNumEdges());
+      for (Edge<IntWritable,NullWritable> edge : getEdges()) {
         if (LOG.isDebugEnabled()) {
           LOG.debug("Vertex " + getId() + " sent to " + 
               edge.getTargetVertexId() + " = " + value);
