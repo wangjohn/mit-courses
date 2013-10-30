@@ -8,6 +8,9 @@ import math
 
 allowed_senders = set([
     'kenneth.lay@enron.com',
+    'rosalee.fleming@enron.com',
+    'tori.wells@enron.com',
+    'treasa.kirby@enron.com',
     'jeff.skilling@enron.com',
     'andrew.fastow@enron.com',
     'rebecca.mark@enron.com'
