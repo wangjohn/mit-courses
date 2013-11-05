@@ -1,0 +1,69 @@
+John Wang
+Lab 5 Writeup
+
+Top TF-IDF Terms for Enron Executives:
+
+  {"tfidf": 0.4394923577533999, "term": "wired"}
+  {"tfidf": 0.32625578677444056, "term": "petrobras"}
+  {"tfidf": 0.30607503486397486, "term": "jamail"}
+  {"tfidf": 0.2849846522332524, "term": "unsubscribe"}
+  {"tfidf": 0.2535034139292687, "term": "dinner"}
+  {"tfidf": 0.21974617887669995, "term": "rescues"}
+  {"tfidf": 0.21974617887669995, "term": "last-minute"}
+  {"tfidf": 0.2181783081697723, "term": "misha"}
+  {"tfidf": 0.1971955291456385, "term": "quarterly"}
+  {"tfidf": 0.19526353132443197, "term": "announced"}
+  {"tfidf": 0.1856478955945924, "term": "linda"}
+  {"tfidf": 0.1850653018176528, "term": "first"}
+  {"tfidf": 0.18501194860777903, "term": "newsletters"}
+  {"tfidf": 0.18292971334525945, "term": "harassment"}
+  {"tfidf": 0.18234257396151696, "term": "asep"}
+
+Questions:
+
+1. How did you compute TF-IDF on the whole corpus? What was easy, what was hard?
+
+      I computed TF-IDF on the entire corpus by breaking up the computation into
+    three distinct map reduce jobs. Each of these jobs performed some part of the
+    computation and added a new piece of data. The three jobs were the following:
+
+      - Computing word_count and words_in_document for each (word, email) pair.
+        This basically allows me to compute term frequency by taking word_count
+        divided by words_in_document.
+      - Computing inverse document frequency: to do this, I aggregated the
+        previous results by term (using a particular word as the key in the map
+        step). This allowed me to compute the number of different documents that a
+        particular term was found in. This allowed me to compute inverse document
+        frequency (because I already knew how many documents were in the corpus).
+      - Computing TF-IDF averages across the corpus for senders who were
+        executives in the list that we cared about. I filtered out all emails with
+        senders from non-executives, and found the sum and count of the TF-IDF scores
+        for all available firms. 
+
+    After the averages had been computed, I sorted by the averages and outputted
+    the top 15 results.
+
+2. Sketch a description of how you would use EMR to run page rank on this
+graph. What would be some pain points?
+
+      In order to get the page rank of the graph, I would first preprocess the
+    data. Thus, the computation would be divided into two phases:
+
+      - Preprocessing. I would process each email and construct an adjacency list
+        for each email. The adjacency list would contain all outgoing edges of the
+        graph (i.e. it would list the emails of everyone who that person had sent
+        emails to). To do this, I would process each email and emit the sender as
+        the key and a list of the recipients as the value. The recipients list
+        would then get aggregated for each sender. Additionally, each record would
+        contain a starting weight (the initial page rank weight).
+      - Iterations of page rank. The next step would be to use the page rank
+        algorithm to compute page rank. We would use each record to compute the
+        relevant parts of page rank for the outgoing edges on that record in the
+        map step. In the reduce step, we would take the weighted average of these
+        incoming weights and assign a new page rank for each node. We will repeat
+        entire job multiple times until we get convergence.
+
+    The pain points of this is that you must preprocess your data into something
+    where you have an adjacency list. You also need to keep the adjacency list
+    data in the same place as where you are keeping your page ranking score, even
+    though the data is not necessarily related.

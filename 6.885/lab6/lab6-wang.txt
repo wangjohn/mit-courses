@@ -1,0 +1,90 @@
+John Wang
+Lab 6: Spark
+
+
+Sender Disambiguation Questions:
+
+1. Describe the disambiguation you performed. How did Spark affect (if at all)
+the choice of technique?
+
+    The way I disambiguated the sender information was by going through the logs
+  and figuring out which senders where secretaries for the executives. The way I
+  did this was by looking for when an executive's name appeared in the text of
+  an email. Filtering down on emails where names appeared, I was able to narrow
+  down the list of possible secretaries to less than 30. Moreover, I could
+  filter out emails for senders who were outside of the "@enron.com" namespace,
+  so that narrowed the potential emails down even more. After this, I manually
+  went through the names and checked if they seemed to actually be secretaries.
+
+    Incorporating these names into spark was done by having a set of allowed
+  senders. This set contained the executive emails as well as the emails of all
+  executive assistants. Only emails with the sender in the allowed sender list were
+  examined.
+
+Spark Experience Questions:
+
+1. Compare your experience to using EMR. What things did Spark simplify?
+
+    Spark made it much easier to do multiple operations and have multiple
+  datasets floating around. In terms of TF-IDF, you could compute the term and
+  document frequencies separately instead of keeping them together in a single
+  place throughout a MR job.
+
+    It was much easier to visually see the different operations you were
+  performing in spark. Due to the functional type of operations done on RDDs,
+  you were able to see the progression of different transforms on the data and
+  it made it much easier to reason about a particular job.
+
+    Obviously, Spark was great for doing any type of iteration (as it is
+  supposed to be). Moreover, it is easy to print out whatever type of output you
+  would like - this makes debugging very simple since you can print out
+  intermediate results with ease.
+
+2. Given Spark, why would you use EMR?
+
+    It is hard to imagine using EMR over Spark for anything because it seems
+  that Spark is a more comprehensive and general programming model. Moreover, it
+  provides syntax that is much easier to use.
+
+    The only reason I could see to use EMR over Spark is if you wanted to create
+  something (say a distributed database) with performance in mind. It is hard
+  to reason about performance in Spark because of the high level of abstraction.
+  However, EMR is low level enough to know what is going on and being passed
+  around by different computers on the cluster.
+
+
+3. Were there any limitations to using the Spark model?
+
+    Although not necessarily a limitation to the Spark model, the implementation
+  of Spark made it very difficult to debug mistakes. Most of the error messages
+  were long and unwieldy and did not provide very much information as to where
+  the actual error was. The documentation on methods was sparse and the examples
+  did not really help to explain what the programming model was. It was
+  difficult to start programming because of this.
+
+    Moreover, it was not quite clear how Spark was distributing the workload and
+  aggregating things on the master node (if it was even doing that). It was much
+  clearer when using EMR to know what was going on and how the jobs were being
+  distributed. Using Spark was difficult because you were at such a high level
+  of abstraction that perform tuning was hard to accomplish.
+
+    A more fundamental problem with Spark is that it is very good for iterative
+  algorithms, but it isn't as good for other types of workflows. For example, it
+  would probably be hard for Spark to do matrix multiplication in a distributed manner.
+
+4. Describe in a few sentences how Spark would simplify an implementation of
+pagerank over your answer in Lab 5 using EMR.
+
+    Spark's PageRank implementation would be very simple. In fact, you'd only
+  need a function to find the neighbors for each node and store them in an RDD,
+  then you'd need an update function. After joining the node to neighbors links
+  with the current Pageranks, you could then perform an update to compute the
+  next set of Pageranks. This process could be repeated multiple times in a for
+  loop.
+
+    The amount of code this requires is minimal, and even better, the amount of
+  time it takes to think about how to create something like this is small. In
+  EMR, you would have to worry about piping a set of links with a Pagerank value
+  for each node to update in a new output, then pipe that output as an input
+  into Pagerank again. This tends to be slow (since each iteration in EMR
+  requires you to boot up new machines again), and isn't very intuitive.
