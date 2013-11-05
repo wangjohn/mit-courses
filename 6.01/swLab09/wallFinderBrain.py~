@@ -1,0 +1,16 @@
+from lib601.plotWindow import PlotWindow as pw
+from soar.io import io
+
+#replace with your data
+data = {'voltages':[],'distances':[]}
+
+def distanceFromVoltage(v):
+    #replace with your code
+    return 0.0
+
+# this function is called 10 times per second
+def step():
+    print io.getSonars()[3] #print sonar for comparison
+    
+    distance = distanceFromVoltage(io.getAnalogInputs()[0])
+    io.setForward(0.0) #replace with your code
