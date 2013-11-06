@@ -43,12 +43,19 @@ def OpAmp(ea1, ea2, Ia, eb1, eb2, Ib, K=1000000):
 class Thevenin(OnePort):
     def __init__(self, v, r, e1, e2, i):
         OnePort.__init__(self,e1,e2,i)
-        pass #Your Code Here
+        self.equation = [(1, e1), (-1, e2), (-r, i), (-v, None)]
 
 def theveninEquivalent(components, nPlus, nMinus, current):
-    pass #Your Code Here
+    result = solveCircuit(components, nMinus)
+    vth = result[nPlus]
 
+    new_components = list(components)
+    new_components.append(VSrc(0, nPlus, nMinus, current))
 
+    short_circuited_result = solveCircuit(new_components, nMinus)
+    ith = short_circuited_result[current]
+    rth = float(vth) / ith
+    return Thevenin(vth, rth, nPlus, nMinus, current)
 
 #SOLVING CIRCUITS
 
@@ -112,11 +119,45 @@ def find_nodes(componentList):
 
     return nodes
 
-if __name__ == '__main__':
+def old_circuit():
     circuitComponents = []
-    circuitComponents.append(ISrc('i0', 'e1', 'gnd', 920.0))
-    circuitComponents.append(Resistor(52000000, 'e1', 'e2', 'i1'))
-    circuitComponents.append(OpAmp('e1', 'gnd', 'i0', 'gnd', 'transamp_out', 'i1'))
-    circuitComponents.append(Resistor(3000, 'transamp_out', 'e3', 'i2'))
-    circuitComponents.append(Resistor(300000, 'e3', 'v_out', 'i3'))
-    circuitComponents.append(OpAmp('e3', 'gnd', 'i2', 'v_out', 'gnd', 'i3'))
+    circuitComponents.append(ISrc(920.0 * 10**(-12), 'e1', 'gnd', 'i0'))
+    circuitComponents.append(Resistor(52.0 * 10**(6), 'e1', 'transamp_out', 'i1'))
+    circuitComponents.append(OpAmp('gnd', 'e1', 'i4', 'transamp_out', 'gnd', 'i5'))
+    circuitComponents.append(Resistor(3.0 * 10**(3), 'transamp_out', 'e3', 'i2'))
+    circuitComponents.append(Resistor(300.0 * 10**(3), 'e3', 'v_out', 'i3'))
+    circuitComponents.append(OpAmp('gnd', 'e3', 'i6', 'v_out', 'gnd', 'i7'))
+    
+    res = solveCircuit(circuitComponents,'gnd')
+    print (res['transamp_out'], res['v_out'])
+    print res['i3']
+    print res['e3']
+    print res['i5']
+
+if __name__ == '__main__':
+    r1 = 4.0
+    r2 = 9.0
+    r3 = 4.0
+    r4 = 7.0
+    r5 = 9.0
+    Is = 2.0
+    Vs = 7.0
+    circuitComponents = []
+    circuitComponents.append(Resistor(99.0 / 20.0, 'vplus', 'e1', 'i0'))
+    circuitComponents.append(VSrc(63.0/20.0, 'e1', 'e4', 'i1'))
+    #circuitComponents.append(Resistor(r4, 'vplus', 'e2', 'i0'))
+    #circuitComponents.append(Resistor(r3, 'e2', 'e3', 'i1'))
+    #circuitComponents.append(VSrc(Vs, 'e3', 'e4', 'i2'))
+    #circuitComponents.append(Resistor(r5, 'e4', 'vplus', 'i3'))
+    circuitComponents.append(ISrc(Is, 'e4', 'e5', 'i4'))
+    circuitComponents.append(Resistor(r2, 'e4', 'e5', 'i5'))
+    circuitComponents.append(Resistor(r1, 'e5', 'vminus', 'i6'))
+    result = theveninEquivalent(circuitComponents, 'vplus', 'vminus', 'isc')
+    print result.equation
+
+
+    components = []
+    components.append(Resistor(4, 'vminus', 'e1', 'i0'))
+    components.append(Resistor(9, 'e1', 'vplus', 'i1'))
+    components.append(ISrc(2, 'vplus', 'e1', 'i2'))
+    print theveninEquivalent(components, 'vplus', 'vminus', 'isc').equation
