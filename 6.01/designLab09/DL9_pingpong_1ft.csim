@@ -1,0 +1,14 @@
+#CMax simulation
+import lib601.sig as sig
+import math
+
+out = []
+n = 100
+for i in xrange(2):
+    out.extend(n*[1./8.]+n*[-1./8.])
+    n /= 2
+
+lampAngleSignal = sig.ListSignal(out)
+lampDistanceSignal = sig.ConstantSignal(1./3)
+nSamples = 300
+deltaT = 0.02
