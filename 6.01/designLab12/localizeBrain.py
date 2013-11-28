@@ -57,7 +57,6 @@ def obsModel(s):
     if numObservations < 10:
         return dist.mixture(dist.deltaDist(ideal[s]), dist.uniformDist(range(numObservations)), float(numObservations) / 15.)
     return dist.mixture(dist.triangleDist(ideal[s], int(numObservations / 6.0) + 2), dist.uniformDist(range(numObservations)), 0.8)
-    #return dist.triangleDist(ideal[s], int(numObservations / 6.0) + 2)
 
 #transition model
 def transModel(s):

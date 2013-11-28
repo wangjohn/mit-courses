@@ -89,21 +89,10 @@ def totalProbability(PA, PBgA):
     return DDist(dictionary)
 
 if __name__ == '__main__':
-    Weather = DDist({'rain': 0.6, 'sun': 0.4})
-    ActivityGivenWeather = lambda x: DDist({'computer': 0.8, 'outside': 0.2}) if x == 'rain' else DDist({'computer': 0.3, 'outside': 0.7})
-    QuantumGivenActivity = lambda x: DDist({'keyboard': 0.8, 'bed': 0.2}) if x == 'computer' else DDist({'keyboard': 0.2, 'bed': 0.8})
-    pRainGivenComputer = Weather.bayesianUpdate(ActivityGivenWeather, 'computer').prob('rain')
+    CarAndSelectAndHost = DDist({(2, 1, 3): 0.1111111111111111, (1, 2, 3): 0.1111111111111111, (1, 3, 2): 0.1111111111111111, (3, 2, 1): 0.1111111111111111, (1, 1, 3): 0.05555555555555555, (3, 3, 2): 0.05555555555555555, (3, 1, 2): 0.1111111111111111, (2, 2, 1): 0.05555555555555555, (3, 3, 1): 0.05555555555555555, (2, 2, 3): 0.05555555555555555, (1, 1, 2): 0.05555555555555555, (2, 3, 1): 0.1111111111111111})
+    pH3GivenS1 = CarAndSelectAndHost.condition(lambda x: x[1] == 1).project(lambda x: x[2]).prob(3)
+    print CarAndSelectAndHost.condition(lambda x: x[2] == 3 and x[1] == 1)
+    pC2GivenH3S1 = CarAndSelectAndHost.condition(lambda x: x[2] == 3 and x[1] == 1).prob((2, 1, 3))
+    pC1GivenH3S1 = CarAndSelectAndHost.condition(lambda x: x[2] == 3 and x[1] == 1).prob((1, 1, 3))
+    print float(pC2GivenH3S1) / pC1GivenH3S1
 
-    WeatherAndActivity = makeJointDistribution(Weather, ActivityGivenWeather)
-    QGA = lambda x: QuantumGivenActivity(x[1])
-    WeatherAndActivityAndQuantum = makeJointDistribution(WeatherAndActivity, QGA)
-    WeatherAndActivityAndQuantum = WeatherAndActivityAndQuantum.project(lambda x: (x[0][0], x[0][1], x[1]))
-
-    pSunAndOutside = makeJointDistribution(Weather, ActivityGivenWeather).prob(('sun', 'outside'))
-    pComputer = WeatherAndActivityAndQuantum.project(lambda x: x[1]).prob('computer')
-    WeatherAndQuantum = WeatherAndActivityAndQuantum.project(lambda x: (x[0], x[2]))
-
-    pRainGivenKeyboard = WeatherAndQuantum.condition(lambda x: x[1] == 'keyboard').prob(('rain', 'keyboard'))
-    pRainGivenBed = WeatherAndQuantum.condition(lambda x: x[1] == 'bed').prob(('rain', 'bed'))
-
-    print float(pRainGivenKeyboard) / pRainGivenBed
