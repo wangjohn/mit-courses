@@ -135,29 +135,30 @@ def old_circuit():
     print res['i5']
 
 if __name__ == '__main__':
-    r1 = 4.0
-    r2 = 9.0
-    r3 = 4.0
-    r4 = 7.0
-    r5 = 9.0
-    Is = 2.0
-    Vs = 7.0
+    Vi = 8.0
+    Vs = 19.0
+    r1 = 3.0
+    r2 = 3.0
+    r3 = 5.0
+    r4 = 9.0
+    r5 = 10.0
     circuitComponents = []
-    circuitComponents.append(Resistor(99.0 / 20.0, 'vplus', 'e1', 'i0'))
-    circuitComponents.append(VSrc(63.0/20.0, 'e1', 'e4', 'i1'))
-    #circuitComponents.append(Resistor(r4, 'vplus', 'e2', 'i0'))
-    #circuitComponents.append(Resistor(r3, 'e2', 'e3', 'i1'))
-    #circuitComponents.append(VSrc(Vs, 'e3', 'e4', 'i2'))
-    #circuitComponents.append(Resistor(r5, 'e4', 'vplus', 'i3'))
-    circuitComponents.append(ISrc(Is, 'e4', 'e5', 'i4'))
-    circuitComponents.append(Resistor(r2, 'e4', 'e5', 'i5'))
-    circuitComponents.append(Resistor(r1, 'e5', 'vminus', 'i6'))
-    result = theveninEquivalent(circuitComponents, 'vplus', 'vminus', 'isc')
-    print result.equation
+    circuitComponents.append(VSrc(Vs, 'vminus', 'e1', 'i0'))
+    circuitComponents.append(Resistor(r1, 'e1', 'e2', 'i1'))
 
+    circuitComponents.append(VSrc(Vi, 'vminus', 'e0', 'i2'))
+    circuitComponents.append(OpAmp('e0', 'e2', 'i3', 'e2', 'vminus', 'i4'))
 
-    components = []
-    components.append(Resistor(4, 'vminus', 'e1', 'i0'))
-    components.append(Resistor(9, 'e1', 'vplus', 'i1'))
-    components.append(ISrc(2, 'vplus', 'e1', 'i2'))
-    print theveninEquivalent(components, 'vplus', 'vminus', 'isc').equation
+    circuitComponents.append(Resistor(r2, 'e2', 'e3', 'i5'))
+    circuitComponents.append(OpAmp('vminus', 'e3', 'i6', 'e4', 'vminus', 'i7'))
+    circuitComponents.append(Resistor(r3, 'e3', 'e4', 'i8'))
+    circuitComponents.append(Resistor(r5, 'vminus', 'e4', 'i9'))
+    circuitComponents.append(Resistor(r4, 'e4', 'e5', 'i10'))
+
+    circuitComponents.append(Resistor(r4, 'e2', 'e6', 'i11'))
+    circuitComponents.append(Resistor(r5, 'e6', 'vplus', 'i12'))
+
+    circuitComponents.append(OpAmp('e5', 'e6', 'i13', 'vplus', 'vminus', 'i14'))
+    res = solveCircuit(circuitComponents, 'vminus')
+    print res['vplus']
+    #print theveninEquivalent(circuitComponents, 'vplus', 'vminus', 'isc').equation
