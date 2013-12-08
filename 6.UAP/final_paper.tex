@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage[margin=1.25in]{geometry}
+\usepackage{listings}
 
 \title{Cascading Tree Sheets:\\ 
 A Templating Language for the Web\\
@@ -9,6 +10,7 @@ A Templating Language for the Web\\
 
 \author{
 John J. Wang\\
+Supervisors: Edward Benson and David Karger\\
 Department of Electrical Engineering and Computer Science\\
 wangjohn@mit.edu
 }
@@ -39,7 +41,7 @@ The current idioms for writing modular content in HTML is through using a combin
 
 For example, suppose a user wanted to render two blocks of text on his website, an "About Me" section and a "Contact Information" section. Each section would provide information in an HTML format. The user might style his site purely using CSS. For example, the user's HTML content might look something like this:
 
-\begin{code}
+\begin{lstlisting}
 <html>
   <body>
     <div class="surrounding-border">
@@ -52,7 +54,7 @@ For example, suppose a user wanted to render two blocks of text on his website, 
     </div>
   </body>
 </html>
-\end{code}
+\end{lstlisting}
 
 In the above code, there are two CSS classes which hold relevant content, the first is the "about-me" class and the second is the "contact-info" class. However, notice that the "surrounding-border" element contains no extra information. However, if a developer wants to create a border around both the About Me and the Contact Information sections, then he or she has no choice but to create that class. Unfortunately, CSS does not provide a way to create a layout which such a notion of combined structure without using HTML. This means that is no way to group HTML elements together without defining new groups in the HTML itself. 
 
@@ -64,13 +66,18 @@ The way CTS aims to solve this separation problem is essentially by defining a w
 
 First, it allows HTML to become a language of structure. Without CTS, HTML serves as a means to simultaneously store content and define the structure which used by CSS. The dual nature of HTML makes it brittle and hard to adapt. This dual nature is one of the fundamental reasons why the internet, as it stands today, is unable to separate content from layout. However, CTS adds a third abstraction to this set of languages. CTS provides a storage layer for pure content so that HTML can be used solely for structuring the layout.
 
+The second advantage of the CTS annotation scheme is that it provides a mapping between content and structure. Currently, there is an implicit mpping between content and structure. This exists through the interleaving of content and structure that is seen in HTML. Thus, one can find the mapping by looking at a piece of content on a webpage and finding the corresponding HTML element to which that content belongs. This implicit mapping makes it harder for developers to reason about structure. Moreover, it prevents developers from being able to easily switch exchange layouts with different websites. A developer would first have to find the implicit mapping if he wanted to change all of the content of the website at once. The CTS annotation scheme makes this mapping explicit and easy to think about. A consequence of this mapping is the ability to dynamically restructure a webpage, which will be addressed later in the paper.
+
+Finally, a third advantage is that CTS enables easy content creation and retrieval. One common problem among developers is retrieving content from a webpage. Unfortunately, since content and structure is interleaved inside of HTML elements, one must find the implicit mapping between content and structure, pruning a webpage for content belonging to some category. Instead of having a nicely categorized set of content, HTML pages make it very difficult to actually identify what categories a particular piece of content belongs to. CTS solves this problem by keeping the content in a single place, agnostic of structure, and providing categorization of that content. In CTS, one can define a particular category for content and place all relevant content in that category. For example, if a user wanted to write about cups, then he could create a cup category and confine his discussion of cups to that category. Each of these categories would be defined in a CTS file and serve to organize content. Not only does this make content easier to retrieve, but it also makes it easier to create and edit, since one no longer has to traverse the structure of HTML.
+
+\subsection{Summary of CTS Syntax}
+
+This subsection will provide a brief overview of how one writes CTS
+
 \begin{figure}
   \caption{An example of a CTS file providing a mapping between content and structure.}
 \end{figure}
 
-The second advantage of the CTS annotation scheme is that it provides a mapping between content and structure. Currently, there is an implicit mpping between content and structure. This exists through the interleaving of content and structure that is seen in HTML. Thus, one can find the mapping by looking at a piece of content on a webpage and finding the corresponding HTML element to which that content belongs. This implicit mapping makes it harder for developers to reason about structure. Moreover, it prevents developers from being able to easily switch exchange layouts with different websites. A developer would first have to find the implicit mapping if he wanted to change all of the content of the website at once. The CTS annotation scheme makes this mapping explicit and easy to think about. A consequence of this mapping is the ability to dynamically restructure a webpage, which will be addressed later in the paper.
-
-Finally, a third advantage is that CTS enables easy content creation and retrieval. One common problem among developers is retrieving content from a webpage. Unfortunately, since content and structure is interleaved inside of HTML elements, one must find the implicit mapping between content and structure, pruning a webpage for content belonging to some category. Instead of having a nicely categorized set of content, HTML pages make it very difficult to actually identify what categories a particular piece of content belongs to. CTS solves this problem by keeping the content in a single place, agnostic of structure, and providing categorization of that content. In CTS, one can define a particular category for content and place all relevant content in that category. For example, if a user wanted to write about cups, then he could create a cup category and confine his discussion of cups to that category. Each of these categories would be defined in a CTS file and serve to organize content. Not only does this make content easier to retrieve, but it also makes it easier to create and edit, since one no longer has to traverse the structure of HTML.
 
 
 \end{document}
