@@ -29,10 +29,35 @@ This separation of concerns made it easier for each type of worker to focus on t
 
 However, the internet has unhinged the barrier between content producer and layout creator, shifting extra jobs to the web developer. This extra load has made it difficult to produce websites with both high quality content and a high quality layout. Hypertext Markup Language (HTML) was created to allow a user to structure content on the internet. However, the ability to actually structure content on the web was not fully decoupled from the layout of a webpage. This prevented the full separation between content producers and layout creators.
 
-This fundamental problem in the internet spans affects more than just web developers, however. It prevents pure content creators from being able to publish content to the internet easily and without guidance. Content creators now also must learn the basics of web development because their content's HTML structure will provide a basis for a website's layout.
+This fundamental problem in the internet affects more than just web developers--it prevents pure content creators from being able to publish content to the internet easily and without guidance. Content creators now also must learn the basics of web development because their content's HTML structure will provide a basis for a website's layout.
 
-This paper will describe Cascading Tree Sheets (CTS), a language designed to completely separate content from layout on the internet.
+To solve this problem and to decouple content creation from website layout, the Cascading Tree Sheets (CTS) language was created. This paper will describe CTS and show that it can be deployed to completely separate content from layout on the internet.
 
-\section{CTS Language}
+\subsection{The Problem with HTML and CSS}
+
+The current idioms for writing modular content in HTML is through using a combination of HTML and Cascading Stylesheets (CSS) files. CSS was created to provide styling to HTML pages. In essence, CSS provides a way to change the display of content on an HTML page. Unfortunately, CSS does require its HTML content to be structured in a particular way. In this senese, CSS does not provide full separation between content and layout.
+
+For example, suppose a user wanted to render two blocks of text on his website, an "About Me" section and a "Contact Information" section. Each section would provide information in an HTML format. The user might style his site purely using CSS. For example, the user's HTML content might look something like this:
+
+\begin{code}
+<html>
+  <body>
+    <div class="surrounding-border">
+      <div class="about-me">
+        Content for the About Me section
+      </div>
+      <div class="contact-info">
+        Content for the Contact Information section
+      </div>
+    </div>
+  </body>
+</html>
+\end{code}
+
+In the above code, there are two CSS classes which hold relevant content, the first is the "about-me" class and the second is the "contact-info" class. However, notice that the "surrounding-border" element contains no extra information. However, if a developer wants to create a border around both the About Me and the Contact Information sections, then he or she has no choice but to create that class. Unfortunately, CSS does not provide a way to create a layout which such a notion of combined structure without using HTML. This means that is no way to group HTML elements together without defining new groups in the HTML itself. 
+
+This is a single obvious example of how CSS and HTML fail to decouple content from layout, but there are many other examples. In essence, these two languages only provided the groundwork for such a decoupling, but never completely finished the implementation. Moreover, it is easy to see how valuable such a separation would be. For example, if one never had to change HTML in order to change the layout and styling of a website, then designers and content producers could work entirely independently, improving efficiency for each party. Moreover, people could specialize to become either a designer or a content producer. CTS attempts to solve this problem by finishing up what HTML and CSS started.
+
+\subsection{The CTS Language}
 
 \end{document}
