@@ -11,9 +11,9 @@ A Templating Language for the Web\\
 
 \author{
 John J. Wang\\
+wangjohn@mit.edu\\
 Supervisors: Edward Benson and David Karger\\
-Department of Electrical Engineering and Computer Science\\
-wangjohn@mit.edu
+Department of Electrical Engineering and Computer Science
 }
 \date{\today}
 
@@ -153,7 +153,15 @@ My part in the project was to develop parts of the CTS-Server. I worked on the f
   \item Cache persistence prototype: I created a prototype for how websites and edits would be stored on the CTS-Server. This prototype involved using an in-memory cache to store website data. The persistence prototype had a very simple API consisting of saving, fetching, and removing website data from the cache. The cache was implemented through associative arrays in javascript.
   \item MongoDB persistence: After the cache persistence prototype was created, the CTS team realized that in-memory persistence was unacceptable for longer lasting applications. To design a longer-term system of persistence, I designed and implemented a persistence layer in MongoDB. This persistence layer used MongoDB as a means to persist data across multiple sessions. This meant that the data stored on the server would exist whether or not the CTS-Server was up and running. Additionally, this new persistence layer meant that the CTS system would be much more reliable even throughout server crashes.
   \item Zip controller: Users of the CTS System also have the ability to download a zip file of all of the data associated with the website. This includes the HTML, CSS, javascript, images, and other assets of a particular webpage. Thus, instead of using the CTS System's persistence layer, a user could choose to save his edits in his own persistence layer by downloading this zip file. Additionally, at any point in time, using the unique url on the CTS System would allow you download the persisted version of that website.
-  \item User access control: I created a system which prevents arbitrary users from editing persisted websites.
+  \item User access control: I created a system which prevents arbitrary users from editing persisted websites. Whenever a user saves a website, only that user will have access to editing or removing the website which is hosted on the CTS-Server. Thus, anyone will be able to see the hosted website via the unique url provided after persisting a website. However, any methods for editing that site will not be allowed unless the request comes from the user who originally sent the website data.
 \end{itemize}
+
+These components were all developed to try to test the CTS System--the CTS-Server provided a means for users to interact and perform operations on arbitrary websites. This made annotation of CTS easier, and also, provided a means to use the CTS annotations to easily change themes and layouts on a webpage.
+
+\section{Conclusion}
+
+This paper has presented the Cascading Tree Sheets (CTS) language for separating content from layout on webpages. This paper has presented motivation for why this is useful--in particular the difficulty of separating content from layout using the currently available tools of HTML and CSS and the extra skills required by both web developers and content producers.
+
+CTS moves to solve this problem by creating a mapping between pure content and the HTML structure. The CTS system was designed and implemented to test the usability of the CTS language. My work on the CTS-Server helped create the backend of the CTS System so that simple HTML operations could be performed.
 
 \end{document}
