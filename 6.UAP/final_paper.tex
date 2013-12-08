@@ -141,8 +141,18 @@ The CTS System allows you to navigate to a webpage and perform common operations
 
 Each of these operations allows a user to change webpages and persist those changes. Once these operations have been performed, CTS annotations would allow a user to switch content across different webpages. For example, the bookmarklet would allow you to annotate your own webpage with CTS annotations, and switch in the layout for a different website using the CTS system.
 
+In particular, the CTS system enables easy changes to a website layout and theme using CTS annotations. Thus, the system will hopefully test how well CTS enables separation between layout and content, since its primary use case would be to switch around themes or content for different webpages.
+
 \subsection{The CTS Server}
 
-My part in the project was to develop parts of the CTS-Server.
+My part in the project was to develop parts of the CTS-Server. I worked on the following parts of the CTS-Server:
+
+\begin{itemize}
+  \item Url storage and viewing: I created the ability for users to persist a website and access that website through a unique url on the CTS-Server. Through this feature, a user can navigate to a website, use the CTS systems' bookmarklet to persist a website to the CTS-Server, and then view that persisted website later. The url storage feature gives the user a unique url whenever a user persists a website to the CTS-Server. This means that a user can host and edit their own website on the CTS system. Thus, users of the CTS system who do not know or are unwilling to host their own website can skip over the system administration aspect of web development. This means it is much easier for users to observe a website's theme and provide their own content for that website.
+  \item Tree adapters: These adapters provide operations for editing a webpage.
+  \item Cache persistence prototype:
+  \item MongoDB persistence:
+  \item Zip controller:
+\end{itemize}
 
 \end{document}
