@@ -60,4 +60,10 @@ This is a single obvious example of how CSS and HTML fail to decouple content fr
 
 \subsection{The CTS Language}
 
+The way CTS aims to solve this separation problem is essentially by defining a way to annotate HTML. Instead of having content living directly inside of HTML, with the CTS abstraction, one can think of content as living in its own separate world, then being mapped to particular elements of HTML. This annotation scheme provides a couple of interesting ideas that can make web development much simpler.
+
+First, it allows HTML to become a language of structure. Without CTS, HTML serves as a means to simultaneously store content and define the structure which used by CSS. The dual nature of HTML makes it brittle and hard to adapt. This dual nature is one of the fundamental reasons why the internet, as it stands today, is unable to separate content from layout. However, CTS adds a third abstraction to this set of languages. CTS provides a storage layer for pure content so that HTML can be used solely for structuring the layout.
+
+The second advantage of the CTS annotation scheme is that it 
+
 \end{document}
