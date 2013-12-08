@@ -2,6 +2,7 @@
 
 \usepackage[margin=1.25in]{geometry}
 \usepackage{listings}
+\linespread{1.5}
 
 \title{Cascading Tree Sheets:\\ 
 A Templating Language for the Web\\
@@ -114,5 +115,24 @@ Figure \ref{fig:cts-file} provides an excerpt from an example CTS file. This map
 
 One can see that specifying CTS rules is relatively simple and straightforward, as long as one has a good understanding of CSS. By supplying these CTS rules, a user can build up a mockup with categorized content, or graft that mockup onto a webpage.
 
+\section{Testing and Evaluation of CTS}
+
+In order to evaluate how well CTS has enabled the separation of content and layout, I developed a platform for hosting, editing, and copying web content for my 6.UAP final project. This platform will serve as a product for testing the viability of using CTS in production. The platform essentially builds a foundation to experiment how Content Management System (CMS) technologies can be improved in the presence of web relationships, where CTS serves as an implementation of web relationships.
+
+I have worked alongside Edward Benson, Oliver Song, and Jessica Anderson to create a testing system which consists of the following components:
+\begin{itemize}
+  \item CTS-UI: The front-end component of the platform. Provides UI components for editing, copying, and saving a website.
+  \item CTS-Server: The back-end component of the platform. Provides an API to the front-end component and stores and serves hosted websites.
+  \item CTS-js: A javascript library for implentating CTS annotations, this is the main library behind powering CTS.
+  \item Mockups: A collection of CTS files which annotate common Wordpress themes.
+\end{itemize}
+
+\subsection{Functioning of the CTS System}
+
+The CTS System is implemented as a bookmarklet--a web browser bookmark used for extending functionality on a web page. The use of a bookmarklet allows us to create a system which provides extra functionality in all types of web browsers. For example, a Chrome or Firefox extension would only provide functionality for a specific web browser, whereas a bookmarklet is web-browser agnostic.
+
+The CTS System
+
+\subsection{The CTS Server}
 
 \end{document}
