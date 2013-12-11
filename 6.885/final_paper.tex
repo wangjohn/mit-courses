@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
 \usepackage{listings}
 
 \title{EagerDB:\\
@@ -133,8 +134,19 @@ In order to accomplish all of the above traits, EagerDB makes a number of abstra
 
 \subsection{Processing Code}
 
-In the processing code, the fundamental object of computation is called a processor.
+In the processing code, the fundamental object for computation is called a processor. Processors hold a single match statement and multiple preload statements. The processor is an encapsulation of a match statement and its preloads as defined in an MP file. There are two crucial methods for a processor in its public API, these are \texttt{matches?} and \texttt{process\_preloads}. The \texttt{matches?} method takes in a raw, binded SQL query from the SQLQueryJob (originally part of the stream of SQL queries going to the database) and checks if that query matches the processor's match statement. The \texttt{process\_preloads} method will take in the same raw, binded SQL query, and will return binded preloaded statements if \texttt{matches?} returns true, and an empty list otherwise.
 
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=4in]{figures/eager_db_overview.png}
+  \caption{\label{fig:system-overview}SqlQueryJobs are created from the incoming stream of queries, placed onto a queue, and finally sent to processor aggregators.}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=3in]{figures/processor_aggregator.png}
+  \caption{\label{fig:processor-aggregator}Processor aggregators process the SqlQueryJob (which contains raw, non-binded SQL from the stream) and sends parsed result to individual processors. Matches result in preloads getting sent to a preload queue.}
+\end{figure}
 \section{Conclusion}
 
 Future directions of research include adding metadata to queries, figuring out match result issues with schemas.
