@@ -164,7 +164,7 @@ Sharding the underlying database is also quite easy, as long as an appropriate f
 
 \subsection{Prediction Code}
 
-This section will discuss how automatic prediction of high probability preloads are made.
+This section will discuss how automatic prediction of high probability preloads are made. The general idea is to build a Markov model based on historical database logs, then find match-preload pairs with high transition probabilities. We think of the state of the Markov model at time $t$ as the last raw, binded SQL query that was run before time $t$. Thus, we want to find an estimate of $P(X | Y)$ for all $X$ in the set of possible queries and where $Y$ the current state. We can then create a match pair, which we will denote as $(Y, X)$ and have $Y$ as the match statement and $X$ is the preload statement, if $P(X | Y) > \lambda$ for some parameter $\lambda$.
 
 \section{Conclusion}
 
