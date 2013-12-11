@@ -27,6 +27,41 @@ Most web applications improve database performance by caching -- storing data ha
 
 However, caches assume that historical data repeats. This assumption does not capture all of the potential performance gains that are possible. In fact, there is quite a large amount of data that exists which can be used to improve performance even further. Since there workflows of users tend to be methodical, the queries that get sent to a database can be predicted. One can then estimate the probability of some query $X$ happening given the current state of the database, and ``preload'' $X$ when it has a high probability of happening.
 
-EagerDB provides a framework for preloading.
+EagerDB provides a framework for preloading such queries. Developers can manually specify queries to preload or they can use a prediction engine for discovering queries to preload. EagerDB is built as a Ruby gem and can be easily included in a Ruby on Rails web application for easy improvements in database performance. This paper shall outline the design of EagerDB, the reasons for making particular design decisions, and the results of benchmark tests.
+
+\section{Background}
+
+There have been a number of papers which have had similar ideas.
+
+
+\section{Manual Query Syntax}
+
+EagerDB has its own easy to use syntax for manually specifying preloads. Behind this manual query syntax is the idea that any query $Y$ can be used as an indicator for a later query $X$. Thus, if the probability of $X$ occurring is high given that $Y$ has occurred, then one should preload $X$. We call $Y$ the \emph{match statement}, and $X$ the \emph{preload statement}.
+
+\subsection{Basic Definitions}
+
+In order to explain match and preload statements more, we need to make a distinction between non-binded and binded SQL queries. A \emph{binded SQL query} is just any instance of a valid SQL statement which contains table, column, and attribute values. An example of a binded SQL query would be:
+
+\begin{lstlisting}
+SELECT * FROM distributors WHERE name = 'walmart' AND town = 'Chicago' AND state = 'IL'
+\end{lstlisting}
+
+A \emph{non-binded SQL query} is just an instance of a valid SQL statement whic contains table and column values, but does not contain attribute values. For example, the non-binded version of the previous SQL query would be:
+
+\begin{lstlisting}
+SELECT * FROM distributors WHERE name = ? AND town = ? AND state = ?
+\end{lstlisting}
+
+Match and preload statements are non-binded SQL queries. Match statements allow us to match on a particular SQL statement structure, and preload statements allow us to preload a specific SQL statement structure when match statements occur. In this vein, one could manually specify match and preload statements. This is done by first specify a single match statement, then any number of preload statements to load into the cache whenever that match statement is seen. The following is a manual query file:
+
+\begin{lstlisting}
+- "SELECT * FROM users WHERE name = ?"
+  => "SELECT * FROM products WHERE owner_id = ?", match_result.id
+
+- "SELECT * FROM pinterest WHERE pin = ? AND interest = ?"
+  => "SELECT * FROM tables WHERE pin = ? AND interest = ?", match_bind_value(0), match_bind_value(1)
+  => "SELECT * FROM interests WHERE interest = ? AND pinterest_id = ?", match_bind_value(1), match_result.id
+\end{lstlisting}
+
 
 \end{document}
