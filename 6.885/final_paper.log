@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  11 DEC 2013 11:08
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  11 DEC 2013 11:22
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -231,7 +231,7 @@ Here is how much of TeX's memory you used:
  5739 multiletter control sequences out of 15000+50000
  10239 words of font info for 36 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 26i,6n,32p,682b,1092s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 26i,6n,32p,828b,1092s stack positions out of 5000i,500n,10000p,200000b,50000s
 </usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
 mbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
 /usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/
@@ -241,7 +241,7 @@ e1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/am
 sfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
 sy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></
 usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (6 pages, 226226 bytes).
+Output written on final_paper.pdf (6 pages, 227285 bytes).
 PDF statistics:
  66 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
