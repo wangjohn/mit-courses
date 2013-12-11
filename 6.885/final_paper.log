@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  11 DEC 2013 11:33
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  11 DEC 2013 17:11
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -214,19 +214,12 @@ Overfull \hbox (35.75902pt too wide) in paragraph at lines 116--117
 [4] <figures/eager_db_overview.png, id=24, 1034.86626pt x 677.53125pt>
 File: figures/eager_db_overview.png Graphic file (type png)
 
-<use figures/eager_db_overview.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figures/processor_aggregator.png, id=26, 963.6pt x 722.7pt>
+<use figures/eager_db_overview.png> [5 <./figures/eager_db_overview.png>]
+<figures/processor_aggregator.png, id=30, 963.6pt x 722.7pt>
 File: figures/processor_aggregator.png Graphic file (type png)
 
-<use figures/processor_aggregator.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[5] [6 <./figures/eager_db_overview.png> <./figures/processor_aggregator.png>]
-(./final_paper.aux) ) 
+<use figures/processor_aggregator.png> [6 <./figures/processor_aggregator.png>]
+[7] (./final_paper.aux) ) 
 Here is how much of TeX's memory you used:
  2549 strings out of 495061
  35735 string characters out of 1182621
@@ -234,19 +227,19 @@ Here is how much of TeX's memory you used:
  5739 multiletter control sequences out of 15000+50000
  10239 words of font info for 36 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 26i,6n,32p,837b,1092s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
-mbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb><
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/
-texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cm
-sy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pfb></
-usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (6 pages, 228090 bytes).
+ 26i,6n,32p,849b,1092s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pf
+b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on final_paper.pdf (7 pages, 234042 bytes).
 PDF statistics:
- 66 PDF objects out of 1000 (max. 8388607)
+ 71 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

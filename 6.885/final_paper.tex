@@ -136,23 +136,36 @@ In order to accomplish all of the above traits, EagerDB makes a number of abstra
 
 The processing code provides abstractions for listening to a stream of queries going to the database, encapsulating each query as a job to be processed, and finally processing those jobs and sending the resulting preload queries (if there are any) back to the database to be executed. Figure \ref{fig:system-overview} provides an overview of the high-level architecture.
 
-First, a \texttt{CommunicationChannel} object sits between the database and the controller and listens to queries that get sent to the database. Whenever a query appears in the \texttt{CommunicationChannel}, the query and its result will be processed and converted into a \texttt{SQLQueryJob}. This job is then placed on a query queue, which temporarily holds the \texttt{SQLQueryJob}s. A process runs and attempts to keep the query queue empty at all times, sending \texttt{SQLQueryJob}s as quickly as possible to an instance of a processor aggregator. Each processor aggregator will handle a \texttt{SQLQueryJob} and determine which preload statements (if any) need to be sent to the database.
-
-Processor aggregators hold the many processors, the fundametal object for computation in EagerDB. Processors hold a single match statement and multiple preload statements. The processor is an encapsulation of a match statement and its preloads as defined in an MP file. There are two crucial methods for a processor in its public API, these are \texttt{matches?} and \texttt{process\_preloads}. The \texttt{matches?} method takes in a raw, binded SQL query from the \texttt{SQLQueryJob} (originally part of the stream of SQL queries going to the database) and checks if that query matches the processor's match statement. The \texttt{process\_preloads} method will take in the same raw, binded SQL query, and will return binded preloaded statements if \texttt{matches?} returns true, and an empty list otherwise.
-
-Each processor aggregator holds all of the processors from an MP file.
-
 \begin{figure}[h]
   \centering
   \includegraphics[width=4in]{figures/eager_db_overview.png}
   \caption{\label{fig:system-overview}SqlQueryJobs are created from the incoming stream of queries, placed onto a queue, and finally sent to processor aggregators.}
 \end{figure}
 
+First, a \texttt{CommunicationChannel} object sits between the database and the controller and listens to queries that get sent to the database. Whenever a query appears in the \texttt{CommunicationChannel}, the query and its result will be processed and converted into a \texttt{SQLQueryJob}. This job is then placed on a query queue, which temporarily holds the \texttt{SQLQueryJob}s. A process runs and attempts to keep the query queue empty at all times, sending \texttt{SQLQueryJob}s as quickly as possible to an instance of a processor aggregator. Each processor aggregator will handle a \texttt{SQLQueryJob} and determine which preload statements (if any) need to be sent to the database.
+
+Processor aggregators hold the many processors, the fundametal object for computation in EagerDB. Processors hold a single match statement and multiple preload statements. The processor is an encapsulation of a match statement and its preloads as defined in an MP file. There are two crucial methods for a processor in its public API, these are \texttt{matches?} and \texttt{process\_preloads}. The \texttt{matches?} method takes in a raw, binded SQL query from the \texttt{SQLQueryJob} (originally part of the stream of SQL queries going to the database) and checks if that query matches the processor's match statement. The \texttt{process\_preloads} method will take in the same raw, binded SQL query, and will return binded preloaded statements if \texttt{matches?} returns true, and an empty list otherwise.
+
+Each processor aggregator holds all of the processors from an MP file, and all processor aggregators are equivalent. When used with a single machine, EagerDB would only create a single processor aggregator, but one could create many more processor aggregators to scale. Figure \ref{fig:processor-aggregator} shows an overview of the processor aggregator. Basically, the aggregator parses the raw SQL from the \texttt{SQLQueryJob}, then hands off the resulting job to the correct processor. If the parsed SQL matches a processor's match statement, then that processor's preload statements get added to the preload query queue, and will eventually reach and be executed by the database.
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=3in]{figures/processor_aggregator.png}
   \caption{\label{fig:processor-aggregator}Processor aggregators process the SqlQueryJob (which contains raw, non-binded SQL from the stream) and sends parsed result to individual processors. Matches result in preloads getting sent to a preload queue.}
 \end{figure}
+
+The default implementation of the query processor uses a hash table so that statements can be matched very quickly. When a new \texttt{SQLQueryJob} comes in, the non-binded SQL is used as a key in the hash table. The hash table values for a particular non-binded SQL key is an array of all processors that match on that SQL statement. Thus, the total time required to process any statement and load preloads is $O(k)$ where $k$ is the number of matching statements (assuming that the number of preloads per match statement is less than some constant). Most applications tend to have incredibly small $k$'s, which makes this process extremely fast.
+
+\subsection{Sharding Databases and Scaling EagerDB}
+
+This subsection will spend some time discussing implications of design decisions on scaling. First, notice that increasing throughput for EagerDB jobs is incredibly easy: just add more processor aggregators. We have a couple nice properties that allow this to occur. First, each \texttt{SQLQueryJob} only needs to go to a single processor, since each aggregator is identical. Second, \texttt{SQLQueryJob}s can be dropped by the network without fear of losing real information (only possible performance improvements). Of course, if the probability of a network failure is $p$, and the developer wanted an arrival rate of $a$, then one could send $\lceil a/p \rceil$ \texttt{SQLQueryJob}s over the network to obtain the required arrival rate.
+
+Sharding the underlying database is also quite easy, as long as an appropriate function for mapping a SQL query to a particular shard exists. Each database shard would get its own query queue. The query queue would have access to all processor aggregators, and the processor aggregators would have references to all database shards. The preload query queue on each processor aggregator would send the preload query to the correct shard by invoking the function for mapping queries to shards. Thus, sharding databases, though not implemented in the current version of EagerDB, can be performed without major modifications to the underlying framework.
+
+\subsection{Prediction Code}
+
+This section will discuss how automatic prediction of high probability preloads are made.
+
 \section{Conclusion}
 
 Future directions of research include adding metadata to queries, figuring out match result issues with schemas, optimizing results.
