@@ -1,6 +1,6 @@
 \documentclass[12pt]{article}
 
-\usepackage[margin=1.25in]{geometry}
+\usepackage[margin=1in]{geometry}
 \usepackage{listings}
 
 \title{EagerDB:\\
@@ -43,25 +43,80 @@ EagerDB has its own easy to use syntax for manually specifying preloads. Behind 
 In order to explain match and preload statements more, we need to make a distinction between non-binded and binded SQL queries. A \emph{binded SQL query} is just any instance of a valid SQL statement which contains table, column, and attribute values. An example of a binded SQL query would be:
 
 \begin{lstlisting}
-SELECT * FROM distributors WHERE name = 'walmart' AND town = 'Chicago' AND state = 'IL'
+SELECT * FROM distributors WHERE name = 'walmart' AND
+  town = 'Chicago' AND state = 'IL'
 \end{lstlisting}
 
-A \emph{non-binded SQL query} is just an instance of a valid SQL statement whic contains table and column values, but does not contain attribute values. For example, the non-binded version of the previous SQL query would be:
+A \emph{non-binded SQL query} is just an instance of a valid SQL statement which contains table and column values, but does not contain attribute values. For example, the non-binded version of the previous SQL query would be:
 
 \begin{lstlisting}
-SELECT * FROM distributors WHERE name = ? AND town = ? AND state = ?
+SELECT * FROM distributors WHERE name = ? AND
+  town = ? AND state = ?
 \end{lstlisting}
 
-Match and preload statements are non-binded SQL queries. Match statements allow us to match on a particular SQL statement structure, and preload statements allow us to preload a specific SQL statement structure when match statements occur. In this vein, one could manually specify match and preload statements. This is done by first specify a single match statement, then any number of preload statements to load into the cache whenever that match statement is seen. The following is a manual query file:
+Non-binded SQL queries can be converted into binded SQL queries by providing \emph{bind values}, an array of values which would be inserted into each bind location (denoted by a $?$ in the non-binded SQL query). To convert the previous non-binded SQL statement into a binded SQL statement, one would need to pass in the following array of bind values:
 
 \begin{lstlisting}
+['walmart', 'IL']
+\end{lstlisting}
+
+\subsection{Match Preload Files}
+
+Match and preload statements are non-binded SQL queries. Match statements allow EagerDB to match on a particular SQL statement structure, and preload statements allow us to preload a specific SQL statement structure when match statements occur. In this vein, one could manually specify match and preload statements. This is done by first specifying a single match statement, then any number of preload statements to load into the cache whenever that match statement is seen.
+
+In a \emph{match preload file} (MP file), a developer using EagerDB can specify a list of match statements and their corresponding preload statements. EagerDB can read over an MP file and incorporate any match and preload statements that have been made inside the file. A developer can use the MP file as a stand-alone product without running the Markov model so that the preload statements in the MP file will be the only statements preloaded by EagerDB, or incorporate the MP file as an addition on top of the Markov model's statements. The syntax for an MP file is straightforward:
+
+\begin{itemize}
+  \item Match statements are preceded by a dash ``-''.
+  \item Preload statements are preceded by a rocket ``=\textgreater''. Preload statements will be paired with the last match statement seen in the MP file.
+  \item SQL statements are encapsulated by quotation marks.
+  \item Bind values, separated by commas, follow the SQL statement. The $i^{\textrm{th}}$ bind value in the SQL statement corresponds to the $i^{\textrm{th}}$ comma separated value after the SQL statement.
+\end{itemize}
+
+In addition to these syntax rules, there are methods provided for bind values which allow making general preload statements much easier. We provide the \texttt{match\_result} and \texttt{match\_bind\_value} keywords.
+
+The \texttt{match\_result} keyword provides access to the result of the match statement of a preload. One can access the value of a column in the result by asking for the column name like so: \texttt{match\_result.column\_name}. For example, if a developer wanted to access the id of the result from his match statement, he could write a preload statement like so:
+
+\begin{lstlisting}
+=> "SELECT * FROM things WHERE product_id = ?", match_result.id
+\end{lstlisting}
+
+The \texttt{match\_bind\_value} keyword is a similar construction, but provides access to the bind value of the binded instance of the match statement. One specifies an index $i$ after the \texttt{match\_bind\_value} keyword, which gives access to the $i$th bind value from the match statement. For example, one could write:
+
+\begin{lstlisting}
+- "SELECT * FROM products WHERE name = ?"
+  => "SELECT * FROM things WHERE product_name = ?", match_bind_value(0)
+\end{lstlisting}
+
+In the above, whenever of a SQL query of the form \texttt{SELECT * FROM products WHERE name = ?} is seen, EagerDB will take the zeroth bind value (bind values are indexed by 0) from the statement and use it as the first bind value in the preload statement \texttt{SELECT * FROM things WHERE product\_name = ?}.
+
+\begin{figure}[h]
+\begin{lstlisting}[frame=single]
 - "SELECT * FROM users WHERE name = ?"
-  => "SELECT * FROM products WHERE owner_id = ?", match_result.id
+  => "SELECT * FROM products WHERE owner_id = ?",
+      match_result.id
 
 - "SELECT * FROM pinterest WHERE pin = ? AND interest = ?"
-  => "SELECT * FROM tables WHERE pin = ? AND interest = ?", match_bind_value(0), match_bind_value(1)
-  => "SELECT * FROM interests WHERE interest = ? AND pinterest_id = ?", match_bind_value(1), match_result.id
+  => "SELECT * FROM tables WHERE pin = ? AND interest = ?",
+      match_bind_value(0), match_bind_value(1)
+  => "SELECT * FROM interests WHERE interest = ? AND
+      pinterest_id = ?", match_bind_value(1), match_result.id
+\end{lstlisting}
+  \caption{\label{fig:mp-file-example}A snippet from an MP file}
+\end{figure}
+
+Figure \ref{fig:mp-file-example} provides an example instance of an MP file. In this file, there are two match statements. The first match statement has a single preload, while the second match statement has two preloads. EagerDB will listen to the stream of SQL queries coming from the database, and whenever a match statement matches the structure of a query, the preload statements associated with that match statement will be brought into the database's cache.
+
+For example, using the MP file from figure \ref{fig:mp-file-example}, suppose the following sequence of queries arrived at the database (ordered chronologically):
+
+\begin{lstlisting}
+SELECT * FROM products WHERE name = 'table' AND state = 'IL'
+SELECT * FROM users WHERE name = 'john'
+SELECT * FROM laptops WHERE BRAND = 'lenovo' AND serial_number = '5'
 \end{lstlisting}
 
+Then, after the second query (\texttt{SELECT * FROM users WHERE name = 'john'}) was run, its corresponding preload statement would be brought into the cache. For example, if the second query returned a result with an id of 52, then the following query would be brought into the database's cache: \texttt{SELECT * FROM products WHERE owner\_id = 52}. The other queries in the sequence did not match the structure of any of the match statements, so EagerDB would not bring anything into the cache after their execution.
+
+\section{System Design}
 
 \end{document}

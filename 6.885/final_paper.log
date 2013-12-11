@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  10 DEC 2013 22:48
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  11 DEC 2013 10:05
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -71,8 +71,7 @@ File: lstmisc.sty 2013/08/05 1.5a (Carsten Heinz)
 File: listings.cfg 2007/02/22 1.4 listings configuration
 ))
 Package: listings 2013/08/05 1.5a (Carsten Heinz)
-
-No file final_paper.aux.
+ (./final_paper.aux)
 \openout1 = `final_paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
@@ -95,8 +94,8 @@ landscape: --
 twocolumn: --
 twoside: --
 asymmetric: --
-h-parts: 90.3375pt, 433.62001pt, 90.3375pt
-v-parts: 90.3375pt, 614.295pt, 90.3375pt
+h-parts: 72.26999pt, 469.75502pt, 72.26999pt
+v-parts: 72.26999pt, 650.43001pt, 72.26999pt
 hmarginratio: --
 vmarginratio: --
 lines: --
@@ -110,11 +109,11 @@ driver: pdftex
 -------------------- Page layout dimensions and switches
 \paperwidth  614.295pt
 \paperheight 794.96999pt
-\textwidth  433.62001pt
-\textheight 614.295pt
-\oddsidemargin  18.0675pt
-\evensidemargin 18.0675pt
-\topmargin  -18.9325pt
+\textwidth  469.75502pt
+\textheight 650.43001pt
+\oddsidemargin  0.0pt
+\evensidemargin 0.0pt
+\topmargin  -37.0pt
 \headheight 12.0pt
 \headsep    25.0pt
 \footskip   30.0pt
@@ -133,12 +132,6 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <14.4> on input line 18.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 18.
-
-Overfull \hbox (5.15569pt too wide) in paragraph at lines 21--23
-[]\OT1/cmr/m/n/10.95 Many ap-pli-ca-tions in-crease database per-for-mance us-i
-ng some form of caching.
- []
-
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 28.
 LaTeX Font Info:    External font `cmex10' loaded for size
@@ -147,25 +140,64 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 28.
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] (./final_paper.aux) ) 
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 46.
+
+(/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 46.
+ [2]
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 71.
+
+(/usr/share/texmf-texlive/tex/latex/base/omlcmr.fd
+File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 71.
+
+Overfull \hbox (2.90868pt too wide) in paragraph at lines 81--82
+[][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+
+Overfull \hbox (55.46922pt too wide) in paragraph at lines 88--89
+[][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 95.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 95.
+LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 96.
+[3]
+Overfull \hbox (35.75902pt too wide) in paragraph at lines 115--116
+[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+ []
+
+[4] (./final_paper.aux) ) 
 Here is how much of TeX's memory you used:
- 1834 strings out of 495061
- 26113 string characters out of 1182621
- 79410 words of memory out of 3000000
- 5059 multiletter control sequences out of 15000+50000
- 8803 words of font info for 31 fonts, out of 3000000 for 9000
+ 1885 strings out of 495061
+ 26920 string characters out of 1182621
+ 91418 words of memory out of 3000000
+ 5100 multiletter control sequences out of 15000+50000
+ 10239 words of font info for 36 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 26i,6n,32p,587b,219s stack positions out of 5000i,500n,10000p,200000b,50000s
-<
-/usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/
-texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texmf-texlive/fonts/ty
-pe1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts/type1/public/a
-msfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
-mr17.pfb>
-Output written on final_paper.pdf (2 pages, 76935 bytes).
+ 26i,6n,32p,621b,1092s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/public/amsfonts/
+cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx12.p
+fb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/sh
+are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-t
+exlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texlive/fonts
+/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/type1/publi
+c/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/c
+m/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmti10.pf
+b></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on final_paper.pdf (4 pages, 142926 bytes).
 PDF statistics:
- 33 PDF objects out of 1000 (max. 8388607)
+ 55 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
