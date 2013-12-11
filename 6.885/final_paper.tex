@@ -36,7 +36,7 @@ There have been a number of papers which have had similar ideas.
 
 \section{Manual Query Syntax}
 
-EagerDB has its own easy to use syntax for manually specifying preloads. Behind this manual query syntax is the idea that any query $Y$ can be used as an indicator for a later query $X$. Thus, if the probability of $X$ occurring is high given that $Y$ has occurred, then one should preload $X$. We call $Y$ the \emph{match statement}, and $X$ the \emph{preload statement}.
+EagerDB has its own easy to use syntax for manually specifying preloads. Behind this manual query syntax is the idea that any query $Y$ can be used as an indicator for a later query $X$. Thus, if the probability of $X$ occurring is high given that $Y$ has occurred, then one should preload $X$ by bringing it into the database's cache. We call $Y$ the \emph{match statement}, and $X$ the \emph{preload statement}.
 
 \subsection{Basic Definitions}
 
@@ -118,5 +118,25 @@ SELECT * FROM laptops WHERE BRAND = 'lenovo' AND serial_number = '5'
 Then, after the second query (\texttt{SELECT * FROM users WHERE name = 'john'}) was run, its corresponding preload statement would be brought into the cache. For example, if the second query returned a result with an id of 52, then the following query would be brought into the database's cache: \texttt{SELECT * FROM products WHERE owner\_id = 52}. The other queries in the sequence did not match the structure of any of the match statements, so EagerDB would not bring anything into the cache after their execution.
 
 \section{System Design}
+
+The EagerDB system is designed to be as unobstrusive as possible. It sits at the middleware level and only needs two things: 1) a connection to the stream of SQL queries and results being sent to and from the database and 2) a connection to the database for preloading queries. As a Ruby gem, EagerDB requires a minimal amount of integration and can be incorporated into a Ruby on Rails web application with less than 15 lines of code.
+
+The system is also designed to be distributed and scalable. The EagerDB system is easily extended to multiple machines and can still be used with a sharded database. More details of the design later in the paper will show how this can be accomplished without any changes to the framework.
+
+EagerDB is designed for flexibility, since it works on any database with a built-in cache, including MySQL, PostgreSQL, etc. It is SQL syntax agnostic, meaning that small variations in the syntax between different databases will not prevent EagerDB from preloading queries. This quality comes about because of the non-binded vs. binded SQL abstraction: all match statements are non-binded and general. In fact, EagerDB could potentially preload NoSQL queries, such as those from MongoDB, without any problems.
+
+Additionally, EagerDB uses the database's own cache. This greatly simplfies setup and reduces the number of failure points. Instead of providing its own cache, which would have to deal with cache invalidation issues as well as duplication of data, EagerDB can rely on the pre-built mechanisms of the database. Thus, the design is resistant to bloating memory, and a user can tweak the size and properties of a single cache (instead of two). Moreover, using the database's own cache means that EagerDB can be used on more than just web applications. Since it has no appliction-specific logic, EagerDB can be used for anything that sends sends queries to a database.
+
+Finally, EagerDB internally reads data from the MP file format, which enables a developer to change automatically generated preloads and provide their own preloads relatively easily. Having a single format for representing data greatly simplifies the amount of work a developer needs to do to make changes to their own preloads.
+
+In order to accomplish all of the above traits, EagerDB makes a number of abstractions which will be presented in this section. The codebase is written in Ruby (so that it can conveniently be used in Ruby on Rails web applications) and is broken up into two sections. The first is the processing code, which provides the infrastructure for parsing MP files and running EagerDB with a live stream of queries, and the second is the prediction code, which creates a Markov model and outputs an MP file based on historical database logs.
+
+\subsection{Processing Code}
+
+In the processing code, the fundamental object of computation is called a processor.
+
+\section{Conclusion}
+
+Future directions of research include adding metadata to queries, figuring out match result issues with schemas.
 
 \end{document}
