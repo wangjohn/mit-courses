@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  12 DEC 2013 17:18
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2013.12.5)  12 DEC 2013 18:07
 entering extended mode
  %&-line parsing enabled.
 **final_paper.tex
@@ -68,24 +68,128 @@ File: pdftex.def 2010/03/12 v0.04p Graphics/color for pdfTeX
 \Gin@req@height=\dimen107
 \Gin@req@width=\dimen108
 )
+(/usr/share/texmf-texlive/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2009/10/09 v6.79a Hypertext links for LaTeX
+
+(/usr/share/texmf-texlive/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/hycolor.sty
+Package: hycolor 2009/10/02 v1.5 Code for color options of hyperref/bookmark (H
+O)
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/xcolor-patch.sty
+Package: xcolor-patch 2009/10/02 xcolor patch
+))
+\@linkdim=\dimen109
+\Hy@linkcounter=\count91
+\Hy@pagecounter=\count92
+
+(/usr/share/texmf-texlive/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2009/10/09 v6.79a Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2007/12/12 v1.2 Prefix for e-TeX command names (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2007/09/09 v1.2 Providing info/warning/message (HO)
+)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)
+(/usr/share/texmf-texlive/tex/latex/latexconfig/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive
+)
+(/usr/share/texmf-texlive/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2009/08/13 v3.4 Keyval support for LaTeX options (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2009/07/30 v1.5 Key value parser with default handler suppor
+t (HO)
+))
+Package hyperref Info: Hyper figures OFF on input line 2975.
+Package hyperref Info: Link nesting OFF on input line 2980.
+Package hyperref Info: Hyper index ON on input line 2983.
+Package hyperref Info: Plain pages OFF on input line 2990.
+Package hyperref Info: Backreferencing OFF on input line 2995.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 3191.
+(/usr/share/texmf-texlive/tex/latex/ltxmisc/url.sty
+\Urlmuskip=\muskip10
+Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 3428.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bitset.sty
+Package: bitset 2007/09/28 v1.0 Data type bit set (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/intcalc.sty
+Package: intcalc 2007/09/27 v1.1 Expandable integer calculations (HO)
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/bigintcalc.sty
+Package: bigintcalc 2007/11/11 v1.1 Expandable big integer calculations (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2009/09/23 v0.6 LuaTeX support for pdfTeX utility functions
+ (HO)
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2009/04/17 v1.2 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+(/usr/share/texmf-texlive/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2009/08/05 v1.0 Some LaTeX kernel commands for general use (HO
+)
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+)))
+\Fld@menulength=\count93
+\Field@Width=\dimen110
+\Fld@charsize=\dimen111
+\Field@toks=\toks16
+Package hyperref Info: Hyper figures OFF on input line 4377.
+Package hyperref Info: Link nesting OFF on input line 4382.
+Package hyperref Info: Hyper index ON on input line 4385.
+Package hyperref Info: backreferencing OFF on input line 4392.
+Package hyperref Info: Link coloring OFF on input line 4397.
+Package hyperref Info: Link coloring with OCG OFF on input line 4402.
+Package hyperref Info: PDF/A mode OFF on input line 4407.
+
+(/usr/share/texmf-texlive/tex/generic/oberdiek/atbegshi.sty
+Package: atbegshi 2008/07/31 v1.9 At begin shipout hook (HO)
+)
+\Hy@abspage=\count94
+\c@Item=\count95
+\c@Hfootnote=\count96
+)
+*hyperref using default driver hpdftex*
+(/usr/share/texmf-texlive/tex/latex/hyperref/hpdftex.def
+File: hpdftex.def 2009/10/09 v6.79a Hyperref driver for pdfTeX
+\Fld@listcount=\count97
+)
 (/usr/share/texmf/tex/latex/listings/listings.sty
-\lst@mode=\count91
+\lst@mode=\count98
 \lst@gtempboxa=\box26
-\lst@token=\toks16
-\lst@length=\count92
-\lst@currlwidth=\dimen109
-\lst@column=\count93
-\lst@pos=\count94
-\lst@lostspace=\dimen110
-\lst@width=\dimen111
-\lst@newlines=\count95
-\lst@lineno=\count96
-\lst@maxwidth=\dimen112
+\lst@token=\toks17
+\lst@length=\count99
+\lst@currlwidth=\dimen112
+\lst@column=\count100
+\lst@pos=\count101
+\lst@lostspace=\dimen113
+\lst@width=\dimen114
+\lst@newlines=\count102
+\lst@lineno=\count103
+\lst@maxwidth=\dimen115
 
 (/usr/share/texmf/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2013/08/05 1.5a (Carsten Heinz)
-\c@lstnumber=\count97
-\lst@skipnumbers=\count98
+\c@lstnumber=\count104
+\lst@skipnumbers=\count105
 \lst@framebox=\box27
 )
 (/usr/share/texmf-texlive/tex/latex/listings/listings.cfg
@@ -95,18 +199,20 @@ Package: listings 2013/08/05 1.5a (Carsten Heinz)
  (./final_paper.aux)
 \openout1 = `final_paper.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 18.
-LaTeX Font Info:    ... okay on input line 18.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 19.
+LaTeX Font Info:    ... okay on input line 19.
 *geometry auto-detecting driver*
 *geometry detected driver: pdftex*
 -------------------- Geometry parameters
@@ -150,96 +256,113 @@ driver: pdftex
 -----------------------
 (/usr/share/texmf-texlive/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count99
-\scratchdimen=\dimen113
+\scratchcounter=\count106
+\scratchdimen=\dimen116
 \scratchbox=\box28
-\nofMPsegments=\count100
-\nofMParguments=\count101
-\everyMPshowfont=\toks17
-\MPscratchCnt=\count102
-\MPscratchDim=\dimen114
-\MPnumerator=\count103
-\everyMPtoPDFconversion=\toks18
+\nofMPsegments=\count107
+\nofMParguments=\count108
+\everyMPshowfont=\toks18
+\MPscratchCnt=\count109
+\MPscratchDim=\dimen117
+\MPnumerator=\count110
+\everyMPtoPDFconversion=\toks19
 )
-\c@lstlisting=\count104
+Package hyperref Info: Link coloring OFF on input line 19.
+ (/usr/share/texmf-texlive/tex/latex/hyperref/nameref.sty
+Package: nameref 2007/05/29 v2.31 Cross-referencing by name of section
+
+(/usr/share/texmf-texlive/tex/latex/oberdiek/refcount.sty
+Package: refcount 2008/08/11 v3.1 Data extraction from references (HO)
+)
+\c@section@level=\count111
+)
+LaTeX Info: Redefining \ref on input line 19.
+LaTeX Info: Redefining \pageref on input line 19.
+ (./final_paper.out) (./final_paper.out)
+\@outlinefile=\write3
+\openout3 = `final_paper.out'.
+
+\AtBeginShipoutBox=\box29
+\c@lstlisting=\count112
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <14.4> on input line 19.
+(Font)              <14.4> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 19.
+(Font)              <7> on input line 21.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 29.
+(Font)              <10.95> on input line 30.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 29.
+(Font)              <8> on input line 30.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 29.
+(Font)              <6> on input line 30.
  [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 47.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 48.
 
 (/usr/share/texmf-texlive/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 47.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 48.
  [2]
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 72.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 73.
 
 (/usr/share/texmf-texlive/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 72.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 73.
 
-Overfull \hbox (2.90868pt too wide) in paragraph at lines 82--83
-[][][][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (2.90868pt too wide) in paragraph at lines 83--84
+[][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 
-Overfull \hbox (55.46922pt too wide) in paragraph at lines 89--90
-[][][][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (55.46922pt too wide) in paragraph at lines 90--91
+[][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <12> on input line 96.
+(Font)              <12> on input line 97.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 96.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 97.
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <12> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 97.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 98.
 [3]
-Overfull \hbox (35.75902pt too wide) in paragraph at lines 116--117
-[][][][][][][][][][][][][][][][][][][][][][][][][][][] 
+Overfull \hbox (35.75902pt too wide) in paragraph at lines 117--118
+[][][][][][][][][][][][][][][][][][][][][][][][][][][][] 
  []
 
-[4] <figures/eager_db_overview.png, id=24, 1034.86626pt x 677.53125pt>
+[4] <figures/eager_db_overview.png, id=105, 1034.86626pt x 677.53125pt>
 File: figures/eager_db_overview.png Graphic file (type png)
 
 <use figures/eager_db_overview.png> [5 <./figures/eager_db_overview.png>]
-<figures/processor_aggregator.png, id=30, 963.6pt x 722.7pt>
+<figures/processor_aggregator.png, id=114, 963.6pt x 722.7pt>
 File: figures/processor_aggregator.png Graphic file (type png)
 
 <use figures/processor_aggregator.png> [6 <./figures/processor_aggregator.png>]
-[7] [8] [9] (./final_paper.aux) ) 
+[7] [8] [9] [10] (./final_paper.aux) ) 
 Here is how much of TeX's memory you used:
- 2549 strings out of 495061
- 35735 string characters out of 1182621
- 105336 words of memory out of 3000000
- 5739 multiletter control sequences out of 15000+50000
+ 5787 strings out of 495061
+ 84700 string characters out of 1182621
+ 180307 words of memory out of 3000000
+ 8848 multiletter control sequences out of 15000+50000
  10239 words of font info for 36 fonts, out of 3000000 for 9000
  28 hyphenation exceptions out of 8191
- 26i,6n,32p,918b,1092s stack positions out of 5000i,500n,10000p,200000b,50000s
-</usr/share/texmf-texlive/fonts/type1/public/a
-msfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/
-cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share
-/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-texli
-ve/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/fonts/typ
-e1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/public/am
-sfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
-mti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on final_paper.pdf (9 pages, 244343 bytes).
+ 38i,6n,36p,918b,1096s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texmf-texlive/fonts/type1/pub
+lic/amsfonts/cm/cmbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfont
+s/cm/cmbx12.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi10
+.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmmi12.pfb></usr/
+share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texmf-
+texlive/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texmf-texlive/font
+s/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texmf-texlive/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts
+/cm/cmti10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmtt10.
+pfb>
+Output written on final_paper.pdf (10 pages, 260827 bytes).
 PDF statistics:
- 77 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 195 PDF objects out of 1000 (max. 8388607)
+ 60 named destinations out of 1000 (max. 500000)
+ 99 words of extra memory for PDF output out of 10000 (max. 10000000)
 

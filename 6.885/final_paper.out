@@ -1,0 +1,11 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{Background}{}
+\BOOKMARK [1][-]{section.3}{Manual Query Syntax}{}
+\BOOKMARK [2][-]{subsection.3.1}{Basic Definitions}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{Match Preload Files}{section.3}
+\BOOKMARK [1][-]{section.4}{System Design}{}
+\BOOKMARK [2][-]{subsection.4.1}{Processing Code}{section.4}
+\BOOKMARK [2][-]{subsection.4.2}{Sharding Databases and Scaling EagerDB}{section.4}
+\BOOKMARK [2][-]{subsection.4.3}{Prediction Code}{section.4}
+\BOOKMARK [1][-]{section.5}{Results}{}
+\BOOKMARK [1][-]{section.6}{Conclusion}{}

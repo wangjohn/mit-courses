@@ -1,18 +1,32 @@
 \relax 
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Manual Query Syntax}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Basic Definitions}{2}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Match Preload Files}{2}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces A snippet from an MP file}}{3}}
-\newlabel{fig:mp-file-example}{{1}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}System Design}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Processing Code}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces SqlQueryJobs are created from the incoming stream of queries, placed onto a queue, and finally sent to processor aggregators.}}{5}}
-\newlabel{fig:system-overview}{{2}{5}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Processor aggregators process the SqlQueryJob (which contains raw, non-binded SQL from the stream) and sends parsed result to individual processors. Matches result in preloads getting sent to a preload queue.}}{6}}
-\newlabel{fig:processor-aggregator}{{3}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Sharding Databases and Scaling EagerDB}{6}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Prediction Code}{7}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{8}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{8}}
+\ifx\hyper@anchor\@undefined
+\global \let \oldcontentsline\contentsline
+\gdef \contentsline#1#2#3#4{\oldcontentsline{#1}{#2}{#3}}
+\global \let \oldnewlabel\newlabel
+\gdef \newlabel#1#2{\newlabelxx{#1}#2}
+\gdef \newlabelxx#1#2#3#4#5#6{\oldnewlabel{#1}{{#2}{#3}}}
+\AtEndDocument{\let \contentsline\oldcontentsline
+\let \newlabel\oldnewlabel}
+\else
+\global \let \hyper@last\relax 
+\fi
+
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{2}{section.2}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Manual Query Syntax}{2}{section.3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Basic Definitions}{2}{subsection.3.1}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Match Preload Files}{2}{subsection.3.2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces A snippet from an MP file}}{3}{figure.1}}
+\newlabel{fig:mp-file-example}{{1}{3}{\label {fig:mp-file-example}A snippet from an MP file\relax }{figure.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}System Design}{4}{section.4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Processing Code}{5}{subsection.4.1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces SqlQueryJobs are created from the incoming stream of queries, placed onto a queue, and finally sent to processor aggregators.}}{5}{figure.2}}
+\newlabel{fig:system-overview}{{2}{5}{\label {fig:system-overview}SqlQueryJobs are created from the incoming stream of queries, placed onto a queue, and finally sent to processor aggregators}{figure.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Processor aggregators process the SqlQueryJob (which contains raw, non-binded SQL from the stream) and sends parsed result to individual processors. Matches result in preloads getting sent to a preload queue.}}{6}{figure.3}}
+\newlabel{fig:processor-aggregator}{{3}{6}{\label {fig:processor-aggregator}Processor aggregators process the SqlQueryJob (which contains raw, non-binded SQL from the stream) and sends parsed result to individual processors. Matches result in preloads getting sent to a preload queue}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Sharding Databases and Scaling EagerDB}{6}{subsection.4.2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Prediction Code}{7}{subsection.4.3}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Results}{8}{section.5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Simulated Queries in Modified Twitter Benchmark}}{9}{figure.4}}
+\newlabel{fig:queries-simulated}{{4}{9}{\label {fig:queries-simulated}Simulated Queries in Modified Twitter Benchmark\relax }{figure.4}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{9}{section.6}}

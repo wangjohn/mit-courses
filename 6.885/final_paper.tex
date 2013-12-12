@@ -2,6 +2,7 @@
 
 \usepackage[margin=1in]{geometry}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \usepackage{listings}
 
 \title{EagerDB:\\
@@ -187,8 +188,36 @@ If there were many example instances of this rule, and it happened that the zero
 
 \section{Results}
 
-To test the performance of EagerDB, we ran benchmark tests using MySQL version 5.5.34, for debian-linux-gnu. 
+To test the performance of EagerDB, we ran benchmark tests using MySQL version 5.5.34, for debian-linux-gnu. We chose to use the OLTP database benchmark suite, which can be found at \url{http://www.oltpbenchmark.com}. In particular, we focused on the Twitter benchmark, which simulates a workload similar to the one that would be received by Twitter databases. We modified the performance benchmark slightly, removing all inserts (since EagerDB does not handle insertions) and adding a Markov model so that it had transition probabilities between states.
 
+The modified Twitter benchmark had four tables with the following attributes:
+
+\begin{itemize}
+  \item \texttt{user\_profiles}: INT id, CHAR(20) name
+  \item \texttt{tweets}: INT uid, CHAR(20) name, VARCHAR(200) data
+  \item \texttt{follows}: INT f1, INT f2
+  \item \texttt{followers}: INT f1, INT f2
+\end{itemize}
+
+The \texttt{tweets} table has a foreign key \texttt{uid} into the \texttt{user\_profiles} table. Additionally, \texttt{f1} and \texttt{f2} are both foreign keys into the \texttt{user\_profiles} table for both the \texttt{follows} and \texttt{followers} table. We created a Markov process which had some probability of making a completely random query with randomly chosen bind values. It also had some probability of making a child query, which used the result and bind values of the previous query to make a new query. The intuition behind this Markov process is that when $a$ navigates to $b$'s profile on twitter, there is some probability that $a$ will click to find all of a $b$'s followers or that $a$ will click to find out who $b$ is following. Figure \ref{fig:queries-simulated} shows the queries that were simulated.
+
+\begin{figure}[h]
+\begin{lstlisting}[frame=single]
+GetTweets:    "SELECT * FROM tweets WHERE uid = ?"
+GetFollows:   "SELECT f2 FROM follows WHERE f1 = ? LIMIT 20"
+GetFollowers: "SELECT f2 FROM followers WHERE f1 = ? LIMIT 20"
+\end{lstlisting}
+\caption{\label{fig:queries-simulated}Simulated Queries in Modified Twitter Benchmark}
+\end{figure}
+
+The Markov process was structured as follows:
+\begin{itemize}
+  \item \texttt{GetTweets} queries could have child queries of \texttt{GetFollows} or \texttt{GetFollowers}, where \texttt{f1} would be equal to the \texttt{uid} from \texttt{GetTweets}.
+  \item \texttt{GetFollows} queries could have a child query of \texttt{GetTweets}, where \texttt{uid} would be randomly selected from \texttt{f2} in the result of the \texttt{GetFollows} query.
+  \item \texttt{GetFollowers} queries could have a child query of \texttt{GetTweets}, where \texttt{uid} would be randomly selected from \texttt{f2} in the result of the \texttt{GetFollowers} query.
+\end{itemize}
+
+We populated a database with 100 users, 5000 tweets, 2000 follower relationships, and 2000 follow relationships. Then, we ran performance tests with and without EagerDB, using different probabilities for navigating to a child query.
 
 \section{Conclusion}
 
