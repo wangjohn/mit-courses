@@ -187,10 +187,19 @@ If there were many example instances of this rule, and it happened that the zero
 
 \section{Results}
 
+To test the performance of EagerDB, we ran benchmark tests using MySQL version 5.5.34, for debian-linux-gnu. 
 
 
 \section{Conclusion}
 
-Future directions of research include adding metadata to queries, figuring out match result issues with schemas, optimizing results.
+This paper presented EagerDB, a predictive cache warmer for database queries. EagerDB sets out to improve performance by using historical database logs to predict future queries. The design of EagerDB makes it scalable, flexbile, and easily configured to many applications. In particular, the design enables distribution of processor aggregators across multiple machines, sharding on the underlying database, easy integration into applications, and parallelized processing of historical database logs.
+
+All of these serve to increase the performance of a database-backed application while minimizing the amount of setup time required. EagerDB can be used to help optimize many web applications which have repetitive workflows, where database queries will not necessarily be cached.
+
+There are many future directions for research. First, EagerDB was actually designed so that processors could be subclassed, so that developers could write their own processors. For example, one might want to match on more than just a single query, or use application meta-data in order to help preload queries. One can currently write such a processor, but there is no way to include such metadata. A small step towards this more flexible framework would be to include application-level metadata in \texttt{SQLQueryJob}s.
+
+Next, the system should begin to optimize how raw SQL and the results from the raw SQL query get sent to processors. Currently, the results and the raw SQL are both encapsulated with a \texttt{SQLQueryJob}, then sent to a processor aggregator. However, executing the SQL query and waiting for the results causes extra wait time before the \texttt{SQLQueryJob} can be sent to its processor aggregator (usually a couple hundred milliseconds). An improvement would be to have the raw SQL sent in a \texttt{SQLQueryJob} immediately to a processor aggregator. While the aggregator processes this job, the result of the query could be placed in a staging area where processed preloads are sent. After the result and its corresponding preloads are both in the staging area, the preloads could inject the correct bind values using the result and be sent off to be executed by the database.
+
+EagerDB is a step towards automatically improving database performance. This paper has described its design and shown its proficiency in handling repetitive workflows.
 
 \end{document}
