@@ -183,9 +183,11 @@ Now we have identified pairs of queries which happen together with high probabil
   => "SELECT * FROM hats WHERE owner = ?"
 \end{lstlisting}
 
-If there were many example instances of this rule, and it happened that the zeroth bind value in the match statement was the same as the zeroth bind value in the preload statement with high probability, then one could expect the bind value in the preload statement to be \texttt{match\_bind\_value(0)}. EagerDB uses a probabilistic algorithm similar to this for finding bind values in preloads. For bind values requiring the use of \texttt{match\_result}, EagerDB uses a best guess and performs fuzzy matching on the result's column name, and the bind value's column name. For example, in the above example, if the result of the match query returned rows with a column attribute named ``owner'', then EagerDB would use \texttt{match\_result.owner} as the bind value.
+If there were many example instances of this rule, and it happened that the zeroth bind value in the match statement (``name = ?'' in the above example) was the same as the zeroth bind value in the preload statement (``owner = ?'' in the above example) with high probability, then one could expect the bind value in the preload statement to be \texttt{match\_bind\_value(0)}. EagerDB uses a probabilistic algorithm similar to this for finding bind values in preloads. For bind values requiring the use of \texttt{match\_result}, EagerDB uses a best guess and performs fuzzy matching on the result's column name, and the bind value's column name. For example, in the above example, if the result of the match query returned rows with a column attribute named ``owner'', then EagerDB would use \texttt{match\_result.owner} as the bind value.
 
 \section{Results}
+
+
 
 \section{Conclusion}
 
