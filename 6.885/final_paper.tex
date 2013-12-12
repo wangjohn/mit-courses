@@ -166,6 +166,27 @@ Sharding the underlying database is also quite easy, as long as an appropriate f
 
 This section will discuss how automatic prediction of high probability preloads are made. The general idea is to build a Markov model based on historical database logs, then find match-preload pairs with high transition probabilities. We think of the state of the Markov model at time $t$ as the last raw, binded SQL query that was run before time $t$. Thus, we want to find an estimate of $P(X | Y)$ for all $X$ in the set of possible queries and where $Y$ the current state. We can then create a match pair, which we will denote as $(Y, X)$ and have $Y$ as the match statement and $X$ is the preload statement, if $P(X | Y) > \lambda$ for some parameter $\lambda$.
 
+To estimate this probability, we will use historical database logs and a time parameter $T$. Here, $T$ will be a time after which queries are no longer considered pairs. For example if $Y$ occurs, then $X$ occurs 10 years later, there is a very little chance that $Y$ is actually predictive of $X$. Thus, we will only consider $(Y, X)$ pairs where $X$ occurs within time $T$ after $Y$ has occurred. The complete algorithm for estimating probability is as follows:
+
+\begin{itemize}
+  \item Break apart and group database logs by user id or ip-address (or a similar metric, depending on which is available in the data). Each group should contain the queries made by a single user or ip-address.
+  \item For each query $Y$ in the group, find the other queries $X$ which occur within time $T$ of $Y$ occurring, and increment the count, $C((Y,X))$, of the $(Y,X)$ pair. Also, increment the count, $C(Y)$, of the number of times $Y$ occurs.
+  \item After processing each group, and all queries in each group, you have the total occurrences of each $(Y,X)$ pair, and the total occurrences of each query $Y$. Now use the estimate $\hat{P}(X | Y) = C((Y,X))/C(Y)$. Check if $\hat{P}(X | Y) > \lambda$ for any $Y, X$ pair, and return all pairs as a $(Y, X)$ match.
+\end{itemize}
+
+Notice that this is easily parallelizable in the MapReduce framework. The grouped queries for a particular user or ip-address are passed as documents in the map step, each document containing queries for a particular user or ip-address. Then, for each query $Y$, we can emit the $Y$ as the key, and an array of all the $X$'s which occur within $T$ time of $Y$ occuring as the value. In the reduce step, we compute $\hat{P}(X | Y)$ for all possible $X$'s that have been sent to this particular node. We do this by computing $C((Y,X))$ and $C(Y)$, since we can record a count of the total number of times $Y$ occurred, as well as the number of times $X$ occurs in the array of values. In this way, massive database logs can be broken up and used for finding potential match pairs.
+
+Now we have identified pairs of queries which happen together with high probability. More specifically, we can say that if $Y$ occurs, then $X$ occurs with high probability within $T$ after $Y$ occurs. We now need to identify the bind values for $X$. To do this, we can look through all of the binded, raw occurrences of $Y$ (i.e. the raw SQL query going to the database), identify its bind values, and compare them to all of the subsequent binded $X$ occurrences. We can then find a mapping between the bind values indices on $Y$ and $X$, and see if this mapping persists across all $X$'s. For example, consider the following match pair (in MP file syntax):
+
+\begin{lstlisting}
+- "SELECT * FROM names WHERE name = ?"
+  => "SELECT * FROM hats WHERE owner = ?"
+\end{lstlisting}
+
+If there were many example instances of this rule, and it happened that the zeroth bind value in the match statement was the same as the zeroth bind value in the preload statement with high probability, then one could expect the bind value in the preload statement to be \texttt{match\_bind\_value(0)}. EagerDB uses a probabilistic algorithm similar to this for finding bind values in preloads. For bind values requiring the use of \texttt{match\_result}, EagerDB uses a best guess and performs fuzzy matching on the result's column name, and the bind value's column name. For example, in the above example, if the result of the match query returned rows with a column attribute named ``owner'', then EagerDB would use \texttt{match\_result.owner} as the bind value.
+
+\section{Results}
+
 \section{Conclusion}
 
 Future directions of research include adding metadata to queries, figuring out match result issues with schemas, optimizing results.
