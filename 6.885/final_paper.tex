@@ -221,9 +221,25 @@ We populated a database with 100 users, 5000 tweets, 2000 follower relationships
 
 We ran the tests for varying child query probabilities. We define the child query probability $p$, as the probability that the Markov process will navigate to a child query using the previous query. The probability of creating a completely random query is then $1-p$.
 
-\begin{figure}[h]
-  \caption{\label{fig:performance-results}Performance Results}
-\end{figure}
+\begin{table}[h]
+  \centering
+  \begin{tabular}{l | c c c }
+    Child Query Probability & GetFollows      & GetFollowers    & GetTweets \\
+    \hline \hline
+                  $p = 0.1$ & \textbf{3.33\%} & -86.7\%         & \textbf{4.99\%} \\
+                            & \textbf{(2.88)} & (-0.91)         & \textbf{(5.53)} \\
+                  $p = 0.2$ & 0.46\%          & 27.3\%          & 14.3\% \\
+                            & (0.43)          & (1.01)          & (1.26) \\
+                  $p = 0.3$ & 2.29\%          & 1.89\%          &        \\
+                            & (1.47)          & (0.98)          &        \\
+                  $p = 0.4$ & 1.51\%          & \textbf{36.1\%} & -57.9\% \\
+                            & (0.35)          & \textbf{(1.74)} & (-0.98)
+  \end{tabular}
+  \caption{\label{fig:performance-results}Performance Results: Percentage improvement in latency when running Twitter benchmark with and without EagerDB. Positive numbers indicate EagerDB has decreased average latency. Numbers in parentheses are t-statistics, and bolded text connotes statistical significance at the 95\% level.}
+\end{table}
+
+Table \ref{fig:performance-results} shows the results of running the Twitter benchmark with and without EagerDB. The table shows percentage improvements in average latency using EagerDB. In the table, one can see that overall, EagerDB improves performance significantly for different types of queries. 
+
 
 
 \section{Conclusion}
