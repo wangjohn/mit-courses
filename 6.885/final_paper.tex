@@ -217,7 +217,7 @@ The Markov process was structured as follows:
   \item \texttt{GetFollowers} queries could have a child query of \texttt{GetTweets}, where \texttt{uid} would be randomly selected from \texttt{f2} in the result of the \texttt{GetFollowers} query.
 \end{itemize}
 
-We populated a database with 100 users, 5000 tweets, 2000 follower relationships, and 2000 follow relationships. Then, we ran performance tests with and without EagerDB, using different probabilities for navigating to a child query. Figure \ref{fig:performance-results} shows the results of our tests.
+We populated a database with 100 users, 5000 tweets, 2000 follower relationships, and 2000 follow relationships. Then, we ran performance tests with and without EagerDB, using different probabilities for navigating to a child query. Table \ref{fig:performance-results} shows the results of our tests.
 
 We ran the tests for varying child query probabilities. We define the child query probability $p$, as the probability that the Markov process will navigate to a child query using the previous query. The probability of creating a completely random query is then $1-p$.
 
@@ -232,15 +232,17 @@ We ran the tests for varying child query probabilities. We define the child quer
                             & (0.43)          & (1.01)          & (1.26) \\
                   $p = 0.3$ & 2.29\%          & 1.89\%          &        \\
                             & (1.47)          & (0.98)          &        \\
-                  $p = 0.4$ & 1.51\%          & \textbf{36.1\%} & -57.9\% \\
-                            & (0.35)          & \textbf{(1.74)} & (-0.98)
+                  $p = 0.4$ & 1.51\%          & \textbf{36.1\%} & 7.02\% \\
+                            & (0.35)          & \textbf{(1.74)} & (0.34)
   \end{tabular}
   \caption{\label{fig:performance-results}Performance Results: Percentage improvement in latency when running Twitter benchmark with and without EagerDB. Positive numbers indicate EagerDB has decreased average latency. Numbers in parentheses are t-statistics, and bolded text connotes statistical significance at the 95\% level.}
 \end{table}
 
-Table \ref{fig:performance-results} shows the results of running the Twitter benchmark with and without EagerDB. The table shows percentage improvements in average latency using EagerDB. In the table, one can see that overall, EagerDB improves performance significantly for different types of queries. 
+Table \ref{fig:performance-results} shows the results of running the Twitter benchmark with and without EagerDB. The table shows percentage improvements in average latency using EagerDB. In the table, one can see that overall, EagerDB improves performance significantly for different types of queries. As the probability $p$ of transitioning to a child query increases, we tend to see an increase in the magnitude of the performance improvement. This observation makes intuitive sense because as the probability of going to a random query goes down, it is more likely that the match-preload statements in EagerDB will be predictive of future queries.
 
+Thus, EagerDB improves performance across the board for the Twitter benchmark. There are no types of queries (with any probability $p$), where one does not see a nominal performance improvement (although some are not statistically significant).
 
+A final observation to make on the result data alludes to a potential optimization for the future. There were some cases where the variance in the latencies for queries was quite high when the benchmark was run with EagerDB. In fact, looking at the underlying data, one could consistently see that about 0.2\% to 0.5\% of queries were three or more standard deviations above the mean when using EagerDB. However, the benchmark without EagerDB never had these types of outliers. Thus, there were a small number of times when EagerDB caused excessively long query latencies. This is potentially due to the fact that a query would arrive at the database while its preload query was being cached. Thus, the query would have to wait for the preload to finish before executing, causing much longer query latency. To avoid this, EagerDB in the future should implement a stop protocol that prevents a preload statement from executing after a particular expiration time.
 
 \section{Conclusion}
 
