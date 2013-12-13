@@ -33,8 +33,11 @@ EagerDB provides a framework for preloading such queries. Developers can manuall
 
 \section{Background}
 
-There have been a number of papers which have had similar ideas.
+There have been a number of papers which have thought to use predictive caching. Lempel and Moran (2003) use predictive caching to improve the speed of search results. However, their prefetching is entirely specific to search, and they focus their attention on the optimal number of pagesof search results, $n$, to prefetch into an in-memory cache. Although Lempel and Moran (2003) make a leap of forward progress for predictive caching, they do not solve the general problem of predictive caching for arbitrary query types.
 
+Kraiss and Weikum (1998) use a Markov model for predictive caching in the context of multimedia document archives. In their work, documents are speculatively prefetched if the expected number of hits on a document is higher than the expected number of hits on the documents that must be dropped from the cache. Unfortunately, this framework does not account for the complexity of database queries. Although the number of documents in an archive is finite, the number of possible queries to a database is infinite.
+
+EagerDB extends the idea of predictive caching to be more general. In essence, any query that is sent to a database can be a predictor for a future query. The future query, moreover, can be correlated with the original query. EagerDB provides a flexible framework for defining relationships between a query being sent to the database and future queries.
 
 \section{Manual Query Syntax}
 
@@ -190,7 +193,7 @@ If there were many example instances of this rule, and it happened that the zero
 
 To test the performance of EagerDB, we ran benchmark tests using MySQL version 5.5.34, for debian-linux-gnu. We chose to use the OLTP database benchmark suite, which can be found at \url{http://www.oltpbenchmark.com}. In particular, we focused on the Twitter benchmark, which simulates a workload similar to the one that would be received by Twitter databases. We modified the performance benchmark slightly, removing all inserts (since EagerDB does not handle insertions) and adding a Markov model so that it had transition probabilities between states.
 
-The modified Twitter benchmark had four tables with the following attributes:
+The Twitter benchmark was chosen due to its simplicity (a small number of tables and attributes). Because it is not as complex as other benchmarks (the TPCC benchmark for example) the Twitter benchmark can be used to gain intuition for how well EagerDB performs. The modified Twitter benchmark had four tables with the following attributes:
 
 \begin{itemize}
   \item \texttt{user\_profiles}: INT id, CHAR(20) name
@@ -199,7 +202,7 @@ The modified Twitter benchmark had four tables with the following attributes:
   \item \texttt{followers}: INT f1, INT f2
 \end{itemize}
 
-The \texttt{tweets} table has a foreign key \texttt{uid} into the \texttt{user\_profiles} table. Additionally, \texttt{f1} and \texttt{f2} are both foreign keys into the \texttt{user\_profiles} table for both the \texttt{follows} and \texttt{followers} table. We created a Markov process which had some probability of making a completely random query with randomly chosen bind values. It also had some probability of making a child query, which used the result and bind values of the previous query to make a new query. The intuition behind this Markov process is that when $a$ navigates to $b$'s profile on twitter, there is some probability that $a$ will click to find all of a $b$'s followers or that $a$ will click to find out who $b$ is following. Figure \ref{fig:queries-simulated} shows the queries that were simulated.
+The \texttt{tweets} table has a foreign key \texttt{uid} into the \texttt{user\_profiles} table. Additionally, \texttt{f1} and \texttt{f2} are both foreign keys into the \texttt{user\_profiles} table for both the \texttt{follows} and \texttt{followers} table. We created a Markov process which had some probability of making a completely random query with randomly chosen bind values. It also had some probability of making a child query, which used the result and bind values of the previous query to make a new query. The intuition behind this Markov process is that when $a$ navigates to $b$'s profile on twitter, there is some probability that $a$ will click to find all of a $b$'s followers or that $a$ will click to find out who $b$ is following. Figure \ref{fig:queries-simulated} shows the query types that were simulated.
 
 \begin{figure}[h]
 \begin{lstlisting}[frame=single]
@@ -223,24 +226,31 @@ We ran the tests for varying child query probabilities. We define the child quer
 
 \begin{table}[h]
   \centering
-  \begin{tabular}{l | c c c }
-    Child Query Probability & GetFollows      & GetFollowers    & GetTweets \\
+  \begin{tabular}{c | c c c }
+    & \multicolumn{3}{c}{\large Query Type} \\
+                Child Query &                 &                 & \\
+                Probability & GetFollows      & GetFollowers    & GetTweets \\
     \hline \hline
-                  $p = 0.1$ & \textbf{3.33\%} & -86.7\%         & \textbf{4.99\%} \\
-                            & \textbf{(2.88)} & (-0.91)         & \textbf{(5.53)} \\
+                  $p = 0.1$ & \textbf{8.34\%} & \textbf{4.83\%} & \textbf{4.99\%} \\
+                            & \textbf{(7.29)} & \textbf{(5.08)} & \textbf{(5.53)} \\
+    \\
                   $p = 0.2$ & 0.46\%          & 27.3\%          & 14.3\% \\
                             & (0.43)          & (1.01)          & (1.26) \\
-                  $p = 0.3$ & 2.29\%          & 1.89\%          &        \\
-                            & (1.47)          & (0.98)          &        \\
-                  $p = 0.4$ & 1.51\%          & \textbf{36.1\%} & 7.02\% \\
-                            & (0.35)          & \textbf{(1.74)} & (0.34)
+    \\
+                  $p = 0.3$ & 18.9\%          & 1.89\%          & \textbf{39.5\%} \\
+                            & (1.27)          & (0.98)          & \textbf{(1.83)} \\
+    \\
+                  $p = 0.4$ & \textbf{8.09\%} & \textbf{36.1\%} & \textbf{35.1\%} \\
+                            & \textbf{(7.78)} & \textbf{(1.74)} & \textbf{(1.68)}
   \end{tabular}
   \caption{\label{fig:performance-results}Performance Results: Percentage improvement in latency when running Twitter benchmark with and without EagerDB. Positive numbers indicate EagerDB has decreased average latency. Numbers in parentheses are t-statistics, and bolded text connotes statistical significance at the 95\% level.}
 \end{table}
 
 Table \ref{fig:performance-results} shows the results of running the Twitter benchmark with and without EagerDB. The table shows percentage improvements in average latency using EagerDB. In the table, one can see that overall, EagerDB improves performance significantly for different types of queries. As the probability $p$ of transitioning to a child query increases, we tend to see an increase in the magnitude of the performance improvement. This observation makes intuitive sense because as the probability of going to a random query goes down, it is more likely that the match-preload statements in EagerDB will be predictive of future queries.
 
-Thus, EagerDB improves performance across the board for the Twitter benchmark. There are no types of queries (with any probability $p$), where one does not see a nominal performance improvement (although some are not statistically significant).
+Thus, EagerDB improves performance across the board for the Twitter benchmark. There are no types of queries (with any probability $p$), where one does not see a nominal performance improvement (although some are not statistically significant). This provides strong evidence that EagerDB improves performance, at least for workloads which have some non-zero probability of using previous query bind values or results. The results in table \ref{fig:performance-results} seem to suggest that EagerDB can improve performance in applications where each user has a predefined, methodical workflow.
+
+Another observation from the benchmark results was the ease of integration. Only 9 lines of code were needed in order to fully integrate EagerDB into the Twitter Benchmark. Since EagerDB is both easy to integrate and performant, one can improve database speed without much effort.
 
 A final observation to make on the result data alludes to a potential optimization for the future. There were some cases where the variance in the latencies for queries was quite high when the benchmark was run with EagerDB. In fact, looking at the underlying data, one could consistently see that about 0.2\% to 0.5\% of queries were three or more standard deviations above the mean when using EagerDB. However, the benchmark without EagerDB never had these types of outliers. Thus, there were a small number of times when EagerDB caused excessively long query latencies. This is potentially due to the fact that a query would arrive at the database while its preload query was being cached. Thus, the query would have to wait for the preload to finish before executing, causing much longer query latency. To avoid this, EagerDB in the future should implement a stop protocol that prevents a preload statement from executing after a particular expiration time.
 
