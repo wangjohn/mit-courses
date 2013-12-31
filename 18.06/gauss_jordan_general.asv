@@ -1,0 +1,14 @@
+% Define a function to give I and X
+function [I,X] = gauss_jordan_general(A,B)
+    X = A\B;
+    [n,~] = size(A);
+    I = eye(n);
+end
+
+% Test on two different sets of matrices of different dimensions
+A1 = rand(4);
+B1 = rand(4);
+[I1,X1] = gauss_jordan_general(A,B);
+
+A2 = rand(8);
+B2 = r

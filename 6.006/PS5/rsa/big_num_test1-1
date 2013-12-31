@@ -1,0 +1,31 @@
+class BigNum(object):
+
+    def __init__(self, number):
+        self.d = []
+        for i in number:
+            self.d.append(i)
+
+def slow_mul(self, other):
+    '''
+    Slow method for multiplying two numbers w/ good constant factors.
+    '''
+    result = [0 for x in range(124)]
+    self_len = len(self.d)
+    other_len = len(other.d)
+    for i in range(self_len):
+        for j in range(other_len):
+            newDigit = self.d[i] * other.d[j]
+            result[123 - j] += newDigit % 10
+            if newDigit > 9 and newDigit <= 99:
+                result[122 - j] += newDigit // 10
+            
+    for k in range(124):
+        i = 123 - k
+        remain = result[i]
+        base = 0
+        while remain > 9:
+            result[i - base] = remain % 10
+            remain = remain // 10
+            base += 1
+
+    return result

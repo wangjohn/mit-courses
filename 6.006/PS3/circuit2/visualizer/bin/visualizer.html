@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Circuit verification visualization</title>
+    <style type="text/css">
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%; }
+
+body {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: block-axis;
+  -moz-box-orient: block-axis;
+  box-orient: block-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  text-align: center; }
+
+#svg-container {
+  margin: 0 20px;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: block-axis;
+  -moz-box-orient: block-axis;
+  box-orient: block-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch; }
+  #svg-container > svg {
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1;
+    width: auto;
+    height: auto;
+    display: block; }
+
+#controls-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  vertical-align: middle; }
+  #controls-container #time-label {
+    display: block;
+    width: 5em;
+    text-align: right;
+    padding: 0 1em 0 0; }
+  #controls-container #start-time-label, #controls-container #end-time-label {
+    display: block;
+    padding: 0 2px 0 2px; }
+  #controls-container #timeline {
+    display: block;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1; }
+  #controls-container #controls-buttons {
+    display: block;
+    padding: 0 1em 0 1em; }
+
+#svg-container > svg {
+  font-family: Tahoma, sans-serif; }
+  #svg-container > svg .wire {
+    stroke: gray;
+    stroke-width: 1;
+    stroke-linecap: round; }
+    #svg-container > svg .wire.indexed {
+      stroke: #333333;
+      stroke-width: 2; }
+    #svg-container > svg .wire.selected {
+      stroke: #009900;
+      stroke-width: 2; }
+      #svg-container > svg .wire.selected.not-indexed {
+        stroke: #990000; }
+  #svg-container > svg .crossing {
+    stroke: #f58989;
+    stroke-width: 0.2;
+    fill: #ef8f8f; }
+    #svg-container > svg .crossing.added {
+      stroke: maroon;
+      stroke-width: 2;
+      fill: #cc0000; }
+  #svg-container > svg .selection {
+    stroke: #008fb3;
+    stroke-width: 0.1;
+    fill: #cfdee2; }
+  #svg-container > svg .sweep-line {
+    stroke: blue;
+    stroke-width: 0.5;
+    stroke-linecap: butt; }
+
+    </style>
+
+    <script type="text/javascript">
+(function() {
+  var Pwnvg, PwnvgElement, PwnvgPathBuilder;
+  Pwnvg = (function() {
+    function Pwnvg(svgContainer, minX, minY, maxX, maxY) {
+      this.svgContainer = svgContainer;
+      this.minX = minX;
+      this.minY = minY;
+      this.maxX = maxX;
+      this.maxY = maxY;
+      this.svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      this.svg.setAttribute('version', '1.1');
+      this.svg.setAttribute('viewBox', "" + this.minX + " " + this.minY + " " + (this.maxX - this.minX) + " " + (this.maxY - this.minY));
+      svgContainer.appendChild(this.svg);
+    }
+    Pwnvg.prototype.path = function(pathData) {
+      var dom;
+      dom = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      dom.setAttribute('d', pathData.toString());
+      this.svg.appendChild(dom);
+      return new PwnvgElement(dom);
+    };
+    Pwnvg.prototype.rect = function(x1, y1, x2, y2) {
+      var dom, _ref, _ref2;
+      if (x1 > x2) {
+        _ref = [x1, x2], x2 = _ref[0], x1 = _ref[1];
+      }
+      if (y1 > y2) {
+        _ref2 = [y1, y2], y2 = _ref2[0], y1 = _ref2[1];
+      }
+      dom = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      dom.setAttribute('x', x1);
+      dom.setAttribute('y', y1);
+      dom.setAttribute('width', x2 - x1);
+      dom.setAttribute('height', y2 - y1);
+      this.svg.appendChild(dom);
+      return new PwnvgElement(dom);
+    };
+    Pwnvg.prototype.circle = function(x, y, r) {
+      var dom;
+      dom = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      dom.setAttribute('cx', x);
+      dom.setAttribute('cy', y);
+      dom.setAttribute('r', r);
+      this.svg.appendChild(dom);
+      return new PwnvgElement(dom);
+    };
+    Pwnvg.path = function() {
+      return new PwnvgPathBuilder;
+    };
+    return Pwnvg;
+  })();
+  PwnvgElement = (function() {
+    function PwnvgElement(dom) {
+      this.dom = dom;
+    }
+    PwnvgElement.prototype.hasClass = function(klass) {
+      return (new RegExp('(^|\\s)' + klass + '(\\s|$)')).test(this.dom.getAttribute('class') || '');
+    };
+    PwnvgElement.prototype.addClass = function(klass) {
+      if (!this.hasClass(klass)) {
+        this.dom.setAttribute('class', [this.dom.getAttribute('class'), ' ', klass].join('').trim());
+      }
+      return this;
+    };
+    PwnvgElement.prototype.removeClass = function(klass) {
+      var list;
+      list = this.dom.getAttribute('class');
+      this.dom.setAttribute('class', list.replace(new RegExp('(^|\\s)' + klass + '(\\s|$)'), ' ').trim());
+      return this;
+    };
+    PwnvgElement.prototype.id = function(newId) {
+      this.dom.id = newId;
+      return this;
+    };
+    PwnvgElement.prototype.remove = function() {
+      this.dom.parentNode.removeChild(this.dom);
+      return this;
+    };
+    PwnvgElement.prototype.moveToTop = function() {
+      var parent;
+      parent = this.dom.parentNode;
+      parent.removeChild(this.dom);
+      parent.appendChild(this.dom);
+      return this;
+    };
+    PwnvgElement.prototype.moveToBottom = function() {
+      var parent;
+      parent = this.dom.parentNode;
+      parent.removeChild(this.dom);
+      parent.insertBefore(this.dom, parent.firstChild);
+      return this;
+    };
+    return PwnvgElement;
+  })();
+  PwnvgPathBuilder = (function() {
+    function PwnvgPathBuilder() {
+      this.command = [];
+    }
+    PwnvgPathBuilder.prototype.moveTo = function(x, y) {
+      this.command.push('M');
+      this.command.push(x);
+      this.command.push(',');
+      this.command.push(y);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.moveBy = function(dx, dy) {
+      this.command.push('m');
+      this.command.push(dx);
+      this.command.push(',');
+      this.command.push(dy);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.lineTo = function(x, y) {
+      this.command.push('L');
+      this.command.push(x);
+      this.command.push(',');
+      this.command.push(y);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.lineBy = function(dx, dy) {
+      this.command.push('l');
+      this.command.push(dx);
+      this.command.push(',');
+      this.command.push(dy);
+      return this;
+    };
+    PwnvgPathBuilder.prototype.close = function() {
+      this.command.push('Z');
+      return this;
+    };
+    PwnvgPathBuilder.prototype.toString = function() {
+      return this.command.join('');
+    };
+    return PwnvgPathBuilder;
+  })();
+  window.Pwnvg = Pwnvg;
+}).call(this);
+
+(function() {
+  var LayoutView, Trace, Visualizer, WireLayer, traceData;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  WireLayer = (function() {
+    function WireLayer(layerJson) {
+      var jsonWire, wire;
+      this.wireById = {};
+      this.wires = (function() {
+        var _i, _len, _ref, _results;
+        _ref = layerJson.wires;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          jsonWire = _ref[_i];
+          wire = {
+            id: jsonWire.id,
+            x: jsonWire.x,
+            y: jsonWire.y,
+            coords: [jsonWire.x, jsonWire.y],
+            selected: false,
+            indexed: false
+          };
+          this.wireById[wire.id] = wire;
+          _results.push(wire);
+        }
+        return _results;
+      }).call(this);
+    }
+    WireLayer.prototype.wire = function(wireId) {
+      return this.wireById[wireId];
+    };
+    WireLayer.prototype.boundingBox = function() {
+      var endpoint, maxX, maxY, minX, minY, wire, x, y, _i, _j, _len, _len2, _ref, _ref2;
+      minX = maxX = this.wires[0].x[0];
+      minY = maxY = this.wires[0].y[0];
+      _ref = this.wires;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        wire = _ref[_i];
+        _ref2 = [0, 1];
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          endpoint = _ref2[_j];
+          x = wire.x[endpoint];
+          y = wire.y[endpoint];
+          if (minX > x) {
+            minX = x;
+          }
+          if (maxX < x) {
+            maxX = x;
+          }
+          if (minY > y) {
+            minY = y;
+          }
+          if (maxY < y) {
+            maxY = y;
+          }
+        }
+      }
+      return [minX, minY, maxX, maxY];
+    };
+    return WireLayer;
+  })();
+  Trace = (function() {
+    function Trace(traceJson, resultJson, layer) {
+      var event, jsonEvent, sweepX, wire, wireId;
+      this.layer = layer;
+      this.crossings = [];
+      sweepX = null;
+      this.events = (function() {
+        var _i, _j, _len, _len2, _ref, _results;
+        _results = [];
+        for (_i = 0, _len = traceJson.length; _i < _len; _i++) {
+          jsonEvent = traceJson[_i];
+          event = {
+            type: jsonEvent.type,
+            sweepX: sweepX
+          };
+          switch (event.type) {
+            case 'add':
+            case 'delete':
+              event.type = 'index';
+              event.wire = this.layer.wire(jsonEvent.id);
+              event.indexed = jsonEvent.type === 'add';
+              break;
+            case 'count':
+              event.query = [jsonEvent.from, jsonEvent.to];
+              event.result = jsonEvent.result;
+              break;
+            case 'list':
+              event.query = [jsonEvent.from, jsonEvent.to];
+              event.wires = (function() {
+                var _j, _len2, _ref, _results2;
+                _ref = jsonEvent.ids;
+                _results2 = [];
+                for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+                  wireId = _ref[_j];
+                  _results2.push(this.layer.wire(wireId));
+                }
+                return _results2;
+              }).call(this);
+              break;
+            case 'crossing':
+              event.crossing = {
+                view: {},
+                added: false
+              };
+              this.crossings.push(event.crossing);
+              event.crossing.wire1 = this.layer.wire(jsonEvent.id1);
+              event.crossing.wire2 = this.layer.wire(jsonEvent.id2);
+              event.crossing.id = 'crossing@' + this.crossings.length;
+              _ref = [event.crossing.wire1, event.crossing.wire2];
+              for (_j = 0, _len2 = _ref.length; _j < _len2; _j++) {
+                wire = _ref[_j];
+                if (wire.x[0] === wire.x[1]) {
+                  event.crossing.x = wire.x[0];
+                }
+                if (wire.y[0] === wire.y[1]) {
+                  event.crossing.y = wire.y[0];
+                }
+              }
+              break;
+            case 'sweep':
+              sweepX = event.sweepX = jsonEvent.x;
+          }
+          _results.push(event);
+        }
+        return _results;
+      }).call(this);
+      this.time = 0;
+      this.sweepX = null;
+      this.endTime = this.events.length;
+      this.selected = [];
+    }
+    Trace.prototype.rewind = function() {
+      var wire, _i, _len, _ref;
+      _ref = this.layer.wires;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        wire = _ref[_i];
+        wire.indexed = false;
+      }
+      return this.time = 0;
+    };
+    Trace.prototype.stepForward = function(changeBag) {
+      var crossing, event, wire, _i, _j, _len, _len2, _ref, _ref2;
+      if (changeBag == null) {
+        changeBag = {};
+      }
+      if (this.events[this.time] === null) {
+        return;
+      }
+      _ref = this.selected;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        wire = _ref[_i];
+        wire.selected = false;
+        changeBag[wire.id] = wire;
+      }
+      this.selected = [];
+      event = this.events[this.time];
+      this.sweepX = event.sweepX;
+      switch (event.type) {
+        case 'index':
+          wire = event.wire;
+          wire.indexed = event.indexed;
+          changeBag[wire.id] = wire;
+          break;
+        case 'crossing':
+          crossing = event.crossing;
+          crossing.added = true;
+          changeBag[crossing.id] = event.crossing;
+          break;
+        case 'list':
+          this.selected = event.wires;
+          _ref2 = this.selected;
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            wire = _ref2[_j];
+            wire.selected = true;
+            changeBag[wire.id] = wire;
+          }
+          break;
+        case 'count':
+          throw 'not implemented';
+      }
+      this.time += 1;
+      return changeBag;
+    };
+    Trace.prototype.stepBack = function(changeBag) {
+      var crossing, event, lastEvent, wire, _i, _j, _len, _len2, _ref, _ref2;
+      if (changeBag == null) {
+        changeBag = {};
+      }
+      if (this.time === 0) {
+        return changeBag;
+      }
+      this.time -= 1;
+      event = this.events[this.time];
+      switch (event.type) {
+        case 'index':
+          wire = event.wire;
+          wire.indexed = !event.indexed;
+          changeBag[wire.id] = wire;
+          break;
+        case 'crossing':
+          crossing = event.crossing;
+          crossing.added = false;
+          changeBag[crossing.id] = crossing;
+          break;
+        case 'list':
+          _ref = this.selected;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            wire = _ref[_i];
+            wire.selected = false;
+            changeBag[wire.id] = wire;
+          }
+          this.selected = [];
+          break;
+        case 'count':
+          throw 'not implemented';
+      }
+      lastEvent = this.events[this.time - 1];
+      this.sweepX = lastEvent.sweepX;
+      if (lastEvent) {
+        this.sweepX = event.sweepX;
+        switch (lastEvent.type) {
+          case 'list':
+            this.selected = lastEvent.wires;
+            _ref2 = this.selected;
+            for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+              wire = _ref2[_j];
+              wire.selected = true;
+              changeBag[wire.id] = wire;
+            }
+            break;
+          case 'count':
+            throw 'not implemented';
+        }
+      } else {
+        this.sweepX = null;
+      }
+      return changeBag;
+    };
+    Trace.prototype.atBeginning = function() {
+      return this.time === 0;
+    };
+    Trace.prototype.atEnd = function() {
+      return this.time === this.endTime;
+    };
+    Trace.prototype.nearestEventTime = function(time) {
+      time = Math.round(time);
+      if (time < 0) {
+        time = 0;
+      }
+      if (time > this.endTime) {
+        time = this.endTime;
+      }
+      return time;
+    };
+    Trace.prototype.seek = function(time, changeBag) {
+      if (changeBag == null) {
+        changeBag = {};
+      }
+      while (this.time < time) {
+        this.stepForward(changeBag);
+      }
+      while (this.time > time) {
+        this.stepBack(changeBag);
+      }
+      return changeBag;
+    };
+    Trace.prototype.selectionRange = function() {
+      var lastEvent;
+      if (this.time === 0) {
+        return null;
+      }
+      lastEvent = this.events[this.time - 1];
+      switch (lastEvent.type) {
+        case 'list':
+        case 'count':
+          return lastEvent.query;
+        default:
+          return null;
+      }
+    };
+    return Trace;
+  })();
+  LayoutView = (function() {
+    function LayoutView(svgContainer, trace) {
+      var crossing, wire, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3;
+      this.trace = trace;
+      this.layer = this.trace.layer;
+      _ref = this.layer.wires;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        wire = _ref[_i];
+        wire.view = {};
+      }
+      this.buildWireSvg(svgContainer);
+      _ref2 = this.layer.wires;
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        wire = _ref2[_j];
+        this.updateWire(wire);
+      }
+      _ref3 = this.trace.crossings;
+      for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+        crossing = _ref3[_k];
+        this.updateCrossing(crossing);
+      }
+      this.selectionBox = null;
+      this.sweepLine = null;
+      this.timeLabel = document.getElementById('time-label');
+      this.startTimeLabel = document.getElementById('start-time-label');
+      this.endTimeLabel = document.getElementById('end-time-label');
+      this.timeline = document.getElementById('timeline');
+      this.backButton = document.getElementById('back');
+      this.forwardButton = document.getElementById('forward');
+      this.seekStartButton = document.getElementById('seek-start');
+      this.seekEndButton = document.getElementById('seek-end');
+      this.playButton = document.getElementById('play');
+      this.updateTrace();
+    }
+    LayoutView.prototype.buildWireSvg = function(svgContainer) {
+      var crossing, pathSpec, wire, wireBB, _i, _j, _len, _len2, _ref, _ref2, _results;
+      this.padding = 5;
+      wireBB = this.layer.boundingBox();
+      this.svg = new Pwnvg(svgContainer, wireBB[0] - this.padding, wireBB[1] - this.padding, wireBB[2] + this.padding, wireBB[3] + this.padding);
+      _ref = this.trace.crossings;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        crossing = _ref[_i];
+        crossing.view.svg = this.svg.circle(crossing.x, crossing.y, 2).addClass('crossing');
+      }
+      _ref2 = this.layer.wires;
+      _results = [];
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        wire = _ref2[_j];
+        pathSpec = Pwnvg.path().moveTo(wire.x[0], wire.y[0]).lineTo(wire.x[1], wire.y[1]);
+        _results.push(wire.view.svg = this.svg.path(pathSpec).addClass('wire').id("wire-" + wire.id));
+      }
+      return _results;
+    };
+    LayoutView.prototype.updateWire = function(wire) {
+      var svg;
+      svg = this.wireElement(wire);
+      if (wire.selected) {
+        svg.addClass('selected').removeClass('not-selected');
+      } else {
+        svg.removeClass('selected').addClass('not-selected');
+      }
+      if (wire.indexed) {
+        return svg.addClass('indexed').removeClass('not-indexed');
+      } else {
+        return svg.addClass('not-indexed').removeClass('indexed');
+      }
+    };
+    LayoutView.prototype.updateCrossing = function(crossing) {
+      var svg;
+      svg = this.crossingElement(crossing);
+      if (crossing.added) {
+        return svg.addClass('added').removeClass('not-added');
+      } else {
+        return svg.removeClass('added').addClass('not-added');
+      }
+    };
+    LayoutView.prototype.wireElement = function(wire) {
+      return wire.view.svg;
+    };
+    LayoutView.prototype.crossingElement = function(crossing) {
+      return crossing.view.svg;
+    };
+    LayoutView.prototype.updateTrace = function() {
+      var pathSpec, range;
+      if (this.selectionBox) {
+        this.selectionBox.remove();
+        this.selectionBox = null;
+      }
+      if (range = this.trace.selectionRange()) {
+        this.selectionBox = this.svg.rect(this.svg.minX, range[0], this.svg.maxX, range[1]).addClass('selection').moveToBottom();
+      }
+      if (this.sweepLine) {
+        this.sweepLine.remove();
+        this.sweepLine = null;
+      }
+      if (this.trace.sweepX !== null) {
+        pathSpec = Pwnvg.path().moveTo(this.trace.sweepX, this.svg.minY).lineTo(this.trace.sweepX, this.svg.maxY);
+        this.sweepLine = this.svg.path(pathSpec).addClass('sweep-line').moveToBottom();
+      }
+      this.timeLabel.innerHTML = this.trace.time;
+      this.startTimeLabel.innerHTML = 0;
+      this.timeline.setAttribute('min', 0);
+      this.endTimeLabel.innerHTML = this.trace.endTime;
+      this.timeline.setAttribute('max', this.trace.endTime);
+      this.timeline.value = this.trace.time;
+      this.seekStartButton.disabled = this.backButton.disabled = this.trace.atBeginning();
+      return this.seekEndButton.disabled = this.forwardButton.disabled = this.trace.atEnd();
+    };
+    LayoutView.prototype.updateAnimationState = function(state) {
+      return this.playButton.innerHTML = state ? 'Pause' : 'Play';
+    };
+    return LayoutView;
+  })();
+  Visualizer = (function() {
+    function Visualizer(svgContainer, traceData) {
+      this.layer = new WireLayer(traceData.layer);
+      this.trace = new Trace(traceData.trace, traceData.result, this.layer);
+      this.view = new LayoutView(svgContainer, this.trace);
+      this.frameTimeout = null;
+      document.getElementById('forward').addEventListener('click', __bind(function() {
+        return this.onForwardClick();
+      }, this));
+      document.getElementById('back').addEventListener('click', __bind(function() {
+        return this.onBackClick();
+      }, this));
+      document.getElementById('seek-start').addEventListener('click', __bind(function() {
+        return this.onSeekStartClick();
+      }, this));
+      document.getElementById('seek-end').addEventListener('click', __bind(function() {
+        return this.onSeekEndClick();
+      }, this));
+      document.getElementById('play').addEventListener('click', __bind(function() {
+        return this.onPlayClick();
+      }, this));
+      this.timeline = document.getElementById('timeline');
+      this.timeline.addEventListener('change', __bind(function() {
+        return this.onTimelineChange();
+      }, this));
+    }
+    Visualizer.prototype.onForwardClick = function() {
+      return this.updateView(this.trace.stepForward());
+    };
+    Visualizer.prototype.onBackClick = function() {
+      return this.updateView(this.trace.stepBack());
+    };
+    Visualizer.prototype.onSeekEndClick = function() {
+      return this.updateView(this.trace.seek(this.trace.endTime));
+    };
+    Visualizer.prototype.onSeekStartClick = function() {
+      return this.updateView(this.trace.seek(0));
+    };
+    Visualizer.prototype.onPlayClick = function() {
+      if (this.frameTimeout) {
+        this.cancelAnimationFrame();
+      } else {
+        this.scheduleAnimationFrame();
+      }
+      return this.view.updateAnimationState(!!this.frameTimeout);
+    };
+    Visualizer.prototype.onTimelineChange = function() {
+      var newTime, value;
+      value = parseFloat(this.timeline.value);
+      if (this.trace.time === value) {
+        return;
+      }
+      newTime = this.trace.nearestEventTime(value);
+      return this.updateView(this.trace.seek(newTime));
+    };
+    Visualizer.prototype.updateView = function(changeBag) {
+      var model, _;
+      for (_ in changeBag) {
+        model = changeBag[_];
+        if (model.wire1) {
+          this.view.updateCrossing(model);
+        } else {
+          this.view.updateWire(model);
+        }
+      }
+      return this.view.updateTrace();
+    };
+    Visualizer.prototype.scheduleAnimationFrame = function() {
+      if (!this.frameTimeout) {
+        return this.frameTimeout = window.setTimeout((__bind(function() {
+          return this.doAnimationFrame();
+        }, this)), 1000);
+      }
+    };
+    Visualizer.prototype.cancelAnimationFrame = function() {
+      if (this.frameTimeout) {
+        window.clearTimeout(this.frameTimeout);
+      }
+      return this.frameTimeout = false;
+    };
+    Visualizer.prototype.doAnimationFrame = function() {
+      this.frameTimeout = null;
+      this.onForwardClick();
+      if (this.trace.atEnd()) {
+        return this.view.updateAnimationState(false);
+      } else {
+        return this.scheduleAnimationFrame();
+      }
+    };
+    return Visualizer;
+  })();
+  traceData = null;
+  window.onJsonp = function(data) {
+    return traceData = data;
+  };
+  window.onload = function() {
+    var lodInput, svgContainer;
+    svgContainer = document.getElementById('svg-container');
+    window.visualizer = new Visualizer(svgContainer, traceData);
+    traceData = null;
+    return lodInput = document.querySelector('#lod');
+  };
+}).call(this);
+
+    </script>
+    <script src="../../trace.jsonp" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="svg-container">
+    </div>
+
+    <p id="controls-container">
+      <span id="time-label">0</span>
+      <span id="start-time-label">0</span>
+      <input id="timeline" type="range" min="0" max="1" step="1" value="0" />
+      <span id="end-time-label">1</span>
+      
+      <span id="controls-buttons">
+        <button id="seek-start">&lt;&lt;</button>
+        <button id="back">&lt;</button>
+        <button id="play">Play</button>
+        <button id="forward">&gt;</button>
+        <button id="seek-end">&gt;&gt;</button>
+      </span>
+    </p>
+  </body>
+</html>

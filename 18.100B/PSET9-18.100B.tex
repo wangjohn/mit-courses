@@ -1,0 +1,390 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{18.100B \\
+Problem Set 9}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 5.19}
+
+\begin{thm}
+Suppose $f$ is defined in $(-1,1)$ and $f'(0)$ exists. Suppose $-1 < \alpha_n < \beta_n < 1$, $a_n \to 0$, and $b_n \to 0$ as $n \to \infty$. Define the difference quotients $D_n = \frac{f(\beta_n) - f( \alpha_n)}{\beta_n - \alpha_n}$. Then if $\alpha_n < 0 < \beta_n$, $\lim D_n = f'(0)$. 
+\end{thm}
+
+\begin{proof}
+Because the derivative exists at $x = 0$, we know the following to be true by the definition of derivative:
+\begin{eqnarray}
+f'(0) = \lim_{n \to \infty } \frac{f(\alpha_n) - f(0) }{\alpha_n } - u(n)\\
+f'(0) = \lim_{n \to \infty} \frac{f(\beta_n) - f(0)}{ \beta_n}- v(n)
+\end{eqnarray}
+
+Here, the functions $u(t) \to 0$ and $v(t) \to 0$ as $n \to \infty$. Therefore, rearranging these, we can obtain:
+\begin{eqnarray}
+\lim_{n \to \infty} f(\alpha_n) = \lim_{n \to \infty} f(0) + (f'(0) + u(n)) \alpha_n \\
+\lim_{n \to \infty} f(\beta_n) = \lim_{n \to \infty} f(0) + (f'(0) + v(n)) \beta_n
+\end{eqnarray}
+
+Thus, since $\alpha < 0 < \beta$, we can determine the difference quotient by substituting values of $f(\beta_n)$ and $f(\alpha_n)$ that we have just derived.
+\begin{eqnarray}
+D_n &=& \frac{f(0) + (f'(0) + v(n)) \beta_n - f(0) - (f'(0) + u(n)) \alpha_n}{\beta_n - \alpha_n} \\
+&=& f'(0) + \frac{v(n) \beta_n - u(n) \alpha_n}{\beta_n - \alpha_n}
+\end{eqnarray}
+
+Since we have $\alpha_n < 0 < \beta_n$, we see that $|\alpha_n| \leq \beta_n - \alpha_n$ and $\beta_n \leq \beta_n - \alpha_n$. This allows us to use the triangle inequality and show:
+\begin{eqnarray}
+|D_n - f'(0)| &=& v(n) \frac{|\beta_n|}{|\beta_n - \alpha_n|} - u(n)\frac{| \alpha_n|}{|\beta_n - \alpha_n|} \\
+&\leq & v(n) - u(n) 
+\end{eqnarray}
+
+Taking this limit as $n \to \infty$, we see that $D_n - f'(0) \to 0$, which shows that $D_n \to f'(0)$ as $n \to \infty$. 
+\end{proof}
+
+
+\begin{thm}
+If $ 0 < \alpha_n < \beta_n$ and $\{ \beta_n/ (\beta_n - \alpha_n) \}$ is bounded, then $\lim D_n = f'(0)$. 
+\end{thm}
+
+\begin{proof}
+Since we have previously derived $D_n - f'(0)$, we can just use the expression from above to prove this theorem. First, we know that since $0 < \alpha_n < \beta_n$, we can say that $\alpha_n < \beta_n$. Therefore, we have:
+\begin{eqnarray}
+D_n - f'(0) &=& v(n) \frac{\beta_n}{\beta_n - \alpha_n} - u(n)\frac{\alpha_n}{\beta_n - \alpha_n} \\
+ &\leq& (v(n) - u(n)) \frac{\beta_n}{\beta_n - \alpha_n}
+\end{eqnarray}
+
+Since we know that $\{ \beta_n / (\beta_n - \alpha_n) \}$ is bounded, we can see that as we take $n \to \infty$, we see that the right hand side goes to zero because $v(n) \to 0$ and $u(n) \to 0$ individually.
+\begin{equation}
+\lim_{n \to \infty} |D_n - f'(0)| \leq \lim_{n \to \infty} |v(n) - u(n)| \left| \frac{\beta_n}{\beta_n - \alpha_n} \right| = 0
+\end{equation}
+Thus, we see that $\lim D_n = f'(0)$.
+\end{proof}
+
+\begin{thm}
+If $f'$ is continuous in $(-1,1)$, then $\lim D_n = f'(0)$. 
+\end{thm}
+
+\begin{proof}
+We can apply the mean value theorem to the function $f$ since it is both continuous and differentiable on $(-1,1)$. Thus, for each $n \in \mathbb{N}$, there exists a $t_n$ with $\alpha_n \leq t_n \leq \beta_n$ such that:
+\begin{equation}
+f'(t_n) = \frac{f(\beta_n) - f(\alpha_n)}{\beta_n - \alpha_n} = D_n
+\end{equation}
+
+Therefore, we see that $\lim \alpha_n \leq \lim t_n \leq \lim \beta_n$. Since both $\alpha_n \to 0$ and $\beta_n \to 0$, we see that $t_n \to 0$ as $n \to \infty$. Therefore, taking the limit as $n \to \infty$ in the above expression, we see that $\lim D_n = f'(0)$. 
+\end{proof}
+
+\begin{thm}
+There exists a function $f$ which is differentiable in $(-1,1)$ and in which $\alpha_n, \beta_n$ tend to 0 in such a way that $\lim D_n $ exists but is different from $f'(0)$. 
+\end{thm}
+
+\begin{proof}
+Consider the following function defined for $x \in (-1,1)$:
+\begin{equation}
+f = \left\{ \begin{array}{c l}
+x^2 \sin (1/x) & x \neq 0 \\
+0 & x = 0
+\end{array} \right.
+\end{equation}
+
+We can pick $\beta_n = \frac{2}{\pi (4n - 1)}$ and $\alpha_n = \frac{1}{2\pi n}$. We see that both $\beta_n \to 0$ and $\alpha_n \to 0$ as $n \to \infty$. However, we also see that $f(\alpha_n) = 0$ for all $n \in \mathbb{N}$ and that $f(\beta_n) = - \beta_n^2$. Therefore, we have:
+\begin{eqnarray}
+\lim_{n \to \infty} D_n &=& \lim_{n to \infty} \frac{f(\beta_n) - f(\alpha_n)}{\beta_n - \alpha_n} \\
+&=& \lim_{n \to \infty} -\frac{\beta_n^2}{\beta_n - \alpha_n} \\
+&=& \lim_{n \to \infty} - \frac{4}{\pi^2 (4n-1)^2} \frac{2\pi n (4n -1)}{1} \\
+&=& -\frac{2}{\pi}
+\end{eqnarray}
+
+Thus, since $f'(0) = 0$, and we can see that $0 \neq -\frac{2}{\pi}$, we have given an example for the theorem.
+\end{proof}
+
+\section{Problem 5.25}
+
+\begin{thm}
+Suppose $f$ is twice differentiable on $[a,b]$, $f(a) < 0, f(b) > 0, f'(x) \geq \delta > 0$, and $0 \leq f''(x) \leq M$ for all $x \in [a,b]$. Let $\xi$ be the unique point in $(a,b)$ at which $f(\xi) = 0$. Choose $x_1 \in (\xi,b)$ and define $x_n$ by $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$. Interpret this goemetrically in terms of a tangent to the graph of $f$.
+\end{thm}
+
+\begin{proof}
+We see that the formula for $x_{n+1}$ computes the intercept of the tangent line of the function at point $x_n$ with the $x$ axis. This will then be the next point, and the process will continue until $x_n$ converges to the root of the function (when $f = 0$).  
+\end{proof}
+
+\begin{thm}
+Prove that $x_{n+1} < x_n$ and that $\lim_{n \to \infty} x_n = \xi$. 
+\end{thm}
+
+\begin{proof}
+We will use induction to show that $ \xi < x_{n+1} < x$. We can use the mean value theorem to show that for some $c_n \in (\xi, x_n)$, we have: $(x_n - \xi) f'(c_n) = f(x_n) - f(\xi) = f(x_n)$ because $f(\xi) = 0$. Moreover, we know that $f'$ is increasing on $[a,b]$, which means that $f'(c_n) < f'(x_n)$ because $c_n < x_n$. Thus,
+\begin{eqnarray}
+f'(c_n) = \frac{f(x_n)}{(x_n - \xi)} < f'(x_n) = \frac{f(n)}{x_n - x_n + \frac{f(x_n)}{f'(x_n)}} = \frac{f(x_n)}{x_n - x_{n+1}}
+\end{eqnarray}
+Therefore, we can rearrange the inequality and see that $x_n - x_{n+1} < x_n - \xi$. This completes the first part of the inequality, because now we see that $\xi < x_{n+1}$. Next, we know that since $f(x) > 0$ and $f'(x) > 0$ for all $x \in [a,b]$, we see that $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} < x_n$. Thus, we have shown that $\xi < x_{n+1} < x_n$. 
+
+Next, we must show that $\lim x_n = \xi$. First, we know that $\{ x_n \}$ is a bounded, strictly decreasing sequence. This means that its limit $\lambda$ exists. Therefore, we have the following:
+\begin{eqnarray}
+\lambda &=& \lim_{n \to \infty} x_{n+1} \\
+\lambda &=& \lim_{n \to \infty} x_n - \frac{f(x_n)}{f'(x_n)} \\
+\lambda &=& \lambda - \frac{f(\lambda)}{f'(\lambda)} \\
+0 &=& f(\lambda)
+\end{eqnarray}
+
+Since $f(\xi) = 0$ is the unique point in $(a,b)$ for which $f(\xi) = 0$, we must have $\lambda = \xi$. Therefore, $\lim x_n = \xi$. 
+\end{proof}
+
+\begin{thm}
+Use Taylor's theorem to show that $x_{n+1} - \xi = \frac{f''(t_n)}{2 f'(x_n)} (x_n - \xi)^2$ for some $t_n \in (\xi, x_n)$. 
+\end{thm}
+
+\begin{proof}
+Using Taylor's theorem for some $t_n \in (\xi, x_n)$, we can obtain:
+\begin{eqnarray}
+f(\xi) &=& f(x_n) + f'(x_n) (\xi - x_n) + \frac{f''(t_n)}{2} (\xi - x_n)^2 \\
+0 &=& \frac{f(x_n)}{f'(x_n)} + (\xi - x_n) + \frac{f''(t_n)}{2 f'(x_n)} (x_n - \xi)^2 \\
+x_{n+1} - \xi &=&  \frac{f''(t_n)}{2 f'(x_n)} (x_n - \xi)^2 
+\end{eqnarray}
+
+We can divide by $f'(x_n)$ because we know that $f'(x) > 0$ for all $x \in (a,b)$. We also know that $(x_n - \xi)^2 = (\xi - x_n)^2$, so we can substitute one for the other.
+\end{proof}
+
+\begin{thm}
+If $A = M/2\delta$, deduce that $ 0 \leq x_{n+1} - \xi \leq \frac{1}{A} [A(x_1 - \xi)]^{2^n}$. 
+\end{thm}
+
+\begin{proof}
+First, since we have shown that $ \xi < x_{n+1}$, we see that $0 \leq x_{n+1} - \xi$. Also, since $f''(x) < M$ and $f'(x) \geq \delta$ for all $x \in (a,b)$, we see that $\frac{f''(t_n)}{2 f'(x_n)} \leq \frac{M}{2 \delta} = A$ for $t_n \in (\xi, x_n)$. We have found that $x_{n+1} - \xi \leq A(x_n - \xi)^2$. Then we can use mathematical induction. For the base case, we have $x_2 - \xi \leq A(x_1 - \xi)^2 = \frac{1}{A} [A(x_1 - \xi)]^2$. Now assume that the inequality has been proven for all cases up to $x_n$. We shall prove that it works for $x_{n+1}$:
+\begin{eqnarray}
+x_{n+1} - \xi &\leq& A(x_n - \xi)^2 \\
+&=& A \left(\frac{1}{A} [A(x_1 - \xi)]^{2^{n-1}} \right)^2 \\
+&=& \frac{1}{A} [A(x_1 - \xi)]^{2^n}
+\end{eqnarray}
+
+This proves the inequality.
+\end{proof}
+
+\begin{thm}
+Show that Newton's method amounts to finding a fixed point of the function $g$ defined by $g(x) = x - \frac{f(x)}{f'(x)}$.
+\end{thm}
+
+\begin{proof}
+We want to show that Newton's method finds $x_0$ such that $g(x_0) = x_0$, or that $x_0 - \frac{f(x_0)}{f'(x_0)} = x_0$ which implies $f(x_0) = 0$. Therefore, we only must show that Newton's method finds $f(x_0) = 0$, because $f'(x_0) > 0$ for all $x \in (a,b)$. 
+
+Since we have previously shown that $\lim x_n = \xi$, we know that $\lim f(x_n) = f(\xi) = 0$. Thus, Newton's method finds an approximation to $x_0$, where $f(x_0) = 0$ as we take larger and larger $n \in \mathbb{N}$ for $\{ x_n \}$. This is what we wanted to show. 
+
+As $x$ approaches $\xi$, we see that $g'(x) = \frac{ f(x) f''(x)}{f'(x)^2}$, so that $0 \leq g'(x) \leq f(x) \frac{M}{\delta^2}$. Thus, we see that as $x$ approaches $\xi$, we have $g'(x)$ approaching $0$. 
+\end{proof}
+
+\begin{thm}
+Put $f(x) = x^{1/3}$ on $(-\infty, \infty)$ and try Newton's method. 
+\end{thm}
+
+\begin{proof}
+We see that $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} = x_n - \frac{3 x^{1/3}}{ x^{-2/3}} = x_n - 3 x_n = - 2x_n$. Thus, we see that $x_2 = -2 x_1$. Using induction, we can assume that $x_n = (-2)^{n-1} x_1$ has been proven up to $x_n$. Then, we can show that
+\begin{eqnarray}
+x_{n+1} = -2 x_n = -2 (-2)^{n-1} x_1 = (-2)^{n} x_1
+\end{eqnarray}
+
+With mathematical induction, we have shown that $x_n = (-2)^{n-1} x_1$. Therefore, we see that for any choice of $x_1$, $x_n$ does not converge. 
+\end{proof}
+
+\section{Problem 5.26}
+
+\begin{thm}
+Suppose $f$ is differentiable on $[a,b]$, $f(a) = 0$, and there is a real number $A$ such that $|f'(x)| \leq A |f(x)|$ on $[a,b]$. Prove that $f(x) = 0$ for all $x \in [a,b]$. 
+\end{thm}
+
+\begin{proof}
+If $A = 0$, then we can see that $f'(x) = 0$, which implies that $f(x) = f(a) = 0$ for all $x \in [a,b]$. Moreover, $A$ cannot be negative because $|.|$ cannot be negative. Thus, we can assume $A > 0$. Next, fix $x_0 \in [a,b]$ and let $M_0 = \sup |f(x)|$ and $M_1 = \sup |f'(x)|$ for $a \leq x \leq x_0$. Next, we can use the mean value theorem, because $f$ is differentiable and hence continuous, to obtain:
+\begin{eqnarray}
+f'(x) = \frac{f(x_0) - f(a)}{x_0 - a} \\
+f'(x) (x_0 - a) = f(x_0)
+\end{eqnarray}
+
+Therefore, since $|f'(x)| \leq \sup |f'(x)| = M_1$, we see that $f(x_0) \leq M (x_0 - a)$. Next, since we have $|f'(x)| \leq A |f(x)|$, we find that
+\begin{eqnarray}
+|f(x)| \leq M_1 (x_0 - a) \leq A M_0 (x_0 - a)
+\end{eqnarray}
+
+Since we can pick any value for $x_0$, we can choose $x_0 -  a < \frac{1}{A}$ such that $A(x_0 - a) < 1$. Then we see that $|f(x)| < A(x_0 - a) M_0$ for all $x \in [a,x_0]$. However, we can only have $M_0 = 0$ because otherwise a number stricly smaller than the supremum would be an upper bound, which shows that $f = 0$ on $[a,x_0]$. To show that $f= 0$ on $[x_0,b]$, we note that we can fix $x_0^1 \in [x_0, b]$ such that $|f(x)| \leq A M_0 (x_0^1 - x_0)$. Repeating the same argument, we see that $f = 0$ on $[a,x_0] \cup [x_0, x_0^1]$. Since $[x_0, x_0^1]$ is a fixed interval, we can see that using the Archimedean principle, we will eventually cover $[a,b]$ with enough intervals $[x_0^{n}, x_0^{n+1}]$. Thus, we see that $f(x) = 0$ for all $x \in [a,b]$. 
+\end{proof}
+
+\section{Problem 5.27}
+
+\begin{thm}
+Let $\phi$ be a real function defined on a rectangle $R$ in the plane, given by $a \leq x \leq b$, $\alpha \leq y \leq \beta$. A solution of the initial value problem $y' = \phi (x,y), y(a) = c, (\alpha \leq c \leq \beta)$ is by definition a differentiable function $f$ on $[a,b]$ such that $f(a) = c, \alpha \leq f(x) \leq \beta$, and $f'(x) = \phi(x,f(x))$ for $(a \leq x \leq b)$. Prove that such a  problem has at most one solution if there is a constant $A$ such that $|\phi(x,y_2) - \phi(x,y_1)| \leq A |y_2 - y_1|$ whenever $(x,y_1) \in \mathbb{R}$ and $(x, y_2) \in \mathbb{R}$.
+\end{thm}
+
+\begin{proof}
+Assume we have two solutions $f_1(x)$ and $f_2(x)$. We will show that they are equal by defining the function $g(x) = f_2(x) - f_1(x)$. Then since both of the solutions are such that $f_2(a) = f_1(a) = c$, we know that $g(a) = f_2(a) - f_1(a) = 0$. Next, since we have $f'_1(x) = \phi(x, f_1(x))$ and $f'_2(x) = \phi(x,f_2(x))$, we know that by the assumed condition, we have:
+\begin{eqnarray}
+|g'(x)| = |\phi(x,f_2(x)) - \phi(x,f_1(x))| = |f'_2(x) - f'_1(x)| \leq A |f_2(x) - f_1(x)|
+\end{eqnarray}
+Thus, we see that $|g'(x)| \leq A |g(x)|$, so that $g$ satisfies the conditions of problem 5.26 above. This means that we have $g(x) = 0$ for all $x \in [a,b]$. Thus, we see that $f_2(x) = f_1(x)$ for all $x \in [a,b]$, and that the two solutions are actually the same. Therefore, the problem has at most one solution.
+\end{proof}
+
+\section{Problem 6.1}
+
+\begin{thm}
+Suppose $\alpha$ increases on $[a,b]$, $a \leq x_0 \leq b$, $\alpha$ is continuous at $x_0$, $f(x_0) = 1$, and $f(x) = 0$ if $x \neq x_0$. Prove that $f \in \mathbb{R}(\alpha)$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Since we know that $\alpha$ is continuous at $x_0$, we know that $|\alpha(x) - \alpha(x_0)| < \epsilon$ if $|x - x_0| < \delta$ for all $x \in [a,b]$. Thus, choose some partition $P = \{a = x_0 < \ldots < x_{i-1} < x_i < \ldots < x_n < b \}$ for $[a,b]$ and let $x_0 \in [x_{i-1},x_i]$ the be interval in which $x_0$ lies. We can choose a particular interval $[x_{i-1},x_i]$ such that $| x_{i-1} - x_0 | < \delta/2$ and $|x_i - x_0 | < \delta/2$. Moreover, we see that for this interval, we have:
+\begin{eqnarray}
+\sup_{x \in [x_{i-1},x_i]} f(x) = 1 \hspace{1cm} \inf_{x \in [x_{i-1},x_i]} f(x) = 0
+\end{eqnarray}
+
+Because we know that $f(x_0) = 1$ but at all other points in the interval $f(x) = 0$. Next, we see that for the other intervals, we have:
+\begin{equation}
+\sup_{x \in [x_{j-1},x_j]} f(x) = \inf_{x \in [x_{j-1},x_j]} f(x) = 0 \hspace{1cm} ( 0 \leq j \neq i\leq n )
+\end{equation}
+
+Therefore, we see that $m_j = \inf_{x \in [x_{j-1},x_j]} f(x) = M_j = \sup_{x \in [x_{j-1},x_j]} f(x)$. This means that $M_j - m_j = 0$ for all $j \neq i$ and $0 \leq j \leq n$. Thus, we have the following:
+\begin{eqnarray}
+U(P,f,\alpha) - L(P,f,\alpha) &=& \sum_{j = 0}^n (M_j - m_j) \Delta \alpha_j \\
+&=& \Delta \alpha_i \\
+&=& \alpha(x_i) - \alpha(x_{i-1}) 
+\end{eqnarray}
+
+By the triangle inequality, we know that $|\alpha(x_i) - \alpha(x_{i-1})|\leq |\alpha(x_i) - \alpha(x_0)| + |\alpha(x_0) - \alpha(x_{i-1}) |$. Since we have chosen $|x_{i-1} - x_0| < \delta/2$ and $|x_i - x_0| < \delta/2$, we have by continuity that $U(P,f,\alpha) - L(P,f,\alpha) < \epsilon/2 + \epsilon/2 = \epsilon$, which shows that $f \in \mathbb{R}(\alpha, [a,b])$. 
+\end{proof}
+
+\begin{thm}
+Prove that $\int f d \alpha = 0$. 
+\end{thm}
+
+\begin{proof}
+We know that we must have:
+\begin{equation}
+\int_{\underline{a}}^b f d \alpha = \int_{a}^{\overline{b}} f d \alpha
+\end{equation}
+
+Since we know the definition of each of these upper and lower integrals, we can write out the following:
+\begin{eqnarray}
+\int_{\underline{a}}^b f d \alpha = \inf U(P,f,\alpha) = 0 \\
+\int_{a}^{\overline{b}} f d \alpha = \sup L(P,f,\alpha) = 0
+\end{eqnarray}
+
+Therefore, since we know it exists, we see that $\int f d\alpha = 0$. 
+\end{proof}
+
+\section{Problem 6.2}
+
+\begin{thm}
+Suppose $f \geq 0$, $f$ is continuous on $[a,b]$, and $\int_{a}^b f(x) dx = 0$. Prove that $f(x) = 0$. 
+\end{thm}
+
+\begin{proof}
+Assume the contrary and fix $\epsilon > 0$. Then for some $x_0 \in [a,b]$, we have $f(x_0) > 0$ (since we have assumed $f(x) > 0$ as well). We know that $f$ is continuous, so that $|f(x) - f(x_0)| <  \epsilon$ if $0 < |x - x_0| < \delta$. Since $\int_a^b f(x) dx$ exists, we can choose any partition $P = \{ a = x_0 < \ldots < x_{i-1} < x_j < \ldots < x_n = b \}$ such that $0 < |x_{i-1} - x_0 | < \delta/2$ and $0 < |x_i - x_0 |  < \delta/2$. Moreover, we know the following must be true:
+\begin{equation}
+0 = \int_a^b f(x) dx = \int_{\underline{a}}^b f(x) dx = \int_a^{\overline{b}} f(x) dx
+\end{equation}
+
+This means that $0 = \sup L(P,f) = \inf U(P,f)$ over all the possible partitions $P$ of $[a,b]$. Thus, for every possible partition, we must have:
+\begin{eqnarray}
+0 = \sum_{j=1}^n M_j \Delta x_j = \sum_{j=1}^n m_j \Delta x_j
+\end{eqnarray}
+
+Particularly, since $M_j = \sup f(x)$ for $x_{j-1} \leq x \leq x_j$, and we know that $\sum_{j=1}^n \Delta x_j = a - b \neq 0$, we must have $M_j = 0$ for all $j$ such that $|x_{j-1} - x_j| \neq 0$. However, we have constructed a partition $P$ such that $0 < |x_{i-1} - x_i | < \delta$ and where $f(x_0) > 0$ for some $x_0 \in [x_{i-1},x_i]$, which means that $M_i = f(x_0) > 0$. This is a contradiction because we have shown all $M_j = 0$. Therefore, we must have $f(x) = 0$ for all $x \in [a,b]$. 
+\end{proof}
+
+\section{Problem 6.3}
+
+\begin{thm}
+Define three functions $\beta_1, \beta_2, \beta_3$ as follows: $\beta_j(x) = 0$ if $x < 0$, $\beta_j(x) = 1$ if $x > 0$ for $j = 1,2,3$; and $\beta_1(0) = 0, \beta_2(0) = 1, \beta_3(0) = \frac{1}{2}$. Let $f$ be a bounded function on $[-1,1]$. Prove that $f \in \mathbb{R}(\beta_1)$ if and only if $f(0+) = f(0)$ and that then $\int f d\beta_1 = f(0)$.
+\end{thm}
+
+\begin{proof}
+Consider the partition $P = \{ x_0, x_1, x_2, x_3 \}$ where $x_0 = -1$ and $x_1 = 0 < x_2 < x_3 = 1$. Then $U(P,f,\alpha) = M_2$ and $L(P,f,\alpha) = m_2$. Here, we denote $M_2 = \sup_{x \in [0,x_2]} f(x)$ and $m_2 = \inf_{x \in [0,x_2]} f(x)$. Thus, we only need to have knowledge of the interval $[0,x_2]$, which approaches $0$ from the right. If $f(0+) = f(0)$, then we see that $M_2, m_2 \to f(0)$ as $x_2 \to 0$. Therefore $f \in \mathbb{R}(\beta_1)$. 
+
+To prove the converse, assume the contrary. If $f(0+) \neq f(0)$, then either $M_2$ or $m_2$ does not converge to $f(0)$ as $x_2 \to 0$, which is a contradiction of the assumption that $f \in \mathbb{R}(\beta_1)$. Therefore, we must have $f(0+) = f(0)$. Finally, note that in the course of this proof, we have shown that $\int_{-1}^1 f d \beta_1 = f(0)$ because $M_2 = m_2 = f(0)$ as $x_2 \to 0$. 
+\end{proof}
+
+\begin{thm}
+Prove that $f \in \mathbb{R}(\beta_2)$ if and only if $f(0-) = f(0)$ and that then $\int f d \beta_2 = f(0)$. 
+\end{thm}
+
+\begin{proof}
+Take the partition $P = \{ x_0, x_1, x_2, x_3 \}$ where $-1 = x_0 < x_1 < x_2 = 0$ and $x_3 = 1$. Thus, it is clear that $\Delta \beta_{2,i} = 0$ for all $i$ except $i=2$. For $i=2$, we see that $\Delta \beta_{2,2} = \beta_{2}(x_2) - \beta_2(x_1) = 1$. Therefore $U(P,f,\beta_2) = M_2$ and $L(P,f,\beta_2) = m_2$. If $f(0-) = f(0)$, then $M_2,m_2 \to f(0)$ as $x_1 \to 0-$, which shows that $f \in \mathbb{R}(\beta_2)$. 
+
+To show the converse, we can assume the contrary, and we see that if $f(0-) \neq f(0)$, then either $M_2$ or $m_2$ does not converge to $f(0)$ as $x_1 \to 0-$. This is a contradiction because we assumed $f \in \mathbb{R}(\beta_2)$, so we must have $f(0-) = f(0)$. Like the above theorem, we have shown that $\int_{-1}^1 f d \beta_2 = f(0)$ because $M_2, m_2 \to f(0)$ as $x_2 \to 0$.
+\end{proof}
+
+\begin{thm}
+Prove that $f \in \mathbb{R}(\beta_3)$ if and only if $f$ is continuous at $0$.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. If $f$ is continuous at $0$, then we have $|f(x) - f(0)| < \epsilon$ if $|x| < \delta$ for all $x \in [-1,1]$. Now take the partition $P = \{x_0, x_1, x_2, x_3, x_4 \}$ such that $-1 = x_0 < x_1 < x_2 = 0 < x_3 < x_4 = 1$. Thus, we see that the only two indices for which $\Delta \beta_{3,i} \neq 0$ are $i = 2,3$. We have $\Delta \beta_{3,2} = \beta_3(x_2) - \beta_3(x_1) = \Delta \beta_{3,3} = \beta_3(x_3) - \beta_3(x_2) = 1/2$. Therefore, we can see that $L(P,f,\beta_3) = (m_2 + m_3)/2$ and $U(P,f,\beta_3) = (M_2 + M_3) /2$. Since $f$ is continuous, we know that as $x_1 \to 0-$ and $x_3 \to 0+$, we have:
+\begin{eqnarray}
+U(P,f,\beta_3) - L(P,f,\beta_3) &=& \frac{1}{2} (M_2 - m_2)  + \frac{1}{2} ( M_3 - m_3) \\
+&=& \frac{1}{2} \left(\sup_{x \in [x_1,0]} f(x) - \inf_{x \in [x_1,0]} f(x) \right) + \frac{1}{2} \left( \sup_{x \in [0,x_3]} f(x) - \inf_{x \in [0,x_3]} f(x) \right) \\
+&<& \frac{1}{2} \epsilon + \frac{1}{2} \epsilon = \epsilon
+\end{eqnarray}
+
+Therefore, we see that $f \in \mathbb{R}(\beta_3)$. 
+
+Next, if we assume $f \in \mathbb{R}(\beta_3)$, we know that $U(P,f,\beta_3) - L(P,f,\beta_3) < \epsilon$. Considering the same partition as before, it is clear that must have $f(x) \to f(0)$ as $x \to 0$ as $x_1 \to 0 -$ and $x_3 \to 0 +$. This is because we can assume the contrary and say that either $f(0-) \neq f(0)$ or $f(0+) \neq f(0)$. Then we would see that either $M_2 - m_2$ or $M_3 - m_3$ does not converge to zero, so that $U(P,f,\beta_3) - L(P,f,\beta_3)$ does not converge to 0, which is a contradiction. 
+\end{proof}
+
+\begin{thm}
+If $f$ is continuous at $0$ prove that $\int f d \beta_1 = \int f d \beta_2 = \int f d \beta_3 = f(0)$. 
+\end{thm}
+
+\begin{proof}
+If $f$ is continuous at $0$, then $f(0) = f(0-) = f(0+) = \lim_{x \to 0} f(x)$. This means that $f \in \mathbb{R}(\beta_1)$ by part 1 and $f \in \mathbb{R}(\beta_2)$ by part 2. The third part shows that $f \in \mathbb{R}(\beta_3)$ by continuity of $f$ at $0$. Thus, all the above integrals exist. Moreover, parts 1 and 2 show that $\int f d \beta_1 = \int f d \beta_2 = f(0)$. We have seen that part 3 implies $f(0-) = f(0+) = f(0)$, which also shows that $U(P,f,\beta_3) = \frac{1}{2}(M_2 + M_3) \to f(0)$ and $U(P,f,\beta_3) = \frac{1}{2}(m_2 + m_3) \to f(0)$ as $x_1 \to 0-$ and $x_3 \to 0+$. Since we have:
+\begin{equation}
+L(P,f,\beta_3) \leq \int_{\underline{-1}}^{1} f d \beta_3 \leq \int_{{-1}}^{\overline{1}} f d \beta_3 \leq U(P,f,\beta_3)
+\end{equation}
+
+We know that as $x_1 \to 0-$ and $x_3 \to 0+$, we must have $\int_{-1}^1 f d \beta_3 = f(0)$. 
+\end{proof}
+
+\end{document}

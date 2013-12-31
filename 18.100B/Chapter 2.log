@@ -1,0 +1,406 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2011.3.25)  10 MAY 2011 18:27
+entering extended mode
+**C:/Users/John/Documents/MIT/Math/Chapter*2.tex
+("C:/Users/John/Documents/MIT/Math/Chapter 2.tex"
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\classes\amsart.cls"
+Document Class: amsart 2009/07/02 v2.20.1
+\linespacing=\dimen102
+\normalparindent=\dimen103
+\normaltopskip=\skip41
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsmath.sty"
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip42
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amstext.sty"
+Package: amstext 2000/06/29 v2.01
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks14
+\ex@=\dimen104
+))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen105
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsopn.sty"
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count79
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count80
+\leftroot@=\count81
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count82
+\DOTSCASE@=\count83
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen106
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count84
+\c@MaxMatrixCols=\count85
+\dotsspace@=\muskip10
+\c@parentequation=\count86
+\dspbrk@lvl=\count87
+\tag@help=\toks15
+\row@=\count88
+\column@=\count89
+\maxfields@=\count90
+\andhelp@=\toks16
+\eqnshift@=\dimen107
+\alignsep@=\dimen108
+\tagshift@=\dimen109
+\tagwidth@=\dimen110
+\totwidth@=\dimen111
+\lineht@=\dimen112
+\@envbody=\toks17
+\multlinegap=\skip43
+\multlinetaggap=\skip44
+\mathdisplay@stack=\toks18
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 388.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2009/06/22 v3.00 Basic AMSFonts support
+
+
+Package amsfonts Warning: The 'psamsfonts' option is obsolete in AMSFonts v3.
+
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 96.
+)
+\copyins=\insert233
+\abstractbox=\box28
+\listisep=\skip45
+\c@part=\count91
+\c@section=\count92
+\c@subsection=\count93
+\c@subsubsection=\count94
+\c@paragraph=\count95
+\c@subparagraph=\count96
+\c@figure=\count97
+\c@table=\count98
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
+\captionindent=\dimen113
+\thm@style=\toks19
+\thm@bodyfont=\toks20
+\thm@headfont=\toks21
+\thm@notefont=\toks22
+\thm@headpunct=\toks23
+\thm@preskip=\skip48
+\thm@postskip=\skip49
+\thm@headsep=\skip50
+\dth@everypar=\toks24
+) ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2009/06/22 v3.00
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xy.sty"
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xy.tex" Bootstrap'ing:
+catcodes, docmode,
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyrecat.tex")
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyidioms.tex")
+
+ Xy-pic version 3.8.2 <2010/06/17>
+ Copyright (c) 1991-2010 by Kristoffer H. Rose <krisrose@tug.org>
+ Xy-pic is free software: see the User's Guide for details.
+
+Loading kernel: messages; fonts; allocations: state,
+\X@c=\dimen114
+\Y@c=\dimen115
+\U@c=\dimen116
+\D@c=\dimen117
+\L@c=\dimen118
+\R@c=\dimen119
+\Edge@c=\toks25
+\X@p=\dimen120
+\Y@p=\dimen121
+\U@p=\dimen122
+\D@p=\dimen123
+\L@p=\dimen124
+\R@p=\dimen125
+\Edge@p=\toks26
+\X@origin=\dimen126
+\Y@origin=\dimen127
+\X@xbase=\dimen128
+\Y@xbase=\dimen129
+\X@ybase=\dimen130
+\Y@ybase=\dimen131
+\X@min=\dimen132
+\Y@min=\dimen133
+\X@max=\dimen134
+\Y@max=\dimen135
+\lastobjectbox@=\box29
+\zerodotbox@=\box30
+\almostz@=\dimen136
+ direction,
+\d@X=\dimen137
+\d@Y=\dimen138
+\K@=\count99
+\KK@=\count100
+\Direction=\count101
+\K@dXdY=\dimen139
+\K@dYdX=\dimen140
+\xyread@=\read1
+\xywrite@=\write3
+\csp@=\count102
+\quotPTK@=\dimen141
+
+utility macros; pictures: \xy, positions,
+\swaptoks@@=\toks27
+\connectobjectbox@@=\box31
+ objects,
+\styletoks@=\toks28
+ decorations;
+kernel objects: directionals, circles, text; options; algorithms: directions,
+edges, connections;  Xy-pic loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2010/01/28 v2.1 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+Package: xy 2010/06/17 Xy-pic version 3.8.2
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyall.tex"
+ Xy-pic option: All features v.3.6
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xycurve.tex"
+ Xy-pic option: Curve and Spline extension v.3.11 curve,
+\crv@cnt@=\count103
+\crvpts@=\toks29
+\splinebox@=\box32
+\splineval@=\dimen142
+\splinedepth@=\dimen143
+\splinetol@=\dimen144
+\splinelength@=\dimen145
+ circles,
+\L@=\dimen146
+ loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyframe.tex"
+ Xy-pic option: Frame and Bracket extension v.3.11 loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xycmtip.tex"
+ Xy-pic option: Computer Modern tip extension v.3.5
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xytips.tex"
+ Xy-pic option: More Tips extension v.3.7 loaded) loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyline.tex"
+ Xy-pic option: Line styles extension v.3.9
+\xylinethick@=\dimen147
+ loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyrotate.tex"
+ Xy-pic option: Rotate and Scale extension v.3.7 loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xycolor.tex"
+ Xy-pic option: Colour extension v.3.10 loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xymatrix.tex"
+ Xy-pic option: Matrix feature v.3.8
+\Row=\count104
+\Col=\count105
+\queue@=\toks30
+\queue@@=\toks31
+\qcount@=\count106
+\qcount@@=\count107
+\matrixsize@=\count108
+ loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyarrow.tex"
+ Xy-pic option: Arrow and Path feature v.3.7 path, \ar, loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xygraph.tex"
+ Xy-pic option: Graph feature v.3.9 loaded) loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xyarc.tex"
+ Xy-pic option: Circle, Ellipse, Arc feature v.3.7 circles, ellipses,
+elliptical arcs, loaded)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xypdf.tex"
+ Xy-pic option: PDF driver v.1.4 Xy-pic pdf driver: `color' extension support
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xypdf-co.tex" loaded)
+Xy-pic pdf driver: `curve' extension support
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xypdf-cu.tex"
+\xP@off=\dimen148
+\xP@ta=\dimen149
+\xP@tb=\dimen150
+\xP@tc=\dimen151
+\xP@M=\dimen152
+\xP@oldobj=\dimen153
+\xP@Tax=\dimen154
+\xP@Tay=\dimen155
+\xP@Tdx=\dimen156
+\xP@Tdy=\dimen157
+\xP@Tmx=\dimen158
+\xP@Tmy=\dimen159
+\xP@xa=\dimen160
+\xP@ya=\dimen161
+\xP@xb=\dimen162
+\xP@yb=\dimen163
+\xP@xc=\dimen164
+\xP@yc=\dimen165
+\xP@xd=\dimen166
+\xP@yd=\dimen167
+ loaded)
+Xy-pic pdf driver: `frame' extension support
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xypdf-fr.tex" loaded)
+Xy-pic pdf driver: `line' extension support
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xypdf-li.tex" loaded)
+Xy-pic pdf driver: `rotate' extension support
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\xypic\xypdf-ro.tex" loaded)
+loaded)) ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\tools\enumerate.sty"
+Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
+\@enLab=\toks32
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\jknappen\mathrsfs.sty"
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup6
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\geometry\geometry.sty"
+Package: geometry 2010/07/08 v5.4 Page Geometry
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks33
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\oberdiek\ifvtex.sty"
+Package: ifvtex 2010/03/01 v1.5 Switches for detecting VTeX and its modes (HO)
+Package ifvtex Info: VTeX not detected.
+)
+\Gm@cnth=\count109
+\Gm@cntv=\count110
+\c@Gm@tempcnt=\count111
+\Gm@bindingoffset=\dimen148
+\Gm@wd@mp=\dimen149
+\Gm@odd@mp=\dimen150
+\Gm@even@mp=\dimen151
+\Gm@layoutwidth=\dimen152
+\Gm@layoutheight=\dimen153
+\Gm@layouthoffset=\dimen154
+\Gm@layoutvoffset=\dimen155
+\Gm@dimlist=\toks34
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\geometry\geometry.cfg"))
+\c@thm=\count112
+
+\bibstyle{plain}
+("C:\Users\John\Documents\MIT\Math\Chapter 2.aux")
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 55.
+LaTeX Font Info:    ... okay on input line 55.
+LaTeX Font Info:    Try loading font information for U+msa on input line 55.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2009/06/22 v3.00 AMS symbols A
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 55.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\amsfonts\umsb.fd"
+File: umsb.fd 2009/06/22 v3.00 AMS symbols B
+)
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 55.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\jknappen\ursfs.fd"
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+Package xypdf Info: Line width: 0.39998pt on input line 55.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: <default>
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(72.26999pt, 469.75502pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 650.43001pt, 72.26999pt)
+* \paperwidth=614.295pt
+* \paperheight=794.96999pt
+* \textwidth=469.75502pt
+* \textheight=690.0pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-20.0pt
+* \headheight=0.0pt
+* \headsep=14.0pt
+* \topskip=10.0pt
+* \footskip=12.0pt
+* \marginparwidth=90.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=7.0pt plus 11.0pt
+* \hoffset=0.0pt
+* \voffset=-10.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+[1{C:/ProgramData/MiKTeX/2.8/pdftex/config/pdftex.map}]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[2]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[3]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[4]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[5]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[6] ("C:\Users\John\Documents\MIT\Math\Chapter 2.aux") ) 
+Here is how much of TeX's memory you used:
+ 4952 strings out of 495285
+ 60395 string characters out of 3179830
+ 178811 words of memory out of 3000000
+ 7926 multiletter control sequences out of 15000+200000
+ 11643 words of font info for 51 fonts, out of 3000000 for 9000
+ 175 hyphenation exceptions out of 8191
+ 34i,15n,32p,3275b,261s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)
+/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files (x86)/M
+iKTeX 2.8/fonts/type1/public/amsfonts/cm/cmcsc10.pfb><C:/Program Files (x86)/Mi
+KTeX 2.8/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Program Files (x86)/MiKT
+eX 2.8/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files (x86)/MiKTeX
+ 2.8/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C:/Program Files (x86)/MiKTeX 2.
+8/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files (x86)/MiKTeX 2.8/f
+onts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.8/font
+s/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/ty
+pe1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/
+public/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/publ
+ic/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public
+/amsfonts/cm/cmsy7.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/am
+sfonts/cm/cmti10.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsf
+onts/symbols/msam10.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/a
+msfonts/symbols/msbm10.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/publi
+c/amsfonts/symbols/msbm7.pfb>
+Output written on "Chapter 2.pdf" (6 pages, 218656 bytes).
+PDF statistics:
+ 85 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

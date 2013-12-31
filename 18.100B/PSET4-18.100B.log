@@ -1,0 +1,289 @@
+This is pdfTeX, Version 3.141592-1.40.4 (MiKTeX 2.7) (preloaded format=pdflatex 2009.2.12)  27 FEB 2011 21:36
+entering extended mode
+**C:/Documents*and*Settings/John/My*Documents/MIT/Math/PSET4-18.100B.tex
+("C:/Documents and Settings/John/My Documents/MIT/Math/PSET4-18.100B.tex"
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, french, loaded.
+("C:\Program Files\MiKTeX 2.7\tex\latex\amscls\amsart.cls"
+Document Class: amsart 2004/08/06 v2.20
+\linespacing=\dimen102
+\normalparindent=\dimen103
+\normaltopskip=\skip41
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsmath.sty"
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip42
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amstext.sty"
+Package: amstext 2000/06/29 v2.01
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks14
+\ex@=\dimen104
+))
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen105
+)
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsmath\amsopn.sty"
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count79
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count80
+\leftroot@=\count81
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count82
+\DOTSCASE@=\count83
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box26
+\strutbox@=\box27
+\big@size=\dimen106
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count84
+\c@MaxMatrixCols=\count85
+\dotsspace@=\muskip10
+\c@parentequation=\count86
+\dspbrk@lvl=\count87
+\tag@help=\toks15
+\row@=\count88
+\column@=\count89
+\maxfields@=\count90
+\andhelp@=\toks16
+\eqnshift@=\dimen107
+\alignsep@=\dimen108
+\tagshift@=\dimen109
+\tagwidth@=\dimen110
+\totwidth@=\dimen111
+\lineht@=\dimen112
+\@envbody=\toks17
+\multlinegap=\skip43
+\multlinetaggap=\skip44
+\mathdisplay@stack=\toks18
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 407.
+
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\umsa.fd"
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\amsfonts.sty"
+Package: amsfonts 2001/10/25 v2.2f
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+)
+\copyins=\insert233
+\abstractbox=\box28
+\listisep=\skip45
+\c@part=\count91
+\c@section=\count92
+\c@subsection=\count93
+\c@subsubsection=\count94
+\c@paragraph=\count95
+\c@subparagraph=\count96
+\c@figure=\count97
+\c@table=\count98
+\abovecaptionskip=\skip46
+\belowcaptionskip=\skip47
+\captionindent=\dimen113
+\thm@style=\toks19
+\thm@bodyfont=\toks20
+\thm@headfont=\toks21
+\thm@notefont=\toks22
+\thm@headpunct=\toks23
+\thm@preskip=\skip48
+\thm@postskip=\skip49
+\thm@headsep=\skip50
+\dth@everypar=\toks24
+)
+("C:\Program Files\MiKTeX 2.7\tex\latex\amsfonts\amssymb.sty"
+Package: amssymb 2002/01/22 v2.2d
+)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xy.sty"
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xy.tex" Bootstrap'ing:
+catcodes, docmode, ("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyrecat.tex"
+) ("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyidioms.tex")
+
+ Xy-pic version 3.7 <1999/02/16>
+ Copyright (c) 1991-1998 by Kristoffer H. Rose <krisrose@ens-lyon.fr>
+ Xy-pic is free software: see the User's Guide for details.
+
+Loading kernel: messages; fonts; allocations: state,
+\X@c=\dimen114
+\Y@c=\dimen115
+\U@c=\dimen116
+\D@c=\dimen117
+\L@c=\dimen118
+\R@c=\dimen119
+\Edge@c=\toks25
+\X@p=\dimen120
+\Y@p=\dimen121
+\U@p=\dimen122
+\D@p=\dimen123
+\L@p=\dimen124
+\R@p=\dimen125
+\Edge@p=\toks26
+\X@origin=\dimen126
+\Y@origin=\dimen127
+\X@xbase=\dimen128
+\Y@xbase=\dimen129
+\X@ybase=\dimen130
+\Y@ybase=\dimen131
+\X@min=\dimen132
+\Y@min=\dimen133
+\X@max=\dimen134
+\Y@max=\dimen135
+\lastobjectbox@=\box29
+\zerodotbox@=\box30
+\almostz@=\dimen136
+ direction,
+\d@X=\dimen137
+\d@Y=\dimen138
+\K@=\count99
+\KK@=\count100
+\Direction=\count101
+\K@dXdY=\dimen139
+\K@dYdX=\dimen140
+\xyread@=\read1
+\xywrite@=\write3
+\csp@=\count102
+\quotPTK@=\dimen141
+
+utility macros; pictures: \xy, positions,
+\swaptoks@@=\toks27
+\connectobjectbox@@=\box31
+ objects,
+\styletoks@=\toks28
+ decorations;
+kernel objects: directionals, circles, text; options; algorithms: directions,
+edges, connections;  Xy-pic loaded)
+Package: xy 1999/02/16 Xy-pic version 3.7
+
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyall.tex"
+ Xy-pic option: All features v.3.3
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xycurve.tex"
+ Xy-pic option: Curve and Spline extension v.3.7 curve,
+\crv@cnt@=\count103
+\crvpts@=\toks29
+\splinebox@=\box32
+\splineval@=\dimen142
+\splinedepth@=\dimen143
+\splinetol@=\dimen144
+\splinelength@=\dimen145
+ circles,
+\L@=\dimen146
+ loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyframe.tex"
+ Xy-pic option: Frame and Bracket extension v.3.7 loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xycmtip.tex"
+ Xy-pic option: Computer Modern tip extension v.3.3
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xytips.tex"
+ Xy-pic option: More Tips extension v.3.3 loaded) loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyline.tex"
+ Xy-pic option: Line styles extension v.3.6
+\xylinethick@=\dimen147
+ loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyrotate.tex"
+ Xy-pic option: Rotate and Scale extension v.3.3 loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xycolor.tex"
+ Xy-pic option: Colour extension v.3.3 loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xymatrix.tex"
+ Xy-pic option: Matrix feature v.3.4
+\Row=\count104
+\Col=\count105
+\queue@=\toks30
+\queue@@=\toks31
+\qcount@=\count106
+\qcount@@=\count107
+\matrixsize@=\count108
+ loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyarrow.tex"
+ Xy-pic option: Arrow and Path feature v.3.5 path, \ar, loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xygraph.tex"
+ Xy-pic option: Graph feature v.3.7 loaded) loaded)
+("C:\Program Files\MiKTeX 2.7\tex\generic\xypic\xyarc.tex"
+ Xy-pic option: Circle, Ellipse, Arc feature v.3.4 circles, ellipses,
+elliptical arcs, loaded))
+("C:\Program Files\MiKTeX 2.7\tex\latex\tools\enumerate.sty"
+Package: enumerate 1999/03/05 v3.00 enumerate extensions (DPC)
+\@enLab=\toks32
+)
+("C:\Program Files\MiKTeX 2.7\tex\latex\jknappen\mathrsfs.sty"
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup6
+)
+\c@thm=\count109
+
+\bibstyle{plain}
+(PSET4-18.100B.aux)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
+LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 53.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 53.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 53.
+LaTeX Font Info:    Try loading font information for U+rsfs on input line 53.
+ ("C:\Program Files\MiKTeX 2.7\tex\latex\jknappen\ursfs.fd"
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 61.
+[1{C:/Documents and Settings/All Users/Application Data/MiKTeX/2.7/pdftex/confi
+g/pdftex.map}]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[2]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[3]
+Overfull \vbox (4.78334pt too high) has occurred while \output is active []
+
+
+[4] (PSET4-18.100B.aux) ) 
+Here is how much of TeX's memory you used:
+ 3972 strings out of 95340
+ 44539 string characters out of 1184155
+ 138127 words of memory out of 1500000
+ 6980 multiletter control sequences out of 110000
+ 10457 words of font info for 45 fonts, out of 1200000 for 2000
+ 175 hyphenation exceptions out of 8191
+ 34i,9n,31p,1064b,264s stack positions out of 5000i,500n,10000p,200000b,5000s
+<C:/Program Files/MiKTeX 2.7/fonts/type1/bluesky/cm/cm
+bx10.pfb><C:/Program Files/MiKTeX 2.7/fonts/type1/bluesky/cm/cmcsc10.pfb><C:/Pr
+ogram Files/MiKTeX 2.7/fonts/type1/bluesky/cm/cmex10.pfb><C:/Program Files/MiKT
+eX 2.7/fonts/type1/bluesky/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.7/fonts/typ
+e1/bluesky/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.7/fonts/type1/bluesky/cm/cmr
+10.pfb><C:/Program Files/MiKTeX 2.7/fonts/type1/bluesky/cm/cmr7.pfb><C:/Program
+ Files/MiKTeX 2.7/fonts/type1/bluesky/cm/cmr8.pfb><C:/Program Files/MiKTeX 2.7/
+fonts/type1/bluesky/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.7/fonts/type1/blue
+sky/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.7/fonts/type1/bluesky/cm/cmti10.pfb
+><C:/Program Files/MiKTeX 2.7/fonts/type1/bluesky/ams/msam10.pfb><C:/Program Fi
+les/MiKTeX 2.7/fonts/type1/bluesky/ams/msbm10.pfb>
+Output written on PSET4-18.100B.pdf (4 pages, 99473 bytes).
+PDF statistics:
+ 67 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+

@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <title>Circuit simulation visualization</title>
+    <style type="text/css">
+<%= Sass.compile_file 'src/visualizer.scss' %>
+    </style>
+
+    <script type="text/javascript">
+<%= CoffeeScript.compile File.read('src/visualizer.coffee') %>
+    </script>
+    <script src="../../circuit.jsonp" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="svg-container">
+    </div>
+
+    <p id="controls-container">
+      <span id="time-label">0</span>
+      <span id="start-time-label">0</span>
+      <input id="timeline" type="range" min="0" max="1" step="1" value="0" />
+      <span id="end-time-label">1</span>
+      
+      <span id="controls-buttons">
+        <button id="seek-start">&lt;&lt;</button>
+        <button id="back">&lt;</button>
+        <button id="play">Play</button>
+        <button id="forward">&gt;</button>
+        <button id="seek-end">&gt;&gt;</button>
+      </span>
+    </p>
+  </body>
+</html>

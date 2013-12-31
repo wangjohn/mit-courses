@@ -1,0 +1,27 @@
+wire left-6-bottomleft 0 0 0 -50
+wire left-6-topleft 0 -50 0 -100
+wire left-6-top 0 -100 50 -100
+wire left-6-middle 0 -50 50 -50
+wire left-6-right 50 0 50 -50
+wire left-6-bottom 0 0 50 0
+wire dot-h 70 0 100 0
+wire dot-v 85 15 85 -15
+wire left-0-left 120 0 120 -100
+wire left-0-right 170 0 170 -100
+wire left-0-top 120 -100 170 -100
+wire left-0-bottom 120 0 170 0
+wire left-0-bottom-notch 110 -20 130 -20
+wire left-0-top-notch 160 -80 180 -80
+wire right-0-bottom 145 10 240 10
+wire right-0-bottomleft 190 20 190 -70
+wire right-0-topleft 190 -70 190 -100
+wire right-0-top 190 -100 250 -100
+wire right-0-bottomright 240 5 240 -30
+wire right-0-topright 240 -35 240 -120
+wire right-6-bottomleft 260 0 260 -50
+wire right-6-topleft 260 -50 260 -100
+wire right-6-top 260 -100 310 -100
+wire right-6-middle 260 -50 310 -50
+wire right-6-right 310 0 310 -50
+wire right-6-bottom 260 0 310 0
+done

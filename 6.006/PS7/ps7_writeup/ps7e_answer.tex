@@ -1,0 +1,70 @@
+%
+% 6.006 problem set 7E
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros}
+
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{mdwlist}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\newcommand{\isnotequal}{\mathrel{\scalebox{0.8}[1]{!}\hspace*{1pt}\scalebox{0.8}[1]{=}}}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{trees}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+% Fill these in!
+\newcommand{\theproblemsetnum}{7E}
+\newcommand{\releasedate}{December 7, 2011}
+\newcommand{\partaduedate}{Thursday, December 8}
+\newcommand{\tabUnit}{3ex}
+\newcommand{\tabT}{\hspace*{\tabUnit}}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}{\releasedate}
+You will need to submit the \verb|ps7e_answer.tex| file containing your grading
+explanation to the Stellar assignment ``Problem Set 7E -- LaTeX Template'' by
+\textbf{Thursday, December 8th, 11:59PM}. Your grade for Problem 2(t) in
+Problem Set 7 will be based on both your solutions and the grading explanation.
+\medskip
+
+\hrulefill
+
+\begin{problems}
+
+\problem Please write a short explanation of your pseudo-code for Problem 2(t)
+in Problem Set 7. Assume the grader is familiar with the problem and with the
+staff solution. If your solution is very similar to the official solution,
+please state that, and point out and explain any differences. If your solution
+is correct, but very different from the official solution, write a brief
+explanation to convince the grader that your solution is correct. If your
+solution is partially correct, point out the parts that you got right, and
+explain your mistakes.
+
+\textbf{Answer:}
+
+%%% PROBLEM 2(tE) ANSWER START %%%
+Clearly the runtime I provided of $\Theta(cash * count * total)$ is incorrect because I meant cash to be total amount of cash possible, which is $total$. If I had written this correctly, then I would have obtained the correct runtime of $\Theta(count * total^2)$. 
+
+My algorithm and recurrence are mostly correct, although I missed a couple of edge cases. My code basically implemented the second solution, but with an extra maximum. Although my recurrence did not contain it, my pseudocode set $profit[c,s,0] = cash$, which is the first condition in solution 2's recurrence. I did forget to set $profit[c,s,x] = profit[c,s-1, limit[s-1]]$ if $x = 0$ or $start[s] > c$. 
+
+The main part of the recurrence was mostly the same, except I took a maximum $max_{i \in \{0, \ldots, limit[s-1] \} }$ over $profit[c,s-1,i]$. This should give a correct answer, because instead of setting the last argument of $profit[c,s,x]$ as the new limit like in the solutions, I set it as the number of stocks bought. Thus, taking the maximum over all the possible $x$'s of buying $x$ of a given stock will be equivalent to the solution's answer of taking the maximum profit to buy a stock with a given limit. This is because $x$ is bounded by the same limit as in the solution's answer. I included the best profit for each stock in a new table $bestprofit$, which would be equivalent to the $profit$ table contained in the first solution.
+%%% PROBLEM 2(tE) ANSWER END %%%
+
+\end{problems}
+
+\end{document}

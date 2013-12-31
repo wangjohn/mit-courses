@@ -1,0 +1,46 @@
+Your answers to the takehome must be submitted as a PDF, and we urge all
+students to use LaTeX to typeset their solutions. For your convenience we have
+prepared a couple LaTeX packages and a simple class file:
+
+clrscode4e.sty
+    a slight modification of Thomas H. Cormen's clrscode3e.sty
+    for typesetting pseudo-code. For detailed documentation see:
+    http://www.cs.dartmouth.edu/~thc/clrscode/
+	[this has not been changed from the version included with the
+	homework template]
+6046.sty
+    a package with useful macros for typesetting math and proofs
+	[this has not been changed from the version included with the
+	homework template]
+6046.cls
+    a simple document class that imports the recommended packages
+	[this has not been changed from the version included with the
+	homework template]
+takehome.sty
+    a package that overrides the 6046.sty formatting to create a
+	coverpage for your solutions 
+takehome.tex
+    a template containing the text of the problems
+Makefile
+    a GNU make file to simplify creating PDFs from LaTeX source
+	[this has not been changed from the version included with the
+	homework template]
+
+=== Usage ===
+
+Unpack all contents of the package to one folder, then edit the file
+takehome.tex.  Remember to update your name, and uncomment the line 
+containing your recitation!
+
+If you have already downloaded the templates for the homework and
+just want to add the template for the takehome, copy takehome.sty and
+takehome.tex to the directory containing your homework. 
+
+=== Makefile ===
+
+We included a Makefile to make building PDF files less of a hassle.
+Assuming your document is contained completely in one file called
+takehome.tex, you can create takehome.pdf by executing:
+
+  make takehome.pdf
+

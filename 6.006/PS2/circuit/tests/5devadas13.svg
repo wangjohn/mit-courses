@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2402pt" height="152pt" viewBox="0.00 0.00 2402.00 152.00"><symbol preserveAspectRatio="none" id="svgsym-gate-type-eq" height="100%" width="100%" viewBox="0 0 52.809 60.576">
+ <g transform="translate(-4.7683716e-8,-991.78611)">
+  <path stroke-linejoin="round" d="M51.509,1022.1,1.3,1051.1v-57.976l50.209,28.988z" stroke-dashoffset="0" stroke="#000" stroke-linecap="butt" stroke-miterlimit="4" stroke-width="2.5999999" fill="#FFF"/>
+ </g>
+</symbol><symbol preserveAspectRatio="none" id="svgsym-gate-type-and" height="100%" width="100%" viewBox="0 0 75.807 62.927">
+ <g transform="translate(1.3277939e-4,-989.44832)">
+  <path stroke-linejoin="round" d="m1.2986,990.77c16.673,0.12822,33.379-0.407,50.026,0.67997,7.1812,1.1682,10.187,3.1235,14.456,7.1119,6.8877,6.6955,9.3789,17.106,8.5697,26.306-0.47506,7.1398-3.9127,14.998-10.062,19.718-3.6092,2.738-7.7422,4.4443-13.111,5.3838-10.042,1.3275-20.203,0.7515-30.304,0.9364-6.5251,0.01-13.051,0.01-19.575,0.1539v-60.29z" stroke-dashoffset="0" stroke="#000" stroke-linecap="butt" stroke-miterlimit="4" stroke-width="2.59711337" fill="#FFF"/>
+ </g>
+</symbol><symbol preserveAspectRatio="none" id="svgsym-gate-type-xor" height="100%" width="100%" viewBox="0 0 81.585 67.617">
+ <g transform="translate(-4.7683716e-8,-984.74556)" stroke="#000" stroke-miterlimit="4" stroke-width="2.5999999">
+  <path stroke-width="0" fill="#FFF" d="m9.8205,986.05c7.258,12.571,9.044,22.083,9.044,32.486,0,12.555-3.1508,22.307-9.044,32.514l-8.52,0.1c5.8932-10.207,9.044-19.959,9.044-32.514,0-10.403-1.786-19.915-9.044-32.486z" fill="none"/>
+  <path stroke-linejoin="miter" d="m9.8205,986.05c7.258,12.571,9.044,22.083,9.044,32.486,0,12.555-3.1508,22.307-9.044,32.514,22.786,0,57.7-10.868,70.465-31.835-12.892-19.49-48.044-33.15-70.464-33.15z" stroke-linecap="butt" fill="#FFF"/>
+  <path stroke-linejoin="round" stroke-linecap="round" d="m1.3,986.06c7.258,12.571,9.044,22.083,9.044,32.486,0,12.555-3.1508,22.307-9.044,32.514" fill="none"/>
+ </g>
+</symbol>
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 148)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-148 2399,-148 2399,5 -4,5"/>
+<g id="wire__a10__x10" class="edge"><title>gate__a10-gate__x10</title>
+<path fill="none" stroke="black" d="M1647,-126C1647,-126 1737,-99 1737,-99"/>
+</g>
+<g id="wire__y9__z9" class="edge"><title>gate__y9-gate__z9</title>
+<path fill="none" stroke="black" d="M1557,-99C1557,-99 1647,-72 1647,-72"/>
+</g>
+<g id="wire__x8__z8" class="edge"><title>gate__x8-gate__z8</title>
+<path fill="none" stroke="black" d="M1377,-99C1377,-99 1467,-72 1467,-72"/>
+</g>
+<g id="wire__b8__y8" class="edge"><title>gate__b8-gate__y8</title>
+<path fill="none" stroke="black" d="M1287,-18C1287,-18 1377,-45 1377,-45"/>
+</g>
+<g id="wire__a7__x7" class="edge"><title>gate__a7-gate__x7</title>
+<path fill="none" stroke="black" d="M1107,-126C1107,-126 1197,-99 1197,-99"/>
+</g>
+<g id="wire__z0__y1" class="edge"><title>gate__z0-gate__y1</title>
+<path fill="none" stroke="black" d="M27,-72C27,-72 117,-99 117,-99"/>
+</g>
+<g id="wire__z0__x1" class="edge"><title>gate__z0-gate__x1</title>
+<path fill="none" stroke="black" d="M27,-72C27,-72 117,-45 117,-45"/>
+</g>
+<g id="wire__a11__x11" class="edge"><title>gate__a11-gate__x11</title>
+<path fill="none" stroke="black" d="M1827,-126C1827,-126 1917,-99 1917,-99"/>
+</g>
+<g id="wire__x10__z10" class="edge"><title>gate__x10-gate__z10</title>
+<path fill="none" stroke="black" d="M1737,-99C1737,-99 1827,-72 1827,-72"/>
+</g>
+<g id="wire__b10__y10" class="edge"><title>gate__b10-gate__y10</title>
+<path fill="none" stroke="black" d="M1647,-18C1647,-18 1737,-45 1737,-45"/>
+</g>
+<g id="wire__x9__z9" class="edge"><title>gate__x9-gate__z9</title>
+<path fill="none" stroke="black" d="M1557,-45C1557,-45 1647,-72 1647,-72"/>
+</g>
+<g id="wire__b9__y9" class="edge"><title>gate__b9-gate__y9</title>
+<path fill="none" stroke="black" d="M1467,-126C1467,-126 1557,-99 1557,-99"/>
+</g>
+<g id="wire__a8__x8" class="edge"><title>gate__a8-gate__x8</title>
+<path fill="none" stroke="black" d="M1287,-126C1287,-126 1377,-99 1377,-99"/>
+</g>
+<g id="wire__z1__y2" class="edge"><title>gate__z1-gate__y2</title>
+<path fill="none" stroke="black" d="M207,-72C207,-72 297,-45 297,-45"/>
+</g>
+<g id="wire__z1__x2" class="edge"><title>gate__z1-gate__x2</title>
+<path fill="none" stroke="black" d="M207,-72C207,-72 297,-99 297,-99"/>
+</g>
+<g id="wire__a12__x12" class="edge"><title>gate__a12-gate__x12</title>
+<path fill="none" stroke="black" d="M2007,-126C2007,-126 2097,-99 2097,-99"/>
+</g>
+<g id="wire__x11__z11" class="edge"><title>gate__x11-gate__z11</title>
+<path fill="none" stroke="black" d="M1917,-99C1917,-99 2007,-72 2007,-72"/>
+</g>
+<g id="wire__b11__y11" class="edge"><title>gate__b11-gate__y11</title>
+<path fill="none" stroke="black" d="M1827,-18C1827,-18 1917,-45 1917,-45"/>
+</g>
+<g id="wire__y10__z10" class="edge"><title>gate__y10-gate__z10</title>
+<path fill="none" stroke="black" d="M1737,-45C1737,-45 1827,-72 1827,-72"/>
+</g>
+<g id="wire__a9__x9" class="edge"><title>gate__a9-gate__x9</title>
+<path fill="none" stroke="black" d="M1467,-18C1467,-18 1557,-45 1557,-45"/>
+</g>
+<g id="wire__z2__y3" class="edge"><title>gate__z2-gate__y3</title>
+<path fill="none" stroke="black" d="M387,-72C387,-72 477,-45 477,-45"/>
+</g>
+<g id="wire__z2__x3" class="edge"><title>gate__z2-gate__x3</title>
+<path fill="none" stroke="black" d="M387,-72C387,-72 477,-99 477,-99"/>
+</g>
+<g id="wire__y1__z1" class="edge"><title>gate__y1-gate__z1</title>
+<path fill="none" stroke="black" d="M117,-99C117,-99 207,-72 207,-72"/>
+</g>
+<g id="wire__a13__x13" class="edge"><title>gate__a13-gate__x13</title>
+<path fill="none" stroke="black" d="M2187,-126C2187,-126 2277,-99 2277,-99"/>
+</g>
+<g id="wire__x12__z12" class="edge"><title>gate__x12-gate__z12</title>
+<path fill="none" stroke="black" d="M2097,-99C2097,-99 2187,-72 2187,-72"/>
+</g>
+<g id="wire__b12__y12" class="edge"><title>gate__b12-gate__y12</title>
+<path fill="none" stroke="black" d="M2007,-18C2007,-18 2097,-45 2097,-45"/>
+</g>
+<g id="wire__y11__z11" class="edge"><title>gate__y11-gate__z11</title>
+<path fill="none" stroke="black" d="M1917,-45C1917,-45 2007,-72 2007,-72"/>
+</g>
+<g id="wire__z10__x11" class="edge"><title>gate__z10-gate__x11</title>
+<path fill="none" stroke="black" d="M1827,-72C1827,-72 1917,-99 1917,-99"/>
+</g>
+<g id="wire__z10__y11" class="edge"><title>gate__z10-gate__y11</title>
+<path fill="none" stroke="black" d="M1827,-72C1827,-72 1917,-45 1917,-45"/>
+</g>
+<g id="wire__z3__y4" class="edge"><title>gate__z3-gate__y4</title>
+<path fill="none" stroke="black" d="M567,-72C567,-72 657,-45 657,-45"/>
+</g>
+<g id="wire__z3__x4" class="edge"><title>gate__z3-gate__x4</title>
+<path fill="none" stroke="black" d="M567,-72C567,-72 657,-99 657,-99"/>
+</g>
+<g id="wire__y2__z2" class="edge"><title>gate__y2-gate__z2</title>
+<path fill="none" stroke="black" d="M297,-45C297,-45 387,-72 387,-72"/>
+</g>
+<g id="wire__x1__z1" class="edge"><title>gate__x1-gate__z1</title>
+<path fill="none" stroke="black" d="M117,-45C117,-45 207,-72 207,-72"/>
+</g>
+<g id="wire__x13__z13" class="edge"><title>gate__x13-gate__z13</title>
+<path fill="none" stroke="black" d="M2277,-99C2277,-99 2367,-72 2367,-72"/>
+</g>
+<g id="wire__b13__y13" class="edge"><title>gate__b13-gate__y13</title>
+<path fill="none" stroke="black" d="M2187,-18C2187,-18 2277,-45 2277,-45"/>
+</g>
+<g id="wire__y12__z12" class="edge"><title>gate__y12-gate__z12</title>
+<path fill="none" stroke="black" d="M2097,-45C2097,-45 2187,-72 2187,-72"/>
+</g>
+<g id="wire__z11__x12" class="edge"><title>gate__z11-gate__x12</title>
+<path fill="none" stroke="black" d="M2007,-72C2007,-72 2097,-99 2097,-99"/>
+</g>
+<g id="wire__z11__y12" class="edge"><title>gate__z11-gate__y12</title>
+<path fill="none" stroke="black" d="M2007,-72C2007,-72 2097,-45 2097,-45"/>
+</g>
+<g id="wire__z4__y5" class="edge"><title>gate__z4-gate__y5</title>
+<path fill="none" stroke="black" d="M747,-72C747,-72 837,-45 837,-45"/>
+</g>
+<g id="wire__z4__x5" class="edge"><title>gate__z4-gate__x5</title>
+<path fill="none" stroke="black" d="M747,-72C747,-72 837,-99 837,-99"/>
+</g>
+<g id="wire__y3__z3" class="edge"><title>gate__y3-gate__z3</title>
+<path fill="none" stroke="black" d="M477,-45C477,-45 567,-72 567,-72"/>
+</g>
+<g id="wire__x2__z2" class="edge"><title>gate__x2-gate__z2</title>
+<path fill="none" stroke="black" d="M297,-99C297,-99 387,-72 387,-72"/>
+</g>
+<g id="wire__b1__y1" class="edge"><title>gate__b1-gate__y1</title>
+<path fill="none" stroke="black" d="M27,-126C27,-126 117,-99 117,-99"/>
+</g>
+<g id="wire__y13__z13" class="edge"><title>gate__y13-gate__z13</title>
+<path fill="none" stroke="black" d="M2277,-45C2277,-45 2367,-72 2367,-72"/>
+</g>
+<g id="wire__z12__x13" class="edge"><title>gate__z12-gate__x13</title>
+<path fill="none" stroke="black" d="M2187,-72C2187,-72 2277,-99 2277,-99"/>
+</g>
+<g id="wire__z12__y13" class="edge"><title>gate__z12-gate__y13</title>
+<path fill="none" stroke="black" d="M2187,-72C2187,-72 2277,-45 2277,-45"/>
+</g>
+<g id="wire__z5__y6" class="edge"><title>gate__z5-gate__y6</title>
+<path fill="none" stroke="black" d="M927,-72C927,-72 1017,-45 1017,-45"/>
+</g>
+<g id="wire__z5__x6" class="edge"><title>gate__z5-gate__x6</title>
+<path fill="none" stroke="black" d="M927,-72C927,-72 1017,-99 1017,-99"/>
+</g>
+<g id="wire__y4__z4" class="edge"><title>gate__y4-gate__z4</title>
+<path fill="none" stroke="black" d="M657,-45C657,-45 747,-72 747,-72"/>
+</g>
+<g id="wire__x3__z3" class="edge"><title>gate__x3-gate__z3</title>
+<path fill="none" stroke="black" d="M477,-99C477,-99 567,-72 567,-72"/>
+</g>
+<g id="wire__b2__y2" class="edge"><title>gate__b2-gate__y2</title>
+<path fill="none" stroke="black" d="M207,-18C207,-18 297,-45 297,-45"/>
+</g>
+<g id="wire__a1__x1" class="edge"><title>gate__a1-gate__x1</title>
+<path fill="none" stroke="black" d="M27,-18C27,-18 117,-45 117,-45"/>
+</g>
+<g id="wire__z6__y7" class="edge"><title>gate__z6-gate__y7</title>
+<path fill="none" stroke="black" d="M1107,-72C1107,-72 1197,-45 1197,-45"/>
+</g>
+<g id="wire__z6__x7" class="edge"><title>gate__z6-gate__x7</title>
+<path fill="none" stroke="black" d="M1107,-72C1107,-72 1197,-99 1197,-99"/>
+</g>
+<g id="wire__y5__z5" class="edge"><title>gate__y5-gate__z5</title>
+<path fill="none" stroke="black" d="M837,-45C837,-45 927,-72 927,-72"/>
+</g>
+<g id="wire__x4__z4" class="edge"><title>gate__x4-gate__z4</title>
+<path fill="none" stroke="black" d="M657,-99C657,-99 747,-72 747,-72"/>
+</g>
+<g id="wire__b3__y3" class="edge"><title>gate__b3-gate__y3</title>
+<path fill="none" stroke="black" d="M387,-18C387,-18 477,-45 477,-45"/>
+</g>
+<g id="wire__a2__x2" class="edge"><title>gate__a2-gate__x2</title>
+<path fill="none" stroke="black" d="M207,-126C207,-126 297,-99 297,-99"/>
+</g>
+<g id="wire__z7__x8" class="edge"><title>gate__z7-gate__x8</title>
+<path fill="none" stroke="black" d="M1287,-72C1287,-72 1377,-99 1377,-99"/>
+</g>
+<g id="wire__z7__y8" class="edge"><title>gate__z7-gate__y8</title>
+<path fill="none" stroke="black" d="M1287,-72C1287,-72 1377,-45 1377,-45"/>
+</g>
+<g id="wire__y6__z6" class="edge"><title>gate__y6-gate__z6</title>
+<path fill="none" stroke="black" d="M1017,-45C1017,-45 1107,-72 1107,-72"/>
+</g>
+<g id="wire__x5__z5" class="edge"><title>gate__x5-gate__z5</title>
+<path fill="none" stroke="black" d="M837,-99C837,-99 927,-72 927,-72"/>
+</g>
+<g id="wire__b4__y4" class="edge"><title>gate__b4-gate__y4</title>
+<path fill="none" stroke="black" d="M567,-18C567,-18 657,-45 657,-45"/>
+</g>
+<g id="wire__a3__x3" class="edge"><title>gate__a3-gate__x3</title>
+<path fill="none" stroke="black" d="M387,-126C387,-126 477,-99 477,-99"/>
+</g>
+<g id="wire__z8__y9" class="edge"><title>gate__z8-gate__y9</title>
+<path fill="none" stroke="black" d="M1467,-72C1467,-72 1557,-99 1557,-99"/>
+</g>
+<g id="wire__z8__x9" class="edge"><title>gate__z8-gate__x9</title>
+<path fill="none" stroke="black" d="M1467,-72C1467,-72 1557,-45 1557,-45"/>
+</g>
+<g id="wire__y7__z7" class="edge"><title>gate__y7-gate__z7</title>
+<path fill="none" stroke="black" d="M1197,-45C1197,-45 1287,-72 1287,-72"/>
+</g>
+<g id="wire__x6__z6" class="edge"><title>gate__x6-gate__z6</title>
+<path fill="none" stroke="black" d="M1017,-99C1017,-99 1107,-72 1107,-72"/>
+</g>
+<g id="wire__b5__y5" class="edge"><title>gate__b5-gate__y5</title>
+<path fill="none" stroke="black" d="M747,-18C747,-18 837,-45 837,-45"/>
+</g>
+<g id="wire__a4__x4" class="edge"><title>gate__a4-gate__x4</title>
+<path fill="none" stroke="black" d="M567,-126C567,-126 657,-99 657,-99"/>
+</g>
+<g id="wire__z9__x10" class="edge"><title>gate__z9-gate__x10</title>
+<path fill="none" stroke="black" d="M1647,-72C1647,-72 1737,-99 1737,-99"/>
+</g>
+<g id="wire__z9__y10" class="edge"><title>gate__z9-gate__y10</title>
+<path fill="none" stroke="black" d="M1647,-72C1647,-72 1737,-45 1737,-45"/>
+</g>
+<g id="wire__y8__z8" class="edge"><title>gate__y8-gate__z8</title>
+<path fill="none" stroke="black" d="M1377,-45C1377,-45 1467,-72 1467,-72"/>
+</g>
+<g id="wire__x7__z7" class="edge"><title>gate__x7-gate__z7</title>
+<path fill="none" stroke="black" d="M1197,-99C1197,-99 1287,-72 1287,-72"/>
+</g>
+<g id="wire__b6__y6" class="edge"><title>gate__b6-gate__y6</title>
+<path fill="none" stroke="black" d="M927,-18C927,-18 1017,-45 1017,-45"/>
+</g>
+<g id="wire__a5__x5" class="edge"><title>gate__a5-gate__x5</title>
+<path fill="none" stroke="black" d="M747,-126C747,-126 837,-99 837,-99"/>
+</g>
+<g id="wire__b7__y7" class="edge"><title>gate__b7-gate__y7</title>
+<path fill="none" stroke="black" d="M1107,-18C1107,-18 1197,-45 1197,-45"/>
+</g>
+<g id="wire__a6__x6" class="edge"><title>gate__a6-gate__x6</title>
+<path fill="none" stroke="black" d="M927,-126C927,-126 1017,-99 1017,-99"/>
+</g>
+<g id="gate__a10" class="node"><title>gate__a10</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1620.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="1647" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a10</text>
+</g><g id="gate__y9" class="node"><title>gate__y9</title>
+<use xlink:href="#svgsym-gate-type-and" x="1530.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="1557" y="-95.4" font-family="Times Roman,serif" font-size="14.00">y9</text>
+</g><g id="gate__x8" class="node"><title>gate__x8</title>
+<use xlink:href="#svgsym-gate-type-and" x="1350.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="1377" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x8</text>
+</g><g id="gate__b8" class="node"><title>gate__b8</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1260.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="1287" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b8</text>
+</g><g id="gate__a7" class="node"><title>gate__a7</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1080.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="1107" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a7</text>
+</g><g id="gate__z0" class="node"><title>gate__z0</title>
+<use xlink:href="#svgsym-gate-type-eq" x="0.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="27" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z0</text>
+</g><g id="gate__a11" class="node"><title>gate__a11</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1800.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="1827" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a11</text>
+</g><g id="gate__x10" class="node"><title>gate__x10</title>
+<use xlink:href="#svgsym-gate-type-and" x="1710.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="1737" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x10</text>
+</g><g id="gate__b10" class="node"><title>gate__b10</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1620.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="1647" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b10</text>
+</g><g id="gate__x9" class="node"><title>gate__x9</title>
+<use xlink:href="#svgsym-gate-type-and" x="1530.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="1557" y="-41.4" font-family="Times Roman,serif" font-size="14.00">x9</text>
+</g><g id="gate__b9" class="node"><title>gate__b9</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1440.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="1467" y="-122.4" font-family="Times Roman,serif" font-size="14.00">b9</text>
+</g><g id="gate__a8" class="node"><title>gate__a8</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1260.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="1287" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a8</text>
+</g><g id="gate__z1" class="node"><title>gate__z1</title>
+<use xlink:href="#svgsym-gate-type-xor" x="180.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="207" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z1</text>
+</g><g id="gate__a12" class="node"><title>gate__a12</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1980.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="2007" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a12</text>
+</g><g id="gate__x11" class="node"><title>gate__x11</title>
+<use xlink:href="#svgsym-gate-type-and" x="1890.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="1917" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x11</text>
+</g><g id="gate__b11" class="node"><title>gate__b11</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1800.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="1827" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b11</text>
+</g><g id="gate__y10" class="node"><title>gate__y10</title>
+<use xlink:href="#svgsym-gate-type-and" x="1710.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="1737" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y10</text>
+</g><g id="gate__a9" class="node"><title>gate__a9</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1440.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="1467" y="-14.4" font-family="Times Roman,serif" font-size="14.00">a9</text>
+</g><g id="gate__z2" class="node"><title>gate__z2</title>
+<use xlink:href="#svgsym-gate-type-xor" x="360.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="387" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z2</text>
+</g><g id="gate__y1" class="node"><title>gate__y1</title>
+<use xlink:href="#svgsym-gate-type-and" x="90.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="117" y="-95.4" font-family="Times Roman,serif" font-size="14.00">y1</text>
+</g><g id="gate__a13" class="node"><title>gate__a13</title>
+<use xlink:href="#svgsym-gate-type-eq" x="2160.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="2187" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a13</text>
+</g><g id="gate__x12" class="node"><title>gate__x12</title>
+<use xlink:href="#svgsym-gate-type-and" x="2070.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="2097" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x12</text>
+</g><g id="gate__b12" class="node"><title>gate__b12</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1980.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="2007" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b12</text>
+</g><g id="gate__y11" class="node"><title>gate__y11</title>
+<use xlink:href="#svgsym-gate-type-and" x="1890.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="1917" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y11</text>
+</g><g id="gate__z10" class="node"><title>gate__z10</title>
+<use xlink:href="#svgsym-gate-type-xor" x="1800.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="1827" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z10</text>
+</g><g id="gate__z3" class="node"><title>gate__z3</title>
+<use xlink:href="#svgsym-gate-type-xor" x="540.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="567" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z3</text>
+</g><g id="gate__y2" class="node"><title>gate__y2</title>
+<use xlink:href="#svgsym-gate-type-and" x="270.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="297" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y2</text>
+</g><g id="gate__x1" class="node"><title>gate__x1</title>
+<use xlink:href="#svgsym-gate-type-and" x="90.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="117" y="-41.4" font-family="Times Roman,serif" font-size="14.00">x1</text>
+</g><g id="gate__x13" class="node"><title>gate__x13</title>
+<use xlink:href="#svgsym-gate-type-and" x="2250.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="2277" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x13</text>
+</g><g id="gate__b13" class="node"><title>gate__b13</title>
+<use xlink:href="#svgsym-gate-type-eq" x="2160.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="2187" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b13</text>
+</g><g id="gate__y12" class="node"><title>gate__y12</title>
+<use xlink:href="#svgsym-gate-type-and" x="2070.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="2097" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y12</text>
+</g><g id="gate__z11" class="node"><title>gate__z11</title>
+<use xlink:href="#svgsym-gate-type-xor" x="1980.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="2007" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z11</text>
+</g><g id="gate__z4" class="node"><title>gate__z4</title>
+<use xlink:href="#svgsym-gate-type-xor" x="720.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="747" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z4</text>
+</g><g id="gate__y3" class="node"><title>gate__y3</title>
+<use xlink:href="#svgsym-gate-type-and" x="450.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="477" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y3</text>
+</g><g id="gate__x2" class="node"><title>gate__x2</title>
+<use xlink:href="#svgsym-gate-type-and" x="270.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="297" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x2</text>
+</g><g id="gate__b1" class="node"><title>gate__b1</title>
+<use xlink:href="#svgsym-gate-type-eq" x="0.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="27" y="-122.4" font-family="Times Roman,serif" font-size="14.00">b1</text>
+</g><g id="gate__y13" class="node"><title>gate__y13</title>
+<use xlink:href="#svgsym-gate-type-and" x="2250.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="2277" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y13</text>
+</g><g id="gate__z12" class="node"><title>gate__z12</title>
+<use xlink:href="#svgsym-gate-type-xor" x="2160.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="2187" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z12</text>
+</g><g id="gate__z5" class="node"><title>gate__z5</title>
+<use xlink:href="#svgsym-gate-type-xor" x="900.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="927" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z5</text>
+</g><g id="gate__y4" class="node"><title>gate__y4</title>
+<use xlink:href="#svgsym-gate-type-and" x="630.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="657" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y4</text>
+</g><g id="gate__x3" class="node"><title>gate__x3</title>
+<use xlink:href="#svgsym-gate-type-and" x="450.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="477" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x3</text>
+</g><g id="gate__b2" class="node"><title>gate__b2</title>
+<use xlink:href="#svgsym-gate-type-eq" x="180.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="207" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b2</text>
+</g><g id="gate__a1" class="node"><title>gate__a1</title>
+<use xlink:href="#svgsym-gate-type-eq" x="0.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="27" y="-14.4" font-family="Times Roman,serif" font-size="14.00">a1</text>
+</g><g id="gate__z13" class="node"><title>gate__z13</title>
+<use xlink:href="#svgsym-gate-type-xor" x="2340.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="2367" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z13</text>
+</g><g id="gate__z6" class="node"><title>gate__z6</title>
+<use xlink:href="#svgsym-gate-type-xor" x="1080.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="1107" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z6</text>
+</g><g id="gate__y5" class="node"><title>gate__y5</title>
+<use xlink:href="#svgsym-gate-type-and" x="810.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="837" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y5</text>
+</g><g id="gate__x4" class="node"><title>gate__x4</title>
+<use xlink:href="#svgsym-gate-type-and" x="630.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="657" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x4</text>
+</g><g id="gate__b3" class="node"><title>gate__b3</title>
+<use xlink:href="#svgsym-gate-type-eq" x="360.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="387" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b3</text>
+</g><g id="gate__a2" class="node"><title>gate__a2</title>
+<use xlink:href="#svgsym-gate-type-eq" x="180.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="207" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a2</text>
+</g><g id="gate__z7" class="node"><title>gate__z7</title>
+<use xlink:href="#svgsym-gate-type-xor" x="1260.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="1287" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z7</text>
+</g><g id="gate__y6" class="node"><title>gate__y6</title>
+<use xlink:href="#svgsym-gate-type-and" x="990.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="1017" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y6</text>
+</g><g id="gate__x5" class="node"><title>gate__x5</title>
+<use xlink:href="#svgsym-gate-type-and" x="810.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="837" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x5</text>
+</g><g id="gate__b4" class="node"><title>gate__b4</title>
+<use xlink:href="#svgsym-gate-type-eq" x="540.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="567" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b4</text>
+</g><g id="gate__a3" class="node"><title>gate__a3</title>
+<use xlink:href="#svgsym-gate-type-eq" x="360.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="387" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a3</text>
+</g><g id="gate__z8" class="node"><title>gate__z8</title>
+<use xlink:href="#svgsym-gate-type-xor" x="1440.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="1467" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z8</text>
+</g><g id="gate__y7" class="node"><title>gate__y7</title>
+<use xlink:href="#svgsym-gate-type-and" x="1170.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="1197" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y7</text>
+</g><g id="gate__x6" class="node"><title>gate__x6</title>
+<use xlink:href="#svgsym-gate-type-and" x="990.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="1017" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x6</text>
+</g><g id="gate__b5" class="node"><title>gate__b5</title>
+<use xlink:href="#svgsym-gate-type-eq" x="720.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="747" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b5</text>
+</g><g id="gate__a4" class="node"><title>gate__a4</title>
+<use xlink:href="#svgsym-gate-type-eq" x="540.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="567" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a4</text>
+</g><g id="gate__z9" class="node"><title>gate__z9</title>
+<use xlink:href="#svgsym-gate-type-xor" x="1620.0" width="54.0" y="-90.0" height="36.0"/>
+<text text-anchor="middle" x="1647" y="-68.4" font-family="Times Roman,serif" font-size="14.00">z9</text>
+</g><g id="gate__y8" class="node"><title>gate__y8</title>
+<use xlink:href="#svgsym-gate-type-and" x="1350.0" width="54.0" y="-63.0" height="36.0"/>
+<text text-anchor="middle" x="1377" y="-41.4" font-family="Times Roman,serif" font-size="14.00">y8</text>
+</g><g id="gate__x7" class="node"><title>gate__x7</title>
+<use xlink:href="#svgsym-gate-type-and" x="1170.0" width="54.0" y="-117.0" height="36.0"/>
+<text text-anchor="middle" x="1197" y="-95.4" font-family="Times Roman,serif" font-size="14.00">x7</text>
+</g><g id="gate__b6" class="node"><title>gate__b6</title>
+<use xlink:href="#svgsym-gate-type-eq" x="900.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="927" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b6</text>
+</g><g id="gate__a5" class="node"><title>gate__a5</title>
+<use xlink:href="#svgsym-gate-type-eq" x="720.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="747" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a5</text>
+</g><g id="gate__b7" class="node"><title>gate__b7</title>
+<use xlink:href="#svgsym-gate-type-eq" x="1080.0" width="54.0" y="-36.0" height="36.0"/>
+<text text-anchor="middle" x="1107" y="-14.4" font-family="Times Roman,serif" font-size="14.00">b7</text>
+</g><g id="gate__a6" class="node"><title>gate__a6</title>
+<use xlink:href="#svgsym-gate-type-eq" x="900.0" width="54.0" y="-144.0" height="36.0"/>
+<text text-anchor="middle" x="927" y="-122.4" font-family="Times Roman,serif" font-size="14.00">a6</text>
+</g></g>
+</svg>

@@ -1,0 +1,563 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{Rudin Chapter 5\\
+Solutions}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 5.2}
+
+\begin{thm}
+Suppose $f'(x) >0$ in $(a,b)$. Prove that $f$ is strictly increasing in $(a,b)$, and let $g$ be its inverse function. Prove that $g$ is differentiable and that $g'(f(x)) = \frac{1}{f'(x)}$ for $a < x < b$. 
+\end{thm}
+
+\begin{proof}
+First, we know $f$ is continuous because of the existence of its derivative for all $x \in (a,b)$. Thus, we can use the specialized mean value theorem, which states that for some $x_1,x_2 \in (a,b)$, there exists an $x \in (a,b)$ such that $f(x_2) - f(x_1) = (x_2 - x_1) f'(x)$. Since $f'(x) > 0$ for all $x \in (a,b)$, we can see that:
+
+\begin{equation}
+\frac{f(x_2) - f(x_1)}{x_2 - x_1}> 0
+\end{equation}
+
+Without loss of generality, if $x_2 > x_1$, we see that $f(x_2) - f(x_1) > 0$, which shows that $f$ is strictly increasing because $f(x_2) > f(x_1)$. 
+
+Now, we shall show that $g$ is continuous and differentiable. First, we will show that $g$ is strictly increasing by contradiction. If we assume not, then there exists some $z > w$, where $z,w \in (f(a),f(b)$ such that $g(z) \leq g(w)$. We know there must exist corresponding values $x,y \in (a,b)$ such that $x = g(z)$ and $y = g(w)$. Thus, we see that $x \leq y$ but that $z > w$ which implies that $f(x) > f(y)$ because $f(x) = f(g(z)) = z$ and $f(y) = f(g(w)) = w$. However, we have shown that $f$ is strictly increasing which implies $f(x) < f(y)$, which is a contradiction because $f(x) > f(y)$ and $f(x) < f(y)$ cannot both be true. Thus, we see that $g$ is stricly increasing.
+
+To show that $g$ is continuous, we assume the contrary. We now note that strictly increasing functions can only have jump discontinuities. This would mean that there exists some $z \in (f(a),f(b))$ such that $g(z-) < g(z+)$. Without loss of generality, assume that $g(z) = g(z-)$. Then we must have a corresponding value of $x \in (a,b)$ such that $f(x) = z$. This implies that $x = g(z) = g(z-) < g(z+)$. However, we must have the following:
+
+\begin{equation}
+g(z+) = \lim_{f(y) \to z^{+}} g(f(y)) = \lim_{y \to x^{+} } g(f(y)) = \lim_{y \to x^{+}} y = x
+\end{equation}
+
+Thus, we have shown that $x = g(z) < g(z+) = x$, which is a contradiction. Therefore, $g$ must be continuous. Since it is continuous, we obtain an expression for $g'(f(x))$ if it exists:
+
+\begin{equation}
+g'(f(x)) = \lim_{f(t) \to f(x)} \frac{g(f(t)) - g(f(x))}{f(t) - f(x)} = \lim_{t \to x} \frac{t - x}{f(t) - f(x)} = \lim_{t \to x} \frac{1}{f'(x) + u(t,x)}
+\end{equation}
+
+Where $\lim_{t \to x} u(t,x) = 0$. Thus, since $f'(x) >0$ for all $x \in (a,b)$, we can see that the limit exists, and that $g'(f(x)) = \frac{1}{f'(x)}$. 
+\end{proof}
+
+\section{Problem 5.5}
+
+\begin{thm}
+Suppose $f$ is defined and differentiable for every $x > 0$, and $f'(x) \rightarrow 0$ as $x \rightarrow + \infty$. Put $g(x) = f(x + 1) - f(x)$. Prove that $g(x) \rightarrow 0$ as $x \rightarrow + \infty$. 
+\end{thm}
+
+\begin{proof}
+Since $f$ is differentiable on $(0,\infty)$, it must also be continuous. Therefore, we can use the mean value theorem for points $x, x+1$ such that $x \in (0,\infty)$, which will ensure that $x+1$ is also inside the domain. Therefore, by mean value theorem, we see that:
+
+\begin{equation}
+f(x+1) - f(x) = (x + 1 - x) f'(y)
+\end{equation}
+
+For some $y \in (x, x+1)$. This shows that $g(x) = f'(y)$ for some $y \in (x,x+1)$. If we take the limit as $x \rightarrow + \infty$, we obtain:
+
+\begin{equation}
+\lim_{x \to \infty} g(x) = \lim_{x \to \infty} f'(y) = \lim_{y \to \infty} f'(y) = 0
+\end{equation}
+
+This is because $y$ has a lower bound of $x$, and as $x \rightarrow + \infty$, we also force $y \rightarrow +\infty$. Since $\lim_{y \to \infty} f'(y) = 0$, we can see that $g(x) \rightarrow 0$ and $x \to \infty$. 
+\end{proof}
+
+\section{Problem 5.14}
+
+\begin{thm}
+Let $f$ be a differentiable real function defined in $(a,b)$. Prove that $f$ is convex if and only if $f'$ is monotonically increasing.
+\end{thm}
+
+\begin{proof}
+Given a monotonically increasing function $f'$, assume by contradiction that $f$ is not convex. Then there exists some $x,y \in (a,b)$ such that for some $\lambda \in (0,1)$, we have $f(\lambda x + (1 - \lambda) y) > \lambda f(x) + (1- \lambda) f(y)$. Let $p = \lambda x + (1-\lambda) y$ so that $f(p) > \lambda f(x) + (1- \lambda) f(y)$. Moreover, we can assume without loss of generality that $y > x$ and we thus see that $p \in (x,y)$. We can use the mean value theorem, because $f$ is differentiable by assumption and hence continuous. This shows that $f(y) - f(p) = (y - p) f'(z)$ for some $z \in (p,y)$. Using the mean value theorem again, we can see that $f(p) - f(x) = (p - x) f'(w)$ for some $w \in (x,p)$. Next, since $w \in (x,p)$ and $z \in (p,y)$, we can see that necessarily, $w < z$. Since $f'$ is a monotonically increasing function, we must therefore have $f'(w) \leq f'(z)$. Combining this, we find:
+
+\begin{eqnarray}
+f'(w) = \frac{f(p) - f(x)}{p-x} &\leq& \frac{f(y) - f(p)}{y - p} = f'(z) \\
+(y-x) f(p) &\leq& f(y) (p - x) + f(x) (y - p) \\
+\lambda f(x) + (1- \lambda) f(y) &<& f(p) \leq \frac{f(y) (p-x) + f(x) (y - p)}{y - x}
+\end{eqnarray}
+\begin{equation}
+0 < \frac{f(y) ( (p - x) - (y - x) (1 - \lambda)) + f(x)( (y - p) - (y- x) \lambda)}{y - x}
+\end{equation}
+
+Since we have assumed $y > x$, we can divide by $y - x$ in equation $3.4$. Next, we know that $p = \lambda x + (1-\lambda)y$, so substituting this into our expression and multiplying by the positive term $y - x$, we obtain:
+
+\begin{equation}
+0 < f(y) (\lambda x + (1-\lambda)y - x - (1-\lambda)y + (1 - \lambda)x) + f(x)( y - \lambda x - (1 -\lambda)y - y\lambda + x\lambda)
+\end{equation} 
+\begin{eqnarray}
+0 &<& f(y) (0) + f(x) (0) = 0 \\
+0 &<& 0
+\end{eqnarray}
+
+Since this is a strict inequality, this cannot be the case and we have shown a contradiction. Thus, we see that given a monotonically increasing function $f'$, then $f$ is convex. To show the converse, we will assume that $f$ is convex. Then, we must show that $f'$ is monotonically increasing.
+
+Assume that $x,y \in (a,b)$. Without loss of generality, suppose that $y > x$. Then, since the derivative exists everywhere, we have the following two limits due to the definition of the derivative:
+
+\begin{eqnarray}
+f'(x) = \lim_{t \to x} \frac{f(t) - f(x)}{t-x} = \lim_{t \to x^{-}} \frac{f(t) - f(x)}{t-x} \\
+f'(y) = \lim_{s \to y} \frac{f(s) - f(y)}{s-y} = \lim_{s \to y^{+}} \frac{f(s) - f(y)}{s -y} 
+\end{eqnarray}
+
+Set $t < x < y < s$. We have shown in problem 5.23 of the last problem set that the following inequalities holds for convex functions, and hence for $f$:
+
+\begin{equation}
+\frac{f(x) - f(t)}{x-t} \leq \frac{f(s) - f(t)}{s - t} \leq \frac{f(s) - f(y)}{s-y}
+\end{equation} 
+
+Therefore, taking the left and right limits of $x$ and $y$ respectively, we obtain:
+
+\begin{equation}
+f'(x) = \lim_{t \to x^{-}} \frac{f(t) - f(x)}{t-x} \\leq \lim_{s \to y^{+}} \frac{f(y) - f(s)}{y -s} = f'(y)
+\end{equation}
+
+Thus, we have shown that for $x < y$, we have $f'(x) \leq f'(y)$ for all $x,y \in (a,b)$. Therefore, we have shown that $f'$ is monotonically increasing.
+
+\end{proof}
+
+\begin{thm}
+Assume that $f''(x)$ exists for every $x \in (a,b)$ and prove that $f$ is convex if and only if $f''(x) \geq 0$ for all $x \in (a,b)$. 
+\end{thm}
+
+\begin{proof}
+Since we have show that $f$ is convex if and only if $f'$ is monotonically increasing, we only must show that $f''(x) \geq 0$ if and only if $f'$ is monotonically increasing. First, we will assume that $f''(x) \geq 0$. Then, since $f'$ is differentiable everywhere on $(a,b)$, we can use the mean value theorem since continuity is also required. Thus means that $f'(x_2) - f'(x_1) = (x_2 - x_1) f''(x)$ for some $x_2, x_1 \in (a,b)$ and $x \in (x_2, x_1)$. Assume without loss of generality that $x_2 > x_1$. Then this implies that 
+
+\begin{equation}
+\frac{f'(x_2) - f'(x_1)}{x_2 - x_1} \geq 0
+\end{equation}
+
+Which shows that for $x_2 \geq x_1$, we must have $f'(x_2) \geq f'(x_1)$. This shows that $f'$ must be monotonically increasing. To prove the opposite way, assume that $f'$ is monotonically increasing. Then for some $t > x$ where $t, x \in (a,b)$, we must have $f'(t) \geq f'(x)$. Alternatively, this means $f'(t) - f'(x) \geq 0$. Since $t > x$ implies that $t-x \neq 0$, we can divide by $t-x$ to obtain:
+\begin{equation}
+\phi^{+}(t) = \frac{f'(t) - f'(x)}{t-x} \geq 0 
+\end{equation}
+
+We can also show for some $t < x$, where $t,x \in (a,b)$, we must have $f'(t) \leq f'(x)$. Using the same method as above, we have:
+\begin{equation}
+\phi^{-}(t) = \frac{f'(t) - f'(x)}{t-x} \geq 0
+\end{equation}
+
+Since $f''$ exists for every $x \in (a,b)$, we have:
+
+\begin{equation}
+\lim_{t \to x^{+}} \phi^{+}(t) = \lim_{t \to x^{-}} \phi^{-}(t) = f''(x) \geq 0
+\end{equation}
+
+Since this holds for arbitrary $x \in (a,b)$, we have proven that $f''(x) \geq 0$ if and only if $f'$ is monotonically increasing. Since we have also shown that $f$ is convex if and only if $f'$ is monotonically increasing, we have proven that $f$ is convex if and only if $f''(x) \geq 0$. 
+\end{proof}
+
+\section{Problem 5.15}
+
+\begin{thm}
+Suppose $a \in \mathbb{R}^1$, $f$ is a twice differentiable real function on $(a,\infty)$, and $M_0, M_1,M_2$ are the least upper bounds of $|f(x)|,|f'(x)|,|f''(x)|$, respectively on $(a, \infty)$. Then $M_1^2 \leq 4 M_0 M_2$. 
+\end{thm}
+
+\begin{proof}
+Since $f$ is continuous on $(a,\infty)$ by its differentiability, and since both $f'$ and $f''$ exist for $(a,\infty)$, we can use Taylor's Theorem, which states that, setting $\alpha = x$ and $\beta = x + 2h$, we obtain 
+\begin{equation}
+f(x + 2h) = f(x) + f'(x)(2h) + \frac{f''(\xi)}{2}(2h)^2
+\end{equation}
+
+This reduces down to the form:
+\begin{equation}
+f'(x) = \frac{1}{2h}[f(x+2h) - f(x)] - h f''(\xi)
+\end{equation}
+
+For some $\xi \in (x, x+ 2h)$ and $h > 0$. Therefore, since $|f(x)|$ is bounded by $M_0$ and $|f''(x)|$ is bounded by $M_2$, we can obtain:
+\begin{equation}
+|f'(x)| \leq h M_2 + \frac{M_0}{h}
+\end{equation}
+
+Since $\frac{M_0}{h}$ is obviously larger than $\frac{M_0}{2h}$. Next, we can rearrange the equation to obtain:
+\begin{equation}
+0 \leq h^2 M_2 - h |f'(x)| + M_0 
+\end{equation}
+
+Since this holds for any $h > 0$, we can take $h = \sqrt{\frac{M_0}{M_2}}$, using the fact that $M_0$ and $M_2$ are positive. If $M_2 = 0$, then $f'(x)$ is constant and $f(x)$ is a linear function by the mean value theorem. We cannot have $f'(x) = c \neq 0$, or else $M_0$ would be infinite, a contradiction to the hypothesis. Then, if $f'(x) = 0$, then $M_1 = 0$, and the inequality is trivial. Moreover, if $M_0 = 0$, then the inequality is trivial. Therefore, we can take $M_0 > 0$ and $M_2 >0$. Thus, substitute $h = \sqrt{\frac{M_0}{M_2}}$ into the expression:
+\begin{equation}
+0 \leq \frac{M_0}{M_2} M_2 - \sqrt{\frac{M_0}{M_2}}|f'(x)| + M_0 
+\end{equation}
+
+Which leads to:
+\begin{equation}
+|f'(x)|^2 \frac{M_0}{M_2} \leq 4M_0^2
+\end{equation}
+
+Since we have let $x \in (a, \infty)$ be any arbitrary value, we can see that $|f'(x)| \leq M_1$, which gives us:
+\begin{equation}
+M_1^2 \leq 4 M_0 M_2 
+\end{equation}
+
+\end{proof}
+
+\begin{thm}
+We will show that the strict equality $M_1^2 = 4M_0 M_2$ can occur.
+\end{thm}
+
+\begin{proof}
+Consider the following continuous function for $a = -1$ and $x \in (-1, \infty)$:
+\begin{equation}
+f(x) = \left\{ \begin{array}{l l}
+2x^2 - 1 & (-1 < x < 0) \\
+\frac{x^2 - 1}{x^2 + 1} & (0 \leq x < \infty) \end{array} \right.  
+\end{equation}
+
+Since we know $f(x)$ is differentiable everywhere, we can use the quotient and product rules (using right and left derivatives where appropriate) to obtain:
+\begin{equation}
+f'(x) = \left\{ \begin{array}{ll}
+4x & (-1 <x <0) \\
+\frac{4x}{(x^2 +1)^2} & (0 \leq x < \infty) 
+\end{array} \right. 
+\end{equation}
+
+It is clear that for $x \in (-1,0)$, we have $f'(x) < 0$ and for $x \in (0,\infty)$, we have $f'(x) > 0$. At $x = 0$, $f'(x) = 0$. Therefore, on $x \in (-1,0)$, $f(x)$ is monotonically decreasing and on $x \in (0,\infty)$, $f(x)$ is monotonically increasing. Since we have:
+\begin{equation}
+\lim_{x \to -1^{+}} f(x) = 1, \hspace{0.5cm} \lim_{x \to \infty} f(x) = 1, \hspace{0.5cm} f(0) = -1
+\end{equation}
+
+Therefore, $M_0 = 1$. Now, we will use the same analysis to show that $M_1 = 4$. Differentiate $f'(x)$ using the appropriate right and left derivatives to obtain:
+
+\begin{equation}
+f''(x) = \left\{ \begin{array}{ll}
+4 & (-1 < x < 0) \\
+\frac{4(x^2 - 4x + 1)}{(x^2+1)^3} & (0 \leq x < \infty) 
+\end{array} \right.
+\end{equation}
+
+On $x \in (-1,0)$ we see that $f''(x) > 4$ so that $f'(x)$ is monotonically increasing. Since $\lim_{x \to 0^{-}} f'(x) =  0$ and $\lim_{x \to -1^{+}} f'(x) = -4$, we have $|f'(x)| < 4$ on $x \in (-1,0)$. On $x \in [0, \infty)$ we see that 
+
+\begin{equation}
+|f'(x)| = \frac{4x}{(x^2 +1)^2} \leq 4 \frac{x}{x^2 +1} \frac{1}{x^2 + 1}  \leq 4 \times \frac{1}{2} \times 1 = 2
+\end{equation}
+
+Therefore, since $f'(0) = 0$ as well, we can see that $M_1 = 4$. Next, for $ x \in[0,\infty)$, we have
+
+\begin{equation}
+|f''(x)| = \frac{4}{(x^2 + 1)^2} - \frac{16x}{(x^2+1)^3} \leq \frac{4}{(x^2 + 1)^2} \leq 4
+\end{equation}
+
+For $x \in (-1,0)$, we can see that $f''(x) = 4$ is a constant function. Therefore $M_2 = 4$. Now, we can see that $M_1^2 = 4^2 = 16$ and $4 M_0 M_2 = 4 \times 1 \times 4 = 16$. Therefore, we see that $M_1^2 = 4 M_0 M_2 = 16$.
+\end{proof}
+
+\begin{thm}
+The same result holds for real vector valued functions $f$.
+\end{thm}
+
+\begin{proof}
+Let $f = (f_1, \ldots, f_k)$ be a vector-valued function and fix 
+
+\begin{equation}
+M_j = \sup_{x \in (a, \infty)} \left( \sum_{i=1}^k |f_i^{(j)} (x)|^2 \right)^{\frac{1}{2}}
+\end{equation}
+
+If $M_1 = 0$, we know that $M_1^2 \leq 4 M_0 M_2 = 0$. Otherwise, for any point $y \in (a,\infty)$, define $g(x) = f'_1(y) f_1(x) + \ldots + f'_k(y) f_k(x)$. Since $g(x)$ for $x \in (a,\infty)$ is a twice differentiable function, we can use the first part of the exercise to find:
+
+\begin{equation}
+|g'(x)|^2 \leq 4 \sup_{x \in (a, \infty)} |f'_1(y) f_1(x) + \ldots + f'_k(y) f_k(x)| \sup_{x \in (a, \infty)} |f'_1(y) f''_1(x) + \ldots f'_k(y) f''_k(x) | 
+\end{equation}
+
+Using the Cauchy-Swarchz inequality, we obtain
+
+\begin{equation}
+|g'(x)|^2 \leq 4 \left( \sum_{i = 1}^k |f'_i(y)|^2 \right) M_0 M_2 
+\end{equation}
+
+Since we have defined $M_j^2$ in a specific manner, we can see that $|g'(x)|^2 \leq 4 M_1^2 M_0 M_2$. Moreover, we have let this inequality hold for arbitrary values of $x,y \in (a,\infty)$. Therefore, we can set $x = y$ and see that $|g'(x)| = |f'_1(x)|^2 + \ldots |f_k(x)|^2$. Thus, since this holds for any $x \in (a, \infty)$, we obtain:
+
+\begin{equation}
+\left( \sum_{i = 1}^k |f'_i(x)|^2 \right)^2 = M_1 ^4 \leq 4 M_1^2 M_0 M_2
+\end{equation}
+
+This shows that $M_1^2 \leq 4 M_0 M_2$ by division because we know that $M_1 = 0$ is a trivial case. 
+\end{proof}
+
+
+\section{Problem 5.16}
+
+\begin{thm}
+Suppose $f$ is twice differentiable on $(0,\infty)$, $f''$ is bounded on $(0,\infty)$, and $f(x) \to 0$ as $x \to \infty$. Then $f'(x) \to 0$ as $x \to \infty$. 
+\end{thm}
+
+\begin{proof}
+Suppose that $a \in (0,\infty)$. Then since $f(x)$ for $x \in (a,\infty)$ is a twice differentiable function on $(a,\infty)$, we can use the result from the last exercise. This states that for least upper bounds $M_0, M_1, M_2$ of $|f(x)|,|f'(x)|,|f''(x)|$, respectively, the following holds true: $M_1^2 \leq 4 M_0 M_2$. Moreover, as we take the limit as $a \to \infty$, we can see that $M_0 \to 0$. We know this because $x \in (a, \infty)$, so as $a \to \infty$, we must have $x \to \infty$. Moreover, we know from assumption that $f(x) \to 0$ as $x \to \infty$. Therefore, we have discovered the following:
+
+\begin{equation}
+\lim_{a \to \infty} M_0 = \lim_{a \to \infty} \sup | f(x) | = \lim_{x \to \infty} \sup |f(x)| = 0 
+\end{equation}
+
+Therefore, we take can our expression from the previous exercise and show that the right hand side converges to 0, because $f''(x)$ is bounded on $(0, \infty)$.
+
+\begin{equation}
+\lim_{a \to \infty} M_1^2 \leq \lim_{a \to \infty} 4 M_0 M_2 = 0
+\end{equation}
+
+This shows that $0 \leq \lim_{a \to \infty} M_1 \leq 0$, which by the squeeze law forces $\lim_{a \to \infty} M_1 = 0$. This means that:
+
+\begin{equation}
+0 = \lim_{a \to \infty} \sup|f'(x)| = \lim_{x \to \infty} \sup |f'(x)| 
+\end{equation}
+
+Since the supremum of the absolute value of $f'(x)$ is forced to equal zero in the limit as $x \to \infty$, we must therefore have $f'(x) \to 0$ as $x \to \infty$. This completes the proof.
+\end{proof}
+
+
+\section{Problem 5.19}
+
+\begin{thm}
+Suppose $f$ is defined in $(-1,1)$ and $f'(0)$ exists. Suppose $-1 < \alpha_n < \beta_n < 1$, $a_n \to 0$, and $b_n \to 0$ as $n \to \infty$. Define the difference quotients $D_n = \frac{f(\beta_n) - f( \alpha_n)}{\beta_n - \alpha_n}$. Then if $\alpha_n < 0 < \beta_n$, $\lim D_n = f'(0)$. 
+\end{thm}
+
+\begin{proof}
+Because the derivative exists at $x = 0$, we know the following to be true by the definition of derivative:
+\begin{eqnarray}
+f'(0) = \lim_{n \to \infty } \frac{f(\alpha_n) - f(0) }{\alpha_n } - u(n)\\
+f'(0) = \lim_{n \to \infty} \frac{f(\beta_n) - f(0)}{ \beta_n}- v(n)
+\end{eqnarray}
+
+Here, the functions $u(t) \to 0$ and $v(t) \to 0$ as $n \to \infty$. Therefore, rearranging these, we can obtain:
+\begin{eqnarray}
+\lim_{n \to \infty} f(\alpha_n) = \lim_{n \to \infty} f(0) + (f'(0) + u(n)) \alpha_n \\
+\lim_{n \to \infty} f(\beta_n) = \lim_{n \to \infty} f(0) + (f'(0) + v(n)) \beta_n
+\end{eqnarray}
+
+Thus, since $\alpha < 0 < \beta$, we can determine the difference quotient by substituting values of $f(\beta_n)$ and $f(\alpha_n)$ that we have just derived.
+\begin{eqnarray}
+D_n &=& \frac{f(0) + (f'(0) + v(n)) \beta_n - f(0) - (f'(0) + u(n)) \alpha_n}{\beta_n - \alpha_n} \\
+&=& f'(0) + \frac{v(n) \beta_n - u(n) \alpha_n}{\beta_n - \alpha_n}
+\end{eqnarray}
+
+Since we have $\alpha_n < 0 < \beta_n$, we see that $|\alpha_n| \leq \beta_n - \alpha_n$ and $\beta_n \leq \beta_n - \alpha_n$. This allows us to use the triangle inequality and show:
+\begin{eqnarray}
+|D_n - f'(0)| &=& v(n) \frac{|\beta_n|}{|\beta_n - \alpha_n|} - u(n)\frac{| \alpha_n|}{|\beta_n - \alpha_n|} \\
+&\leq & v(n) - u(n) 
+\end{eqnarray}
+
+Taking this limit as $n \to \infty$, we see that $D_n - f'(0) \to 0$, which shows that $D_n \to f'(0)$ as $n \to \infty$. 
+\end{proof}
+
+
+\begin{thm}
+If $ 0 < \alpha_n < \beta_n$ and $\{ \beta_n/ (\beta_n - \alpha_n) \}$ is bounded, then $\lim D_n = f'(0)$. 
+\end{thm}
+
+\begin{proof}
+Since we have previously derived $D_n - f'(0)$, we can just use the expression from above to prove this theorem. First, we know that since $0 < \alpha_n < \beta_n$, we can say that $\alpha_n < \beta_n$. Therefore, we have:
+\begin{eqnarray}
+D_n - f'(0) &=& v(n) \frac{\beta_n}{\beta_n - \alpha_n} - u(n)\frac{\alpha_n}{\beta_n - \alpha_n} \\
+ &\leq& (v(n) - u(n)) \frac{\beta_n}{\beta_n - \alpha_n}
+\end{eqnarray}
+
+Since we know that $\{ \beta_n / (\beta_n - \alpha_n) \}$ is bounded, we can see that as we take $n \to \infty$, we see that the right hand side goes to zero because $v(n) \to 0$ and $u(n) \to 0$ individually.
+\begin{equation}
+\lim_{n \to \infty} |D_n - f'(0)| \leq \lim_{n \to \infty} |v(n) - u(n)| \left| \frac{\beta_n}{\beta_n - \alpha_n} \right| = 0
+\end{equation}
+Thus, we see that $\lim D_n = f'(0)$.
+\end{proof}
+
+\begin{thm}
+If $f'$ is continuous in $(-1,1)$, then $\lim D_n = f'(0)$. 
+\end{thm}
+
+\begin{proof}
+We can apply the mean value theorem to the function $f$ since it is both continuous and differentiable on $(-1,1)$. Thus, for each $n \in \mathbb{N}$, there exists a $t_n$ with $\alpha_n \leq t_n \leq \beta_n$ such that:
+\begin{equation}
+f'(t_n) = \frac{f(\beta_n) - f(\alpha_n)}{\beta_n - \alpha_n} = D_n
+\end{equation}
+
+Therefore, we see that $\lim \alpha_n \leq \lim t_n \leq \lim \beta_n$. Since both $\alpha_n \to 0$ and $\beta_n \to 0$, we see that $t_n \to 0$ as $n \to \infty$. Therefore, taking the limit as $n \to \infty$ in the above expression, we see that $\lim D_n = f'(0)$. 
+\end{proof}
+
+\begin{thm}
+There exists a function $f$ which is differentiable in $(-1,1)$ and in which $\alpha_n, \beta_n$ tend to 0 in such a way that $\lim D_n $ exists but is different from $f'(0)$. 
+\end{thm}
+
+\begin{proof}
+Consider the following function defined for $x \in (-1,1)$:
+\begin{equation}
+f = \left\{ \begin{array}{c l}
+x^2 \sin (1/x) & x \neq 0 \\
+0 & x = 0
+\end{array} \right.
+\end{equation}
+
+We can pick $\beta_n = \frac{2}{\pi (4n - 1)}$ and $\alpha_n = \frac{1}{2\pi n}$. We see that both $\beta_n \to 0$ and $\alpha_n \to 0$ as $n \to \infty$. However, we also see that $f(\alpha_n) = 0$ for all $n \in \mathbb{N}$ and that $f(\beta_n) = - \beta_n^2$. Therefore, we have:
+\begin{eqnarray}
+\lim_{n \to \infty} D_n &=& \lim_{n to \infty} \frac{f(\beta_n) - f(\alpha_n)}{\beta_n - \alpha_n} \\
+&=& \lim_{n \to \infty} -\frac{\beta_n^2}{\beta_n - \alpha_n} \\
+&=& \lim_{n \to \infty} - \frac{4}{\pi^2 (4n-1)^2} \frac{2\pi n (4n -1)}{1} \\
+&=& -\frac{2}{\pi}
+\end{eqnarray}
+
+Thus, since $f'(0) = 0$, and we can see that $0 \neq -\frac{2}{\pi}$, we have given an example for the theorem.
+\end{proof}
+
+\section{Problem 5.25}
+
+\begin{thm}
+Suppose $f$ is twice differentiable on $[a,b]$, $f(a) < 0, f(b) > 0, f'(x) \geq \delta > 0$, and $0 \leq f''(x) \leq M$ for all $x \in [a,b]$. Let $\xi$ be the unique point in $(a,b)$ at which $f(\xi) = 0$. Choose $x_1 \in (\xi,b)$ and define $x_n$ by $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)}$. Interpret this goemetrically in terms of a tangent to the graph of $f$.
+\end{thm}
+
+\begin{proof}
+We see that the formula for $x_{n+1}$ computes the intercept of the tangent line of the function at point $x_n$ with the $x$ axis. This will then be the next point, and the process will continue until $x_n$ converges to the root of the function (when $f = 0$).  
+\end{proof}
+
+\begin{thm}
+Prove that $x_{n+1} < x_n$ and that $\lim_{n \to \infty} x_n = \xi$. 
+\end{thm}
+
+\begin{proof}
+We will use induction to show that $ \xi < x_{n+1} < x$. We can use the mean value theorem to show that for some $c_n \in (\xi, x_n)$, we have: $(x_n - \xi) f'(c_n) = f(x_n) - f(\xi) = f(x_n)$ because $f(\xi) = 0$. Moreover, we know that $f'$ is increasing on $[a,b]$, which means that $f'(c_n) < f'(x_n)$ because $c_n < x_n$. Thus,
+\begin{eqnarray}
+f'(c_n) = \frac{f(x_n)}{(x_n - \xi)} < f'(x_n) = \frac{f(n)}{x_n - x_n + \frac{f(x_n)}{f'(x_n)}} = \frac{f(x_n)}{x_n - x_{n+1}}
+\end{eqnarray}
+Therefore, we can rearrange the inequality and see that $x_n - x_{n+1} < x_n - \xi$. This completes the first part of the inequality, because now we see that $\xi < x_{n+1}$. Next, we know that since $f(x) > 0$ and $f'(x) > 0$ for all $x \in [a,b]$, we see that $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} < x_n$. Thus, we have shown that $\xi < x_{n+1} < x_n$. 
+
+Next, we must show that $\lim x_n = \xi$. First, we know that $\{ x_n \}$ is a bounded, strictly decreasing sequence. This means that its limit $\lambda$ exists. Therefore, we have the following:
+\begin{eqnarray}
+\lambda &=& \lim_{n \to \infty} x_{n+1} \\
+\lambda &=& \lim_{n \to \infty} x_n - \frac{f(x_n)}{f'(x_n)} \\
+\lambda &=& \lambda - \frac{f(\lambda)}{f'(\lambda)} \\
+0 &=& f(\lambda)
+\end{eqnarray}
+
+Since $f(\xi) = 0$ is the unique point in $(a,b)$ for which $f(\xi) = 0$, we must have $\lambda = \xi$. Therefore, $\lim x_n = \xi$. 
+\end{proof}
+
+\begin{thm}
+Use Taylor's theorem to show that $x_{n+1} - \xi = \frac{f''(t_n)}{2 f'(x_n)} (x_n - \xi)^2$ for some $t_n \in (\xi, x_n)$. 
+\end{thm}
+
+\begin{proof}
+Using Taylor's theorem for some $t_n \in (\xi, x_n)$, we can obtain:
+\begin{eqnarray}
+f(\xi) &=& f(x_n) + f'(x_n) (\xi - x_n) + \frac{f''(t_n)}{2} (\xi - x_n)^2 \\
+0 &=& \frac{f(x_n)}{f'(x_n)} + (\xi - x_n) + \frac{f''(t_n)}{2 f'(x_n)} (x_n - \xi)^2 \\
+x_{n+1} - \xi &=&  \frac{f''(t_n)}{2 f'(x_n)} (x_n - \xi)^2 
+\end{eqnarray}
+
+We can divide by $f'(x_n)$ because we know that $f'(x) > 0$ for all $x \in (a,b)$. We also know that $(x_n - \xi)^2 = (\xi - x_n)^2$, so we can substitute one for the other.
+\end{proof}
+
+\begin{thm}
+If $A = M/2\delta$, deduce that $ 0 \leq x_{n+1} - \xi \leq \frac{1}{A} [A(x_1 - \xi)]^{2^n}$. 
+\end{thm}
+
+\begin{proof}
+First, since we have shown that $ \xi < x_{n+1}$, we see that $0 \leq x_{n+1} - \xi$. Also, since $f''(x) < M$ and $f'(x) \geq \delta$ for all $x \in (a,b)$, we see that $\frac{f''(t_n)}{2 f'(x_n)} \leq \frac{M}{2 \delta} = A$ for $t_n \in (\xi, x_n)$. We have found that $x_{n+1} - \xi \leq A(x_n - \xi)^2$. Then we can use mathematical induction. For the base case, we have $x_2 - \xi \leq A(x_1 - \xi)^2 = \frac{1}{A} [A(x_1 - \xi)]^2$. Now assume that the inequality has been proven for all cases up to $x_n$. We shall prove that it works for $x_{n+1}$:
+\begin{eqnarray}
+x_{n+1} - \xi &\leq& A(x_n - \xi)^2 \\
+&=& A \left(\frac{1}{A} [A(x_1 - \xi)]^{2^{n-1}} \right)^2 \\
+&=& \frac{1}{A} [A(x_1 - \xi)]^{2^n}
+\end{eqnarray}
+
+This proves the inequality.
+\end{proof}
+
+\begin{thm}
+Show that Newton's method amounts to finding a fixed point of the function $g$ defined by $g(x) = x - \frac{f(x)}{f'(x)}$.
+\end{thm}
+
+\begin{proof}
+We want to show that Newton's method finds $x_0$ such that $g(x_0) = x_0$, or that $x_0 - \frac{f(x_0)}{f'(x_0)} = x_0$ which implies $f(x_0) = 0$. Therefore, we only must show that Newton's method finds $f(x_0) = 0$, because $f'(x_0) > 0$ for all $x \in (a,b)$. 
+
+Since we have previously shown that $\lim x_n = \xi$, we know that $\lim f(x_n) = f(\xi) = 0$. Thus, Newton's method finds an approximation to $x_0$, where $f(x_0) = 0$ as we take larger and larger $n \in \mathbb{N}$ for $\{ x_n \}$. This is what we wanted to show. 
+
+As $x$ approaches $\xi$, we see that $g'(x) = \frac{ f(x) f''(x)}{f'(x)^2}$, so that $0 \leq g'(x) \leq f(x) \frac{M}{\delta^2}$. Thus, we see that as $x$ approaches $\xi$, we have $g'(x)$ approaching $0$. 
+\end{proof}
+
+\begin{thm}
+Put $f(x) = x^{1/3}$ on $(-\infty, \infty)$ and try Newton's method. 
+\end{thm}
+
+\begin{proof}
+We see that $x_{n+1} = x_n - \frac{f(x_n)}{f'(x_n)} = x_n - \frac{3 x^{1/3}}{ x^{-2/3}} = x_n - 3 x_n = - 2x_n$. Thus, we see that $x_2 = -2 x_1$. Using induction, we can assume that $x_n = (-2)^{n-1} x_1$ has been proven up to $x_n$. Then, we can show that
+\begin{eqnarray}
+x_{n+1} = -2 x_n = -2 (-2)^{n-1} x_1 = (-2)^{n} x_1
+\end{eqnarray}
+
+With mathematical induction, we have shown that $x_n = (-2)^{n-1} x_1$. Therefore, we see that for any choice of $x_1$, $x_n$ does not converge. 
+\end{proof}
+
+\section{Problem 5.26}
+
+\begin{thm}
+Suppose $f$ is differentiable on $[a,b]$, $f(a) = 0$, and there is a real number $A$ such that $|f'(x)| \leq A |f(x)|$ on $[a,b]$. Prove that $f(x) = 0$ for all $x \in [a,b]$. 
+\end{thm}
+
+\begin{proof}
+If $A = 0$, then we can see that $f'(x) = 0$, which implies that $f(x) = f(a) = 0$ for all $x \in [a,b]$. Moreover, $A$ cannot be negative because $|.|$ cannot be negative. Thus, we can assume $A > 0$. Next, fix $x_0 \in [a,b]$ and let $M_0 = \sup |f(x)|$ and $M_1 = \sup |f'(x)|$ for $a \leq x \leq x_0$. Next, we can use the mean value theorem, because $f$ is differentiable and hence continuous, to obtain:
+\begin{eqnarray}
+f'(x) = \frac{f(x_0) - f(a)}{x_0 - a} \\
+f'(x) (x_0 - a) = f(x_0)
+\end{eqnarray}
+
+Therefore, since $|f'(x)| \leq \sup |f'(x)| = M_1$, we see that $f(x_0) \leq M (x_0 - a)$. Next, since we have $|f'(x)| \leq A |f(x)|$, we find that
+\begin{eqnarray}
+|f(x)| \leq M_1 (x_0 - a) \leq A M_0 (x_0 - a)
+\end{eqnarray}
+
+Since we can pick any value for $x_0$, we can choose $x_0 -  a < \frac{1}{A}$ such that $A(x_0 - a) < 1$. Then we see that $|f(x)| < A(x_0 - a) M_0$ for all $x \in [a,x_0]$. However, we can only have $M_0 = 0$ because otherwise a number stricly smaller than the supremum would be an upper bound, which shows that $f = 0$ on $[a,x_0]$. To show that $f= 0$ on $[x_0,b]$, we note that we can fix $x_0^1 \in [x_0, b]$ such that $|f(x)| \leq A M_0 (x_0^1 - x_0)$. Repeating the same argument, we see that $f = 0$ on $[a,x_0] \cup [x_0, x_0^1]$. Since $[x_0, x_0^1]$ is a fixed interval, we can see that using the Archimedean principle, we will eventually cover $[a,b]$ with enough intervals $[x_0^{n}, x_0^{n+1}]$. Thus, we see that $f(x) = 0$ for all $x \in [a,b]$. 
+\end{proof}
+
+\section{Problem 5.27}
+
+\begin{thm}
+Let $\phi$ be a real function defined on a rectangle $R$ in the plane, given by $a \leq x \leq b$, $\alpha \leq y \leq \beta$. A solution of the initial value problem $y' = \phi (x,y), y(a) = c, (\alpha \leq c \leq \beta)$ is by definition a differentiable function $f$ on $[a,b]$ such that $f(a) = c, \alpha \leq f(x) \leq \beta$, and $f'(x) = \phi(x,f(x))$ for $(a \leq x \leq b)$. Prove that such a  problem has at most one solution if there is a constant $A$ such that $|\phi(x,y_2) - \phi(x,y_1)| \leq A |y_2 - y_1|$ whenever $(x,y_1) \in \mathbb{R}$ and $(x, y_2) \in \mathbb{R}$.
+\end{thm}
+
+\begin{proof}
+Assume we have two solutions $f_1(x)$ and $f_2(x)$. We will show that they are equal by defining the function $g(x) = f_2(x) - f_1(x)$. Then since both of the solutions are such that $f_2(a) = f_1(a) = c$, we know that $g(a) = f_2(a) - f_1(a) = 0$. Next, since we have $f'_1(x) = \phi(x, f_1(x))$ and $f'_2(x) = \phi(x,f_2(x))$, we know that by the assumed condition, we have:
+\begin{eqnarray}
+|g'(x)| = |\phi(x,f_2(x)) - \phi(x,f_1(x))| = |f'_2(x) - f'_1(x)| \leq A |f_2(x) - f_1(x)|
+\end{eqnarray}
+Thus, we see that $|g'(x)| \leq A |g(x)|$, so that $g$ satisfies the conditions of problem 5.26 above. This means that we have $g(x) = 0$ for all $x \in [a,b]$. Thus, we see that $f_2(x) = f_1(x)$ for all $x \in [a,b]$, and that the two solutions are actually the same. Therefore, the problem has at most one solution.
+\end{proof}
+
+\end{document}

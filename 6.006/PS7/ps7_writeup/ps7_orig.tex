@@ -1,0 +1,1096 @@
+%
+% 6.006 problem set 7
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros}
+
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{mdwlist}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\newcommand{\isnotequal}{\mathrel{\scalebox{0.8}[1]{!}\hspace*{1pt}\scalebox{0.8}[1]{=}}}
+\usepackage{listings}
+\usepackage{tikz}
+\usepackage{CJKutf8}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\theproblemsetnum}{7}
+\newcommand{\releasedate}{November 22, 2011}
+\newcommand{\partaduedate}{Tuesday, December 6}
+\newcommand{\tabUnit}{3ex}
+\newcommand{\tabT}{\hspace*{\tabUnit}}
+
+\newcommand{\collaborators}{
+%%% COLLABORATORS START %%%
+None.
+%%% COLLABORATORS END %%%
+}
+
+\newcommand{\answerIIaDale}{
+%%% PROBLEM 2(a) DALE ANSWER START %%%
+0
+%%% PROBLEM 2(a) DALE ANSWER END %%%
+}
+
+\newcommand{\answerIIaJCN}{
+%%% PROBLEM 2(a) JCN ANSWER START %%%
+0
+%%% PROBLEM 2(a) JCN ANSWER END %%%
+}
+
+\newcommand{\answerIIaMacroware}{
+%%% PROBLEM 2(a) MACROWARE ANSWER START %%%
+0
+%%% PROBLEM 2(a) MACROWARE ANSWER END %%%
+}
+
+\newcommand{\answerIIaPear}{
+%%% PROBLEM 2(a) PEAR ANSWER START %%%
+0
+%%% PROBLEM 2(a) PEAR ANSWER END %%%
+}
+
+\newcommand{\answerIIbDale}{
+%%% PROBLEM 2(b) DALE ANSWER START %%%
+0
+%%% PROBLEM 2(b) DALE ANSWER END %%%
+}
+
+\newcommand{\answerIIbJCN}{
+%%% PROBLEM 2(b) JCN ANSWER START %%%
+0
+%%% PROBLEM 2(b) JCN ANSWER END %%%
+}
+
+\newcommand{\answerIIbMacroware}{
+%%% PROBLEM 2(b) MACROWARE ANSWER START %%%
+0
+%%% PROBLEM 2(b) MACROWARE ANSWER END %%%
+}
+
+\newcommand{\answerIIbPear}{
+%%% PROBLEM 2(b) PEAR ANSWER START %%%
+0
+%%% PROBLEM 2(b) PEAR ANSWER END %%%
+}
+
+\newcommand{\answerIIcDale}{
+%%% PROBLEM 2(c) DALE ANSWER START %%%
+0
+%%% PROBLEM 2(c) DALE ANSWER END %%%
+}
+
+\newcommand{\answerIIcJCN}{
+%%% PROBLEM 2(c) JCN ANSWER START %%%
+0
+%%% PROBLEM 2(c) JCN ANSWER END %%%
+}
+
+\newcommand{\answerIIcMacroware}{
+%%% PROBLEM 2(c) MACROWARE ANSWER START %%%
+0
+%%% PROBLEM 2(c) MACROWARE ANSWER END %%%
+}
+
+\newcommand{\answerIIcPear}{
+%%% PROBLEM 2(c) PEAR ANSWER START %%%
+0
+%%% PROBLEM 2(c) PEAR ANSWER END %%%
+}
+
+\newcommand{\answerIId}{\solution{
+%%% PROBLEM 2(d) ANSWER START %%%
+0
+%%% PROBLEM 2(d) ANSWER END %%%
+}}
+
+\newcommand{\answerIIe}{\solution{
+%%% PROBLEM 2(e) ANSWER START %%%
+0
+%%% PROBLEM 2(e) ANSWER END %%%
+}}
+
+\newcommand{\answerIIf}{\solution{
+%%% PROBLEM 2(f) ANSWER START %%%
+0
+%%% PROBLEM 2(f) ANSWER END %%%
+}}
+
+\newcommand{\answerIIg}{\solution{
+%%% PROBLEM 2(g) ANSWER START %%%
+0
+%%% PROBLEM 2(g) ANSWER END %%%
+}}
+
+\newcommand{\answerIIh}{\solution{
+%%% PROBLEM 2(h) ANSWER START %%%
+0 0 0
+%%% PROBLEM 2(h) ANSWER END %%%
+}}
+
+\newcommand{\answerIIi}{\solution{
+%%% PROBLEM 2(i) ANSWER START %%%
+0
+%%% PROBLEM 2(i) ANSWER END %%%
+}}
+
+\newcommand{\answerIIj}{\solution{
+%%% PROBLEM 2(j) ANSWER START %%%
+0
+%%% PROBLEM 2(j) ANSWER END %%%
+}}
+
+\newcommand{\answerIIk}{\solution{
+%%% PROBLEM 2(k) ANSWER START %%%
+0
+%%% PROBLEM 2(k) ANSWER END %%%
+}}
+
+\newcommand{\answerIIl}{\solution{
+%%% PROBLEM 2(l) ANSWER START %%%
+0
+%%% PROBLEM 2(l) ANSWER END %%%
+}}
+
+\newcommand{\answerIIm}{\solution{
+%%% PROBLEM 2(m) ANSWER START %%%
+0
+%%% PROBLEM 2(m) ANSWER END %%%
+}}
+
+\newcommand{\answerIIn}{\solution{
+%%% PROBLEM 2(n) ANSWER START %%%
+0
+%%% PROBLEM 2(n) ANSWER END %%%
+}}
+
+\newcommand{\answerIIo}{\solution{
+%%% PROBLEM 2(o) ANSWER START %%%
+0
+%%% PROBLEM 2(o) ANSWER END %%%
+}}
+
+\newcommand{\answerIIp}{\solution{
+%%% PROBLEM 2(p) ANSWER START %%%
+0
+%%% PROBLEM 2(p) ANSWER END %%%
+}}
+
+\newcommand{\answerIIq}{\solution{
+%%% PROBLEM 2(q) ANSWER START %%%
+0
+%%% PROBLEM 2(q) ANSWER END %%%
+}}
+
+\newcommand{\answerIIrDale}{
+%%% PROBLEM 2(r) DALE ANSWER START %%%
+0
+%%% PROBLEM 2(r) DALE ANSWER END %%%
+}
+
+\newcommand{\answerIIrJCN}{
+%%% PROBLEM 2(r) JCN ANSWER START %%%
+0
+%%% PROBLEM 2(r) JCN ANSWER END %%%
+}
+
+\newcommand{\answerIIrMacroware}{
+%%% PROBLEM 2(r) MACROWARE ANSWER START %%%
+0
+%%% PROBLEM 2(r) MACROWARE ANSWER END %%%
+}
+
+\newcommand{\answerIIrPear}{
+%%% PROBLEM 2(r) PEAR ANSWER START %%%
+0
+%%% PROBLEM 2(r) PEAR ANSWER END %%%
+}
+
+\newcommand{\answerIIsDale}{
+%%% PROBLEM 2(s) DALE ANSWER START %%%
+0
+%%% PROBLEM 2(s) DALE ANSWER END %%%
+}
+
+\newcommand{\answerIIsJCN}{
+%%% PROBLEM 2(s) JCN ANSWER START %%%
+0
+%%% PROBLEM 2(s) JCN ANSWER END %%%
+}
+
+\newcommand{\answerIIsMacroware}{
+%%% PROBLEM 2(s) MACROWARE ANSWER START %%%
+0
+%%% PROBLEM 2(s) MACROWARE ANSWER END %%%
+}
+
+\newcommand{\answerIIsPear}{
+%%% PROBLEM 2(s) PEAR ANSWER START %%%
+0
+%%% PROBLEM 2(s) PEAR ANSWER END %%%
+}
+
+\newcommand{\answerIIt}{\solution{
+%%% PROBLEM 2(t) ANSWER START %%%
+\begin{codebox}
+\Procname{$\proc{StockLimited}(\total, \stockCount, \priceStart, \priceEnd, \limit)$}
+\li Insert your pseudocode here.
+\end{codebox}
+
+Remember to analyze your pseudocode as well.
+%%% PROBLEM 2(t) ANSWER END %%%
+}}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}{\releasedate}
+
+\newcommand{\solution}[1]{
+  \par\medskip
+  \textbf{Answer:} #1
+}
+
+\textbf{Both theory and programming questions} are due on {\bf \partaduedate} at
+{\bf 11:59PM}.
+%
+Please download the .zip archive for this problem set.
+Refer to the
+\texttt{README.txt} file for instructions on preparing your solutions.
+
+We will provide the solutions to the problem set 10 hours after the problem set
+is due. You will have to read the solutions, and write a brief \textbf{grading
+explanation} to help your grader understand your write-up. You will need to
+submit the grading guide by \textbf{Thursday, December 8, 11:59PM}. Your grade
+will be based on both your solutions and the grading explanation.
+
+\medskip
+
+\noindent
+\hrulefill
+
+\medskip
+
+\textbf{Collaborators:} \collaborators
+
+\noindent
+\hrulefill
+
+\begin{problems}
+
+
+\problem \points{30} \textbf{Seam Carving}
+
+
+
+  In a recent paper, ``Seam Carving for Content-Aware Image
+  Resizing'', Shai Avidan and Ariel Shamir describe a novel method of
+  resizing images. You are welcome to read the paper, but we recommend
+  starting with the YouTube video:
+
+  \centerline{\url{http://www.youtube.com/watch?v=vIFCV2spKtg}}
+
+  Both are linked
+  from the Problem Sets page on the class website. After you've
+  watched the video, the terminology in the rest of this problem will
+  make sense.
+
+  If you were paying attention around time 1:50 of the video, then you
+  can probably guess what you're going to have to do. You are given an
+  image, and your task is to calculate the best vertical seam to
+  remove. A \emph{vertical seam} is a connected path of pixels, one
+  pixel in each row. We call two pixels \emph{connected} if they are
+  vertically or diagonally adjacent. The \emph{best} vertical seam is
+  the one that minimizes the total ``energy'' of pixels in the seam.
+
+  The video didn't spend much time on dynamic programming,
+  so here's the algorithm:
+
+  \begin{description}
+\setlength{\labelsep}{0.5em}
+  \item[Subproblems:] For each pixel $(i,j)$, what is the lower-energy
+    seam that starts at the top row of the image, but ends at $(i,j)$?
+  \item[Relation:] Let \verb|dp[i,j]| be the solution to subproblem
+  $(i,j)$. Then \\
+  \verb|dp[i,j] = min(dp[i,j-1],dp[i-1,j-1],dp[i+1,j-1]) + energy(i,j)|
+  \item[Analysis:] Solving each subproblem takes $O(1)$ time: there
+    are three smaller subproblems to look up, and one call to
+    \verb|energy()|, which all take $O(1)$ time. There is one
+    subproblem for each pixel, so the running time is $\Theta(A)$,
+    where $A$ is the number of pixels, i.e., the area of the image.
+  \end{description}
+
+  Download \verb|ps7_code.zip| and unpack it.
+  To solve this problem set,
+  you will need the Python Imaging Library (PIL),
+  which you should have installed for Problem Set 4.
+  If you wish to view your results,
+  you will additionally need the Tkinter library.
+
+  In \verb|resizeable_image.py|, write a function
+  \verb|best_seam(self)| that returns a list of coordinates
+  corresponding to the cheapest vertical seam to remove, e.g.,
+  $[(5,0), (5,1), (4,2), (5,3), (6,4)]$.  You should implement the
+  dynamic program described above in a bottom-up manner.
+
+  The class \verb|ResizeableImage|
+  inherits from \verb|ImageMatrix|.
+  You should use the following components
+  of \verb|ImageMatrix| in your dynamic
+  program:
+  \begin{itemize}
+\setlength{\labelsep}{0.5em}
+  \item \verb|self.energy(i,j)| returns the energy of a pixel. This
+  takes $O(1)$ time, but the constant factor is sizeable.  If you call it
+  more than once, you might want to cache the results.
+  \item \verb|self.width| and \verb|self.height| are the width and height
+        of the image, respectively.
+  \end{itemize}
+
+  Test your code using \verb|test_resizable_image.py|, and submit
+  \verb|ResizeableImage.py| to the class website. You can also view
+  your code in action by running \verb|gui.py|. Included with the
+  problem set are two differently sized versions of the same sunset
+  image. If you remove enough seams from the sunset image, it should
+  center the sun.
+
+  Also, please try out your own pictures (most file formats should
+  work), and send us any interesting before/after shots.
+
+\newpage
+
+\newcommand{\total}{\id{total}}
+\newcommand{\stockCount}{\id{count}}
+\newcommand{\priceStart}{\id{start}}
+\newcommand{\priceEnd}{\id{end}}
+\newcommand{\limit}{\id{limit}}
+
+\newcommand{\itemCount}{\id{items}}
+\newcommand{\itemSize}{\id{size}}
+\newcommand{\itemValue}{\id{value}}
+\newcommand{\capacity}{\id{capacity}}
+
+\newcommand{\profit}{\id{profit}}
+\newcommand{\purchase}{\id{purchase}}
+\newcommand{\cash}{\id{cash}}
+\newcommand{\current}{\id{current}}
+\newcommand{\stock}{\id{stock}}
+\newcommand{\result}{\id{result}}
+\newcommand{\quantity}{\id{quantity}}
+\newcommand{\leftover}{\id{leftover}}
+
+\newcommand{\priceTable}{
+\begin{center}
+\begin{tabular}{|l|c|c|}
+\hline
+\bf Company & \bf Price in 1991 & \bf Price in 2011 \\ \hline
+Dale, Inc. & \$12 & \$39 \\
+JCN Corp. & \$10 & \$13 \\
+Macroware, Inc. & \$18 & \$47 \\
+Pear, Inc. & \$15 & \$45 \\ \hline
+\end{tabular}
+\end{center}
+}
+
+\problem \points{70} \textbf{HG Fargo}
+
+You have been given an internship
+at the extremely profitable and secretive bank
+HG Fargo.
+Your immediate supervisor tells you that
+higher-ups in the bank are very interested
+in learning from the past.
+In particular,
+they want to know
+how much money they \emph{could} have made
+if they had invested optimally.
+
+Your supervisor gives you the following data
+on the prices%
+\footnote{
+Note that for the purposes of this problem,
+you should ignore some of the intricacies of the real stock market.
+The only income
+you can make is from purchasing stocks in 1991,
+then selling those same stocks at market value
+in 2011.
+}
+of select stocks
+in 1991 and in 2011:
+\priceTable
+As a first step,
+you decide to examine what the optimal decision is
+for a couple of small examples:
+
+\begin{problemparts}
+
+\problempart
+\points{5}
+If you had \$20 available to purchase stocks in 1991,
+how much of each stock should you have bought
+to maximize profits when you sell everything in 2011?
+Note that you do not need to invest all of your money
+--- if it is more profitable to keep some as cash,
+you do not need to invest it.
+
+\solution{
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\bf Company & \bf Number of Shares \\
+\hline
+Dale, Inc. & \answerIIaDale \\
+JCN Corp. & \answerIIaJCN \\
+Macroware, Inc. & \answerIIaMacroware \\
+Pear, Inc. & \answerIIaPear \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\problempart
+\points{5}
+If you had \$30 available to purchase stocks in 1991,
+how much of each stock should you have bought?
+\solution{
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\bf Company & \bf Number of Shares \\
+\hline
+Dale, Inc. & \answerIIbDale \\
+JCN Corp. & \answerIIbJCN \\
+Macroware, Inc. & \answerIIbMacroware \\
+Pear, Inc. & \answerIIbPear \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\problempart
+\points{5}
+If you had \$120 available to purchase stocks in 1991,
+how much of each stock should you have bought?
+\solution{
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\bf Company & \bf Number of Shares \\
+\hline
+Dale, Inc. & \answerIIcDale \\
+JCN Corp. & \answerIIcJCN \\
+Macroware, Inc. & \answerIIcMacroware \\
+Pear, Inc. & \answerIIcPear \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\end{problemparts}
+
+Your supervisor asks you to write an algorithm
+for computing the best way to purchase stocks,
+given the initial money $\total$,
+the number $\stockCount$ of companies with stock available,
+an array $\priceStart$ containing the prices of each stock in 1991,
+and an array $\priceEnd$ containing the prices of each stock in 2011.
+All prices are assumed to be positive integers.
+
+There is a strong relationship
+between this problem
+and the knapsack problem.
+The knapsack problem takes four inputs:
+the number of different items $\itemCount$,
+the item sizes $\itemSize$ (all of which are integers),
+the item values $\itemValue$ (which may not be integers),
+and the size $\capacity$ of the knapsack.
+The goal is to pick a subset of the items
+that fits inside the knapsack
+and maximizes the total value.
+
+\newcommand{\knapsackAnswers}{
+
+\vspace{0.5em}
+\begin{enumerate}
+\begin{minipage}{0.20\textwidth}
+\item \ensuremath{\itemCount}
+\end{minipage}
+\hfill
+\begin{minipage}{0.20\textwidth}
+\item \ensuremath{\itemSize}
+\end{minipage}
+\hfill
+\begin{minipage}{0.20\textwidth}
+\item \ensuremath{\itemValue}
+\end{minipage}
+\hfill
+\begin{minipage}{0.20\textwidth}
+\item \ensuremath{\capacity}
+\end{minipage}
+\end{enumerate}
+
+}
+
+\begin{problemparts}
+
+\problempart
+\points{1}
+Which input to the knapsack problem
+corresponds to the input $\total$ in the stock purchasing problem?
+\knapsackAnswers
+\answerIId
+
+\problempart
+\points{1}
+Which input to the knapsack problem
+corresponds to the input $\stockCount$ in the stock purchasing problem?
+\knapsackAnswers
+\answerIIe
+
+\problempart
+\points{1}
+Which input to the knapsack problem
+corresponds to the input $\priceStart$ in the stock purchasing problem?
+\knapsackAnswers
+\answerIIf
+
+\problempart
+\points{1}
+Which input to the knapsack problem
+corresponds to the input $\priceEnd$ in the stock purchasing problem?
+\knapsackAnswers
+\answerIIg
+
+\problempart
+\points{6}
+Unfortunately,
+the algorithm for the knapsack problem
+cannot be directly applied to the stock purchasing problem.
+For each of the following potential reasons,
+state whether it's a valid reason
+not to use the knapsack algorithm.
+(In other words, if the difference mentioned
+were the only difference between the problems,
+would you still be able to use the knapsack algorithm
+to solve the stock purchasing problem?)
+
+\begin{enumerate}
+\item
+In the stock purchasing problem,
+there is a time delay between the selection
+and the reward.
+
+\item
+All of the numbers in the stock purchasing problem are integers.
+The $\itemValue$ array in the knapsack problem is not.
+
+\item 
+In the stock purchasing problem,
+the money left over from your purchases
+is kept as cash,
+which contributes to your ultimate profit.
+The knapsack problem has no equivalent concept.
+
+\item
+In the knapsack problem,
+there are some variables representing
+sizes of objects.
+There are no such variables
+in the stock purchasing problem.
+
+\item
+In the stock purchasing problem,
+you can buy more than one share in each stock.
+
+\item
+In the stock purchasing problem,
+you sell all the items at the end.
+In the knapsack problem,
+you don't do anything with the items.
+ 
+\end{enumerate}
+\answerIIh
+
+\end{problemparts}
+
+Despite these differences,
+you decide that the knapsack algorithm
+is a good starting point
+for the problem you are trying to solve.
+So you dig up some pseudocode for the knapsack problem,
+relabel the variables to suit the stock purchasing problem,
+and then start modifying things.
+After a long night of work,
+you end up with a couple of feasible solutions.
+Unfortunately,
+there is a bit of a hard-drive error the next morning,
+and the files are all mixed up.
+You have recovered six different functions,
+from various states in your development process.
+The first function is the following:
+
+\begin{codebox}
+\Procname{$\proc{Stock}
+		(\total, \stockCount, \priceStart, \priceEnd)$}
+\li $\purchase = \proc{Stock-Table}
+		(\total, \stockCount, \priceStart, \priceEnd)$
+\li \Return $\proc{Stock-Result}
+		(\total, \stockCount, \priceStart, \priceEnd, \purchase)$
+\end{codebox}
+
+This is the function that you ran to get your results.
+The $\proc{Stock-Table}$ function
+generates the table of subproblem solutions.
+The $\proc{Stock-Result}$ function
+uses that to figure out which stocks to purchase,
+and in what quantities.
+Unfortunately,
+you have two copies of the $\proc{Stock-Table}$ function
+and three copies of the $\proc{Stock-Result}$ function.
+You know that there's a way to take one of each function
+to get the pseudocode for the original knapsack problem
+(with the names changed).
+You also know that there's a way to take one of each function
+to get the pseudocode for the stock purchases problem.
+You just don't know which functions do what.
+
+\newcommand{\runtimeAnswers}{
+\vspace{0.5em}
+\begin{enumerate}
+\begin{minipage}{0.49\textwidth}
+\item \ensuremath{\Theta(\stockCount)}
+\item \ensuremath{\Theta(\stockCount^2)}
+\item \ensuremath{\Theta(\stockCount^3)}
+\item \ensuremath{\Theta(\total)}
+\item \ensuremath{\Theta(\total^2)}
+\item \ensuremath{\Theta(\total^3)}
+\end{minipage}
+\hfill
+\begin{minipage}{0.49\textwidth}
+\item \ensuremath{\Theta(\stockCount + \total)}
+\item \ensuremath{\Theta(\stockCount^2 + \total)}
+\item \ensuremath{\Theta(\stockCount + \total^2)}
+\item \ensuremath{\Theta(\stockCount \cdot \total)}
+\item \ensuremath{\Theta(\stockCount^2 \cdot \total)}
+\item \ensuremath{\Theta(\stockCount \cdot \total^2)}
+\end{minipage}
+\end{enumerate}
+}
+
+Analyze each of the other five procedures,
+and select the correct running time.
+Recall that $\total$ and $\stockCount$ are positive integers,
+as are each of the values $\priceStart[\stock]$ and $\priceEnd[\stock]$.
+To make the code simpler,
+the arrays $\priceStart$, $\priceEnd$, and $\result$
+are assumed to be indexed starting at $1$,
+while the tables $\profit$ and $\purchase$
+are assumed to be indexed starting at $(0, 0)$.
+You may assume that entries in a table
+can be accessed and modified in $\Theta(1)$ time.
+
+\begin{figure}[p]
+\begin{codebox}
+\Procname{$\proc{Stock-Table-A}
+		(\total, \stockCount, \priceStart, \priceEnd)$}
+\li create a table $\profit$
+\li create a table $\purchase$
+\li \For $\cash \gets \const{0}$ to $\total$ \Do
+\li		$\profit[\cash, \const{0}] \gets \cash$
+\li		$\purchase[\cash, \const{0}] \gets \const{False}$
+\li		\For $\stock \gets \const{1}$ to $\stockCount$ \Do
+\li			$\profit[\cash, \stock] \gets
+					\profit[\cash, \stock - \const{1}]$
+\li			$\purchase[\cash, \stock] \gets \const{False}$
+\li			\If $\priceStart[\stock] \le \cash$ \Then
+\li				$\leftover \gets \cash - \priceStart[\stock]$
+\li				$\current \gets \priceEnd[\stock] +
+						\profit[\leftover, \stock]$
+\li				\If $\profit[\cash, \stock] < \current$ \Then
+\li					$\profit[\cash, \stock] = \current$
+\li					$\purchase[\cash, \stock] = \const{True}$
+	 			\End
+			\End
+		\End
+	\End
+\li \Return \purchase
+\end{codebox}
+\caption{The pseudocode for $\proc{Stock-Table-A}$.}
+\label{fig:table-A}
+
+\hfill
+
+\begin{codebox}
+\Procname{$\proc{Stock-Table-B}
+		(\total, \stockCount, \priceStart, \priceEnd)$}
+\li create a table $\profit$
+\li create a table $\purchase$
+\li \For $\cash \gets \const{0}$ to $\total$ \Do
+\li		$\profit[\cash, \const{0}] \gets \const{0}$
+\li		$\purchase[\cash, \const{0}] \gets \const{False}$
+\li		\For $\stock \gets \const{1}$ to $\stockCount$ \Do
+\li			$\profit[\cash, \stock] \gets
+					\profit[\cash, \stock - \const{1}]$
+\li			$\purchase[\cash, \stock] \gets \const{False}$
+\li			\If $\priceStart[\stock] \le \cash$ \Then
+\li				$\leftover \gets \cash - \priceStart[\stock]$
+\li				$\current \gets \priceEnd[\stock] +
+						\profit[\leftover, \stock - \const{1}]$
+\li				\If $\profit[\cash, \stock] < \current$ \Then
+\li					$\profit[\cash, \stock] = \current$
+\li					$\purchase[\cash, \stock] = \const{True}$
+	 			\End
+			\End
+		\End
+	\End
+\li \Return \purchase
+\end{codebox}
+\caption{The pseudocode for $\proc{Stock-Table-B}$.}
+\label{fig:table-B}
+\end{figure}
+
+\begin{problemparts}
+\problempart
+\points{1}
+What is the worst-case asymptotic running time of
+$\proc{Stock-Table-A}$
+(from Figure~\ref{fig:table-A})
+in terms of $\stockCount$ and $\total$?
+\runtimeAnswers
+
+\answerIIi
+\end{problemparts}
+
+\begin{problemparts}
+\problempart
+\points{1}
+What is the worst-case asymptotic running time of
+$\proc{Stock-Table-B}$
+(from Figure~\ref{fig:table-B})
+in terms of $\stockCount$ and $\total$?
+\runtimeAnswers
+
+\answerIIj
+\end{problemparts}
+
+\begin{figure}[p]
+\begin{codebox}
+\Procname{$\proc{Stock-Result-A}
+		(\total, \stockCount, \priceStart, \priceEnd, \purchase)$}
+\li create a table $\result$
+\li \For $\stock \gets \const{1}$ to $\stockCount$ \Do
+\li		$\result[\stock] = \const{0}$
+ 	\End
+\li
+\li $\cash \gets \total$
+\li $\stock \gets \stockCount$
+\li \While $\stock > \const{0}$ \Do
+\li		$\quantity \gets \purchase[\cash, \stock]$
+\li		$\result[\stock] \gets \quantity$
+\li		$\cash \gets \cash - \quantity \cdot \priceStart[\stock]$
+\li		$\stock \gets \stock - \const{1}$
+	\End
+\li
+\li	\Return $\result$
+\end{codebox}
+
+\caption{The pseudocode for $\proc{Stock-Result-A}$.}
+\label{fig:result-A}
+
+\hfill
+
+\begin{codebox}
+\Procname{$\proc{Stock-Result-B}
+		(\total, \stockCount, \priceStart, \priceEnd, \purchase)$}
+\li create a table $\result$
+\li \For $\stock \gets \const{1}$ to $\stockCount$ \Do
+\li		$\result[\stock] = \const{False}$
+	\End
+\li
+\li $\cash \gets \total$
+\li $\stock \gets \stockCount$
+\li \While $\stock > \const{0}$ \Do
+\li		\If $\purchase[\cash, \stock]$ \Then
+\li			$\result[\stock] \gets \const{True}$
+\li			$\cash \gets \cash - \priceStart[\stock]$
+		\End
+\li		$\stock \gets \stock - \const{1}$
+	\End
+\li
+\li	\Return $\result$
+\end{codebox}
+\caption{The pseudocode for $\proc{Stock-Result-B}$.}
+\label{fig:result-B}
+\end{figure}
+
+\begin{figure}
+
+\begin{codebox}
+\Procname{$\proc{Stock-Result-C}
+		(\total, \stockCount, \priceStart, \priceEnd, \purchase)$}
+\li create a table $\result$
+\li \For $\stock \gets \const{1}$ to $\stockCount$ \Do
+\li		$\result[\stock] = \const{0}$
+	\End
+\li
+\li $\cash \gets \total$
+\li $\stock \gets \stockCount$
+\li \While $\stock > \const{0}$ \Do
+\li		\If $\purchase[\cash, \stock]$ \Then
+\li			$\result[\stock] \gets \result[\stock] + \const{1}$
+\li			$\cash \gets \cash - \priceStart[\stock]$
+\li		\Else
+\li			$\stock \gets \stock - \const{1}$
+		\End
+	\End
+\li
+\li	\Return $\result$
+\end{codebox}
+
+\caption{The pseudocode for $\proc{Stock-Result-C}$.}
+\label{fig:result-C}
+
+\end{figure}
+
+\begin{problemparts}
+\problempart
+\points{1}
+What is the worst-case asymptotic running time of
+$\proc{Stock-Result-A}$
+(from Figure~\ref{fig:result-A})
+in terms of $\stockCount$ and $\total$?
+\runtimeAnswers
+
+\answerIIk
+\end{problemparts}
+
+\begin{problemparts}
+\problempart
+\points{1}
+What is the worst-case asymptotic running time of
+$\proc{Stock-Result-B}$
+(from Figure~\ref{fig:result-B})
+in terms of $\stockCount$ and $\total$?
+\runtimeAnswers
+
+\answerIIl
+\end{problemparts}
+
+\begin{problemparts}
+\problempart
+\points{1}
+What is the worst-case asymptotic running time of
+$\proc{Stock-Result-C}$
+(from Figure~\ref{fig:result-C})
+in terms of $\stockCount$ and $\total$?
+\runtimeAnswers
+
+\answerIIm
+\end{problemparts}
+
+\begin{problemparts}
+
+\problempart
+\points{2}
+The recurrence relation computed
+by the $\proc{Stock-Table-A}$ function
+is:
+\begin{enumerate}
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} - 1] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} - 1] + \priceEnd[\id{s}]\}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max_q \{ \profit[\id{c} - q \cdot \priceStart[\id{s}], \id{s} - 1 ]+ q \cdot \priceEnd[\id{s}] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} ] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} ]+ \priceEnd[\id{s}] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max_q\{ \profit[\id{c} - q \cdot \priceStart[\id{s}], \id{s} ]+ q \cdot \priceEnd[\id{s}] \}$
+\end{enumerate}
+
+\answerIIn
+
+\problempart
+\points{2}
+The recurrence relation computed
+by the $\proc{Stock-Table-B}$ function
+is:
+\begin{enumerate}
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} - 1] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} - 1] + \priceEnd[\id{s}]\}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max_q \{ \profit[\id{c} - q \cdot \priceStart[\id{s}], \id{s} - 1 ]+ q \cdot \priceEnd[\id{s}] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} ] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max\{ \profit[\id{c}, \id{s}- 1], \profit[\id{c} - \priceStart[\id{s}], \id{s} ]+ \priceEnd[\id{s}] \}$
+\item $\profit[\id{c}, \id{s}] = \displaystyle\max_q\{ \profit[\id{c} - q \cdot \priceStart[\id{s}], \id{s} ]+ q \cdot \priceEnd[\id{s}] \}$
+\end{enumerate}
+
+\answerIIo
+
+\end{problemparts}
+
+With this information,
+you should be able to figure out
+whether
+$\proc{Stock-Table-A}$
+or
+$\proc{Stock-Table-B}$
+is useful for the knapsack problem,
+and similarly for the stock purchasing problem.
+From there,
+you can figure out which of
+$\proc{Stock-Result-A}$,
+$\proc{Stock-Result-B}$, and
+$\proc{Stock-Result-C}$
+is best for piecing together
+the optimal distribution of stocks and/or items.
+
+\begin{problemparts}
+\problempart
+\points{3}
+Which two methods, when combined,
+let you compute the answer to the knapsack problem?
+\begin{enumerate}
+\item $\proc{Stock-Table-A}$ and $\proc{Stock-Result-A}$
+\item $\proc{Stock-Table-A}$ and $\proc{Stock-Result-B}$
+\item $\proc{Stock-Table-A}$ and $\proc{Stock-Result-C}$
+\item $\proc{Stock-Table-B}$ and $\proc{Stock-Result-A}$
+\item $\proc{Stock-Table-B}$ and $\proc{Stock-Result-B}$
+\item $\proc{Stock-Table-B}$ and $\proc{Stock-Result-C}$
+\end{enumerate}
+
+\answerIIp
+
+\problempart
+\points{3}
+Which two methods, when combined,
+let you compute the answer to the stock purchases problem?
+\begin{enumerate}
+\item $\proc{Stock-Table-A}$ and $\proc{Stock-Result-A}$
+\item $\proc{Stock-Table-A}$ and $\proc{Stock-Result-B}$
+\item $\proc{Stock-Table-A}$ and $\proc{Stock-Result-C}$
+\item $\proc{Stock-Table-B}$ and $\proc{Stock-Result-A}$
+\item $\proc{Stock-Table-B}$ and $\proc{Stock-Result-B}$
+\item $\proc{Stock-Table-B}$ and $\proc{Stock-Result-C}$
+\end{enumerate}
+
+\answerIIq
+
+\end{problemparts}
+
+With all that sorted out,
+you submit the code to your supervisor
+and pat yourself on the back
+for a job well done.
+Unfortunately, your supervisor comes back
+a few days later
+with a complaint
+from the higher-ups.
+They've been playing with your program,
+and were very upset to discover that when they ask what to do
+with \$1,000,000,000 in the year 1991,
+it tells them to buy tens of millions of shares
+in Dale, Inc.
+According to them,
+there weren't that many shares of Dale
+available to purchase.
+They want a new feature:
+the ability to pass in limits
+on the number of stocks purchaseable.
+
+You choose to begin,
+as always,
+with a small example:
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+\bf Company & \bf Price in 1991 & \bf Price in 2011 & \bf Limit \\ \hline
+Dale, Inc. & \$12 & \$39 & 3 \\
+JCN Corp. & \$10 & \$13 & $\infty$ \\
+Macroware, Inc. & \$18 & \$47 & 2 \\
+Pear, Inc. & \$15 & \$45 & 1 \\ \hline
+\end{tabular}
+\end{center}
+
+\begin{problemparts}
+
+\problempart
+\points{5}
+If you had \$30 available to purchase stocks in 1991,
+how much of each stock should you have bought,
+given the limits imposed above?
+
+\solution{
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\bf Company & \bf Number of Shares \\
+\hline
+Dale, Inc. & \answerIIrDale \\
+JCN Corp. & \answerIIrJCN \\
+Macroware, Inc. & \answerIIrMacroware \\
+Pear, Inc. & \answerIIrPear \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\problempart
+\points{5}
+If you had \$120 available to purchase stocks in 1991,
+how much of each stock should you have bought,
+given the limits imposed above?
+
+\solution{
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\bf Company & \bf Number of Shares \\
+\hline
+Dale, Inc. & \answerIIsDale \\
+JCN Corp. & \answerIIsJCN \\
+Macroware, Inc. & \answerIIsMacroware \\
+Pear, Inc. & \answerIIsPear \\
+\hline
+\end{tabular}
+\end{center}
+}
+
+\problempart
+\points{20}
+Give pseudocode
+for an algorithm $\proc{StockLimited}$
+that computes the maximum profit achievable
+given
+a starting amount $\total$,
+a number $\stockCount$ of companies with stock available,
+an array of initial prices $\priceStart$,
+an array of final prices $\priceEnd$,
+and an array of quantities $\limit$.
+The value stored at $\limit[\stock]$
+will be equal to $\infty$
+in cases where there is no known limit
+on the number of stocks.
+The algorithm need only output
+the resulting quantity of money,
+not the purchases necessary to get that quantity.
+
+Remember to analyze the runtime of your pseudocode,
+and provide a brief justification for its correctness.
+It is sufficient to give
+the recurrence relation that your algorithm implements,
+and talk about why the recurrence relation
+solves the problem at hand.
+
+\answerIIt
+\end{problemparts}
+
+\end{problems}
+
+\end{document}

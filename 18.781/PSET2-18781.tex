@@ -1,0 +1,357 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+\usepackage{thmtools}
+\usepackage{verbatim}
+\usepackage{multirow}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{prob}{Problem}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\newenvironment{sol}{{\bfseries Solution}}{\qedsymbol}
+
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{18.781 \\
+Problem Set 2}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1}
+
+\begin{prob}
+Let $p$ be prime and $n,k \in \mathrm{N}$. Show that the power of $p$ dividing ${ n \choose k}$ is the number of carries when adding $k$ to $n - k$ in base $p$.
+\end{prob}
+
+\begin{sol}
+First, we will restate a proposition that was proven in class:
+\begin{prop}
+Write $n$ in base $p$ as $n = a_0 + a_1 p + \ldots + a_k p^k$ with $a_i \in \{0, \ldots, p-1\}$. Then $e(n,p) = \frac{n - (a_1 + \ldots + a_k)}{p - 1}$ where $e(n,p)$ is defined as a function such that $p^e || n!$ holds, where $e \in \mathrm{Z}$ . 
+\end{prop}
+
+First, we shall define $r = n - k$. Let us say that there are a maximum of $s$ digits in $n,k,$ or $r$ in base $p$. Then we can write these in base $p$ as:
+\begin{eqnarray}
+n &=& n_0 + n_1 p + \ldots + n_s p^s \\
+k &=& k_0 + k_1 p + \ldots + k_s p^s \\
+r &=& r_0 + r_1 p + \ldots +  r_s p^s
+\end{eqnarray} 
+
+Where $n_i, k_i, r_i \in \{0, \ldots, p-1 \}$ for all $i$. Next, we know that ${n \choose k} = \frac{n!}{k! (n - k)!} = \frac{(k + r)!}{r! k!}$. The power of $p$ that divides ${n \choose k}$ is then $e(k+r, p) - e(r, p) - e(k, p)$. We can write this using the proposition as:
+\begin{eqnarray}
+e(k+r, p) &-& e(r, p) - e(k,p) \\
+&=& \frac{(k+r) - (n_0 + \ldots + n_s) - (k - (k_0 + \ldots + k_s)) - (r - (r_0 + \ldots + r_s))}{p-1} \\
+&=& \frac{(k_0 + \ldots + k_s) + (r_0 + \ldots + r_s) - (n_0 + \ldots + n_s)}{p-1}
+\end{eqnarray}
+
+This is exactly the number of carries when adding $k$ to $n - k$ in base $p$ because $r = n - k$. Thus, the number of carries is the sum of the digits of $n$ subtracted from the digits of $k$ and $n - k$ in base $p$, divided by the total number of digits possible in base $p$, which is $p - 1$. This completes the proof.
+\end{sol}
+
+
+\section{Problem 2}
+
+\begin{prob}
+Let $m,n,k$ be positive integers. Use combinatorial reasoning to show that
+\begin{equation}
+{ m + n \choose k } = \sum_{i=0}^m { m \choose i } {n \choose k - i }
+\end{equation}
+\end{prob}
+
+\begin{sol}
+We want to choose $k$ elements from $m + n$. Split the $m + n$ elements into two groups, call them $M$ and $N$. The group $M$ contains $m$ elements and the group $N$ contains $n$ elements. In order to choose $k$ elements, we must choose $i$ elements from $M$ and $k - i$ elements from $N$. The number of ways to choose this for any $i$ where $0 \leq i \leq m$ is simply ${ m \choose i } {n \choose k - i}$. We take the sum of the total number of ways to do this for all possible $i$, which clearly range from $0 \leq i \leq m$. This becomes $\sum_{i=0}^m { m \choose i } {n \choose k - i }$, which is what we wanted.
+\end{sol}
+
+\begin{prob}
+Prove this identity by considering the coefficient of $x^k$ in $(1+x)^m(1+x)^n$.
+\end{prob}
+
+\begin{sol}
+We see that $(1+x)^{m+n} = (1+x)^m (1+x)^n$. Moreover, the coefficient of $x^k$ in the binomial expansion of $(1+x)^{m+n}$ is ${m + n \choose k } 1^{m + n} = { m + n \choose k }$ by the binomial theorem. The coefficient of $x^k$ in the binomial expansion of $(1+x)^m (1+x)^n$ must then be equal to ${ m + n \choose k }$. If we compute the binomial expansion, we find:
+\begin{eqnarray}
+(1+x)^m(1+x)^n &=& \left( \sum_{i=0}^m {m \choose i} x^i \right) \left( \sum_{i=0}^n {n \choose i} x^i \right) 
+\end{eqnarray}
+
+The $x^k$ term in this expansion is given by:
+\begin{eqnarray}
+\sum_{k = 0}^m { m \choose i} x^i { n \choose k - i} x^{k-i} = \sum_{k=0}^m {m \choose i} {n \choose k - i} x^k
+\end{eqnarray}
+
+Therefore, we see that the coefficients on the $x^k$ term must be equal, so that ${ m + n \choose k } = \sum_{i=0}^m { m \choose i } {n \choose k - i }$ must hold.
+\end{sol}
+
+\begin{prob}
+Show that $\sum_{k=0}^n {n \choose k}^2 = { 2n \choose n }$. 
+\end{prob}
+
+\begin{sol}
+We see that the following is true by the binomial theorem:
+\begin{eqnarray}
+(1+x)^{2n} &=& (1+x)^n (1+x)^n \\
+&=& \left( \sum_{i=0}^n {n \choose i} x^i \right) \left( \sum_{i=0}^n {n \choose i} x^i \right) 
+\end{eqnarray}
+
+We see that the terms containing $x^n$ can be written as:
+\begin{eqnarray}
+\sum_{i=0}^n {n \choose i} {n \choose n - i} x^i x^{n - i} = \sum_{k =0}^n {n \choose i}^2 x^n
+\end{eqnarray}
+
+Because we know that ${n \choose i} {n \choose n - i} = \frac{n!}{i! (n - i)!} \frac{ n!}{(n-i)! i!} = {n \choose i}^2$. Moreover, by the binomial expanion of $(1+x)^{2n}$, we know that the terms containing $x^n$ can also be expressed as ${2n \choose n} x^{n}$. This shows that the coefficients on these two terms are equal, namely that:
+\begin{equation}
+\sum_{k=0}^n {n \choose k}^2 = { 2n \choose n }
+\end{equation}
+\end{sol}
+
+\begin{prob}
+Show that $\sum_{k=0}^{2n} (-1)^k {2n \choose k}^2 = (-1)^n {2n \choose n}$. 
+\end{prob}
+
+\begin{sol}
+We know that $(x^2 - 1)^{2n} = ((x+1)(x-1))^{2n} = (x+1)^{2n}(x-1)^{2n}$. Moreover, we can use binomial expansions:
+\begin{eqnarray}
+(x+1)^{2n}(x-1)^{2n} = \left( \sum_{i=0}^{2n} {2n \choose i} x^i \right) \left( \sum_{i=0}^{2n} {2n \choose i} x^i (-1)^{2n - i} \right) 
+\end{eqnarray}
+
+If we collect the terms with $x^{2n}$, we obtain:
+\begin{eqnarray}
+\sum_{i=0}^{2n} { 2n \choose i} x^i {2n \choose 2n - i} x^{2n - i} (-1)^i = \sum_{k=0}^{2n} {2n \choose k}^2 x^{2n} (-1)^k
+\end{eqnarray}
+
+Moreover, the term with $x^{2n}$ in the original expression of $(x^2 - 1)^{2n}$ using the binomial theorem is:
+\begin{eqnarray}
+{2n \choose n} (x^2)^n (-1)^n 
+\end{eqnarray}
+
+Equating the coefficients on these terms together, we obtain:
+\begin{equation}
+\sum_{k=0}^{2n} (-1)^k {2n \choose k}^2 = (-1)^n {2n \choose n}
+\end{equation}
+\end{sol}
+
+\section{Problem 3}
+
+\begin{prob}
+Let $p$ be a prime. Show the polynomial identity $(1+x)^p \equiv 1 + x^p \mod p$ and more generally that $(1+x)^{p^k} \equiv 1 + x^{p^k} \mod p$. 
+\end{prob}
+
+\begin{sol}
+It is sufficient to prove this for $(1+x)^{p^k} \equiv 1 + x^{p^k} \mod p$ since the previous identity follows if we choose $k = 1$. We will use the binomial theorem to prove this. First, we see that 
+\begin{eqnarray}
+(1 + x)^{p^k} &=& 1^{p^k} + x^{p^k} + \sum_{i=1}^{p^k - 1} {p^k \choose i} x^i 
+\end{eqnarray}
+
+However, we know that ${ p^k \choose i} = \frac{p^k !}{i! ( p^k - i)!} = \frac{ (p^k)(p^k - 1) \ldots (p^k - i + 1)}{i!}$. Thus, for $i = 1, \ldots, p-1$, it is clear that $p | {p^k \choose i}$. Thus, we see that ${p^k \choose i} \equiv 0 \mod p$, which means we can write the congruence:
+\begin{eqnarray}
+(1+x)^{p^k} \equiv 1 + x^{p^k} \mod p
+\end{eqnarray}
+\end{sol}
+
+\begin{prob}
+Let $a = a_r p^r + \cdots + a_0$ and $b = b_r p^r + \cdots + b_0$ be the base $p$ expressions of two positive integers. Show that 
+\begin{equation}
+{a \choose b} \equiv {a_r \choose b_r} {a_{r - 1} \choose b_{r-1} } \cdots { a_0 \choose b_0} \mod p
+\end{equation}
+\end{prob}
+
+\begin{sol}
+First, we note that the $x^b$ term in the binomial expansion of $(1+x)^a$ is simply ${a \choose b} x^b$. Moreover, by using the lemma that we have just proven, we see that:
+\begin{eqnarray}
+(1 + x)^a &\equiv& \prod_{m=0}^r ( 1 + x^{a_m p^m}) \mod p \\
+&\equiv& \prod_{m=0}^r (1 + x^{p^m})^{a_m} \mod p \\
+&\equiv& \prod_{m=0}^r \sum_{i = 0}^{a_m} {a_m \choose i} x^{i p^m} \mod p
+\end{eqnarray} 
+
+We see that the $x^b = x^{b_r p^r + \cdots + b_0}$ terms can be written as:
+\begin{eqnarray}
+\prod_{m=0}^r {a_m \choose b_m}
+\end{eqnarray}
+
+Since the coefficients on these two terms are equal, we see that:
+\begin{equation}
+{a \choose b} \equiv {a_r \choose b_r} {a_{r - 1} \choose b_{r-1} } \cdots { a_0 \choose b_0} \mod p
+\end{equation}
+Which is what we wanted to prove.
+\end{sol}
+
+\section{Problem 4}
+
+\begin{prob}
+Let $n$ be a positive integer. Show that the polynomial identity $(x - a)^n \equiv x^n - a \pmod{n}$ holds for every integer $a$ if and only if $n$ is prime.
+\end{prob}
+
+\begin{sol}
+First, assume that $n$ is prime. Then we must show that $(x-a)^n - (x^n - a) \equiv 0 \pmod{n}$. First, we know that we can expand this expression to the following:
+\begin{eqnarray}
+(x-a)^n - (x^n - a) &=& a - x^n + \sum_{i=0}^n {n \choose i} x^{i} (-a)^{n - i} \\
+&=& a + \sum_{i=0}^{n-1} {n \choose i} x^i (-a)^{n-i}
+\end{eqnarray}
+
+The coefficient on each $x^i$ term (0 < i < n) is therefore ${n \choose i} a^{n - i} (-1)^i$. Moreover, since $n$ is a prime, we see that for all $i$ such that $0 < i < n$, we have $n | {n \choose i}$.  This means that ${n \choose i} a^{n - i} (-1)^i \equiv 0 \pmod{n}$. For $i = 0$, we see that the coefficient on $x^0$ is $(-a)^n$. We can group the extra $a$ term with this and we have $a(1 - a^{n-1})$ as the coefficient on the $x^0$ term. Since $n$ is prime, we see by Fermat's Little Theorem that $1 - a^{n-1} \equiv 0 \pmod{n}$. This shows that all terms are congruent to $0 \pmod{n}$, which shows that $(x-a)^{n} \equiv x^n - a \pmod{n}$.  
+
+
+Now to prove the converse, we assume that $(x-a)^n \equiv (x^n - a) \pmod{n}$. Now suppose by contradiction that $n$ is composite. Then $n$ has some smallest prime factor $p$ and let $k = n/p$. Then $0 < p < n$ and 
+\begin{eqnarray}
+{n \choose p} &=& \frac{n (n-1) \ldots (n - p + 1)}{p!} \\
+&=& \frac{kp (n-1) \ldots( n - p + 1)}{p!} \\
+&=& \frac{k (n-1) \ldots (n - p + 1)}{(p-1)!}
+\end{eqnarray}
+
+However, we know that $p | n$ so that $p \nmid n-1, n-2, \ldots, n - p + 1$. Therefore, since $p$ is prime, we see that $p \nmid (n-1)(n-2) \ldots (n-p+1)$. Since $n = kp$, we clearly must have $n \nmid (n-1) \ldots (n - p + 1)$. Moreover, we clearly see that $n \nmid k = n/p$, since $p > 1$ and we know that $1/p$ is not an integer. Therefore, we see that ${n \choose p} \not \equiv 0 \pmod{n}$. This means that the coefficient on $x^p$ is not $0 \pmod{n}$. This is a contradiction, so $n$ must be prime.
+
+% This means that $q^{e} \nmid {n \choose q} = \frac{n (n-1) \ldots (n - q + 1)}{q!}$. This also means that $(q^e, a^{n-q}) = 1$. % Thus, the coefficient on $x^q$ which is ${n \choose q} a^{n - q} (-1)^{q} \not \equiv 0 \pmod{q^e}$. This also means that ${ n % \choose q} a^{n - q} (-1)^q \not \equiv 0 \pmod{n}$. This is a contradiction, so $n$ must be prime.
+\end{sol}
+
+\section{Problem 5}
+
+\begin{prob}
+Show that $\frac{n^7}{7} + \frac{n^{11}}{11} + \frac{59n}{77}$ is an integer for all $n \in \mathrm{Z}$. 
+\end{prob}
+
+\begin{sol}
+First, we will call the above expression $N$ and note that the following is true:
+\begin{eqnarray}
+N = \frac{n^7}{7} + \frac{n^{11}}{11} + \frac{59n}{77} &=& \frac{n^7}{7} + \frac{n^{11}}{11} + n - \frac{n}{7} - \frac{n}{11} \\
+ &=& \frac{n}{7} \left( n^6 - 1 \right) + \frac{n}{11} \left( n^{10} - 1 \right) + n
+\end{eqnarray}
+
+Clearly if $7|n$, then $\frac{n}{7} \left(n^6 - 1 \right)$ is an integer. If $11|n$, then $\frac{n}{11} \left( n^{10} - 1\right)$ is an integer. Thus if both hold, then $N$ is an integer because all three of its terms are integers. 
+
+Now suppose that $7 \nmid n$. By Fermat's Little Theorem, we can write $n^7 \equiv n \mod 7$ for any $n \in \mathrm{Z}$ so that $n^6 \equiv 1 \mod 7$. Thus, we see that $7 | (n^6 - 1)$, which means that $\frac{(n^6 - 1)}{7}$ is an integer, so that $\frac{n}{7} (n^6 - 1 )$ is also an integer. 
+
+Now suppose that $11 \nmid n$. We use the same logic of Fermat's Little Theorem to find that $n^{11} \equiv n \mod 11$ and so $n^{10} \equiv 1 \mod 11$ since 11 is a prime. This implies that $\frac{n}{11}(n^10 - 1)$ is an integer. 
+
+Thus, in all cases of $n \in \mathrm{Z}$, we see that all three terms in $N$ are integers, which means $N$ must also be an integer. 
+\end{sol}
+
+\section{Problem 6}
+
+\begin{prob}
+Let $p$ be a prime and $e \geq 1$. Find all the solutions of $x^2 \equiv 1 \bmod{p^e}$. 
+\end{prob}
+
+\begin{sol}
+Let us first consider the case of $p=2$. We must find the solutions to $x^2 \equiv 1 \pmod{2^e}$ for $e \geq 1$. This is equivalent to $(x+1)(x-1) \equiv 0 \bmod{2^e}$. It is clear that $x \equiv 1$ is always a solution regardless of $e$. Moreover, $(x-1)$ and $(x+1)$ can both be divisible by 2, but they can't both be divisible by 4. Therefore, the solutions when $p=2$ are $\{1, 2^{e-1} - 1, 2^{e-1} + 1, 2^{e} - 1\}$.
+
+Now, when $p > 2$, we have the following congruence to solve: $(x-1)(x+1) \equiv 0 \bmod{p^e}$. Since $p > 2$, then $p^e$ must divide either $(x-1)$ or $(x+1)$ but not both. Therefore, we have $p^e | (x-1)$ or $p^e | (x+1)$. Then we see that $x \equiv \pm 1 \bmod{p^e}$. 
+\end{sol}
+
+\section{Problem 7}
+
+\begin{prob}
+Show that ${ x \choose k}$ is a polynomial in $x$ of degree $k$ with leading coefficient $1/k!$. Now let $p(x)$ be an arbitrary polynomial with complex coefficients and degree at most $n$. Show that there exist complex numbers $c_0, \ldots, c_n$ such that $p(x) = \sum_{k=0}^n c_k {x \choose k}$ and that the $c_k$ are uniquely determined.
+\end{prob}
+
+\begin{sol}
+We can write ${x \choose k}$ in terms of factorials and find ${x \choose k} = (x (x - 1) \ldots (x - k + 1)) / k!$. Clearly, the largest term in this expansion is $x^k$, and since each $(x - i)$ has no coefficient on $x$, we see that the coefficient of $x^k$ is given by $1/k!$. 
+
+Let us say the coefficients on $p(x)$ are given by $d_n, d_{n-1}, \ldots, d_0$ so that $p(x) = d_n x^n + \ldots + d_0$. Then one can construct the term $d_n x^n$, since ${x \choose n}$ is a polynomial of degree $n$ with leading coefficient $1/k!$. We can choose $c_n = d_n k!$, and the leading term of the polynomial will then be $d_n x^n$. We will now have a new coefficient on the $x^{n - 1}$ term that we must construct $d_{n-1}'$. However, we can choose $c_{n-1} = d_{n-1}' k!$ to exactly match this. Thus, we see that there exist $c_{n}, c_{n-1}, \ldots, c_{0}$ such that $p(x) = \sum_{k=0}^n c_k {x \choose k}$. 
+
+Now we must show that each $c_k$ is unique. Suppose there exist two coefficients $c_{i1}$ and $c_{i2}$ which both satisfy the equation $p(x) = \sum_{k=0}^n c_k {x \choose k}$ for some $i$. Then the $x^i$ term has coefficients $c_{i1} {x \choose i}$ or $c_{i2} {x \choose i}$. This means that we have:
+\begin{eqnarray}
+p_1(x) &=& c_{i1} {x \choose i} + \sum_{k=0, k \neq i}^n c_k {x \choose k } \\
+p_2(x)&=& c_{i2} {x \choose i} + \sum_{k=0, k \neq i}^n c_k {x \choose k }
+\end{eqnarray}
+
+However, we see that $c_{i1} \neq c_{i2}$, which means that $p_1(x) - p_2(x) = (c_{i1} - c_{i2}) {x \choose i} \neq 0$. This is a contradiction between we must have $p(x) = p_1(x) = p_2(x)$. Therefore, each $c_k$ is unique.
+\end{sol}
+
+\begin{prob}
+For any function $f: \mathrm{N} \to \mathrm{C}$ of the natural numbers, we can define another function $\Delta f$ by $\Delta f(n) = f(n+1) - f(n)$. Show that $\Delta {x \choose k} = {x \choose {k-1}}$. Show that if $p(x)$ is as above then 
+\begin{equation}
+\Delta p(x) = \sum_{k=1}^n c_k { x \choose k - 1}
+\end{equation}
+\end{prob}
+
+\begin{sol}
+First, we show that $\Delta {x \choose k} = { x \choose k-1 }$. For, this we recall the following identity that we proved combinatorially in class:
+\begin{lem}
+\begin{equation}
+{m + 1 \choose l + 1} = {m \choose l} + {m \choose {l+ 1}}
+\end{equation}
+\end{lem}
+
+Now let $m = x$ and $l + 1 = k$. Then we see the identity can be rearranged into:
+\begin{eqnarray}
+{x +1 \choose k} &=& {x \choose k - 1} + {x \choose k} \\
+{x + 1 \choose k} - {x \choose k} &=& {x \choose k - 1} \\
+\Delta {x \choose k} &=& {x \choose k - 1}
+\end{eqnarray}
+
+Now, we would like to see what $\Delta p(x)$ is equal to. In order to do this, we simply write out the definition of the difference operator and rearrange the terms in each of the sums. Then we group together terms to obtain $\Delta {x \choose k}$ and use the identity we have just shown to obtain our result.
+\begin{eqnarray}
+\Delta p(x) &=& p(x + 1) - p(x) \\
+&=& \sum_{k=0}^n c_k {x + 1 \choose k} - \sum_{k=0}^n c_k {x \choose k} \\
+&=& \sum_{k=0}^n c_k \left( {x + 1 \choose k} - {x \choose k} \right) \\
+&=& \sum_{k=0}^n c_k \Delta {x \choose k} \\
+&=& \sum_{k=1}^n c_k {x \choose k - 1}
+\end{eqnarray}
+
+This completes the proof.
+\end{sol}
+
+\begin{prob}
+Show that $p(x)$ is an integer $\forall x \in \mathrm{Z}$ if and only if all the $c_k$ are integers.
+\end{prob}
+
+\begin{sol}
+First, if all the $c_k$ are integers, then $p(x)$ is clearly also an integer. This is because ${x \choose i} \in \mathrm{Z}$ for any $x, i \in \mathrm{Z}$ since any binomial coefficient expresses how many possible ways there are to count something, which is an integer. Thus, we see that an integer $c_k$ multiplied by another integer ${x \choose k}$ is also an integer. Moreover, the sum of integers is an integer, so $\sum_{k=0}^n c_k {x \choose k} = p(x)$ is therefore an integer.
+
+Now let us assume that $p(x)$ is an integer for all $x \in \mathrm{Z}$. We will proceed by induction to show that all $c_k$ are integers. Let us say $p(x)$ is a polynomial of degree $n$ and denote it thus $p_n(x)$. We can express $p_n(x)$ in the form $p_n(x) = c_n {x \choose n} + \ldots + c_0 {x \choose 0}$. First, we will start our induction with a base case of $n = 0$. We see that if $p_0(x) = c_0$ is an integer, then $c_0$ must be an integer. Thus, the hypothesis holds in the base case. 
+
+Now assume that the hypothesis holds for polynomials up to degree $n$. Then $p_{n}(x) = c_n {x \choose n} + \ldots + c_0 {x \choose 0}$ being an integer for all $x \in \mathrm{Z}$ implies that $c_n, \ldots, c_0$ are integers. Now we can write $p_{n+1}(x)$ as $p_{n+1}(x) = c_{n+1} {x \choose n + 1} + \ldots + c_{0} {x \choose 0}$. Since $p_{n+1}(x+1)$ and $p_{n+1}(x)$ are integers, then $\Delta p_{n+1}(x)$ must also be an integer. However, we know the following from our previous exercise:
+\begin{eqnarray}
+\Delta p_{n+1}(x) &=& p_{n+1}(x+1) - p_{n+1}(x) \\
+&=& c_{n+1} {x \choose n } + c_{n} {x \choose n - 1} + \ldots + c_{1} {x \choose 0} \\
+&=& c_{n+1} {x \choose n} + \left[ c_{n} {x \choose n - 1} + \ldots + c_{1} {x \choose 0} \right]
+\end{eqnarray}
+
+But we know that $c_n, \ldots, c_1$ are integers so that $c_n {x \choose n- 1} + \ldots c_1 {x \choose 0}$ is an integer as well. Moreover, we know that ${x \choose n}$ is an integer. Since $\Delta p_{n+1}(x)$ is an integer, $c_{n+1}$ must be an integer. This finishes the proof by induction.
+
+% Polynomials, Volume 13, Victor V. Prasolov, page 87
+ 
+\end{sol}
+\end{document}

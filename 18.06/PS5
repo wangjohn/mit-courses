@@ -1,0 +1,67 @@
+
+proj =
+%%%%%% PART A %%%%%%
+
+b = randn(3,1);
+A = randn(3,2);
+
+[R, pivcol] = rref(A);
+C = A(:, pivcol);
+Pc = C*inv(C'*C)*C';
+Pa = A*inv(A'*A)*A';
+
+proj = Pc*b;
+new_proj = Pa*proj;
+
+proj =
+
+    0.0815
+   -0.7466
+   -1.1094
+
+new_proj =
+
+    0.0815
+   -0.7466
+   -1.1094
+
+
+%%%%%% PART B %%%%%%%
+
+A = randn(3,1);
+A = [A, 2*A];
+Pb = A * inv(A' * A) * A';
+{Warning: Matrix is singular to working
+precision.} 
+
+Pb =
+
+   Inf  -Inf  -Inf
+  -Inf   Inf   Inf
+  -Inf   Inf   Inf
+
+%%%%%% PART C %%%%%%%
+
+P = Pa;
+Z = 0;
+for i = 1:100
+    Z = Z + P^i;
+end
+
+
+Pa =
+
+    0.0166    0.0602   -0.1128
+    0.0602    0.9963    0.0069
+   -0.1128    0.0069    0.9871
+
+
+P =
+
+    0.0166    0.0602   -0.1128
+    0.0602    0.9963    0.0069
+   -0.1128    0.0069    0.9871
+
+
+diary off
+

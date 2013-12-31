@@ -1,0 +1,498 @@
+<html>
+  <head>
+    <title>Peak finder visualizer</title>
+    
+    <style type="text/css">
+body {
+  width: 960px;
+  margin: 0 auto; }
+
+#grid {
+  margin: 0 auto; }
+
+#control-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box; }
+
+#status-container {
+  box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-box-flex: 1; }
+
+#algorithm-container, #control-container, #grid-container, #legend-container {
+  width: 100%;
+  padding: 10px 0px;
+  text-align: center; }
+
+#backwards, #forwards {
+  box-flex: 0;
+  -moz-box-flex: 0;
+  -webkit-box-flex: 0; }
+
+table {
+  border-collapse: collapse; }
+
+table, td {
+  border-style: none;
+  border: 0px;
+  padding: 0px;
+  margin: 0px; }
+
+.inside, .outside,
+.findingNeighbor, .foundNeighbor,
+.findingMaximum, .foundMaximum,
+.bestSeen, .foundPeak {
+  width: 50px;
+  height: 50px;
+  vertical-align: center;
+  text-align: center;
+  background-color: white;
+  font-weight: bold;
+  color: black;
+  font-size: large; }
+
+.findingNeighbor {
+  background-color: #85ADFF;
+  background-image: -webkit-radial-gradient(transparent 15px, white 15px);
+  background-image: -moz-radial-gradient(transparent 15px, white 15px);
+  background-image: -ms-radial-gradient(transparent 15px, white 15px);
+  background-image: -o-radial-gradient(transparent 15px, white 15px);
+  background-image: radial-gradient(transparent 15px, white 15px); }
+
+.foundNeighbor {
+  background-color: #506899;
+  background-image: -webkit-radial-gradient(transparent 20px, white 20px);
+  background-image: -moz-radial-gradient(transparent 20px, white 20px);
+  background-image: -ms-radial-gradient(transparent 20px, white 20px);
+  background-image: -o-radial-gradient(transparent 20px, white 20px);
+  background-image: radial-gradient(transparent 20px, white 20px); }
+
+.findingMaximum {
+  background-color: #66FF99;
+  background-image: -webkit-linear-gradient(0deg, white 10px, transparent 0px), -webkit-linear-gradient(90deg, white 10px, transparent 0px), -webkit-linear-gradient(180deg, white 10px, transparent 0px), -webkit-linear-gradient(270deg, white 10px, transparent 0px);
+  background-image: -moz-linear-gradient(0deg, white 10px, transparent 0px), -moz-linear-gradient(90deg, white 10px, transparent 0px), -moz-linear-gradient(180deg, white 10px, transparent 0px), -moz-linear-gradient(270deg, white 10px, transparent 0px);
+  background-image: -ms-linear-gradient(0deg, white 10px, transparent 0px), -ms-linear-gradient(90deg, white 10px, transparent 0px), -ms-linear-gradient(180deg, white 10px, transparent 0px), -ms-linear-gradient(270deg, white 10px, transparent 0px);
+  background-image: -o-linear-gradient(0deg, white 10px, transparent 0px), -o-linear-gradient(90deg, white 10px, transparent 0px), -o-linear-gradient(180deg, white 10px, transparent 0px), -o-linear-gradient(270deg, white 10px, transparent 0px);
+  background-image: linear-gradient(0deg, white 10px, transparent 0px), linear-gradient(90deg, white 10px, transparent 0px), linear-gradient(180deg, white 10px, transparent 0px), linear-gradient(270deg, white 10px, transparent 0px); }
+
+.foundMaximum {
+  background-color: #3D995C;
+  background-image: -webkit-linear-gradient(0deg, white 5px, transparent 0px), -webkit-linear-gradient(90deg, white 5px, transparent 0px), -webkit-linear-gradient(180deg, white 5px, transparent 0px), -webkit-linear-gradient(270deg, white 5px, transparent 0px);
+  background-image: -moz-linear-gradient(0deg, white 5px, transparent 0px), -moz-linear-gradient(90deg, white 5px, transparent 0px), -moz-linear-gradient(180deg, white 5px, transparent 0px), -moz-linear-gradient(270deg, white 5px, transparent 0px);
+  background-image: -ms-linear-gradient(0deg, white 5px, transparent 0px), -ms-linear-gradient(90deg, white 5px, transparent 0px), -ms-linear-gradient(180deg, white 5px, transparent 0px), -ms-linear-gradient(270deg, white 5px, transparent 0px);
+  background-image: -o-linear-gradient(0deg, white 5px, transparent 0px), -o-linear-gradient(90deg, white 5px, transparent 0px), -o-linear-gradient(180deg, white 5px, transparent 0px), -o-linear-gradient(270deg, white 5px, transparent 0px);
+  background-image: linear-gradient(0deg, white 5px, transparent 0px), linear-gradient(90deg, white 5px, transparent 0px), linear-gradient(180deg, white 5px, transparent 0px), linear-gradient(270deg, white 5px, transparent 0px); }
+
+.foundPeak {
+  background-color: #FF3385;
+  background-image: -webkit-linear-gradient(45deg, white 19.678px, transparent 0px), -webkit-linear-gradient(135deg, white 19.678px, transparent 0px), -webkit-linear-gradient(225deg, white 19.678px, transparent 0px), -webkit-linear-gradient(315deg, white 19.678px, transparent 0px);
+  background-image: -moz-linear-gradient(45deg, white 19.678px, transparent 0px), -moz-linear-gradient(135deg, white 19.678px, transparent 0px), -moz-linear-gradient(225deg, white 19.678px, transparent 0px), -moz-linear-gradient(315deg, white 19.678px, transparent 0px);
+  background-image: -ms-linear-gradient(45deg, white 19.678px, transparent 0px), -ms-linear-gradient(135deg, white 19.678px, transparent 0px), -ms-linear-gradient(225deg, white 19.678px, transparent 0px), -ms-linear-gradient(315deg, white 19.678px, transparent 0px);
+  background-image: -o-linear-gradient(45deg, white 19.678px, transparent 0px), -o-linear-gradient(135deg, white 19.678px, transparent 0px), -o-linear-gradient(225deg, white 19.678px, transparent 0px), -o-linear-gradient(315deg, white 19.678px, transparent 0px);
+  background-image: linear-gradient(45deg, white 19.678px, transparent 0px), linear-gradient(135deg, white 19.678px, transparent 0px), linear-gradient(225deg, white 19.678px, transparent 0px), linear-gradient(315deg, white 19.678px, transparent 0px); }
+
+.bestSeen {
+  background-color: #CC33FF;
+  background-image: -webkit-linear-gradient(90deg, white 12.5px, transparent 0px), -webkit-linear-gradient(210deg, white 21.651px, transparent 0px), -webkit-linear-gradient(330deg, white 21.651px, transparent 0px);
+  background-image: -moz-linear-gradient(90deg, white 12.5px, transparent 0px), -moz-linear-gradient(210deg, white 21.651px, transparent 0px), -moz-linear-gradient(330deg, white 21.651px, transparent 0px);
+  background-image: -ms-linear-gradient(90deg, white 12.5px, transparent 0px), -ms-linear-gradient(210deg, white 21.651px, transparent 0px), -ms-linear-gradient(330deg, white 21.651px, transparent 0px);
+  background-image: -o-linear-gradient(90deg, white 12.5px, transparent 0px), -o-linear-gradient(210deg, white 21.651px, transparent 0px), -o-linear-gradient(330deg, white 21.651px, transparent 0px);
+  background-image: linear-gradient(90deg, white 12.5px, transparent 0px), linear-gradient(210deg, white 21.651px, transparent 0px), linear-gradient(330deg, white 21.651px, transparent 0px); }
+
+.outside {
+  color: lightgray; }
+
+.equality {
+  text-align: center;
+  width: 50px; }
+
+#legend {
+  margin: 0 auto; }
+
+    </style>
+
+    <script type="text/javascript">
+(function() {
+  var Step, Visualizer, makeStepList, types, visualizer;
+  types = ["findingMaximum", "foundMaximum", "findingNeighbor", "foundNeighbor", "bestSeen", "foundPeak"];
+  Step = (function() {
+    function Step(previous, change) {
+      var preserveTypes, type;
+      if (previous == null) {
+        previous = null;
+      }
+      if (change == null) {
+        change = {};
+      }
+      if (previous != null) {
+        this.startRow = previous.startRow;
+        this.numRows = previous.numRows;
+        this.startCol = previous.startCol;
+        this.numCols = previous.numCols;
+        this.typeToCoords = {};
+        for (type in previous.typeToCoords) {
+          this.typeToCoords[type] = previous.typeToCoords[type];
+        }
+        switch (change.type) {
+          case "subproblem":
+            this.resetAll(preserveTypes = ["bestSeen"]);
+            this.subproblem(change.startRow, change.numRows, change.startCol, change.numCols);
+            break;
+          case "bestSeen":
+          case "foundMaximum":
+          case "foundNeighbor":
+          case "foundPeak":
+            this.setTypeSingle(change.type, change.coord);
+            break;
+          case "findingMaximum":
+            this.setTypeMultiple(change.type, change.coords);
+            break;
+          case "findingNeighbor":
+            this.setTypeMultiple(change.type, this.getNeighbors(change.coord));
+        }
+      } else {
+        this.startRow = 0;
+        this.numRows = -1;
+        this.startCol = 0;
+        this.numCols = -1;
+        this.typeToCoords = {};
+      }
+    }
+    Step.prototype.getNeighbors = function(coord) {
+      var col, neighbors, row;
+      row = coord[0];
+      col = coord[1];
+      neighbors = [coord];
+      if (row - 1 >= 0) {
+        neighbors.push([row - 1, col]);
+      }
+      if (this.numRows < 0 || row + 1 < this.numRows) {
+        neighbors.push([row + 1, col]);
+      }
+      if (col - 1 >= 0) {
+        neighbors.push([row, col - 1]);
+      }
+      if (this.numRows < 0 || col + 1 < this.numCols) {
+        neighbors.push([row, col + 1]);
+      }
+      return neighbors;
+    };
+    Step.prototype.setTypeMultiple = function(type, coords) {
+      var x;
+      return this.typeToCoords[type] = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = coords.length; _i < _len; _i++) {
+          x = coords[_i];
+          _results.push(this.mapCoord(x));
+        }
+        return _results;
+      }).call(this);
+    };
+    Step.prototype.setTypeSingle = function(type, coord) {
+      return this.typeToCoords[type] = [this.mapCoord(coord)];
+    };
+    Step.prototype.mapCoord = function(unmappedCoord) {
+      var col, row;
+      row = unmappedCoord[0];
+      col = unmappedCoord[1];
+      return [this.startRow + row, this.startCol + col];
+    };
+    Step.prototype.resetAll = function(preserveTypes) {
+      var preserve, preserveType, type, _i, _len, _results;
+      if (preserveTypes == null) {
+        preserveTypes = [];
+      }
+      _results = [];
+      for (type in this.typeToCoords) {
+        preserve = false;
+        for (_i = 0, _len = preserveTypes.length; _i < _len; _i++) {
+          preserveType = preserveTypes[_i];
+          if (type === preserveType) {
+            preserve = true;
+          }
+        }
+        _results.push(!preserve ? delete this.typeToCoords[type] : void 0);
+      }
+      return _results;
+    };
+    Step.prototype.subproblem = function(startRow, numRows, startCol, numCols) {
+      this.startRow = startRow;
+      this.numRows = numRows;
+      this.startCol = startCol;
+      return this.numCols = numCols;
+    };
+    return Step;
+  })();
+  makeStepList = function(changeList) {
+    var change, next, previous, stepList, _i, _len;
+    previous = new Step;
+    stepList = [previous];
+    for (_i = 0, _len = changeList.length; _i < _len; _i++) {
+      change = changeList[_i];
+      next = new Step(previous, change);
+      stepList.push(next);
+      previous = next;
+    }
+    return stepList;
+  };
+  Visualizer = (function() {
+    function Visualizer(trace) {
+      var x;
+      this.trace = trace;
+      this.input = this.trace.input;
+      this.allSteps = (function() {
+        var _i, _len, _ref, _results;
+        _ref = this.trace.steps;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          x = _ref[_i];
+          _results.push(makeStepList(x));
+        }
+        return _results;
+      }).call(this);
+      this.stepIndex = 0;
+      this.algorithmIndex = 0;
+    }
+    Visualizer.prototype.setStatusElement = function(element) {
+      return this.statusElement = element;
+    };
+    Visualizer.prototype.getSteps = function() {
+      return this.allSteps[this.algorithmIndex];
+    };
+    Visualizer.prototype.drawStep = function(step) {
+      var col, coord, row, type, _i, _j, _len, _len2, _ref, _ref2, _ref3, _ref4, _ref5;
+      if (!(step != null)) {
+        console.log("this should never happen");
+        return;
+      }
+      if (step.numRows >= 0 && step.numCols >= 0) {
+        this.setAllClassAttributes("outside");
+        for (row = _ref = step.startRow, _ref2 = step.startRow + step.numRows; _ref <= _ref2 ? row < _ref2 : row > _ref2; _ref <= _ref2 ? row++ : row--) {
+          for (col = _ref3 = step.startCol, _ref4 = step.startCol + step.numCols; _ref3 <= _ref4 ? col < _ref4 : col > _ref4; _ref3 <= _ref4 ? col++ : col--) {
+            this.setCellClassAttribute(row, col, "inside");
+          }
+        }
+      } else {
+        this.setAllClassAttributes("inside");
+      }
+      for (_i = 0, _len = types.length; _i < _len; _i++) {
+        type = types[_i];
+        if (step.typeToCoords[type] != null) {
+          _ref5 = step.typeToCoords[type];
+          for (_j = 0, _len2 = _ref5.length; _j < _len2; _j++) {
+            coord = _ref5[_j];
+            this.setCellClassAttribute(coord[0], coord[1], type);
+          }
+        }
+      }
+      if (this.statusElement != null) {
+        this.statusElement.innerHTML = "";
+        this.statusElement.innerHTML += "Algorithm " + (this.algorithmIndex + 1) + ", ";
+        this.statusElement.innerHTML += "step " + this.stepIndex;
+        return this.statusElement.innerHTML += " out of " + (this.getSteps().length - 1);
+      }
+    };
+    Visualizer.prototype.refresh = function() {
+      return this.drawStep(this.getSteps()[this.stepIndex]);
+    };
+    Visualizer.prototype.first = function() {
+      this.stepIndex = 0;
+      return this.refresh();
+    };
+    Visualizer.prototype.previous = function() {
+      if (this.stepIndex - 1 >= 0) {
+        this.stepIndex--;
+      }
+      return this.refresh();
+    };
+    Visualizer.prototype.next = function() {
+      if (this.stepIndex + 1 < this.getSteps().length) {
+        this.stepIndex++;
+      }
+      return this.refresh();
+    };
+    Visualizer.prototype.last = function() {
+      this.stepIndex = this.getSteps().length - 1;
+      return this.refresh();
+    };
+    Visualizer.prototype.drawGrid = function(grid) {
+      var cell, element, i, j, nRows, row, tr, _len, _len2, _ref;
+      this.grid = grid;
+      nRows = this.input.length;
+      _ref = this.input;
+      for (i = 0, _len = _ref.length; i < _len; i++) {
+        row = _ref[i];
+        tr = document.createElement('tr');
+        grid.appendChild(tr);
+        for (j = 0, _len2 = row.length; j < _len2; j++) {
+          element = row[j];
+          cell = document.createElement('td');
+          cell.id = "cell" + i + "_" + j;
+          cell.appendChild(document.createTextNode(element));
+          tr.appendChild(cell);
+        }
+      }
+      return this.refresh();
+    };
+    Visualizer.prototype.setAlgorithm = function(index) {
+      if ((0 <= index && index < this.allSteps.length)) {
+        this.algorithmIndex = index;
+        this.stepIndex = 0;
+        return this.refresh();
+      }
+    };
+    Visualizer.prototype.setAllClassAttributes = function(attribute) {
+      var cell, cells, _i, _len, _results;
+      cells = this.grid.querySelectorAll('td');
+      _results = [];
+      for (_i = 0, _len = cells.length; _i < _len; _i++) {
+        cell = cells[_i];
+        _results.push(cell.setAttribute('class', attribute));
+      }
+      return _results;
+    };
+    Visualizer.prototype.setCellClassAttribute = function(x, y, attribute) {
+      var cell;
+      cell = this.grid.querySelector("#cell" + x + "_" + y);
+      if (cell != null) {
+        return cell.setAttribute('class', attribute);
+      }
+    };
+    return Visualizer;
+  })();
+  visualizer = null;
+  window.parse = function(trace) {
+    return visualizer = new Visualizer(trace);
+  };
+  window.onload = function() {
+    var algorithmActionMaker, algorithmControls, algorithmCount, button, firstFunction, firstInput, i, lastFunction, lastInput, nextFunction, nextInput, previousFunction, previousInput;
+    visualizer.setStatusElement(document.querySelector('#status'));
+    visualizer.drawGrid(document.querySelector('#grid'));
+    algorithmActionMaker = function(i) {
+      return function() {
+        return visualizer.setAlgorithm(i);
+      };
+    };
+    algorithmControls = document.querySelector('#algorithm');
+    algorithmCount = visualizer.allSteps.length;
+    for (i = 0; 0 <= algorithmCount ? i < algorithmCount : i > algorithmCount; 0 <= algorithmCount ? i++ : i--) {
+      button = document.createElement('input');
+      button.setAttribute("type", "button");
+      button.setAttribute("value", "Algorithm " + (i + 1));
+      button.addEventListener("click", algorithmActionMaker(i), false);
+      algorithmControls.appendChild(button);
+    }
+    firstInput = document.querySelector('#first');
+    firstFunction = function() {
+      return visualizer.first();
+    };
+    firstInput.addEventListener('click', firstFunction, false);
+    previousInput = document.querySelector('#previous');
+    previousFunction = function() {
+      return visualizer.previous();
+    };
+    previousInput.addEventListener('click', previousFunction, false);
+    nextInput = document.querySelector('#next');
+    nextFunction = function() {
+      return visualizer.next();
+    };
+    nextInput.addEventListener('click', nextFunction, false);
+    lastInput = document.querySelector('#last');
+    lastFunction = function() {
+      return visualizer.last();
+    };
+    return lastInput.addEventListener('click', lastFunction, false);
+  };
+}).call(this);
+
+    </script>
+    
+    <script type="text/javascript" src="./trace.jsonp"></script>
+  </head>
+  <body>
+    <h1>2D Peak Finder</h1>
+
+	<div id="algorithm-container">
+	  <div id="algorithm"></div>
+	</div>
+
+	<div id="control-container">
+	  <div id="backwards">
+        <input id="first" type="button" value="|<<"/>
+		<input id="previous" type="button" value="<"/>
+	  </div>
+
+	  <div id="status-container">
+		<div id="status"></div>
+	  </div>
+
+	  <div id="forwards">
+        <input id="next" type="button" value=">" autofocus="autofocus" />
+	    <input id="last" type="button" value=">>|"/>
+	  </div>
+	</div>
+
+    <div id="grid-container">
+		<table id="grid">
+		</table>
+	</div>
+ 
+	<div id="legend-container">
+		<h2>Legend</h2>
+
+		<table id="legend">
+			<tr>
+				<td><div class="findingMaximum" /></td>
+				<td class="equality">=</td>
+				<td class="annotation">
+					The algorithm is examining all such highlighted locations
+				   	to find the best possible value.
+				</td>
+			</tr>
+			<tr>
+				<td><div class="foundMaximum" /></td>
+				<td class="equality">=</td>
+				<td class="annotation">
+					This is the maximum of the locations that the algorithm
+					chose to examine.
+				</td>
+			</tr>
+			<tr>
+				<td><div class="findingNeighbor" /></td>
+				<td class="equality">=</td>
+				<td class="annotation">
+					The algorithm is examining the neighbors of a location
+					in an attempt to find a better location.
+				</td>
+			</tr>
+			<tr>
+				<td><div class="foundNeighbor" /></td>
+				<td class="equality">=</td>
+				<td class="annotation">
+					The algorithm has found a better neighbor at the
+					highlighted location.
+				</td>
+			</tr>
+			<tr>
+				<td><div class="bestSeen" /></td>
+				<td class="equality">=</td>
+				<td class="annotation">
+					The highlighted location is the best that the algorithm
+					has seen so far.  (Only shown when the algorithm is keeping
+					track of it.)
+				</td>
+			</tr>
+			<tr>
+				<td><div class="foundPeak" /></td>
+				<td class="equality">=</td>
+				<td class="annotation">
+					The highlighted location is the peak that the algorithm
+					has chosen to return.
+				</td>
+			</tr>
+		</table>
+	</div>
+  </body>
+</html>

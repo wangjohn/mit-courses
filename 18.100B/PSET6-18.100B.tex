@@ -1,0 +1,447 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 700pt
+
+%--------Meta Data: Fill in your info------
+\title{18.100B \\
+Problem Set 6}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 3.6}
+
+\begin{thm}
+The series $\sum a_n $ diverges if $a_n = \sqrt{n+1} - \sqrt{n}$. 
+\end{thm}
+
+\begin{proof}
+If we multiply $a_n$ by its conjugate, then we obtain the following:
+
+\begin{eqnarray}
+a_n &=& (\sqrt{n+1} - \sqrt{n}) \frac{\sqrt{n+1} + \sqrt{n}}{\sqrt{n+1} + \sqrt{n}} \\
+&=& \frac{1}{\sqrt{n+1} + \sqrt{n}}
+\end{eqnarray}
+
+Moreover, since we know that $\sqrt{n} \leq n$ for all $n \in \mathbb{N}$, we know that $\sqrt{n+1} + \sqrt{n} \leq (n + 1) + n = 2n + 1$. Thus, we can see that $a_n = \frac{1}{\sqrt{n+1}+\sqrt{n}} \geq \frac{1}{2n+1}$. Finally, the series $\sum \frac{1}{2n+1}$ diverges because it has $p = 1$. Using the comparison test, we can see that $\sum a_n$ also diverges because $a_n \geq \frac{1}{2n+1}$. 
+\end{proof}
+
+\begin{thm}
+The series $\sum a_n$ converges if $a_n = \frac{\sqrt{n+1} - \sqrt{n}}{n}$.
+\end{thm}
+
+\begin{proof}
+If we multiply $a_n$ by its conjugate, we will obtain:
+
+\begin{eqnarray}
+a_n &=& \frac{\sqrt{n+1} - \sqrt{n}}{n} \frac{\sqrt{n+1} + \sqrt{n}}{\sqrt{n+1}+\sqrt{n}} \\
+&=& \frac{1}{ n (\sqrt{n+1} + \sqrt{n})} \\
+&<& \frac{1}{ n \sqrt{n}} 
+\end{eqnarray}
+
+The last inequality comes from the fact that $\sqrt{n+1} + \sqrt{n} > \sqrt{n}$. Moreover, we knowt that $\sum \frac{1}{n \sqrt{n}}$ converges because it is has $p = \frac{3}{2}$. By the comparison test, we know that $\sum a_n$ also converges.
+\end{proof}
+
+\begin{thm}
+The series $\sum a_n$ converges if $a_n = (\sqrt[n]{n} - 1)^n$. 
+\end{thm}
+
+\begin{proof}
+If we perform the ratio test, then we obtain the following:
+
+\begin{eqnarray}
+\lim_{n \to \infty} \sqrt[n]{|a_n|} &=& \lim_{n \to \infty} \sqrt[n]{n} - 1 \\
+&=& 1 - 1 = 0
+\end{eqnarray}
+
+This is because $\lim_{n \to \infty} \sqrt[n]{n} = 1$ for $n>0$, as proved in Rudin. Thus, since $0 < 1$, the ratio test shows that $\sum a_n$ converges.
+\end{proof}
+
+\begin{thm}
+If $|z| \leq 1$ for $a_n = \frac{1}{1+z^n}$, then $\sum a_n$ diverges. If $|z| > 1$, then $\sum a_n$ converges. 
+\end{thm}
+
+\begin{proof}
+We will prove that if $|z| \leq 1$, then $\sum a_n$ diverges. This is because $|1 + z^n| \leq {1 + |z|^n} \leq {2}$. It is obvious that $\sum \frac{1}{2}$ diverges because its sequences do not converge to zero. Thus, since $\sum \frac{1}{1 + z^n} \geq \sum \frac{1}{2}$, we know that $\sum a_n$ diverges.
+
+Now, if $|z| > 1$, then we know that $\sum \frac{1}{z^n}$ converges by a theorem in Rudin. Since $1 + z^n > z^n$, we have $\frac{1}{1 + z^n} < \frac{1}{z^n}$. By the comparison test, we know that $\sum \frac{1}{1+z^n}$ converges as well. 
+\end{proof}
+
+\section{Problem 3.7}
+
+\begin{thm}
+The convergence of $\sum a_n$ implies the convergence of $\sum \frac{\sqrt{a_n}}{n}$ if $a_n \geq 0 $.
+\end{thm}
+
+\begin{proof}
+
+Using the Cauchy Swarchz Inequality, we have:
+
+\begin{eqnarray}
+\left| \sum \frac{\sqrt{a_n}}{n} \right|^2 &\leq& \sum |\sqrt{a_n}|^2 \sum \left|\frac{1}{n} \right|^2 \\
+&=& \sum a_n \sum \frac{1}{n^2}
+\end{eqnarray}
+
+For two given series $\sum b_n$ and $\sum c_n$ converging to $B$ and $C$ respectively, the Cauchy product is defined as $d_n = \sum b_n z^n \sum c_n z^n$ if one sets $z = 1$. A theorem in Rudin has shown that $\sum d_n = BC$ if $\sum b_n$ is absolutely convergent and $\sum c_n$ is convergent, which means that $\sum d_n$ and all the partial sums of $d_n$ are bounded. Since $\sum a_n$ is convergent by assumption and $\sum \frac{1}{n^2}$ is absolutely convergent by a theorem in Rudin, we know that $\sum a_n \sum \frac{1}{n^2}$ is bounded. Thus, we know that $\left| \sum \frac{\sqrt{a_n}}{n} \right|^2 $ is bounded, and hence, so is $\sum \frac{\sqrt{a_n}}{n}$. Since we assumed $a_n \geq 0$, we know that $\sum \frac{\sqrt{a_n}}{n}$ is monotonically increasing so it converges because it is also bounded.
+\end{proof}
+
+\section{Problem 3.9}
+
+\begin{thm}
+The radius of convergence is $R = 1$ for the power series $\sum n^3 z^n$. 
+\end{thm}
+
+\begin{proof}
+We know that $R = \frac{1}{\alpha}$, where $\alpha = \lim_{n \to \infty} \sup \sqrt[n]{|n^3|} = 1$ because if we let $x_n = \sqrt[n]{n^3} - 1$, then we have for $k > 0$ and $n > 2k$:
+
+\begin{equation}
+n^3 = (x_n + 1)^n > \left( \begin{array}{c}
+n \\
+k \end{array} \right) x_n^k = \frac{n(n-1)\ldots(n-k+1)}{k!} x_n^k > \frac{n^k x_n^k}{2^k k!}
+\end{equation}
+
+We obtain (3.2) by the binomial theorem and since $x_n$ cannot be negative for $ n \in \mathbb{N}$, we have:
+
+\begin{eqnarray}
+0 &\leq x_n^k <& \frac{n^3 2^k k!}{n^k} \\
+0 &\leq x_n <&  2 (k!)^{\frac{1}{k}} n^{\frac{3}{k} - 1} 
+\end{eqnarray}
+
+Since $\frac{3}{k} - 1 < 0$ for all $k > 3$, we have can take the limit of both sides of the final inequality and show that $\lim_{n \to \infty} x_n = 0$ by the squeeze law. Thus, we have shown that $\alpha = \lim_{n \to \infty} \sup \sqrt[n]{|n^3|} = 1$ and that $R = 1$. 
+
+\end{proof}
+
+\begin{thm}
+The radius of convergence is $R = + \infty $ for the power series $\sum \frac{2^n}{n!} z^n$. 
+\end{thm}
+
+\begin{proof}
+We must find $\alpha$ in order to find $R = \frac{1}{\alpha}$:
+
+\begin{eqnarray}
+\alpha &=& \lim_{n \to \infty} \sup \sqrt[n]{\frac{2^n}{n!}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{\sqrt[n]{n!}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{n^{\frac{1}{n}} (n-1)^{\frac{1}{n}} \ldots (1)^{\frac{1}{n}}} \\
+&<& \lim_{n \to \infty} \frac{2}{n (1)^{\frac{1}{n}}} 
+\end{eqnarray}
+
+Since we know that $\lim_{n \to \infty} (1)^{\frac{1}{n}} = 1$, we also know that $\lim_{n \to \infty} \frac{2}{n (1)^{\frac{1}{n}}} = 0$. Since we must have $\sqrt[n]{\frac{2^n}{n!}} > 0$ for all $n \in \mathbb{N}$, we have the following squeeze law:
+
+\begin{equation}
+0 \leq \lim_{n \to \infty} \sup \sqrt[n]{\frac{2^n}{n!}} < \lim_{n \to \infty} \frac{2}{n (1)^{\frac{1}{n}}} < 0
+\end{equation}
+
+This shows that $\alpha = 0$, and that $R = + \infty$ because all terms are positive. 
+\end{proof}
+
+\begin{thm}
+The radius of convergence is $R = \frac{1}{2} $ for the power series $\sum \frac{2^n}{n^2} z^n$. 
+\end{thm}
+
+\begin{proof}
+We must find $\alpha$, so we have the following
+
+\begin{eqnarray}
+\alpha &=&  \lim_{n \to \infty} \sup \sqrt[n]{\frac{2^n}{n^2}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{n^{\frac{2}{n}}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{(\sqrt[n]{n})^2} \\
+&=& 2
+\end{eqnarray}
+
+The final step comes from the fact that $\lim_{n \to \infty} \sqrt[n]{n} = 1$ according to a theorem in Rudin. Thus, we find that $ R = \frac{1}{\alpha} = \frac{1}{2}$. 
+\end{proof}
+
+\begin{thm}
+The radius of convergence is $R = 3 $ for the power series $\sum \frac{n^3}{3^n} z^n$. 
+\end{thm}
+
+\begin{proof}
+Using the same procedure as before, we shall calculate $\alpha$.
+
+\begin{eqnarray}
+\alpha &=& \lim_{n \to \infty} \sup \sqrt[n]{\frac{n^3}{3^n}} \\
+&=& \lim_{n \to \infty} \sup \frac{n^{\frac{3}{n}}}{3} \\
+&=& \lim_{n \to \infty} \sup \frac{(\sqrt[n]{n})^3}{3} \\
+&=& \frac{1}{3}
+\end{eqnarray}
+
+The final step comes from the same fact as before, namely that $\lim_{n \to \infty} \sqrt[n]{n} = 1$. Thus, we see that $R = \frac{1}{\alpha} = \frac{1}{3}$. 
+\end{proof}
+
+\section{Problem 3.13}
+
+\begin{thm}
+The Cauchy product of two absolutely convergent series converges absolutely.
+\end{thm}
+
+\begin{proof}
+Let $\sum a_n$ and $\sum b_n$ be two absolutely convergent series. This means that $\sum_{n=0}^{\infty} |a_n| = A$ and $\sum_{n=0}^{\infty} |b_n| = B$ are convergent series as well. Now define the Cauchy product as $\sum_{n=0}^{\infty} c_n = \sum_{n=0}^{\infty} \sum_{k=0}^{n} a_k b_{n-k}$. We will give the following definitions:
+
+\begin{equation}
+A_n = \sum_{k=0}^{n} |a_k|, \hspace{0.4cm} B_n = \sum_{k=0}^{n} |b_k|, \hspace{0.4cm} C_n = \sum_{k=0}^{n} |c_n|
+\end{equation}
+
+Thus, if we expand out the terms of $C_n$, we obtain the following:
+
+\begin{eqnarray}
+C_n &=& |a_0 b_0| + |a_0 b_1 + a_1 b_0| + \ldots + | a_0 b_n + \ldots + a_n b_0 | \\
+&\leq& |a_0| B_n + |a_1| B_{n-1} + \ldots + | a_n| B_0 \\
+&\leq& |a_0| B_n + |a_1| B_n + \ldots + |a_n| B_n \\
+&=& (|a_0| + \ldots + |a_n|) B_n \\
+&=& A_n B_n 
+\end{eqnarray}
+
+Thus we see that $C_n \leq A_n B_n$ and if we take the limits of both sides, then we have:
+
+\begin{eqnarray}
+\sum_{n=0}^{\infty} |c_n | &=& \lim_{n \to \infty} C_n \\
+&\leq& \lim_{n \to \infty} A_n B_n \\
+&=& AB
+\end{eqnarray}
+
+Thus, we can see that $\sum_{n=0}^{\infty} |c_n| $ is bounded. Moreover, since $|c_j| \geq 0$ for all $j \in \mathbb{Z}_{j \geq 0}$, we know that $\sum_{n=0}^{\infty} |c_n|$ is monotonically increasing. Thus, we know that $\sum_{n=0}^{\infty} |c_n|$ is both bounded and monotonically increasing, which shows that it is convergent. This means that the Cauchy product $\sum_{n=0}^{\infty} c_n$ is absolutely convergent. 
+
+\end{proof}
+
+\section{Problem 3.16}
+
+\begin{thm}
+Fix a positive number $\alpha$. Choose $x_1 > \sqrt{\alpha}$ and define $x_2,x_3,\ldots$ by the recursion formula $x_{n+1} = \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right)$. Then $\{ x_n \}$ is decreasing monotonically and has $\lim x_n = \sqrt{\alpha}$.
+\end{thm}
+
+\begin{proof}
+First, we will show that the sequence is decreasing monotonically. Note that $x_1 > 0$ because we fixed an $\alpha > 0 $. Next, take $x_{n+1} - x_n$:
+
+\begin{eqnarray}
+x_{n+1} - x_n &=& \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) - x_n \\
+&=& \frac{1}{2} \left( \frac{\alpha}{x_n} - x_n \right) \\
+&=& \frac{1}{2} \left( \frac{\alpha - x_n^2}{x_n} \right)
+\end{eqnarray}
+
+Thus, we must determine the sign of $\alpha - x_n^2$. To begin, we have assumed $\alpha - x_1^2 < 0$ because we set $x_1 > \sqrt{\alpha}$. Moreover, we can see that $x_n^2 \geq \alpha$ for all $n \in \mathbb{N}$ because as $\{ x_n \}$ approaches $\alpha$, we have $\alpha - x_n^2 << x_n$. If for some $n$, $x_n^2 = \alpha$, then $x_{n+1} - x_n = 0$ and the sequence will become constant. Thus because $\alpha - x_n^2 \leq 0$, we see that the sequence is monotonically decreasing. 
+
+To show the second part of the problem, we know that the series is decreasing monotonically and is bounded by $0$. This is because $x_1$ starts out positive, so we have $x_{n+1} = \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) > 0$ for all $n \in \mathbb{N}$. This show that $\{ x_n \}$ converges. Let us define $x$ as its limit: $\{ x_n \} \rightarrow x$. Then we have
+
+\begin{eqnarray}
+\lim_{n \to \infty} x_{n+1} &=& \lim_{n \to \infty} \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) \\
+x &=& \frac{1}{2} \left( x + \frac{\alpha}{x} \right) \\
+x^2 &=& \alpha
+\end{eqnarray}
+
+Since $\alpha > 0$ and also $x_n > 0$, we know that $x = \sqrt{\alpha}$ and thus we have shown that $\lim_{n \to \infty} x_n = \sqrt{\alpha}$. 
+ 
+\end{proof}
+
+\begin{thm}
+Put $\epsilon_n = x_n - \sqrt{\alpha}$ and show that $\epsilon_{n+1} = \frac{\epsilon_n^2}{2 x_n} < \frac{ \epsilon_n^2}{2 \sqrt{\alpha}}$ so that setting $\beta = 2 \sqrt{\alpha}$, we obtain $\epsilon_{n+1} < \beta \left(\frac{\epsilon_1}{\beta} \right)^{2^n}$ for $n = 1,2, \ldots$. 
+\end{thm}
+
+\begin{proof}
+We know that $\epsilon_n^2 = (x_n - \sqrt{\alpha})^2 = x_n^2 + \alpha - 2 x_n \sqrt{\alpha}$, so that $x_n^2 + \alpha = \epsilon_n^2 + 2 x_n \sqrt{\alpha}$. Then, we can use our recursive formulas to determine $\epsilon_{n+1}$:
+
+\begin{eqnarray}
+\epsilon_{n+1} &=& \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) - \sqrt{\alpha} \\
+&=& \frac{1}{2} \left( \frac{x_n^2 + \alpha - 2 x_n \sqrt{\alpha}}{x_n} \right) \\
+&=& \frac{1}{2} \frac{\epsilon_n^2}{x_n}
+\end{eqnarray}
+
+We have shown in the first part of the exercise that $x_n^2 > \alpha$ for all $n \in \mathbb{N}$, so we know that $\epsilon_{n+1} = \frac{ \epsilon_n^2}{2 x_n} < \frac{ \epsilon_n^2}{2 \sqrt{\alpha}}$. 
+
+Next, we will show that $\epsilon_{n+1} < \frac{ \epsilon_n^2}{\beta} = \beta \left( \frac{ \epsilon_n}{\beta} \right)^2.$ For $\epsilon_2$ we have $\epsilon_2 < \frac{ \epsilon_1^2}{\beta}$. Thus, we have the base case for our inductive argument. Next, we have
+
+\begin{eqnarray}
+\epsilon_{n+1} &=& \frac{\epsilon_n^2}{\beta} \\
+&<& \frac{1}{\beta} \left( \frac{\epsilon_{n-1}^2}{\beta} \right)^2 \\
+&<& \frac{1}{\beta} \frac{1}{\beta^2} {\left( \frac{\epsilon_{n-2}^2}{\beta} \right)^2}^{2} \\
+&\vdots& \\
+&<& \frac{1}{\beta} \frac{{{\epsilon_1}^2}^n}{{{\beta^2}^{n-1}}} \\
+&=& \beta {\left( \frac{\epsilon_1}{\beta} \right)^2}^n
+\end{eqnarray}
+
+This completes the proof, since we have shown $\epsilon_{n+1} < \beta { \left( \frac{\epsilon_1}{\beta} \right)^2}^n$.
+
+\end{proof}
+
+\begin{thm}
+If $\alpha = 3$ and $x_1 = 2$, then $\frac{\epsilon_1}{\beta} < \frac{1}{10}$ and therefore that $\epsilon_5 < 4 \times 10^{-16}$ and $\epsilon_6 < 4 \times 10^{-32}$. 
+\end{thm}
+
+\begin{proof}
+We know that $\epsilon_n = x_n - \sqrt{\alpha}$ so that $\epsilon_1 = x_1 - \sqrt{\alpha} = 2 - \sqrt{3}$. We also know that $\beta = 2 \sqrt{\alpha} = 2 \sqrt{3}$. Thus, we can multiply by the conjugate to obtain
+
+\begin{eqnarray}
+\frac{\epsilon_1}{\beta} &=& \frac{2 - \sqrt{3}}{2 \sqrt{3}} \frac{2 + \sqrt{3}}{2 + \sqrt{3}} \\
+&=& \frac{1}{2\sqrt{3} ( 2 + \sqrt{3})} \\
+&=& \frac{1}{4 \sqrt{3} + 6} 
+\end{eqnarray}
+
+We know that $1 < \sqrt{3}$ so that $4 < 4 \sqrt{3}$. This means that $\frac{\epsilon_1}{\beta} < \frac{1}{10}$. Next, we can approximate $\beta = 2 \sqrt{3} < 4 $ because we know that $\sqrt{3} < 2$, so we can obtain the following bounds for $\epsilon_5$ and $\epsilon_6$:
+
+\begin{eqnarray}
+\epsilon_5 &=& \beta {\left(\frac{\epsilon_1}{\beta} \right)^2}^4 \\ 
+\epsilon_5&<& 4 \times 10^{-16} \\
+\epsilon_6 &=& \beta {\left( \frac{\epsilon_1}{\beta} \right)^2}^5 \\
+\epsilon_6 &<& 4 \times 10^{-32}
+\end{eqnarray}
+
+Because we have $2^4 = 16$ and $2^5 = 32$. This completes the proof.
+\end{proof}
+
+\section{Problem 3.18}
+
+\begin{thm}
+Fix a positive integer $p$ and a positive number $\alpha$ and define $x_{n+1} = \frac{p-1}{p} x_n + \frac{\alpha}{p} x_n^{-p + 1}$. Then if $x_1 > \alpha^{\frac{1}{p}}$, the sequence decreases monotonically and has $\lim_{n \to \infty} x_n = \alpha^{\frac{1}{p}}$.
+\end{thm}
+
+\begin{proof}
+First, we must show that the sequence is monotonically decreasing if $x_1 > \alpha^{\frac{1}{p}}$. To do this, we observe the following:
+
+\begin{eqnarray}
+x_{n+1} - x_n &=& \frac{p-1}{p}x_n + \frac{\alpha}{p} x_n^{-p +1} - x_n \\
+&=& \frac{1}{p} \left( (p-1)x_n + \alpha x_n^{-p+1} - p x_n \right) \\
+&=& \frac{1}{p} \left( - x_n + \frac{\alpha}{x_n^{p - 1}} \right) \\
+&=& \frac{1}{p} \left( \frac{- x_n x_n^{p - 1} + \alpha}{x_n^{p-1}} \right) \\
+&=& \frac{1}{p} \left( \frac{ \alpha - x_n^p}{x_n^{p-1}} \right)
+\end{eqnarray}
+
+Since we have defined $x_1 > \alpha^{\frac{1}{p}}$, we know that $x_1^{p} > \alpha$ which gives $\alpha - x_1^p < 0$. Thus, we see that $x_{2} - x_1 < 0$. Using inductive reasoning, we can see that $x_n > \alpha^{\frac{1}{p}}$ for all $n \in \mathbb{N}$. The sequence is decreasing from $x_1$, but the sequence does not go below $\alpha^{\frac{1}{p}}$ because if for some $n$ we have $x_n = \alpha^{\frac{1}{p}}$, then $x_{n+1} - x_n = 0$. Thus, the sequence is monotonically decreasing since $x_{n+1} - x_n < 0$ for all $n \in \mathbb{N}$. Moreover, the sequence is bounded by zero because $p$ is a positive integer, so $x_{n+1} > \frac{\alpha}{p} x_n^{-p+1}$, and since we have defined $x_1 > 0$, we have that $x_{n+1}$ can never be negative. 
+
+Thus we have shown the sequence is bounded and monotonically decreasing, showing that it is convergent. Let $\lim_{n \to \infty} x_n = x$, then we have:
+
+\begin{eqnarray}
+\lim_{n \to \infty} x_{n+1} &=& \lim_{n \to \infty} \frac{p-1}{p} x_n + \frac{\alpha}{p} x_n^{-p + 1} \\
+x &=& \frac{p-1}{p} x + \frac{\alpha}{p} x^{-p + 1} \\
+x \left( 1 - \frac{p-1}{p} \right) &=& \frac{\alpha}{p} x^{-p} x \\
+\frac{p}{\alpha} \frac{1}{p} &=& x^{-p} \\
+x^p &=& \alpha \\
+x &=& \alpha^{\frac{1}{p}}
+\end{eqnarray} 
+
+We have thus shown that $\lim_{n \to \infty} x_n = \alpha^{\frac{1}{p}}$, which is what we wanted.
+\end{proof}
+
+\begin{thm}
+Let $\epsilon_n = x_n - \alpha^{\frac{1}{p}}$, then we have $\epsilon_{n+1} < \beta^{1-p} {(\beta \epsilon_1)^p}^n$.
+\end{thm}
+
+\begin{proof}
+First, we note that $\epsilon_n^p = (x_n - \alpha^{\frac{1}{p}})^p > {p \choose 1} x_n (\alpha^{\frac{1}{p}})^{p-1} > x_n \alpha^{\frac{p-1}{p}}$ by the binomial theorem and because $p \geq 1$. We do not have to worry about the negative sign in front of $\alpha$ because if $p$ is an odd integer, then $p-1$ is even so $\alpha^{\frac{p-1}{p}} > 0$ and if $p$ is an even integer then $p$ is even so that $\alpha^{\frac{p-1}{p}} > 0$ as well.  The binomial theorem also tells us that $\epsilon_n^{-p} = (x_n - \alpha^{\frac{1}{p}})^{-p} > x_n^{-p}$. Since $p$ is a positive integer, we can see that that $x_n < \epsilon_n^p \leq p \epsilon_n^p$. This gives us the following relationships:
+
+\begin{equation}
+x_n^{-p} < p \epsilon_n^{-p}, \hspace{1cm} x_n < \frac{\epsilon_n^{p}}{\alpha^{\frac{p-1}{p}}}
+\end{equation}
+
+Since these are true, we can then find a bound for $\epsilon_{n+1}$:
+
+\begin{eqnarray}
+\epsilon_{n+1} &=& x_{n+1} - \alpha^{\frac{1}{p}} \\
+&=& \frac{p-1}{p} x_n + \frac{\alpha}{p}x_n^{-p} x_n - \alpha^{\frac{1}{p}} \\
+&<& \frac{p-1}{p} \frac{\epsilon_n^p}{\alpha^{\frac{p-1}{p}}} + \frac{\alpha}{p} p \epsilon_n^{-p}\frac{\epsilon_n^p}{\alpha^{\frac{p-1}{p}}} - \alpha^{\frac{1}{p}} \\
+&=& \frac{p-1}{p} \frac{\epsilon_n^p}{\alpha^{\frac{p-1}{p}}} + \frac{\alpha p}{p \alpha^{\frac{p-1}{p}}} - \alpha^{\frac{1}{p}} \\
+&=& \frac{1}{p \alpha^{\frac{p-1}{p}}} \left( (p-1) \epsilon_n^p + \alpha p - \alpha^{\frac{1}{p}} p \alpha^{\frac{p-1}{p}} \right) \\
+&=& \frac{1}{p \alpha^{\frac{p-1}{p}}} \left( (p-1) \epsilon_n^p + \alpha p - \alpha^{\frac{1}{p}} p \alpha \alpha^{-\frac{1}{p}} \right) \\
+&=& \left( \frac{p-1}{p \alpha^{\frac{p-1}{p}}} \right) \epsilon_n^p
+\end{eqnarray}  
+
+If we define the following constant:
+
+\begin{equation}
+\beta = \frac{p-1}{p \alpha^{\frac{p-1}{p}}}
+\end{equation}
+
+Then we have found a relationship between $\epsilon_{n+1}$ and $\epsilon_n$.
+
+\begin{equation}
+\epsilon_{n+1} < \beta \epsilon_n^p
+\end{equation}
+
+Thus, we can use induction on the sequence $\{ \epsilon_n \}$.
+
+\begin{eqnarray}
+\epsilon_1 &<& \beta \epsilon_1^p \\
+\epsilon_2 &<& \beta ( \beta \epsilon_1^p )^p \\
+&\vdots& \\
+\epsilon_{n+1} &<& \beta (\beta^p)^{n-1} (\epsilon_1^p)^n
+\end{eqnarray}
+
+If we collect terms, then we have completed the proof:
+
+\begin{equation}
+\epsilon_{n+1} < \beta^{1-p} {(\beta \epsilon_1)^p}^n
+\end{equation}
+\end{proof}
+
+\begin{thm}
+This is a good algorithm for computing $n$th roots, especially for large values of $\alpha$. For example, if $\alpha = 9$, $p = 10$, and $x_1 = 3$, then we have $\beta \epsilon_1 < \frac{1}{10}$ with $\epsilon_5 < 10^{-9,991}$ and $\epsilon_6 < 10^{-99,991}$.
+\end{thm}
+
+\begin{proof}
+First, we can compute $\beta =\frac{p-1}{p \alpha^{\frac{p-1}{p}}} = \frac{9}{10 * 9^{\frac{9}{10}}}$. We know that $9^{\frac{9}{10}} < 9^1 < 9$ so we have $\beta < \frac{1}{10}$. We also have $\beta \epsilon_1 = \beta ( x_1 - \alpha^{\frac{1}{p}} )$. Since we know that $9 < 2^{10} = 1024 $, we have $9^{\frac{1}{10}} < 2$. This gives:
+
+\begin{eqnarray}
+\beta \epsilon_1 &=& \beta ( 3 - 9^{\frac{1}{10}} ) \\
+&<& \frac{1}{10} (3 - 2) \\
+&<& \frac{1}{10}
+\end{eqnarray}
+
+Therefore, we can use the bounds of $\beta < \frac{1}{10}$ and $\beta \epsilon < \frac{1}{10}$ to find bounds for $\epsilon_5$ and $\epsilon_6$ by using the formula $\epsilon_{n+1} < \beta^{1-p} {(\beta \epsilon_1)^p}^n$:
+
+\begin{eqnarray}
+\epsilon_5 &<& \left( \frac{1}{10} \right)^{-9} \left( \frac{1}{10} \right)^{10^4} \\
+\epsilon_5 &<& 10^{-9,991} \\
+\nonumber \\
+\epsilon_6 &<& \left( \frac{1}{10} \right)^{-9} \left( \frac{1}{10} \right)^{10^5} \\
+\epsilon_6 &<& 10^{-99,991}
+\end{eqnarray}
+
+It is clear that this algorithm converges extremely quickly for large values of $\alpha$ and $p$. 
+\end{proof}
+
+
+
+\end{document}

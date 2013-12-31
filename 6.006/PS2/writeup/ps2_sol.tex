@@ -1,0 +1,718 @@
+%
+% 6.006 problem set 2
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros}
+
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+
+\newcommand{\answer}{
+ \par\medskip
+ \textbf{Answer:}
+}
+
+\newcommand{\collaborators}{ \textbf{Collaborators:}
+%%% COLLABORATORS START %%%
+Xinran Liu, Bonny Jain, Varun Ganesan 
+%%% COLLABORATORS END %%%
+}
+
+\newcommand{\answerIa}{ \answer
+%%% PROBLEM 1(a) ANSWER START %%%
+2
+%%% PROBLEM 1(a) ANSWER END %%%
+}
+
+\newcommand{\answerIb}{ \answer
+%%% PROBLEM 1(b) ANSWER START %%%
+4
+%%% PROBLEM 1(b) ANSWER END %%%
+}
+
+\newcommand{\answerIc}{ \answer
+%%% PROBLEM 1(c) ANSWER START %%%
+2
+%%% PROBLEM 1(c) ANSWER END %%%
+}
+
+\newcommand{\answerId}{ \answer
+%%% PROBLEM 1(d) ANSWER START %%%
+4
+%%% PROBLEM 1(d) ANSWER END %%%
+}
+\newcommand{\answerIe}{ \answer
+%%% PROBLEM 1(e) ANSWER START %%%
+4
+%%% PROBLEM 1(e) ANSWER END %%%
+}
+\newcommand{\answerIf}{ \answer
+%%% PROBLEM 1(f) ANSWER START %%%
+2
+%%% PROBLEM 1(f) ANSWER END %%%
+}
+\newcommand{\answerIg}{ \answer
+%%% PROBLEM 1(g) ANSWER START %%%
+4
+%%% PROBLEM 1(g) ANSWER END %%%
+}
+\newcommand{\answerIh}{ \answer
+%%% PROBLEM 1(h) ANSWER START %%%
+1
+%%% PROBLEM 1(h) ANSWER END %%%
+}
+\newcommand{\answerIi}{ \answer
+%%% PROBLEM 1(i) ANSWER START %%%
+2
+%%% PROBLEM 1(i) ANSWER END %%%
+}
+\newcommand{\answerIj}{ \answer
+%%% PROBLEM 1(j) ANSWER START %%%
+1
+%%% PROBLEM 1(j) ANSWER END %%%
+}
+\newcommand{\answerIk}{ \answer
+%%% PROBLEM 1(k) ANSWER START %%%
+4
+%%% PROBLEM 1(k) ANSWER END %%%
+}
+\newcommand{\answerIl}{ \answer
+%%% PROBLEM 1(l) ANSWER START %%%
+4
+%%% PROBLEM 1(l) ANSWER END %%%
+}
+\newcommand{\answerIm}{ \answer
+%%% PROBLEM 1(m) ANSWER START %%%
+2
+%%% PROBLEM 1(m) ANSWER END %%%
+}
+\newcommand{\answerIn}{ \answer
+%%% PROBLEM 1(n) ANSWER START %%%
+4
+%%% PROBLEM 1(n) ANSWER END %%%
+}
+\newcommand{\answerIo}{ \answer
+%%% PROBLEM 1(o) ANSWER START %%%
+1
+%%% PROBLEM 1(o) ANSWER END %%%
+}
+\newcommand{\answerIp}{ \answer
+%%% PROBLEM 1(p) ANSWER START %%%
+4
+%%% PROBLEM 1(p) ANSWER END %%%
+}
+\newcommand{\answerIq}{ \answer
+%%% PROBLEM 1(q) ANSWER START %%%
+1
+%%% PROBLEM 1(q) ANSWER END %%%
+}
+\newcommand{\answerIr}{ \answer
+%%% PROBLEM 1(r) ANSWER START %%%
+3
+%%% PROBLEM 1(r) ANSWER END %%%
+}
+\newcommand{\answerIs}{ \answer
+%%% PROBLEM 1(s) ANSWER START %%%
+3
+%%% PROBLEM 1(s) ANSWER END %%%
+}
+\newcommand{\answerIt}{ \answer
+%%% PROBLEM 1(t) ANSWER START %%%
+1
+%%% PROBLEM 1(t) ANSWER END %%%
+}
+\newcommand{\answerIu}{ \answer
+%%% PROBLEM 1(u) ANSWER START %%%
+We know that the asymptotic rendering time at the $i^{th}$ level is proportional to $\frac{1}{3} \left( \frac{4}{9} \right)^{i - 1} $. We shall show this by induction. At $i = 0$, the rendering time is proportional to 1, and at $i = 1$, the rending time becomes $3 \left( \frac{1}{9} \right) = \frac{1}{3}$. This is because each new triangle has edge length $\frac{1}{3}$, so that surface area is proportional to $\frac{1}{9} $. Since there are 3 triangles, we obtain the rendering time for $i = 1$. 
+
+So the base case for $i = 1$ has rendering time proportional to $\frac{1}{3}$. Assume that the $i - 1$ rendering time is proportional to $\frac{1}{3} \left( \frac{4}{9} \right)^{i - 2}$. We know that four new triangles are created at the $i^{th}$ node, with area proportional to $\frac{1}{9} \left(\frac{1}{3} \left( \frac{4}{9} \right)^{i - 2} \right)$, since each new triangle's surface area will be multiplied by $\left( \frac{1}{3} \right)^2$ multiplied by the previous triangle's area. Therefore, the $i^{th}$ node will have rendering time proportional to $\frac{1}{3} \left( \frac{4}{9} \right)^{i - 1}$. 
+
+Thus, to find the total rendering time, we must compute the sum:
+$$
+\frac{1}{3} \sum_{i=1}^n \left(\frac{4}{9} \right)^{i - 1}.
+$$
+However, we know the following is true:
+\begin{equation}
+\frac{1}{3} \sum_{i=1}^n \left(\frac{4}{9} \right)^{i - 1} < 
+\frac{1}{3} \sum_{i=1}^\infty \left(\frac{4}{9} \right)^{i - 1} = \frac{3}{5}
+\end{equation}
+
+Where we have evaluated a geometric series. Thus, we see that the asymptotic rendering time is bounded by $\Theta(1)$. 
+%%% PROBLEM 1(u) ANSWER END %%%
+}
+\newcommand{\answerIIa}{ \answer 
+%%% PROBLEM 2(a) ANSWER START %%%
+\_find\_min
+%%% PROBLEM 2(a) ANSWER END %%%
+}
+\newcommand{\answerIIb}{ \answer
+%%% PROBLEM 2(b) ANSWER START %%%
+259964
+%%% PROBLEM 2(b) ANSWER END %%%
+}
+\newcommand{\answerIIc}{ \answer
+%%% PROBLEM 2(c) ANSWER START %%%
+3
+%%% PROBLEM 2(c) ANSWER END %%%
+}
+\newcommand{\answerIId}{ \answer
+%%% PROBLEM 2(d) ANSWER START %%%
+1
+%%% PROBLEM 2(d) ANSWER END %%%
+}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\theproblemsetnum}{2}
+\newcommand{\releasedate}{September 15, 2011}
+\newcommand{\partaduedate}{Tuesday, September 27}
+\newcommand{\tabUnit}{3ex}
+\newcommand{\tabT}{\hspace*{\tabUnit}}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}{\releasedate}
+
+\textbf{Both theory and programming questions} are due {\bf \partaduedate} at
+{\bf 11:59PM}.
+%
+Please submit your solutions on \texttt{http://alg.csail.mit.edu}. The site
+will prompt you for your answers to the questions, so you do not need to create
+a solution template. The site will be open for PS2 submissions by Thursday,
+September 22. You don't need to wait until then to work on your solutions, and
+we encourage you to start early.
+
+Remember, your goal is to communicate. Full credit will be given only
+to a correct solution which is described clearly. Convoluted and
+obtuse descriptions might receive low marks, even when they are
+correct. Also, aim for concise solutions, as it will save you time
+spent on write-ups, and also help you conceptualize the key idea of
+the problem.
+
+We will provide the solutions to the problem set 10 hours after the problem set
+is due, which you will use to find any errors in the proof that you submitted.
+You will need to submit a critique of your solutions by \textbf{Tuesday,
+September 29th, 11:59PM}. Your grade will be based on both your solutions and
+your critique of the solutions.
+
+\medskip
+
+\hrulefill
+
+\collaborators
+
+\begin{problems}
+
+\problem \points{40} \textbf{Fractal Rendering}
+
+You landed a consulting gig with Gopple, who is about to introduce a new line
+of mobile phones with Retina HD displays, which are based on unicorn e-ink and thus
+have infinite resolution. The high-level executives heard that fractals have
+infinite levels of detail, and decreed that the new phones' background will be
+the  \defn{Koch snowflake} (Figure \ref{fig:snowflake}).
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=0.4\textwidth]{figures/snowflake.pdf}
+\caption{The Koch snowflake fractal, rendered at Level of Detail (LoD) 0 through 5.}
+\label{fig:snowflake}
+\end{figure}
+
+Unfortunately, the phone's processor (CPU) and the graphics chip (GPU) powering
+the display do not have infinite processing power, so the Koch fractal cannot be
+rendered in infinite detail. Gopple engineers will stop the recursion at a
+fixed depth $n$ in order to cap the processing requirement. 
+For example, at $n=0$, the fractal is just a triangle.
+Because higher depths result in more detailed drawing, this depth is usually
+called the \defn{Level of Detail (LoD)}.
+
+The Koch snowflake at LoD $n$ can be drawn using an algorithm following the
+sketch below:
+
+\begin{codebox} 
+\Procname{$\proc{Snowflake}(n)$}
+\li $e_1, e_2, e_3 \gets
+\textrm{edges of an equilateral triangle with side length }1$
+\li $\proc{Snowflake-Edge}(e_1, n)$
+\li $\proc{Snowflake-Edge}(e_2, n)$
+\li $\proc{Snowflake-Edge}(e_3, n)$
+\end{codebox}
+
+\begin{codebox}
+\Procname{$\proc{Snowflake-Edge}(\id{edge}, n)$}
+\li \If $n \isequal 0$
+\li   \Then \textrm{\id{edge} is an edge on the snowflake}
+\li \Else
+\li   $e_1, e_2, e_3 \gets \textrm{split \id{edge} in 3 equal parts}$
+\li   $\proc{Snowflake-Edge}(e_1, n - 1)$
+\li   $f_2, g_2 \gets \textrm{edges of an equilateral triangle whose 3rd edge
+is } e_2 \textrm{, pointing outside the snowflake}$
+\li   $\textrm{$\Delta(f_2,g_2,e_2)$ is a triangle on the snowflake's surface}$
+\li   $\proc{Snowflake-Edge}(f_2, n - 1)$
+\li   $\proc{Snowflake-Edge}(g_2, n - 1)$
+\li   $\proc{Snowflake-Edge}(e_3, n - 1)$
+    \End
+\end{codebox}
+
+The sketch above should be sufficient for solving this problem. If you are
+curious about the missing details, you may download and unpack the problem set's
+\texttt{.zip} archive, and read the CoffeeScript implementation in
+\texttt{fractal/src/fractal.coffee}.
+
+In this problem, you will explore the computational requirements of four
+different methods for rendering the fractal, as a function of the LoD~$n$.
+To help you out in your assignment, Gopple's engineers have prepared a prototype
+of the Koch fractal drawing software. To use the prototype, download and unpack
+the problem set's \texttt{.zip} archive, and use Google Chrome to open
+\texttt{fractal/bin/fractal.html}.
+
+%We will use $n$ to name the fixed depth at which the recursion is halted. For
+%example, at $n=0$ the fractal is a triangle. 
+
+%\begin{problemparts}
+
+%\problempart
+First, in 3D hardware-accelerated rendering (e.g., iPhone), surfaces are
+broken down into triangles (Figure \ref{fig:snowflake-triangle}). The CPU
+compiles a list of coordinates for the triangles' vertices, and the GPU
+is responsible for producing the final image. So, from the CPU's
+perspective, rendering a triangle costs the same, no matter what its surface
+area is, and the time for rendering the snowflake fractal is proportional to the
+number of triangles in its decomposition.
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.2\textwidth]{figures/snowflake-triangle.pdf}
+\end{center}
+\caption{Koch snowflake drawn with triangles.}
+\label{fig:snowflake-triangle}
+\end{figure}
+
+\begin{problemparts}
+  \problempart \points{1} What is the depth of the recursion tree for rendering a
+  snowflake of LoD $n$?
+    \begin{enumerate}
+      \item $\log n$
+      \item $n$
+      \item $3 \, n$
+      \item $4 \, n$
+    \end{enumerate}
+\answerIa
+
+  \problempart \points{2} How many nodes are there in the recursion tree at level
+  $i$, for $1 \le i \le n$?
+    \begin{enumerate}
+      \item $3 ^ i$
+      \item $4 ^ {i - 1}$
+      \item $4 ^ i$
+      \item $3 \cdot 4 ^ {i - 1}$
+    \end{enumerate}
+\answerIb
+    
+  \problempart \points{1} What is the asymptotic rendering time (triangle count) for a
+  node in the recursion tree at level $i$, for $1 \le i \le n$?
+    \begin{enumerate}
+      \item $0$
+      \item $\Theta(1)$
+      \item $\Theta(\frac{1}{9}^i)$
+      \item $\Theta(\frac{1}{3}^i)$
+    \end{enumerate}
+\answerIc 
+
+  \problempart \points{1} What is the asymptotic rendering time (triangle count) at
+  each level $i$ of the recursion tree, for $1 \le i \le n$?
+    \begin{enumerate}
+      \item 0
+      \item $\Theta(\frac{4}{9} ^ i)$
+      \item $\Theta(3 ^ i)$
+      \item $\Theta(4 ^ i)$
+    \end{enumerate}
+\answerId
+
+  \problempart \points{2} What is the total asymptotic cost for the CPU, when rendering
+  a snowflake with LoD $n$ using 3D hardware-accelerated rendering?
+    \begin{enumerate}
+      \item $\Theta(1)$
+      \item $\Theta(n)$
+      \item $\Theta(\frac{4}{3}^n)$
+      \item $\Theta(4^n)$
+    \end{enumerate}
+\answerIe
+\end{problemparts}
+
+%\problempart
+Second, when using 2D hardware-accelerated rendering, the surfaces'
+outlines are broken down into open or closed paths (list of connected
+line segments). For example, our snowflake is one closed path composed of
+straight lines. The CPU compiles the list of cooordinates in each path to be
+drawn, and sends it to the GPU, which renders the final image. This approach is
+also used for talking to high-end toys such as laser cutters and plotters.
+
+\begin{problemparts}
+  \problempart \points{1} What is the depth of the recursion tree for rendering a
+  snowflake of LoD $n$ using 2D hardware-accelerated rendering?
+    \begin{enumerate}
+      \item $\log n$
+      \item $n$
+      \item $3 \, n$
+      \item $4 \, n$
+    \end{enumerate}
+\answerIf
+
+  \problempart \points{1} How many nodes are there in the recursion tree at level
+  $i$, for $1 \le i \le n$?
+    \begin{enumerate}
+      \item $3 ^ i$
+      \item $4 ^ {i - 1}$
+      \item $4 ^ i$
+      \item $3 \cdot 4 ^ {i - 1}$
+    \end{enumerate}
+\answerIg
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment count)
+  for a node in the recursion tree at level $i$, for $1 \le i < n$?
+    \begin{enumerate}
+      \item $0$
+      \item $\Theta(1)$
+      \item $\Theta(\frac{1}{9}^i)$
+      \item $\Theta(\frac{1}{3}^i)$
+    \end{enumerate}
+\answerIh
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment count)
+  for a node in the last level $n$ of the recursion tree?
+    \begin{enumerate}
+      \item $0$
+      \item $\Theta(1)$
+      \item $\Theta(\frac{1}{9}^n)$
+      \item $\Theta(\frac{1}{3}^n)$
+    \end{enumerate}
+\answerIi
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment count) at
+  each level $i$ of the recursion tree, for $1 \le i < n$?
+    \begin{enumerate}
+      \item 0
+      \item $\Theta(\frac{4}{9} ^ i)$
+      \item $\Theta(3 ^ i)$
+      \item $\Theta(4 ^ i)$
+    \end{enumerate}
+\answerIj
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment count) at
+  the last level $n$ in the recursion tree?
+    \begin{enumerate}
+      \item $\Theta(1)$
+      \item $\Theta(n)$
+      \item $\Theta(\frac{4}{3}^n)$
+      \item $\Theta(4^n)$
+    \end{enumerate}
+\answerIk
+
+  \problempart \points{1} What is the total asymptotic cost for the CPU, when rendering
+  a snowflake with LoD $n$ using 2D hardware-accelerated rendering?
+    \begin{enumerate}
+      \item $\Theta(1)$
+      \item $\Theta(n)$
+      \item $\Theta(\frac{4}{3}^n)$
+      \item $\Theta(4^n)$
+    \end{enumerate}
+\answerIl
+
+\end{problemparts}
+
+%\problempart
+Third, in 2D rendering without a hardware accelerator (also called
+software rendering), the CPU compiles a list of line segments for each path like
+in the previous part, but then it is also responsible for ``rasterizing'' each
+line segment. Rasterizing takes the coordinates of the segment's endpoints and
+computes the coordinates of all the pixels that lie on the line segment.
+Changing the colors of these pixels effectively draws the line segment on the
+display. We know an algorithm to rasterize a line segment in time proportional
+to the length of the segment. It is easy to see that this algorithm is optimal,
+because the number of pixels on the segment is proportional to the segment's
+length. Throughout this problem, assume that all line segments have length
+at least one pixel, so that the cost of rasterizing is greater than the cost
+of compiling the line segments.
+
+It might be interesting to note that the cost of 2D software rendering is
+proportional to the total length of the path, which is also the power required
+to cut the path with a laser cutter, or the amount of ink needed to print the
+path on paper.
+
+\begin{problemparts}
+  \problempart \points{1} What is the depth of the recursion tree for rendering a
+  snowflake of LoD $n$?
+    \begin{enumerate}
+      \item $\log n$
+      \item $n$
+      \item $3 \, n$
+      \item $4 \, n$
+    \end{enumerate}
+\answerIm
+
+  \problempart \points{1} How many nodes are there in the recursion tree at level
+  $i$, for $1 \le i \le n$?
+    \begin{enumerate}
+      \item $3 ^ i$
+      \item $4 ^ {i - 1}$
+      \item $4 ^ i$
+      \item $3 \cdot 4 ^ {i - 1}$
+    \end{enumerate}
+\answerIn
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment length)
+  for a node in the recursion tree at level $i$, for $1 \le i < n$? Assume that
+  the sides of the initial triangle have length 1.
+    \begin{enumerate}
+      \item $0$
+      \item $\Theta(1)$
+      \item $\Theta(\frac{1}{9}^i)$
+      \item $\Theta(\frac{1}{3}^i)$
+    \end{enumerate}
+\answerIo
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment length)
+  for a node in the last level $n$ of the recursion tree?
+    \begin{enumerate}
+      \item $0$
+      \item $\Theta(1)$
+      \item $\Theta(\frac{1}{9}^n)$
+      \item $\Theta(\frac{1}{3}^n)$
+    \end{enumerate}
+\answerIp
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment length)
+  at each level $i$ of the recursion tree, for $1 \le i < n$?
+    \begin{enumerate}
+      \item 0
+      \item $\Theta(\frac{4}{9} ^ i)$
+      \item $\Theta(3 ^ i)$
+      \item $\Theta(4 ^ i)$
+    \end{enumerate}
+\answerIq
+
+  \problempart \points{1} What is the asymptotic rendering time (line segment length)
+  at the last level $n$ in the recursion tree?
+    \begin{enumerate}
+      \item $\Theta(1)$
+      \item $\Theta(n)$
+      \item $\Theta(\frac{4}{3}^n)$
+      \item $\Theta(4^n)$
+    \end{enumerate}
+\answerIr
+
+  \problempart \points{1} What is the total asymptotic cost for the CPU, when rendering
+  a snowflake with LoD $n$ using 2D software (not hardware-accelerated)
+  rendering?
+   \begin{enumerate}
+      \item $\Theta(1)$
+      \item $\Theta(n)$
+      \item $\Theta(\frac{4}{3}^n)$
+      \item $\Theta(4^n)$
+    \end{enumerate}
+\answerIs
+
+\end{problemparts}
+
+%\problempart
+The fourth and last case we consider is 3D rendering without hardware
+acceleration. In this case, the CPU compiles a list of triangles, and then
+rasterizes each triangle. We know an algorithm to rasterize a triangle that
+runs in time proportional to the triangle's surface area. This algorithm is
+optimal, because the number of pixels inside a triangle is proportional to the
+triangle's area. For the purpose of this problem, you can assume that the area
+of a triangle with side length $l$ is $\Theta(l^2)$. We also assume that the
+cost of rasterizing is greater than the cost of compiling the line segments.
+
+\begin{problemparts}
+  \problempart \points{4} What is the total asymptotic cost of rendering a snowflake
+  with LoD $n$? Assume that initial triangle's side length is 1.
+    \begin{enumerate}
+      \item $\Theta(1)$
+      \item $\Theta(n)$
+      \item $\Theta(\frac{4}{3}^n)$
+      \item $\Theta(4^n)$
+    \end{enumerate}
+\answerIt
+    
+  \problempart \points{15} Write a succinct proof for your answer using the  
+  recursion-tree method.
+  \answerIu
+\end{problemparts}
+
+%\end{problemparts}
+
+
+\problem \points{60} \textbf{Digital Circuit Simulation}
+
+Your 6.006 skills landed you a nice internship at the chip manufacturer AMDtel.
+Their hardware verification team has been complaining that their circuit
+simulator is slow, and your manager decided that your algorithmic chops make
+you the perfect candidate for optimizing the simulator.
+
+A \defn{combinational circuit} is made up of \defn{gates}, which are devices that take Boolean
+($\mathsf{True}$ / 1 and $\mathsf{False}$ / 0) input signals, and output a
+signal that is a function of the input signals. Gates take some time to compute
+their functions, so a gate's output at time $\tau$ reflects the gate's inputs at
+time $\tau - \delta$, where $\delta$ is the gate's delay. For the purposes of
+this simulator, a gate's output transitions between 0 and 1 instantly. Gates'
+output terminals are connected to other gates' inputs terminals by \defn{wires}
+that propagate the signal instantly without altering it.
+
+For example, a 2-input $\mathsf{XOR}$ gate with inputs A and B (Figure
+\ref{fig:xor}) with a 2 nanosecond (ns) delay works as follows: 
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|l|}
+\hline
+Time (ns) & Input A & Input B & Output O & Explanation \\
+\hline
+0 & 0 & 0 &   & Reflects inputs at time -2 \\ 
+1 & 0 & 1 &   & Reflects inputs at time -1 \\ 
+2 & 1 & 0 & 0 & 0 $\mathsf{XOR}$ 0, given at time 0 \\
+3 & 1 & 1 & 1 & 0 $\mathsf{XOR}$ 1, given at time 1 \\
+4 &   &   & 1 & 1 $\mathsf{XOR}$ 0, given at time 2 \\
+5 &   &   & 0 & 1 $\mathsf{XOR}$ 1, given at time 3 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{figures/xor-ansi}
+\caption{2-input $\mathsf{XOR}$ gate; $\mathsf{A}$ and $\mathsf{B}$ supply the
+inputs, and $\mathsf{O}$ receives the output.}
+\label{fig:xor}
+\end{figure}  
+
+The circuit simulator takes an input file that describes a circuit layout,
+including gates' delays, probes (indicating the gates that we want to
+monitor the output), and external inputs. It then simulates the transitions at
+the output terminals of all the gates as time progresses. It also outputs
+transitions at the probed gates in the order of the timing of those
+transitions.
+
+This problem will walk you through the best known approach for fixing
+performance issues in a system. You will profile the code, find the performance
+bottleneck, understand the reason behind it, and remove the bottleneck by
+optimizing the code.
+
+To start working with AMDtel's circuit simulation source code, download and
+unpack the problem set's \texttt{.zip} archive, and go to the \texttt{circuit/}
+directory.
+
+The circuit simulator is in \texttt{circuit.py}. The AMDtel engineers pointed
+out that the simulation input in \texttt{tests/5devadas13.in} takes too long
+to run. We have also provided an automated test suite at
+\texttt{test-circuit.py}, together with other simulation inputs. You can ignore
+these files until you get to the last part of the problem set.
+
+\begin{problemparts}
+
+\problempart \points{8} Run the code under the python profiler with the command
+below, and identify the method that takes up most of the CPU time. If two
+methods have similar CPU usage times, ignore the simpler one.
+
+\texttt{python -m cProfile -s time circuit.py < tests/5devadas13.in}
+
+\textit{Warning:} the command above can take 15-30 minutes to complete, and
+bring the CPU usage to 100\% on one of your cores. Plan accordingly.
+
+What is the name of the method with the highest CPU usage?
+\answerIIa
+
+% CLI from http://docs.python.org/library/profile.html
+% Sorting keys at http://docs.python.org/library/profile.html#profile-stats
+
+\problempart \points{6} How many times is the method called?
+\answerIIb
+
+\problempart \points{8} The class containing the troublesome method is
+implementing a familiar data structure. What is the tightest asymptotic bound
+for the worst-case running time of the method that contains the bottleneck?
+Express your answer in terms of $n$, the number of elements in the data
+structure.
+\begin{enumerate}
+  \item $O(1)$.
+  \item $O(\log n)$.
+  \item $O(n)$.
+  \item $O(n \log n)$.
+  \item $O(n \log^2 n)$.
+  \item $O(n^2)$.
+\end{enumerate}
+\answerIIc 
+
+\problempart \points{8} If the data structure were implemented using the most
+efficient method we learned in class, what would be the tightest asymptotic
+bound for the worst-case running time of the method discussed in the questions
+above?
+\begin{enumerate}
+  \item $O(1)$.
+  \item $O(\log n)$.
+  \item $O(n)$.
+  \item $O(n \log n)$.
+  \item $O(n \log^2 n)$.
+  \item $O(n^2)$.
+\end{enumerate}
+\answerIId
+
+\problempart \points{30} Rewrite the data structure class using the most
+efficient method we learned in class. \textbf{Please note that you are not
+allowed to import any additional Python libraries and our test will check this.}
+
+We have provided a few tests to help you check your code's correctness and
+speed. The test cases are in the \texttt{tests/} directory.
+\texttt{tests/README.txt} explains the syntax of the simulator input files. You
+can use the following command to run all the tests.
+
+\texttt{python circuit\_test.py}
+
+To work on a single test case, run the simulator on the test case with the
+following command.
+
+\texttt{python circuit.py < tests/1gate.in > out}
+
+Then compare your output with the correct output for the test case.
+
+\texttt{diff out tests/1gate.gold}
+
+For Windows, use \texttt{fc} to compare files.
+
+\texttt{fc out tests/1gate.gold}
+
+We have implemented a visualizer for your output, to help you debug your code.
+To use the visualizer, first produce a simulation trace.
+
+\texttt{TRACE=jsonp python circuit.py < tests/1gate.in > circuit.jsonp}
+
+On Windows, use the following command instead.
+
+\texttt{circuit\_jsonp.bat < tests/1gate.in > circuit.jsonp}
+
+Then use Google Chrome to open
+\texttt{visualizer/bin/visualizer.html}
+
+We recommend using the small test cases numbered 1 through 4 to check your
+implementation's correctness, and then use test case 5 to check the code's
+speed.
+
+When your code passes all tests, and runs reasonably fast (the tests should
+complete in less than 30 seconds on any reasonably recent computer), upload your
+modified \texttt{circuit.py} to the course submission site.
+
+\answer {
+  Please upload \texttt{circuit.py} with your modifications separately.
+}
+
+\end{problemparts}
+
+\end{problems}
+\end{document}

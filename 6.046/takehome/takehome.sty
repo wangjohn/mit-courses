@@ -1,0 +1,79 @@
+%%
+%% This is file `takehome.sty'
+%%
+%% It modifies the 6.046 homework header to be the takehome
+
+\def\fileversion{1.0}
+\def\filedate{2012/04/07}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{takehome}[\filedate{} macros for 6.046 quiz template]
+
+\RequirePackage{6046}
+
+\let\@author\@empty
+\let\@recitation\@empty
+\newcommand{\recitation}[3]{
+	\def\@recitation{#1 - #2 - Instructor: #3}
+}
+
+% to make the .sty file happy
+\def\@problemset{n/a}
+\def\@collab{n/a}
+\newcommand{\str}{\mbox{\LARGE\strut}}
+
+% Command to make the header box.
+\renewcommand{\header}{
+  \begin{center}
+    \hspace*{-0.25in}\framebox[7in]{
+      \vbox{
+        \hbox to 6.25in { \@author \hfill \@date}
+        \vspace{1mm}
+        \hbox to 6.25in {\bf \hfill 6.046 Takehome Quiz \hfill}
+        \vspace{1mm}
+  		\ifx \@recitation \@empty
+        	\hbox to 6.25in { Remember to Select Your Recitation! \hfill }
+		\else
+        	\hbox to 6.25in { \@recitation \hfill }
+  		\fi
+      }
+    }
+  \end{center}
+}
+
+\AtBeginDocument{
+  \ifx \@author \@empty
+    \@latexerr{You must use \noexpand\author{name} for 6.046 takehome}
+  \fi
+  \thispagestyle{plain}
+  \lhead{\@author}
+  \rhead{\textbf{6.046 Takehome Quiz}}
+  \cfoot{\thepage}
+  \pagestyle{fancy}
+
+\vfill
+\begin{center}
+  \renewcommand{\arraystretch}{1}
+  \begin{tabular}{|c|l|c|c|c|}
+    \hline
+
+    Problem&Title&Points&Grade&Initials\\ \hline \hline
+    \str 1 & Bracelet Division & 25 &  & \\
+    \hline
+    \str 2 & Dividing the Delta Quadrant & 25 & & \\
+    \hline
+    \str 3 & A First World Problem & 25 & & \\
+    \hline
+    \str 4 & Social Networking & 25 & & \\
+    \hline
+    \str Total & & 100 & &\\
+    \hline
+  \end{tabular}
+\end{center}
+\renewcommand{\arraystretch}{1}
+\vfill
+\vfill
+
+\newpage
+}
+
+

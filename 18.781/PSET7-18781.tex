@@ -1,0 +1,274 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+\usepackage{thmtools}
+\usepackage{verbatim}
+\usepackage{multirow}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{prob}{Problem}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\newenvironment{sol}{{\bfseries Solution}}{\qedsymbol}
+
+\def\legendre(#1,#2){%
+{#1 \overwithdelims () #2} }
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{18.781 \\
+Problem Set 7}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1}
+
+\begin{prob}
+Let $S$ be a set of $n + 1$ integers selected from $1, 2, \ldots, 2n + 1 $. Prove that $S$ contains two relatively prime integers. Show that the result doesn't hold if only $n$ integers are chosen.
+\end{prob}
+
+\begin{sol}
+Suppose by contradiction that $S$ does not contain two relatively prime integers. Then this means that some prime $p$ divides all the integers in $S$. Thus, $p | s$ for all $s \in S$. This means that there must exist at least $n + 1$ integers in the set which are divisible by $p$. However, we know that the smallest prime possible is $2$, so that there can only possibly be $\lfloor 2n + 1 / 2 \rfloor = n$ integers divisible by 2. This is a contradiction because one cannot pick $n + 1$ distinct integers divisible by $p$ from a set which contains at maximum only $n$ integers divisible by $p$. 
+
+Now to show that the result doesn't hold for $n$ integers, we take $n = 2$. From the set $1,2,3,4,5$, we shall pack $n=2$ integers. We pick $2$ and $4$ which are not relatively prime. 
+\end{sol}
+
+\section{Problem 2}
+
+\begin{prob}
+Prove that among any ten consecutive positive integers there is at least one which is coprime to the product of the others.
+\end{prob}
+
+\begin{sol}
+Suppose not. Then there must be some common prime factor which divides each of the ten integers. However, we see that any common prime factor must be less than 10 because any common factor of $x$ and $y$ must also be a factor of $x - y$. This only leaves the primes 2,3,5, and 7 as possibilities to be common factors.
+
+There will be five integers which are even in this set, and which will therefore be divisible by 2. These cannot be relatively prime to the rest. There can be at most two other integers which are divisible by 3. At most one other integer can be divisible by 5 (since the other integer divisible by 5 was taken into account by being even). Finally only one other integer can be divisible by 9. However, we see that there is no common factor which divides each of the ten integers, because there is one integer left which is not divisible by 2,3,5, or 7. This is a contradiction, so there must exist at least one integer which is coprime to the product of the others.
+\end{sol}
+
+\section{Problem 3}
+
+\begin{prob}
+At a party, there are $n$ people, who each give their coat to a coat-check person. Calculate the number of ways in which the coats can be handed back, each person receiving one, so that no one receives their own coat. 
+\end{prob}
+
+\begin{sol}
+Let $f(n)$ be the number of ways in which $n$ coats can be handed back so no one receives their own coat. Label all of the people and theirs coats from $1, \ldots, n$. Now, person $1$ could be given person $i$'s coat, and there are $n-1$ ways to choose $i$. Once this has occurred, then person $i$ can either get coat 1 or not get coat 1. If he gets coat 1, then there are $n-2$ coats and $n-2$ people, so there are $f(n-2)$ ways for the coats to be handed back in this case. In the other case, person $i$ does not get coat $1$, so that there are $n-1$ possibilities of coats to choose from (anything by coat $1$). There are $f(n-1)$ ways to distribute the rest of the coats in this case. This gives the recurrence:
+\begin{eqnarray}
+f(n) = (n-1)(f(n-2) + f(n-1))
+\end{eqnarray}
+
+We know that in the base case, $f(1) = 0$ because there is only one way to hand the coats back with 1 person, and it will always be to the correct person. Also, $f(0) = 1$ because when there is nobody there, there is one way to make no on receive their own coat. Now subtract $n f(n-1)$ from both sides of the above expression:
+\begin{eqnarray}
+f(n) - n f(n-1) &=& -( f(n-1) - (n-1) f(n-2)) \\ 
+f(n) - n f(n-1) &=& (-1)^n
+\end{eqnarray}
+
+Because of the fact that $f(1) = 0$ and $f(0) = 1$ so that $f(2) - 2 f(1) = -(f(1) - (2-1)f(0)) = 1$, which implies that $f(3) - 3 f(2) = -1$. Clearly, this is just an alternating of 1 and -1. Now, we find the following:
+\begin{eqnarray}
+\frac{f(n)}{n!} - \frac{f(n-1)}{(n-1)!} &=& \frac{(-1)^n}{n!} \\
+\frac{f(n)}{n!} &=& \frac{(-1)^n}{n!} + \frac{f(n-1)}{(n-1)!} \\
+&=& \frac{(-1)^n}{n!} + \frac{(-1)^{n-1}}{(n-1)!} + \ldots + \frac{(-1)^0}{0!} \\
+&=& \sum_{i=0}^n \frac{(-1)^i}{i!} 
+\end{eqnarray}
+
+Therefore, we find the following expression for $f(n)$:
+\begin{eqnarray}
+f(n) = n! \sum_{i=0}^n \frac{(-1)^i}{i!} 
+\end{eqnarray}
+\end{sol}
+
+\section{Problem 4}
+
+\begin{prob}
+Prove that $F_{m+n} = F_{m-1} F_n + F_m F_{n+1}$ for any positive integers $m$ and $n$. Then prove that $F_m | F_n$ if $m | n$. 
+\end{prob}
+
+\begin{sol}
+We will prove this by induction. First assume that this holds for some $m$ and two consecutive values of $n$. Then we know that 
+\begin{eqnarray}
+F_{m+n} &=& F_{m-1} F_{n} + F_{m} F_{n+1} \\
+F_{m + (n - 1)} &=& F_{m-1} F_{n-1} + F_{m} F_{n} 
+\end{eqnarray}
+
+Therefore, using the fibonacci recurence, we find the following:
+\begin{eqnarray}
+F_{m+(n+1)} &=& F_{m+n} + F_{m+n-1} \\
+&=&  F_{m-1} F_{n} + F_{m} F_{n+1} +  F_{m-1} F_{n-1} + F_{m} F_{n}  \\
+&=& F_{m-1} (F_{n} + F_{n-1} ) + F_{m} (F_{n+1} + F_{n} ) \\
+&=& F_{m-1} F_{n+1} + F_m F_{n+2}
+\end{eqnarray}
+
+Which is what we wanted to show on the induction step. Now assume that this holds for some $n$ and two consecutive values of $m$. Then we can write down:
+\begin{eqnarray}
+ F_{(m-1) + n} = F_{m-2} F_{n} + F_{m-1} F_{n+1} 
+\end{eqnarray}
+
+Substituting this into the fibonacci recurrence, we get:
+\begin{eqnarray}
+F_{(m+1) + n} &=& F_{m+n} + F_{m-1+n} \\
+&=& F_{m-1} F_n + F_{m} F_{n+1} + F_{m-2} F_n + F_{m-1} F_{n+1} \\
+&=& (F_{m-1} + F_{m-2}) F_n + (F_{m} + F_{m-1}) F_{n+1} \\
+&=& F_{m} F_{n} + F_{m+1} F_{n+1} 
+\end{eqnarray}
+
+Which is what we wanted to show. Since the induction works for both $m$ and $n$ fixed, the formula has been proven.
+\end{sol}
+
+\section{Problem 5}
+
+Let $r(n)$ be the number of ways of writing a positive integer $n$ in the form $n = m_1 + m_2 + \ldots + m_k$ where $k$ and $m_1, \ldots, m_k$ are arbitrary positive integers.
+
+\begin{prob}
+Show that $r(n) = 1 + r(1) + r(2) + \ldots + r(n-1)$ for $n \geq 2$. Deduce that $r(n) = 2 r(n-1)$ for $n \geq 2$ and therefore that $r(n) = 2^{n-1}$ for all positive integers $n$. 
+\end{prob}
+
+\begin{sol}
+Clearly $r(0) = 1$ because there is only one way to write $0 = m_1 + m_2 + \ldots + m_k$ where $m_1, \ldots, m_k$ are arbitrary positive integers, and also $r(1) = 1$. Now let us find $r(n)$. We know that the number of ways to sum up to $n$ is just the number of ways to sum up to $n- i$ plus the number of ways to sum up to $i$ for all $i \in \{1,2, \ldots, n/2 \}$ plus 1 for $0 + n$. Thus, we find that:
+\begin{eqnarray}
+r(n) = 1 + \sum_{i=1}^{n/2} r(n - i) + r(i) =  1 + r(1) + r(2) + \ldots + r(n - 1)  
+\end{eqnarray}
+
+We shall show that $r(n) = 2 r(n-1)$ by induction. This clearly holds for $r(2) = 2 = 2 r(1)$. Now suppose it holds up to $n$. Then we know that $r(n+1) = 1 + r(1) + r(2) + \ldots + r(n) = (1 + r(1) + r(2) + \ldots + r(n-1)) + r(n) = r(n) + r(n) = 2 r(n)$. Therefore, we see that $r(n) = 2 r(n-1)$ holds for all $n \geq 2$. Now we can solve this congruence using the characteristic polynomial:
+\begin{eqnarray}
+r(n) - 2 r(n-1) &=& 0 \\
+\lambda - 2 &=& 0 
+\end{eqnarray} 
+
+Therefore, we find that $r(n) = \alpha 2^{n}$. Since we know that $r(1) = 1$, we see that $r(1) = 1 = 2^{1} \alpha$ so that $\alpha = 1/2$. Therefore, we see that $r(n) = 2^{n-1}$. 
+\end{sol}
+
+\begin{prob}
+Establish this formula for $r(n)$ directly by a combinatorial argument.
+\end{prob}
+
+\begin{sol}
+We know that the number of ways to sum up to $n$ using $k$ different positive integers is ${ n - 1 \choose k -1}$. This is because one can enumerate $n$ with $n$ different objects representing 1. Then, there are $n-1$ different places you can pick to divide up the objects. Moreover, you have $k - 1$ different dividing places to use in order to obtain a total of $k$ different groups. This means you have ${n - 1 \choose k - 1 }$ ways of summing to $n$ using $k$ different positive integers. Therefore, we find that $r(n)$ can be expressed as a sum over all feasible $k$:
+\begin{eqnarray}
+r(n) &=& \sum_{k=1}^{n} { n - 1 \choose k - 1} \\
+&=& \sum_{i=0}^{n-1} { n - 1 \choose i}   
+\end{eqnarray} 
+
+This is just the sum of all the binomial coefficients of $n-1$. By a well known theorem, we know that this is equal to $2^{n-1}$. This completes the combinatorial proof. 
+\end{sol}
+
+\section{Problem 6}
+
+\begin{prob}
+Show that the number of ways of writing a positive integer $n$ in the form $n = m_1 + m_2 + \ldots + m_k$ where $k$ is an arbitrary positive integer and $m_1, \ldots, m_k$ are arbitrary odd positive integers is $F_n$. 
+\end{prob}
+
+\begin{sol}
+First denote $o(n)$ as the number of ways to write $n$ in the form $n = m_1 + \ldots + m_k$ where $m_1, \ldots, m_k$ are arbitrary odd positive integers. We see that $o(n) = o(1) + o(3) + o(5) + \ldots + o(n-1)$. This is because the number of ways to sum up to $n$ using odd integers is the number of ways to sum to $n - i$ plus the number of ways to sum to $i$ where $n - i$ and $i$ are odd for all $i \in \{1, 2, \ldots, n/2\}$. This means we have $o(n) = 1 + \sum_{i=1}^{n/2} o(n-i) + o(i) = 1 + o(3) + \ldots + o(n-1)$. 
+
+Now we shall show that $o(n) = o(n-1) + o(n-2)$ by induction. We know trivially that $o(2) = 1, o(1) = 1$, and $o(0) = 0$. Therefore it holds for the base case of $n = 2$. Now, suppose it holds up to $n$. Then we know that $o(n+1) = o(1) + o(3) + \ldots + o(n-2) + o(n) = (o(1) + o(3) + \ldots + o(n-2)) + o(n) = o(n-1) + o(n)$. Therefore, we find that $o(n) = o(n-1) + o(n-2)$. Since $F_n = F_{n-1} + F_{n-2}$ and $F_{0} = 0, F_{1} = 1, F_2 = 1$, we see that $o(n)$ and $F_n$ have the exact same recurrence and base cases. Therefore, we see that $o(n) = F_n$ which is what we wanted to show. 
+\end{sol}
+
+\section{Problem 7}
+
+\begin{prob}
+Let $f(n)$ be the number of sequences $a_1, \ldots, a_n$ which can be constructed with each $a_i \in \{0,1,2\}$ and such that the sequence cannot contain two consecutives 0s or two consecutive 1s. Prove that $f(n)$ is the integer closest to $\frac{1}{2} (1+\sqrt{2})^{n+1}$. 
+\end{prob}
+
+\begin{sol}
+First we see that for a sequence of length $n$, we can have any valid a sequence of length $n-1$ without any consecutive 0s or 1s, and append a 2 at the end of the sequence. There are $f(n-1)$ of these sequences. Otherwise, we could have a sequence of $k$ digits, alternating between 0 and 1, then a 2, and finally a sequence of length $n - k - 1$ which contains no consecutive 0s or 1s. There are two ways to have a sequence of $k$ digits alternating between 0 and 1, and there are $f(n-k-1)$ sequences of length $n-k-1)$ without consecutive 0s or 1s. This holds for all $k$ such that $0 \leq k \leq n - 1$. This means we have the following recurrence:
+\begin{eqnarray}
+f(n) = f(n-1) + 2 f(n-2) + 2f(n-3) + \ldots + 2
+\end{eqnarray}
+
+We will show by induction that $f(n) = 2 f(n-1) + f(n-2)$. Assume that this is true up to $n$. We shall show it is true to $n+1$. We see that this means that $2f(n-1) = f(n) - f(n-2)$. This implies
+\begin{eqnarray}
+f(n+1) &=& f(n) + 2 f(n-1) + 2 f(n-2) + \ldots + 2 \\
+&=& f(n) + (f(n) - f(n-2)) + (f(n-1) - f(n-3)) + \ldots + f(0)\\
+&=& 2 f(n) + f(n-1)
+\end{eqnarray}
+
+Where the second equation is a telescoping sum. We wanted to show that $f(n+1) = 2 f(n) + f(n-1)$, and so we have concluded the induction step. Therefore, we can solve the recurrence $f(n) = 2 f(n-1) + f(n-2)$, and we find the characteristic polynomial is $x^2 - 2 x - x = 0$. The roots of this polynomial are $x = 1 \pm \sqrt{2}$. Since we know $f(0) = 1$ and $f(1) = 3$, we can solve for the terms $\alpha, \beta$ in the system:
+\begin{eqnarray}
+f(n) = \alpha (1 + \sqrt{2})^n + \beta ( 1 - \sqrt{2})^n
+\end{eqnarray}
+
+Solving for initial conditions shows us that $\alpha = (2 + \sqrt{2})/(2 \sqrt{2})$ and $\beta = 1/2 - 1/\sqrt{2}$. We see that $|1 - \sqrt{2}| < 1$ and that $|1 + \sqrt{2}| > 1$. Because of this, we see that the term $\beta ( 1 - \sqrt{2})^n \to 0$ as $n \to \infty$. Thus, we see that $f(n)$ converges to the integer nearest to $\alpha ( 1 + \sqrt{2})^n$. This means that $f(n)$ will be the integer closest to $\frac{1}{2}(1 + \sqrt{2})^{n+1}$ because $\alpha > 1 + \sqrt{2}$. 
+\end{sol}
+
+\section{Problem 8}
+
+\begin{prob}
+Let $p > 5$ be a prime. Show that $F_p \equiv \legendre(p,5) \pmod{p}$. Show that $F_{p+1} \equiv 1 \pmod{p}$ if $p \equiv \pm 1 \pmod{5}$ and $F_{p+1} \equiv 0 \pmod{p}$ if $p \equiv \pm 2 \pmod{5}$. Conclude that if $p \equiv \pm 1 \pmod{5}$, then $p-1$ is a period of the sequence $F_n \pmod{p}$. 
+\end{prob}
+
+\begin{sol}
+We know that $F_p = \frac{1}{\sqrt{5}} \left( ((1 + \sqrt{5}) / 2)^p - ((1 - \sqrt{5})/2)^p \right)$. Using the binomial formula, we can expand this out and cancel out terms to obtain:
+\begin{eqnarray}
+F_p &=& \frac{1}{2^{p-1} \sqrt{5}} \left(1 + {p \choose 1} \sqrt{5} + \ldots + {p \choose p} \sqrt{5}^p - \left(1 - {p \choose 1} \sqrt{5} + \ldots + {p \choose 2} \sqrt{5}^p \right) \right)\\
+&=& \frac{1}{2^{p-1} \sqrt{5}} \left( {p \choose 1} \sqrt{5} + {p \choose 3} \sqrt{5}^2 + \ldots + {p \choose p} \sqrt{5}^p \right) \\
+&=& \frac{1}{2^{p-1}} \left( {p \choose 1} 1 + {p \choose 3} \sqrt{5} + \ldots + {p \choose p} \sqrt{5}^{p-1}  \right)
+\end{eqnarray}
+
+Now we know that for $k = 1, 3, \ldots, p - 1$ we have ${p \choose k} \equiv 0 \pmod{p}$. Therefore, we find that all of the terms are zero except the last one and we find $F_p \equiv \frac{1}{2^{p-1}} {p \choose p} \sqrt{5}^{p-1} \pmod{p}$. This means that $F_p \equiv 5^{(p-1)/2} \pmod{p}$ (since $2^{p-1} \equiv 1 \pmod{p}$ by Fermat) which shows $F_p \equiv \legendre(p,5) \pmod{p}$. 
+
+Now we show that $F_{p+1} \equiv 1 \pmod{p}$ if $p \equiv \pm 1 \pmod{5}$ and $F_{p+1} \equiv 0$ if $p \equiv \pm 2 \pmod{5}$. We know that $F_{p+1} = \frac{1}{\sqrt{5}}\left( \left( \frac{1 + \sqrt{5}}{2} \right)^p + \left( \frac{1 - \sqrt{5}}{2} \right)^p \right) $. We use the binomial expansion again and cancel terms to obtain:
+\begin{eqnarray}
+F_{p+1} &=& \frac{1}{2^p} \left( {p+1 \choose 1} 5^0 + {p+1 \choose 3} 5^1 + \ldots + {p + 1 \choose p} 5^{(p-1)/2} \right) \\
+&\equiv& 1 + 5^{(p-1)/2} \pmod{p}
+\end{eqnarray}
+
+We arrive at this using the same arguments as above, and the fact that ${ p + 1 \choose 1} = {p + 1 \choose p } \equiv 1 \pmod{p}$. Since we know that $5^{(p-1)/2} \equiv \legendre(5,p) \equiv F_p \pmod{p}$, we can write that $2^p F_{p+1} \equiv 1 + F_p \pmod{p}$. Since $2^{p-1} \equiv 1 \pmod{p}$ by Fermat, we see that $2 F_{p+1} \equiv 1 + F_p \pmod{p}$. Thus if $F_p \equiv 1 \pmod{p}$ then $F_{P+1} \equiv 1 \pmod{p}$. Otherwise, if $F_p \equiv -1 \pmod{p}$, then $F_{p+1} \equiv 0 \pmod{p}$. Moreover, we know that $\legendre(5,p) = 1$ when $p \equiv \pm 1 \pmod{5}$ and $\legendre(5,p) = -1$ when $p \equiv \pm 2 \pmod{5}$. This is exactly what we wanted to show, since $F_p \equiv \legendre(5,p) \pmod{p}$.
+
+Now, we move on to show that if $p \equiv \pm 1 \pmod{5}$, then $p-1$ is a period of the sequence $F_n \pmod{p}$. First, we know that if $p \equiv \pm 1 \pmod{5}$, then $F_{p+1} \equiv 1 \pmod{p}$. We want to show that $p | F_{p+n-1} - F_n$ for arbitrary $n \in \mathrm{N}$. In otherwords, we shall show that $F_{p+n-1} \equiv F_n \pmod{p}$. If $n = 1$, we know that $F_{p} \equiv \legendre(5,p) \equiv F_1 \equiv 1 \pmod{p}$. This follows because $\legendre(5,p) = 1$ when $p \equiv \pm 1 \pmod{5}$. Now suppose this holds up to $n$. We shall show that it also holds for $n + 1$. We must evaluate the following:
+\begin{eqnarray}
+F_{p + (n+1) - 1} &\equiv& F_{p + n} \pmod{p} \\
+&=& F_{p+n-1} + F_{p+n - 2} \pmod{p} \\
+&=& F_{n} + F_{n-1} \pmod{p} \\
+&=& F_{n+1} \pmod{p}
+\end{eqnarray}
+
+Where we have used the fact that $F_{p+n} = F_{p+n-1} + F_{p+n-2}$ and the induction hypothesis on $F_{p+n-1} \equiv F_{n} \pmod{p}$ and $F_{p+n-2} \equiv F_{n-1} \pmod{p}$. Since we see that $F_{p+(n+1) - 1} \equiv F_{n+1} \pmod{p}$, we are done with the induction and have proven that $p -1$ is a period of the sequence $F_n \pmod{p}$. 
+\end{sol}
+
+
+\end{document}

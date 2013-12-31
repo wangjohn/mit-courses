@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Image decryption visualization</title>
+    <style type="text/css">
+<%= Sass.compile_file 'src/visualizer.scss' %>
+    </style>
+
+    <script type="text/javascript">
+<%= CoffeeScript.compile File.read('src/pwnvg.coffee') %>
+<%= CoffeeScript.compile File.read('src/visualizer.coffee') %>
+    </script>
+    <script src="../../trace.jsonp" type="text/javascript"></script>
+  </head>
+  <body>
+    <section id="encrypted">
+      <h1>Encrypted image</h1>
+      <div class="canvas-wrapper">
+        <canvas id="encrypted-canvas" />
+      </div>
+    </section>
+    <section id="decrypted">
+      <h1>Decrypted image</h1>
+      <div class="canvas-wrapper">
+        <canvas id="decrypted-canvas" />
+      </div>
+    </section>
+  </body>
+</html>

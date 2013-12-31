@@ -1,0 +1,45 @@
+function avg_points = pointwise_dimension(stepsize, endtime, epsilon, points, transient)
+
+global d1 d2 a1 a2 b1 b2
+d1 = .03;
+d2 = .014;
+
+a1 = 1.3;
+a2 = .1;
+b1 = 3;
+b2 = 1;
+
+xrange = [0 1];
+yrange = [0 1];
+zrange = [0 1];
+
+initial = zeros(1, 3);
+initial(1,1) = rand*(xrange(2) - xrange(1)) + xrange(1);
+initial(1,2) = rand*(yrange(2) - yrange(1)) + yrange(1);
+initial(1,3) = rand*(zrange(2) - zrange(1)) + zrange(1);
+
+[~,Y] = ode45(@sys,[0:stepsize:endtime],initial(1,:));
+
+% test for lorenz attractor
+% global r
+% r = 28;
+% [~,Y] = ode45(@lorenz_sys,[0:stepsize:endtime],initial(1,:));
+
+% Average calculations over multiple points
+sum = 0;
+for i = 1:points
+   index = round(rand*(length(Y)));
+   currentpoint = Y(index, :);
+   % Calculate distance between this and other points
+   counter = 0;
+   for j = 1:length(Y)
+       if eucdist(Y(j,:),currentpoint) < epsilon;
+           counter = counter + 1;
+       end
+   end
+   sum = sum + counter;
+end
+
+avg_points = sum / points;
+
+end

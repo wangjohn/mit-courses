@@ -1,0 +1,2861 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{18.100B \\
+Final Exam Study Guide }
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1}
+
+\begin{thm}
+Show that $\sup A = \sqrt{2}$ where $A = \{ x \in \mathbb{Q}: x > 0, x^2 < 2 \}$. 
+\end{thm}
+
+\begin{proof}
+First, we define $\sup A = s$ and note that $s^2 \geq 2$. Suppose not, then $s < 2$ and there exists an $\epsilon > 0$ such that $s + \epsilon \in A$, which contradicts the fact that $s$ is the least upper bound. Now suppose that $s^2 > 2$. Then we can always find some $\delta > 0$ such that $ s^2 - \delta > 2$, so that $s^2 - \delta \notin A$ and $s^2 - \delta > x$ for all $x \in A$, which is a contradiction of $s$ being a supremum. Thus, we must have $s^2 = 2$, or by the uniqueness of radicals, $s = \sqrt{2}$. 
+\end{proof}
+
+\section{Problem 2}
+
+\begin{thm}
+Let $\mathbf{A} \subset \mathbb{R}$ be a nonempty set. Define $ - \mathbf{A} = \{ x: -x \in \mathbf{A} \}$. Show that $\sup( -\mathbf{A}) = - \inf \mathbf{A}$ and $\inf( - \mathbf{A}) = - \sup \mathbf{A}$.
+\end{thm}
+
+\begin{proof}
+Suppose that $A$ is bounded from below and let $a = \inf \mathbf{A}$. Then we must have $a \leq x$ for all $x \in \mathbf{A}$ and $-a \geq y$ for all $y \in -\mathbf{A}$. Therefore, we see that $y \leq -a \leq a \leq x$. Now, suppose that there exists some $\epsilon > 0$ such that $-a - \epsilon > y$ for all $y \in -\mathbf{A}$. Then, we must have $a + \epsilon < x$ for all $x \in \mathbf{A}$. Therefore, we see that $a$ is not the infimum of $\mathbf{A}$, which is a contradiction. Therefore, no such epsilon exists, so that $-a$ is the supremum of $-\mathbf{A}$. If $\mathbf{A}$ is not bounded from below, then $\inf \mathbf{A} = - \infty$, so that $\sup ( -\mathbf{A}) = \infty$. Therefore, we have shown that $\sup( - \mathbf{A}) = - \inf \mathbf{A}$. The proof that $\inf(-\mathbf{A}) = - \sup \mathbf{A}$ is similar. 
+\end{proof}
+
+\section{Problem 3}
+
+\begin{thm}
+Let $A, B \subset \mathbb{R}$ be nonempty. Define $A + B = \{ z = x+y: x \in A, y \in B \}$ and $A - B = \{ z = x-y: x \in A, y \in B \}$. Show that $\sup(A+B) = \sup A + \sup B$ and $\sup (A-B) = \sup A - \inf B$. 
+\end{thm}
+
+\begin{proof}
+Let $A$ and $B$ be bounded from above, and define $a = \sup A$ and $b = \sup B$, and $s = \sup(A+B)$. By the definition of supremum, we see that $a \geq x - \epsilon / 2$ for all $x \in A$ and $b \geq y - \epsilon/2 $ for all $y \in B$. Therefore, we see that $a+b \geq x + y - \epsilon$. Since $z = x + y \in A + B$, we have shown that $s = a + b$. 
+
+For the next part, we choose the set $C = - B = \{ y: -y \in B \}$. We have previously shown that $ \sup C = - \inf B$. Moreover, we see that $\sup(A-B) = \sup(A + C)$ because $A - B = \{ z = x-y : x \in A, y \in B \} = \{ z = x + y: x \in A, -y \in B \} = A + C$. We have just shown that $\sup(A + C) = \sup A + \sup C$, and since $\sup C = - \inf(B)$, we have $\sup(A-B) = \sup(A+C) = \sup A - \inf B$.  
+\end{proof}
+
+\section{Problem 4}
+
+\begin{thm}
+Let $A,B$ be nonempty subsets of real numbers. Show that $\sup(A \cup B) = \max \{ \sup A, \sup B \}$ and $\inf(A \cup B) = \min \{ \inf A , \inf B \}$. 
+\end{thm}
+
+\begin{proof}
+First, suppose that $A$ and $B$ are bounded above so that $\sup A = a$ and $\sup B = b$. Then we can assume without loss of generality that $ a \geq b$. Thus, we see that $a \geq x - \epsilon$ for all $x \in A$ and some $\epsilon > 0$. Moreover, we see that $a \geq b$ implies that $a \geq y - \epsilon$ for all $y \in B$ and some $\epsilon > 0$. This implies that $a = \sup (A \cup B)$. If either $A$ or $B$ is unbounded, then $\sup A = \infty$ or $\sup B = \infty$ and $\sup(A\cup B) = \infty$. This proves the theorem for $\sup(A \cup B) = \max \{ \sup A, \sup B \}$, and the proof for $\inf(A \cup B) = \min \{ \inf A , \inf B \}$ is similar. 
+\end{proof}
+
+\section{Problem 5}
+
+\begin{thm}
+Prove that if a sequence $\{ a_n \}$ is monotonically increasing then $\lim_{n \to \infty} a_n = \sup \{ a_n : n \in \mathbb{N} \}$.
+\end{thm}
+
+\begin{proof}
+If the sequence $\{ a_n \}$ is unbounded, we see that $\lim_{n \to \infty} a_n = \infty$ and $\sup \{ a_n : n \in \mathbb{N} \} = \infty$. If the sequence $\{ a_n \}$ is bounded, we can assume that $\sup \{a _n: n \in \mathbb{N} \} = a$. Since $\{a_n \}$ is monotonically increasing, we see that $a_{n+1} \geq a_n$. Moreover, we see that by definition of upper bound that $a_n \leq a$ for all $n \in \mathbb{N}$. This means that for each $\epsilon > 0$, we can find some $a_{n_0}$ such that $a - \epsilon < a_{n_0}$ because $a - \epsilon$ is not an upper bound. Therefore, we see that $a > a_{n_0} > a - \epsilon$, which implies that $|a_{n_0} - a| < \epsilon$. Thus, we have shown that $\lim_{n \to \infty} a_n = a$. 
+\end{proof}
+
+\section{Problem 6}
+
+\begin{thm}
+Let $a_1, a_2, \ldots, a_p$ be fixed positive numbers and consider the sequence $s_n = \frac{a_1^n + a_2^n + \ldots a_p^n}{p}$ and $x_n = \sqrt[n]{s_n}$. Prove that $x_n$ is monotonically increasing. 
+\end{thm}
+
+\begin{proof}
+First we will show that $\frac{s_n}{s_{n+1}}$ is monotonically increasing. If each $a_1, \ldots a_p \leq 1$, then we see that $a_i^n \geq a_i^{n+1}$, which means that $s_{n} \geq s_{n+1}$. This means that $\frac{s_n}{s_{n+1}} \leq \frac{s_{n+1}}{s_{n+2}}$ for $n \geq 2$. The same is true when some $a_i$ is greater than 1. Therefore, $\frac{s_n}{s_{n+1}}$ is monotonically increasing, and so $s_n^2 \leq s_{n+1} s_{n-1}$. 
+
+We know that $x_1 \leq x_2$ because:
+\begin{eqnarray}
+\left( \sum_{i=1}^p a_i \right)^2 \leq \sum_{i=1}^p (a_i)^2
+\end{eqnarray}
+
+Now assume $x_{n-1} \leq x_n$, so that $s_{n-1} \leq s_n^{\frac{n-1}{n}}$. We will show that $x_n \leq x_{n+1}$:
+\begin{eqnarray}
+x_{n+1} = \sqrt[n+1]{s_{n+1}} \geq \sqrt[n+1]{\frac{s_{n}^2}{s_{n-1}}} \geq \sqrt[n+1]{\frac{s_n^2}{s_n^{\frac{n-1}{n}}}} = \sqrt[n+1]{s_n^{1 + \frac{1}{n}}} = s_n^{\frac{1 + \frac{1}{n}}{n+1}} = s_n^\frac{1}{n} = x_n 
+\end{eqnarray}
+
+Since $x_{n+1} \geq x_n$, we have proven that $\{x_n \}$ is monotonically increasing by induction. 
+\end{proof}
+
+\section{Problem 7}
+
+\begin{thm}
+Let $\{ a_n \}$ be a bounded sequence which satisfies the condition $a_{n+1} \geq a_n - \frac{1}{2^n}$ for $ n \in \mathbb{N}$. Show that the sequence $\{ a_n \}$ is convergent. 
+\end{thm}
+
+\begin{proof}
+Since $\{a_n \}$ is bounded, we know that $|a_n | < M$ for some $M > 0$ for all $n \in \mathbb{N}$. Moreover, the assumption shows that $\frac{1}{2^n} \geq a_n - a_{n+1}$. This means that $|a_{n} - a_{n+1} | \leq \frac{1}{2^n}$. Particularly, we know that $\frac{1}{2^n} \rightarrow 0$ as $n \to \infty$. This tells us that $|a_{n} - a_{n+1}| \to 0$ as $n \to \infty$. By the Cauchy criterion, we see that $\{ a_n \}$ converges.  
+\end{proof}
+
+\section{Problem 8}
+
+\begin{thm}
+Establish the convergence and find the limit of the sequence defined by $a_1 = 0$ and $a_{n+1} = \sqrt{6 + a_n}$ for $n \geq 1$. 
+\end{thm}
+
+\begin{proof}
+First we note that $a_1 = 0$ and $a_2 = \sqrt{6}$. We know that since $3^2 = 9$ that $a_2 = \sqrt{6} \leq 3$, so that $0 < a_2 < 3$. This implies $6 < a_2 + 6 < 9$, and since square root preserves ordering, we have $\sqrt{6} < \sqrt{a_2 + 6} < 3$. Therefore, we see that $a_2 < a_3 < 3$. Continuing this process, we see that $\sqrt{6 + \sqrt{6}} < a_4 < 3$, which implies $a_3 < a_4 < 3$. We see that this process continues indefinitely, and that $a_n < a_{n+1} < 3$. This means that $\{ a_n \}$ is monotonically increasing and bounded from above by 3. First, this establishes the convergence of $\{ a_n \}$. Next, this shows that $\{a_n \} \to 3$ as $ n \to \infty$. This is because for any $\epsilon > 0$, we can choose $N$ large enough so that $|3 - a_N | < \epsilon$ because $\{a_n \}$ is monotonically increasing. 
+\end{proof}
+
+\section{Problem 9}
+
+\begin{thm}
+Show that the sequence defined by $a_1 = 0$, $a_2 = \frac{1}{2}$, and $a_{n+1} = \frac{1}{3} (1 + a_n + a_{n-1}^3)$ for $ n >1$ converges and determine its limit.
+\end{thm}
+
+\begin{proof}
+We see that $0 \leq a_n \leq 1$ because $1 + a_n + a_{n-1}^3$ is always less than 3 for our given starting values. First, we will show convergence by assuming $a_n \geq a_{n-1}$:
+\begin{eqnarray}
+a_{n+1} - a_{n} = \frac{1}{3} (1 + a_n + a_{n-1}^3 )  - a_n = \frac{1}{3} \left( 1 - \frac{2}{3} a_n - a_{n-1}^3 \right)
+\end{eqnarray}
+Since $a_n \leq 1$ and $a_{n-1} \leq a_n$, we see that $a_{n+1} - a_n \geq \frac{1}{3} (1 - a_n (\frac{2}{3} + a_n^2)) \geq \frac{1}{3}(1 - 1 (\frac{2}{3} + 1)) \geq 0$. Therefore, we see that $a_{n+1} \geq a_n$ if we assume that $a_n \geq a_{n+1}$. This shows that $\{a_n\}$ is monotonically increasing and bounded, which implies convergence. Moreover, we see that $\{a_n\} \to 1$ as $n \to \infty$ because for every $\epsilon > 0$ we can always choose an $N$ such that $|1 - a_N| < \epsilon$.
+\end{proof}
+
+\section{Problem 10}
+
+\begin{thm}
+Let $\{ a_n \}$ be defined recursively by $a_{n+1} = \frac{1}{4 - 3 a_n}$ for $n \geq 1$. Determine for which $a_1$ the sequence converges and in the case of convergence find its limit. 
+\end{thm}
+
+\begin{proof}
+We will show by induction that the following is true:
+\begin{eqnarray}
+a_n = \frac{(3^{n-1} - 1) - (3^{n-1}-3)a_1}{(3^{n} - 1) - (3^{n} - 3)a_1} 
+\end{eqnarray}
+
+First, it is clear that this follows for $a_2 = \frac{3 -1 - (3-3)a_1}{9-1 - (9-3)a_1} = \frac{2}{8 - 6 a_1} = \frac{1}{4 - 3 a_1}$. Thus, we have established the base case. Now, we will show that this works for $a_{n+1}$:
+\begin{eqnarray}
+a_{n+1} &=& \frac{1}{4 - 3 a_n} = \frac{(3^n - 1) - (3^n - 3)a_1}{4((3^n-1)-(3^n-3)a_1) - 3((3^{n-1}-1) - (3^{n-1}-3)a_1)} \\
+&=& \frac{(3^n - 1) - (3^n - 3)a_1}{(3^{n+1}-1)-(3^{n+1}-3)a_1}
+\end{eqnarray}
+
+Therefore, we see that the sequence does indeed converge as $n \to \infty$ for $a_1 \neq \frac{3^n-1}{3^n-3}$ for all $n \in \mathbb{N}$. If $a_1 =1$, then $a_n = 1$. For all other allowable values of $a_1$, we have $a_n \to \frac{1}{3}$ as $n \to \infty$.
+\end{proof}
+
+\section{Problem 11}
+
+\begin{thm}
+Prove the convergence of $\{ a_n \}$ defined inductively by $a_1 = 2$ and $a_{n+1} = 2 + \frac{1}{3 + \frac{1}{a_n}}$ for $ n \geq 1$ and find its limit.
+\end{thm}
+
+\begin{proof}
+First, note that the series is monotonically increasing. This is because of the following:
+\begin{eqnarray}
+a_{n+1} - a_n = 2 + \frac{1}{3 + \frac{1}{a_n}} - a_n = 2 + \frac{a_n}{3 a_n + 1} - a_n = 2 + \frac{-3 a_n^2}{3 a_n + 1}
+\end{eqnarray}
+
+And this is negative only for $a_n > \frac{1}{3} ( 3 + \sqrt{15} )$. Since we begin at $2 < \frac{1}{3}( 3 + \sqrt{15})$, it is clear that $a_{n+1} - a_n > 0$ for all $n \in \mathbb{N}$, so that $\{ a_n \}$ is monotonically increasing. Moreover, we can show that the sequence is bounded, for instance by the value $3$. We know that $a_n$ cannot be greater than $3$, because if it were, then $a_{n+1} - a_n < 0$ would imply a monotonically decreasing function, a contradiction of our previous assertion. Therefore, since the sequence is monotonic and bounded, it converges. To find its limit $s$, we set $s = 2 + \frac{1}{3 + \frac{1}{s}}$ and find that $s = \frac{1}{3} ( 3 + \sqrt{15})$.  
+\end{proof}
+
+\section{Problem 12}
+
+\begin{thm}
+The recursive sequence $\{ a_n \}$ is given by setting $a_1 = 1, a_2 = 2, a_{n+1} = \sqrt{a_{n-1}} + \sqrt{a_n}$ for $n \geq 2$. Show that the sequence is bounded and strictly increasing. Find its limit.
+\end{thm}
+
+\begin{proof}
+First, we note that $a_3 = \sqrt{2} + 1$ so that $a_1 < a_2 < a_3$. Now, we find that $a_{n+1} - a_n = \sqrt{a_{n-1}} + \sqrt{a_n} - \sqrt{a_{n-2}} - \sqrt{a_{n-1}}$. Assume that $a_{n} > a_{n-1} > a_{n-2} > \ldots$. Then we know that $\sqrt{a_{n}} - \sqrt{a_{n-1}} > 0$ because $a_{n} > a_{n+1}$. Also, we see that $\sqrt{a_{n-1}} - \sqrt{a_{n-2}} > 0$ because $a_{n-1} > a_{n-2}$. This shows that $a_{n+1} - a_n > 0$, which implies that $a_{n+1} > a_n$. Thus, we have shown using induction that $\{ a_n \}$ is strictly increasing. 
+
+Moreover, we can see that the sequence is bounded by 4. This is because the function $f(x) = 2 \sqrt{x} - x$ is negative when $x > 4 $. Since $a_{n} > a_{n-1}$, we see that $a_{n+1} < 2\sqrt{a_n}$, which implies $a_{n+1} - a_n < 2 \sqrt{ a_n} - a_n$. However, since $f(x) < 0$ when $x > 4$, we see that $2\sqrt{a_n} - a_n < 0$  which shows that $a_{n+1} - a_n < 0$, which is a contradiction of the fact that $\{ a_n \}$ is strictly increasing. This shows that $a_n$ cannot be greater than 4, and thus shows that $\{ a_n \}$ is bounded. Since it is also strictly increasing, we know that the sequence converges so some number $s$. We can find this by setting $s = \sqrt{s} + \sqrt{s} = 2 \sqrt{s}$. Solving this equation, we obtain $s = 4$.  
+\end{proof}
+
+\section{Problem 13}
+
+\begin{thm}
+Suppose that a bounded sequence $\{ a_n \}$ is such that $a_{n+2} \leq \frac{1}{3} a_{n+1} + \frac{2}{3} a_n$ for $n \geq 1$. Prove the convergence of the sequence.
+\end{thm}
+
+\begin{proof}
+By the assumption, we have $a_{n+2} + \frac{2}{3} a_{n+1} \leq a_{n+1} + \frac{2}{3} a_n$. We can set $b_n = a_{n+1} + \frac{2}{3} a_n$, and we see that this sequence is decreasing. This is because $b_{n+1} = a_{n+2} + \frac{2}{3} a_{n+1} \leq \frac{1}{3} a_{n+1} + \frac{2}{3} a_n + \frac{2}{3} a_{n+1} = a_{n+1} + \frac{2}{3} a_n = b_n$, which shows that $b_{n+1} \leq b_n$ for all $n \geq 1$. Moreover, since $a_n$ is a bounded sequence, we know that $b_n$ is also bounded. This shows that $b_n$ converges to some limit $b$. Now set $a = \frac{3}{5}b$. Fix $\epsilon > 0$, we see that there exists an $N > 0$ such that for all $n > N$, we have $|b_n - b| < \epsilon$. This corresponds to $|a_{n+1} + \frac{2}{3} a_n - \frac{5}{3}a| < \epsilon$. By the triangle inequality, we have $|a_{n+1} - a| \leq |a_{n+1}+\frac{2}{3} a_n - \frac{5}{3} a| + | - \frac{2}{3} a_n + \frac{5}{3}a - a | = |a_{n+1} - \frac{2}{3} a_n - \frac{5}{3} a | + \frac{2}{3} | - a_n + a|$. Rearranging, we obtain: $ |a_{n+1} - a| - \frac{2}{3} |a_n - a| \leq |a_{n+1} - \frac{2}{3} a_n - \frac{5}{3} a| < \epsilon$. Therefore, we get $|a_{n+1} - a| < \epsilon + \frac{2}{3} |a_n - a|$. Using induction, we get:
+\begin{eqnarray}
+|a_{n_0+k} - a| &\leq&  \left( \frac{2}{3} \right)^k |a_{n_0} - a| + \left( \left( \frac{2}{3} \right)^{k-1} + \ldots + \frac{2}{3} + 1 \right) \epsilon \\
+& \leq & \left( \frac{2}{3} \right)^k |a_{n_0} - a| + \frac{1 - (\frac{2}{3} )^k}{1 - \frac{2}{3}} \epsilon \\
+&<& \left( \frac{2}{3} \right)^k |a_{n_0} - a| + 3 \epsilon
+\end{eqnarray}  
+
+Thus, we see that $|a_n - a| < \epsilon$ for $n > N$. This shows that $\{ a_n \} \to a$ as $n \to \infty$. 
+\end{proof}
+
+\section{Problem 14}
+
+\begin{thm}
+Calculate $\lim_{n \to \infty} (\sqrt[n]{n} - 1)^n$. 
+\end{thm}
+
+\begin{proof}
+First, note that for $n \geq 3$, the sequence $\{ a_n \}$ for $ a_n = \sqrt[n]{n} - 1$ is monotonically decreasing. Indeed, we see that $a_{n+1} - a_n = \sqrt[n+1]{n+1} - \sqrt[n]{n}$, and we know that $f(x) = x^{1/x}$ has a derivative of $f'(x) = -x^{1/x-2}( \ln(x) - 1)$. Since $f'(x) < 0$ when $\ln(x) - 1 > 0$, we see that $f'(x)<0$ when $x > e$. Therefore, we know that $f(x_1) - f(x_2) < 0$ when $e < x_2 < x_1$. It follows that $\{ a_n \}$ is monotonically decreasing for $n \geq 3$. 
+
+Next, we know that $\sqrt[n]{n} - 1 < 1/2$ for $n \geq 3$ because $3^{1/3} - 1 < \frac{1}{2}$ and $\sqrt[n]{n} - 1$ is monotonically decreasing. Therefore we see that $\lim_{n \to \infty} (\sqrt[n]{n} - 1)^n < \lim_{n \to \infty} (1/2)^n = 0$. Since $\sqrt[n]{n} \to 1$ as $ n \to \infty$, we see that 0 is also a lower bound for this expression. By the squeeze law, we see that $\lim_{n \to \infty} (\sqrt[n]{n} - 1)^n = 0$. 
+\end{proof}
+
+\section{Problem 15}
+
+\begin{thm}
+Study the convergence of $a_1 = a, a_n = 1 + b a_{n-1}$ for $n \geq 2$. 
+\end{thm}
+
+\begin{proof}
+We see that $a_2 = 1 + ba, a_3 = 1 + b + b^2 a$, and that by induction, $a_n = 1 + b + \ldots + b^{n-1} a$. Therefore, we see that $a_n = b^{n-1} a + \sum_{i = 0}^{n-2} b^i$. This allows us to compute the following expression, using the formula for computing geometric sums:
+\begin{eqnarray}
+a_{n+1} = \left\{ \begin{array}{l l}
+\frac{1}{1-b} + b^n ( a - \frac{1}{1-b}) & b \neq 1 \\
+n+a & b = 1 \end{array} \right.
+\end{eqnarray}
+
+Therefore, we see that if $b = 1$, $\{ a_n \}$ does not converge. If $ b \neq 1$ and $a = \frac{1}{1-b}$, the sequence converges to $\frac{1}{1-b}$. If $|b| < 1$, then the sequence converges to $\frac{1}{1-b}$. Otherwise, the sequence diverges.
+\end{proof}
+
+\section{Problem 16}
+
+\begin{thm}
+If $a_1, \ldots, a_n$ are positive real numbers such that $a_1 a_2 \ldots a_n = 1$, then $a_1 + a_2 + \ldots + a_n \geq n$. 
+\end{thm}
+
+\begin{proof}
+First, if $a_1, \ldots, a_n = 1$, then the inequality is trivial. So we can suppose that some $a_j < 1$, which also means that another $a_k > 1$. We can then reorder the numbers so that $a_1 < a_2 < \ldots < a_n$, with $a_1 < 1 < a_n$. We will prove the proposition using induction, starting with the trivial base case of $n = 1$, so that $a_1 = 1$. The inequality holds in this case, so we can suppose that it holds up to $n$. This means that if $a_1 \ldots a_n = 1$, then $a_1 + \ldots + a_n \geq 1$ by assumption. Since $a_1 < 1$ and $a_{n+1} > 1$, we see that $a_1 < a_1 a_{n+1}$, so we can rearrange our assumption to get $a_2 + \ldots a_n + a_1 a_{n+1} \geq n$. Adding $a_1, a_{n+1}$ to both sides and moving $a_1 a_{n+1}$ to the right side of the inequality, we obtain $a_1 + \ldots a_{n+1} \geq n - a_1 a_{n+1} + a_1 + a_{n+1}$. This becomes:
+\begin{eqnarray}
+a_1 + \ldots a_{n+1} &\geq& n  + a_1 - a_{n+1} (a_1 - 1) \\
+&=& n + a_1 -1 - a_{n+1} ( a_1 - 1) + 1 \\
+&=& n + 1 + (1 - a_{n+1})(a_1 - 1) \\
+&\geq& n + 1
+\end{eqnarray}
+
+Where the last inequality comes from the fact that $a_{n+1} > 1$ and $a_1 < 1$, so that $(1-a_{n+1})(a_1 - 1) > 0$. This completes the proof by induction.
+\end{proof}
+
+\section{Problem 17}
+
+\begin{thm}
+Let $A_n = \frac{a_1 + \ldots + a_n}{n}, G_n = \sqrt[n]{a_1 \ldots a_n }, H_n = \frac{n}{\frac{1}{a_1} + \ldots + \frac{1}{a_n}}$ be the arithmetic, geometric, and harmonic means respectively for $n$ real positive numbers $a_1, \ldots, a_n$. Prove that $A_n \geq G_n \geq H_n$. 
+\end{thm}
+
+\begin{proof}
+First, we will use Jensen's inequality for concave functions, in this case logarithms. We have:
+\begin{eqnarray}
+\ln \left(\frac{a_1 + \ldots + a_n}{n} \right) &\geq& \frac{\ln \left( a_1 \right) + \ldots + \ln \left( a_n \right)}{n} \\
+&=& \frac{\ln (a_1 \ldots a_n)}{n} \\
+&=& \ln \sqrt[n]{a_1 \ldots a_n} 
+\end{eqnarray}
+
+Since $\ln(x)$ is an increasing function that preserves ordering, we see that $A_n \geq G_n$. We can then us what we have just derived and place $1/a_j$ into the inequality for $A_n \geq G_n$ to obtain:
+\begin{eqnarray}
+\frac{\frac{1}{a_1} + \ldots + \frac{1}{a_n}}{n} &\geq& \sqrt[n]{\frac{1}{a_1 \ldots a_n}} \\
+\sqrt[n]{a_1 \ldots a_n} &\geq& \frac{n}{\frac{1}{a_1} + \ldots + \frac{1}{a_n}}
+\end{eqnarray} 
+
+This gives $A_n \geq G_n \geq H_n$.
+\end{proof}
+
+\section{Problem 18}
+
+\begin{thm}
+Calculate $\lim_{n \to \infty} \sum_{k=1}^n \sqrt{1+ \frac{k}{n^2}} - 1$. 
+\end{thm}
+
+\begin{proof}
+First, we will set $a_1 = 1+ x$ and $a_2 = 1$ and use the arithmetic-geometric-harmonic inequality derived above. Thus, we have $\frac{2}{\frac{1}{1+x} + 1} \leq \sqrt{1+x} \leq \frac{2+ x}{2}$. We can split these into the following:
+\begin{eqnarray}
+\frac{2}{\frac{1}{1+x} + 1} &=& \frac{2(1+x)}{2+x} = \frac{x}{2+x} + \frac{1+x}{1+x} = 1 + \frac{x}{2+x} \\
+\frac{2+x}{2} &=& 1+ \frac{x}{2} 
+\end{eqnarray}
+
+Thus, by subtracting 1 from each part of the inequality, we can obtain the following bounds for $x \geq 0$:
+\begin{eqnarray}
+\frac{x}{2+x} \leq \sqrt{1 + x} - 1 \leq \frac{x}{2}
+\end{eqnarray}
+
+We can set $x = \frac{k}{n^2}$ and substitute it into the expression because $1 \leq k \leq n$ and $n \in \mathbb{N}$ so that $\frac{k}{n^2} >0$. Moreover, since sums and limits preserve ordering, we obtain:
+\begin{eqnarray}
+\lim_{n \to \infty} \sum_{k=1}^n \frac{k}{2 n^2 + k} \leq  \lim_{n \to \infty} \sum_{k=1}^n  \sqrt{1 + \frac{k}{n^2}} - 1 \leq \lim_{n \to \infty} \sum_{k=1}^n  \frac{k}{2n^2} 
+\end{eqnarray}
+
+Therefore, we can evaluate the upper and lower bounds on our expression. First, we will get another lower bound, because $k \leq n$:
+\begin{eqnarray}
+\lim_{n \to \infty} \sum_{k=1}^n \frac{k}{2n^2 + k} &\leq& \lim_{n \to \infty} \sum_{k=1}^n \frac{k}{2n^2 + n} \\
+&=& \lim_{n \to \infty} \frac{1}{2n (n+1)} \sum_{k=1}^n k \\
+&=& \lim_{n \to \infty} \frac{1}{2n (n+1)} \frac{n(n+1)}{2} \\
+&=& \lim_{n \to \infty} \frac{1}{4} = \frac{1}{4}
+\end{eqnarray}
+
+Now, we can go ahead and find the upper bound as well:
+\begin{eqnarray}
+\lim_{n \to \infty} \sum_{k=1}^n \frac{k}{2n^2} &=& \lim_{n \to \infty} \frac{1}{2n^2} \sum_{k=1}^n k \\
+&=& \lim_{n \to \infty} \frac{1}{2n^2} \frac{n(n+1)}{2} \\
+&=& \lim_{n \to \infty} \frac{n^2 + n}{4 n^2} = \frac{1}{4} 
+\end{eqnarray}
+
+Now, we see that by squeeze law that we must have $\lim_{n \to \infty} \sum_{k=1}^n \sqrt[n]{1 + \frac{k}{n^2}} - 1 = \frac{1}{4}$ . 
+\end{proof}
+
+\section{Problem 19}
+
+\begin{thm}
+Given real $x \geq 1$ show that $\lim_{n \to \infty} (2 \sqrt[n]{x} - 1)^n = x^2$. 
+\end{thm}
+
+\begin{proof}
+First, we can find an upper found for the limit because $0 \leq ( \sqrt[n]{x} - 1)^2 = \sqrt[n]{x^2} - 2 \sqrt[n]{x} + 1$. This implies that $2 \sqrt[n]{x} - 1 \leq \sqrt[n]{x^2}$. Moreover, since limit preserves ordering, we see that $\lim_{n \to \infty} (2 \sqrt[n]{x} -1)^n \leq \lim_{n \to \infty} (\sqrt[n]{x^2})^n = \lim_{n \to \infty} x^2 = x^2$. Thus, we have found an upper bound for the limit and must proceed to find a lower bound. We note the following:
+\begin{eqnarray}
+\left( 2 \sqrt[n]{x} - 1 \right)^n &=& \left( \sqrt[n]{x^2} \left( \frac{2}{\sqrt[n]{x}} - \frac{1}{\sqrt[n]{x^2}} \right) \right)^n \\
+&=& x^2 \left(  \frac{2}{\sqrt[n]{x}} - \frac{1}{\sqrt[n]{x^2}} + 1 - 1 \right)^n \\
+&=& x^2 \left( 1 + \frac{2 \sqrt[n]{x} - 1 - \sqrt[n]{x^2}}{\sqrt[n]{x^2}} \right)^n \\
+&=& x^2 \left( 1 - \frac{(\sqrt[n]{x} - 1)^2}{\sqrt[n]{x^2}} \right)^n
+\end{eqnarray}
+
+We know $x = (\sqrt[n]{x} + 1 - 1)^n$. So we can use the Bernoulli inequality to obtain $x = (1 + (\sqrt[n]{x} -1))^n \geq 1 + n ( \sqrt[n]{x} - 1 ) \geq n (\sqrt[n]{x} - 1)$. Rearranging, we see that $\frac{x}{n} \geq \sqrt[n]{x} - 1$, so that $\frac{x^2}{n^2} \geq (\sqrt[n]{x} - 1)^2$. Combining this with equation 19.5, and using the Bernoulli inequality, we see the following:
+\begin{eqnarray}
+\lim_{n \to \infty} (2 \sqrt[n]{x} - 1)^n &\geq& \lim_{n \to \infty} x^2 \left( 1 - n \frac{x^2}{n^2 \sqrt[n]{x^2}} \right) \\
+&=& \lim_{n \to \infty} x^2 \left(1 - \frac{x^2}{n \sqrt[n]{x^2}} \right) = x^2
+\end{eqnarray} 
+
+Thus, we see that our limit is bounded from above and below by $x^2$, so that $\lim_{n \to \infty} (2 \sqrt[n]{x} - 1)^n = x^2$. 
+\end{proof}
+
+\section{Problem 20}
+
+\begin{thm}
+Find $\sum_{n=1}^\infty \frac{2n+1}{n^2 (n+1)^2}$.
+\end{thm}
+
+\begin{proof}
+Rewriting this expression and noticing that it is a telescoping sum, we obtain:
+\begin{eqnarray}
+\sum_{n=1}^\infty \frac{2n+1}{n^2 (n+1)^2} &=& \sum_{n=1}^\infty \frac{1}{n^2} - \frac{1}{(n+1)^2} \\
+&=& \lim_{n \to \infty} 1 - \frac{1}{(n+1)^2} = 1
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 21}
+
+\begin{thm}
+Find $\sum_{n=1}^\infty \frac{n}{(2n-1)^2(2n+1)^2}$.
+\end{thm}
+
+\begin{proof}
+Again, we will rewrite the expression and notice that it is a telescoping sum. This yields:
+\begin{eqnarray}
+\sum_{n=1}^\infty \frac{n}{(2n-1)^2 (2n+1)^2 } &=& \sum_{n=1}^\infty \frac{1}{8} \left( \frac{1}{(2n+1)^2} - \frac{1}{(2n-1)^2} \right) \\
+&=& \lim_{n \to \infty} \frac{1}{8} \left( 1 + \frac{1}{(2n+1)^2} \right) = \frac{1}{8}
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 22}
+
+\begin{thm}
+Show that a nonempty open subset of $(-1,1)$ can be written as an at most countable union of open intervals $(a_n,b_n)$ where $(a_n,b_n) \cap (a_k,b_k) = \empty$ if $k \neq n$.
+\end{thm}
+
+\begin{proof}
+Let $O$ be the nonempty open subset of $(-1,1)$. Note that the set of rationals is countable, so that $q \in \mathbb{Q} \cap O$ is at most countable. Next, we can let $O_q = \bigcup (a,b)$ for each rational $q$ in $O$. Each $O_q$ is open because it is the union of open sets and nonempty because it is the union of open intervals in $\mathbb{R}$. Now, we can take $a(q) = \inf O_q$ and $b(q) = \sup O_q$. We will show that $O_q = (a(q), b(q))$. For a fixed $\epsilon > 0$, we see that there exists an $a < a(q) + \epsilon$, so that $(a,q] \subset O_q$. Next, we see that there exists a $b > b(q) - \epsilon$ such that $[q,b) \subset O_q$. This shows that $O_q = (a(q),b(q))$. Next, if $q' \in O_q \cap \mathbb{Q}$, then we see that $O_{q'} = O_q$. This is because if $O_q$ contains $q'$ so that $O_q \subset O_{q'}$, but also that $O_{q'}$ contains $q$ so that $O_{q'} \subset O_q$, which implies that $O_{q'} = O_q$. Therefore, we can take all $q \in \mathbb{Q} \cap O$ and enumerate them, dropping the repeated intervals. This assures that any $x \in O$ will be in some $(a_n,b_n)$. 
+\end{proof}
+
+\section{Problem 23}
+
+\begin{thm}
+Let $\sum_{n} a_n$ be a convergent series of positive terms. What can be said about the convergence of $\sum_{n} \frac{a_1 + \ldots a_n}{n}$?
+\end{thm}
+
+\begin{proof}
+The sum is not convergence because $a_1$ is positive and $\frac{a_1}{n} < \frac{a_1 + \ldots + a_n}{n}$. This shows the following:
+\begin{eqnarray}
+\sum_{n=1}^\infty \frac{a_1 + \ldots + a_n}{n} > \sum_{n=1}^\infty \frac{a_1}{n} 
+\end{eqnarray}
+Since the last last term diverges, we see that the sum diverges as well by comparison test.
+\end{proof}
+
+\section{Problem 24}
+
+\begin{thm}
+Let $K \in \mathbb{R}^2$ be a closed and bounded set and let $f:[0,1]\times K \to \mathbb{C}$ be a continuous function on this subset of $\mathbb{R}^3$ (all with respect to the Euclidean metric). Show that the set of functions $\{g_s \}_{s \in [0,1]}$ where $g_s(x) = f(s,x)$ is equicontinuous on $K$. 
+\end{thm}
+
+\begin{proof}
+First, we note that $[0,1]$ is compact because it is closed, bounded, and hence compact by Heine Borel. Next, we see that $K \subset \mathbb{R}^2$ is also compact because it is closed and bounded. Since the cartesian product of two compact sets is also compact by a theorem in Rudin, we see that $[0,1] \times K$ is compact. Since $f$ is a continuous function on a compact set, we see that it is uniformly continuous. This means that for $\epsilon > 0$, there exists $\delta > 0$ such that for all $s_1,s_2 \in [0,1]$ and $x,y \in K$, we have $|| f(s_1,x) - f(s_2,y) || < \epsilon$ for $\sqrt{| s_1 - s_2 |^2 + |x - y|^2} < \delta$. Therefore, we see that this same $\delta > 0$ suffices to show that for all $s \in [0,1]$ and all $x,y \in K$, we have $|g_s (x) - g_x(y)| < \epsilon$ for $|x - y| < \delta$, which proves equicontinuity.
+\end{proof}
+
+\section{Problem 25}
+
+\begin{thm}
+Show that in any metric space, the closure of a connected set is connected. 
+\end{thm}
+
+\begin{proof}
+Let $E$ be a connected set and $\bar{E}$ be its closure. Suppose the contrary, so that $\bar{E}$ is separated and that $\bar{E} = C \cup D$ such that $\bar{C} \cap D = C \cap \bar{D} = \emptyset$ and $C,D$ are nonempty. Now, let $E'$ be the set of limit points of $E$. We see that $E = A \cup B$, where $A = C \cap E'$ and $B = D \cap E'$. However, since $A \subset C$ and $B \subset D$, we see that $\bar{A} \cap B = A \cap \bar{B} = \emptyset$. Moreover, we see that $A$ is nonempty, because if it were empty, then $A = C \cap E' = \emptyset$, which implies that $C \cap \bar{E} = \emptyset$, which would imply that $\bar{E} = D$ and $C = \emptyset$, which is a contradiction of our assumptions. By the same logic, $B$ is nonempty, so that we have shown a contradiction because $\bar{A} \cap B = A \cap \bar{B} = \emptyset$ implies that $E$ is separated.
+\end{proof}
+
+\section{Problem 26}
+
+\begin{thm}
+If $f:[0,2] \to \mathbb{R}$ is continuous, state a theorem which shows that $F(x) = \int_0^x f(s) ds$ is differentiable on $[0,2]$ (or prove it directly) and show that there exists $c \in (0,2)$ such that $\int_0^2 f(x) dx = 2 f(c)$. 
+\end{thm}
+
+\begin{proof}
+First, we state the fundamental theorem of calculus, which says that for every function $f \in \mathscr{R([a,b])}$, the integral $F(x) = \int_a^b f(s) ds$ exists and has a derivative at every continuous point of $f$ which is equal to $F'(x) = f(x)$. Next, we can use the above statement and the mean value theorem to show:
+\begin{eqnarray}
+F(2) - F(0) = F'(c) (2 - 0) \hspace{0.5cm} \Rightarrow \hspace{0.5cm} F(2) = \int_0^2 f(s) ds= 2 f(c)
+\end{eqnarray} 
+
+This shows that $\int_0^2 f(x) dx = 2 f(c)$ for some $c \in (0,2)$. 
+\end{proof}
+
+\section{Problem 27}
+
+\begin{thm}
+Let $f: \mathbb{R} \to \mathbb{R}$ be twice differentiable and suppose that $0$ is a local minimum of $f$, i.e. for some $\epsilon > 0$ $f(x) \geq f(0)$ for all $x \in (-\epsilon, \epsilon)$. Show that if $f''(0)>0$ then $0$ is a strict local minimum in the sense that there exists $\epsilon > 0$ such that $f(x) \geq f(0)$ for $0 \neq x \in (-\epsilon, \epsilon)$. 
+\end{thm}
+
+\begin{proof}
+Since $0$ is a local minimum we know that $f'(0) = 0$ by a theorem in Rudin. Fix $\epsilon > 0$ such that $f(x) \geq f(0)$ for all $x \in (-\epsilon, \epsilon)$. We know that by definition $f''(0) = \lim_{t \to 0} \frac{f'(t) - f'(0)}{t} = \lim_{t \to 0} \frac{f'(t)}{t}$. Since we have assumed that $f''(0) > 0$, we see that $\lim_{t \to 0} \frac{f'(t)}{t} > 0$, which means in particular that $f'(t) > 0$ for $\epsilon > t > 0$ and $f'(t) < 0$ for $-\epsilon < t < 0$. Using the Mean Value Theorem, we obtain the following:
+\begin{eqnarray}
+f(t)- f(0) = f'(c) t
+\end{eqnarray}
+For $0 < c < t$. Thus, we see that for $0 < t < \epsilon$ that $f'(c)t > 0$ and that $f(t) > f(0)$. Also, for $-\epsilon < t < 0$, we have $f'(c)t > 0$ and $f(t) > f(0)$. Thus for al $t \in (-\epsilon, \epsilon)$, we see that $f(t) \geq f(0)$, with equality when $t = 0$. 
+\end{proof}
+
+\section{Problem 28}
+
+\begin{thm}
+Let $g_n: [0,1] \to \mathbb{R}$ be a sequence of differentiable functions such that the sequence $g'_n: [0,1] \to \mathbb{R}$ is uniformly bounded. Show that there is a sequence of constants $c_n$ such that the sequence of functions $h_n(x) = g_n(x) - c_n$ has a uniformly convergent subsequence on $[0,1]$. Also, show that if $\int_0^1 g_n dx$ is a bounded sequence in $\mathbb{R}$, then $g_n$ has a uniformly convergent subsequence.
+\end{thm}
+
+\begin{proof}
+First, let $c_n = g_n(0)$. This shows that $h_n(0) = 0$ and that $h_n'(x) = g_n'(x)$. Also, note that $[0,1]$ is closed and bounded, hence compact. We want to use Arzela-Ascoli, so we must show that $h_n$ is pointwise bounded and equicontinuous. First, we will show that it is equicontinuous. Note that $\{ g_n \}$ is uniformly continuous because it is continuous on a compact set. Moreover, $c_n$ is uniformly continuous because it is a constant. Thus, each $h_n$ is uniformly continuous. This implies, that for a fixed $\epsilon > 0$, that there exists as $\delta > 0$ for every $x,y \in [0,1]$ and for every $n \in \mathbb{N}$ such that $|h_n(x) - h_n(y) | < \epsilon$ implies that $|x - y| < \delta$. Since $g'_n(x)$ is uniformly bounded, we know that there exists an $N > 0$ such that for all $n \in \mathbb{N}$ and $x \in [0,1]$, we have $|g'_n(x) | < N$. By Mean Value Theorem, we thus have for $x < c <y$:
+\begin{eqnarray}
+h_n(x) - h_n(y) &=& h'_n(c) (x - y)\\
+|h_n(x) - h_n(y)| &<& N (x - y)
+\end{eqnarray}
+
+We can therefore choose $\delta < \epsilon/N$ so that for all $x,y \in [0,1]$ and for all $n \in \mathbb{N}$, $|x - y| < \delta$ implies $|h_n(x) - h_n(y) < N \delta < \epsilon$. This is the definition of equicontinuity, so $h_n(x)$ is therefore equicontinuous. 
+
+Next, it is easy to see that $h_n(x)$ is uniformly bounded because by Mean Value Theorem we have $h_n(x) - h_n(0) = h'_n(c) x$ for all $x \in [0,1]$ and $c$ between 0 and $x$. Therefore, since $h_n(0) = 0$ and $|h'_n(c)| = |g'_n(x) |< N$, we have $|h_n(x)| < N x < N$ because $x \in [0,1]$. Therefore, we see that $h_n(x)$ is uniformly bounded and that we can apply Arzela Ascoli, which says that $h_n$ has a uniformly convergent subsequence. 
+
+New we must show that if $\int_0^1 g_n dx$ is a bounded sequence in $\mathbb{R}$, then $g_n$ has a uniformly convergent subsequence. First, we let $h_n(x) = g_n(x) - c_n$ as before, where $c_n = g_n(0)$. Then, we see that $\int_0^1 h_n(x) dx$ is bounded because $\int_0^1 g_n dx$ is bounded and so is the integral of a constant. Moreover, we know that $h_n(x)$ has a uniformly convergent subsequence, so its integral also must have a uniformly convergent subsequence, call it $\{ h_{n_i} \}$, by a theorem in Rudin. Next, we have shown that $\int_0^1 h_n dx$ is bounded so that $\int_0^1 c_n dx$ must also be bounded on a compact set, which implies that it has a convergent subsequence. Therefore, $g_n$ also has a convergent subsequence $g_{n_i}$ because it is just given by $h_{n_i} + c_{n_i}$.  
+\end{proof}
+
+\section{Problem 29}
+
+\begin{thm}
+Show that the series of functions $\sum_{n=1}^\infty \frac{x^n \sin(nx)}{n^3 + n^2 + 1}$ converges uniformly on $[-1,1]$ and defines a continuously differentiable function on $[-1,1]$.
+\end{thm}
+
+\begin{proof}
+First, we note that $|\sin(nx)| \leq 1$ and that $|x^n | \leq 1$ because $x \in [-1,1]$. Therefore, we have $\sum \left| \frac{x^n \sin(nx)}{n^3 + n^2 + 1} \right| \leq \sum \frac{1}{n^3 + n^2 +1} \leq \sum \frac{1}{n^3}$. Since we know the final sum converges by geometric series with $p = 3$, we see that our series is absolutely convergent and hence uniformly convergent by the Weierstrass M test.  
+
+Next, we can differentiate each of the terms of the series and find the following:
+\begin{eqnarray}
+\sum_{n=1}^\infty \left| \frac{ n x^{n-1} \sin(nx) + n x^n \cos(nx)}{n^3 + n^2 + 1} \right| \leq \sum_{n=1}^\infty \left| \frac{2n}{n^3} \right| \leq \sum_{n=1}^\infty \left| \frac{2}{n^2} \right|
+\end{eqnarray}
+
+Because $|\sin(nx)| \leq 1$ and $| \cos(nx) | \leq 1$. Therefore, we see that the series of the derivatives are absolutely convergent, which implies uniform convergence by the Weierstrass M test. This means that our series is differentiable and has a derivative given by the term by term derivatives of the series, by a theorem in Rudin. Moreover, since each of these terms are continuous, we see that the derivative of our series is the limit of a uniformly convergent series of continuous functions, and hence it is continuous. This implies that the series is continuously differentiable.
+\end{proof}
+
+\section{Problem 30} 
+
+\begin{thm}
+Explain why the Riemann-Stieltjes integral $\int_{-1}^1 x^2 \exp(x^3) d\alpha$ exists for any increasing function $\alpha: [-1,1] \to \mathbb{R}$. Evaluate the integral when $\alpha = x$ for $x < 0$ and $\alpha = x+1$ for $x \geq 0$. 
+\end{thm}
+
+\begin{proof}
+First, we see that $x^2$ and $x^3$ are polynomials, which are continuous, and that $f(x) = e^x$ is continuous. Therefore, the composition of these functions $x^2 f(x^3)$ is also continuous by a theorem in Rudin. Since $x^2 \exp(x^3)$ is continuous, it is Riemann-Stieltjes integrable for any increasing function $\alpha: [-1,1] \to \mathbb{R}$. Next, we know that $\int_{-1}^1 x^2 \exp ( x^3 ) d \alpha = \int_{-1}^1 x^2 \alpha ' (x) dx = \int_{-1}^1 x^2 \exp(x^3) dx = \int_{-1}^1 \frac{1}{3} e^u du = \frac{1}{3} ( e - e^{-1})$. 
+\end{proof}
+
+\section{Problem 31}
+
+\begin{thm}
+Let $f: X \to \mathbb{R}$ be a continuous function on a compact metric space, $ X$. If $\{ x_n \}$ is a sequence in $X$, show that $\{ f(x_n) \}$ has a convergent subsequence with a limit in $f(X)$. 
+\end{thm}
+
+\begin{proof}
+First, since $\{ x_n \}$ is a sequence, we know that $\{ f(x_n) \}$ is also a sequence in $f(X)$. Moreover, since $f$ is continuous and $X$ is compact, and we know that the image of a compact space by a continuous function is compact, we see that $f(X)$ is compact. Therefore, the sequence $\{ f(x_n ) \}$ is a sequence in a compact metric space $f(X)$, which shows that it has a convergent subsequence by a theorem in Rudin.
+\end{proof}
+
+\section{Problem 32}
+
+\begin{thm}
+If $a_n > 0, n \in \mathbb{N}$ is a sequence of real numbers such that $b_N = \sum_{n=1}^N a_n$ is bounded, show that $\sum_{n} a_n^{1/2} a_{n+1}^{1/2}$ converges.
+\end{thm}
+
+\begin{proof}
+We know that $(\sqrt{a_n} + \sqrt{a_{n+1}})^2 = a_n + 2 \sqrt{a_n} \sqrt{a_{n+1}} + a_{n+1}$. Rearranging, we see that $\sqrt{a_n a_{n+1}} = \frac{1}{2} ( (\sqrt{a_n} + \sqrt{a_{n+1}})^2 - a_n - a_{n+1})$. We therefore have $\sum_{n} \sqrt{a_n a_{n+1}} = \sum_{n} \frac{1}{2} ( (\sqrt{a_n} + \sqrt{a_{n+1}})^2 - a_n - a_{n+1})$. Now take the largest value $a_n$ or $a_{n+1}$ for each index. Then we have $\sum_{n} \frac{1}{2} ( (\sqrt{a_n} + \sqrt{a_{n+1}})^2 - a_n - a_{n+1}) \leq \sum_{n} \max \{ \frac{1}{2} ((2 \sqrt{a_n})^2  - a_n - a_{n+1}), \frac{1}{2} ((2 \sqrt{a_{n+1}})^2 - a_n - a_{n+1}) \} = \sum_{n} \max \{ \frac{1}{2} (3 a_n - a_{n+1}), \frac{1}{2} (3 a_{n+1} - a_n)\}$. Since we know that $b_N$ is bounded and monotonically increasing ($a_n > 0$), we see that $b_N$ converges. Therefore, we see that $\sum_n a_n$ and $\sum_n a_{n+1}$ both converge, and therefore, we see that $\sum_{n} \max \{ \frac{1}{2} (3 a_n - a_{n+!}), \frac{1}{2} ( 3 a_{n+1} - a_n ) \}$ converges as well. Therefore, we see that our series converges by comparison test. 
+\end{proof}
+
+\section{Problem 33}
+
+\begin{thm}
+Let $\{ f_n \}$ be a sequence of continuous real-valued functions on a metric space $X$ such that $\{ f_n \}$ converges uniformly to some function $f$ on every compact subset of $X$. Show that $f$ is a continuous function.
+\end{thm}
+
+\begin{proof}
+Since $\{ f_n \}$ is continuous and uniformly convergent on a compact subset $K \subset X$, we know by a theorem in Rudin that $\{ f_n \}$ is equicontinuous. This implies that for a fixed $\epsilon > 0$, that there exists a $\delta > 0$ such that for all $x,y \in K$ and $n \in \mathbb{N}$, $ |f_n(x) - f_n(y) | < \epsilon$ if $|x - y| < \delta$. Moreover, since $\{ f_n \}$ converges uniformly, say to some function $f$, we know that there exists an $N_1 > 0$ such that for all $x \in K$, we have $| f_n(x) - f(x) | < \epsilon$. Also, we know that there exists an $N_2 > 0$ such that for all $n,m > N$ and for all $x \in K$, $|f_n(x) - f_m(x) | < \epsilon$ by the Cauchy criterion. Therefore, we can select $N = \max \{ N_1, N_2 \}$ so that $n > N$ has the following:
+\begin{eqnarray}
+|f(x) - f(y)| &\leq& |f(x) - f_n(x)| + |f_n(x) - f_n(y)| + |f_n(y) - f_m(y)| + |f_m(y) - f(y)| < 4 \epsilon
+\end{eqnarray}
+
+The first and last terms, $|f(x) - f_n(x)| < \epsilon$ and $|f_m(y) - f(y)| < \epsilon$, are true because of uniform convergence. The second term $|f_n(x) - f_n(y)| < \epsilon$ is true because of equicontinuity. Finally, $|f_n(y) - f_m(y)| < \epsilon$ is true because of the Cauchy criterion for uniform convergence. Therefore, we see that $f$ is continuous.
+\end{proof}
+
+\section{Problem 34}
+
+\begin{thm}
+Let $\{ f_n \}$ and $\{ g_n \}$ be two uniformly bounded sequences of real-valued functions on a set $X$. If both $\{ f_n \}$ and $\{ g_n \}$ are uniformly convergent on $X$, show that $\{ f_n g_n \}$ also converges uniformly on $X$.
+\end{thm}
+
+\begin{proof}
+Since $\{ f_n \}$ and $\{ g_n \}$ are uniformly bounded, then for fixed $\epsilon > 0$, there exists $N_1, N_2 > 0$ such that for all $x \in X$ and for all $n \in \mathbb{N}$, we have $|f_n(x)| < N_1$ and $|g_n(x)| < N_2$. Therefore, we can take $N = \max \{N_1, N_2 \}$. Next, we know by uniform convergence that there exists $M_1, M_2 >0$ such that for all $n,m > M_1$ and for all $x \in X$, we have $|f_n(x) - f_m(x)| < \epsilon$ and for all $n,m > M_2$ and $x \in X$ we have $|g_n(x) - g_m(x)| < \epsilon$. Therefore, we can set $M = \max \{M_1, M_2 \}$, and for $n,m > M$, we have the following:
+\begin{eqnarray}
+|f_n(x) g_n(x) - f_m(x) g_m(x) | &\leq& |f_n(x) g_n(x) - f_n(x) g_m(x)| + |f_n(x) g_m(x) - f_m(x) g_m(x)| \\
+&=& |f_n(x)| |g_n(x) - g_m(x)| + |g_m(x)| |f_n(x) - f_m(x) | \\
+&<& 2 N \epsilon
+\end{eqnarray}
+
+Therefore, since $\epsilon > 0$ was arbitrary and $N$ is a constant, we see that $\{ f_n g_n \}$ converges uniformly by the Cauchy criterion.
+\end{proof}
+
+\section{Problem 35}
+
+\begin{thm}
+Let $E = \{0,1, 1/2, 1/3, 1/4, \ldots \}$ be the set of real numbers consisting of zero and the inverse of the positive integers. Prove that $E$ is compact directly from the definition (without using the Heine-Borel theorem). 
+\end{thm}
+
+\begin{proof}
+Let $\{U_{\alpha} \}$ be an open cover of $E$. We must show that $\{ G_{\alpha} \}$ has a finite subcover. One of these sets, call it $\alpha_0$ must contain 0. Moreover, the set contains a neighborhood of some radius $r$ about 0. Thus, choose $n$ large enough so that $\frac{1}{n} \leq r$, then all of the points $\{ 1/(n+1), 1/(n+2), \ldots \}$ are inside of the set $U_{\alpha_0}$. For each of the remaining $n$ points, choose an open set $U_{a_j}$ containing $1/j$. Thus, we see that $E$ is covered in by at most $n+1$ sets $U_{\alpha_0},U_{\alpha_1}, \ldots, U_{\alpha_{n+1}}$. 
+\end{proof}
+
+\section{Problem 36}
+
+\begin{thm}
+Let $X = \mathbb{R}$. Define a real-valued function on $\mathbb{R} \times \mathbb{R}$ by $d(x,y) = (x-y)^2$. Is $d$ a metric on $\mathbb{R}$?
+\end{thm}
+
+\begin{proof}
+We need to prove three things in order to show that $d$ is a metric, namely that the transitive property holds, the triangle inequality holds, and that it is nonnegative. First, we see that it is clearly non-negative, and that the transitive property holds because $|x - y| = |y - x|$ so that $(x-y)^2 = (y - x)^2$. However, we see that $(x-y)^2 = x^2 - 2xy + y^2$ and $(x-h)^2 + (h-y)^2 = x^2 - 2xh + h^2 + h^2 - 2hy + y^2 = x^2 + y^2 - 2h(x + y) + 2h^2$. In order for $d$ to be a metric, we must have $-2xy \leq -2h(x+y) + 2h^2$ which implies $2xy \geq 2h(x+y) - 2h^2$. If  we set $x = -1, y =2, h= 1$, $2xy = -4$ and $2h(x+y) - 2h^2 = 0$, which means $2xy \leq 2h(x+y)$ so that $d$ is not a metric. 
+\end{proof}
+
+\section{Problem 37}
+
+\begin{thm}
+Recall that the length of a vector $v \in \mathbb{R}^n$ can be defined in terms of the inner product by $|| v || = (v \cdot v)^{1/2}$. The Cauchy-Schwartz inequality says that if $x$ and $y$ are vectors in $\mathbb{R}^n$, then $|x \cdot y| \leq ||x || ||y||$. Using this fact, prove the triangle inequality $||u + v || \leq ||u || + || v ||$. 
+\end{thm}
+
+\begin{proof} 
+It is enough to prove $|| u + v ||^2 \leq (||u|| + ||v||)^2 $ because both sides of the inequality are non-negative. We have the following: $(||u|| + ||v||)^2 = ||u||^2 + 2 ||u|| ||v|| + ||v||^2$. Since we know that $|u \cdot v| \leq ||u || ||v||$ by the Cauchy-Schwartz inequality. Therefore, we know that $( ||u|| + ||v||)^2 \geq ||u||^2 + 2 |u \cdot v| + ||v||^2 = |u \cdot u| + 2 |u \cdot v| + |v \cdot v| = | u + v| \cdot | u + v| = ||u + v||^2$. This shows that $|| u + v ||^2 \leq (||u|| + ||v||)^2$, which shows that $||u+v|| \leq ||u|| + ||v||$. 
+\end{proof}
+
+\section{Problem 38}
+
+\begin{thm}
+Give an example of a metric space $X$ and an open subset of $X$ having exactly three points.
+\end{thm}
+
+\begin{proof}
+Let $X$ have the following metric:
+\begin{eqnarray}
+d(x,y) = \left\{ \begin{array}{l l}
+0 & x \wedge y \in \{1,2,3 \} \\
+1 & x \vee y \notin \{1,2,3\}
+\end{array} \right.
+\end{eqnarray}
+
+We see that $d$ has all the properties of a metric, and moreover, that the set $\{1,2,3 \} \in X$ is an open set in $X$. Another example of this would be the space $K = \{ 1,2,3 \} \subset \mathbb{R}$. We see that $\{1,2,3\}$ is open in $K$ and consists of exactly three elements.
+\end{proof}
+
+\section{Problem 39}
+
+\begin{thm}
+Suppose $X$ is a metric space and $f: X \to X$ is a function from $X$ to $X$. We say that $f$ is a weak contraction if $d(f(x_1),f(x_2)) \leq d(x_1, x_2)$ for $x_1, x_2 \in X$. Prove that any weak contraction is continuous.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. We need to show that there exists a $\delta > 0$ such that $d(f(x_1), f(x_2)) < \epsilon$ if $d(x_1, x_2) < \delta$ for $x_1,x_2 \in X$. Since $f$ is a weak contraction, we see that $d(f(x_1), f(x_2)) \leq d(x_1,x_2)$ for $x_1,x_2 \in X$. Thus, we can pick $\delta < \epsilon$ so that $d(x_1,x_2) < \delta < \epsilon$, which would imply by the above inequality that $d(f(x_1),f(x_2)) < \epsilon$, which proves continuity.
+\end{proof}
+
+\section{Problem 40}
+
+\begin{thm}
+Suppose that $f: X \to X$ is any continuous function, and that $x_0 \in X$. Define a sequence $x_1, x_2, x_3, \ldots$ of points in $X$ by $x_{n+1} = f(x_n)$ for $n \geq 0$. Prove that if the sequence $\{ x_n \}$ converges to a limit point $x \in X$, then $f(x) = x$. 
+\end{thm}
+
+\begin{proof}
+We know that if $f$ is continuous in $X$, and $\{ z_n \} \to z$, then $\{ f(z_n ) \} \to f(z)$. Using this fact, we see that $\{ f(x_n) \} = \{ x_{n+1} \} \to x$, since $\{x_{n+1 } \}$ converges to $x$ by assumption. Therefore, $\{ f(x_n ) \} \to f(x)$ converges to the same limit as $\{ x_{n+1} \}$, which means that $f(x) = x$. 
+\end{proof} 
+
+\section{Problem 41}
+
+\begin{thm}
+We say that $f: X \to X$ is a strong contraction if there is a number $r < 1$ such that $d(f(x_1),f(x_2)) \leq r d(x_1,x_2)$ for $x_1, x_2 \in X$. Suppose that $f$ is a strong contraction and $x_0 \in X$. Define a sequence $x_1, x_2, x_3, \ldots$ of points in $X$ by $x_{n+1} = f(x_n)$ for $n \geq 0$. Finally define $A = d(x_0, f(x_0))$. Prove that $d(x_0,x_n) \leq A(1-r^n)/(1-r) \leq A/(1-r)$. 
+\end{thm}
+
+\begin{proof}
+First notice the following:
+\begin{eqnarray}
+d(x_1,x_2) &=& d(f(x_0), f(x_1)) = d(f(x_0), f( f(x_0))) \leq r d(x_0, f(x_0) = r A \\
+d(x_2,x_3) &=& d(f(f(x_0)), f(f(f(x_0)))) \leq r d(f(x_0), f(f(x_0))) \leq r (rA) = r^2 A \\
+&\vdots& \\
+d(x_n,x_{n+1}) &\leq& r^n A
+\end{eqnarray}
+
+Moreover, we know by triangle inequality that:
+\begin{eqnarray}
+d(x_0, x_n) &\leq& d(x_0,x_1) + d(x_1, x_2) + \ldots + d(x_{n-1}, x_n ) \\
+&\leq& A \sum_{i=1}^{n-1} r^i \\
+&=& A \left( \frac{1-r^n}{1-r} \right) 
+\end{eqnarray}
+
+Moreover, we know that $(1-r^n) \leq 1$, so that $d(x_0, x_n) \leq A(1-r^n)/(1-r) \leq A/(1-r)$. 
+\end{proof}
+
+\begin{thm}
+Prove that $d(x_m, x_{m+n}) \leq A r^m/(1-r)$. 
+\end{thm}
+
+\begin{proof}
+From the previous discussion and use of the triangle inequality, we see that:
+\begin{eqnarray}
+d(x_m, x_{m+n} ) &=& d(x_m, x_{m+1}) + \ldots + d(x_{m+n-1}, x_{m+n}) \\
+&\leq& d(f(x_{m-1},f(x_{m})) + \ldots + d(f(x_{m+n-2}),f(x_{m+n-1})) \\
+&\leq& r d(f(x_{m-2}),f(x_{m-1})) + \ldots + r d(f(x_{m+n-3}), f(x_{m+n-2})) \\
+&\vdots& \\
+&\leq & r^m A + r^m d(f(x_1), f(x_2)) + \ldots + r^m d(f(x_{n-1}),f(x_n)) \\
+&\vdots& \\
+&\leq& r^m A + r^{m+1} A + \ldots + r^{m+n-1} A \\
+&=& r^m A \sum_{i=1}^{n-1} r^i \\
+&=& r^m A \left( \frac{1 - r^n}{1-r} \right) \\
+&\leq& \frac{A r^m}{1-r}
+\end{eqnarray}
+\end{proof}
+
+\begin{thm}
+Prove that $\{ x_n \}$ is a Cauchy sequence. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. In order to show that $\{ x_n \}$ is a Cauchy sequence, we need to show that there exists an $N$ such that for $m,m+n > N$, $d(x_{m},x_{m+n}) < \epsilon$. Well, we know that $d(x_m, x_{m+n}) \leq A r^m/(1-r)$ by the last theorem. Therefore, we can pick $m$ such that $A r^m / (1-r) < \epsilon$, because $r <1$, which means that $r^m \to 0$. This shows that $\{ x_n \}$ is a Cauchy sequence .
+\end{proof}
+
+\begin{thm}
+Suppose that $X$ is a complete metric space. Prove that there is a point $x \in X$ such that $f(x) = x$. (Such an $x$ is called a fixed point.) 
+\end{thm}
+
+\begin{proof}
+Since $X$ is a complete metric space, we know that every Cauchy sequence converges. In particular, $\{ x_n \}$ converges to some point, call it $x$. Therefore, we know by the theorem proven in problem 40 that $f(x) = x$ if $f$ is continuous. However, since $f$ is a strong contraction, we see that we can pick a $\delta>0$ such that $\delta/r < \epsilon$. Since $d(x_1,x_2) < \delta$, we see that $d(f(x_1),f(x_2)) < r d(x_1,x_2) < r \epsilon/ r < \epsilon$, which proves continuity of $f$. Therefore, we have shown that $f(x) = x$ by problem 40. 
+\end{proof}
+
+\section{Problem 42}
+
+\begin{thm}
+Prove that if $x$ and $y$ are any real numbers, then $| \sin x - \sin y | \leq | x - y|$.
+\end{thm}
+
+\begin{proof}
+We know that $\frac{d}{dx} \sin x = \cos x$. Therefore, we see by Mean Value Theorem:
+\begin{eqnarray}
+\sin(x) - \sin(y) = \cos(c) (x - y)
+\end{eqnarray}
+
+For some $c \in (x,y)$ for $x,y \in \mathbb{R}$. Since $| \cos(c) | \leq 1$, we know that $|\sin(x) - \sin(y) | \leq |x - y|$, which proves the theorem. 
+\end{proof}
+
+\section{Problem 43}
+
+\begin{thm}
+If $f$ is a Riemann-integrable function on $[0,2\pi]$, recall that the $m$th Fourier coefficient of $f$ is by definition $c_m (f) = \frac{1}{2\pi} \int_0^{2\pi} f(x) e^{-i m x} dx$ for $m \in \mathbb{Z}$. Suppose that $f(x) = \exp( \exp(ix))$. Prove that there is a constant $A$ so that $|c_m(f)| \leq A/m^2$ for $m \neq 0$. 
+\end{thm}
+
+\begin{proof}
+Let us integrate by parts and set $u = f(x)$ and $dv = e^{-imx} dx$ so that $ du = f'(x) dx$ and $v = \frac{e^{-imx}}{-im}$. This gives:
+\begin{eqnarray}
+\frac{1}{2 \pi} \int_0^{2 \pi} f(x) e^{-imx} dx &=& \frac{1}{2 \pi} \left( f(x) \frac{ e^{-imx}}{-im} \right)_0^{2 \pi} - \frac{1}{2 \pi} \int_0^{2 \pi} \frac{f'(x) e^{-imx}}{-im} dx
+\end{eqnarray}
+
+Since $f$ is periodic, we see that $f( 2 \pi) = f(0)$, which means that the first term cancels. Repeating the same operation shows that one of terms in the integration by parts the second time also cancels. This gives:
+\begin{eqnarray}
+c_m (f) &=& \frac{1}{2\pi} \int_0^{2\pi} \frac{ f''(x) e^{-imx}}{-m^2} dx \\
+|c_m (f) | &\leq & \frac{1}{2 m^2 \pi} \int_0^{2 \pi} |f''(x)| dx
+\end{eqnarray}
+
+This shows that if we take $A$ equal to the average value of $|f''(x)|$, we have the inequality we wanted to prove.
+\end{proof}
+
+\section{Problem 44}
+
+\begin{thm}
+Suppose that $\{ f_n \}$ is a sequence of monotone real-valud functions defined on $[a,b]$ and not necessarily all increasing or decreasing. Show that if $\{ f_n \}$ converges pointwise to a continuous function $f$ on $[a,b]$, then $\{ f_n \}$ converges uniformly to $f$ on $[a,b]$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Since $f$ is continuous on $[a,b]$, which is closed, bounded, and hence compact set, we see that it is also uniformly continuous. Therefore, there exists $\delta > 0$ such for all $x,y \in [a,b]$ such that $|f(x) - f(y)| < \epsilon$ whenever $|x - y| < \delta$. Fix a finite set of points $a = x_0, x_1, \ldots, x_k = b$ such that $x_i - x_{i-1} < \delta$ for all $1 \leq i \leq k$. Next, pick some $N$ such that $|f_n(x_i) - f(x_i)| < \epsilon$ for all $n > N$ and $0 \leq i \leq k$ by the pointwise convergence assumption.
+
+Now, in the case that $f_n$ is monotonically decreasing, we have, for $x \in [a,b]$ and $x_{i-1} \leq x \leq x_i$ for some $1 \leq i \leq k$:
+\begin{eqnarray}
+| f_n(x) - f_n(x_i)| &\leq& |f_n(x_{i-1}) - f_n(x_i)| \\
+&\leq& |f_n( x_{i-1}) - f(x_{i-1}) | + |f(x_{i-1}) - f(x_i)| + |f(x_i) - f_n ( x_i)| \\
+&\leq& 3 \epsilon
+\end{eqnarray}
+
+Thus, $f_n$ converges uniformly when $f_n$ is monotonically decreasing. In the case when $f_n$ is monotonically increasing, we have for $x \in [a,b]$ and $x_{i-1} \leq x \leq x_i$:
+\begin{eqnarray}
+|f_n(x) - f(x)| &\leq& |f_n(x) - f_n(x_i)| + |f_n(x_i) - f(x_i)| + |f(x_i) - f(x)| \\
+&\leq& 3 \epsilon + \epsilon + \epsilon = 5 \epsilon 
+\end{eqnarray} 
+
+Therefore, $\{ f_n \}$ converges uniformly to $f$. 
+\end{proof}
+
+\section{Problem 45}
+
+\begin{thm}
+Consider each rational number written in the form $\frac{m}{n}$, where $n > 0$ and $m$ and $n$ are integers without any common factors other than $\pm 1$. Clearly, such a representation is unique. Now define $f: \mathbb{R} \to \mathbb{R}$ by $f(x) = 0$ if $x$ is irrational and $f(x) = \frac{1}{n}$ if $x = \frac{m}{n}$ as above. Show that $f$ is continuous at every irrational number and discontinuous at every rational number.
+\end{thm}
+
+\begin{proof}
+Let $\{ r_n \}$ be a bounded sequence of rational numbers such that $r_n = \frac{m_n}{k_n}$. We will show that $\lim k_n = \infty$. We can choose an $M>0$ such that $|r_n | < M$, which implies that $|m_n| < M |k_n|$. Now suppose by contradiction that $k_n$ is finite, so that $|k_n| < C$ for some $C>0$ and infinitely many $n$. Then we must have $|m_n| < MC$ and $|k_n | < C$ hold for an infinite number of $n$. But this is a contradiction, because there are only finitely many rational numbers $r_n$ for which this is possible. Therefore, we must have $\lim k_n = \infty$, which will be important in the proof.
+
+This implies that $f$ is continuous at each irrational number. So let $x$ be irrational and let $\{x_n\} \to x$ be a sequence of irrational numbers. Clearly, we have $0 = f(x_n ) \to 0 = f(x)$. Suppose then that $f(x)$ is not continuous. The only way this can happen is if there exists a sequence $\{ r_n \}$ of rational numbers such that $\{ r_n \} \to x$. This implies $\lim f(r_n) \neq 0$.  Since we can let $r_n = \frac{m_n}{k_n}$, we see that if $\{ r_n \} \to x$, we must have $\lim \frac{1}{k_n} \neq 0$, which is a contradiction. Thus, $f$ is continuous at every irrational number.
+
+To see that $f$ is discontinuous at every rational number, we choose a sequence $\{ r_n \}$ of rational numbers converging to $r$, so that $\frac{m_n}{k_n} \to r$. Now, we note that $\lim f(r_n) = \lim \frac{1}{k_n} = 0 \neq f(r) = \frac{1}{r}$. This shows that $f$ is discontinuous at every rational number.    
+\end{proof}
+
+\section{Problem 46}
+
+\begin{thm}
+If $A$ and $B$ are two arbitrary subsets of a topological space, show that $\overline{A \cup B} = \bar{A} \cup \bar{B}$.
+\end{thm}
+
+\begin{proof}
+First, we will show that $\overline{A \cup B} = \bar{A} \cup \bar{B}$. First, it is obvious that $A \subset \bar{A}$ and $B \subset \bar{B}$, which implies that $A \cup B \subset \bar{A} \cup \bar{B}$. Since the closure of a closed set is just itself, and since $\bar{S}$ is closed, we see that $A \cup B \subset \bar{A} \cup \bar{B}$ implies $\overline{A \cup B} \subset \overline{\bar{A} \cup \bar{B}} = \bar{A} \cup \bar{B}$ by taking the closure of both sides. 
+
+Next, we must show that $\bar{A} \cup \bar{B} \subset \overline{A \cup B}$. This is because $\bar{A} \subset \overline{A \cup B}$ and $\bar{B} \subset \overline{A \cup B}$, which shows $\bar{A} \cup \bar{B} \subset \overline{A \cup B} \cup \overline{A \cup B} = \overline{A \cup B}$. These two inequalities show that $\bar{A} \cup \bar{B} = \overline{A \cup B}$.
+\end{proof}
+
+\section{Problem 47}
+
+\begin{thm}
+If $A$ and $B$ are two arbitrary subsets of a topological space, show that $(A \cup B)' = A' \cup B'$. 
+\end{thm}
+
+\begin{proof}
+First, we note that $A' \subset (A \cup B)'$ and $B' \subset (A \cup B)'$ implies that $A' \cup B' \subset (A \cup B)' \cup (A \cup B)' = (A \cup B)'$. Now, we can prove the theorem by showing $(A \cup B)' \subset A' \cup B'$. Let $x \in (A \cup B)'$. Now suppose by contradiction that $x \notin A' \cup B'$. Then there exist two neighborhoods $V(x)$ and $W(x)$ such that for all $p \in A$ and $q \in B$ where $p,q \neq x$, we have $p \notin V(x)$ and $q \notin W(x)$. This implies that for the neighborhood $G(x) = V(x) \cap W(x)$, we have $p \notin G(x)$ and $q \notin G(x)$ for all $p \in A$ and $q \in B$ such that $p,q \neq x$. Moreover, this neighborhood $G(x)$ is nonempty because $V(x)$ and $W(x)$ are both centered at $x$ and are nonempty, so $G(x)$ must also be nonempty. But this is a contradiction, because that implies that $x \notin (A \cup B)'$. Therefore, we must have $(A \cup B)' \subset A' \cup B'$, which completes the proof.
+\end{proof}
+
+\section{Problem 48}
+
+\begin{thm}
+If $A$ is a dense subset of a topological space, show that $O \subset \overline{A \cap O}$ holds for every open set $O$. 
+\end{thm}
+
+\begin{proof}
+Let $x \in O$ and let $V(x)$ be a neighborhood of $x$ such that $V(x) \subset O$, which we can choose because $O$ is open. Therefore, we see that $V(x) \cap O = V(x)$ is a neighborhood of $x$, and we have $V(x) \cap (O \cap A) = (V(x) \cap O) \cap A = V(x) \cap A \neq \emptyset$ because of the denseness of $A$. This implies that $x \in \overline{ O \cap A}$ because $V(x) \cap ( O \cap A) \neq \emptyset$.   
+\end{proof}
+
+\section{Problem 49}
+
+\begin{thm}
+If $A$ is open, then $A \cap \bar{B} \subset \overline{A \cap B}$. 
+\end{thm}
+
+\begin{proof}
+Let $x \in A \cap \bar{B}$. Let $V(x)$ be a neighborhood of $x$. We know that $V(x) \cap A$ is also a neighborhood of $x$. Since $x \in \bar{B}$, we see that $V(x) \cap (A \cap B) = ( V(x) \cap A) \cap B \neq \emptyset$. Therefore, we see that $x \in \overline{A \cap B}$ and hence that $A \cap \bar{B} \subset \overline{A \cap B}$.  
+\end{proof}
+
+\section{Problem 50}
+
+\begin{thm}
+If $\{ O \}_{i \in I}$ is an open cover of a topological space $X$, then show that a subset $A$ of $X$ is closed if and only if $A \cap O_i$ is closed in $O_i$ for each $i \in I$. 
+\end{thm}
+
+\begin{proof}
+The forward direction is easy because if $A$ is closed, then $A \cap O_i$ is closed because $O_i$ is open. Now we must show the converse. First, let $V_i = O_i \setminus (A \cap O_i )$. Since $O_i$ is open for each $i \in I$ and $A \cap O_i$ is closed, we see that $V_i$ is open. Therefore, we have:
+\begin{eqnarray}
+A^c = X \setminus A = \bigcup_{i \in I} V_i 
+\end{eqnarray}  
+
+Which is open because it is a finite union of open sets. Therefore, we see that $A$ is closed because $A^c $ is open. 
+\end{proof}
+
+\section{Problem 51}
+
+\begin{thm}
+Let $f:[a,b] \to \mathbb{R}$ be increasing, i.e. $x < y$ implies $f(x) \leq f(y)$. Show that the set of points where $f$ is discontinuous is at most countable.
+\end{thm}
+
+\begin{proof}
+Let $D$ be the set of discontinuities of $f$ and let $x \in D$. Then we can assign a rational number $r_x$ such that $\lim_{t \to x^{-}} f(x) \leq r_x \leq \lim_{t \to x^{+}} f(x)$. Moreover, we see that if $x,y \in D$ and $y > x$, we must have $r_x < \lim_{t \to x^{+}} f(x) < lim_{t \to y^{-}} f(x) < r_y$ for all $y \neq x$. Therefore, we have shown that $x \to r_x$ is a one to one mapping from $D$ to $\mathbb{Q}$. This shows that $D$ is at most countable. 
+\end{proof}
+
+\section{Problem 52}
+
+\begin{thm}
+Give an example of a strictly increasing function $f:[0,1] \to \mathbb{R}$ which is continuous at all irrational points and discontinuous at all the rational points.
+\end{thm}
+
+\begin{proof}
+First, let $f_t(x)$ be a function $f_t: [0,1] \to [0,1]$ which is continuous at every point on the interval $[0,1]$ except for at $t$ and strictly increasing. For instance, we could set:
+\begin{eqnarray}
+f_t (x) = \left\{ \begin{array}{l l}
+\frac{1}{2} x & 0 \leq x \leq t \\
+x &t < x \leq 1
+\end{array} \right.
+\end{eqnarray}
+
+Thus, we can enumerate all the rational numbers in $[0,1]$ with the set $\{ r_1, r_2, \ldots \}$. 
+\begin{eqnarray}
+f(x) = \sum_{i=1}^\infty \frac{1}{2^i} f_{r_i} (x)
+\end{eqnarray}
+
+It is clear that this sum is uniformly convergent, for all $x \neq r_i$. Therefore, since each term in the uniformly convergent series is continuous, the function is continuous. However, when $x = r_i$, we see that the function is discontinuous. Since $f(x)$ is nevertheless strictly increasing, we see that the function we have made matches all the criteria. 
+\end{proof}
+
+\section{Problem 53}
+
+\begin{thm}
+Recall that a function $f:(X,\tau) \to (Y, \tau_1)$ is called an open mapping if $f(V)$ is open whenever $V$ is open. Prove that if $f: \mathbb{R} \to \mathbb{R}$ is a continuous open mapping, then $f$ is a strictly monotone function--and hence a homeomorphism.
+\end{thm}
+
+\begin{proof}
+Since $f: \mathbb{R} \to \mathbb{R}$ is an open mapping, we see that $f(V)$ is open whenever $V$ is open. Since it is continuous, we see that $f^{-1}(U)$ is open whenever $U$ is open. Now, assume by contradiction that $f$ is not monotonic. Then for some interval $(a,b) \subset \mathbb{R}$ there exists a $y \in (a,b)$ so that we must have $f(x) \leq f(y)$ for all $a < x < y$ and $f(y) \geq f(z)$ for all $y < z < b$, or alternatively we must have $f(x) \geq f(y)$ for all $a < x < y$ and $f(y) \leq f(z)$ for all $y < z < b$. We can assume without loss of generality that we are working in the first case (the proof is essentially the same in the other case).
+
+Now, we let $N_{\delta} (x)$ be a neighborhood of $x$ with radius $\delta > 0$. We see that since $f(y) \geq f(z)$ and $f(y) \geq f(x)$ for all $x \in (a,y)$ and $z \in (y,b)$, we must have $f(y) \geq f(p)$ for all $p \in (a,b)$. This is the definition of a local maximum. Therefore, we see that for all $\delta > 0$, there exists some $q \notin f(a,b)$ with $f(y) < q < f(y) + \delta$. This implies that for no $\delta > 0$ does there exist a neighborhood $N_{\delta} (x) \subset f(a,b)$. Thus, we see that $f(a,b)$ is not open. However, since we have assumed an open mapping, we must have $f(a,b)$ open because $(a,b) \subset \mathbb{R}^1$ is open. This is a contradiction, and implies that $f$ must be a strictly monotone function.
+\end{proof}
+
+\begin{thm}
+A direct proof to problem 53.
+\end{thm}
+
+\begin{proof}
+Let $(a,b)$ be a finite open interval of $\mathbb{R}$. Since $f$ attains a maximum value on the compact set $[a,b]$ and we know that $f((a,b))$ is an open set by assumption of an open mapping, then we see that the extrema of $f$ on $[a,b]$ must take place at the endpoints. This implies that $f(a) \neq f(b)$, because if that were the case then $f((a,b))$ would have to be a one-point set contradicting the fact that $f$ is open. Next, we claim that $f$ is monotone on $(a,b)$. First, we assume that $f(a) < f(b)$ and $a < x < y< b$. Then note that $f(a) < f(x) < f(b)$ must hold, because we must have $f$ attain its maximum and mimimum at the endpoints. By the same argument, we must have $f(x) < f(y) < f(b)$. Thus, $f$ is strictly increasing on $(a,b)$. If $f(a) > f(b)$, then we can show by the same argument that $f$ is strictly decreasing on $(a,b)$. 
+
+Now, we must extend this from the interval $(a,b)$ to $\mathbb{R}$. So assume that $f$ is strictly increasing on $(0,1)$ and let $x<y$ without loss of generality. Now choose some $n$ such that $(0,1) \subset (-n,n)$ and $x \in (-n,n)$. We have shown from above that $f$ must be monotone on $(-n,n)$. However, we have also assumed that $f$ is strictly increasing on $(0,1)$, so that $f$ must be strictly increasing on $(-n,n)$. Thus, $f(x) < f(y)$ holds for $x<y \in \mathbb{R}$, which shows that $f$ is strictly increasing on $\mathbb{R}$. A similar argument holds for a strictly decreasing function on $(0,1)$. This completes the proof.
+\end{proof}
+
+\section{Problem 54}
+
+\begin{thm}
+Let $X$ be a compact topological space and let $\mathscr{F} \subset C(X; \mathbb{R})$ be a collection of continuous functions from $X \to \mathbb{R}$ which is pointwise bounded and equicontinuous. Prove that $\mathscr{F}$ is uniformly bounded.
+\end{thm}
+
+\begin{proof}
+This is a simple use of the Arzela-Ascoli theorem, which states that for $\{f_n \} \in \mathscr{F}$ which is pointwise bounded and equicontinuous, you must have $\{ f_n \}$ be uniformly bounded as well.
+\end{proof}
+
+\begin{thm}
+Arzela Ascoli Theorem: If $K$ is compact, if $f_n \in \mathscr{C}(K)$ for $n=\mathbb{N}$, and if $\{ f_n \}$ is pointwise bounded and equicontinuous on $K$, then $\{f_n \}$ is uniformly bounded on $K$.
+\end{thm}
+
+\begin{proof}
+Since we know the sequence is equicontinuous, we can fix $\epsilon > 0$ and pick $\delta > 0$ such that for all $x,y \in K$, we have $|f_n(x) - f_n(y)| < \epsilon$ whenever $|x-y| < \delta$. Since $K$ is compact, we know that there exists finitely many points $p_i$ for which each $x \in K$ is associated with at least one $p_i$ from the set $\{p_1, p_2, \ldots, p_k \}$ which has the property that $|x - p_i| < \delta$. Since the sequence is pointwise bounded, we can find an $M_i > 0$ such that for all $n >M_i$, we have $|f_n(p_i)| < M_i$ for each $1 \leq i \leq k$. Therefore, we can pick $M = \max\{ M_1, M_2, \ldots, M_k \}$ because $k$ is finite, and see that $|f_n(x)| < M$ for all $x \in K$ and $n \in \mathbb{N}$, which proves uniform boundedness.
+\end{proof}
+
+\section{Problem 55}
+
+\begin{thm}
+Let $f, f_1, f_2, \ldots $ be real valued functions defined on a compact metric space $(X,d)$ such that $x_n \to x$ in $X$ implies that $f_n(x_n) \to f(x)$ in $\mathbb{R}$. If $f$ is continuous, then show that the sequence of functions $\{ f_n \}$ converges uniformly.
+\end{thm}
+
+\begin{proof}
+Assume the contrary and fix $\epsilon > 0$. Then for all $n,m \in \mathbb{N}$, we have $|f_n(x) - f_m(x)| \geq \epsilon$ for some $x \in X$. There also exists a subsequence $\{ g_n \}$ of $\{ f_n \}$ and a sequence $\{ x_n \}$ of $X$ such that $|g_n (x_n) - f(x_n) | \geq \epsilon$. Since $X$ is compact, $x_n$ has a convergent subsequence in $X$, say $\{ x_{n_k}\} \to x$. By the continuity of $f$, we see that $f(x_{n_k}) \to f(x)$. Also, we see that $g_{n_k} ( x_{n_k}) \to f(x)$, so that $|g_{n_k} (x_{n_k}) - f( x_{n_k}) | \to |f(x) - f(x)| = 0$, which is a contradiction because we have previously shown that $|g_n(x_n) - f(x_n)| \geq \epsilon$. Therefore, we must have $\{ f_n \}$ converge uniformly.
+\end{proof}
+
+\section{Problem 56}
+
+\begin{thm}
+For a sequence $\{ f_n \}$ of real valued functions defined on a topological space $X$ that converges uniformly to a real valued function $f$ on $X$, show that if $x_n \to x$ and $f$ is continuous, then $f_n(x_n) \to f(x)$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Since $f_n$ converges uniformly, there exists $N_1>0$ such that for all $x \in X$ and all $n > N_1$, we have $|f_n(x) - f(x) | < \epsilon$. If $f$ is continuous, then we see that there exists an $N_2$ for which $|f(x_n) - f(x) | < \epsilon$ because we can choose $\delta = \epsilon$ so that $|x_n - x| < \epsilon = \delta$ implies $|f(x_n) - f(x) | < \epsilon$. Therefore, we have:
+\begin{eqnarray}
+|f_n(x_n) - f(x)| \leq |f_n(x_n) - f(x_n)| + |f(x_n) - f(x)| < 2\epsilon
+\end{eqnarray}
+
+For $n > \max\{N_1,N_2 \}$. This proves that $f_n(x_n) \to f(x)$. 
+\end{proof}
+
+\section{Problem 57}
+
+\begin{thm}
+Let real valued functions $\{f_n \}$ converge uniformly to a real valued function $f$ on a topological space $X$. If each $\{ f_n \}$ is continuous at some point $x_0 \in X$, then $f$ is also continuous at the point $x_0$ and $\lim_{x \to x_0} \lim_{n \to \infty} f_n(x) = \lim_{n \to \infty} \lim_{x \to x_0} f_n(x) = f(x_0)$. 
+\end{thm}
+
+\begin{proof}
+First, fix $\epsilon > 0$. Since we have uniform convergence, there exists an $N_1$ such that for all $n > N_1$ and all $x \in X$, we have $|f_n(x) - f(x)| < \epsilon$. By pointwise convergence, there exists a $j > 0$ and a corresponding neighborhood $N_j (x_0)$ about $x_0$ such that for all $x \in N_j (x_0)$ there exists a $\delta > 0$ such that we have $|f_n(x_0) - f_n(x) | <\epsilon$ whenever $|x_0 - x| < \delta$. Therefore, we have for $x \in N_j(x_0)$, $|x - x_0| < \delta$, and $n > N_1$:
+\begin{eqnarray}
+|f(x_0) - f(x)| \leq |f(x_0) - f_n(x_0)| + |f_n(x_0) - f_n(x)| + |f_n(x) - f(x)| \leq 3 \epsilon
+\end{eqnarray}
+
+Because $|f(x_0) - f_n(x_0)| < \epsilon$ and $|f_n(x) - f(x)| < \epsilon$ hold by uniform convergence, while $|f_n(x_0) - f_n(x)| < \epsilon$ holds by pointwise continuity. Therefore, we have shown that $f$ is also continuous at the point $x_0$. Because of this pointwise continuity, we get the following:
+\begin{eqnarray}
+\lim_{x \to x_0} \lim_{n \to \infty} f_n(x) &=& \lim_{x \to x_0} f(x) = f(x_0) \\
+\lim_{n \to \infty} \lim_{x \to x_0} f_n(x) &=& \lim_{n \to \infty} f_n(x_0) = f(x_0) 
+\end{eqnarray}
+This completes the proof.
+\end{proof}
+
+\section{Problem 58}
+
+\begin{thm}
+Let $f_n: [0,1] \to \mathbb{R}$ be defined by $f_n(x) = x^n$ for $x \in [0,1]$. Show that $\{ f_n \}$ converges pointwise and find its limit function. Is it uniformly convergent?
+\end{thm}
+
+\begin{proof}
+First, for all $x \in [0,1)$, we see that $x^n \to 0$ as $n \to \infty$. If $x = 1$, then we see that $x^n \to 1$ as $n \to \infty$. Therefore, we have the following limit function:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+0 & x \in [0,1) \\
+1 & x = 1 \end{array} \right.
+\end{eqnarray}
+
+Moreover, since we see that $f(x)$ is not continuous, we see that $f_n$ is not uniformly convergent.
+\end{proof}
+
+\section{Problem 59}
+
+\begin{thm}
+Let $g:[0,1] \to \mathbb{R}$ be continuous with $g(1) = 0$. Show that $\{ f_n \}$ defined by $f_n(x) = x^n g(x)$ for $x \in [0,1]$ converges uniformly to the constant zero function.
+\end{thm}
+
+\begin{proof}
+Since $g(x)$ is continuous, we know that there exists an $M$ such that $|g(x)| < M$ for all $x \in [0,1]$. Therefore, we see that $|f_n(x) - 0| = |f_n(x)| = x^n |g(x)| \leq x^n M$. If we let $\delta < x \leq 1$, we see that there exists an $N$ such that $M \delta^n < \epsilon$ whenever $n > N$, so that $|f_n(x)| < \epsilon$ for all $x \in [0,1]$, including $x=1$ because $g(1) = 0$ so that $f_n(1) = 0$. This proves uniform convergence to the constant zero function.
+\end{proof}
+
+\section{Problem 60}
+
+\begin{thm}
+Let $\{ f_n \}$ be a sequence of continuous real-valued functions on $[a,b]$ and let $\{a_n \}$ and $\{b_n\}$ be two sequences on $[a,b]$ converging to $a$ and $b$ respectively as $n \to \infty$. If $\{ f_n \}$ converges uniformly to $f$ on $[a,b]$, show that $\lim_{n \to \infty} \int_{a_n}^{b_n} f_n(x) dx = \int_a^b f(x) dx$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. First, we see that there exsts an $N_1$ such that for all $n > N_1$: $a_n - a < \epsilon$. There also exists an $N_2$ such that for all $n > N_2$, we have $b - b_n < \epsilon$. Since $\{ f_n \}$ is a uniformly convergent sequence of continuous functions, we see that $f$ is also continuous. This implies that there exists an $M$ such that $|f(x)| < M$ for all $x \in [a,b]$. Uniform continuity implies also that there exists an $N_3$ such that for all $n > N_3$ and $x \in [a,b]$ we have $|f_n(x) - f(x) | < \epsilon$.  Therefore, we can set $N = \max \{N_1, N_2, N_3 \}$ and for $n > N$, we have the following:
+\begin{eqnarray}
+\left| \int_{a_n}^{b_n} f_n(x) dx - \int_a^b f(x) dx \right| &=& \left| \int_{a_n}^{b_n} (f_n(x) - f(x)) dx - \int_{a}^{a_n} f(x) dx - \int_{b_n}^b f(x) dx \right| \\
+&\leq& | f_n(x) - f(x)| (b_n - a_n) - |f(x)| (a_n - a) - |f(x)| (b - b_n) \\
+&<& \epsilon (b + \epsilon - \epsilon - a) - 2 M \epsilon \\
+&=& \epsilon (b -a) - 2M \epsilon
+\end{eqnarray} 
+
+Since $\epsilon > 0$ was arbitrary, we have proven the theorem.
+\end{proof}
+
+\section{Problem 61}
+
+\begin{thm}
+Let $X$ be a topological space and let $\{ f_n \}$ be a sequence of real-valued continuous functions defined on $X$. Suppose that there is a function $f: X \to \mathbb{R}$ such that $f(x) = \lim_{n \to \infty} f_n(x)$ holds for all $x \in X$. Show that $f$ is continuous at a point $a$ if and only if for each $\epsilon > 0$ and each $m$ there exists a neighborhood $V(a)$ and some $k > m$ such that $|f(x) - f_k(x)| < \epsilon$ holds for all $x \in V(a)$. 
+\end{thm}
+
+\begin{proof}
+First, we will assume that $f$ is continuous at $a$ and fix $\epsilon > 0$. This implies that there is a neighborhood $V(a)$ such that for all $x \in V(a)$, we have $|f(x) - f(a)| < \epsilon$. Since $f_n(x) \to f(x)$ for all $x \in X$, we see that there exists some $m$ such that for all $n > m$, $|f(x) - f_n(x)| < \epsilon$. This means that there exists a $k > m$ such that:
+\begin{eqnarray}
+ |f(x) - f_k(x)| \leq |f(x) - f(a)| + |f(a) - f_k(a)| + |f_k(a) - f_k(x)| < 3 \epsilon
+\end{eqnarray}
+
+To prove the converse, we first assume that there exists an $m$ and neighborhood $V(a)$ such that for some $k > m$ we have $|f(x) - f_k(x)| < \epsilon $ for all $x \in V(a)$. We know that we have $|f_k(x) - f_k(a)| < \epsilon$ if $x \in V(a)$. Moreover, we see that $|f_k(a) - f(a)| < \epsilon$ because of pointwise convergence. Therefore, for $k > m$, we have the following:
+\begin{eqnarray}
+|f(x) - f(a)| \leq |f(x) - f_k(x)| + |f_k(x) - f_k(a)| + |f_k(a) - f(a)| < 3 \epsilon
+\end{eqnarray}
+
+This proves that $f$ is continuous at $a$ and completes the theorem.
+\end{proof}
+
+\section{Problem 62}
+
+\begin{thm}
+Let $\{ f_n \}$ be a uniformly bounded sequence of continuous real valued functions on a closed interval $[a,b]$. Show that the sequence of functions $\{ \phi_n \}$ defined by $\phi_n(x) = \int_a^x f_n(t) dt$ for each $x \in [a,b]$ contains a uniformly convergent subsequence.
+\end{thm}
+
+\begin{proof}
+Since $\{ f_n \}$ is uniformly bounded, we know that there exists an $M$ such that for all $x \in [a,b]$ and all $n \in \mathbb{N}$, we have $|f_n(x)| < M$. Therefore, we see that $|\phi_n(x)| = \int_a^x |f_n(t)| dt \leq |f_n(t)| (x - a) \leq M (b-a)$. Thus, we see that the sequence $\{ \phi_n \}$ is pointwise bounded on $[a,b]$. Moreover, we can show that the sequence is also equicontinuous. This is because for all $x,y \in [a,b]$, we have the following (assuming without loss of generality that $x < y$):
+\begin{eqnarray}
+| \phi_n(x) - \phi_n(y)| &=& \left| \int_a^x f_n(t) dt - \int_a^y f_n(t) dt \right| \\
+&=& \left| \int_x^y f_n(t) dt \right| \\
+&\leq& |f_n(t)| (y- x) \\
+&<& M (y-x)
+\end{eqnarray}
+
+Therefore, we can choose $\delta = \frac{\epsilon}{M}$ so that if $|y-x| < \delta$, then we have for all $x,y \in [a,b]$ and $n \in \mathbb{N}$, $| \phi_n(x) - \phi_n(y)| < M \delta = \epsilon$. Therefore, we have shown that the set $A = \{ \phi_1, \phi_2, \ldots \}$ is equicontinuous. Moreover, we know that $\bar{A}$ is closed by definition, bounded, and equicontinuous. Therefore, we see that $\bar{A}$ is compact, and that $\{ \phi_n \}$ contains a uniformly convergent subsequence on $\bar{A}$ by the Arzela-Ascoli theorem.
+\end{proof}
+
+\section{Problem 63}
+
+\begin{thm}
+Consider a continuous function $f:[0,\infty) \to \mathbb{R}$. For each $n$ defined the continuous function $f_n: [0,\infty] \to \mathbb{R}$ by $f_n(x) = f(x^n)$. Show that the set of continuous functions $\{ f_1, f_2, \ldots \}$ is equicontinuous at $x=1$ if and only if $f$ is a constant function.
+\end{thm}
+
+\begin{proof}
+First, it is easy to show that if $f$ is a constant function, then $A = \{f_1, f_2, \ldots \}$ is equicontinuous at $x =1$. This is because $f(1) = f(x^n)$ for $x \in [0,\infty)$ and $n \in \mathbb{N}$, which implies that for all $\epsilon > 0$ we have $\epsilon > |f(1) - f(x^n)| = |f(1) - f_n(x)| = |f_n(y) - f_n(x)|$ for all $x,y \in [0,\infty)$. 
+
+Now, we shall prove that if $A$ is equicontinuous at $x=1$, then $f$ is a constant function. We see that the equicontinuity condition implies that for all $n \in \mathbb{N}$ we have $|f_n(1) - f_n(x)| < \epsilon$ whenever $|1-x| < \delta$ for $x \in [0,\infty)$. From the fact that $\lim_{n \to \infty} \sqrt[n]{a} = 1$, we see that there exists some $n_0$ for which $n > n_0$ implies $|f_n(1) - f_n(\sqrt[n]{a})| = |f(1) - f(\sqrt[n]{a}^n)| < \epsilon$. This shows that $f(1) = f(a)$ for all $a \in [0,\infty)$, which completes the proof.
+\end{proof}
+
+\section{Problem 64}
+
+\begin{thm}
+Let $(X,d)$ be a compact metric space and let $A$ be an equicontinuous subset of $C(X)$. Show that $A$ is uniformly equicontinuous, i.e. show that $\forall \epsilon > 0$, $\exists \delta > 0$ such that $x,y \in X$ and $d(x,y) < \delta$ imply $|f(x) - f(y)| < \epsilon$ for all $f \in A$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Equicontinuity implies that there exists a $\delta_x >0$ such that $d(f(x) ,f(y)) < \epsilon$ implies $d(x,y) < \delta_x/2$ for all $x,y \in X$ and $f \in A$. Since $X$ is compact, each open cover has a finite subcover, which implies that we can take a set $\{ x_1, x_2, \ldots, x_p \}$ and neighborhoods about them with radii $\delta_1, \delta_2, \ldots, \delta_p$ respectively that cover $X$. Formally, we have $X \subset \bigcup_{1 \leq i \leq p} N_{\delta_i}(x_i)$ with $x_i \in X$ for all $1 \leq i \leq p$. 
+
+Now pick $x \in X$. There must exist some $i$ for which $d(x,x_i) < \delta_i/2$. Now set $\delta = \frac{1}{2} \min \{ \delta_1, \ldots, \delta_p \}$ and pick $y \in X$. Now pick $y \in X$ such that $x,y$ satisfy $d(x,y) < \delta$. Then we see that $d(f(x),f(y)) < \delta_i/2$ for all $f \in A$ and see that:
+\begin{eqnarray}
+d(y,x_i) \leq d(y,x) + d(x,x_i) < 2 \delta_i/2 = \delta_i
+\end{eqnarray}
+
+Therefore, if $d(y,x_i) < \delta_i$ implies that $d(f(y),f(x_i)) < \epsilon$. This means that if $d(x,y) < \delta$, then we have:
+\begin{eqnarray}
+d(f(x),f(y)) \leq d(f(x),f(x_i)) + d(f(x_i),y) < 2 \epsilon
+\end{eqnarray}
+
+This completes the proof.
+\end{proof}
+
+\section{Problem 65}
+
+\begin{thm}
+Let $\{ f_n \}$ be an equicontinuous sequence in $C(X)$ where $X$ is not necessarily compact. If for some function $f: X \to \mathbb{R}$ we have $\lim_{n \to \infty} f_n(x) = f(x)$ for each $x \in X$, then show that $f \in C(X)$. 
+\end{thm}
+
+\begin{proof}
+By equicontinuity of $f_n$, we see that for a fixed $\epsilon > 0$, there exists a $\delta > 0$ such that $|f_n(x) - f_n(y)| < \epsilon$ whenever $|x-y| < \delta$. Moreover, we see that there exists some $N$ for which $n > N$ implies $|f_n(x) - f(x) | <\epsilon$. Therefore, we see that:
+\begin{eqnarray}
+|f(x) - f(y)| \leq | f(x) - f_n(x)| + |f_n(x) - f_n(y)| + |f_n(y) - f(y)| < 3 \epsilon 
+\end{eqnarray}
+
+This shows that $f$ is continuous, and hence that $f \in C(X)$, which completes the proof. 
+\end{proof}
+
+\section{Problem 66}
+
+\begin{thm}
+Let $X$ be a compact topological space and let $\{ f_n \}$ be an equicontinuous sequence of $C(X)$. Assume that there exists some $f \in C(X)$ and some dense subset $A$ of $X$ such that $\lim_{n \to \infty} f_n(x) = f(x)$ holds for each $x \in A$. Then show that $\{ f_n \}$ converges uniformly to $f$. 
+\end{thm}
+
+\begin{proof}
+Since $\{ f_n \}$ is equicontinuous, we can fix $\epsilon > 0$ and see that there exists $\delta_x > 0$ for all $n \in \mathbb{N}$ for which $|f_n(x) - f_n(y) | < \epsilon$ implies $|x-y| < \delta_x $ for all $x,y \in X$. Next, we see that $f_n(x)$ converges pointwise to $f(x)$, which shows that there exists some $N$ such that for all $n > N$, we have $|f_n(x) - f(x)| < \epsilon$ for all $x \in X$. So let $y \in X$, and we see that $|f(x) - f(y)| \leq |f(x) - f_n(x)| + |f_n(x) - f_n(y)| + |f_n(y) - f(y)| < 3 \epsilon$. 
+
+Now since $X$ is compact, we know that we can choose finitely many points $x_i \in X$ such that $X \subset \bigcup_{1 \leq i \leq p} N_{\delta_i} (x_i) $ for $p$ finite. Now pick some point $x \in X$. We see that there exists some $x_i$ for which $|x - x_i| < \delta_i$, implying that $|f_n(x) - f_n(x_i)| < \epsilon$ for all $n \in \mathbb{N}$ by equicontinuity. Thus, we have:
+\begin{eqnarray}
+|f_n(y) - f(y)| \leq |f_n(y) - f_n(x)| + |f_n(x) - f(x)| + |f(x) - f(y)| < 2 \epsilon + \epsilon + 3 \epsilon = 5 \epsilon
+\end{eqnarray}
+
+This completes the proof that $\{ f_n \}$ converges uniformly to $f$. 
+\end{proof}
+
+\section{Problem 67}
+
+\begin{thm}
+Let $(X,d)$ be a metric space and let $A$ be a nonempty subset of $X$. The distance function of $A$ is $d(x,A): X \to \mathbb{R}$ defined by $d(x,A) = \inf \{ d(x,a): a \in A \}$. Show that $d(x,A) = 0$ if and only if $x \in \bar{A}$. 
+\end{thm}
+
+\begin{proof}
+First, if $x \in \bar{A}$, we can have either $x \in A$ or $x \in A'$. For the first case, we see that $x = a$ for some $a \in A$, which shows that $d(x,a) = 0$ for that same $a \in A$. This implies that $d(x,A) = 0$. In the second case, we see that $x \in A'$ implies that for all $\epsilon > 0$, there exists an $a \in A$ such that $d(x,a) < \epsilon$. This shows that $d(x,A) < \epsilon$ for all $\epsilon > 0$, and shows that $d(x,A) = 0$ if $x \in \bar{A}$.
+
+Now assume that $d(x,A) = 0$ and we will show that $x \in \bar{A}$. First, we note that $d(x,A)=0$ implies that for all $\epsilon > 0$, we have $d(x,A) < \epsilon$, which shows that $d(x,a) < \epsilon$ for all $x \in A$. This is the definition of a limit point of $A$, so that $x \in \bar{A}$.
+\end{proof}
+
+\section{Problem 68}
+
+\begin{thm}
+Let $A,B$ be two nonempty subsets of a metric space $X$ such that $A\cap \bar{B} = \bar{A} \cap B = \emptyset$. Show that there exist two open sets $U,V$ such that $A \subset U$ and $B \subset V$. 
+\end{thm}
+
+\begin{proof}
+First, take the function $f(x) = d(x,A) - d(x,B)$ where $d(x,A)$ is defined as in problem 67. We know, by problem 10.2 in Aliprantis, that $f$ is continuous. Moreover, since $A \cap \bar{B} = \emptyset$, we see that $f(x) = - d(x,B) < 0$ whenever $x \in A$. By the same logic, we see that because $\bar{A} \cap B = \emptyset$ that $f(x) = d(x,A) > 0$ whenever $x \in B$. This shows that $A \subset U =  f^{-1}((-\infty,0))$ and $B \subset V = f^{-1} ((0,\infty))$. Moreover, since $(-\infty,0) $ and $(0,\infty)$ are both open sets and $f$ is continuous, we see that $U,V$ are open, disjoint sets.
+\end{proof}
+
+\section{Problem 69}
+
+\begin{thm}
+If $f$ is continuous on $[0,1]$ such that $\int_0^1 x^n f(x) dx = 0$ for all $n \in \mathbb{N}$, show that $f(x) = 0$ for all $x \in [0,1]$. 
+\end{thm}
+
+\begin{proof}
+We note that since $f$ is continuous, we can use the Stone-Weierstrass theorem to show that there exists a sequence of polynomials $\{ p_n \}$ which converges to $f$. Because this is the case, we see that $\{ p_n(x) f(x) \}$ converges to $f(x)^2$. Next, we see that $p_n(x)$ is made up of monomials of $x$, so that $p_n(x) = c_0 x_0 + x_1 x_1 + \ldots + x_p x_p$ where $c_i$ are constants. We see then that $\int_0^1 p_n(x) f(x) = \int_0^1 f(x) (c_0 x_0 + c_1 x_1 + \ldots + c_p x_p) dx = 0$. Therefore, we see that $\lim_{n \to \infty} \int_0^1 p_n(x) f(x) = \int_0^1 f(x)^2 dx = 0$, which implies that $f(x) = 0$ for all $x \in [0,1]$.
+\end{proof}
+
+\section{Problem 70}
+
+\begin{thm}
+Let $f:(X,d) \to (Y, \rho)$ be a function. Show that $f$ is continuous if and only if $f$ restricted to the compact subsets of $X$ is continuous.
+\end{thm}
+
+\begin{proof}
+If $f$ is continuous, then it is clear that it is continuous when restricted to the compact subsets. Now, to prove the converse, assume $x_n \to x$. We see that the set $A = \{x_1, x_2, \ldots \} \cup \{x \}$ is compact because the sequence's convergence implies that every open cover has a finite subcover. Therefore, we see that $x_n \to x$ holds on $A$, which implies that $f(x_n) \to f(x)$ holds. This implies that $f$ is continuous.
+\end{proof}
+
+\section{Problem 71}
+
+\begin{thm}
+Show that every compact space $(X,d)$ is separable (contains a countable dense subset). 
+\end{thm}
+
+\begin{proof}
+Let $F_n$ be a finite subcover such that $X = \bigcup_{x \in F_n} N_{1/n} (x)$. Now let $F = \bigcup_{n=1}^\infty F_n$. It is clear that $F$ is an open cover of $X$. So now we can pick $x \in X$ and some $\delta > 0$. We will always be able to find some $y \in F_n$ for some $n$ such that $d(x,y) < \delta$. This is because we can set $1/n < \delta$ so that $d(x,y) < \delta$. This shows that $F$ is a dense subset. Moreover, we know that $F$ is at most countable because it is the union of a set of finite subcovers of $X$. This shows that $F$ is a countable dense subset.
+\end{proof}
+
+\section{Problem 72}
+
+\begin{thm}
+A family of continuous functions $\mathscr{F}$ is said to have the finite intersection property if every finite intersection of sets of $\mathscr{F}$ is nonempty. Show that a metric space is compact if and only if every family of closed sets with the finite intersection property has a nonempty intersection. 
+\end{thm}
+
+\begin{proof}
+Let $\{ A_i: i \in I \}$ be a family of closed sets with the finite intersection property and assume that $X$ is compact. Suppose by contradiction that $\bigcap_{i \in I} A_i = \emptyset$. This implies that $\bigcup_{i \in I} A_i^c = X$ is an open cover of $X$ because $A_i^c$ is open. Therefore, since $X$ is compact, we see that this open cover has a finite subcover, namely $\bigcup_{i=1}^n A_i^c = X$. This implies that $\bigcap_{i=1}^n A_i = \emptyset$, which is a contradiction of the finite intersection property. Therefore, $\{ A_i : i \in I \}$ must have a nonempty intersection.   
+
+To show the converse, we now assume that every family of closed sets with the finite intersection property has a nonempty intersection. Now let $V_i$ be open sets such that $X = \bigcup_{i \in I} V_i$ is an open cover of $X$. Therefore, we see that $\bigcap_{i \in I} V_i^c = \emptyset$. Moreover, since $V_i^c$ is closed, we see by assumption that $\bigcap_{i \in I} V_i^c \neq \emptyset$. This implies that our set $\{ V_i : i \in I \}$ does not have the finite intersection property, which shows that there exist some finite $n$ for which $\bigcap_{i=1}^n V_i^c = \emptyset$ holds. This shows that $\bigcup_{i=1}^n V_i = X$ is a finite subcover of $\bigcup_{i \in I} V_i$, which proves the compactness of $X$. 
+\end{proof}
+
+\section{Problem 73}
+
+\begin{thm}
+Let $f: X \to X$ function from a set $X$ into itself. A point $a \in X$ is called a fixed point for $f$ if $f(a) = a$. Assume that $(X,d)$ is compact and $f:X \to X$ satisfies $d(f(x),f(y)) < d(x,y)$ for $x \neq y$. Show that $f$ has a unique fixed point. 
+\end{thm}
+
+\begin{proof}
+First, it is clear that $f$ cannot have more than one fixed point. If $f(a) = a$ and $f(b) = b$, then:
+\begin{eqnarray}
+d(a,b) = d(f(a),f(b)) < d(a,b)
+\end{eqnarray}
+
+This only holds when $a = b$, so there can only be a single fixed point. Now we shall show that there is at least 1 fixed point. Define $g(x) = d(x,f(x))$ so that we have the following inequality for $x,y \in X$:
+\begin{eqnarray}
+|g(x) - g(y)| &=& d(x,f(x)) - d(y,f(y)) \leq d(x,y) + d(y,f(x)) - d(y,f(y))
+\end{eqnarray}
+
+By the triangle inequality, we see that $d(y,f(x)) \leq d(y,f(y)) + d(f(y),f(x))$ which implies that $d(y,f(x)) - d(y,f(y)) \leq d(f(y),f(x))$. This shows the following:
+\begin{eqnarray}
+|g(x) - g(y)| \leq d(x,y) + d(f(y),f(x)) < 2 d(x,y)
+\end{eqnarray}
+
+We can choose $\delta = \epsilon/2$ and show that for all $\epsilon > 0$, we can $|g(x) - g(y)| < 2 \delta < \epsilon$ whenever $d(x,y) < \delta$. This proves the continuity of $g$ on $X$. Now, since $X$ is compact, we know that $g$ attains a minimum at some point $a \in X$. Therefore, we have $g(a) \leq g(x)$ for all $x \neq a$. This implies that $d(a,f(a)) \leq d(x,f(x))$ for all $x \neq a$. Assume by contradiction that $a$ is not a fixed point, so that $f(a) \neq a$. Then we see that $d(f(a),f(f(a))) < d(a,f(a)) \neq 0$, which is a contradiction of the fact that $g(a)$ is a minimum. This shows that $f$ has at least one fixed point, and since we know it cannot have more than one fixed point, this $a$ must be unique.
+\end{proof}
+
+\section{Problem 74}
+
+\begin{thm}
+Find functions $f$ and $g$ such that $\lim_{x \to a} f(x) = A$ and $\lim_{y \to A} g(y) = B$, but for which $\lim_{x \to a} g(f(x)) \neq B$. 
+\end{thm}
+
+\begin{proof}
+Let $f(x) = (-x)^{x}$ and let $g(y) = \sqrt{y}$. We see the following is true:
+\begin{eqnarray}
+\lim_{x \to 2} f(x) &=& \lim_{x \to 2} (-x)^{x} = 4 \\
+\lim_{y \to 4} g(y) &=& \lim_{y \to 4} \sqrt{x} = 2 
+\end{eqnarray}
+
+So we see that $A = 4$ and $B= 2$. However, we see that the composition $g(f(x)) = \sqrt{(-x)^{x}} = (-x)^{x/2}$. Thus, we have:
+\begin{eqnarray}
+\lim_{x \to 2} g(f(x)) = \lim_{x \to 2} (-x)^{x/2} = -2
+\end{eqnarray}
+
+We see that $2 \neq -2$, so we are done.
+\end{proof}
+
+\section{Problem 75}
+
+\begin{thm}
+Show that $\lim_{x \to 0} \ln(1+x) = 0$. Using this equality, deduce that the logarithmic function is continuous on $(0, \infty)$. 
+\end{thm}
+
+\begin{proof}
+We know that $0 < \ln(1+ \frac{1}{n}) < \frac{1}{n}$ for all $n \in \mathbb{N}$. Thus, fix $\epsilon > 0$, and we can find $n_0$ such that $\frac{1}{n_0 - 1} < \epsilon$. Thus, for $|x| < \frac{1}{n_0}$ we have:
+\begin{eqnarray}
+-\epsilon < - \frac{1}{n_0} < \ln(1 - \frac{1}{n_0}) < \ln( 1 + x) < \ln(1 - \frac{1}{n_0} < \frac{1}{n_0} < \epsilon
+\end{eqnarray}
+
+Since $\epsilon > 0$ was arbitrary, we see that $ \ln (1 + x) \to 0$ as $x \to 0$. To prove continuity, take $x_0 \in (0,\infty)$. Then we have:
+\begin{eqnarray}
+\lim_{x \to x_0} \ln(x) = \lim_{x \to x_0} \ln(x_0) + \ln \left(\frac{x}{x_0} \right) = \ln( x_0) + \lim_{y \to 1} \ln(y) = \ln(x_0) + \lim_{t \to 0} \ln(1+ t) = \ln(x_0)
+\end{eqnarray}
+
+Since we have shown that $\ln(x) \to \ln(x_0)$ as $x \to x_0$ for all $x_0 \in (0,\infty)$, we have shown the continuity of $\ln(x)$ on $(0,\infty)$.
+\end{proof}
+
+\section{Problem 76}
+
+\begin{thm}
+Suppose that $f$ is continuous on $[a, \infty)$ and $\lim_{x \to \infty} f(x)$ is finite. Show that $f$ is bounded on $[a,\infty)$. 
+\end{thm}
+
+\begin{proof}
+Let $c = \lim_{x \to \infty} f(x) < \infty$. Pick $\epsilon > 0$. We see that there exists an $M > 0$ such that for all $x > M$, we have $|f(x) - c| < \epsilon$. This means that $c - \epsilon < |f(x)| < c + \epsilon$, which shows that for $x \in (M,\infty)$, $|f(x)|$ is bounded. Moreover, by continuity, we see that $f(x)$ is bounded for $[a,M]$ because for all $N > 0$, we can choose $\delta > 0$ such that $|x - y| < \delta$ implies $|f(x) - f(y)| < N$ for all $x,y \in [a,M]$. Thus, we can just choose the smallest $\delta$ for which $|M - a| < \delta$, and see that $|f(x) - f(y)| < N$. Therefore, we see that $f$ is bounded on $[a,\infty)$. 
+\end{proof}
+
+\section{Problem 77}
+
+\begin{thm}
+Show that if $f,g: \mathbb{R} \to \mathbb{R}$ are continuous and periodic with $\lim_{x \to \infty} f(x) - g(x) = 0$, then $f =g$. 
+\end{thm}
+
+\begin{proof}
+Suppose by contradiction that this is not the case. Then there exists some $x_0 \in \mathbb{R}$ such that $f(x_0) \neq g(x_0)$. Assume $f(x_0) > g(x_0)$ without loss of generality, this shows that $f(x_0) - g(x_0) = M > 0$. Let $f$ and $g$ have periods $T_1$ and $T_2$ respectively. Now pick $\epsilon $ such that $0 < \epsilon < \frac{M}{2}$. By our assumption, we see that there exists an $k > 0$ such that for all $x > x_0 + k T_2$, we have $|f(x) - g(x)| < \epsilon$. By the continuity assumption, we see that there exists a $\delta > 0$ such that $|f(x + h) - f(x)| < \epsilon$ when $|h| < \delta$. Therefore, if we take $k \in \mathbb{Z}$, we have:
+\begin{eqnarray}
+|f(x_0) - g(x_0)| &\leq& |f(x_0) - f(x_0 + k m T_2)| + |f(x_0 + km T_2) - g(x_0 + km T_2)| \\
+&=& |f(x_0) - f(x_0 + km T_2 + n T_1)| + |f(x_0 + km T_2) - g(x_0 + km T_2)| \\
+&<& 2 \epsilon
+\end{eqnarray}
+
+Where $n \in \mathbb{Z}$. This inequality holds whenever $|km T_2 + nT_1| < \delta$. However, this implies that $ M < 2 \epsilon$, where $0 < \epsilon < \frac{M}{2}$, which is a contradiction. Thus, we must see that $f = g$. 
+\end{proof}
+
+\section{Problem 78}
+
+\begin{thm}
+Let $f, g: \mathbb{R} \to \mathbb{R}$ be continuous and periodic with positive fundamental periods $T_1$ and $T_2$ respectively. Prove that if $\frac{T_1}{T_2} \notin \mathbb{Q}$, then $h = f+g$ is not periodic. 
+\end{thm}
+
+\begin{proof}
+Suppose by contradicion that $h$ is periodic with fundamental period $T$. Then we see that $\frac{T}{T_1} \notin \mathbb{Q}$ or $\frac{T}{T_2} \notin \mathbb{Q}$. Assume the first case without loss of generality. Then we see that $h(x)  = h(x + T)$ implies that $g(x) + f(x) = g(x+T) + f(x+T)$. Define a new function $H(x) = g(x + T) - g(x) = f(x+T) - f(x)$. It is clear that this function is constant and therefore continuous. So let $H(x) = c$ for some $c \in \mathbb{R}$.
+
+It follows that $f(x+T) = f(x) + c$. Assume that $ c \neq 0$. Then if we substitute $x =0$ into the expression, we find $f(T) = f(0) + c$. Substitute $x = T$ into the expression to find $f(2T) = f(T) + c = f(0) + 2c$. Continuing with this process, we see that $f(nT) = f(0) + nc$ where $n \in \mathbb{N}$. However, this is a contradiction because $g$ is no longer bounded even though it is a continuous, periodic function. Therefore, we see that $c = 0$. 
+
+So we have deduced that $f(x+T) = f(x)$. This shows that $T$ must be a period of $f$ so that $T = kT_1$ where $k \in \mathbb{Z}$. However, this implies that $\frac{T}{T_1} = k \in \mathbb{Z}$, which is a contradiction because we have assumed $\frac{T}{T_1} \notin \mathbb{Q}$. Therefore, we see that $h$ is not periodic. 
+\end{proof}
+
+\section{Problem 79}
+
+\begin{thm}
+Suppose $f:(0,\infty) \to \mathbb{R}$ is continuous such that $f(x) \leq f(nx)$ for all $x > 0$ and $n \in \mathbb{N}$. Show that $\lim_{n \to \infty} f(x)$ exists. 
+\end{thm}
+
+\begin{proof}
+Let $M = \lim_{r \to \infty} \sup_{x \geq r} f(x)$ and $m = \lim_{r \to \infty} \inf_{x \geq r} f(x)$. Assume by contradiction that $M > m$. Then there exists a real number $k$ such that $m < k < M$. Since $f$ is continuous, there must be some $a \in (0,\infty)$ such that $f(a) > k$. Moreover, continuity implies that there exists a $b$ such that for all $t \in [a,b]$, we have $f(t) > k$. Now define $p = \frac{ab}{a-b}$. If $x \geq p$, then we have the following:
+\begin{eqnarray}
+\frac{x(a-b)}{ab} \geq 1 \hspace{0.5cm} \Rightarrow \hspace{0.5cm} \frac{x}{a} \geq 1 +\frac{x}{b}
+\end{eqnarray}
+
+This implies that there exists some integer $n_0$ for which $\frac{x}{a} \geq n_0 \geq \frac{x}{b}$. Equivalently, we see that $a \leq \frac{x}{n_0} \leq b$. Therefore, we have the following:
+\begin{eqnarray}
+f(x) = f \left( n_0 \frac{x}{n_0} \right) \geq f \left( \frac{x}{n_0} \right) > k
+\end{eqnarray}
+
+For all $x \geq p$. This contradicts the definition of $m$ because there is actually a larger number $k$ for which $f(x) > k$ as $x \to \infty$. Therefore, we see that $m = M$, which shows that $\lim_{x \to \infty} f(x)$ exists. 
+\end{proof}
+
+\section{Problem 80}
+
+\begin{thm}
+Let $f:[0,1] \to [0,1]$ be continuous. Show tht $f$ has a fixed point on $[0,1]$.
+\end{thm}
+
+\begin{proof}
+Define the function $g(x) = f(x) - x$ which is continuous because both $f(x)$ and $x$ are continuous. We see that $g(0) = f(0) \geq 0$ and $g(1) = f(1) - 1 \leq 0$. Thus, by intermediate value theorem, we see that there exists some $x_0 \in [0,1]$ such that $g(x_0) = 0$, which implies that $f(x_0) = x_0$. This is the definition of a fixed point, so $f$ has at least one fixed point. 
+\end{proof}
+
+\section{Problem 81}
+
+\begin{thm}
+Assume that $f,g: [a,b] \to \mathbb{R}$ are continuous such that $f(a) < g(a)$ and $g(b) > g(b)$. Prove that there exists an $x_0 \in [a,b]$ such that $f(x_0) = g(x_0)$. 
+\end{thm}
+
+\begin{proof}
+Define the function $h(x) = f(x) - g(x)$. We see that $h(x)$ is continuous because it is the addition of two continuous functions. Moreover, we see that $h(a) = f(a) - g(a) < 0$ while $h(b) = f(b) - g(b) > 0$. Thus, by the intermediate value theorem, there exists some $x_0$ such that $h(x_0) = 0$. This implies that $f(x_0) = g(x_0)$ for some $x_0 \in [a,b]$.
+\end{proof}
+
+\section{Problem 82}
+
+\begin{thm}
+A function $f: (a,b) \to \mathbb{R}$ is continuous. Prove that given $x_1, x_2, \ldots, x_n$ in $(a,b)$, there exists $x_0 \in (a,b)$ such that $f(x_0) = \frac{1}{2} ( f(x_1) + f(x_2) + \ldots + f(x_n))$. 
+\end{thm}
+
+\begin{proof}
+Let $m = \min \{f(x_1), \ldots, f(x_n) \}$ and let $M = \max \{ f(x_1), \ldots, f(x_n) \}$. We see that $m \leq \frac{1}{2}( f(x_1) + \ldots + f(x_n)) \leq M$. Moreover, since $f$ is continuous, we can use the intermediate value theorem. We see that there exists some $x_0$ such that $f(x_0) =  \frac{1}{2}( f(x_1) + \ldots + f(x_n))$. 
+\end{proof}
+
+\section{Problem 83}
+
+\begin{thm}
+Prove that $(1-x) \cos x = \sin x$ has at least one solution in $(0,1)$.
+\end{thm}
+
+\begin{proof}
+Let $g(x) = (1-x) \cos x - \sin x$. We see that $g(0) = 1$ while $g(1) = - \sin x < 0$. Moreover, we see that $g(x)$ is continuous because it is composed entirely of continuous functions. Therefore, we can apply the intermediate value theorem and see that there exists some $x_0$ such that $g(x_0) = 0$. This shows that there is at least one solution $x_0$ to the equation.
+\end{proof}
+
+\section{Problem 84}
+
+\begin{thm}
+For a nonzero polynomial, show that $|P(x)| = e^x$ has at least one solution.
+\end{thm}
+
+\begin{proof}
+We know that $\lim_{x \to \infty} |P(x)| e^{-x} = 0$ while $\lim_{x \to -\infty} |P(x)| e^{-x} = \infty$. Since polynomials are continuous and $e^{-x}$ is also continuous, we see that $|P(x)| e^{-x}$ is continuous and thus has the intermediate value property. Therefore, we see that there exists some $x_0 \in \mathbb{R}$ such that $|P(x_0) e^{-x_0} = 1$. This would imply that $|P(x_0)| = e^{x_0}$, which is what we wanted.
+\end{proof}
+
+\section{Problem 85}
+
+\begin{thm}
+Suppose $f,g$ have the intermediate value property on $[a,b]$. Must $f + g$ posses the intermediate value property on $[a,b]$?
+\end{thm}
+
+\begin{proof}
+No, consider the following functions:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+\sin \left( \frac{1}{x-a} \right) & a < x \leq b \\
+0 & a = x \end{array} \right.
+\end{eqnarray}
+\begin{eqnarray}
+g(x) = \left\{ \begin{array}{ll}
+- \sin \left( \frac{1}{x-a} \right) & a < x \leq b \\
+-1 & a = x \end{array} \right.
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 86}
+
+\begin{thm}
+Assume that $f: \mathbb{R} \to \mathbb{R}$ satisfies the condition $f(f(x)) = f^2(x) = -x, x \in \mathbb{R}$. Show that $f$ cannot be continuous.
+\end{thm}
+
+\begin{proof}
+Assume the contrary. Then if $f(x_1) = f(x_2)$, we see that we must have $-x_1 = f(f(x_1)) = f(f(x_2)) = -x_2$. Therefore, we must have $x_1 = x_2$ whenever $f(x_1) = f(x_2)$. It follows that $f$ is either strictly increaisng or strictly decreasing. It follows that taking $f(f(x))$, we must have $f^2$ be strictly increasing. However, this is a contradiction of the fact that $f^2(x) = -x$, which is strictly decreasing. Therefore, $f$ cannot be continuous. 
+\end{proof}
+
+\section{Problem 87}
+
+\begin{thm}
+Give an example of a continuous function $f: \mathbb{R} \to \mathbb{R}$ which attains each of its values exactly three times. 
+\end{thm}
+
+\begin{proof}
+Let us define two functions as follows:
+\begin{eqnarray}
+g(x) = \left\{ \begin{array}{ll}
+x + 2 & -3 \leq x < -1 \\
+-x & -1 \leq x < 1 \\
+x - 2 & 1 \leq x \leq 3 
+\end{array} \right.
+\end{eqnarray}
+
+Now define $f(x) = g(x + 6n) + 2n$ for all $6n + 3 \leq x \leq 6n -3$ and $n \in \mathbb{N}$. We see that $f(x)$ has the desired properties. 
+\end{proof}
+
+\section{Problem 88}
+
+\begin{thm}
+Does there exist a continuous function $f: \mathbb{R} \to \mathbb{R}$ which attains each of its values exactly two times?
+\end{thm}
+
+\begin{proof}
+No there does not. Assume by contradiction that there does. Let us take two points $x_1, x_2$ such that $f(x_1) = f(x_2) = c$ and $f(x) \neq c$ for all $x \neq x_1, x_2 \in \mathbb{R}$. Therefore, we can assume that either $f(x) > c$ or $f(x) < c$ for all other $x$. Let us assume without loss of generality that $f(x) > c$ for some $x$. Then we see that there exists some $x_0$ for which $f(x_0) = \max \{ f(x): x \in [x_1, x_2] \}$ by the fact that $[x_1, x_2]$ is a closed, bounded, and hence compact space. Moreover, $f$ can attain its maximum in $[x_1,x_2]$ only once, otherwise the maximum would be attained more than twice. Therefore, there is exactly one point $x'$ outside the interval $[x_1,x_2]$ such that $f(x') = f(x_0)= b >  c$. The intermediate value theorem says that every value in the interval $[c,b]$ is attained at least three times, which is a contradiction. Therefore, there does not exist a continuous function which attains each of its values exactly three times.
+\end{proof}
+
+\section{Problem 89}
+
+\begin{thm}
+A function $f: [0,1] \to \mathbb{R}$ satisfies $f(0) < 0$ and $f(1) > 0$, and there exists a function $g$ continuous on $[0,1]$ such that $f+g$ is decreasing. Prove that the equation $f(x) = 0$ has a solution in the open interval $(0,1)$. 
+\end{thm}
+
+\begin{proof}
+Let $A = \{ x \in [0,1]: f(x) \geq 0 \}$ and let $s = \inf A$. Define the function $h(x) = f(x) + g(x)$. Since $h$ is decreasing by assumption, we see that $h(s) \geq h(x) \geq g(x)$ for all $x \in A$. Since $g$ is continuous, it follows that $h(s) \geq g(s)$. Therefore, we must have $f(s) \geq 0$. By our assumptions, we must have $g(0) > h(0) \geq h(s) \geq g(s)$. Applying the intermediate value theorem, we see that there exists some $t \in (0,s)$ such that $g(t) = h(s)$. Then we know that $h(t) \geq h(s) = g(t)$, so that $h(t) \geq g(t)$, which implies that $f(t) \geq 0$. By the definition of $s$, we see that $t = s$. This implies that $h(t) = g(t)$, so that $f(t) = 0$. 
+\end{proof}
+
+\section{Problem 90}
+
+\begin{thm}
+Prove that if $f$ is uniformly continuous on $(a,b]$ and on $[b,c)$, then it is uniformly continuous on $(a,c)$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Now, we see that there exists a $\delta_1 > 0$ such that $|f(x) - f(y)| < \epsilon$ whenever $|x - y| < \delta_1$ for $x,y \in (a,b]$, and there also exists a $\delta_2 > 0$ such that $|f(x) - f(y) | < \epsilon$ whenever $|x-y| < \delta_2$ for $x,y \in [b,c)$. Therefore, we can take $\delta = \min \{ \delta_1, \delta_2 \}$ so that $|f(x) - f(y) | < \epsilon$ whenever $|x-y| < \delta$ for all $x,y \in (a,c)$. This completes the proof.
+\end{proof}
+
+\section{Problem 91}
+
+\begin{thm}
+Prove that any function continuous and periodic on $\mathbb{R}$ must be uniformly continuous on $\mathbb{R}$. 
+\end{thm}
+
+\begin{proof}
+Let $f$ have a period of $T$. Then we see that $f$ is continuous on $[0,T]$, which in turn implies it is uniformly convergent because $[0,T]$ is closed, bounded, and hence compact. Moreover, we see that $f$ is uniformly continuous on all intervals $[T,2T], [2T,3T], \ldots, [nT, (n+1)T]$ for all $n \in \mathbb{Z}$. We see that $\mathbb{R} = \bigcup_{n \in \mathbb{Z}} [nT, (n+1)T]$, so that these intervals cover $\mathbb{R}$ entirely. Thus, by the previous theorem in problem 90, we see that $f$ must be uniformly convergent on the entire $\mathbb{R}$.
+\end{proof}
+
+\section{Problem 92}
+
+\begin{thm}
+Let $f:[1,\infty) \to \mathbb{R}$ be uniformly continuous. Prove that there is a positive $M$ such that $\frac{|f(x)|}{x} \leq M$ for $x \geq 1$. 
+\end{thm}
+
+\begin{proof}
+By uniform continuity, we can fix $\epsilon = 1$ and find a $\delta > 0$ such that $|f(x) - f(x')| < 1$ whenever $|x- x'| < \delta$ for all $x,x' \in [1, \infty)$. Moreover, we can write all $x \in [1, \infty)$ as the following: $x = 1 + \delta n + r$ where $n \in \mathbb{Z}_{+}$ and $r \in [0,\delta)$. Therefore, we have:
+\begin{eqnarray}
+|f(x)| \leq |f(1)| + |f(1) - f(x)| \leq |f(1)| + (n+1) 
+\end{eqnarray}
+
+Dividing by $x$, this gives:
+\begin{eqnarray}
+\frac{|f(x)|}{x} \leq \frac{|f(1)| + (n+1)}{1 + \delta n + r} \leq \frac{|f(1)|}{\delta} + \frac{n+1}{\delta n } \leq \frac{|f(1)| + 2}{\delta} = M 
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 93}
+
+\begin{thm}
+A function $f: \mathbb{R} \to \mathbb{R}$ is continuous at zero and satisfies the following conditions: $f(0) = 0$ and $f(x_1 + x_2) \leq f(x_1) + f(x_2)$ for any $x_1, x_2 \in \mathbb{R}$. Prove that $f$ is uniformly continuous on $\mathbb{R}$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Then we see that there exists some $\delta > 0$ such that $|f(x) - f(0)| < \epsilon$ whenever $|x| < \delta$ by the continuity of $f$ at $0$. This means that $|f(x)| < \epsilon$ for all $|x| < \delta$. Moreover, we see that if we pick some $|t| < \delta$, then we have:
+\begin{eqnarray}
+|f(t + x) - f(x)| \leq |f(t) + f(x) - f(x)| = |f(t)| < \epsilon
+\end{eqnarray}
+
+This shows that $|f(t + x) - f(x)| < \epsilon$ whenever $|t| < \delta$, which shows that $f$ is uniformly continuous.
+\end{proof}
+
+\section{Problem 94}
+
+\begin{thm}
+Prove that any function which is bounded, monotonic and continuous on an interval $I \subset \mathbb{R}$ is uniformly continuous on $I$. 
+\end{thm}
+
+\begin{proof}
+Assume that $I = (a,b)$ is a bounded interval and $f$ is monotonically increasing without loss of generality. Then, we can see that $\lim_{x \to a^{+}} f(x) = \inf_{x \in (a,b)} f(x)$ and $\lim_{x \to b^{-}} f(x) = \sup_{x \in (a,b)} f(x)$. Therefore, we can extend $f(x)$ to the interval $I = [a,b]$ and see that it is uniformly continuous because this is a compact set. If $I = (a,b)$ is unbounded, then the limits $\lim_{x \to \infty} f(x)$ and $\lim_{x \to -\infty} f(x)$ exist and are finite. Therefore, $f$ is uniformly convergent by a previous problem. 
+\end{proof}
+
+\section{Problem 95}
+
+\begin{thm}
+Assume that $f$ is a continuous mapping of a connected metric space $X$ into a metric space $Y$. Show that $f(X)$ is connected in $Y$. 
+\end{thm}
+
+\begin{proof}
+Suppose the contrary. Then $f(X) = A \cup B$ such that $ \bar{A} \cap B = A \cap \bar{B} = \emptyset$ and $A,B$ are nonempty, open, disjoint sets. Then we see that $X = f^{-1} (A \cup B)$. Now let $U,V$ be sets such that $f(U) = A$ and $f(V) = B$. Since $A,B$ are open, we see that $U = f^{-1}(A)$ and $V = f^{-1}(B)$ are also open and nonempty. Moreover, they are disjoint and $X = U \cup V$, which is a contradiction of the fact that $f$ is connected. Hence, $f(X)$ must also be connected in $Y$. 
+\end{proof}
+
+\section{Problem 96}
+
+\begin{thm}
+Let $(X,d)$ be a metric space and let $A$ be a nonempty subset of $X$. Prove that the function $f: X \to [0,\infty)$ defined by $f(x) = dist(x,A) = \inf \{ d(x,y): y \in A \}$ is uniformly continuous on $X$. 
+\end{thm}
+
+\begin{proof}
+For $x_0,x \in X$ and $y \in A$, we have the following:
+\begin{eqnarray}
+dist(x,A) \leq d(x,y) \leq d(x,x_0) + d( x_0,y) 
+\end{eqnarray}
+
+Therefore, we see that the following is true:
+\begin{eqnarray}
+dist(x,A) - d(x_0,y) \leq d(x,x_0) \\
+dist(x,A) - dist(x_0,A) \leq d(x,x_0)
+\end{eqnarray}
+
+Therefore, we find that:
+\begin{eqnarray}
+|dist(x,A) - dist(x_0,A)| \leq d(x,x_0)
+\end{eqnarray}
+
+Therefore, we see that $|f(x) - f(x_0)| < \delta$ where $d(x,x_0) < \delta$, which implies uniform continuity.
+\end{proof}
+
+\section{Problem 97}
+
+\begin{thm}
+Prove that if $|a_1 \sin x + a_2 \sin 2x + \ldots + a_n \sin n x | \leq |\sin x|$ for $x \in \mathbb{R}$, then $|a_1 + 2 a_2 + \ldots + n a_n| \leq 1$. 
+\end{thm}
+
+\begin{proof}
+Let $f(x) = a_1 \sin x + a_2 \sin 2x + \ldots + a_n \sin n x$. Then we see that $f'(0) = a_1 + 2 a_2 + \ldots + n a_n$. Well, we also the know the following about the definition of $f'(0)$:
+\begin{eqnarray}
+|f'(0)| = \lim_{x \to 0} \left| \frac{f(x) - f(0)}{x} \right| = \lim_{x \to 0} \left| \frac{f(x)}{\sin x} \right| \left| \frac{\sin x}{x} \right|
+\end{eqnarray}
+
+We also know that $\lim_{x \to 0} \frac{\sin x}{x} = \lim_{x \to 0} \frac{\cos x}{1} = 1$ by L'Hospital's Theorem. Thus:
+\begin{eqnarray}
+|f'(0)| = \lim_{x \to 0} \left| \frac{f(x)}{\sin x} \right| \leq 1
+\end{eqnarray}
+
+Because we have assumed $|f(x)| \leq |\sin x|$. Therefore, we see that $|a_1 + 2 a_2 + \ldots + n a_n | \leq 1$. 
+\end{proof}
+
+\section{Problem 98}
+
+\begin{thm}
+Assume that $f$ is differentiable at $a$, then find $\lim_{x \to a} \frac{x f(a) - a f(x)}{x- a}$. 
+\end{thm}
+
+\begin{proof}
+We can make the following algebraic manipulations:
+\begin{eqnarray}
+\lim_{x \to a} \frac{x f(a) - a f(x)}{x-a} &=& \lim_{x \to a} \frac{ x f(a) - a f(a) + a f(a) - a f(x)}{x-a} \\
+&=& \lim_{x \to a} \frac{ f(a) (x-a) + a (f(a) - f(x))}{x-a} = \lim_{x \to a} f(a) + a \frac{f(a) - f(x)}{x-a}
+\end{eqnarray}
+
+Now, we note the definition of a derivative is $f'(a) = \lim_{x \to a} \frac{f(x) - f(a)}{x-a}$, we have:
+\begin{eqnarray}
+\lim_{x \to a} \frac{x f(a) - a f(x)}{x-a} = f(a) - a f'(a)
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 99}
+
+\begin{thm}
+Prove that if $f$ is continuous on a closed interval $[a,b]$, differentiable on the open interval $(a,b)$, and if $f(a) = f(b) = 0$, then for a real $\alpha$ there is an $x \in (a,b)$ such that $\alpha f(x) + f'(x) = 0$. 
+\end{thm}
+
+\begin{proof}
+A straightforward application of the mean value theorem shows that for the function $h(x) = e^{\alpha x} f(x)$, we have $h(b) - h(a) = h'(x) (b-a)$ for some $x \in (a,b)$. This shows that $0 = ( f'(x) e^{\alpha x} + \alpha e^{\alpha x} f(x) ) (b-a)$. Since $b - a \neq 0$ by assumption and $e^{\alpha x} \neq 0$, we have $f'(x) + \alpha f(x) = 0$, which is what we wanted. 
+\end{proof}
+
+\section{Problem 100}
+
+\begin{thm}
+Let $f$ and $g$ be continuous functions on $[a,b]$, differentiable on the open interval $(a,b)$, and let $f(a) = f(b) = 0$. Show that there is a point $x \in (a,b)$ such that $g'(x) f(x) + f'(x) = 0$. 
+\end{thm}
+
+\begin{proof}
+Take the function $h(x) = e^{g(x)} f(x)$ and observe that it is continuous on $[a,b]$ and differentiable on $(a,b)$ by being the composition of functions that have these properties. Therefore, we see that we can apply the mean value theorem and obtain $h(b) - h(a) = h'(x) (b-a)$ for some $x \in (a,b)$. Since we know that $h(b) = h(a) = 0$ by assumption, and we know that $b-a \neq 0$, we see that $h'(x) = 0$. Therefore, taking the derivative, we have $0 = h'(x) = f'(x) e^{g(x)} + f(x) g'(x) e^{g(x)}$. Since we also know that $e^{g(x)} \neq 0$, we can divide by it and see that there exists some $x \in (a,b)$ for which $g'(x) f(x) + f'(x) = 0$. 
+\end{proof}
+
+\section{Problem 101}
+
+\begin{thm}
+Let $(X,d_1)$ be a metric space and for $x \in X$ define $\rho(x) = dist(x, X \setminus \{x_n\})$. Prove the following two conditions are equivalent: a) each continuous function $f: X \to \mathbb{R}$ is uniformly continuous b) every sequence $\{ x_n \}$ of elements in $X$ such that $\lim_{n \to \infty} \rho(x_n) = 0$ contains a convergent subsequence.
+\end{thm}
+
+\begin{proof}
+Assume that the first condition is met and let $\{ x_n \}$ be a sequence with elements in $X$ such that $\lim_{n \to \infty} \rho(x_n ) = 0$. Suppose by contradiction that $\{ x_n \}$ does not cotnain a convergent subsequence. First, we know there must be a sequence $\{ y_n \}$ such that $\lim_{n \to \infty} d(x_n, y_n) = 0$. Moreover, $\{y_n \}$ cannot have a uniformly convergent subsequence in $\{ y_{n_k} \}$. If it did, then $\lim_{n \to \infty} d(x_{n_k}, y_{n_k} ) = 0$ for some subsequence $\{x_{n_k} \}$ which would imply that $\{x_n\}$ has a convergent subsequence. This is a contradiction, so $\{ y_n \}$ cannot have a uniformly convergent subsequence. Therefore, no term of $\{x_n \}$ and $\{ y_n \}$ are repeated infinitely many times. We can therefore define $F_1 = \{ x_{n_k} : k \in \mathbb{N} \}$ and $F_2 = \{ y_{n_k} : k \in \mathbb{N} \}$, which are closed and disjoint. By the Urysohn lemma, there exists a continuous function $f: X \to \mathbb{R}$ that takes on the values of one on $F_1$ and zero on $F_2$. Therefore, we see that $|f(x_{n_k}) - f(y_{n_k})| = 1$ while $\lim_{k \to \infty} d(x_{n_k},y_{n_k}) = 0$, which shows that $f$ is not uniformly continuous. Since $f$ is continuous, this is a contradiction of our assumptions.
+
+To prove the converse, we assume that every sequence $\{x_n \}$ in $X$ such that $\lim_{n \to \infty} \rho(x_n) =0$ contains a convergent subsequence. Let $A$ be the set of all limit points of $X$. We see that every sequence on $A$ has a convergent subsequence, which shows that $A$ is compact. Fix $\delta_1 > 0$ and put $\delta_2 = \inf \{ \rho(x): x \in X, dist(x,A) > \delta_1 \}$. We must have $\delta_2 > 0$, or else if $\delta_ 2 = 0$, then we see that ther exists some sequence $\{ x_n \}$ such that $\lim_{n \to \infty} (x_n) = 0$ and $dist(x,A) > \delta_1$. This is a contradiction of the fact that $\delta_2 = 0$, which shows that $\delta_2 > 0$.
+
+Now let $f: X \to \mathbb{R}$ be continuous. Fix $\epsilon > 0$, and we see that there exists a $\delta_x > 0$ such that $|f(x) - f(y)| < \epsilon$ whenever $d_1(x,y) < \delta_x$ for all $x,y \in X$. Since $A$ is compact, there exist a finite number of $x_1, x_2, \ldots, x_k$ such that $X$ is covered by neighborhoods of each $x_i$:
+\begin{eqnarray}
+X \subset \bigcup_{i=1}^k N_{\delta_i/2} (x_i)
+\end{eqnarray}
+
+Therefore, we can take $\delta_1 = \frac{1}{3} \min \{ \delta_1, \ldots, \delta_k \}$ and $\delta_2$ as before. Let $\delta = \min \{ \delta_1, \delta_2 \}$. Now pick $x,y \in X$ such that $d_1(x,y) < \delta$. If $d(x,A) > \delta_1$, then $\rho(x) > \delta_2$ so $d_1(x,y) < \delta < \delta_2$ so $x=y$. In this case $|f(x) - f(y)| = 0 < \epsilon$. Now, if $d(x,A) \leq \delta_1$, then we see there must be some $a \in A$ for which $d_1(x,a) < \delta_1$. Moreover, there must be some $i \in \{1,\ldots, k \}$ for which $d_1(a,x_i) < \frac{1}{3} \delta_i$. Therefore, we have:
+\begin{eqnarray}
+d_1(y, x_i) \leq d_1(y,x) + d_1(x,a) + d_1(a, x_i) < \delta + \delta_1 + \frac{1}{3}\delta_i < \delta_i
+\end{eqnarray}
+
+Moreover, we see that:
+\begin{eqnarray}
+|f(x) - f(y)| \leq |f(x) - f(x_i)| + |f(x_i) + f(y)| < 2 \epsilon
+\end{eqnarray}
+
+This proves the uniform continuity of $f$. 
+\end{proof}
+
+\section{Problem 102}
+
+\begin{thm}
+Assume that $f$ is twice differentiable on $(a,b)$ and that there is some $M > 0$ such that $| f''(x) | \leq M$ for all $x \in (a,b)$. Prove that $f$ is uniformly continuous on $(a,b)$.
+\end{thm}
+
+\begin{proof}
+It is sufficient to show that $f'$ is bounded on $(a,b)$. Fix $y \in (a,b)$. We can use the mean value theorem on $f'$ to see that for all $x \in (a,b)$, we have $|f'(x) - f'(y)| = |f''(c)| (x-y)$ for some $c \in (x,y)$. Thus, we see that $|f'(x) - f'(y)| \leq M (x - y)$ which implies $|f'(x)| \leq M (x-y) + |f'(y)| \leq M (b-a) + |f'(y)|$. Since $f'(y)$ is a constant, we see that $|f'(x)| \leq J$ where $J > 0$ is a constant. Therefore, we see that $f'$ is bounded for all $x \in (a,b)$, which implies that $f$ is uniformly continuous. 
+\end{proof}
+
+\section{Problem 103}
+
+\begin{thm}
+Let $f$ be continuous on $[0,1]$ and differentiable on $(0,1)$. Suppose that $f(0) = f(1) = 0$ and there exists some $x_0 \in (0,1)$ such that $f(x_0) = 1$. Prove that $|f'(c) | > 2 $ for some $c \in (0,1)$. 
+\end{thm}
+
+\begin{proof}
+Pick $x_0$ such that $f(x_0) = 1$. Then we use the mean value theorem to see that $|f(x_0) - f(0)| = |f'(c)| x_0$ which implies $|f(x_0)| = |f'(c)| x_0$. Using the mean value theorem again, we see that $|f(1) - f(x_0)| = |f'(d)| |1 - x_0 |$, which implies $|f(x_0)| = |f'(d)| | 1 - x_0| $. Therefore, we have:
+\begin{eqnarray}
+|f'(c)| &=& \frac{|f(x_0)|}{|x_0|} = \frac{1}{|x_0|} \\
+|f'(d)| &=& \frac{|f(x_0)}{1 - x_0|} = \frac{1}{|1 - x_0|} 
+\end{eqnarray}
+
+Suppose that $x_0 > \frac{1}{2}$, then we see that $|f'(d)| > 2$. If $x_0 < \frac{1}{2}$, then $f'(c) > 2$. If $x_0 = \frac{1}{2}$, then both $|f'(c)| = |f'(d)| = 2$. Therefore, for whatever value of $x_0 \in (0,1)$, we see that there exists some $c$ for which $|f'(c)| > 2$. 
+\end{proof}
+
+\section{Problem 104}
+
+\begin{thm}
+Assume that $f$ is differentiable on an open interval $I$ and that $[a,b] \subset I$. We say that $f$ is uniformly differentiable on $[a,b]$ if $\forall \epsilon > 0$, $\exists \delta > 0$ such that $| \frac{f(x+h) - f(x)}{h} - f'(x)| < \epsilon$ for all $x \in [a,b]$ and $|h| < \delta$, with $x+h \in I$. Prove that $f$ is uniformly differentiable on $[a,b]$ if and only if $f'$ is continuous on $[a,b]$.
+\end{thm}
+
+\begin{proof}
+First, assume that $f$ is uniformly differentiable. Then there exists a sequence $\{ \frac{f(x+h) - f(x)}{h} \}$ which is uniformly convergent to $\{ f'(x) \}$. Since each term in the sequence is continuous, we see that $f'(x)$ is also continuous because of uniform convergence. 
+
+To prove the converse, we assume that $f'$ is continuous on $[a,b]$. This implies that $f'$ is uniformly continuous. By mean value theorem, we see that $|f(x+h) - f(x)| = |f'(x + \theta h)| h$ for some $\theta \in (0,1)$. Therefore, we have:
+\begin{eqnarray}
+\left| \frac{f(x+h) - f(x)}{h} - f'(x) \right|= |f'(x+ \theta h) - f'(x)| < \epsilon
+\end{eqnarray}
+
+This follows from uniform continuity, since we see that for a fixed $\epsilon > 0$, there exists a $\delta > 0$ such that $|f'(x+ \theta h) - f'(x)| < \epsilon$ if $|h| < \delta$ for all $x \in [a,b]$. Therefore, $f$ is uniformly differentiable.
+\end{proof}
+
+\section{Problem 105}
+
+\begin{thm}
+Prove that a metric space is compact if and only if every continuous function $f: X \to \mathbb{R}$ is bounded. 
+\end{thm}
+
+\begin{proof}
+Suppose first that $X$ is compact. Then every continuous function is uniformly continuous. Since $X$ is compact, there exist a finite number of points $x_1, \ldots, x_n$ such that $X \subset N_{\delta_1} (x_1) \cup \ldots \cup N_{\delta_n} (x_n)$. Now select $\delta = \max \{ \delta_1, \ldots, \delta_n \}$. Moreover, we can pick $M = \max \{ f(x_1), \ldots, f(x_n) \}$. Fix $\epsilon > 0$ and choose $x \in X$. It is clear that there exists some $i = 1, \ldots, n$ for which $d(x,x_i) < \delta_i$. Thereofre, by uniform continuity, we see that $|f(x) - f(x_i)| < \epsilon$ so that $|f(x)| < \epsilon + |f(x_i)| < \epsilon + M$. Therefore, we see that $f(x)$ is bounded for all $x \in X$. 
+
+To prove the converse, assume $f$ is continuous and there exists an $M$ such that $|f(x)| < M$ for all $x \in X$. Now suppose by contradiction that $X$ is not compact. Thus, there exists some sequence $\{ x_n \}$ for which no subsequence converges. Let $F = \{ x_n : n \in \mathbb{N} \}$, which is a closed set. Moreover, we know that $f(x_n) = n$ is continuous on $F$. According to the Tietze extension theorem, there exists a continuous extension of $f$ defined on all of $X$. But this is a contradiction, because $f$ is not bounded, and we assumed every continuous function on $X$ is bounded. Therefore, $X$ must be compact.
+\end{proof}
+
+\section{Problem 106}
+
+\begin{thm}
+Let $\mathscr{F}$ denote a family of real functions continuous on a complete metric space $X$ such that for all $x \in X$, there exists some $M_x$ such that $|f(x)| < M_x$ for all $f \in \mathscr{F}$. Prove that there exists some $M > 0$ and a nonempty open set $G \subset X$ such that $|f(x)| < M$ for all $f \in \mathscr{F}$ and $x \in G$. 
+\end{thm}
+
+\begin{proof}
+Define $F_n = \{ x \in X: |f(x)| < n,  \forall f \in \mathscr{F} \}$. Since $f$ are all continuous, we see that $F_n$ is closed. By assumption, for all $x \in X$, there exists some $n_x$ such that $|f(x)| < n_x$. Thus, $x \in F_{n_x}$. Therefore, we see that $\mathscr{F} = \bigcup_{n=1}^\infty F_n$. Thus, there exists some $F_{n_0}$ with a nonempty interior. Take $G = F_{n_0}^{\circ}$ and we see that all $|f(x)| < n_0$ for all $f \in \mathscr{F}$ and $x \in G$. 
+\end{proof}
+
+\section{Problem 107}
+
+\begin{thm}
+Prove that if $f$ is differentiable on $[0,1]$ and if $f(0) = 0$, and there exists some $K > 0$ such that $|f'(x) \leq K |f(x)|$ for all $x \in [0,1]$, then $f(x) \equiv 0$. 
+\end{thm}
+
+\begin{proof}
+Pick $x_0 \in [0,1]$, and we can use mean value theorem to obtain the following: $|f(x_0)| = |f'(x_1)| x_0  \leq K x_0 |f(x_1)|$ for some $x_1 \in (0, x_0)$. Next, we can apply mean value theorem again to obtain: $|f(x_1)| = |f'(x_2)| x_1) \leq K x_1 |f(x_2)|$. Therefore, $|f(x_0)| \leq  K^2 x_0 x_1 |f(x_2)|$. We can repeat this process, and find that by induction we have $|f(x_0)| \leq K^n x_0 x_1 \ldots x_{n-1} |f(x_n)|$ for some $n \in \mathbb{N}$. Note that we stop applying the mean value theorem once $x_{n-1} < K$. Also note that $0 < x_n < x_{n-1} < \ldots < x_1 < x_0$. Therefore, for each $x \in [0,1]$, we have $|f(x)| \leq K^n x^n |f(x_n)|$ for some $n \in \mathbb{N}$. This shows that $f$ is bounded and that $f(x) \equiv 0$ on the interval $[1, 1/n] \cap [0,1]$. To show that $f(x) \equiv 0$ on the rest of the interval, repeat the process and take $f(x)$ as a new ending point. We see that $[0,1]$ can be decomposed into finitely many of these intervals, which shows that $f(x) \equiv 0$ on all of $[0,1]$. 
+\end{proof}
+
+\section{Problem 108}
+
+\begin{thm}
+Let $f$ be continuous on $[a,b]$, $g$ be differentiable on $[a,b]$ and $g(a) = 0$. Prove that if there exists $\lambda \neq 0$ such that $|g(x) f(x) - \lambda g'(x)| \leq |g(x)|$ for all $x \in [a,b]$, then $g(x) \equiv 0$ on $[a,b]$. 
+\end{thm}
+
+\begin{proof}
+First, note that $f$ continuous on a compact set $[a,b]$ implies that $f$ is uniformly continuous, hence bounded on $[a,b]$. Therefore, there exists an $A$ such that $|f(x)| < A$ for all $x \in [a,b]$. Rewriting our assumptions, we have the following and letting $B = \frac{\lambda}{A + 1}$:
+\begin{eqnarray}
+|g'(x)| \leq  |g(x)| \frac{|f(x)| + 1}{\lambda} \leq \frac{|g(x)|}{B} 
+\end{eqnarray}
+
+Now let $[c,d] \subset [a,b]$ be a subinterval whose length is not greater than $\frac{1}{2} \frac{|\lambda|}{1 +A} = \frac{B}{2}$. and such that $g(c) = 0$. Then we see that by applying the mean value theorem to some point $x_0 \in [c,d]$, we obtain $|g(x_0)| = |g'(x_1)| |x_0- c|$ for some $x_1 \in (c, x_0)$. Therefore, we find that:
+\begin{eqnarray}
+|g(x_0)| \leq |g(x_1)| \frac{| x_0 - c|}{B} \leq |g(x_1)| \frac{B}{2B} = \frac{1}{2} |g(x_1)|
+\end{eqnarray}
+
+Repeating this process, we see that:
+\begin{eqnarray}
+|g(x_0)| \leq \frac{1}{2} |g(x_1)| \leq \ldots \leq \frac{1}{2^n} |g(x_n)| \leq \ldots
+\end{eqnarray}
+
+This is true for a decreasing sequence of $\{ x_n \}$ such that $c < x_n < x_{n-1} < \ldots < x_1 < x_0$. Since $g(c) = 0$, we see that $g(x_0) = 0$. It is enough to decompose $[a,b]$ into a finite number of subintervals with length less than $B/2$, and show that $g(x) \equiv 0$ for all of these subintervals. This shows that $g(x) \equiv 0$ on $[a,b]$. 
+\end{proof}
+
+\section{Problem 109}
+
+\begin{thm}
+Show that the limit function of a uniformly convergent sequence of bounded functions is bounded.
+\end{thm}
+
+\begin{proof}
+Let $\{ f_n \}$ converge uniformly to $f$, and let there exist some $M_n > 0$ for each $n \in \mathbb{N}$ such that $|f_n (x)| < M_n$ for all $x \in X$. Fix $\epsilon > 0$. Since $\{f_n \}$ converges uniformly, there exists some $N$ such that for all $n > N$ and for all $x \in X$, we have $|f_n(x) - f(x)| < \epsilon$. Therefore, we see that $|f(x)| < \epsilon + |f_n(x)|$. However, we can take $M = \max \{ M_1, M_2, \ldots, M_N \}$ and see that we must have $|f(x) | < \epsilon + M$, which shows that $|f(x)|$ is bounded.
+\end{proof}
+
+\section{Problem 110}
+
+\begin{thm}
+Let $\{ a_n \}$ be a convergent sequence of real numbers and let $\{ f_n \}$ be a sequence of functions satsifying $\sup \{ |f_n(x) - f_m(x): x \in A \} \leq |a_n - a_m |$ for all $n,m \in \mathbb{N}$. Prove that $\{ f_n \}$ converges uniformly.
+\end{thm}
+
+\begin{proof}
+First, we know by Cauchy criterion of convergence, that for a fixed $\epsilon > 0$, that there exists some $N$ such that $n,m > N$ implies that $|a_n - a_m| < \epsilon$. Moreover, we see that by our assumptions, we must have for all $x \in A$  $|f_n(x) - f_m(x)| < |a_n - a_m|$ because of the supremum condition. Therefore, we can choose $N$ as before so and see that for all $x \in A$ that $n,m > N$ implies $|f_n(x) - f_m(x)| < |a_n - a_m | < \epsilon$. This shows uniform convergence.
+\end{proof}
+
+\section{Problem 111}
+
+\begin{thm}
+Assume that $\{ f_n \}$ is a sequence of increasing or decreasing functions on $[a,b]$ converging pointwise to a function continuous on $[a,b]$. Prove that $\{ f_n \}$ converges uniformly on $[a,b]$.
+\end{thm}
+
+\begin{proof}
+Assume without loss of generality that each $f_n$ is increasing and that $\{ f_n \} \rightarrow f$. By assumption, we see that $f$ is continuous on a compact set $[a,b]$ so that $f$ is uniformly continuous. This means that for a fixed $\epsilon > 0$, there exists a $\delta > 0$ such that for all $x, x_i \in [a,b]$ we have $|f(x) - f(x_i)| < \epsilon$ whenever $|x - x_i | < \delta$. Take a partition of $[a,b]$ such that $a = x_0 < x_1 < x_2 < \ldots < x_p = b$, where $|x_i - x_{i-1}| < \delta$ for all $i \in \{1, \ldots, p \}$. Now pick $x \in [a,b]$. It is clear that there exists some $i$ for which $x_{i-1} \leq x \leq x_i$. Therefore, $|f(x) - f(x_i)| < \epsilon$ for all $x \in [a,b]$ for some $i \in \{1, \ldots, p \}$. 
+
+By pointwise convergence, there exists an $N$ such that for all $n > N$ we have $|f_n(x_i) - f(x_i) | < \epsilon$ for all $x \in [a,b]$. Thus, we see that for all $x \in [a,b]$, there exists an $N$ such that for all $n > N$, we have:
+\begin{eqnarray}
+|f_n(x) - f(x)| \leq |f_n(x) - f_n(x_i)| + |f_n(x_i) - f(x_i)| + |f(x_i) - f(x)| < 3 \epsilon
+\end{eqnarray} 
+
+This proves uniform convergence on $\{ f_n \}$ to $f$.
+\end{proof}
+
+\section{Problem 112}
+
+\begin{thm}
+Let $f: X \to \mathbb{R}$ be uniformly continuous. Show that if $\{ a_n \}$ is Cauchy in $X$, then $\{ f( a_n ) \}$ is convergent in $\mathbb{R}$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$.  Since $f$ is uniformly continuous, we see that there exists some $\delta > 0$ such that $|f(x) - f(y)| < \epsilon$ whenever $|x-y| < \delta$ for all $x,y \ in X$. By the definition of Cauchy sequence, we see that there exists some $N$ such that for all $n,m > N$, we have $|a_m - a_n | < \delta$. Therefore, we have $|f(a_n) - f(a_m)| < \epsilon$ whenever $n,m > N$, which implies that $|a_m - a_n | < \delta$. Therefore, we have proven that $\{ f(a_n) \}$ is convergent in $\mathbb{R}$.
+\end{proof}
+
+\section{Problem 113}
+
+\begin{thm}
+Suppose $f: X \to \mathbb{R}$ maps Cauchy sequences to convergent sequences. Is $f$ necessarily uniformly continuous? 
+\end{thm}
+
+\begin{proof}
+No. Let $\{ a_n \}$ be a Cauchy sequence in $X$, and define $f(x) = x^2$. We see that $\{ f(a_n) \} = \{ a_n^2 \}$ is convergent. However, we know that $f$ is not uniformly continuous because we cannot find a single $\delta > 0$ for every $\epsilon$ for which $|x^2 - y^2 | < \epsilon$ whenever $|x-y| < \delta$. 
+\end{proof}
+
+\section{Problem 114}
+
+\begin{thm}
+Let $\{ p_n \}$ be a sequence in a metric space $(X,d)$ and let $a_n = d(p_n,p_{n+1})$. Assume that $\sum_{n=1}^\infty a_n$ converges. Show that $\{ p_n \}$ is a Cauchy sequence.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. We know by the Cauchy criterion for convergence of series that there exists some $N$ such that for all $n,m \geq N$ (let us assume without loss of generality that $m > n$), that $|a_m + a_{m+1} + \ldots + a_n | < \epsilon$. Substituting in the definition of $a_n$, we have: $| d(p_n, p_{n+1} ) + d(p_{n+1}, p_{n+2}) + \ldots + d(p_{m-1}, p_m) | < \epsilon$ which shows by triangle inequality that $d(p_n, d_pm) \leq d(p_n, p_{n+1}) + \ldots + d(p_{m-1},p_m) < \epsilon$. therefore, we see that $\{ p_n \}$ is a Cauchy sequence.
+\end{proof}
+
+\section{Problem 115}
+
+\begin{thm}
+Prove that if $\{ f_n \}$ is pointwise convergent and equicontinuous on a compact set $K$, then $\{ f_n \}$ is uniformly convergent on $K$.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$.  Equicontinuity implies that there exists some $\delta > 0$ such that $|f_n(x) - f_n(y)| < \epsilon$ whenever $|x-y|< \delta$ for all $x,y \in K$. Taking the limit as $n \to \infty$, we see that $|f(x) - f(y)| < \epsilon$ whenever $|x - y | < \delta$. Moreover, since $K$ is compact, there exist a finite number of $x_1, x_2, \ldots, x_p$ such that $X \subset N_{\delta_1} (x_1) \cup \ldots \cup N_{\delta_p}(x_p) $. Therefore, for any $x \in K$, we see that there exists some $i$ for which $d(x,x_i) < \delta_i$. Now take $\delta = \min \{ \delta_1, \ldots, \delta_p \}$ for our definition in the equicontinuity condition. Pointwise convergence implies that there exists an $N$ such that for all $n > N$, we have $|f_n(x) - f(x)| < \epsilon$ for all $x \in K$. Therefore, we have:
+\begin{eqnarray}
+|f_n(x) - f(x)| \leq |f_n(x) - f_n(x_i)| + |f_n(x_i) - f(x_i)| + |f(x_i) - f(x) | < 3 \epsilon
+\end{eqnarray}
+
+Thus, we have shown uniform convergence of $\{ f_n \}$ on $K$. 
+\end{proof}
+
+\section{Problem 116}
+
+\begin{thm}
+Let $\{ f_n \}$ be a sequence of continuous functions on a closed interval $[a,b]$ and differentiable on the open interval $(a,b)$. Assume that $\{ f'_n \}$ is uniformly bounded on $(a,b)$. Prove that if $\{ f_n \}$ is pointwise convergent on $[a,b]$, then $\{ f_n \} \rightrightarrows f$ on $[a,b]$.
+\end{thm}
+
+\begin{proof}
+It is sufficient to prove that $\{ f_n \}$ is equicontinuous, because then we can use the theorem proven in problem 115 to show hat $\{ f_n \}$ is uniformly convergent on a compact set $[a,b]$. First, we note that $\{ f'_n \}$ being uniformly bounded means that there exists some $M$ for which $|f'_n(x)| < M$ for all $x \in [a,b]$ and for all $n \in \mathbb{N}$. Fix $\epsilon > 0$. Using the mean value theorem, we see that:
+\begin{eqnarray}
+|f_n(x) - f_n(y)| = |f'_n(c)| |x-y| \hspace{0.5cm} \Rightarrow \hspace{0.5cm} |f_n(x) - f_n(y)| \leq M |x-y| < M \delta 
+\end{eqnarray}
+
+We can choose a $\delta = \epsilon/ M$ so that $|f_n(x) - f_n(y)| < \epsilon$ for all $x \in [a,b]$ and for all $n \in \mathbb{N}$. Therefore, we have shown that $\{ f_n \}$ is equicontinuous, and by the previous theorem, we have shown that $\{ f_n \}$ is also uniformly convergent on $[a,b]$. 
+\end{proof}
+
+\section{Problem 117}
+
+\begin{thm}
+Suppose $\sum_{n=1}^\infty f_n(x)$, for all $x \in A$ converges uniformly on $A$ and $f: A \to \mathbb{R}$ is bounded. Prove that $\sum_{n=1}^\infty f(x) f_n(x)$ converges uniformly on $A$. 
+\end{thm}
+
+\begin{proof}
+First, by the Cauchy criterion for convergence of series, we see that for a fixed $\epsilon > 0$, there exists some $N$ such that for all $n-1,m > N$, we have $|f_m(x) + f_{m-1}(x) + \ldots + f_{n}(x)| < \epsilon$ for all $x \in A$. Moreover, by boundedness, there exists some $M$ such that $|f(x)| < M$ for all $x \in A$. Define $s_N = \sum_{n=1}^N f(x) f_n(x)$. We see that for $m,n > N$, we have $|s_n - s_m | = |f(x) (f_m(x) + f_{m-1}(x) + \ldots + f_n(x)) | \leq |f(x)| \epsilon < M \epsilon$ for all $x \in A$. Therefore, since $M$ is a constant, we see that $\{ s_n \}$ converges uniformly by the Cauchy criterion, which shows that $\sum_{n=1}^\infty f(x) f_n(x)$ does as well.
+\end{proof}
+
+\section{Problem 118}
+
+\begin{thm}
+Suppose $\sum_{n=0}^\infty f_n(x)$ converges absolutely and uniformly on $A$. Must the series $S(x) = \sum_{n=0}^\infty |f_n(x)|$ converge uniformly on $A$?
+\end{thm}
+
+\begin{proof}
+No. We can take $A = [0,1]$ and set $f_n(x) = (-1)^n (1-x) x^n$ for $x \in [0,1]$. We clearly see that $\sum f_n(x)$ converges absolutely on $[0,1)$ because $x^n$ converges for $|x|<1$. Clearly, if $x=1$, the $f_n(1) = 0$, which shows absolute convergence. Moreover, it is uniformly convergent by the Weierstrass M test. However, we see $S(x) = \sum_{n=0}^\infty |f_n(x)| = \sum_{n=0}^\infty (1-x) x^n$ has the following solution:
+\begin{eqnarray}
+S(x) = \left\{ \begin{array}{l l }
+1 & x \in [0,1) \\
+0 & x = 1 
+\end{array} \right.
+\end{eqnarray}
+
+Therefore, since $f(x)$ is not continuous, we see that $\{ f_n \}$ cannot possibly converge uniformly to $f$. 
+\end{proof}
+
+\section{Problem 119}
+
+\begin{thm}
+Suppose $\sum_{n=1}^\infty \frac{1}{|a_n|}$ converges. Prove that $\sum_{n=1}^\infty \frac{1}{x - a_n }$ converges absolutely and uniformly on each bounded set $A$ that does not contain $a_n$ for $n \in \mathbb{N}$.
+\end{thm}
+
+\begin{proof}
+First, we know that $\sum \frac{1}{a_n}$ converges absolutely, which shows that $\lim_{n \to \infty} a_n = \infty$. Moreover, we see that the following is true:
+\begin{eqnarray}
+\frac{1}{|x-a_n|} \leq \frac{1}{|a_n|} \frac{1}{|\frac{x}{a_n}| - 1|} \leq \frac{1}{|a_n|} \frac{1}{\frac{M}{|a_n|} - 1}
+\end{eqnarray}
+
+Where we have defined $M = \sup_{x \in A} |f(x)|$. Therefore, it is clear that if $\sum \frac{1}{|a_n|}$ converges, then so too must $\sum \frac{1}{|a_n|}\frac{1}{\frac{M}{|a_n|}-1}$. This completes the proof.
+\end{proof}
+
+\section{Problem 120}
+
+\begin{thm}
+Suppose $\alpha$ increases on $[a,b]$, $a \leq c \leq b$, $\alpha$ is continuous at $c$, and $f(c) = 1$ while $f(x) = 0$ for all $x \neq c$. Show that $f \in \mathscr{R}(\alpha)$ and that $\int_a^b f d\alpha = 0$. 
+\end{thm}
+
+\begin{proof}
+A theorem in Rudin says that if $\alpha$ is continuous at all points of discontinuity of $f$, where $f$ has finitely many points of discontinuity, then $f$ is integrable. Now, let us take some partition $P = \{ a = x_0 < x_1 < \ldots < x_n = b \}$ for $[a,b]$. Then we see that there exists some $i$ for which $x_{i-1} < c \leq x_i$. Therefore, we have $U(P,f,\alpha) = f(c) (\alpha(x_i) - \alpha(x_{i-1}))$, while we also have $L(P,f, \alpha) = 0$. Since $\alpha$ is continuous at $c$, we can fix some $\epsilon > 0$ and find some $\delta > 0$ such that $|\alpha(x_i) - \alpha(x_{i-1})| < \epsilon$ whenever $|x_i - x_{i-1} | < \delta$. Therefore, we can take a partition such that $|x_i - x_{i-1}| < \delta$ and find that $U(P,f,\alpha) < f(c) \epsilon = \epsilon$ because $f(c) = 1$. Therefore, we see that $U(P,f, \alpha) - L(P,f,\alpha) < \epsilon$, which implies integrability, while we also see that $\int_a^b f d \alpha = 0$. 
+\end{proof}
+
+\section{Problem 121}
+
+\begin{thm}
+Suppose $f$ is continuous on $[a,b]$, $a<c<b$, $\alpha(x) = 0$ if $x \in [a,c)$ and $\alpha(x) = 1$ if $x \in (c,b]$. Show that $\int_a^b f d \alpha = f(c)$. 
+\end{thm}
+
+\begin{proof}
+Take some partition $P = \{ a = x_0 < x_1 < \ldots < x_n = b \}$ of $[a,b]$. Then it is clear that there exists some $i$ for which $x_{i-1} < c \leq x_i$. We see that $U(P,f,\alpha) = M (\alpha(x_i) - \alpha(x_{i-1}))$ while $L(P,f,\alpha) = m (\alpha(x_i) - \alpha(x_{i-1})$ where $ M = \sup \{ f(x): x \in [x_{i-1},x_i] \}$ and $m = \inf \{ f(x): x \in [x_{i-1}, x_i ] \}$. We note that by a theorem in Rudin, $f \in \mathscr{R}(\alpha)$ because $f$ is continuous. This implies that $U(P,f,\alpha) - L(P,f,\alpha) < \epsilon$. Moreover, since we know that $(\alpha(x_i) - \alpha(x_{i-1}) = 1$, we see that $M - m < \epsilon$. This implies that $\inf U(P,f,\alpha) = \sup L(P,f, \alpha) = f(c)$, and that $\int_a^b f(x) d\alpha = f(c)$. 
+\end{proof}
+
+\section{Problem 122}
+
+\begin{thm}
+Let $0 < a < b$. Find the upper and lower Riemann intergrals of $f$ over $[a,b]$ for:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+x & x \in [a,b] \cap \mathbb{Q} \\
+0 & x \in [a,b] \setminus \mathbb{Q} 
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+First, since $\mathbb{Q}$ is dense in $\mathbb{R}$, we see that $L(P,f) = 0$ for any partition. Therefore $\int_{\underline{a}}^b f dx = 0$. Next, pick a partition $P = \{ a = x_0 < x_1 < \ldots < x_n = b \}$ of $[a,b]$. We see that $U(P,f) = \sum_{i=0}^n x_i ( x_i - x_{i-1} ) = \sum_{i=0}^n x_i^2 - x_i x_{i-1} \geq \frac{1}{2} (b^2- a^2)$ because we have $2 x_i x_{i-1} < x_i^2 + x_{i-1}^2$. Therefore, we see that $\int_{a}^{\overline{b}} f dx = \frac{1}{2} (b^2 - a^2)$. 
+\end{proof}
+
+\section{Problem 123}
+
+\begin{thm}
+Let $a > 0$ and find the upper and lower Riemann integrals of $f$ over $[-a,a]$ for:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+x & x \in [-a,a] \cap \mathbb{Q} \\
+0 & x \in [-a,a] \setminus \mathbb{Q}
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+Pick a partition $P = \{ a = x_0 < x_1 < \ldots < x_{j-1} = 0 < x_j < \ldots < x_n = b \}$. Now, we see using the same logic from problem 123, that $L(P,f) = \sum_{i=0}^{j-2} x_i (x_i - x_{i-1}) \leq - \frac{1}{2} a^2$, while $U(P,f) = \sum_{i=j+1}^{n-1} x_{i+1} (x_{i+1} - x_i ) \geq \frac{1}{2} a^2$. Therefore, we have $\int_{\underline{a}}^b f dx = -\frac{1}{2} a^2 $ and $\int_{a}^{\overline{b}} f dx = \frac{1}{2} a^2$. 
+\end{proof}
+
+\section{Problem 124}
+
+\begin{thm}
+Show that the Riemann function $f$ is Riemann integrable on every interval $[a,b]$, where:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ l l}
+0 & x \mbox{ irrational or 0} \\
+1/q & x = p/q, p \in \mathbb{Z}, q \in \mathbb{N}, \mbox{and coprime} 
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+Fix $[a,b]$ and take some $N \in \mathbb{N}$. There are only finitely many rationals $p/q$ such that $q < N$ in $[a,b]$. Let $k_N$ denote the number of these rationals and make a partition $P$ such that there are at most $2k_N$ subintervals $[x_{i-1},x_i]$ containing at least one of the rationals mentioned above and such that $d(x_i,x_{i-1}) < \delta$. On the other subintervals, we have $M_i - m_i < 1/N$. Therefore, we have:
+\begin{eqnarray}
+U(P,f) - L(P,f) < 2 k_N \delta + \frac{b-a}{N}
+\end{eqnarray}
+
+Now pick $\epsilon > 0$ and we can choose $N > \frac{2 (b-a)}{\epsilon}$ so that $U(P,f) - L(P,f) < \epsilon$, which shows that $f \in \mathscr{R}([a,b])$. 
+\end{proof}
+
+\section{Problem 125}
+
+\begin{thm}
+Let $f: [0,1] \to \mathbb{R}$ and show that $\int_0^1 f(x) dx = 0$ when
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+1 & x = \frac{1}{n}, n \in \mathbb{N} \\
+0 & \mathrm{else}
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+Let $\epsilon > 0$ be given. There exists an $N$ such that $1/n < \epsilon / 2$. whenever $n > N$. Then we can choose $P$ such that 
+\begin{eqnarray}
+0 = x_0 < x_1 = \frac{1}{N + 1} < x_2 < \ldots < x_k = 1
+\end{eqnarray}
+
+Where $|x_i - x_{i-1} | < \frac{\epsilon}{4N}$ for $i = \{1, \ldots, k \}$. Then $U(P,f) - L(P,f) < \frac{\epsilon}{2} + \frac{\epsilon}{4N} 2N = \epsilon$. 
+\end{proof}
+
+\section{Problem 126}
+
+\begin{thm}
+Show that $f:[0,1] \to \mathbb{R}$ is Riemann integrable on $[0,1]$ for:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+0 & x = 0 \\
+\frac{1}{x} - \left[ \frac{1}{x} \right] & \mathrm{else}
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+First, fix $\epsilon > 0$. We can pick an $N > 0$ such that $1/n < \epsilon / 2$ for all $n > N$. Therefore, we can choose a partition $P$ such that
+\begin{eqnarray}
+0 = x_0 < x_1 = \frac{1}{N+1} < \ldots < x_{n'_0} = \frac{1}{N} < \ldots < x_{n'_1} = \frac{1}{N-1} < \ldots < x_{n'_{n_0-1}} = 1
+\end{eqnarray}
+
+Where $x_i - x_{i-1} < \frac{\epsilon}{4 N}$ for all $i \geq 2$. Then we see that
+\begin{eqnarray}
+U(P,f) - L(P,f) &=& \frac{1}{N+1} + \sum_{i=2}^{n'_0} (M_i - m_i) (x_i - x_{i-1}) + \sum_{k=0}^{n_0-2} \sum_{i = n'_{k+1}}^{n'_{k+1}} (M_i - m_i) (x_i - x_{i-1}) \\
+&<& \frac{\epsilon}{2} + 2N \frac{\epsilon}{4 N} = \epsilon
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 127}
+
+\begin{thm}
+Show that $f \in \mathscr{R}(\alpha)$ for the following:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+0 & x \in [-1,0] \\
+1 & x \in (0,1] \end{array} \right. 
+\hspace{1cm}
+\alpha(x) = \left\{ \begin{array}{l l}
+0 & x \in [-1,0) \\
+1 & x \in [0,1] \end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+Pick some partition $P = \{ -1 = x_0 < x_1 < \ldots < x_{k-1} = 0 < x_k < \ldots < x_n = 1 \}$. Then we see that:
+\begin{eqnarray}
+U(P,f,\alpha) = 1 (\alpha(x_k) - \alpha(x_{k-1})) = 0\\
+L(P,f,\alpha) = 0 (\alpha(x_{k-1}) - \alpha(x_{k-2})) = 0 
+\end{eqnarray}
+
+Therefore, we see that not only $f \in \mathscr{R}(\alpha)$, but $\int_{-1}^1 f d\alpha = 0$. 
+\end{proof}
+
+\section{Problem 128}
+
+\begin{thm}
+Suppose $f$ is continuous on $[a,b]$ and $\alpha$ is a step function constant on subintervals $(a,c_1),(c_1,c_2), \ldots, (c_m,b)$ where $a < c_1 < \ldots < c_m < b$. Show that $\int_a^b f(x) d \alpha(x) = f(a) (\alpha(a^{+}) - \alpha(a)) + \sum_{k=1}^m f(c_k) (\alpha(c_k^{+}) - \alpha(c_k^{-})) + f(b) (\alpha(b) - \alpha(b^{-}))$. 
+\end{thm}
+
+\begin{proof}
+First, take the following partition: $P = \{ a = x_0 < x_1 < \ldots < x_m = b \}$ where $x_i = c_i$ for all $0 < i < m$. Therefore, we can break up our integral into:
+\begin{eqnarray}
+\int_{a}^b f(x) d \alpha(x) = \sum_{i=0}^m \int_{c_{i}}^{c_{i+1}} f(x) d \alpha(x)
+\end{eqnarray}
+
+Moreover, it is clear that the following is true since $f$ is continuous:
+\begin{eqnarray}
+\int_{c_k}^{c_{k+1}} f(x) d \alpha(x) =  f(c_k) (\alpha(c_{k}^{+}) - \alpha(c_k^{-})) + f(c_{k+1}) (\alpha(c_{k+1}^{+}) - \alpha(c_k^{-}))
+\end{eqnarray}
+
+Summing over all $i \in \{0, 1, \ldots, m \}$, we see that the statement in the theorem is true.
+\end{proof}
+
+\section{Problem 129}
+
+\begin{thm}
+Show that if $f \in \mathscr{R}([a,b])$ then $f$ can be changed at a finite number of points without affecting either integrability of $f$ or the value of the integral
+\end{thm}
+
+\begin{proof}
+It is sufficient to show that this works for a single point. So let $x' \in [a,b]$ be the point where $f$ changes, and let $\hat{f}$ be the changed function. Fix $\epsilon > 0$. Let us break apart the interval $[a,b]$ into $[a,x' - \epsilon] \cup [x' - \epsilon, x' + \epsilon] \cup [x' + \epsilon, b]$. We see that $f = \hat{f}$ on $P_1 = [a,x' - \epsilon]$ and on $P_2 [x' + \epsilon, b]$. Therefore, we have $U(P_i,\hat{f}) - L(P_i,\hat{f}) < \epsilon$ for $i = 1,2$ since $f$ is integrable. Thus, we have:
+\begin{eqnarray}
+U(P,f) - L(P,f) &<& 2 \epsilon + (M - m) (x' + \epsilon - x' + \epsilon) \\
+& =& 2 \epsilon + 2 (M-m) \epsilon
+\end{eqnarray}
+
+Where $M = \sup \{ f(x) : x \in [a,b] \}$ and $m = \inf \{ f(x) : x \in [a,b] \}$. Therefore, we see that $\int_a^b \hat{f} dx$ exists and that $\hat{f} \in \mathscr{R}([a,b])$. To show that the integrals are equal, we have:
+\begin{eqnarray}
+\left| \int_a^b f(x) dx - \int_a^b \hat{f}(x) dx \right| &=& \left| \int_a^b (f(x) - \hat{f}(x)) dx \right| \\
+&\leq& |f(x) - \hat{f}(x)| ( x + \epsilon - (x - \epsilon)) \\
+&\leq& 2 M^{*} \epsilon
+\end{eqnarray}
+
+Where $M^{*} = \sup \{ f(x) - \hat{f}(x) : x \in [a,b] \}$. Since $\epsilon > 0$ was arbitrary, we see that the integrals are the same.
+\end{proof} 
+
+\section{Problem 130}
+
+\begin{thm}
+Show that if $f$ is monotonic and $\alpha$ is continuous on $[a,b]$ then $f \in \mathscr{R}(\alpha)$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$ and suppose $f(x)$ is monotonically increasing without loss of generality. Since $\alpha$ is continuous, we know that there exists a $\delta > 0$ such that $|\alpha(x_i) - \alpha(x_{i-1}) | < \epsilon$ whenever $|x_i - x_{i-1} | < \delta$. Therefore, let $P = \{ a = x_0 < x_1 < \ldots < x_n = b \}$ be a partition of $[a,b]$, such that $|x_i - x_{i-1} | < \delta$. We see that we have the following:
+\begin{eqnarray}
+U(P,f,\alpha) &=& \sum_{i=1}^n M_i (\alpha(x_i) - \alpha(x_{i-1})) < \sum_{i=1}^n f(x_i) \epsilon \\
+L(P,f,\alpha) &=& \sum_{i=1}^n m_i (\alpha(x_i) - \alpha(x_{i-1})) < \sum_{i=1}^n f(x_{i-1}) \epsilon
+\end{eqnarray}
+
+Where $M_i = \sup \{ f(x): x \in [x_{i-1},x_i] \} = f(x_i)$ and $m_i = \inf \{ f(x): x \in [x_{i-1},x_i] \} = f(x_{i-1})$. Therefore, we see that $|U(P,f,\alpha) - L(P,f,\alpha)| < \sum_{i=1}^n (f(x_i) - f(x_{i-1})) \epsilon$. Since $\epsilon > 0$ was arbitrary, we see that $f \in \mathscr{R}(\alpha)$. 
+\end{proof}
+
+\section{Problem 131}
+
+\begin{thm}
+Calculate $\int_{-2}^2 x^2 d \alpha(x)$ where
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{l l}
+x+2 & -2 \leq x \leq -1 \\
+2 & -1 < x < 0 \\
+x^2 + 3 & 0 \leq x \leq 2 
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+Using a theorem in Rudin, we know that $\int_a^b f d \alpha(x) = \int_a^b f(x) \alpha'(x) dx$. Therefore, we have the following:
+\begin{eqnarray}
+\int_{-2}^2 x^2 d \alpha(x) &=& \int_{-2}^{-1} x^2 dx + \int_0^2 x^2 (2x) dx + (-1)^2 (2 - (-1 + 2)) + 0^2 (3 - 2) \\
+&=& \left. \frac{x^3}{3} \right|^{-1}_{-2} + \left. \frac{x^4}{2} \right|^2_0 + 1 = -\frac{1}{3}+ \frac{8}{3} + 8 + 1  \\
+&=& \frac{34}{3}  
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 132}
+
+\begin{thm}
+Prove that if $f \in \mathscr{R}(\alpha)$ and $\alpha$ is neither continuous from left or right at a point $c \in [a,b]$, then $f$ is continuous at this point.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Since $f \in \mathscr{R}(\alpha)$, we know that $U(P,f,\alpha) - L(P,f,\alpha) < \epsilon$. Take a partition $P = \{ a = x_0 < x_1 < \ldots < x_j = c - \epsilon < x_{j+1} = c + \epsilon < \ldots < x_n = b \}$. We know particularly that $\int_{c - \epsilon}^{c + \epsilon} f d \alpha$ exists. Thus, for this interval $Q = [x_j, x_{j+1}]$, we have:
+\begin{eqnarray}
+U(Q,f,\alpha) - L(Q,f,\alpha) &=& (M - m) ( \alpha(c + \epsilon) - \alpha(c - \epsilon)) < \epsilon
+\end{eqnarray}
+
+Where $M = \sup \{ f(x) : x \in [x_j, x_{j+1}] \}$ and $m = \inf \{ f(x): x \in [x_j, x_{j+1}] \}$. We know that $|\alpha(c + \epsilon) - \alpha(c - \epsilon) | > \epsilon$ because $\alpha$ is discontinuous at $c$. Therefore, we see that $M - m < \frac{1}{ \alpha(c + \epsilon) - \alpha(c - \epsilon)} < \frac{1}{\epsilon}$, which shows that $|f(x) - f(y)| < \frac{1}{\epsilon}$ whenever $|x - y| < 2 \epsilon$. Since $\epsilon>0$ can be arbitrarily large, we see that this implies that $f$ must be continuous. 
+\end{proof}
+
+\section{Problem 133}
+
+\begin{thm}
+Prove the first mean value theorem: if $f$ is continuous and $\alpha$ is monotonically increasing on $[a,b]$, then $\exists c \in [a,b]$ such that $\int_a^b f(x) d \alpha(x) = f(c) (\alpha(b) - \alpha(a))$. 
+\end{thm}
+
+\begin{proof}
+Let $m = \inf \{ f(x): x \in [a,b] \}$ and $M = \sup \{ f(x): x \in [a,b] \}$. Then we see that the following is true:
+\begin{eqnarray}
+m (\alpha(b) - \alpha(a)) \leq& \int_a^b f(x) d \alpha(x) &\leq M (\alpha(b) - \alpha(a)) \\
+m \leq& \frac{\int_a^b f(x) d \alpha(x)}{\alpha(b) - \alpha(a)} &\leq M
+\end{eqnarray}
+
+Since $f$ is continuous on $[a,b]$ and we know that $f$ takes on the values $M$ and $m$ somewhere on the interval $[a,b]$, we see that we can use the intermediate value theorem to find the following:
+\begin{eqnarray}
+\frac{\int_a^b f(x) d \alpha(x)}{\alpha(b) - \alpha(a)} = f(c) 
+\end{eqnarray}
+
+For some $c \in [a,b]$, which proves the theorem.
+\end{proof}
+
+\section{Problem 134}
+
+\begin{thm}
+Suppose that $f$ is continuous and $\alpha$ is strictly increasing on $[a,b]$. Define $F(x) = \int_a^x f(t) d \alpha(t)$ and show that for $x \in [a,b]$ we have $\lim_{h \to 0} \frac{F(x+h) - F(x)}{\alpha(x+h) - \alpha(x)} = f(x)$. 
+\end{thm}
+
+\begin{proof}
+This is a straightforward application of the first mean value theorem. We have the following:
+\begin{eqnarray}
+\int_x^{x+h} f(t) d \alpha(t) = f(c) (\alpha(x+h) - \alpha(x))
+\end{eqnarray}
+
+For some $c \in [x, x+h]$. As $ h \to 0$, we see that $c \to x$, so that we have:
+\begin{eqnarray}
+\lim_{h \to 0} \int_x^{x+h} f(t) d \alpha(t) = f(x) (\alpha(x+h) - \alpha(x))
+\end{eqnarray}
+
+Which is what we wanted. 
+\end{proof}
+
+\section{Problem 135}
+
+\begin{thm}
+Let $f$ be continuous on $[0,1]$. For positive $a,b$ find $\lim_{\epsilon \to 0^{+}} \int_{a \epsilon}^{ b \epsilon} \frac{f(x)}{x} dx$. 
+\end{thm}
+
+\begin{proof}
+We can use a change of variables to find:
+\begin{eqnarray}
+\int_{a \epsilon}^{b \epsilon} \frac{f(x)}{x} dx &=& \int_{a \epsilon}^{b \epsilon} f(x) d( \ln(x))
+\end{eqnarray}
+
+Using the first mean value theorem, we obtain:
+\begin{eqnarray}
+ \int_{a \epsilon}^{b \epsilon} f(x) d( \ln(x)) &=& f(c) ( \ln ( b \epsilon) - \ln( a \epsilon) \\
+&=& f(c) \ln \left(\frac{b}{a} \right)
+\end{eqnarray}
+
+For some $c \in [a \epsilon, b \epsilon]$. Taking the limit as $\epsilon \to 0^{+}$, we see that $c \to 0$, which shows that the integral converges to $\lim_{\epsilon \to 0^{+}} \int_{a \epsilon}^{b \epsilon} \frac{f(x)}{x} dx = f(0) \ln( \frac{a}{b})$. 
+\end{proof}
+
+\huge
+\begin{center}
+\underline{Past Exam Questions}
+\end{center}
+
+\normalsize
+
+\section{Problem 136}
+
+\begin{thm}
+Show that the set $\{ z \in \mathbb{C}; z = \exp(it^{24} + 23 t^7 ), t \in \mathbb{R} \}$ is connected.
+\end{thm}
+
+\begin{proof}
+First, we note that the function $f(t) = \exp(it^{24} + 23 t^{7})$ is continuous. This is because it is the composition of a polynomial and a continuous function $e^t$, which makes it continuous. Moreover, we see that the function maps the set $ \mathbb{R}$ to the set $A = \{ z \in \mathbb{C}; z = \exp(it^{24} + 23 t^7 ), t \in \mathbb{R} \}$. We know that $\mathbb{R}$ is connected by a theorem in Rudin, and that a continuous function preserves connectedness. Therefore, the set $A$ must also be connected.
+\end{proof}
+
+\section{Problem 137}
+
+\begin{thm}
+Explain why there is no continuous map from the disk $\{ (x,y) \in \mathbb{R}^2; x^2 + y^2 \leq 1 \}$ onto the interval $(0,1) \in \mathbb{R}$. 
+\end{thm}
+
+\begin{proof}
+First note that the interval $(0,1) \in \mathbb{R}$ is open, and that the disk $D = \{ (x,y) \in \mathbb{R}^2; x^2 + y^2 \leq 1 \}$ is closed. Suppose that there was a continuous map from $D$ to $(0,1)$. Then then every open set in $(0,1)$ would have a preimage of an open set. This is a contradiction because $f^{-1}((0,1)) = D$ which is closed, while $(0,1)$ is open. Thus, we have a contradiction, and no continuous mapping exists. 
+\end{proof}
+
+\section{Problem 138}
+
+\begin{thm}
+Suppose that a number $s$ is the upper limit (limit supremum) of a subsequence of a sequence $\{ x_n \}$ in the reals. Show that $s$ is the limit of some subsequence of $\{ x_n \}$. 
+\end{thm}
+
+\begin{proof}
+We see that there exists a subsequence $\{ y_k \}$ such that $\lim_{n \to \infty} \sup \{ y_k \} = s$. So let $t_n = \sup_{n \geq k} \{ y_k \}$. Rewriting, we have $\lim_{n \to \infty} t_n = s$. By the definition of supremum, there is a subsequence $y_{p_k}$ such that $y_{p_k} \geq t_n - \frac{1}{n}$. Therefore, we have $t_n \geq y_{p_k} \geq t_n - \frac{1}{n}$. As $n \to \infty$, we see that $y_{p_k} \to t_n$ and since we know $t_n \to s$, we see that $y_{p_k} \to s$. Since $y_{p_k}$ is a subsequence of a subsequence of $\{x_n\}$, we see that is still is a subsequence of $\{x_n \}$, which proves the theorem.
+\end{proof}
+
+\section{Problem 139}
+
+\begin{thm}
+Let $f: \mathbb{R} \to \mathbb{R}$ be twice differentiable and suppose that $0$ is a local maximum of $f$, i.e. for some $\epsilon > 0$, $f(x) \leq f(0)$ for all $x \in (- \epsilon, \epsilon)$. Show that $f''(0) \leq 0$. 
+\end{thm}
+
+\begin{proof}
+First, we know by a theorem in Rudin that every local maximum has derivative of zero. Therefore, $f'(0) = 0$. Now take $\epsilon$ so that $f(x) \leq f(0)$ for all $x \in (-\epsilon, \epsilon)$. Now, since $f$ is twice differentiable, we can apply the mean value theorem for all positive $x$. This gives us $f(x) - f(0) = f'(x_1) x$ for all $x \in (0, \epsilon)$ and for some $x_1 \in (0,\epsilon)$. Since we know that $f(x) \leq f(0)$, we see that $f'(x_1) \leq 0$. Applying the mean value theorem again, we obtain $f'(x_1) - f'(0) = f''(x_2) x_1$ for some $x_2 \in (0,x_1)$. Since $f'(x_1) \leq 0$ and $f'(0) = 0$, we see that $f''(x_2) \leq 0$. Now, we have shown that $f''(x_2) \leq 0$ for $0 < x_2 < x_1 < x$. Taking the limit as $x \to 0^{+}$, we see that $\lim_{x \to 0^{+}} f''(x) \leq 0$. 
+
+Now we can perform the same operation on the negative side. We apply the mean value theorem and obtain $f(x) - f(0) = f'(x_1) x$ for all $x \in (-\epsilon, 0)$ and for some $x_1 \in (x,0)$. Since $f(x) \leq f(0)$ for all $x \in (-\epsilon, \epsilon)$ and $x < 0$, we see that $f'(x_1) \geq 0$. Applying the mean value theorem again, we obtain $f'(x_1) - f'(0) = f''(x_2) x_1$ for $x_2 \in (x_1, 0)$. We know that $f'(0) = 0$ while $f'(x_1) \geq 0$. Since $x_1 <0$, we see that $f''(x_2) \leq 0$. This is for $x < x_1 < x_2 < 0$. Therefore, taking the limit as $x \to 0^{-}$, we see that $\lim_{x \to 0^{-}} f''(x) \leq 0$. Thus, we see that $\lim_{x \to 0} f''(x) = f''(0) \leq  0$.
+\end{proof}
+
+\section{Problem 140}
+
+\begin{thm}
+Let $\{ \phi_n \}$ be a uniformly bounded sequence of continuous functions on $[0,1]$ such that $\lim_{n \to \infty} \int_0^1 x^k \phi_n (x) dx = 0$ for every $k = 0, 1, \ldots$ and show that for any continuous function $f : [0,1] \to \mathbb{R}$, the limit $\lim_{n \to \infty} \int_0^1 f(x) \phi_n (x) dx$ exists.
+\end{thm}
+
+\begin{proof}
+First, note that by the Stone-Weierstrass theorem, every continuous function $f: [0,1] \to \mathbb{R}$ can be approximated by a sequence of polynomials $\{ P_n \}$ such that $\lim_{n \to \infty} P_n(x) = f(x)$. Moreover, it is clear that every polynomial consists of a series of monomials and their coefficients. Therefore, we have the following:
+\begin{eqnarray}
+P_n(x) = \sum_{k=1}^{r(n)} c_k x^k
+\end{eqnarray}
+
+Where $r(n)$ the degree of the $n$th polynomial. Therefore, we see that we can decompose our limit into:
+\begin{eqnarray}
+\lim_{n \to \infty} \int_0^1 f(x) \phi_n (x) dx &=& \lim_{n \to \infty} \int_0^1 P_n(x) \phi_n(x) dx \\
+&=& \lim_{n \to \infty} \int_0^1 \sum_{k=1}^{r(n)} c_k x^k \phi_n(x) dx \\
+\end{eqnarray}
+
+However, we see that each one of these terms is identically zero by our assumption. Therefore, $\lim_{n \to \infty} \int_0^1 f(x) \phi_n (x) dx$ not only exists, but is also equal to $0$.
+\end{proof}
+
+\section{Problem 141}
+
+\begin{thm}
+Using standard properties of the cosine function show that the series $f(x) = \sum_{n=1}^\infty \frac{1}{n^{5/2}} \cos(nx)$ defines a continuously differentiable funciton on the real line.
+\end{thm}
+
+\begin{proof}
+First note that the function itself is a composition of continuous functions, so that $f(x)$ is continuous (moreover we don't have to worry about dividing by $0$ because $n \neq 0$ in the series). Next, let us differentiate the series term by term. We obtain:
+\begin{eqnarray}
+\hat{f}(x) = \sum_{n=1}^\infty \frac{d}{dx} \left( \frac{1}{n^{5/2}} \cos (nx) \right)= \sum_{n=1}^\infty - \frac{1}{n^{3/2}} \sin ( nx) 
+\end{eqnarray}
+
+Since we know that $|\sin(nx) | \leq 1$ for all $x \in \mathbb{R}$ and all $n \in \mathbb{N}$, we see that $\hat{f}(x) \leq \sum_{n=1}^\infty \frac{1}{n^{3/2}}$, which converges by geometric series with $p = 3/2$. Thus, we see that $\hat{f}(x)$ is absolutely convergent, which shows by Weierstrass M Test that it is also uniformly convergent to $f'$. Therefore, we see that $f' = \hat{f}$. Moreover, we see that $\hat{f}$ is composed entirely of continuous functions. Since $\hat{f}$ is a uniformly convergent series of continuous functions, we see that $f'$ is continuous and exists for all $x \in \mathbb{R}$. Therefore, we have shown that $f(x)$ is continuously differentiable on $\mathbb{R}$. 
+\end{proof}
+
+\section{Problem 142}
+
+\begin{thm}
+Explain why the Riemann-Stieltjes integral $\int_{-1}^1 \exp(x^2/3) d \alpha$ exists for any increasing $\alpha: [-1,1,] \to \mathbb{R}$ and evaluate it when
+\begin{eqnarray}
+\alpha(x) = \left\{ \begin{array}{l l}
+0 & x < 0 \\
+1 & x \geq 0 
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+First, the integral exists because $f(x) = \exp(x^2/3)$ is the composition of continuous functions, which makes $f(x)$ continuous as well. Therefore, by a theorem in Rudin $f \in \mathscr{R} (\alpha)$ for any increasing $\alpha: [-1,1] \to \mathbb{R}$. To compute the integral, take a partition $P = \{ -1 = x_0 < x_1 < \ldots < x_i < 0 < x_{i+1} < \ldots < x_n = 1 \}$. We see that because all $\alpha(x_{j+1}) - \alpha(x_{j})$ are identically zero unless $j =1$, that the integral can be computed as $\int_{-1}^1 \exp(x^2/3) dx = f(0) (\alpha(x_{i+1}) - \alpha(x_i)) = 1 (1) = 1$.
+\end{proof}
+
+\section{Problem 143}
+
+\begin{thm}
+Show that the set $A = \{ x \in \mathbb{C}; z = \exp(it^3); t \in \mathbb{R} \}$ is connected.
+\end{thm}
+
+\begin{proof}
+It is clear that $\exp(it^3)$ is a continuous map from $\mathbb{R} \to A$. Therefore, since $\mathbb{R}$ is connected, and continuous maps preserve connectedness, we see that $A$ is also connected.
+\end{proof}
+
+\section{Problem 144}
+
+\begin{thm}
+Let $\{ x_n \}$ be a seuqnce in a metric space $X$ and suppose that tere is a point $p \in X$ with the property that every subsequence of $\{ x_n \}$ has a subsequence which converges to $p$. Show that $\{ x_n \}$ converges to $p$. 
+\end{thm}
+
+\begin{proof}
+Suppose by contradiction that $\{ x_n \}$ does not converge to $p$. Now let $\{ y_k \}$ be a subsequence of $\{ x_n \}$. We know by assumption that $\{ y_k \}$ has a subsequence $\{ y_{n_k} \}$ which converges to $p$. Fix $\epsilon > 0$. We see that there exists an $N$ such that for all $n_k > N$, we have $|y_{n_k} - p | < \epsilon$. Since we have assumed $\{ x_n \}$ does not converge to $p$, we cannot find an $M$ such that for all $n > 0$, we have $|x_n - p | < \epsilon$. Therefore, the set $\{ n \in \mathbb{N}: d(x_n, p) \geq \epsilon \}$ is infinite. Moreover, every subsequence of $\{ y_k \}$, which is itself a subsequence of $\{x_n \}$ must take values from this set. This means, however, that there are an infinite number of points in $\{y_{n_k}\}$ for wihch $|y_{n_k} - p | > \epsilon$, which is a contradiction. Thus, $\{ x_n \}$ must converge to $p$. 
+\end{proof}
+
+\section{Problem 145}
+
+\begin{thm}
+Prove that the function $f(x) = \exp( \frac{x^3 - 15}{x^2 + x + 1} ) $ is continuously differentiable on $[0,1]$ and prove that it takes on a minimum value on the interval.
+\end{thm}
+
+\begin{proof}
+First, the set $[0,1]$ is compact, so that every continuous function takes on a minimum value. Obviously $f(x)$ is a composition of continuous polynomials and functions ($e^x$) so that $f(x)$ itself is also continuous. Hence, it takes on a minimum value. We also know that $f(x)$ is continuously differentiable because each of its component functions is continuously differentiable on $[0,1]$. We see that $x^3 - 15$ and $x^2 + x + 1$ are both polynomials and hence continuously differentiable. Moreover $e^x$ is continuously differentiable by a theorem in Rudin. Therefore, the composite function $f(x)$ is continuously differentiable. 
+\end{proof}
+
+\section{Problem 146}
+
+\begin{thm}
+If $g: \mathbb{R} \to \mathbb{R}$ is differentiable and $g'$ is bounded on $\mathbb{R}$, show that $g$ is uniformly continous.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Since $g'$ is bounded on $\mathbb{R}$, there exists some $M$ such that $|g'(x)| < M$ for all $x \in \mathbb{R}$. Moreover, since $g$ is differentiable, we can apply the mean value theorem and obtain $ g(x) - g(y) = g'(c) (x-y)$ for all $x,y \in \mathbb{R}$ and $c \in (x,y)$ if we assume without loss of generality that $x < y$. Therefore, if we pick $\delta < \frac{\epsilon}{M}$, and we observe that $|g'(c)| < M$, we have:
+\begin{eqnarray}
+|g(x) - g(y)| < M (x-y) < M \delta < M \frac{ \epsilon}{M} = \epsilon
+\end{eqnarray}
+
+Since $\epsilon > 0$ was originally arbitrary, we have shown that there exists a $\delta > 0$ for which $|g(x) - g(y)| < \epsilon$ whenever $|x - y| < \delta$ for all $x,y \in \mathbb{R}$. Thus, we have shown uniform continuity.
+\end{proof}
+
+\section{Problem 147}
+
+\begin{thm}
+Let $A: [0,1]^2 \to \mathbb{R}$ be a continuous function satisfying $\sup_{[0,1]^2} |A(x,y)| \leq \frac{1}{2}$. Show that if $f \in \mathscr{C}([0,1])$, then $g(x) = \int_0^1 A(x,y) f(y) dy \in \mathscr{C}([0,1])$. 
+\end{thm}
+
+\begin{proof}
+First, we note that $f(x)$ and $A(x,y)$ are both continuous, so that $A(x,y) f(y)$ is continuous. Thus, we see that $g(x) = \int_0^1 A(x,y) f(y) dy$ exists. To see that $g(x)$ is continuous, we note that $A(x,y) f(y)$ is continuous on the compact set $[0,1]$, which shows that it is uniformly continuous. Fix $\epsilon > 0$, we see that there exists a $\delta > 0$ for which $|A(x,y) - A(x',y)| < \epsilon$ whenever $|x - x'| < \delta$. Therefore, we have:
+\begin{eqnarray}
+|g(x) - g(x')| = \left| \int_0^1 (A(x,y) - A(x',y)) f(y) dy \right| < \epsilon \sup_{[0,1]} |f| 
+\end{eqnarray}
+
+Therefore, we see that $|g(x) - g(x')| < \epsilon \sup |f|$ whenever $|x - x'| < \delta$, which shows continuity because $\epsilon$ was arbitrary.
+\end{proof}
+
+\begin{thm}
+Estimate $||g|| = \sup_{[0,1]} |g(x)|$ in terms of $||f||$. 
+\end{thm}
+
+\begin{proof}
+We know that the following is true:
+\begin{eqnarray}
+|g(x)| = \left|\int_0^1 A(x,y) f(y) dy \right| \leq \left|\int_0^1 \frac{1}{2} ||f|| dy \right| = \frac{1}{2} ||f|| 
+\end{eqnarray} 
+
+Therefore, we see that $||g|| \approx \frac{1}{2} ||f||$. 
+\end{proof}
+
+\begin{thm}
+If $h \in \mathscr{C}([0,1])$ is a fixed function show that $(Gf)(x) = h(x) + \int_0^1 A(x,y) f(y) dy$ defines a contraction $G$ on $\mathscr{C}([0,1])$ sending $f$ to $Gf$. 
+\end{thm}
+
+\begin{proof}
+If $f_1, f_2 \in \mathscr{C}([0,1])$ then:
+\begin{eqnarray}
+|(Gf_1)(x) - (Gf_2)(x)| &=& \int_0^1 A(x,y) (f_1(y) - f_2(y)) dy
+\end{eqnarray}
+
+Therefore, we see that $d(G(f_1), G(f_2)) < \frac{1}{2} || f_1 - f_2 || = \frac{1}{2} d(f_1,f_2)$ by the above estimate, which shows that $(Gf)(x)$ is a contraction.
+\end{proof}
+
+\begin{thm}
+Show that there exists a unique $f \in \mathscr{C}([0,1])$ such that $f(x) = h(x) + \int_0^1 A(x,y) f(y) dy$ for alll $x \in [0,1]$. 
+\end{thm}
+
+\begin{proof}
+We begin by noting that $\mathscr{C}([0,1])$ is complete. Therefore, the Contraction Mapping Principle implies that there is a unique solution of $G(f) = f$, which is the desired result.
+\end{proof}
+
+\section{Problem 148}
+
+\begin{thm}
+Show that the set $A = \{ z \in \mathbb{C}; 1 < |z| < 2 \}$ is connected as a subset of $\mathbb{C}$ with the usual metric.
+\end{thm}
+
+\begin{proof}
+Again, we know that $\mathbb{C}$ is connected, and that the function $f: \mathbb{C} \to A$ of $f(z) = |z|$ is continuous. Therefore, since continuous mappings preserve connectedness, we see that $A$ must be connected as well. 
+\end{proof}
+
+\section{Problem 149}
+
+\begin{thm}
+Let $g: \mathbb{R} \to \mathbb{R}$ be differentiable and satisfy $|g'(x)| \leq \frac{1}{2}$. Show that the function $f(x) = x - g(x)$ is one to one.
+\end{thm}
+
+\begin{proof}
+Using the mean value theorem, we see that $|f(x) - f(y)| = f'(c) |x-y|$ for all $x,y \in \mathbb{R}$. Moreover, since $|f'(c)| = |1 -g'(c)| \leq 1 - \frac{1}{2}$, so that $|f'(c)| \geq \frac{1}{2}$. Therefore,  we have $|f(x) - f(y)| \geq \frac{1}{2} |x-y|$ which shows that if $x \neq y$, then $f(x) \neq f(y)$. This proves a one to one correspondence.  
+\end{proof}
+
+\section{Problem 150}
+
+\begin{thm}
+Let $f:[0,1] \to \mathbb{R}$ be continuous. Show that there exists $c \in (0,1)$ such that $\int_0^1 f(x) dx = f(c)$. 
+\end{thm}
+
+\begin{proof}
+Let us define $F(x) = \int_0^x f(x) dx$. Now fix $\epsilon > 0$ and we will show that this function is continuous. We have, assuming $x < y$, $|F(y) - F(x) | = |\int_x^y f(t) dt | = f(t) (x - y) < \epsilon$ if we choose $\delta = \frac{\epsilon}{f(t)}$ for some $t \in (x,y)$. Thus, we see that $F$ is continuous, which means we can apply the mean value theorem. We obtain $F(1) - F(0) = f(c)(1)$ for some $c \in (0,1)$. Moreover, we know that $F(0) = \int_0^0 f(t) dt = 0$. Therefore, $ F(1) = \int_0^1 f(x) dx = f(c)$ for some $c \in (0,1)$, which is what we wanted.
+\end{proof}
+
+\section{Problem 151}
+
+\begin{thm}
+For what values of $x \in \mathbb{R}$ does the series $\sum_{n=0}^\infty n \exp(-nx)$ converge? For what intervals $[a,b]$ does it converge uniformly, and on what intervals is the sum of the series differentiable?
+\end{thm}
+
+\begin{proof}
+It is obvious that any $x < 0$ would cause the sequence $n \exp(-nx)$ to diverge. Thus, convergence, if it does occur, must occur for the region $x > 0$. We know that the sequence $\lim_{n \to \infty} x^n \exp(-n)$ converges by a theorem in Rudin. Moreover, it is clear that if $x >0$ the series converges by ratio test. We have: 
+\begin{eqnarray}
+\lim_{n \to \infty} \left| \frac{(n+1) e^{-(n+1)x}}{n e^{-nx}} \right| = \lim_{n \to \infty} \left| \frac{(n+1) e^{-x}}{n} \right| = \frac{1}{e^{x}} < 1
+\end{eqnarray}
+
+Thus, we the series converges whenever $x > 0$. The series therefore converges uniformly on $[a,b]$ whenever $b \geq a$ and when $a \neq 0$. The series is differentiable on the same interval, for $a \neq 0$, because the series of derivatives converges uniformly for the same reason. 
+\end{proof}
+
+\section{Problem 152}
+
+\begin{thm}
+Consider the power series $\sum_{n=1}^\infty \frac{1}{n} x^n$ and show that this series converges uniformly on $(-\frac{1}{2}, \frac{1}{2})$. Let $f(x)$ denote the sum and show that the series obtained by term-by-term differentiation converges uniformly in the same set and explain why the limit is $f'(x)$. Is $f'(x)$ a rational function?
+\end{thm}
+
+\begin{proof}
+We see using the ratio test that the radius of convergence is 1 because:
+\begin{eqnarray}
+\lim_{n \to \infty} \left| \frac{\frac{1}{n+1} x^{n+1}}{\frac{1}{n} x^n } \right| = \lim_{n \to \infty} \left| \frac{n}{n+1} x \right| = |x|
+\end{eqnarray}
+
+And we know that $|x| < 1$ whenever $x \in (-1,1)$. Therefore, the series converges uniformly on the interval $(-1,1)$, which shows that it also converges uniformly on $(-\frac{1}{2}, \frac{1}{2})$. Now, differentiation term by term gives the series $\sum_{n=1}^\infty x^{n-1}$, which converges whenever $x \in (-1,1)$ by a theorem in Rudin. Therefore, we see that it is uniformly convergent on this set, meaning it is also uniformly convergent on $(-\frac{1}{2}, \frac{1}{2})$. Moreover, since these terms are uniformly convergent, we know that $f'(x)$ is given by these terms according to a theorem in Rudin. We see that the series converges to $f'(x) = \frac{1}{1-x}$, which is indeed rational.
+\end{proof}
+
+\section{Problem 153}
+
+\begin{thm}
+Explain why $\int_0^2 \exp(3 (|x|^{3/2} - 1)) d \alpha$ exists for any increasing function $\alpha:[0,2] \to \mathbb{R}$. Evaluate the integral when
+\begin{eqnarray}
+\alpha(x) = \left\{ \begin{array}{ll}
+1 & 0 \leq x \leq 1 \\
+3 & 1 < x \leq 2 
+\end{array} \right.
+\end{eqnarray}
+\end{thm}
+
+\begin{proof}
+First, we know that $|x|^{3/2} - 1$ is continuous on the interval $[0,2]$ so that the composition $f(x) = \exp(3(|x|^{3/2} - 1))$ of continuous functions is also continuous on the interval $[0,2]$. Therefore, it is integrable for any increasing $\alpha$. Next, we will evaluate the integral, which is:
+\begin{eqnarray}
+\int_0^2 f(x) d \alpha(x) = (3-1) f(1) = 2 \exp(3(1- 1)) = 2 
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 154}
+
+\begin{thm}
+Suppose that $f_n: [0,1] \to \mathbb{R}$ is a sequence of continuous functions which is uniformly bounded and satisfies:
+\begin{eqnarray}
+f_n(x) = \frac{1}{n} + \int_0^x f_n^2(t) dt, x \in [0,1]
+\end{eqnarray}
+Show that $\{ f_n \}$ is uniformly convergent on $[0,1]$ and prove that the limit is identically zero.
+\end{thm}
+
+\begin{proof}
+The continuity of $f_n$ implies that $f_n^2$ is also continuous. Moreover, we see that $f'_n(x) = f_n^2(x)$ by the fundamental theorem of calculus. The uniform boundedness of $f_n$ implies the uniform boundedness of $f_n'$ as well, so that there exists an $M$ such that $|f'_n(x)| < M$ for all $n \in \mathbb{N}$ and $x \in [0,1]$. We can apply the fundamental theorem of calculus to see that $|f_n(x) - f_n(y)| \leq M (x-y)$ for all $x \in [0,1]$ and $n \in \mathbb{N}$. Fix $\epsilon > 0$. We can choose $\delta = \frac{\epsilon}{M}$ such that $|f_n(x) - f_n(y) | < \epsilon$ whenever $|x-y| < \delta$. Therefore, we see that $\{ f_n \}$ is equicontinuous. 
+
+We see that $[0,1]$ is a compact metric space by Heine-Borel. Moreover, since $\{ f_n \}$ is uniformly bounded, it is also pointwise bounded. Therefore, $\{f_n \}$ satisfies the assumptions of Arzela-Ascoli, which shows that $\{ f_n \}$ contains a uniformly convergent subsequence, let us say $\{ f_{n_k} \} \rightrightarrows f$. We see that the limit must satisfy $f(x) = \int_0^x f^2(t) dt$ for all $x \in [0,1]$. Let $T = \sup_{[0,r]} |f(x)|$. We see that $T \leq T M r$ on $[0,r]$, which implies $T = 0$ if $M r < 1$. Therefore, we can choose $r$ such that $r < \frac{1}{M}$ and see that $T = 0$ on $[0,r]$. We can proceed and break the interval $[0,1]$ into finitely many intervals of the form $[nr,(n+1)r]$, where $n \in \mathbb{N}$. This shows that $T = 0$ on all of $[0,1]$. Moreover, we see that every uniformly convergent subsequence of $\{ f_n \}$ has a uniformly convergent subsequence converging to $f(x) = 0$, which means that $f(x) = 0$ identically, and that $\{ f_n \}$ is uniformly convergent. 
+\end{proof}
+
+\section{Problem 155}
+
+\begin{thm}
+Show that if $E \subset \mathscr{C}(X, \mathbb{R})$ and $\mathscr{M}$ is compact, then $E$ it is equicontinuous (you may not use Arzela-Ascoli).
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Then we see that $\mathscr{M}$ can be covered by a finite number of functions $f_1, f_2, \ldots, f_p$ with radii $\epsilon$ such that $X \subset \bigcup_{i=1}^p N_{\epsilon} (x_i)$. We know that each $f_i$ is uniformly continuous so that there exists some $\delta_i$ for which $|f_i(x) - f_i(y)| < \epsilon$ whenever $|x-y| < \delta_i$ for all $x,y \in \mathscr{M}$. Now pick $\delta = \min \{ \delta_1, \ldots, \delta_p \}$ and $x,y \in \mathscr{M}$ such that $d(x,y) < \delta$. Let $f \in E$, so that we must have $f \in N_{\delta_i} (f_i)$ for some $i$.  
+\begin{eqnarray}
+|f(x) - f(y)| \leq |f(x) - f_i(x)| + |f_i(x) - f_i(y)| + | f_i(y) - f(y) | < 3 \epsilon
+\end{eqnarray}
+
+This proves equicontinuity. 
+\end{proof}
+
+\section{Problem 156}
+
+\begin{thm}
+If $S \subset \mathbb{R}^n$, show that the collection of isolated points of $S$ is countable.
+\end{thm}
+
+\begin{proof}
+Let $S$ denote the set of isolated points and let $s \in S$. Then pick a neighborhood $N(s)$ such that $N(s) \cap S = \{ s \}$ and $N(s) \cap N(t) = \emptyset$ if $s \neq t$. Since $\mathbb{Q}^n$ is dense in $\mathbb{R}^n$, we can choose a point in each $N(s)$ with rational coordinates. Therefore, we see that there is a one to one map from $S \to \mathbb{Q}^n $, which shows that $S$ is countable.
+\end{proof}
+
+\section{Problem 157}
+
+\begin{thm}
+Prove that if $\mathscr{M},\mathscr{N}$ are metric spaces and $g: \mathscr{M} \to \mathscr{N}$ is uniformly continuous, then whenever $\{ x_n \} \subset \mathscr{M}$ is Cauchy, the sequence $\{ g(x_n) \}$ is Cauchy.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Since $g$ is uniformly continuous, we see that there exists a $\delta > 0$ for all $x,y \in \mathscr{M}$ such that $|g(x) - g(y)| < \epsilon$ whenever $|x - y| < \delta$. Moreover, since $\{ x_n \}$ is Cauchy, then there exists an $N$ such that for all $n > N$, we have $|x_n - x_m| < \delta$. Therefore, we see that $|g(x_n) - g(x_m) | < \epsilon$, which shows that $\{ g(x_n) \}$ is Cauchy.
+\end{proof}
+
+\section{Problem 158}
+
+\begin{thm}
+Let $\mathscr{M}$ and $\mathscr{N}$ be metric spaces, let $A \subset \mathscr{M}$ and $\bar{A} \subset \mathscr{M}$ denote the closure of $A$. If $\mathscr{N}$ is complete and $h: A \to N$ is uniformly continuous, prove that there is a unique continuous function $\hat{h}: \bar{A} \to \mathscr{N}$ such that $\hat{h}(a) = h(a)$ for every $a \in A$. 
+\end{thm}
+
+\begin{proof}
+For any $a \in \bar{A}$, choose $\{ a_n \} \subset A$ such that $a_n \to a$ and define $\hat{h}(a) = \lim_{n \to \infty} h( a_n )$. The limit exists because $\{ a_n \}$ is a Cauchy sequence, which implies that $\{ h(a_n) \}$ is also a Cauchy sequence. Since $\mathscr{N}$ is complete, we see that $\{ h(a_n) \}$ converges to some limit as $n \to \infty$. It is clear that $\hat{h}(a)$ is unique because if there exists another sequence $\{ b_n \} \to a$, then we see that the limits must coincide. Now, we need to show that this definition of $\hat{h}(a)$ is continuous. First, fix $\epsilon > 0$. We know that $h$ is uniformly continuous so that there exists a $\delta > 0$ such that for all $a,b \in A$, we have $d(h(a),h(b)) < \epsilon$ whenever $d(a,b) < \delta$. If $x \in \bar{A}$, and $a_n \to x$, then we see that there exists an $N$ such that for all $n > N$, we have $d(h(a),h(x_n)) < \epsilon$, and we pick some point $b \in N_{\delta/2}(x) \cap A$, then there is an $a_m \in N_{\delta/2}(x)$ with $m > N$. Therefore:
+\begin{eqnarray}
+|\hat{h}(x) - \hat{h}(b) | \leq |\hat{h}(x) - \hat{h}(a_m)| + |\hat{h}(a_m) - \hat{h}(b)| < 2 \epsilon
+\end{eqnarray}
+
+If $c \in N_{\delta/2} (x) \cap \bar{A}$, then we see by similar logic that $|\hat{h}(x) - \hat{h}(c) | < 3 \epsilon$, which shows that $\hat{h}$ is continuous on $\bar{A}$. 
+\end{proof}
+
+\section{Problem 159}
+
+\begin{thm}
+Assume $f: (a,b) \to \mathbb{R}$ has derivative at every point in $(a,b)$. Let $c \in (a,b)$ and assume that $\lim_{x \to c} f'(x)$ exists and is finite. Prove that the value of this limit must be $f'(c)$. 
+\end{thm}
+
+\begin{proof}
+Recall the definition of derivative says that $f'(c) = \lim_{x \to c} \frac{f(x) - f(c)}{x - c}$, which we know by assumption exists. Moreover, we see that $\lim_{x \to c} f'(x) = \lim_{x \to c} \lim_{t \to x} \frac{ f(t) - f(x)}{t - x} = \lim_{x \to c} \frac{f(x) - f(c)}{x-c} = f'(c)$. This proves the theorem. 
+\end{proof}
+
+\section{Problem 160}
+
+\begin{thm}
+Assume $f,g,h$ are real valued functions defined on $[0,1]$ and $g \geq 0$ is in $\mathscr{R}(x)$. Prove that if $f$ is continuous, then there exists $w \in [0,1]$ such that $\int_0^1 f(t) g(t) dt = f(w) \int_0^1 g(t) dt$.
+\end{thm}
+
+\begin{proof}
+Define $m = \inf_{x \in [0,1]} |f(x)|$ and $M = \sup_{x \in [0,1]} |f(x)|$. Then we can derive the following inequality:
+\begin{eqnarray}
+m \int_0^1 g(t)dt \leq \int_0^1 f(t) g(t) dt \leq M \int_0^1 g(t) dt 
+\end{eqnarray}
+
+Therefore, since $f(x)$ is continuous for $x \in [0,1]$, we can use the intermediate value theorem and we see that $\int_0^1 f(t) g(t) dt = f(w) \int_0^1 g(t) dt$ for some $w \in [0,1]$. 
+\end{proof}
+
+\begin{thm}
+Prove that if $h$ is monotonically increasing (not necessarily continuous), then there exists $z \in [0,1]$ such that $\int_0^1 h(t) g(t) dt = h(0) \int_0^z g(t) + h(1) \int_z^1 g(t) dt$. 
+\end{thm}
+
+\begin{proof}
+We know that $\inf_{x \in [0,1]} h(x) = h(0)$ and $\sup_{x \in [0,1]} h(x) = h(1)$ because $h$ is monotonically increasing. Moreover, we know that since $\int_0^1 g(x) dx$ exists, that $\phi(x) = h(0) \int_0^x g(t) dt + h(1) \int_x^1 g(t) dt$ is continuous on $[0,1]$. Since $\int_0^1 g(t) dt$ is a constant, we know that $\phi(x)$ takes a minimum when $x = 1$ with $\phi(1) = h(0) \int_0^1 g(t) dt$. We know that $\phi(x)$ takes a maximum at $x = 0$ with $\phi(0) = h(1) \int_0^1 g(t) dt$. Since it is continuous, we can use intermediate value theorem and see that the function attins the value $\int_0^1 h(t) g(t) dt$ for some value $z \in [0,1]$  at $\phi(z)$. The theorem follows.
+\end{proof}
+
+\section{Problem 161}
+
+\begin{thm}
+Let $S = \{ n_1, n_2, n_3, \ldots \}$ denote the collection of positive integers that do not involve the digit $3$ in their decimal representation. (For example, $7 \in S$ but $131 \notin S$.) Show that $\sum \frac{1}{n_k}$ converges and has sum less than 90.
+\end{thm}
+
+\begin{proof}
+If $m$ has $l$ digits, then $\frac{1}{m} \leq \frac{1}{10^{l-1}}$. If $ s \in S$ has exactly $l$ digists, then the first digit can be anything but a $0$ or a $3$ (8 possibilities) and each of the $l-1$ other digits can be anything but a $3$ ($9^{l-1}$ possibilities). Therefore, there are $8 (9)^{l-1}$ numbers in $S$ such that there are $l$ digits. We can then obtain an upper bound for the sum:
+\begin{eqnarray}
+\sum_{k = 1}^\infty \frac{1}{n_k} \leq \sum_{l=1}^\infty \frac{8 (9)^{l-1}}{10^{l-1}} = 8 \sum_{l=1}^\infty \left( \frac{9}{10} \right)^{l-1} = 80
+\end{eqnarray}
+
+Therefore, it is apparent not only that the sum converges by comparison test, but also that the sum must be lest than 90, which is what we wanted to prove. 
+\end{proof}
+
+\section{Problem 162}
+
+\begin{thm}
+Assume that $\{ g_n \}$ is a sequence of real-valued functions defined on $T \subset \mathbb{R}$ satisfying $g_{n+1} (x) \leq g_n(x)$ for each $x \in T$ and $n \in \mathbb{N}$ and suppose that $g_n \rightrightarrows 0$ on $T$. Show that $\sum_{n=1}^\infty (-1)^{n+1} g_n(x)$ converges uniformly on $T$. 
+\end{thm}
+
+\begin{proof}
+Let the partial sum be defined as $G_k(x) = \sum_{n=1}^k (-1)^{n+1} g_n(x)$. Fix $\epsilon > 0$. By the uniform convergence of $\{ g_n \}$, we know that there exists an $N$ such that for all $n > N$, we have $|g_n(x)| < \epsilon$. Now take $j,k > N$ and assume $k > j$. We have 
+\begin{eqnarray}
+|G_k(x) - G_j(x)| &=& |(-1)^{k+1} g_k(x) + (-1)^{k} g_{k-1} (x) + \ldots + (-1)^{j+1} g_j(x) | \\
+&\leq& |g_k(x)| | (-1)^{k+1} + (-1)^{k} + \ldots + (-1)^{j+1} | \\
+&<& \epsilon 
+\end{eqnarray}
+
+This is clear because we can group each $(-1)^{k+1} + (-1)^{k}$ into pairs which will cancel each other out. Therefore, the sum of alternating terms is either $-1$ or $1$, both which have absolute value of $1$. Therefore, we see that $|G_k(x) - G_j(x)| < \epsilon$ whenever $k,j > N$ for all $x \in T$. This shows uniform convergence.
+\end{proof}
+
+\section{Problem 163}
+
+\begin{thm}
+Consider a continuous function $f: [0,\infty) \to \mathbb{R}$. For each $n$ define the continuous function $f_n : [0,\infty) \to \mathbb{R}$ by $f_n(x) = f(x^n)$. Show that the set of continuous functions $\{ f_1, f_2, \ldots \}$ is equicontinuous on some interval containing $x = 1$ if and only if $f$ is a constant function.
+\end{thm}
+
+\begin{proof}
+First, suppose that the set of continuous functions $\{ f_1, f_2, \ldots \}$ is equicontinuous on some interval $1 \in [a,b]$. Fix $\epsilon > 0$. Then there exists some $\delta > 0$ for which $|f_n(x) - f_n(y) | < \epsilon$ whenever $|x-y| < \delta$ for all $x,y \in [a,b]$. Therefore, we see that $|f(x^n) - f(y^n) | < \epsilon$ whenever $|x - y| < \delta$. Moreover, when $|1 - x| < \delta$, we see that $|f(1) - f(x^n) | < \epsilon$. Choose $x < 0$ so that there exits an $N$ for which $|f(1) - f(0)| < \epsilon$ for some $n > N$. Therefore, we see that $f(1) = f(0)$. Moreover, for any $z \in (0,\infty)$, choose $M$ large enough so that $|z^{\frac{1}{M}} - 1| < \delta$ so that $|f(z) - f(1)| < \epsilon$. Since $\epsilon$ was arbitrary, we see that $f(z) = f(1)$. 
+
+Next, suppose that $f(x) = c$ is a constant function. Thus, $f(1) = f(x^n)$ for all $x \in [a,b]$ and $n \in \mathbb{N}$. By our assumption, we see that $f_n(1) = f_n(x)$. Fix $\epsilon > 0$. We see that $|f_n(1) - f_n(x)| < \epsilon$ for all $x \in [a,b]$, which implies that we can pick any $\delta > 0$ such that the inequality is satisfied whenever $|1 - x| < \delta$. We can extend this to show that $|f_n(x) - f_n(y) | < \epsilon$ whenever $|x-y| < \delta$ because $0 = |f(x^n) - f(y^n)| = |f_n(x) - f_n(y)| < \epsilon$. This proves that $\{ f_n \}$ is equicontinuous. 
+\end{proof}
+
+\section{Problem 164}
+
+\begin{thm}
+Define for any $z \in \mathbb{R}$ the exponential function by $\exp(z) = \sum_{k=0}^\infty \frac{z^k}{k!}$. Prove that $\exp: \mathbb{R} \to \mathbb{R}$ is a continuous function.
+\end{thm}
+
+\begin{proof}
+Using the ratio test, we see the following is true:
+\begin{eqnarray}
+\lim_{k \to \infty} \left| \frac{ \frac{z^{k+1}}{(k+1)!}}{\frac{z^k}{k!}} \right| = \lim_{k \to \infty} \left| \frac{z^k z k!}{k! (k+1) z^k} \right| = \lim_{k \to \infty} \frac{z}{k+1} = 0 < 1
+\end{eqnarray}
+
+Thus, the ratio test shows that the series converges for every $z \in \mathbb{R}$. This shows that the exponential function is continuous for all $z \in \mathbb{R}$. 
+\end{proof}
+
+\begin{thm}
+Use the binomial theorem  $(x+y)^n = \sum_{k=0}^n { n \choose k} x^n y^{n-k}$ to show that $\exp(z + w) = \exp(z) \exp(w)$. 
+\end{thm}
+
+\begin{proof}
+We will use the binomial theorem and observe:
+\begin{eqnarray}
+\exp(z + w) &=& \sum_{k=0}^\infty \frac{(z+w)^k}{k!} = \sum_{k=0}^\infty \frac{1}{k!} \sum_{j=0}^k {k \choose j } z^j w^{k-j} \\
+&=& \sum_{k=0}^\infty \sum_{j=0}^k \frac{1}{k!} \frac{ k!}{j! (k - j)!} z^{j} w^{k-j} \\
+&=& \sum_{k=0}^\infty \sum_{j=0}^k \frac{z^j}{j!} \frac{w^{k-j}}{(k-j)!} \\
+&=& \left( \sum_{k=0}^\infty \frac{z^j}{j!} \right) \left( \sum_{i=0}^\infty \frac{w^{i}}{i!} \right)
+\end{eqnarray}
+
+This proves the inequality, by replacing the right and left sums with $\exp(z)$ and $\exp(w)$ respectively.
+\end{proof}
+
+\begin{thm}
+Prove that $\exp'(z) = \exp(z)$. 
+\end{thm}
+
+\begin{proof}
+Let us differentiate the series of $\exp(z)$ term by term. We obtain:
+\begin{eqnarray}
+\sum_{k=0}^\infty \frac{d}{dz} \frac{z^k}{k!} = \sum_{k=0}^\infty \frac{k z^{k-1}}{k!} = \sum_{k=0}^\infty \frac{z^{k-1}}{(k-1)!} = \sum_{k=0}^\infty \frac{z^k}{k!}
+\end{eqnarray}
+
+Next, since we know that this sum converges absolutely by the ratio test (as we have previously shown), we know that the series converges uniformly to $\exp(z)$. Therefore, we see that $\exp'(z)$ is the same as the sum of the term by term derivatives of the series of $\exp(z)$ by a theorem in Rudin. Thus, we see that $\exp'(z) = \exp(z)$, as we wanted.
+\end{proof}
+
+\section{Problem 165}
+
+\begin{thm}
+Let $V$ be the space of sequences $a = \{ a_n | n \geq 1 \}$ of real numbers such that $\sum_{n=1}^\infty |a_n | < \infty$. For which real numbers $p$ is the series $\sum_{n=1}^\infty |a_n |^p$ convergent for all $a \in V$? 
+\end{thm}
+
+\begin{proof}
+It is clear that $\sum_{n=1}^\infty |a_n|^p$ is convergent when $p > 1$. This is because in order for $\sum |a_n|$ to converge, it is a necessary condition for $|a_n| \to 0$ as $n \to \infty$. Therefore, $|a_n|^p$ when $p < 0$ will diverge. When $0 < p < 1$, we could have convergence for some $a_n$, but not for all. Therefore, we must have $p >1 $ to gaurantee convergence, which is easily seen by comparison test.   
+\end{proof}
+
+\begin{thm}
+Define the function $d_p(a,b) = ( \sum_{n=1}^\infty |a_n - b_n|^p )^{1/p}$ on $V \times V$. Show that $d_p$ is a metric on $V$ for $p = 1,2$. 
+\end{thm}
+
+\begin{proof}
+First, it is clear that the first two conditions of a metric are satisfied for both $p=1,2$. This is because $d_p(a,b) \geq 0$ unless $a = b$, in which case $|a_n - b_n| = 0 \forall n \in \mathbb{N}$, which implies $d_p(a,b) = 0$. Next, we see that $d_p(a,b) = d_p(b,a)$ because $|a_n - b_n| = |b_n - a_n|$. Therefore, the only thing left to prove is the triangle inequality. In the case of $p=1$, this is just the regular triangle inequality, since we have $|a_n - b_n | \leq |a_n - c_n| + |c_n - b_n|$, and summing both sides term by term, we get that $\sum_{n=1}^\infty |a_n - b_n| \leq \sum_{n=1}^\infty |a_n - c_n|  + \sum_{n=1}^\infty |c_n - b_n |$, which is what we wanted. This shows that $p=1$ is a metric.
+
+To show that the triangle inequality holds for $p=2$, we will let $||.||$ be the function $(\sum_{n=1}^\infty |.|^2)^{1/2}$. Then we have to show that $||a + b|| < ||a|| + ||b||$. First, we note that $||a+b||^2 = ||a||^2 + 2 |a b| + ||b||^2$. By Cauchy Schwartz, we see that $2| a b| \leq 2 ||a|| \cdot ||b||$, so we have $||a + b||^2 \leq ||a||^2 + 2 ||u|| \cdot ||b|| + ||b||^2 = (||a|| + ||b||)^2$. Taking square roots, we have $||a+b|| \leq ||a|| + ||b||$, which is what we wanted. 
+\end{proof}
+
+\begin{thm}
+Is $V$ complete with respect to the metric $d_1$ and $d_2$?
+\end{thm}
+
+\begin{proof}
+We see that $V$ is complete with respect to $d_1$ because each sequence in $V$ is such that $\sum_{n=1}^\infty |a_n|$ converges, which means every Cauchy sequence in $d_1$ converges by definition. Recall that $\sum_{n=1}^\infty |a_n|^2 \geq \left( \sum_{n=1}^\infty |a_n| \right)^2$ by Cauchy-Schwartz inequality. Taking the square root of both sides does not affect ordering, so we see that $(\sum_{n=1}^\infty |a_n|^2 )^{1/p} \geq \sum_{n=1}^\infty |a_n|$. Therefore, each Cauchy sequence with metric $d_2$ does not necessarily converge. 
+\end{proof}
+
+\section{Problem 166}
+
+\begin{thm}
+Let $s_n = 1 + \frac{1}{\sqrt{2}} + \ldots + \frac{1}{\sqrt{n}}$. Show that there exists a limit $z = \lim_{n \to \infty} (4 \sqrt{n} - 2 s_n )$ and find the integer part of $z$. 
+\end{thm}
+
+\begin{proof}
+First, we note that $\int_1^n \frac{dx}{\sqrt{x}}$ can be approximated with a lower integral sum with a partition $P = \{ x_1 = 1< x_2 = 2 < \ldots< x_n = n$. Thus, we have $L(P,f) \leq \int_1^n \frac{dx}{\sqrt{x}} \leq U(P,f)$. Now, using the above partition, we have $L(P,f) = \sum_{i=1}^{n-1} \frac{1}{\sqrt{i+1}} = \frac{1}{\sqrt{2}} + \frac{1}{\sqrt{3}} + \ldots + \frac{1}{\sqrt{n}} = s_n - 1$. The upper integral sum with the partition is $U(P,f) = \sum_{i=1}^n \frac{1}{\sqrt{i}} = 1 + \frac{1}{\sqrt{2}} + \ldots + \frac{1}{\sqrt{n}} = s_n$. Thus we have:
+\begin{eqnarray}
+s_n - 1 \leq \int_1^n \frac{dx}{\sqrt{x}} \leq s_n
+\end{eqnarray}
+
+Taking smaller and smaller partitions is the same as taking $n \to \infty$. Therefore, we can compute the integral and obtain $\int_0^1 \frac{dx}{\sqrt{x}} = 2\sqrt{n} - 2$. Thus, rearranging our inequality we obtain:
+\begin{eqnarray}
+2 \leq 4 \sqrt{n} - 2 s_n \leq 4
+\end{eqnarray}
+
+Since the sequence is monotonically increasing and bounded, we see that the limit $z$ exists, whose integer part is $2$.
+\end{proof}
+
+\section{Problem 167}
+
+\begin{thm}
+Let $f: [0,1] \to \mathbb{R}$ be a continuous function such that $\int_0^1 f(x) dx = 0$. Show that there exists $c \in [0,1]$ such that $f(c) = 0$. 
+\end{thm}
+
+\begin{proof}
+Let $F(x) = \int_0^x f(x) dx$. We see that $F$ exists and is continuous and differentiable for all $x \in [0,1]$ because $f$ is continuous on this interval, and by the fundamental theorem of calculus. Therefore, we can apply the mean value theorem and see that $F(1) - F(0) = F'(c)$ for some $c \in [0,1]$. Since $F'(c) = f(c)$ and $F(1) = \int_0^1 f(x) dx = 0$ while $F(0) = \int_0^0 f(x) dx = 0$, we have $f(c) = 0$ for some $c \in [0,1]$.
+\end{proof}
+
+\begin{thm}
+Suppose that $f: \mathbb{R} \to \mathbb{R}$ is a continuous function with period $1$. Show that for each integer $n \geq 1$ there exists a point $c$ such that $f(c) + f(c + \frac{1}{n}) + \ldots + f(c + \frac{n-1}{n}) = n \int_0^1 f(x) dx$. 
+\end{thm}
+
+\begin{proof}
+
+\end{proof}
+
+\section{Problem 168}
+
+\begin{thm}
+Find $\lim_{x \to 0} (1+ x - \frac{x^2}{2} - \log(1 + x))^{1/x^3}$. 
+\end{thm}
+
+\begin{proof}
+Take the limit of the log and put $e$ to that power. Eventually, after a lot of math, you get $e^{-1/3}$. 
+\end{proof}
+
+\section{Problem 169}
+
+\begin{thm}
+Show that if a real function $f(x)$ has positive second derivative on $[a,b]$ then $f$ is convex on $[a,b]$. 
+\end{thm}
+
+\begin{proof}
+If $f''(x) > 0$ for $x \in [a,b]$, then we see that $f'(x_1) < f(x_2)$ for all $x_1 < x_2$ in that interval. So let $x_1 < x < x_2$ and use the mean value theorem for some $c \in [x_1, x]$ and $d \in [x, x_2]$. we obtain:
+\begin{eqnarray}
+\frac{f(x) - f(x_1)}{x-x_1} = f'(c) < f'(d) = \frac{f(x_2) - f(x)}{x_2 - x} 
+\end{eqnarray}
+
+This shows us that the following is true:
+\begin{eqnarray}
+(x_2 - x) ( f(x) - f(x_1)) &<& (x - x_1) ( f(x_2) - f(x)) \\
+f(x_1) ( x - x_2) &<& (x - x_1) f(x_2) + (x_1 - x_2) f(x) \\
+f(x) &<& f(x_1) \frac{x_2 - x}{x_2 - x_1} + f(x_2) \frac{ x - x_1}{x_2 - x_1}
+\end{eqnarray}
+
+Now, letting $x = \lambda x_1 + (1- \lambda) x_2$ be an interpolation of the two points $x_1, x_2$ where $\lambda \in [0,1]$, we see that:
+\begin{eqnarray}
+f(\lambda x_1 + (1 - \lambda) x_2) &<& \frac{f(x_1)( - \lambda x_1 + \lambda x_2) + f(x_2)( (\lambda - 1) x_1 + (1 - \lambda) x_2)}{x_2 - x_1} \\
+f(\lambda x_1 + (1 - \lambda) x_2) &<& \lambda f(x_1) + (1 - \lambda) f(x_2)
+\end{eqnarray}
+
+Thus, we see that $f$ must be convex.
+\end{proof}
+
+\section{Problem 170}
+
+\begin{thm}
+Suppose that $x \in \mathbb{R}$ satisfies $0 \leq x \leq \epsilon$ for all $\epsilon > 0$. Show that $x = 0$, using only axioms of $\mathbb{R}$ as an ordered field. State the axioms you are using. 
+\end{thm}
+
+\begin{proof}
+Suppose by contradiction that $x > 0$. Then $\frac{1}{2} x > 0$ because the product of two positive quantities is positive. Moreover, $\frac{x}{2} + 0 < \frac{x}{2} + \frac{x}{2}$ because $y < z$ implies $y + x < z + x$ for all $x$. Therefore, we see that $\frac{x}{2} < x$ by addition. Also, we can set $\epsilon = \frac{x}{2}$ so that by assumption $0 \leq x \leq \frac{x}{2}$. But only one of the following: $\frac{x}{2} < x$ and $x \leq \frac{x}{2}$ can be true. Therefore, we arrive at a contradiction, so that $x = 0$. 
+\end{proof}
+
+\section{Problem 171}
+
+\begin{thm}
+Let $\{ a_n \}$ be a sequence of positive real numbers. Suppose that the series $\sum_{n=1}^\infty a_n $ converges. Prove that $\sum_{n=1}^\infty \sqrt{ a_n a_{n+1}}$ also converges. 
+\end{thm}
+
+\begin{proof}
+We know that $0 < (x-y)^2$ so that $2xy < x^2 + y^2$. Setting $x = \sqrt{a_n}$ and $y = \sqrt{a_{n+1}}$, we see that $\sqrt{a_n a_{n+1}} < \frac{1}{2} a_n + \frac{1}{2} a_{n+1}$. Next, we see that $\sum_{n=1}^\infty a_n$ converges if and only if $\sum_{n=1}^\infty a_{n+1}$ converges. Therefore, we see that $\sum_{n=1}^\infty \frac{1}{2} a_n + \frac{1}{2} a_{n+1}$ also converges by grouping the series together. We see that $\sum_{n=1}^\infty \sqrt{a_n a_{n+1}}$ converges by comparison test.
+\end{proof}
+
+\begin{thm}
+Prove the converse is true if $\{ a_n \}$ is monotonically decreasing. 
+\end{thm}
+
+\begin{proof}
+Since $\{a_n \}$ is monotonically decreasing, we see that $a_n > a_{n+1}$ for all $n \in \mathbb{N}$. Therefore, $\sqrt{a_n a_{n+1}} > \sqrt{a_{n+1} a_{n+1}} = a_n$. Thus, we see that if $\sum_{n=1}^\infty \sqrt{a_n a_{n+1}}$, then we see by comparison test that $\sum_{n=1}^\infty a_{n+1}$ as converges. Since $\sum_{n=1}^\infty a_{n+1}$ converges if and only if $\sum_{n=1}^\infty a_n$ converges, we see that the latter also converges.
+\end{proof}
+
+\section{Problem 172}
+
+\begin{thm}
+For each of the following examples, either give an example of a continuous function $f$ on $S$ such that $f(S) = T$, or explain why there can be no such continuous function. (a) $S = (0,1), T = (0,1]$. 
+\end{thm}
+
+\begin{proof}
+Let $f(x) = 1 - |2x - 1|$. 
+\end{proof}
+
+\begin{thm}
+$S = (0,1), T = (0,1) \cup (1,2)$.
+\end{thm}
+
+\begin{proof}
+There does not exist such a continuous function because $(0,1)$ is connected, while $(0,1) \cup (1,2)$ is separated, and continuous functions preserve connectedness. 
+\end{proof}
+
+\begin{thm}
+$S = [0,1] \cup [2,3], T = \{0, 1 \}$.
+\end{thm}
+
+\begin{proof}
+Let $f(x)$ be defined as follows:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+0 & x \in [0,1] \\
+1 & x \in [2,3] 
+\end{array} \right.
+\end{eqnarray}
+
+We see that the function is continuous on $T$. 
+\end{proof}
+
+\begin{thm}
+$S = \mathbb{R}, T = \mathbb{Q}$. 
+\end{thm}
+
+\begin{proof}
+No function exists because $\mathbb{R}$ is connected, while $\mathbb{Q}$ is not connected. Continuous mappings preserve connectedness, so that no possible function can exist. 
+\end{proof}
+
+\begin{thm}
+$S = [0,1] \times [0,1], T = (0,1) \times (0,1)$. 
+\end{thm}
+
+\begin{proof}
+No function exists. The pre-image of an open set under a continuous map is an open set. We see that $T$ is open, but that $S$ is closed. Therefore, it is impossible to have an open map such that $S = f^{-1}(T)$. 
+\end{proof}
+
+\section{Problem 173}
+
+\begin{thm}
+Assume $f_n: E \to \mathbb{R}$, $E \subset \mathbb{R}$ are uniformly continuous functions. Assume $f_n$ converges uniformly to $f$. Prove that $f$ is also uniformly continuous. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. By uniform convergence, we see that there exists an $N > 0$ such that for all $n > N$, we have $|f_n(x) - f(x)| < \epsilon$ for all $x \in E$. Moreover, by uniform continuity, there exists a $\delta > 0$ such that $|f_n(x) - f_n(y) | < \epsilon$ whenever $|x-y| < \delta$ for all $n \in \mathbb{N}$ and all $x,y \in E$. Therefore, we have:
+\begin{eqnarray}
+|f(x) - f(y)| \leq |f(x) - f_n(x)| + |f_n(x) - f_n(y)| + |f_n(y) - f(y)| < 3\epsilon
+\end{eqnarray}
+
+Whenever $n > N$ and $|x - y| < \delta$, and for all $x,y \in E$. This proves uniform continuity of $f$. 
+\end{proof}
+
+\section{Problem 174}
+
+\begin{thm}
+Let $f: X \to Y$ be a continuous map between metric spaces and let $K \subset X$ be compact. Prove that $f(K) \subset Y$ is compact using the definition of compactness through open covers.
+\end{thm}
+
+\begin{proof}
+Let $\{ G_{\alpha} \}$ be an open cover of $Y$. Since $f$ is continuous, we see that for any open set $V \in Y$, the inverse image $f^{-1}(V)$ must also be open. Therefore, take the inverse images of all the sets $\{ G_{\alpha} \}$ that make up the open cover. We see that $\{ f^{-1} (G_{\alpha}) \}$ for all $\alpha$ in $\{ G_{\alpha} \}$ forms an open cover of $X$, since if $x \in K$, then $f(x) \subset f(K)$ and $x \in G_{\alpha}$ for some $\alpha in A$, hence $x \in f^{-1}(G_{\alpha})$. Since every open cover permits a finite subcover, we see that there exist $i \in \{1,2, \ldots,n \}$ such that $K \subset \bigcup_{i=1}^n f^{-1} ( U_{\alpha_i})$. Moreover, we see that $f(K) \subset \bigcup_{i=1}^n U_{\alpha_i}$, since if $y \in f(K)$ then $y = f(x)$ for some $x \in K$, and hence $x \in f^{-1}(U_{\alpha_i})$ for some $i \in \{ 1,2, \ldots ,n \}$. Hence, $\{ G_{\alpha} \}$ permits a finite subcover, which shows that $f(K) \subset Y$ is compact.
+\end{proof}
+
+\section{Problem 175}
+
+\begin{thm}
+Let $\alpha:[0,1] \to \mathbb{R}$ be given by:
+\begin{eqnarray}
+\alpha(x) = \left\{ \begin{array}{ll}
+x - 1 & 0 \leq x < \frac{1}{2} \\
+x+1 & \frac{1}{2} \leq x \leq 1
+\end{array} \right.
+\end{eqnarray}
+
+Let $f(x) = 2x$. Show that the integral $\int_0^1 f d\alpha$ exists and compute its value.
+\end{thm}
+
+\begin{proof}
+We know that $\alpha$ is monotonically increasing, and that $f(x)$ is continuous. Therefore, by a theorem in Rudin, we see that the integral $\int_0^1 f d\alpha$ exists. Moreover, computing its integral, we see that $\int_0^1 f d\alpha = \int_0^{\frac{1}{2}} 2x dx + 1( \frac{3}{2} - (-\frac{1}{2})) + \int_{\frac{1}{2}}^1 2x dx = \int_0^1 2x dx + 2 = 1 + 2 = 3$. 
+\end{proof}
+
+\section{Problem 176}
+
+\begin{thm}
+Let $\mathscr{F} = \{ f_1, \ldots, f_n \}$ be a finite collection of uniformly continuous functions. Prove that $\mathscr{F}$ is equicontinuous. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. There exists a $\delta_i$ for each $i \in \{1,\ldots, n\}$ such that $|f_i(x) - f_i(y)| < \epsilon$ whenever $|x-y| < \delta_i$. Thus, we can pick $\delta = \min \{ \delta_1, \ldots, \delta_n \}$. Now choose two points $x,y$ such that $|x-y| < \delta$. We see that for all $i \in \{1,\ldots, n \}$, we have  $|f_i(x) - f_i(y)| < \epsilon$. Therefore, we have shown that $\mathscr{F}$ is equicontinuous.
+\end{proof}
+
+\section{Problem 177}
+
+\begin{thm}
+Consider the infinite sequence of functions $f_n(x) = \frac{x}{x+ \frac{1}{n}}$ for $x \in [0,1]$ and $n \in \mathbb{N}$. Show that each function $f_n$ is uniformly continuous.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. With a bit of algebra, we obtain:
+\begin{eqnarray}
+|f_n(x) - f_n(y)| = \frac{ \frac{|x-y|}{n}}{|x- \frac{1}{n}| |y - \frac{1}{n}|} \leq \frac{ \frac{|x-y|}{n}}{\frac{1}{n^2}} = n |x+y|
+\end{eqnarray}
+
+Now choose $\delta < \epsilon/n$ so that $|f_n(x) - f_n(y)| < \epsilon$ whenever $|x-y| < \delta$. This shows uniform continuity.
+\end{proof}
+
+\begin{thm}
+Show that the sequence of functions $f_n$ from above has no uniformly convergent subsequence. Conclude that it is not equicontinuous. 
+\end{thm}
+
+\begin{proof}
+We see that $f_n(x) = \frac{nx}{nx+1}$. If we take $n \to \infty$, we see that $f_n(x) \to 1$ if $x \neq 0$, and $f_n(0) \to 0$ as $n \to \infty$. Therefore, we see that the sequence of functions converges pointwise to the following:
+\begin{eqnarray}
+f(x) = \left\{ \begin{array}{ll}
+0 & x = 0 \\
+1 & x \in (0,1]
+\end{array} \right.
+\end{eqnarray}
+
+However, this function is not continuous, so it has no hope of being uniformly convergent. If the function were equicontinuous, then we would know by Arzela-Ascoli that the funciton contains a uniformly convergent subsequence (since it is clearly also pointwise bounded). Since it does not, we know that the function is not equicontinuous.
+\end{proof}
+
+\end{document}

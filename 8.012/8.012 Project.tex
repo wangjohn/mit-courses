@@ -1,0 +1,183 @@
+\documentclass[12pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{fancyhdr}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{setspace}
+\usepackage{mathrsfs}
+
+\pagestyle{fancy}
+\fancyfoot[R]{Chen, Downward, and Wang}
+\fancyfoot[L]{8.012 Project}
+
+\begin{document}
+
+\title{A Two Stage Pendulum with Rotational Motion}
+\date{\today}
+\author{Irene Chen, Aaron Downward, and John Wang\\
+8.012 Project\\}
+
+\maketitle
+
+\section{Introduction}
+
+
+\paragraph{} In this project, we will analyze the motion of a pendulum with two regimes. The first regime will consist in the motion of a physical pendulum. The second regime will involve the rotation of two rods attached to the pendulum. The pendulum will have four rods of length $l_1,l_2,l_3,$ and $l_4$  and mass $m_1,m_2,m_3,$ and $m_4$ respectively (note that $l_3 = l_4$ and $m_3 = m_4$). Rod 1 shall be attached vertically to a pivot with the top end suspended. The other end shall be connected by way of rubber band to the center of mass of rod 2, which is horizontal at rest and free to rotate in the plane perpendicular to rod 1. Furthermore, the ends of rod 2 are connected by hinges to rods 3 and 4 (see Figure 1 for a diagram of the apparatus). 
+
+Initially, the apparatus is lifted to a certain angle $\theta_1$ past the vertical and allowed to drop. Moreover, the rubber band attaching rod 2 to rod 1 will be wound so that the bottom half of the apparatus will begin to rotate. This results in a uniformly changing angle $\theta_4$. The other two angles involved in the device are $\theta_2$, which is the angle that a plane containing rods 3 and 4 makes with the vertical, and $\theta_3$, which is the angle past perpendicular that rods 3 and 4 make with rod 2. If the center of mass of the pendulum is not displaced, then $\theta_3$ represents the angle with the vertical that rods 3 and 4 make (see Figure 2).
+
+We shall assume that each rod has mass that is uniformly distributed and that the rotation of rod 2 occurs at a constant angular velocity $\omega = \dot{\theta_4}$. We will also assume that there is no damping due to friction so that energy is conserved.
+
+This paper will present both theoretical and empirical results. First, we will simplify the system into two separate regimes using very simple assumptions to understand the general behavior of the system. Then, we will present a method that allows one to numerically obtain the equations of motion. Finally, we will present our experimental observations to verify the validity of our analytical results. 
+
+\section{A Two-Regime Model}
+
+\paragraph{} In this section, we will attempt to gain some intuition for the behavior of this device. We will make simplifying assumptions that possibly do not reflect reality. However, these assumptions will allow us to get a rough idea of the motion of the system. First, we will break the system up into two distinct, independent regimes. Thus, we will assume that the spinning of rods 2,3, and 4 occur independently of the pendular motion of rod 1 and estimate the period of precession. 
+
+First, let us define our axis system as in Figures 1 and 2, where the x axis points out of the paper, the y axis points to the right of the paper, and the z axis points upwards. The origin shall be the fixed point at the end of rod 1. Thus, the location of the center of mass $\vec{R_{c}}$ will be given by 
+
+\begin{equation}
+\vec{R_{c}} = \frac{1}{m_T} \left(\frac{\vec{l_1}}{2} m_1 + \vec{l_1}m_2 + 2\left(\vec{l_1} + \vec{l_2} + \frac{\vec{l_3}}{2}\right)m_3 \right)
+\end{equation}
+
+where $ m_T = m_1 + m_2 + 2m_3$. To determine $\| \vec{R_c} \|$, one simply needs to find the magnitude of the distance to the center of mass from the origin, which can be easily done. Thus, we can determine the torque about the origin $\tau_0$ which is given by $\tau_0 = \vec{R_{c}} \times \vec{F_g} = \| \vec{R_{c}} \| m_T g \sin\theta_1$, where $g$ is the gravitational constant and $\vec{F_g}$ is the force of gravity. We also know that torque is given by $\tau_0 = -I_T \ddot{\theta_1}$, where $I_T$ is the total moment of inertia of the apparatus about the end of rod 1. Using the small angle approximation of $\sin \theta_1 \approx \theta_1$, we obtain the following second order differential equation with no damping:
+
+\begin{equation}
+0 = {{\| \vec{R_c} \| m_T g } \over {I_T}} \theta_1 + \ddot{\theta_1}
+\end{equation}
+
+This equation has a well known solution, so we can easily solve for the frequency of oscillation $\Omega$ and period $T$ associated with the device's precession without any spin angular momentum: 
+
+\begin{equation}
+\Omega = \sqrt{{{\| \vec{R_c} \| m_T g } \over {I_T}}}  \hspace{0.4cm} \text{and} \hspace{0.4cm} T = 2 \pi \sqrt{{ {I_T} \over {\| \vec{R_c} \| m_T g }}}
+\end{equation}
+
+To find the total moment of inertia $I_T$, one needs to sum up the contributions of the four rods, so that $I_T = I_1 + I_2 + 2 I_3$. For rod 1, $I_1 = \frac{1}{3} m_1 l_1^2$ by the well-known formula. Rod 2 will have a moment of inertia $I_2 = m_2 l_1^2$ because the axis of rotation is always a distance $l_1$ away from any unit of mass $\Delta m$, if we assume that spin angular momentum does not skew the orthogonality of the rod. The moment of inertia of the third and fourth rods is given by $ m_3 l_1^2 + \int_a^b \tan \theta_3 r^2 dm $ by parallel axis theorem. Since the rod is of uniform density, we have $dm = \frac{m_3}{l_3}dr$. From Figure 3, we also know that the limits of integration are given by $a = 0$ and $ b = l_3 \sin \theta_3$. This gives us the expression for $I_3$: 
+
+\begin{equation}
+I_3 = \int \limits_{0}^{l_3 \sin \theta_3} \frac{m_3}{l_3} \tan^2 \theta_3 r^2 dr + m_3 l_1^2 = \frac{1}{3} m_3 l_3^2 \tan^2 \theta_3 \sin ^3 \theta_3 + m_3 l_1^2 
+\end{equation}
+
+and subsequently, an expression for $I_T$
+
+\begin{equation}
+I_T = \frac{1}{3} m_1 l_1^2 + m_2 l_1^2 + \frac{2}{3} m_3 l_3^2 \tan^2 \theta_3 \sin ^3 \theta_3 + 2 m_3 l_1^2
+\end{equation}
+
+Thus, we now have the processional frequency of oscillation $\Omega$ in a deterministic (albeit rather messy) form. Thus, without any spinning, we should expect to see the pendulum have a period of the $T$ given by equation 3. With spinning, we should see deviations from this, depending on the magnitude of the spin frequency $\omega$. 
+
+\section{Langrangian Mechanics}
+
+\paragraph{} In this section, we shall develop the Euler-Lagrange equations based on kinetic and potential energies. To do this, we first need to find the coordinates for the centers of mass of each rod. We will use the same coordinate system as before, with the xyz axes intersecting at the end of rod 1 that is fixed. The coordinates of $\vec{R_1}$ and $\vec{R_2}$ in cartesian coordinates are easily obtained through the use of trigonometry, and are given by the following:
+
+\begin{center}
+\begin{tabular}{ l @{\hspace{1.5cm}}  l}
+$x_1 = 0 $ & $x_2 = 0$ \\
+$y_1 = \frac{l_1}{2} \sin \theta_1$ & $y_2 = l_1 \sin \theta_1$ \\
+$z_1 = -\frac{l_1}{2} \cos \theta_1$ & $z_2 = -l_1 \cos \theta_1$ \\
+\end{tabular}
+\end{center}
+
+Obtaining the coordinates for $\vec{R_3}$ and $\vec{R_4}$ is more complicated, even though $\vec{R_3}$ and $\vec{R_4}$ have a simple relationship. First, we can use $\vec{R_2}$ as a starting point, because vectors in cartesian coordinates are additive. Now we can simplify the problem again by picking the point at the end of rod 2 as an intermediate vector. This point, $\vec{R_i}$, has an x component that is given by $ x_i = \frac{l_2}{2} \cos \theta_4$, because the intermediate point traces out a circle in the x axis. We also know that the y coordinate of $\vec{R_2}$ should be decreased by a length of $\frac{l_2}{2} \sin \theta_4 \cos \theta_1 $ to account for the rotation of rod 2 and its changing angle $\theta_1$ with respect to the vertical. The same argument holds for the z coordinate, but instead we take the sine. This yields the following components for $\vec{R_i}$:
+
+\begin{center}
+\begin{tabular} {l}
+$x_i = \frac{l_2}{2} \cos \theta_4$ \\
+$y_i = l_1 \sin \theta_1 - \frac{l_2}{2} \sin \theta_4 \cos \theta_1$ \\
+$z_i = -l_1 \cos \theta_1 - \frac{l_2}{2} \sin \theta_4 \sin \theta_1$ \\
+\end{tabular}
+\end{center}
+
+Next, we must add the vector from $\vec{R_i}$ to $\vec{R_3}$ (once we have $\vec{R_3}$, $\vec{R_4}$ is trivial to obtain). The new x component is given by $\frac{l_3}{2} \sin \theta_3 \cos \theta_4$ because there are two angles, $\theta_3$ and $\theta_4$, that are contributing to the additional x component. Similarly, we know there are also two angles contributing to the x and y components. Thes contributions are $\frac{l_3}{2} \sin \theta_2 \cos \theta_3 $ to the y component and $ - \frac{l_3}{2} \cos \theta_3 \cos \theta_2 $ to the z component. For $\vec{R_4}$, the signs for the components of y and z added by $\vec{R_i}$ will be switched and all the signs for $x_4$ will be negative instead of positive because of rotational symmetry about the center of mass of rod 2 (and because $l_3 = l_4$. Thus, we can combine all of these terms to obtain $\vec{R_3}$ and $\vec{R_4}$:
+
+\begin{center}
+\begin{tabular} {l}
+$x_3 = \frac{l_2}{2} \cos \theta_4 + l_3 \sin \theta_3 \cos \theta_4$ \\
+$y_3 = l_1 \sin \theta_1 - \frac{l_2}{2} \sin \theta_4 \cos \theta_1 + \frac{l_3}{2} \sin \theta_2 \cos \theta_3$  \\
+$z_3 = - l_1 \cos \theta_1 -\frac{l_2}{2} \sin \theta_4 \sin \theta_1 + \frac{l_3}{2} \cos \theta_3 \cos \theta_2$ \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular}{l}
+$x_4 = - \frac{l_2}{2} \cos \theta_4 - l_3 \sin \theta_3 \cos \theta_4$ \\
+$ y_4 = l_1 \sin \theta_1 + \frac{l_2}{2} \sin \theta_4 \cos \theta_1 + \frac{l_3}{2} \sin \theta_2 \cos \theta_3 $ \\
+$z_4 = - l_1 \cos \theta_1 + \frac{l_2}{2} \sin \theta_4 \sin \theta_1 + \frac{l_3}{2} \cos \theta_3 \cos \theta_2$ \\
+\end{tabular}
+\end{center}
+
+Now that we have the coordinates of all of the centers of masses, we are able to derive the potential and kinetic energy using the well-known formulas. We know that potential energy is given by $ U = m_1 g z_1 + m_2 g z_2 + m_3 g z_3 +m_4 g z_4$. Since we already have all the $z$ coordinates, all we have to do is substitute to obtain $U$. This leads us to:
+
+\begin{eqnarray*}
+U &=& \frac{l_1}{2} m_1 g  \cos \theta_1 + l_1 m_2 g  \cos \theta_1 + m_3 g \left(- l_1 \cos \theta_1 -\frac{l_2}{2} \sin \theta_4 \sin \theta_1 + \frac{l_3}{2} \cos \theta_3 \cos \theta_2 \right) \\
+&+& m_4 g \left( - l_1 \cos \theta_1 + \frac{l_2}{2} \sin \theta_4 \sin \theta_1 + \frac{l_3}{2} \cos \theta_3 \cos \theta_2 \right)   
+\end{eqnarray*}
+
+Which, since $m_3 = m_4$, simplifies to:
+
+\begin{equation}
+U = l_1 g \cos \theta_1 \left( \frac{m_1}{2} + m_2 \right) - 2 l_1 m_3 g \cos \theta_1 + l_3 m_3 g \cos \theta_3 \cos \theta_2
+\end{equation}
+
+The kinetic energy is composed of the rotational and translational kinetic energies. Thus, we find that $K = \frac{1}{2} m_1 v_1^2 + \frac{1}{2} m_2 v_2^2 +  \frac{1}{2} m_3 v_3^2 + \frac{1}{2} m_4 v_4^2$. To obtain the velocities, we need to differentiate our position vector. Thus, we can derive the following velocity components:
+
+\begin{center}
+\begin{tabular} {l @{\hspace{1.5cm}} l}
+$\dot{x_1} = 0$ & $ \dot{x_2} = 0 $ \\
+$\dot{y_1} = \frac{l_1}{2} \cos \theta_1 \dot{\theta_1}$ & $\dot{y_2} = l_1 \cos \theta_1 \dot{\theta_1} $ \\
+$\dot{z_1} = \frac{l_1}{2} \sin \theta_1 \dot{\theta_1}$ & $\dot{z_2} = l_1 \sin \theta_1 \dot{\theta_1} $ \\
+\end{tabular}
+\end{center}
+
+\begin{center}
+\begin{tabular} {l}
+
+$\dot{x_3} = - \frac{l_2}{2} \sin \theta_4 \dot{\theta_4} + l_3 \cos \theta_3 \cos \theta_4 \dot{\theta_3} - l_3 \sin \theta_3 \sin \theta_4 \dot{\theta_4} $\\
+
+$\dot{y_3} = l_1 \cos \theta_1 \dot{\theta_1} - \frac{l_2}{2} \cos \theta_4 \cos \theta_1 \dot{\theta_4} + \frac{l_2}{2} \sin \theta_4 \sin \theta_1 \dot{ \theta_1} + \frac{l_3}{2} \cos \theta_2 \cos \theta_3 \dot{\theta_2} - \frac{l_3}{2} \sin \theta_2 \sin \theta_3 \dot{\theta_3} $\\
+
+$\dot{z_3} = l_1 \sin \theta_1 \dot{\theta_1} - \frac{l_2}{2} \cos \theta_4 \sin \theta_1 \dot{\theta_4} - \frac{l_2}{2} \sin \theta_4 \cos \theta_1 \dot{\theta_1} - \frac{l_3}{2} \sin \theta_3 \cos \theta_2 \dot{\theta_3} - \frac{l_3}{2} \cos \theta_3 \sin \theta_2 \dot{\theta_2} $ \vspace{0.5cm}\\
+
+
+
+$\dot{x_4} =  \frac{l_2}{2} \sin \theta_4 \dot{\theta_4} - l_3 \cos \theta_3 \cos \theta_4 \dot{\theta_3} + l_3 \sin \theta_3 \sin \theta_4 \dot{\theta_4} $\\
+
+$\dot{y_4} = l_1 \cos \theta_1 \dot{\theta_1} + \frac{l_2}{2} \cos \theta_4 \cos \theta_1 \dot{\theta_4} - \frac{l_2}{2} \sin \theta_4 \sin \theta_1 \dot{ \theta_1} + \frac{l_3}{2} \cos \theta_2 \cos \theta_3 \dot{\theta_2} - \frac{l_3}{2} \sin \theta_2 \sin \theta_3 \dot{\theta_3} $\\
+
+$\dot{z_4} = l_1 \sin \theta_1 \dot{\theta_1} + \frac{l_2}{2} \cos \theta_4 \sin \theta_1 \dot{\theta_4} + \frac{l_2}{2} \sin \theta_4 \cos \theta_1 \dot{\theta_1} - \frac{l_3}{2} \sin \theta_3 \cos \theta_2 \dot{\theta_3} - \frac{l_3}{2} \cos \theta_3 \sin \theta_2 \dot{\theta_2} $\\
+
+\end{tabular}
+\end{center}
+
+\vspace{0.3cm}
+
+Therefore, we can find the kinetic energy in terms of the derivatives of position, so that $ \left\{ v_k^2 = \dot{x_k}^2 + \dot{y_k}^2 + \dot{z_k}^2 \mid k \in 1,2,3,4 \right \}$. When presenting the kinetic energy, we will leave it in terms of $\dot{x_k}^2 + \dot{y_k}^2 + \dot{z_k}^2$ due to space considerations. We can then find the Langrangian, which is defined as $ L = K - U$, since we now know both the potential and kinetic energies of the system.  
+
+\begin{equation}
+\begin{split}
+L = \frac{1}{2}& m_1 \left(\dot{x_1}^2 + \dot{y_1}^2 + \dot{z_1}^2 \right) + \frac{1}{2} m_2 \left(\dot{x_2}^2 + \dot{y_2}^2 + \dot{z_2}^2 \right) \\
+ & +  \frac{1}{2} m_3 \left(\dot{x_3}^2 + \dot{y_3}^2 + \dot{z_3}^2 \right) + \frac{1}{2} m_4 \left(\dot{x_4}^2 + \dot{y_4}^2 + \dot{z_4}^2 \right) \\
+ & - l_1 g \cos \theta_1 \left( \frac{m_1}{2} + m_2 \right) + 2 l_1 m_3 g \cos \theta_1 - l_3 m_3 g \cos \theta_3 \cos \theta_2
+\end{split}
+\end{equation}
+
+This allows us to find the Euler-Langrange differential equations using the formula $ \frac{d}{dt} \left( \frac{\partial L} {\partial \dot{\theta_k}} \right) - \frac {\partial L}{\partial \theta_k} = 0$, for $ k \in 1,2,3,4$ to get a system of differential equations. We will obtain four differential equations with respect to $ \theta_1, \theta_2, \theta_3,$ and $\theta_4$ (the last equation is simple because we have fixed $\omega = \theta_4$ as a constant). Solving the system will give us the equations of motion for each of these angles.
+
+One can see by inspection, however, that these equations will be extremely difficult to solve and probably cannot be solved analytically. It is highly probably that we will see chaotic motion. One could solve these numerically, but this would not give us any extra insight into the problem. Instead, we will use the results of our real-world apparatus to analyze the chaotic motion of the machine, since the benefit of solving the equations of motion would be minimal.
+
+\section{Empirical Results}
+
+\paragraph{} When the rod was not spinning, the apparatus acted like a simple pendulum. However, when we did spin it, the entire machine seemed as if it were attempting to precess. We also noticed a chaotic twisting motion that caused the period to vary considerably. These results reinforce the complex equations of motion we derived in section 3. The system is likely chaotic because of the numerous degrees of freedom.
+
+However, we can use our results from section 2 to estimate the period. Using the masses and lengths of the bars to derive the total moment of inertia, we can compare the experimental and theoretical value of the period. Our theoretical value was 1.78$s$ whereas our empirical average over 25 tries was 1.42$s$ (The average periods for spinning and without spinning looked similar, however the variability increased dramatically with spinning). The 25\% error can probably be explained by frictional effects, which we neglected in our analysis.
+
+In designing the experiment, we ran into a couple of problems.  First of all, we encountered difficulties with ensuring that the second rod spun at a constant angular velocity because it could only spin as fast as the rubber band unwound, which is not a constant speed.  Our results were greatly impacted by this lack of consistency because often would the second rod stop spinning before we finished timing.  This issue might have been resolved with the use of a longer rubber band.  Furthermore, friction was definitely present between the different parts of the apparatus although we did not account for it in our analysis, and there was a lot of room for human error, especially with the timing of the periods.  To make up for that discrepancy, we ran multiple trials; however, it was apparent that the starting and stopping of the stopwatch was not very consistent.  
+
+A better experimental design would involve less human intervention and more automation in the timing of the periods, spinning of the second rod, and releasing of the pendulum.
+
+\end{document}
+
+
+

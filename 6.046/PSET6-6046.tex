@@ -1,0 +1,131 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+\usepackage{thmtools}
+\usepackage{verbatim}
+\usepackage{multirow}
+\usepackage{tikz}
+\usepackage{hyperref}
+\usetikzlibrary{shapes,arrows}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{prob}{Problem}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\newenvironment{sol}{{\bfseries Solution}}{\qedsymbol}
+
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{6.046 \\
+Problem Set 6}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+Collaborators: Xinran Liu
+
+\section{Problem 7-1}
+
+\subsection{Problem A}
+
+\begin{prob}
+Write pseudoode implementations of the Bib-Insert, Bib-Delete, and Bib-Min functions for the Bib Tree.
+\end{prob}
+
+\begin{sol}
+
+Let us say that the function $high(x) = a$ and $low(x) = b$ where $x = a \sqrt{x} + b$. 
+
+\begin{verbatim}
+def BibInsert(tree, x):
+    if tree is empty:
+        tree.min = tree.max = x
+        return
+    if x < tree.min:
+        x, tree.min = tree.min, x
+    if x > tree.max:
+        x, tree.max = tree.max, x
+    if v.summary[high(x)] == 0:
+        BibInsert(v.summary, high(x))
+    BibInsert(v.blocks[high(x)], low(x))
+
+def BibMin(tree):
+    return tree.min
+
+def BibDelete(tree, x):
+    if tree is empty or x < tree.min or x > tree.max:
+        return null
+    if x == tree.min
+        s = tree.summary.min
+        if s == null: 
+            tree.min = tree.max
+        else:
+            tree.min = tree.bocks[s].min
+            BibDelete(tree.bocks[s], tree.min)
+            if tree.bocks[s].min == null:
+                BibDelete(tree.summary, s)
+    elif x == tree.max:
+        do the same but opposite
+    else:
+        BibDelete(s.bocks[high(x)], low(x))
+        if S.blocks[high(x)].min == null:
+            BibDelete(tree.summary, high(x))
+            BibDelete(tree.blocks, low(x))
+\end{verbatim}
+\end{sol}
+
+\subsection{Problem B}
+
+\begin{prob}
+Write the recurrences for the run-times of the operations in the revised data structure and solve the recurrences.
+\end{prob}
+
+\begin{sol}
+
+\end{sol}
+
+\end{document}

@@ -1,0 +1,15 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdftex 2011.3.25)  2 DEC 2011 20:14
+entering extended mode
+**C:/Users/John/Documents/MIT/Course*18/18.353/Final*Project/bibliography.bib
+("C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/bibliography.bib"
+! Undefined control sequence.
+l.13 ... and Abundance of the Cownose Ray, \textit
+                                                  {Rhinoptera bonasus}, in L...
+
+? 
+! Emergency stop.
+l.13 ... and Abundance of the Cownose Ray, \textit
+                                                  {Rhinoptera bonasus}, in L...
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fractal toy code</title>
+    
+    <style type="text/css">
+<%= Sass.compile_file 'src/fractal.scss' %>
+    </style>
+
+    <script type="text/javascript">
+<%= File.read 'src/raphael.js' %>
+    </script>
+    <script type="text/javascript">
+<%= CoffeeScript.compile File.read('src/fractal.coffee') %>
+    </script>
+  </head>
+  <body>
+    <h1>Koch Snowflake</h1>
+
+    <p>
+      <label for="lod">Level of detail</label> 
+      <input id="lod" type="number" min="0" max="7" step="1" value="0"
+             autofocus="autofocus" />
+    </p>
+    <p>
+      Rendering API
+      <input id="render-2d" type="radio" name="render" value="2D"
+                            checked="checked" />
+      <label for="render-2d">2D</label>
+      <input id="render-3d" type="radio" name="render" value="3D" />
+      <label for="render-3d">3D</label>
+    </p>
+    <p>
+      <span id="line-count"></span> lines,
+      <span id="line-length"></span> total line length
+    </p>
+    <p>
+      <span id="triangle-count"></span> triangles,
+      <span id="triangle-area"></span> total area of triangles
+    </p>
+
+    <div id="canvas-container">
+      <div id="canvas" />
+    </div>
+  </body>
+</html>

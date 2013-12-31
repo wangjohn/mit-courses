@@ -1,0 +1,386 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+\usepackage{thmtools}
+\usepackage{verbatim}
+\usepackage{multirow}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{prob}{Problem}[section]
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\newenvironment{sol}{{\bfseries Solution}}{\qedsymbol}
+
+\def\legendre(#1,#2){%
+{#1 \overwithdelims () #2} }
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{18.781 \\
+Problem Set 9}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 1}
+
+\begin{prob}
+Recall that $x = [a_0, \ldots, a_{n-1}, x_n] = \frac{x_n p_{n-1} + p_{n-2}}{x_n q_{n-1} + q_{n-2}}$. Show that $x - \frac{p_{n-1}}{q_{n-1}} = \frac{(-1)^{n-1}}{q_{n-1}(x_n q_{n-1} + q_{n-2})}$. Use this to show that the convergents $p_n/q_n$ indeed converge to $x$, and even and odd-numbered convergents lie on opposite sides of $x$.
+\end{prob}
+
+\begin{sol}
+We know that the following is true, using the fact that $x = [a_0, \ldots, a_{n-1}, x_n]$:
+\begin{eqnarray}
+x - \frac{p_{n-1}}{q_{n-1}} &=& \frac{ x_n p_{n-1} + p_{n-2}}{x_n q_{n-1} + q_{n-2} } - \frac{ x_n p_{n-1} + p_{n-2}}{x_n q_{n-1} + q_{n-2}} \\
+&=& \frac{x_n q_{n-1} p_{n-1} + p_{n-2} q_{n-1} - x_n q_{n-1} p_{n-1} - p_{n-1} q_{n-2}}{(x_n q_{n-1} q_{n-2}) q_{n-1}} \\
+&=& \frac{p_{n-2} q_{n-1} - p_{n-1} q_{n-2}}{(x_n q_{n-1} + q_{n-2}) q_{n-1}}
+\end{eqnarray}
+
+Also, we know that from a theorem proven in class, that $\frac{p_{k-1}}{q_{k-1}} - \frac{p_k}{q_k} = \frac{(-1)^k}{q_{k-1} q_k}$. This implies that $p_{k-1} q_k - p_k q_{k-1} = (-1)^k$. Equivalently, setting $k = n - 1$, we see that $p_{n-2} q_{n-1} - p_{n-1} q_{n-2} = (-1)^{n-1}$. This shows
+\begin{equation}
+x - \frac{p_{n-1}}{q_{n-1}} = \frac{(-1)^{n-1}}{q_{n-1}(x_n q_{n-1} + q_{n-2})}
+\end{equation}
+
+Now recall $q_{n} = a_n q_{n-1} + q_{n-2}$, and that $a_n > 0$ for all $n \in \mathrm{N}$. Moreover, since $q_{-1}$ and $q_{-2}$ are both non-negative, we see that $q_{n}$ increases monotonically as $n \to \infty$. This means that the RHS of the equation goes to zero as $n \to \infty$ because $q_{n-1}$ and $q_{n-2}$ both converge to $\infty$ ans $n \to \infty$. Moreover, we see that $p_{n-1}/q_{n-1}$ changes signs because $q_{n} > 0$ and $x_n > 0$ for all $n \in \mathrm{N}$, but $(-1)^{n-1}$ changes sign with odd and even numbered convergents. 
+\end{sol}
+
+\section{Problem 2}
+
+\begin{prob}
+It follows from the above problem that $|x - p_n / q_n| < 1 / (q_n q_{n+1})$ and that $|x q_n - p_n | < 1 / q_{n+1}$. Show that $|x q_n - p_n | > 1 / q_{n+2}$ and therefore that $|x - \frac{p_{n+1}}{q_{n+1}}| < |x - \frac{p_n}{q_n} |$. 
+\end{prob}
+
+\begin{sol}
+First we note that based on the fact that $x = [a_0, \ldots, a_{n-1}, x_n]$ and $x_{n+1} < a_{n+1} + 1$, we can obtain the following inequalities:
+\begin{eqnarray}
+x - \frac{p_n}{q_n} &=& \frac{(-1)^n}{q_n (x_{n+1} q_n + q_{n-1})} > \frac{(-1)^n}{q_n ((a_{n+1} + 1) q_n + q_{n-1})} \\
+x q_n  - p_n &=& \frac{(-1)^n}{q_n + q_{n+1}}
+\end{eqnarray}
+
+The last line uses the fact that $q_{n+1} = a_{n+1} q_n + q_{n-1}$ using the recursive definition of $q_n$. Moreover, we know that $q_n + q_{n+1} < q_{n+2}$ because $a_{n+2} > 0$. This implies the following:
+\begin{eqnarray}
+|x q_n - p_n | &>& \frac{1}{q_{n+2}}
+\end{eqnarray}
+
+Which is the first part of what we wanted to prove. We know that $|x - \frac{p_{n+1}}{q_{n+1}}| < \frac{1}{q_{n+1} q_{n+2}}$ by the first inequality mentioned in the beginning of the problem. This implies, since $q_n < q_{n+1}$ that $|x - \frac{p_{n+1}}{q_{n+1}}| < \frac{1}{q_n q_{n+2}}$. Moreover, we have already shown that $|x q_n - p_n| > 1 / q_{n+2}$. This implies that
+\begin{eqnarray}
+\left| x - \frac{p_{n+1}}{q_{n+1}} \right| < \frac{1}{q_{n+1}q_{n+2}} < \frac{1}{q_n q_{n+2}} < \left| x - \frac{p_n}{q_n} \right|
+\end{eqnarray}
+
+Which is what we wanted to show.
+\end{sol}
+
+\section{Problem 3}
+
+\begin{prob}
+Let $n \geq 1$. Show that if $a/b$ is a rational number, with $a,b$ integers and $b$ positive, such that $|bx-a| < |q_n x - p_n|$, then $b \geq q_{n+1}$.
+\end{prob}
+
+\begin{sol}
+First, we note that we can write the vector $(a,b)$ as an integer linear combination of $(p_n, q_n)$ and $(p_{n+1}, q_{n+1})$. Thus, we need to find integer coefficients $\alpha$ and $\beta$ such that $a = \alpha p_n + \beta p_{n+1}$ and $b = \alpha q_n + \beta q_{n+1}$. In other words, we must solve the following matrix equations:
+\begin{equation}
+\left[ \begin{array}{c c}
+p_n & p_{n+1} \\
+q_n & q_{n+1} 
+\end{array} \right] \left[ \begin{array}{c}
+\alpha \\
+\beta \end{array} \right] = \left[ \begin{array}{c}
+a \\
+b \end{array} \right]
+\end{equation}
+
+We know from a theorem proven in class that the determinant can be given by:
+\begin{equation}
+\left| \begin{array}{c c}
+p_n & p_{n+1} \\
+q_n & q_{n+1} 
+\end{array} \right|  = (-1)^{n+1} \neq 0
+\end{equation}
+
+This shows that we have solutions $\alpha = (-1)^{n+1} (a q_{n+1} - b p_{n+1})$ and $\beta = (-1)^{n+1} (b p_n - a q_n)$ to the equations. Next, we shall show that $\alpha$ and $\beta$ have differing signs. First suppose that $\beta < 0$. Then we know that $b = \alpha q_n + \beta q_{n+1}$ so that $\alpha q_n = b - \beta q_{n+1} > 0$. Since $q_n > 0$, we know that $\alpha > 0$. Now suppose that $\beta \geq 0$. Then we know that $b < q_{n+1}$ so that $\alpha q_n = b - \beta q_{n+1} < 0$. This implies that $\alpha <0$. Therefore, we must have opposite signs for $\alpha$ and $\beta$.
+
+Moreover, we know that $x - \frac{p_n}{q_n}$ and $x - \frac{p_{n+1}}{q_{n+1}}$ must have different signs from a theorem in class, which implies that $q_n x - p_n$ and $q_{n+1} x - p_{n+1}$ have different signs as well. This means, due to the opposite signs, that we can write:
+\begin{eqnarray}
+|bx-a| &=& |(\alpha q_n + \beta q_{n+1})x - (\alpha p_n + \beta p_{n+1})| \\
+&=& |\alpha| |q_n x - p_n | + |\beta| |q_{n+1} x - p_{n+1}|
+\end{eqnarray}
+
+Since we know by hypothesis that $|bx-a| < |q_n x - p_n|$, and we know that $\alpha$ and $\beta$ are integers, we must have $\alpha = 0$. This implies that $0 = (-1)^{n+1} (a q_{n+1} - b p_{n+1})$ which further implies that $a q_{n+1} = b p_{n+1}$. Since we know that $gcd(q_{n+1}, p_{n+1}) = 1$ by a theorem shown in class, we must have $q_{n+1} | b$. This implies that $b \geq q_{n+1}$. This completes the proof.
+\end{sol}
+
+\begin{prob}
+Check that problem 3.1 implies that $|x - a/b| \geq |x - p_n/q_n|$ for every $1 \leq b \leq q_n$, i.e. $p_n/q_n$ is a best approximation to $x$ among rational numbers with denominators less than or equal to $q_n$. 
+\end{prob}
+
+\begin{sol}
+We know from the above that if $b \leq q_n$, then we must have $|bx - a| \geq |q_n x - p_n|$. This follows because otherwise, we would have $|bx - a| < |q_n x - p_n|$, which would imply $b \geq q_{n+1}$. This would contradiction $b < q_n$ because $q_n < q_{n+1}$. This shows the following:
+\begin{eqnarray}
+b \left| x - \frac{a}{b} \right| &\geq& q_n \left| x - \frac{p_n}{q_n} \right| \\
+\left| x - \frac{a}{b} \right| &\geq& \frac{q_n}{b} \left| x - \frac{p_n}{q_n} \right| \\
+\left| x - \frac{a}{b} \right| &\geq& \left| x - \frac{p_n}{q_n} \right|
+\end{eqnarray}
+
+Where the last line follows because $b \leq q_n$ implies that $q_n/b \geq 1$. This completes the proof. 
+\end{sol}
+
+\section{Problem 4}
+
+\begin{prob}
+If $a/b$ is a rational approximation to $x$ as above ($a,b$ integers, $b$ positive), such that $|x - \frac{a}{b}| < \frac{1}{2b^2}$, then show that $a/b$ must be a convergent of the simple continued fraction of $x$. 
+\end{prob}
+
+\begin{sol}
+We can suppose $g= gcd(a,b) = 1$, otherwise we could reqrite the problem so that $|x - \frac{a/g}{b/g}| < \frac{1}{2(b/g)^2}$. Now, let $\frac{p_n}{q_n}$ be the convergents of $x$ and suppose by contradiction that $a/b$ is not a convergent of $x$. Then we know that there exists an $n$ such that $q_n \leq b < q_{n+1}$ since the sequence $\{q_n\}$ increases monotonically. Thus, we see from the previous theorem that $|xb - a| \geq |x q_n - p_n|$. Therefore, we find:
+\begin{eqnarray}
+|x q_n - p_n | &\leq& |xb - a| < \frac{1}{2b} \\
+\left|x - \frac{p_n}{q_n} \right| &<& \frac{1}{2b q_n} 
+\end{eqnarray}
+
+Since we know that $\frac{a}{b} \neq \frac{p_n}{q_n}$ and that $b p_n - a q_n$ is an integer by virtue of $a,b,p_n, q_n$ all being integers, we find that the following is true:
+\begin{eqnarray}
+\frac{1}{bq_n} &\leq& \frac{ |b p_n - a q_n|}{b q_n} \\
+&=& \left| \frac{p_n}{q_n} - \frac{a}{b} \right| \\
+&\leq& \left| x- \frac{a}{b} \right| + \left| x - \frac{p_n}{q_n} \right| \\
+&<& \frac{1}{2b q_n} + \frac{1}{2b^2} \\
+&=& \frac{1}{2b} \left( \frac{b + q_n}{q_n b} \right) 
+\end{eqnarray}
+
+This implies that $2b < b + q_n$ or that $b < q_n$. However, this is a contradiction due to the previous problem which showed that $b \geq q_{n+1}$. 
+\end{sol}
+
+\section{Problem 5}
+
+\begin{prob}
+Let $\phi = (1 + \sqrt{5})/2$ be the golden ratio, and let $\kappa > \sqrt{5}$. Show that there are only finitely many rational numbers $p/q$ such that $|\phi - \frac{p}{q}| < \frac{1}{\kappa q^2}$. 
+\end{prob}
+
+\begin{sol}
+We showed in class that the continued fraction expansion of $\phi = (1 + \sqrt{5})/2$ is given by $[1,1,1,\ldots]$. We see then that $p_n = a_n p_{n-1} + p_{n-2} = p_{n-1} + p_{n-2}$ and that $q_n = a_n q_{n-1} + q_{n-2} = q_{n-1} + q_{n-2}$ are the numerator and denominator of the convergents. We can show inductively that $q_n = p_{n-1}$. Clearly it holds for $n = 1$ because $q_1 = 1$ and $p_0 = 1$. Now, suppose this for all integers less than or equal to $n$. We see that $q_{n+1} = q_{n} + q_{n-1}$ by the recurrence. Using the induction hypothesis, we find $q_{n+1} = p_{n-1} + p_{n-2} = p_n$, which completes the induction step. Therefore, we find:
+\begin{eqnarray}
+\lim_{n \to \infty} \frac{q_{n-1}}{q_n} = \lim_{n \to \infty} \frac{q_{n-1}}{p_{n-1}} = \frac{1}{\phi} = \frac{2}{1 + \sqrt{5}} 
+\end{eqnarray}
+
+We can simplify the above expression by multiplying by the conjugate to obtain $\frac{2}{1 + \sqrt{5}} \frac{\sqrt{5} - 1}{\sqrt{5} - 1} = \frac{\sqrt{5} - 1}{2}$. We can then obtain the expression:
+\begin{eqnarray}
+\lim_{n \to \infty} \phi_{n} + \frac{q_{n-1}}{q_n} = \frac{\sqrt{5}+1}{2} + \frac{\sqrt{5} - 1}{2} = \sqrt{5}
+\end{eqnarray}
+
+This shows us that for $\kappa > \sqrt{5}$, we can only have $\phi_{n+1} + {q_{n+1}}/ q_n > \kappa$ for a finite number of values of $n$. We know the following as well:
+\begin{eqnarray}
+\left| \phi - \frac{p_n}{q_n} \right| &=& \frac{1}{q_n (\phi_{n+1} q_n + q_{n-1})} = \frac{1}{q_n^2 (\phi_{n+1} + q_{n-1}/q_n)} 
+\end{eqnarray}
+
+Which uses a fact proven in problem 1 on this problem set. Thus, we see that there are only a finite number of values $n$ such that $| \phi - \frac{p_n}{q_n} | < \frac{1}{\kappa q_n^2}$. Using the previous problem, we see that all rational numbers $p/q$ satisfying the inequality $|\phi - \frac{p}{q}| < \frac{1}{\kappa q^2}$ must be a convergent of $p/q$. However, we have just shown that there are finitely many convergents that satisfy this property, so therefore, there are a finite number of rational numbers that satisfy the property.
+\end{sol}
+
+\section{Problem 6}
+
+Let $p$ be a prime congruent to $1 \pmod{4}$ and suppose $u$ is an integer such that $u^2 \equiv -1 \pmod{p}$. 
+
+\begin{prob}
+Write the rational number $u/p = [a_0, a_1, \ldots, a_n]$ and let $i$ be the largest integer such that $q_i \leq \sqrt{p}$. Show that $|p_i/q_i - u/p| < 1/(q_i \sqrt{p})$ and therefore that $|p_i p - u q_i | < \sqrt{p}$. 
+\end{prob}
+
+\begin{sol}
+First notice that if $|p_i/q_i - u/p| < 1/(q_i \sqrt{p})$, then we can multiply both sides by $q_i$ and $p$ to obtain $|p_i p - u q_i | < \sqrt{p}$. Thus, we only need to show that $|p_i/q_i - u/p| < 1/(q_i \sqrt{p})$, and the proof will be complete. 
+
+Now, let us first make some observations. We know that the sequence $\{ q_i \}$ is increasing as $i \to \infty$. This means that $q_i < q_k$ whenever $i < k$. Moreover, we know from problem 1 in this problem set, that the following holds where $p_i/q_i$ are convergents to $u/p$:
+\begin{eqnarray}
+\left| \frac{u}{p} - \frac{p_i}{q_i} \right| = \frac{1}{q_i ( a_{i+1} q_i + q_{i-1})}
+\end{eqnarray}
+
+Thus, in order for us to show that $|p_i/q_i - u/p| < 1/(q_i \sqrt{p})$, we need to show that $a_{i+1} q_i + q_{i-1} > \sqrt{p}$. However, we know that $i$ is the largest integer such that $q_i \leq \sqrt{p}$. Since $q_i$ increases as $i$ increases, this implies that for all $k > 0$, we know that $q_{i+k} > \sqrt{p}$. Therefore, we know that $q_{i+1} = a_{i+1} q_i + q_{i-1} > \sqrt{p}$. This completes what we wanted to show, and finishes the proof.
+\end{sol}
+
+\begin{prob}
+Letting $x = q_i$ and $y = p_i p - u q_i$, show that $0 < x^2 + y^2 < 2p$ and that $x^2 + y^2 \equiv 0 \pmod{p}$. Conclude that $p = x^2 + y^2$. 
+\end{prob}
+
+\begin{sol}
+First, we know that $x^2 + y^2 = q_i^2 + (p_i p - u q_i)^2 = q_i^2 + p_i^2 p^2 - 2 p_i p u q_i + u^2 q_i^2$. Regrouping terms, we find $x^2 + y^2 = q_i^2 ( u_i^2 + 1) + p_i^2 p^2 - 2 p_i p u q_i$. Since we know that $u^2 \equiv -1 \pmod{p}$, we find that $q_i^2 ( u_i^2 + 1) \equiv 0 \pmod{p}$. Moreover, we know that $p ( p p_i^2 - 2 p_i u q_i) \equiv 0 \pmod{p}$. This implies that $x^2 + y^2 \equiv 0 \pmod{p}$. Next, we want to show that $0 < x^2 + y^2 < 2p$. This follows because $x = q_i$ so that $x^2 = q_i^2 \leq (\sqrt{p})^2 = p$ by the hypothesis that $q_i \leq \sqrt{p}$. Next, we know from the previous problem that $|y| = |p_i p - u q_i | < \sqrt{p}$, which implies that $y^2 < (\sqrt{p})^2 = p$. This shows that $x^2 + y^2 < p + p = 2p$. Moreover, we know that $x, y > 0$ because $q_i \in \mathrm{Z}$ so that $x^2 > 0$. Thus, we see that $0 < x^2 + y^2 < 2p$.
+
+The first fact, that $x^2 + y^2 \equiv 0 \pmod{p}$ implies that $x^2 + y^2 = k p$ for some $k \geq 1$. However, since we know that $0 < x^2 + y^2 < 2p$, we know that $k < 2$ as well. This forces $k = 1$, which shows that $ p = x^2 + y^2$, which is what we wanted.
+\end{sol}
+
+\section{Problem 7}
+
+\begin{prob}
+Let $d$ be a positive non-square integer. For which positive integers $c$ does the quadratic irrational $([ \sqrt{d}] + \sqrt{d})/c$ have a purely periodic expansion?
+\end{prob}
+
+\begin{sol}
+By a theorem proven in class, an irrational number $x$ has a purely periodic expansion if and only if $x \geq 1$ and $-1 < \bar{x} < 0$. For $x = ([\sqrt{d}] + \sqrt{d}) / c$, these two conditions imply that $[\sqrt{d}] + \sqrt{d} \geq c$ and that $-1 < \bar{x} < 0$. This corresponds to:
+\begin{eqnarray}
+-1 < \bar{x} = \frac{[\sqrt{d}] - \sqrt{d}}{c} < 0
+\end{eqnarray}
+
+Where $\bar{x} = ([\sqrt{d}] - \sqrt{d} )/ c$ since $\sqrt{d}/c$ is the only irrational part of $x$. This implies:
+\begin{eqnarray}
+-c < - \sqrt{d} + [ \sqrt{d}] < 0
+\end{eqnarray}
+
+However, we know that $[\sqrt{d}] \leq \sqrt{d} < [\sqrt{d}] + 1$ which implies that $-1 < [\sqrt{d}] - \sqrt{d} < 0$. This, the second condition shows that $c \geq 1$ must hold. Putting the two conditions together, we find that all positive integers $c$ such that:
+\begin{eqnarray}
+1 \leq c \leq [\sqrt{d}] + \sqrt{d}
+\end{eqnarray}
+
+will allow $x$ to have a purely periodic expansion.
+\end{sol}
+
+\section{Problem 8}
+
+Let $x$ be an irrational real number.
+
+\begin{prob}
+Given any positive integer $N$, show that there is a rational number $p/q$ with $p,q \in \mathrm{Z}$ and $1 \leq q \leq N$ such that $|x - \frac{p}{q}| < \frac{1}{q (N+1)}$. 
+\end{prob}
+
+\begin{sol}
+Let us examine the fractional parts of the rational numbers $ix$ as $i$ ranges from $0$ through $N$. Let $\{ 0, \{1x\}, \{2x\}, \ldots, \{Nx\}, 1\}$ be the set of fractional parts of numbers, where $\{kx\} = kx - [kx]$ denotes the fractional part of $kx$. Note we have also included 0 and 1 in the above set. 
+
+Now, we see that at least one of the $N+1$ intervals $[k/(N+1), (k+1)/(N+1))$ in $[0,1]$ has two elements from the above set using the pigeonhole principle, since there are $N+2$ elements for $N+1$ intervals. If $1$ or $0$ is one of these two elements, then $\{kx\}$ is the other element and we can choose $p \leq N$ and $q = k$. This would give $|kx - p| \leq \frac{1}{n+1}$.
+
+Otherwise, we must have $0 \leq | \{kx\} - \{lx\} | \leq \frac{1}{N+1}$. Writing this out, we obtain:
+\begin{eqnarray}
+\frac{1}{N+1} &\geq& | kx - [kx] - lx + [lx] | \\
+&=& | x(k - l) + [lx] - [kx]  |
+\end{eqnarray}
+
+Now set $k-l = q$ and $[lx] - [kx] = p$ and we obtain $|xq - p| < \frac{1}{N+1}$ which implies that $|x - \frac{p}{q}| < \frac{1}{q(N+1)}$, which is what we wanted to show.
+\end{sol}
+
+\begin{prob}
+Use part (a) to show that there are infinitely many rational numbers $p/q$ such that $|x - p/q| < 1/q^2$. 
+\end{prob}
+
+\begin{sol}
+Suppose not by contradiction and let $S = \{ p_1/ q_1, p_2/q_2, \ldots, p_r/q_r \}$ be the set of all rational numbers that satisfy $|x - p_i/q_i | < 1 / q_i^2$. Since the set is finite, we can choose $N$ large enough so that $\frac{1}{q_i (N+1)} < | x - p_i/q_i |$ for all $i \in \{1, 2, \ldots r \}$. We know from the previous part that there exists a rational number $p/q$ with $p,q \in \mathrm{Z}$ and $1 \leq q \leq N$ such that $|x - \frac{p}{q}| < \frac{1}{q (N+1)}$. This shows that $|x - \frac{p}{q}| < \frac{1}{q(N+1)} < \frac{1}{q^2}$ because $q < N + 1$. Yet, we know that $p/q \not \in S$ because we have shown that $\frac{1}{q_i (N+1)} < |x - p_i / q_i|$ for all $p_i / q_i \in S$. This is a contradiction, so there must be infinitely many rational numbers that satisfy $|x - p/q| < 1/q^2$. 
+\end{sol}
+
+\section{Problem 9}
+
+Let $m$ be a positive integer and let $x$ have continued fraction $[m,m,m, \ldots]$. 
+
+\begin{prob}
+Compute the value of $x$. 
+\end{prob}
+
+\begin{sol}
+We know that $x$ can be expanded out to $m + \frac{1}{x_1}$ where $x_1 = [m, m, m, \ldots]$. Thus, we see that $x_1 = x$. This means that we can write the expression $x = m + \frac{1}{x}$. We obtain the quadratic equation $x^2 - mx - 1 = 0$. Solving for $x$, we find:
+\begin{eqnarray}
+x = \frac{ m \pm \sqrt{m^2 + 4}}{2}
+\end{eqnarray}
+
+However, since $m - \sqrt{m^2 + 4} < 0$ for all $m \geq 1$, we know that $x = (m - \sqrt{m^2 +4})/2$ will be negative. If we restrict ourselves to positive values of $x$, we find that we must have $x = \frac{m + \sqrt{m^2 +4}}{2}$. 
+\end{sol}
+
+\begin{prob}
+Let $p_n/q_n$ be the $n$th convergent to $x$. Write down and solve a linear reucrrence with constant coefficients for $p_n$ and $q_n$, and thereby calculate an explicit formula for $p_n/q_n$. 
+\end{prob}
+
+\begin{sol}
+We know from the recurrences for the convergents that $p_{n} = m p_{n-1} + p_{n-2}$. This means we have the recurrence $p_{n} - m p_{n-1} - p_{n-2} = 0$ with the characteristic polynomial of $\lambda^2 - m \lambda - 1 = 0$. The roots of the polynomial are given by:
+\begin{eqnarray}
+\lambda = \frac{m \pm \sqrt{m^2 +4}}{2}
+\end{eqnarray}
+
+The recurrence for $q_n$ is the same, so we find that we have the following expressions for $p_n$ and $q_n$:
+\begin{eqnarray}
+p_n &=& c_1 \left( \frac{m + \sqrt{m^2 +4}}{2} \right)^n + c_2 \left( \frac{m - \sqrt{m^2 +4}}{2} \right)^2 \\ 
+q_n &=&  c_3 \left( \frac{m + \sqrt{m^2 +4}}{2} \right)^n + c_4 \left( \frac{m - \sqrt{m^2 +4}}{2} \right)^2 
+\end{eqnarray}
+
+Since we know the starting conditions for the recurrences are $p_0 = m, p_1 = m^2 + 1$ and $q_0 = 1, q_1 = m$, we can solve for $c_1, c_2, c_3, $and $c_4$ by substituting for $n = 0$ and $n=1$. We find that the constants are given by:
+\begin{eqnarray}
+c_1, c_2 &=& \frac{m}{2} \pm \frac{1}{2} \sqrt{ \frac{m^4 + 4m^2 + 4}{m^2 + 4}} \\
+c_3, c_4 &=& \frac{m^2 \pm m \sqrt{m^2 + 4} + 4}{2 (m^2 + 4)} 
+\end{eqnarray}
+
+To obtain a closed form expression for the convergents, simply take $p_n / q_n$ where the formulas for $p_n$ and $q_n$ are given as above.
+\end{sol}
+
+\section{Problem 10}
+
+Recall the AM-GM inequality: $\frac{r_1 + r_2 + \ldots + r_n}{n} \geq \sqrt[n]{r_1\ldots r_n}$ for positive real numbers $r_1, \ldots, r_n$. We proved it for $n=2$.
+
+\begin{prob}
+Prove the inequality for $n = 2^k$ any power of $2$.
+\end{prob}
+
+\begin{sol}
+We will proceed by induction. First we have shown that the AM-GM inequality holds when $n= 2$ by a proof given in class. Now suppose that it holds for all powers of 2 such up to $n = 2^k$. We shall show it holds for $n = 2^{k+1}$. We shall group the elements $r_1, \ldots, r_n$ into two groups:
+\begin{eqnarray}
+\frac{r_1 + r_2 + \ldots + r_{2^{k+1}}}{2^{k+1}} &=& \frac{1}{2} \left( \frac{r_1 + \ldots + r_{2^k}}{2^k} + \frac{ r_{2^{k} + 1} + \ldots + r_{2^{k+1}}}{2^k} \right) \\
+&\geq& \frac{1}{2} \left( \sqrt[2^{k}]{r_1 \ldots r_{2^k}} + \sqrt[2^k]{r_{2^k+1} \ldots r_{2^{k+1}}} \right)
+\end{eqnarray}
+
+We can again use the AM-GM inequality, this time for the case of $n =2$ and we find:
+\begin{eqnarray}
+\frac{r_1 + r_2 + \ldots + r_{2^{k+1}}}{2^{k+1}} &\geq& \sqrt{  \sqrt[2^{k}]{r_1 \ldots r_{2^k}}\sqrt[2^k]{r_{2^k+1} \ldots r_{2^{k+1}}} } \\
+&=& \sqrt[2^{k+1}]{r_1 r_2 \ldots r_{2^{k+1}}} 
+\end{eqnarray}
+
+This completes the induction step and finishes the proof.
+\end{sol}
+
+\begin{prob}
+Prove the inequality for any $n$, by choosing a $k$ such that $2^{k-1} < n \leq 2^k$ and applying the inequality from part (a) to the $2^k$ numbers $r_1, \ldots, r_n, r, r, \ldots, r$ where $r$ is chosen appropriately. 
+\end{prob}
+
+\begin{sol}
+Let us set $r = \frac{r_1 + \ldots + r_n}{n}$ and $2^k = m$ where $2^{k-1} < n \leq 2^k$. Then know the following is true:
+\begin{eqnarray}
+r = \frac{r_1 + \ldots + r_n}{n} &=& \frac{(r_1 + \ldots + r_n) \frac{m}{n}}{m} \\
+&=& \frac{(r_1 + \ldots + r_n) \frac{m - n}{n} + (r_1 + \ldots + r_n)}{m} \\
+&=& \frac{(m-n) r + (r_1 + \ldots + r_n)}{m} \\
+&=& \frac{r_1 + \ldots + r_n + r \ldots + r}{m} \\
+&\geq& \sqrt[m]{r^{m-n} r_1 \ldots r_n}
+\end{eqnarray}
+
+Where we have used the AM-GM inequality for $m = 2^k$ in the last line. Now, we see that $r \geq \sqrt[m]{r_1 \ldots r_n} r^{1 - n/m}$. This expression simplifies to $r^{n/m} \geq \sqrt[m]{r_1 \ldots r_n}$. Exponentiating both sides to the $m$th power, then taking the $n$th root of both sides, we find that $r \geq \sqrt[n]{r_1 \ldots r_n}$ which is what we wanted to show.
+\end{sol}
+\end{document}

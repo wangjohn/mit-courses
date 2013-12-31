@@ -1,0 +1,282 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2011.3.25)  10 DEC 2011 00:44
+entering extended mode
+**C:/Users/John/Documents/MIT/Course*18/18.353/Final*Project/Final*Project.tex
+("C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/Final Project.tex"
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\ieee.cls"
+Document Class `ieee' <Modified: 2000, Gregory L. Plett>.
+Document Class: ieee 2000/01/11
+\narrowcol=\skip41
+\parindentsave=\skip42
+ieee: `Final' mode selected.
+ieee: Narrow equation arrays selected.
+ieee: Narrower inline equations selected.
+ieee: No separate title page.
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\article.cls"
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\size10.clo"
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip43
+\belowcaptionskip=\skip44
+\bibindent=\dimen102
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2010/02/14 v0.04n Graphics/color for pdfTeX
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\ifthen.sty"
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+-- This is a 10 point document
+\tmpitemindent=\dimen105
+\captionindent=\skip45
+\timehh=\count88
+\timemm=\count89
+\c@numappendices=\count90
+\br=\count91
+\nb=\count92
+\tcdsav=\count93
+\tcl=\count94
+\tcd=\count95
+\tcn=\count96
+\cumtcl=\count97
+\rtside=\dimen106
+\hpic=\dimen107
+\vpic=\dimen108
+\strutilg=\dimen109
+\picwd=\dimen110
+\topheight=\dimen111
+\ilg=\dimen112
+\lpic=\dimen113
+\lwindowsep=\dimen114
+\rwindowsep=\dimen115
+\cumpar=\dimen116
+\twa=\toks15
+\la=\toks16
+\ra=\toks17
+\ha=\toks18
+\pictoc=\toks19
+\rawtext=\box26
+\holder=\box27
+\windowbox=\box28
+\wartext=\box29
+\finaltext=\box30
+\aslice=\box31
+\bslice=\box32
+\wbox=\box33
+\wstrutbox=\box34
+\picbox=\box35
+\waslice=\box36
+\wbslice=\box37
+\fslice=\box38
+) ("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\ieeefig.sty"
+Package: ieeefig 1996/01/26
+
+ieeefig: Final option selected.
+\figb@x=\box39
+\htpl@sdp=\dimen117
+\b@xwidth=\dimen118
+) ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\oberdiek\pdflscape.sty"
+Package: pdflscape 2008/08/11 v0.10 Landscape pages in PDF (HO)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\lscape.sty"
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2010/01/28 v2.1 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 77.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ifxetex\ifxetex.sty"
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\rotating\rotating.sty"
+Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
+\c@r@tfl@t=\count98
+\rotFPtop=\skip46
+\rotFPbot=\skip47
+\rot@float@box=\box40
+\rot@mess@toks=\toks20
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\multirow\multirow.sty"
+\bigstrutjot=\dimen119
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\tools\dcolumn.sty"
+Package: dcolumn 2001/05/28 v1.06 decimal alignment package (DPC)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\tools\array.sty"
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen120
+\extrarowheight=\dimen121
+\NC@list=\toks21
+\extratabsurround=\skip48
+\backup@length=\skip49
+))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\booktabs\booktabs.sty"
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen122
+\lightrulewidth=\dimen123
+\cmidrulewidth=\dimen124
+\belowrulesep=\dimen125
+\belowbottomsep=\dimen126
+\aboverulesep=\dimen127
+\abovetopsep=\dimen128
+\cmidrulesep=\dimen129
+\cmidrulekern=\dimen130
+\defaultaddspace=\dimen131
+\@cmidla=\count99
+\@cmidlb=\count100
+\@aboverulesep=\dimen132
+\@belowrulesep=\dimen133
+\@thisruleclass=\count101
+\@lastruleclass=\count102
+\@thisrulewidth=\dimen134
+)
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\Final Project.aux"
+)
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 47.
+LaTeX Font Info:    ... okay on input line 47.
+ ("C:\Program Files (x86)\MiKTeX 2.8\tex\context\base\supp-pdf.tex"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count103
+\scratchdimen=\dimen135
+\scratchbox=\box41
+\nofMPsegments=\count104
+\nofMParguments=\count105
+\everyMPshowfont=\toks22
+\MPscratchCnt=\count106
+\MPscratchDim=\dimen136
+\MPnumerator=\count107
+\everyMPtoPDFconversion=\toks23
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 67.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 67.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 67.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/bx/sc' undefined
+(Font)              using `OT1/cmr/bx/n' instead on input line 73.
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 75.
+
+LaTeX Warning: Citation `Fay(1983)' on page 1 undefined on input line 107.
+
+
+LaTeX Warning: Citation `Fay(1983)' on page 1 undefined on input line 107.
+
+
+LaTeX Warning: Citation `Neer(2005)' on page 1 undefined on input line 109.
+
+
+LaTeX Warning: Citation `Blaylock(1993)' on page 1 undefined on input line 111.
+
+
+
+LaTeX Warning: Citation `Fay(1983)' on page 1 undefined on input line 111.
+
+
+LaTeX Warning: Citation `Bush(2002)' on page 1 undefined on input line 113.
+
+[1{C:/ProgramData/MiKTeX/2.8/pdftex/config/pdftex.map}
+
+
+]
+
+LaTeX Warning: Reference `attractor' on page 2 undefined on input line 223.
+
+
+LaTeX Warning: Reference `attractor' on page 2 undefined on input line 262.
+
+
+LaTeX Warning: Reference `noattractor' on page 2 undefined on input line 262.
+
+[2] ("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\attractor.tex"
+<attractor.png, id=19, 421.575pt x 316.18124pt>
+File: attractor.png Graphic file (type png)
+ <use attractor.png>)
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\Final Project.bbl"
+) [3
+
+ <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/attractor.png (PNG
+ copy)>]
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\Final Project.aux"
+)
+
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
+
+
+LaTeX Warning: There were undefined references.
+
+ ) 
+Here is how much of TeX's memory you used:
+ 1489 strings out of 495285
+ 19671 string characters out of 3179830
+ 87863 words of memory out of 3000000
+ 4689 multiletter control sequences out of 15000+200000
+ 7343 words of font info for 26 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 32i,8n,23p,1179b,224s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmbx8.pfb><
+C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><
+C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:
+/Program Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Pr
+ogram Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Progr
+am Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr17.pfb><C:/Program 
+Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program File
+s (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x
+86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/
+MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiK
+TeX 2.8/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on "Final Project.pdf" (3 pages, 161273 bytes).
+PDF statistics:
+ 57 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+

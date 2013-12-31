@@ -1,0 +1,9 @@
+cross1-v cross3-h
+cross1-v cross2-h
+cross1-h cross1-v
+cross2-v cross3-h
+cross2-h cross2-v
+cross1-h cross2-v
+cross3-h cross3-v
+cross2-h cross3-v
+cross1-h cross3-v

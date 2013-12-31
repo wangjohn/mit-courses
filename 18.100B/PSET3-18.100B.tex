@@ -1,0 +1,179 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+%--------Meta Data: Fill in your info------
+\title{18.100B \\
+Problem Set 2}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\voffset = -10pt
+\textheight = 650pt
+
+\section{Problem 2.11}
+
+\begin{thm}
+The distance $d_1(x,y) = (x-y)^2$ is not a metric.
+\end{thm}
+
+\begin{proof}
+Here, the third requirement for a metric does not hold, namely that $d(x,y) \leq d(x,r) + d(r,y)$. This is because $d_1(x,y) = (x-y)^2 = x^2 - 2xy + y^2$ and $d_1(x,r) + d_1(r,y) = x^2 - 2xr + r^2 +r^2 - 2ry + y^2 = x^2 + y^2 + 2r^2 - 2xr - 2ry$. Thus, one must have $-2xy \leq 2r^2 - 2xr - 2ry$ for all $r \in \mathbb{R}^1$ for $d_1$ to be a metric. This is the same as $xy \geq r(x+y-r)$. However, if one sets $ x = 2$ and $ y = 0$, this inequality does not hold for all values of $r$. For instance, $ 0 \not\geq 1 ( 2 - 1) = 1 $ which shows that $d_1$ is not a metric. 
+\end{proof}
+
+\begin{thm}
+The distance $d_2(x,y) = \sqrt{|x-y |}$ is a metric.
+\end{thm}
+
+\begin{proof}
+The first two properties of a metric are easy to prove. We know $d_2(x,y) > 0$ holds for all $x \neq y$ and $d_2(x,x) = 0$ because square roots of positive numbers are always positive. Next, $d_2(x,y) = d_2(y,x)$ because $|x - y| = |y-x|$. Finally, we have $ d_2(x,y) \leq d_2(x,r) + d_2(r,y)$ for all $r \in \mathbb{R}^1$. This is because the triangle inequality for absolute values states that $|x-y| \leq |x-r| + |r-y|$, which means $d_2(x,y) \leq \sqrt{|x-r| + |r-y|} = \sqrt{ d_2(x,r)^2 + d_2(r,y)^2}$. However, by the triangle inequality, we know that $ \sqrt{ d_2(x,r)^2 + d_2(r,y)^2} \leq d_2(x,r) + d_2(r,y)$ because $\sqrt{|x-r| + |r-y|} \leq \sqrt{|x-y|} + \sqrt{|r-y|}$. This means that $d_2(x,y) \leq d_2(x,r) + d_2(r,y)$ for all $r \in \mathbb{R}^1$.  Thus, $d_2$ is a metric. 
+\end{proof}
+
+\begin{thm}
+The distance $d_3(x,y) = |x^2 - y^2|$ is not a metric.
+\end{thm}
+
+\begin{proof}
+The first property of metrics does not hold. For instance, if $x = 1$ and $y = -1$, then $x \neq y$, but $d_3(x,y) = 0$, which means $d_3$ is not a metric.
+\end{proof}
+
+\begin{thm}
+The distance $d_4(x,y) = |x-2y|$ is not a metric.
+\end{thm}
+
+\begin{proof}
+We know that a metric must have the property $d_4(x,y) > 0$ if $x \neq y$. However, this property does not hold for $x = 2$ and $y = 1$, where $d_4(x,y) = 0$ and $x \neq y$. Thus, $d_4$ is not a metric.
+\end{proof}
+
+\begin{thm} 
+The distance $d_5(x,y) = \frac{ |x-y|} {1 + |x-y|}$ is a metric. 
+\end{thm}
+
+\begin{proof}
+We see that $d_5(x,y) = 0 \iff x = y$, and that $d_5(x,y) > 0 $ for all $x,y \in \mathbb{R}^1$. Also, we see that since $|x-y| = |y-x|$, that $d_5(x,y) = d_5(y,x)$. Now, we must prove that $d_5(x,y) \leq d_5(x,r) + d_5(r,y)$. This can be done by looking at the quantity
+\begin{equation}
+d_5(x,r) + d_5(r,y) - d_5(x,y) = \frac{|x-r|}{1+|x-r|} + \frac{|r-y|}{1+|r-y|} - \frac{|x-y|}{1+|x-y|}
+\end{equation}
+By expanding out the denominator, one finds that this expression is equal to the following
+\begin{eqnarray*}
+|x-r|(1+|x-y|)(1+|r-y|) &+& |r-y|(1+|x-y|)(1+|x-r|) \\
+&-& |x-y|(1+|x-r|)(1+|r-y|)
+\end{eqnarray*}
+\begin{equation}
+= |x-r||r-y||x-y| + 2|r-y||x-r| + |r-y| + |x-r| - |x-y|
+\end{equation}
+The first two terms are non-negative because they are products of absolute values. The last term is also non-negative because the triangle inequality states that $0 \leq |x-r| + |r-y| - |x-y|$, which means that the entire expression is non-negative. This shows that the final property of metrics is true, namely that $0 \leq d_5(x,r) + d_5(r,y) - d_5(x,y)$. This shows that $d_5$ is a metric.
+\end{proof}
+
+
+\section{Problem 2.12}
+
+\begin{thm}
+If $K \subset \mathbb{R}^1$ consist of $0$ and the numbers $\frac{1}{n}$ for $n = 1,2,3,\ldots$, then $K$ is compact (directly from the definition).
+\end{thm}
+
+\begin{proof}
+We must show that for every open cover of $K$, there exists a finite subcover. To do this, let $\{G_{\alpha}\}_{\alpha \in A}$ be an open cover of $K$. There must exist an index $\alpha_0$ such that $ 0 \in G_{\alpha_0}$. Since $G_{\alpha_0}$ is open, we know that there exists an $r > 0$ such that $N_r(0) \subset G_{\alpha_0}$. Moreover, by the archimedean principle, we know there exists some $n$ such that $\frac{1}{n} < r$. Thus, we have that $N_{\frac{1}{n}}(0) \subset N_r(0) \subset G_{\alpha_0}$, which means that $N_{\frac{1}{n}}(0) \subset G_{\alpha_0}$. Correspondingly, we know that $\frac{1}{n} \in G_{\alpha_0}$. We can apply the above argument to each member of $K$ such that $n = 1,2,3,\ldots$ and obtain $\frac{1}{n} \in G_{\alpha_n}$. Thus, for all $N >n$, we have $\frac{1}{N} < \frac{1}{n} < r$, meaning that we also have $\frac{1}{N} \in G_{\alpha_0}$. Because of this, for all $ N \leq n$, there exist indices $\alpha_N \in A$ such that $\frac{1}{N} \in G_{\alpha_N}$. Thus, we know that $ K \subset G_{\alpha_0} \cup \cdots \cup G_{\alpha_N}$ for some finite $N$. This shows that every open cover $\{G_{\alpha}\}_{\alpha \in A}$ of $K$ has a finite subcover, and that $K$ is compact.
+\end{proof}
+
+\section{Problem 2.13}
+
+\begin{thm}
+It is possible to construct a compact set of real numbers whose limit points form a countable set.
+\end{thm}
+
+\begin{proof}
+Consider the set $E_i$ for $0 \leq i \leq 1$ and  $i \in \mathbb{Q}$ that is defined as $E_i := \{ i + \frac{1}{p}: p \in \mathbb{N} \} \cup \{i \}$. In the case of $i = 0$, $E_i$ is the set consisting of $\frac{1}{n}$ for all $n = 1,2,\ldots$ joined with $0$. Now, we can create a set E that is compact and whose limit points form a countable set by defining for all $i \in \mathbb{Q}$ the following
+\begin{equation}
+E := {\underset{0 \leq i \leq 1}{\bigcup}} E_i
+\end{equation}
+
+This means that the set is closed, because it contains all its limit points. One can see that in this case, all the limit points of $E$ are given by the union of all the limit points of $E_i$. There is only one limit point of $E_i$ by construction, which is $i$. Thus, all the limit points of $E$ are the set of all $0 \leq i \leq 1$ for $i \in \mathbb{Q}$, which is definitely a subset of $E$. Moreover, we can show that the set is bounded. To do this, we must show that there is a real number $M$ and a point $q \in \mathbb{R}$ such that $d(p,q) < M$ for all $p \in E$. This is clearly the case because all elements of $E$ are confined to the closed interval $[0,2]$. By the archimedean principle, there exists an $M \in \mathbb{R}$ such that $2*q < M$ for all $q \in \mathbb{R}$. Since $|p-q| < M$ for all $p \in [0,2]$, we know that $d(p,q) < M$ for all $p \in E$ and $ q \in \mathbb{R}$, as $E \subset [0,2]$. This shows that $E$ is both closed and bounded, and since $E \subset \mathbb{R}$, we know by Heine-Borel that $E$ is compact.
+
+Now, it is easy to show that the limit points of $E$ form a countable set. We have already shown that $E'$ is the set $\{i: 0 \leq i \leq 1, i \in \mathbb{Q}\}$. We also know that the rationals are countable and that $E'$ is an infinite subset of $\mathbb{Q}$. Since every infinite subset of a countable set is countable, we know that $E'$ is countable.  
+\end{proof}
+
+\section{Problem 2.14}
+
+\begin{thm}
+There is an open cover of the segment $(0,1)$ which has no finite subcover.
+\end{thm}
+
+\begin{proof}
+All we must do is show that there exists a single open cover without any finite subcovers. To do this, consider the open cover $\{ G_\alpha \}$, where $\alpha \in \mathbb{N}$. Now define each interval as follows $G_\alpha := (\frac{1}{\alpha},1)$. Therefore, we have $\bigcup_{\alpha \in \mathbb{N}} G_\alpha = (0,1)$. Thus, $(0,1) \subset \bigcup_{\alpha \in \mathbb{N}} G_\alpha$, and we have an open cover of the interval $(0,1)$. However, this open cover has no finite subcover. We will show this by contradiction. If there does exist a finite subcover of $\{G_\alpha\}$, then there is some largest number $N \in \mathbb{N}$ such that $(0,1) \subset G_{\alpha_1} \cup \cdots \cup G_{\alpha_N}$. This means that $(0,1) \subset (1,1) \cup \cdots \cup (\frac{1}{N},1)$ and that $(0,1) \subset (\frac{1}{N},1)$ for $N \in \mathbb{N}$. This is a contradiction, which means there does not exist a finite subcover of $\{G_\alpha\}$. Thus, we have provided an example of an open cover of the segment $(0,1)$ which has no finite subcover. 
+\end{proof}
+
+\section{Problem 2.16}
+
+\begin{thm}
+Regard $\mathbb{Q}$, the set of all rational numbers, as a metric space, with $d(p,q) = |p-q|$. Let $E$ be the set of all $p \in \mathbb{Q}$ such that $2<p^2<3$. Show that $E$ is closed and bounded in $\mathbb{Q}$, but that $E$ is not compact. In addition, $E$ is open in $\mathbb{Q}$. 
+\end{thm}
+\begin{proof}
+To show that $E$ is closed in $\mathbb{Q}$, it is sufficient to show that $E = \mathbb{Q} \cap G$ for some $G \subset \mathbb{R}$ such that $G$ is closed in $\mathbb{R}$. Let $G = \{ x : 2 \leq x^2 \leq 3, x \in \mathbb{R}\}$, then it is easy to see that $E = \mathbb{Q} \cap G$. Now we must show that $G$ is closed in $\mathbb{R}$. To do this, note that $\sqrt{3}$ is an upper bound of $G$ because $p \leq \sqrt{3}$ for every $p \in G$. Thus, $\sqrt{3} = \sup{G}$ because for every $h>0$, $\sqrt{3} - h \in G$. Moreover, we can see that $\sqrt{3} \in G$, which means $\sup{G} \in G$ and that $G$ is closed. Since we have shown that $G$ is closed in $\mathbb{R}$, we now know that $E = \mathbb{Q} \cap G$ is closed in $\mathbb{Q}$. 
+
+To show that $E$ is bounded in $\mathbb{Q}$, we must show that there exists an $M \in \mathbb{R}$ and a $q \in \mathbb{Q}$ such that $d(p,q) < M$ for all $p \in E$. For $p>0$, pick any $q \in \mathbb{Q}$ such that $0 < q < p$, and it is clear that $|p-q| < p$. For $p<0$, pick any $q \in \mathbb{Q}$ such that $p<q<0$, and we have $|p-q| < -p$. Thus, there exists an $M \in \mathbb{R}$ and a $q \in \mathbb{Q}$ such that $d(p,q) < M$ for all $p \in E$, showing that $E$ is bounded in $\mathbb{Q}$.  
+
+We have now shown that $E$ is closed and bounded in $\mathbb{Q}$, but have yet to prove that $E$ is not compact. To do this, we will use the Heine-Borel theorem, and show that $E$ is not closed and bounded in $\mathbb{R}$. To do this, we will show that $E$ is not closed in $\mathbb{R}$, which can be seen if one examines $y = \sup{E}$. One can see that $y = \sqrt{3} = \sup{E}$, because for each $p \in E$, $p \leq \sqrt{3}$, and for every $h>0$, $\sqrt{3} - h \in E$. However, since $\sqrt{3} \notin E$, we can see that $\sup{E} \notin E$, showing that $E$ does not contain all of its limit points. Thus, $E$ is open in $\mathbb{R}$. This implies that $E$ is not compact by Heine-Borel.
+
+Now we want to know whether $E$ is open in $\mathbb{Q}$. To do this, we must know whether every point $p \in E$ is an interior point. In other words, does there exist an $r>0$ such that $N_r(p) \subset E$? If one picks $r = \min \{|-\sqrt{3} - p|, |-\sqrt{2}-p, |\sqrt{2}-p|,|\sqrt{3}-p|\}$, then one will always be able to find a distance $\frac{r}{2}$ such that $N_{\frac{r}{2}}(p) \subset E$ for every $p \in E$. Thus, $E$ is open in $\mathbb{Q}$. 
+\end{proof}
+
+\section{Problem 2.22}
+
+\begin{thm}
+A metric space is called \textit{separable} if it contains a countable dense subset. We shall show that $\mathbb{R}^k$ is separable. 
+\end{thm}
+
+\begin{proof}
+First, consider the set $\{ P \}$ of points $p \in \mathbb{R}^k$ such that $ p = (p_1, p_2,\dots,p_k)$ and $p_n \in \mathbb{Q}$ for all $n = 1,\ldots,k$. In other words, $\{P\}$ is the set of points with only rational coordinates, $\mathbb{Q}^k$. We know that $\{P\}$ is countable because $\mathbb{Q}$ is countable, and $\{P\}$ is a finite grouping of rational coordinates. 
+
+Now, we must show that $\{P\}$ is dense in $\mathbb{R}^k$. In other words, each $x \in \mathbb{R}^k$ must have every neighborhood contain a point $q \neq x$ such that $q \in \mathbb{Q}^k$, or $x$ must be an element of $\mathbb{Q}^k$. Given $r>0$, there exists some $q_n \in \mathbb{Q}$ such that $d(x_n,q_n) < \frac{r}{k}$ for $k \in \mathbb{N}$ by the archimedean property. Thus, we know that 
+\begin{eqnarray}
+d(x,q) &=& \sqrt{d(x_1,q_1)^2 + d(x_2,q_2)^2 + \ldots + d(x_k,q_k)^2} \\
+&<& \underbrace{\sqrt{ \left(\frac{r}{k}\right)^2 + \ldots + \left(\frac{r}{k} \right)^2}}_{k}
+\end{eqnarray}
+Since the expression in (6.3) is equal to $\sqrt{\frac{k r^2}{k^2}} = \frac{r}{\sqrt{k}} \leq r$, where the last inequality comes from the fact that $k \in \mathbb{N}$, we have that $d(x,q) < r$ for each $x \in \mathbb{R}^k$. This shows for all $x \in \mathbb{R}^k$, each neighborhood of $x$ contains a $q \neq x$ such that $ q \in \{ P \}$. This means that $\{P\}$ is dense in $\mathbb{R}^k$, and since we have already shown countability, $\{P\}$ is also separable.  
+\end{proof}
+
+\end{document}

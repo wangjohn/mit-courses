@@ -1,0 +1,928 @@
+#!/usr/bin/env python
+
+import json   # Used when TRACE=jsonp
+import os     # Used to get the TRACE environment variable
+import re     # Used when TRACE=jsonp
+import sys    # Used to smooth over the range / xrange issue.
+
+# Python 3 doesn't have xrange, and range behaves like xrange.
+if sys.version_info >= (3,):
+    xrange = range
+
+### BST Classes ###
+
+#!/usr/bin/env python
+
+def height(node):
+    if node is None:
+        return -1
+    else:
+        return node.height
+
+def update_height(node):
+    node.height = max(height(node.left), height(node.right)) + 1
+
+def size(node):
+    if node is None:
+        return 0
+    else:
+        return node.size
+
+def update_size(node):
+    node.size = size(node.left) + size(node.right) + 1
+    
+#!/usr/bin/env python
+
+class BSTNode(object):
+    """A node in the vanilla BST tree."""
+    
+    def __init__(self, parent, k):
+        """Creates a node.
+        
+        Args:
+            parent: The node's parent.
+            k: key of the node.
+        """
+        self.key = k
+        self.parent = parent
+        self.left = None
+        self.right = None
+  
+    def _str(self):
+        """Internal method for ASCII art."""
+        label = str(self.key)
+        if self.left is None:
+            left_lines, left_pos, left_width = [], 0, 0
+        else:
+            left_lines, left_pos, left_width = self.left._str()
+        if self.right is None:
+            right_lines, right_pos, right_width = [], 0, 0
+        else:
+            right_lines, right_pos, right_width = self.right._str()
+        middle = max(right_pos + left_width - left_pos + 1, len(label), 2)
+        pos = left_pos + middle // 2
+        width = left_pos + middle + right_width - right_pos
+        while len(left_lines) < len(right_lines):
+            left_lines.append(' ' * left_width)
+        while len(right_lines) < len(left_lines):
+            right_lines.append(' ' * right_width)
+        if (middle - len(label)) % 2 == 1 and self.parent is not None and \
+           self is self.parent.left and len(label) < middle:
+            label += '.'
+        label = label.center(middle, '.')
+        if label[0] == '.': label = ' ' + label[1:]
+        if label[-1] == '.': label = label[:-1] + ' '
+        lines = [' ' * left_pos + label + ' ' * (right_width - right_pos),
+                 ' ' * left_pos + '/' + ' ' * (middle-2) +
+                 '\\' + ' ' * (right_width - right_pos)] + \
+          [left_line + ' ' * (width - left_width - right_width) + right_line
+           for left_line, right_line in zip(left_lines, right_lines)]
+        return lines, pos, width
+    def __str__(self):
+        return '\n'.join(self._str()[0])
+
+    def find(self, k):
+        """Finds and returns the node with key k from the subtree rooted at this 
+        node.
+        
+        Args:
+            k: The key of the node we want to find.
+        
+        Returns:
+            The node with key k.
+        """
+        if k == self.key:
+            return self
+        elif k < self.key:
+            if self.left is None:
+                return None
+            else:
+                return self.left.find(k)
+        else:
+            if self.right is None:  
+                return None
+            else:
+                return self.right.find(k)
+    
+    def find_min(self):
+        """Finds the node with the minimum key in the subtree rooted at this 
+        node.
+        
+        Returns:
+            The node with the minimum key.
+        """
+        current = self
+        while current.left is not None:
+            current = current.left
+        return current
+       
+    def next_larger(self):
+        """Returns the node with the next larger key (the successor) in the BST.
+        """
+        if self.right is not None:
+            return self.right.find_min()
+        current = self
+        while current.parent is not None and current is current.parent.right:
+            current = current.parent
+        return current.parent
+
+    def insert(self, node):
+        """Inserts a node into the subtree rooted at this node.
+        
+        Args:
+            node: The node to be inserted.
+        """
+        if node is None:
+            return
+        if node.key < self.key:
+            if self.left is None:
+                node.parent = self
+                self.left = node
+            else:
+                self.left.insert(node)
+        else:
+            if self.right is None:
+                node.parent = self
+                self.right = node
+            else:
+                self.right.insert(node)
+  
+    def delete(self):
+        """Deletes and returns this node from the BST."""
+        if self.left is None or self.right is None:
+            if self is self.parent.left:
+                self.parent.left = self.left or self.right
+                if self.parent.left is not None:
+                    self.parent.left.parent = self.parent
+            else:
+                self.parent.right = self.left or self.right
+                if self.parent.right is not None:
+                    self.parent.right.parent = self.parent
+            return self
+        else:
+            s = self.next_larger()
+            self.key, s.key = s.key, self.key
+            return s.delete()
+    
+    def check_ri(self):
+        """Checks the BST representation invariant around this node.
+    
+        Raises an exception if the RI is violated.
+        """
+        if self.left is not None:
+            if self.left.key > self.key:
+                raise RuntimeError("BST RI violated by a left node key")
+            if self.left.parent is not self:
+                raise RuntimeError("BST RI violated by a left node parent "
+                                   "pointer")
+            self.left.check_ri()
+        if self.right is not None:
+            if self.right.key < self.key:
+                raise RuntimeError("BST RI violated by a right node key")
+            if self.right.parent is not self:
+                raise RuntimeError("BST RI violated by a right node parent "
+                                   "pointer")
+            self.right.check_ri()
+
+class MinBSTNode(BSTNode):
+    """A BSTNode which is augmented to keep track of the node with the 
+    minimum key in the subtree rooted at this node.
+    """
+    def __init__(self, parent, key):
+        """Creates a node.
+        
+        Args:
+            parent: The node's parent.
+            k: key of the node.
+        """
+        super(MinBSTNode, self).__init__(parent, key)
+        self.min = self
+  
+    def find_min(self):
+        """Finds the node with the minimum key in the subtree rooted at this 
+        node.
+        
+        Returns:
+            The node with the minimum key.
+        """
+        return self.min
+
+    def insert(self, node):
+        """Inserts a node into the subtree rooted at this node.
+        
+        Args:
+            node: The node to be inserted.
+        """
+        if node is None:
+            return
+        if node.key < self.key:
+            # Updates the min of this node if the inserted node has a smaller
+            # key.
+            if node.key < self.min.key:
+                self.min = node
+            if self.left is None:
+                node.parent = self
+                self.left = node
+            else:
+                self.left.insert(node)
+        else:
+            if self.right is None:
+                node.parent = self
+                self.right = node
+            else:
+                self.right.insert(node)
+  
+    def delete(self):
+        """Deletes this node itself.
+        
+        Returns:
+            This node.
+        """
+        if self.left is None or self.right is None:
+            if self is self.parent.left:
+                self.parent.left = self.left or self.right
+                if self.parent.left is not None:
+                    self.parent.left.parent = self.parent
+                    self.parent.min = self.parent.left.min
+                else: 
+                    self.parent.min = self.parent
+                # Propagates the changes upwards.
+                c  = self.parent
+                while c.parent is not None and c is c.parent.left:
+                    c.parent.min = c.min
+                    c = c.parent
+            else:
+                self.parent.right = self.left or self.right
+                if self.parent.right is not None:
+                    self.parent.right.parent = self.parent
+            return self
+        else:
+            s = self.next_larger()
+            self.key, s.key = s.key, self.key
+            return s.delete()
+
+class BST(object):
+    """A binary search tree."""
+    def __init__(self, klass = BSTNode):
+        """Creates an empty BST.
+        
+        Args:
+            klass (optional): The class of the node in the BST. Default to 
+                BSTNode.
+        """
+        self.root = None
+        self.klass = klass
+        
+    def __str__(self):
+        if self.root is None: return '<empty tree>'
+        return str(self.root)
+
+    def find(self, k):
+        """Finds and returns the node with key k from the subtree rooted at this 
+        node.
+        
+        Args:
+            k: The key of the node we want to find.
+        
+        Returns:
+            The node with key k or None if the tree is empty.
+        """
+        return self.root and self.root.find(k)
+                
+    def find_min(self):
+        """Returns the minimum node of this BST."""
+        
+        return self.root and self.root.find_min()
+    
+    def insert(self, k):
+        """Inserts a node with key k into the subtree rooted at this node.
+        
+        Args:
+            k: The key of the node to be inserted.
+            
+        Returns:
+            The node inserted.
+        """
+        node = self.klass(None, k)
+        if self.root is None:
+            # The root's parent is None.
+            self.root = node
+        else:
+            self.root.insert(node)
+        return node
+            
+    def delete(self, k):
+        """Deletes and returns a node with key k if it exists from the BST.
+        
+        Args:
+            k: The key of the node that we want to delete.
+            
+        Returns:
+            The deleted node with key k.
+        """
+        node = self.find(k)
+        if node is None:
+            return None
+        if node is self.root:
+            pseudoroot = self.klass(None, 0)
+            pseudoroot.left = self.root
+            self.root.parent = pseudoroot
+            deleted = self.root.delete()
+            self.root = pseudoroot.left
+            if self.root is not None:
+                self.root.parent = None
+            return deleted
+        else:
+            return node.delete()   
+        
+    def next_larger(self, k):
+        """Returns the node that contains the next larger (the successor) key in
+        the BST in relation to the node with key k.
+        
+        Args:
+            k: The key of the node of which the successor is to be found.
+            
+        Returns:
+            The successor node.
+        """
+        node = self.find(k)
+        return node and node.next_larger()
+    
+    def check_ri(self):
+        """Checks the BST representation invariant.
+        
+        Raises:
+            An exception if the RI is violated.
+        """
+        if self.root is not None:
+            if self.root.parent is not None:
+                raise RuntimeError("BST RI violated by the root node's parent " 
+                                   "pointer.")
+            self.root.check_ri()
+    
+
+class MinBST(BST):
+    """An augmented BST that keeps track of the node with the minimum key."""
+    def __init__(self):
+        super(MinBST, self).__init__(MinBSTNode)
+
+class AVL(BST):
+    """
+AVL binary search tree implementation.
+Supports insert, delete, find, find_min, next_larger each in O(lg n) time.
+"""
+    def left_rotate(self, x):
+        y = x.right
+        y.parent = x.parent
+        if y.parent is None:
+            self.root = y
+        else:
+            if y.parent.left is x:
+                y.parent.left = y
+            elif y.parent.right is x:
+                y.parent.right = y
+        x.right = y.left
+        if x.right is not None:
+            x.right.parent = x
+        y.left = x
+        x.parent = y
+        update_height(x)
+        update_height(y)
+        update_size(x)
+        update_size(y)
+
+    def right_rotate(self, x):
+        y = x.left
+        y.parent = x.parent
+        if y.parent is None:
+            self.root = y
+        else:
+            if y.parent.left is x:
+                y.parent.left = y
+            elif y.parent.right is x:
+                y.parent.right = y
+        x.left = y.right
+        if x.left is not None:
+            x.left.parent = x
+        y.right = x
+        x.parent = y
+        update_height(x)
+        update_height(y)
+        update_size(x)
+        update_size(y)
+
+    def rebalance(self, node):
+        while node is not None:
+            update_height(node)
+            if height(node.left) >= 2 + height(node.right):
+                if height(node.left.left) >= height(node.left.right):
+                    self.right_rotate(node)
+                else:
+                    self.left_rotate(node.left)
+                    self.right_rotate(node)
+            elif height(node.right) >= 2 + height(node.left):
+                if height(node.right.right) >= height(node.right.left):
+                    self.left_rotate(node)
+                else:
+                    self.right_rotate(node.right)
+                    self.left_rotate(node)
+            update_size(node)
+            node = node.parent
+
+    ## find(k), find_min(), and next_larger(k) inherited from bst.BST
+
+    def insert(self, k):
+        """Inserts a node with key k into the subtree rooted at this node.
+        This AVL version guarantees the balance property: h = O(lg n).
+        
+        Args:
+            k: The key of the node to be inserted.
+        """
+        node = super(AVL, self).insert(k)
+        self.rebalance(node)
+
+    def delete(self, k):
+        """Deletes and returns a node with key k if it exists from the BST.
+        This AVL version guarantees the balance property: h = O(lg n).
+        
+        Args:
+            k: The key of the node that we want to delete.
+            
+        Returns:
+            The deleted node with key k.
+        """
+        node = super(AVL, self).delete(k)
+        ## node.parent is actually the old parent of the node,
+        ## which is the first potentially out-of-balance node.
+        self.rebalance(node.parent)
+            
+##    def rank(self, t):
+##        """ The number of keys <= t in the tree. """
+##        if self.root is None:
+##            return 0
+##        else:
+##            node = self.root
+##            rank = 0
+##            while True:
+##                left_size = 0 if node.left is None else node.left.size
+##                if t == node.key:
+##                    return rank + left_size + 1
+##                if t < node.key:
+##                    if self.find_max(node).key < t:
+##                        return rank +  node.size
+##                    if node.left is None:
+##                        return rank
+##                    else:
+##                        node = node.left
+##                else:
+##                    if self.find_max(node).key < t:
+##                        return rank + node.size
+##                    if node.right is None:
+##                        return left_size + 1
+##                    else:
+##                        rank += left_size + 1
+##                        node = node.right
+
+    def rank(self, key):
+        currentRank = 0
+        currentNode = self.root
+        while (currentNode != None):
+            if currentNode.key < key:
+                if currentNode.left != None:
+                    currentRank += 1 + currentNode.left.numNodes
+                else:
+                    currentRank += 1
+                currentNode = currentNode.right
+            elif currentNode.key > key:
+                currentNode = currentNode.left
+            else:
+                if currentNode.key == key:
+                    if currentNode.left != None:
+                        currentRank += 1 + currentNode.left.numNodes
+                    else:
+                        currentRank += 1
+                return currentRank
+        return currentRank
+
+    def find_max(self, node):
+        """ Start from this node and find the maximum value in the tree. """
+        current = node
+        while current.right is not None:
+            current = current.right
+        return current
+
+    def count(self, l, h):
+        # if neither l nor h exist:
+        l_exist = self.find(l)
+        if l_exist == None:
+            return self.rank(h) - self.rank(l)
+        else:
+            return self.rank(h) - self.rank(l) + 1
+
+    def list_all_keys(self, l, h):
+        """ This is just LIST(tree, l, h) from the problem set. """
+        lca = self.lca(l, h)
+        result = []
+        self.node_list(lca, l, h, result)
+        return result
+
+    def lca(self, l, h):
+        node = self.root
+        while True:
+            if node == None or (l <= node.key and h >= node.key):
+                break
+            if l < node.key:
+                node = node.left
+            else:
+                node = node.right
+        return node
+
+    def node_list(self, node, l, h, result):
+        if node == None:
+            return
+        if l <= node.key and node.key <= h:
+            result.append(node.key)
+        if node.key >= l:
+            self.node_list(node.left, l, h, result)
+        if node.key <= h:
+            self.node_list(node.right, l, h, result)
+        
+
+# Circuit verification library.
+
+class Wire(object):
+  """A wire in an on-chip circuit.
+  
+  Wires are immutable, and are either horizontal or vertical.
+  """
+  
+  def __init__(self, name, x1, y1, x2, y2):
+    """Creates a wire.
+    
+    Raises an ValueError if the coordinates don't make up a horizontal wire
+    or a vertical wire.
+    
+    Args:
+      name: the wire's user-visible name
+      x1: the X coordinate of the wire's first endpoint
+      y1: the Y coordinate of the wire's first endpoint
+      x2: the X coordinate of the wire's last endpoint
+      y2: the Y coordinate of the wire's last endpoint
+    """
+    # Normalize the coordinates.
+    if x1 > x2:
+      x1, x2 = x2, x1
+    if y1 > y2:
+      y1, y2 = y2, y1
+    
+    self.name = name
+    self.x1, self.y1 = x1, y1
+    self.x2, self.y2 = x2, y2
+    self.object_id = Wire.next_object_id()
+    
+    if not (self.is_horizontal() or self.is_vertical()):
+      raise ValueError(str(self) + ' is neither horizontal nor vertical')
+  
+  def is_horizontal(self):
+    """True if the wire's endpoints have the same Y coordinates."""
+    return self.y1 == self.y2
+  
+  def is_vertical(self):
+    """True if the wire's endpoints have the same X coordinates."""
+    return self.x1 == self.x2
+  
+  def __repr__(self):
+    # :nodoc: nicer formatting to help with debugging
+    return('<wire ' + self.name + ' (' + str(self.x1) + ',' + str(self.y1) + 
+           ')-(' + str(self.x2) + ',' + str(self.y2) + ')>')
+  
+  def as_json(self):
+    """Dict that obeys the JSON format restrictions, representing the wire."""
+    return {'id': self.name, 'x': [self.x1, self.x2], 'y': [self.y1, self.y2]}
+
+  # Next number handed out by Wire.next_object_id()
+  _next_id = 0
+  
+  @staticmethod
+  def next_object_id():
+    """Returns a unique numerical ID to be used as a Wire's object_id."""
+    id = Wire._next_id
+    Wire._next_id += 1
+    return id
+
+class WireLayer(object):
+  """The layout of one layer of wires in a chip."""
+  
+  def __init__(self):
+    """Creates a layer layout with no wires."""
+    self.wires = {}
+  
+  def wires(self):
+    """The wires in the layout."""
+    self.wires.values()
+  
+  def add_wire(self, name, x1, y1, x2, y2):
+    """Adds a wire to a layer layout.
+    
+    Args:
+      name: the wire's unique name
+      x1: the X coordinate of the wire's first endpoint
+      y1: the Y coordinate of the wire's first endpoint
+      x2: the X coordinate of the wire's last endpoint
+      y2: the Y coordinate of the wire's last endpoint
+    
+    Raises an exception if the wire isn't perfectly horizontal (y1 = y2) or
+    perfectly vertical (x1 = x2)."""
+    if name in self.wires:
+        raise ValueError('Wire name ' + name + ' not unique')
+    self.wires[name] = Wire(name, x1, y1, x2, y2)
+  
+  def as_json(self):
+    """Dict that obeys the JSON format restrictions, representing the layout."""
+    return { 'wires': [wire.as_json() for wire in self.wires.values()] }
+  
+  @staticmethod
+  def from_file(file):
+    """Builds a wire layer layout by reading a textual description from a file.
+    
+    Args:
+      file: a File object supplying the input
+    
+    Returns a new Simulation instance."""
+
+    layer = WireLayer()
+    
+    while True:
+      command = file.readline().split()
+      if command[0] == 'wire':
+        coordinates = [float(token) for token in command[2:6]]
+        layer.add_wire(command[1], *coordinates)
+      elif command[0] == 'done':
+        break
+      
+    return layer
+
+class RangeIndex(object):
+  """Array-based range index implementation."""
+  
+  def __init__(self):
+    """Initially empty range index."""
+    self.data = AVL()
+  
+  def add(self, key):
+    """Inserts a key in the range index."""
+    if key is None:
+        raise ValueError('Cannot insert nil in the index')
+    self.data.insert(key)
+  
+  def remove(self, key):
+    """Removes a key from the range index."""
+    self.data.delete(key)
+  
+  def list(self, first_key, last_key):
+    """List of values for the keys that fall within [first_key, last_key]."""
+    return self.data.list_all_keys(first_key, last_key)
+  
+  def count(self, first_key, last_key):
+    """Number of keys that fall within [first_key, last_key]."""
+    return self.data.count(first_key, last_key)
+  
+class TracedRangeIndex(RangeIndex):
+  """Augments RangeIndex to build a trace for the visualizer."""
+  
+  def __init__(self, trace):
+    """Sets the object receiving tracing info."""
+    RangeIndex.__init__(self)
+    self.trace = trace
+  
+  def add(self, key):
+    self.trace.append({'type': 'add', 'id': key.wire.name})
+    RangeIndex.add(self, key)
+  
+  def remove(self, key):
+    self.trace.append({'type': 'delete', 'id': key.wire.name})
+    RangeIndex.remove(self, key)
+  
+  def list(self, first_key, last_key):
+    result = RangeIndex.list(self, first_key, last_key)
+    self.trace.append({'type': 'list', 'from': first_key.key,
+                       'to': last_key.key,
+                       'ids': [key.wire.name for key in result]}) 
+    return result
+  
+  def count(self, first_key, last_key):
+    result = RangeIndex.count(self, first_key, last_key)
+    self.trace.append({'type': 'list', 'from': first_key.key,
+                       'to': last_key.key, 'count': result})
+    return result
+
+class ResultSet(object):
+  """Records the result of the circuit verifier (pairs of crossing wires)."""
+  
+  def __init__(self):
+    """Creates an empty result set."""
+    self.crossings = []
+  
+  def add_crossing(self, wire1, wire2):
+    """Records the fact that two wires are crossing."""
+    self.crossings.append(sorted([wire1.name, wire2.name]))
+  
+  def write_to_file(self, file):
+    """Write the result to a file."""
+    for crossing in self.crossings:
+      file.write(' '.join(crossing))
+      file.write('\n')
+
+class TracedResultSet(ResultSet):
+  """Augments ResultSet to build a trace for the visualizer."""
+  
+  def __init__(self, trace):
+    """Sets the object receiving tracing info."""
+    ResultSet.__init__(self)
+    self.trace = trace
+    
+  def add_crossing(self, wire1, wire2):
+    self.trace.append({'type': 'crossing', 'id1': wire1.name,
+                       'id2': wire2.name})
+    ResultSet.add_crossing(self, wire1, wire2)
+
+class KeyWirePair(object):
+  """Wraps a wire and the key representing it in the range index.
+  
+  Once created, a key-wire pair is immutable."""
+  
+  def __init__(self, key, wire):
+    """Creates a new key for insertion in the range index."""
+    self.key = key
+    if wire is None:
+      raise ValueError('Use KeyWirePairL or KeyWirePairH for queries')
+    self.wire = wire
+    self.wire_id = wire.object_id
+
+  def __lt__(self, other):
+    # :nodoc: Delegate comparison to keys.
+    return (self.key < other.key or
+            (self.key == other.key and self.wire_id < other.wire_id))
+  
+  def __le__(self, other):
+    # :nodoc: Delegate comparison to keys.
+    return (self.key < other.key or
+            (self.key == other.key and self.wire_id <= other.wire_id))  
+
+  def __gt__(self, other):
+    # :nodoc: Delegate comparison to keys.
+    return (self.key > other.key or
+            (self.key == other.key and self.wire_id > other.wire_id))
+  
+  def __ge__(self, other):
+    # :nodoc: Delegate comparison to keys.
+    return (self.key > other.key or
+            (self.key == other.key and self.wire_id >= other.wire_id))
+
+  def __eq__(self, other):
+    # :nodoc: Delegate comparison to keys.
+    return self.key == other.key and self.wire_id == other.wire_id
+  
+  def __ne__(self, other):
+    # :nodoc: Delegate comparison to keys.
+    return self.key == other.key and self.wire_id == other.wire_id
+
+  def __hash__(self):
+    # :nodoc: Delegate comparison to keys.
+    return hash([self.key, self.wire_id])
+
+  def __repr__(self):
+    # :nodoc: nicer formatting to help with debugging
+    return '<key: ' + str(self.key) + ' wire: ' + str(self.wire) + '>'
+
+class KeyWirePairL(KeyWirePair):
+  """A KeyWirePair that is used as the low end of a range query.
+  
+  This KeyWirePair is smaller than all other KeyWirePairs with the same key."""
+  def __init__(self, key):
+    self.key = key
+    self.wire = None
+    self.wire_id = -1000000000
+
+class KeyWirePairH(KeyWirePair):
+  """A KeyWirePair that is used as the high end of a range query.
+  
+  This KeyWirePair is larger than all other KeyWirePairs with the same key."""
+  def __init__(self, key):
+    self.key = key
+    self.wire = None
+    # HACK(pwnall): assuming 1 billion objects won't fit into RAM.
+    self.wire_id = 1000000000
+
+class CrossVerifier(object):
+  """Checks whether a wire network has any crossing wires."""
+  
+  def __init__(self, layer):
+    """Verifier for a layer of wires.
+    
+    Once created, the verifier can list the crossings between wires (the 
+    wire_crossings method) or count the crossings (count_crossings)."""
+
+    self.events = []
+    self._events_from_layer(layer)
+    self.events.sort()
+  
+    self.index = RangeIndex()
+    self.result_set = ResultSet()
+    self.performed = False
+  
+  def count_crossings(self):
+    """Returns the number of pairs of wires that cross each other."""
+    if self.performed:
+      raise 
+    self.performed = True
+    return self._compute_crossings(True)
+
+  def wire_crossings(self):
+    """An array of pairs of wires that cross each other."""
+    if self.performed:
+      raise 
+    self.performed = True
+    return self._compute_crossings(False)
+
+  def _events_from_layer(self, layer):
+    """Populates the sweep line events from the wire layer."""
+    for wire in layer.wires.values():
+      if wire.is_horizontal():
+        self.events.append([wire.x1, 0, wire.object_id, 'add', wire])
+        self.events.append([wire.x2, 2, wire.object_id, 'remove', wire])
+      else:
+        self.events.append([wire.x1, 1, wire.object_id, 'query', wire])
+
+  def _compute_crossings(self, count_only):
+    """Implements count_crossings and wire_crossings."""
+    if count_only:
+      result = 0
+    else:
+      result = self.result_set
+
+    for event in self.events:
+        event_x, event_type, wire = event[0], event[3], event[4]
+        self.trace_sweep_line(event_x)
+        if event_type == 'add':
+            self.index.add(KeyWirePair(wire.y1, wire))
+        elif event_type == 'remove':
+            self.index.remove(KeyWirePair(wire.y1, wire))  
+        elif event_type == 'query': 
+            if count_only:
+                result += self.index.count(KeyWirePairL(wire.y1), \
+                                 KeyWirePairH(wire.y2))
+            else:
+                cross_wires = []
+                for kwp in self.index.list(KeyWirePairL(wire.y1), \
+                                       KeyWirePairH(wire.y2)):
+                    cross_wires.append(kwp.wire)
+                for cross_wire in cross_wires:
+                    result.add_crossing(wire, cross_wire)
+
+    return result
+  
+  def trace_sweep_line(self, x):
+    """When tracing is enabled, adds info about where the sweep line is.
+    
+    Args:
+      x: the coordinate of the vertical sweep line
+    """
+    # NOTE: this is overridden in TracedCrossVerifier
+    pass
+
+# Nothing outside the subtree is between l and h
+
+class TracedCrossVerifier(CrossVerifier):
+  """Augments CrossVerifier to build a trace for the visualizer."""
+  
+  def __init__(self, layer):
+    CrossVerifier.__init__(self, layer)
+    self.trace = []
+    self.index = TracedRangeIndex(self.trace)
+    self.result_set = TracedResultSet(self.trace)
+    
+  def trace_sweep_line(self, x):
+    self.trace.append({'type': 'sweep', 'x': x})
+    
+  def trace_as_json(self):
+    """List that obeys the JSON format restrictions with the verifier trace."""
+    return self.trace
+
+# Command-line controller.
+if __name__ == '__main__':
+    import sys
+    layer = WireLayer.from_file(sys.stdin)
+    verifier = CrossVerifier(layer)
+    
+    if os.environ.get('TRACE') == 'jsonp':
+      verifier = TracedCrossVerifier(layer)
+      result = verifier.wire_crossings()
+      json_obj = {'layer': layer.as_json(), 'trace': verifier.trace_as_json()}
+      sys.stdout.write('onJsonp(')
+      json.dump(json_obj, sys.stdout)
+      sys.stdout.write(');\n')
+    elif os.environ.get('TRACE') == 'list':
+      verifier.wire_crossings().write_to_file(sys.stdout)
+    else:
+      sys.stdout.write(str(verifier.count_crossings()) + "\n")

@@ -1,0 +1,108 @@
+\documentclass{article}
+
+\usepackage[margin = 1.25in]{geometry}
+\usepackage{pdflscape}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{dcolumn}
+\usepackage{booktabs}
+\usepackage[large,bf,sf]{caption}
+
+\begin{document}
+
+\title{Final Project Parameter Values}
+\author{John Wang}
+\maketitle
+
+\section{Parameter Interpretations}
+
+It is evident that $K_0$ represents the carrying capacity of the scallops, and $R_0$ represents the logistic growth rate of the population. The conversion factors $C_1$ and $C_2$ must have dimensions [scallops/rays] and [sharks/rays] in order for them to nondimensionalize $y$ and $z$. These parameters represent the carrying capacity of rays and sharks in terms of $K_0$. One can also see that $D_1$ is the death rate of a rays and $D_2$ is the death rate of sharks. 
+
+Analyzing the functions $F_i$ show that they must have dimensions of [1/time]. This means that $A_i$ has units of [1/time] and $B_i$ has units of population. $A_i$ represents the frequency of predation in a unit of time, while $B_i$ represents a close to average population size. 
+
+\section{Parameter Values}
+
+In light of these observations, we can attempt to fit these parameter values to our problem. First, we will only consider the region where scallops and cownose rays are prominent, which is on the eastern coast of the United States. We will pick the area where scallops usually inhabit, which roughly corresponds to the coastline between North Carolina and Cape Cod. This is about 800 miles of coastline, and scallops inhabit up to about 3 miles offshore \cite{Fay(1983)}. Scallop densities in the late 1970s and early 1980s were about 20 scallops per square meter, which is historically close to the highest density reached \cite{Fay(1983)}. This means that we have a carrying capacity of roughly $K_0 = 1 \times 10^{11}$ scallops in our region. The average density of scallops now has dropped dramatically and is probably closer to 5 scallops per square meter, which leads to roughly $B_1 = 2 \times 10^{10}$. 
+
+Next, we note that cownose rays consume about 1.5\% of their body weight each day according to \cite{Neer(2005)} who determines consumption based on $VO_2$ respiration. The average cownose ray weighs about 10kg while the average scallop weighs about 0.02kg. Thus, if we assume the diet of a cownose rays consists of about 50\% scallops, the average ray consumes about 1300 scallops per year. We have parameter values of roughly $A_1 = 0.5$ and $C_1 = 1300$. 
+
+The average density of cownose rays in Chesepeake Bay is roughly 0.001 rays per square meter \cite{Blaylock(1993)}. We can estimate $C_1$ from this data as well. Assuming we have roughly a density of 2.5 scallops per square meter (since scallop densities dropped off dramatically since \cite{Fay(1983)} performed their measurements), we see that there are about $C_1 = 2.5/0.001 = 2500$ scallops per ray. Taking the average of the two $C_1$ values we obtained, we will use $C_1 =  1900$. We can also obtain the parameter for the average population of rays $B_2 = 5 \times 10^{6}$ using this estimate.
+
+Hammerhead sharks consume about 2\% of their body weight each day \cite{Bush(2002)}. Since hammerheads weigh about 150kg, and cownose rays are about 10kg, we see that hammerheads consume about 50 cownose rays per year if we assume cownose rays account for about 50\% of the hammerhead diet. Thus, we find the parameter values of $A_2 = 0.5$ and $ C_2 = 50$.  
+
+Death rates can be obtained by looking at average lifetimes and assuming uniform distributions of age. Cownose rays live for about 15 years, so we obtain $D_1 = 0.07$, while hammerheads live about 25 years, so $D_2 = 0.04$. We assume a growth rate of $R_0 = 20$. 
+
+\begin{table}[ht!]
+\centering
+\caption{\sffamily{Parameter Value Estimates}}
+\setlength{\extrarowheight}{2pt}
+\begin{tabular}{@{}>{\sffamily}l >{\sffamily}l >{\sffamily}l >{\sffamily}c >{\sffamily}c} 
+\toprule[1.5pt]
+ & Paremeter & Dimension & Estimated Value & References \\
+\midrule
+\multicolumn{5}{l}{\textbf{Dimensionless Conversion Parameters}} \\
+&$C_1$ & [scallops/rays] & 1900 & \cite{Neer(2005)} and \cite{Blaylock(1993)}\\
+&$C_2$ & [sharks/rays] & 50 & \cite{Bush(2002)}\\
+\\[-8pt]
+\multicolumn{5}{l}{\textbf{$F_1$ and $F_2$ Function Parameters}} \\
+&$A_1$ & [1/time] & 0.5 & \\
+&$A_2$ & [1/time] & 0.5 & \\
+&$B_1$ & [scallops] & $2 \times 10^{10}$ & \cite{Fay(1983)} \\
+&$B_2$ & [rays] & $5 \times 10^{6}$ & \cite{Blaylock(1993)} \\
+\\[-8pt]
+\multicolumn{5}{l}{\textbf{Scallop Population Parameters}} \\
+&$K_0$ & [scallops] & $1 \times 10^{11}$ & \cite{Fay(1983)} \\
+&$R_0$ & [1/time] & 20 & \\
+\\[-8pt]
+\multicolumn{5}{l}{\textbf{Death Rates}} \\
+&$D_1$ & [1/time] & 0.07 & \\
+&$D_2$ & [1/time] & 0.04 & \\
+\bottomrule[1.5pt]
+\end{tabular}
+\end{table}
+
+\section{Dimensionless Parameters}
+
+Since we have estimates for the parameters in our original equations, we can find the nondimensionalized parameters. We can express the nondimensionalized equations in terms of the dimensionalized coefficients and find:
+\begin{eqnarray}
+\frac{dx}{dt} &=& \frac{dX}{dT} \frac{1}{K_0 R_0} = \frac{1}{K_0 R_0} \left( R_0 X \left(1 - \frac{X}{K_0} \right) - C_1 \frac{A_1 X}{B_1 + X} Y \right) \nonumber \\
+&=& x(1-x) - \frac{\frac{A_1 K_0}{R_0 B_1} x}{1 + \frac{K_0}{B_1} x} y \\
+\frac{dy}{dt} &=& \frac{dY}{dT} \frac{C_1}{R_0 K_0} = \frac{C_1}{R_0 K_0} \left( \frac{A_1 X}{B_1 + X} Y - \frac{A_2 Y}{B_2 + Y} Z - D_1 Y \right) \nonumber \\
+&=& \frac{ \frac{A_1 K_0}{R_0 B_1} x}{1 + \frac{K_0}{B_1} x} y - \frac{\frac{A_2 K_0 C_2}{R_0 B_2 C_1}y}{1 + \frac{K_0}{B_2 C_1} y } z - \frac{D_1}{R_0} y \\
+\frac{dz}{dt} &=& \frac{dZ}{dT} \frac{C_1}{R_0 C_2 K_0} = \frac{C_1}{R_0 C_2 K_0} \left( C_2 \frac{A_2 Y}{B_2 + Y} Z - D_2 Z \right) \nonumber \\
+&=& \frac{ \frac{C_2 A_2 K_0}{R_0 B_2 C_1} y}{1 + \frac{ K_0}{B_2 C_1} y} z - \frac{D_2}{R_0} z  
+\end{eqnarray}
+
+Using these equations, we can obtain the expressions for the dimensionless parameters in terms of the parameters from the original equation. Using these expressions, we can obtain estimated values for $a_i, b_i$, and $d_i$ based on the estimated values for the parameters from the original equation. Substituting these values into the dimensionless equations, we have:
+\begin{eqnarray}
+\dot{x} &=& x(1-x) - \frac{0.13 x }{1 + 5 x}y \\
+\dot{y} &=& \frac{0.13 x}{1 + 5 x} y - \frac{13.16 y}{1 + 10.53 y} z - d_1 y \\
+\dot{z} &=& \frac{13.16 y}{1 + 10.53 y} z - d_2 z
+\end{eqnarray}
+
+\begin{table}[ht!]
+\centering
+\caption{\sffamily{Dimensionless Parameters}}
+\setlength{\extrarowheight}{2pt}
+\begin{tabular}{@{}>{\sffamily}l >{\sffamily}l >{\sffamily}l >{\sffamily}r } 
+\toprule[1.5pt]
+ & Parameter & Expression & Estimated Value  \\
+\midrule
+\multicolumn{4}{l}{\textbf{$F_1$ and $F_2$ Function Parameters}} \\
+&$a_1$ & $\frac{A_1 K_0}{R_0 B_1}$ & 0.13  \\
+&$a_2$ & $\frac{A_2 K_0 C_2}{R_0 B_2 C_1}$ & 13.16 \\
+&$b_1$ & $\frac{K_0}{B_1}$ & 5.00  \\
+&$b_2$ & $\frac{K_0}{B_2 C_1}$ & 10.53\\
+\\[-8pt]
+\multicolumn{4}{l}{\textbf{Death Rates}} \\
+&$d_1$ & $\frac{D_1}{R_0}$ & $3.50 \times 10^{-3}$ \\
+&$d_2$ & $\frac{D_2}{R_0}$ & $2.00 \times 10^{-3}$ \\
+\bottomrule[1.5pt]
+\end{tabular}
+\end{table}
+
+\bibliographystyle{acm}
+\bibliography{bibliography}
+\nocite{*}
+
+\end{document}

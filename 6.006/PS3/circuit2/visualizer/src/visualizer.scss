@@ -1,0 +1,115 @@
+@mixin flexbox($vertical: true) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  
+  @if $vertical {
+    -webkit-box-orient: block-axis;
+    -moz-box-orient: block-axis;
+    box-orient: block-axis;
+  } @else {
+    -webkit-box-orient: inline-axis;
+    -moz-box-orient: inline-axis;
+    box-orient: inline-axis;
+  }
+  
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+}
+@mixin flexchild {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+}
+body {
+  @include flexbox($vertical: true);
+  text-align: center;
+}
+
+#svg-container {
+  margin: 0 20px;  
+  @include flexchild;
+  
+  @include flexbox;
+  
+  > svg {
+    @include flexchild;
+    width: auto;
+    height: auto;
+    display: block;
+  }
+}
+
+#controls-container {
+  @include flexbox($vertical: false);
+  #time-label {
+    display: block;
+    width: 5em;
+    text-align: right;
+    padding: 0 1em 0 0;
+  }
+  #start-time-label, #end-time-label {
+    display: block;
+    padding: 0 2px 0 2px;
+  }
+  #timeline {
+    display: block;
+    @include flexchild;
+  }
+  #controls-buttons {
+    display: block;
+    padding: 0 1em 0 1em;
+  }
+  vertical-align: middle;
+}
+
+#svg-container > svg {
+  font-family: Tahoma, sans-serif;
+
+  .wire {
+    stroke: hsl(0, 0%, 50%);
+    stroke-width: 1;
+    stroke-linecap: round;
+    
+    &.indexed {
+      stroke: hsl(0, 0%, 20%);
+      stroke-width: 2;
+    }
+    &.selected {
+      stroke: hsl(120, 100%, 30%);
+      stroke-width: 2;
+      &.not-indexed {
+        stroke: hsl(0, 100%, 30%);
+      }
+    }
+  }
+  .crossing {
+    stroke: hsl(0, 85%, 75%);
+    stroke-width: 0.2;
+    fill: hsl(0, 75%, 75%);
+    &.added {
+      stroke: hsl(0, 100%, 25%);
+      stroke-width: 2;
+      fill: hsl(0, 100%, 40%);
+    }
+  }
+  .selection {
+    stroke: hsl(192, 100%, 35%);
+    stroke-width: 0.1;
+    fill: hsl(192, 25%, 85%);
+  }
+  .sweep-line {
+    stroke: hsl(240, 100%, 50%);
+    stroke-width: 0.5;
+    stroke-linecap: butt;
+  }
+}

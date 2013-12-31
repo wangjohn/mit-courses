@@ -1,0 +1,22 @@
+body {
+  width: 450px;
+  margin: 0 auto;
+}
+
+#canvas-container {
+  width: 100%;
+
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+}
+
+#canvas {
+  box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-box-flex: 1;
+  
+  margin: 0 20px;
+  border: 1px solid #888888;
+  height: 400px;
+}

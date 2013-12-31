@@ -1,0 +1,68 @@
+%
+% 6.006 problem set 5E
+%
+\documentclass[12pt,twoside]{article}
+
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{mdwlist}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\newcommand{\isnotequal}{\mathrel{\scalebox{0.8}[1]{!}\hspace*{1pt}\scalebox{0.8}[1]{=}}}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{trees}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+% Fill these in!
+\newcommand{\theproblemsetnum}{5E}
+\newcommand{\releasedate}{November 1, 2011}
+\newcommand{\partaduedate}{Thursday, November 3}
+\newcommand{\tabUnit}{3ex}
+\newcommand{\tabT}{\hspace*{\tabUnit}}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}{\releasedate}
+Please download the .zip archive for this problem set, and refer to the
+\texttt{README.txt} file for instructions on preparing your solutions.
+
+You will need to submit the grading explanation by \textbf{Thursday, November
+3rd, 11:59PM}. Your grade for Problem 1(p) in Problem Set 5 will be based on
+both your solutions and the grading explanation.
+\medskip
+
+\hrulefill
+
+\begin{problems}
+
+\problem Please write a short explanation of your pseudo-code for Problem 1(p)
+in Problem Set 5. Assume the grader is familiar with the problem and with the
+staff solution. If your solution is very similar to the official solution,
+please state that, and point out and explain any differences. If your solution
+is correct, but very different from the official solution, write a brief
+explanation to convince the grader that your solution is correct. If your
+solution is partially correct, point out the parts that you got right, and
+explain your mistakes.
+
+\textbf{Answer:}
+
+%%% PROBLEM 1(pE) ANSWER START %%%
+My implementation uses standard binary search. The guess is the average between the current minimum and maximum values for the power. However, my implementation did not use PowExceeds. Instead, I simply computed the kth power of the the guess. This was done by multiplying the current middle with itself. In this part of the code, I have a small mistake. I should have multiplied the current nth power of the guess with the original guess value to give the $n + 1$st power of the guess.
+
+If I had implemented the PowExceeds function used in the solution, then my code would have been able to check whether the guess was above or below the actual value in $\Theta(N^{log_2{6}})$ time. This would have made my code run in the correct asymptotic time. 
+%%% PROBLEM 1(pE) ANSWER END %%%
+
+\end{problems}
+
+\end{document}

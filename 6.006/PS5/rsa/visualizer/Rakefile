@@ -1,0 +1,23 @@
+require 'rubygems'
+require 'bundler/setup'
+
+require 'coffee-script'
+require 'erubis'
+require 'sass'
+
+directory 'bin'
+all_sources = Dir['src/**/*']
+Dir['src/*.erb'].each do |erb_file|
+  html_file = erb_file.gsub(/^src/, 'bin').gsub /\.erb$/, ''
+  file html_file => 'bin'
+  file html_file => all_sources do
+    erb = Erubis::Eruby.new File.read(erb_file)
+    html = erb.result
+    File.open(html_file, 'w') { |f| f.write html }
+  end
+  task :default => html_file
+end
+
+task :server do
+  Kernel.system 'bundle exec shotgun dev/server.rb'
+end

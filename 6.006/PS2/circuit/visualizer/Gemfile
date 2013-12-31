@@ -1,0 +1,7 @@
+source :rubygems
+
+gem 'rake'
+gem 'coffee-script', '>= 2.2.0'
+gem 'erubis', '>= 2.7.0'
+gem 'sass', '>= 3.1.7'
+gem 'therubyracer', '>= 0.9.4'

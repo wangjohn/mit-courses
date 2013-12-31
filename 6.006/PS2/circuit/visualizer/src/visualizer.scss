@@ -1,0 +1,104 @@
+@mixin flexbox($vertical: true) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  
+  @if $vertical {
+    -webkit-box-orient: block-axis;
+    -moz-box-orient: block-axis;
+    box-orient: block-axis;
+  } @else {
+    -webkit-box-orient: inline-axis;
+    -moz-box-orient: inline-axis;
+    box-orient: inline-axis;
+  }
+  
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+}
+@mixin flexchild {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  @include flexbox($vertical: true);
+  text-align: center;
+}
+
+#controls-container {
+  @include flexbox($vertical: false);
+  #time-label {
+    display: block;
+    width: 5em;
+    text-align: right;
+    padding: 0 1em 0 0;
+  }
+  #start-time-label, #end-time-label {
+    display: block;
+    padding: 0 2px 0 2px;
+  }
+  #timeline {
+    display: block;
+    @include flexchild;
+  }
+  #controls-buttons {
+    display: block;
+    padding: 0 1em 0 1em;
+  }
+}
+
+#svg-container {
+  margin: 0 20px;  
+  @include flexchild;
+  
+  @include flexbox;
+}
+
+#svg-container > svg {
+  @include flexchild;
+  width: auto;
+  height: auto;
+  display: block;
+
+  font-family: Tahoma, sans-serif;
+
+  .output-true, .wire-true {
+    fill: hsl(50, 95%, 65%);
+    stroke: hsl(50, 100%, 45%);
+    text {
+      fill: hsl(0, 0%, 0%);
+      stroke: none;
+    }
+  }
+  .output-false, .wire-false {
+    fill: hsl(0, 0%, 20%);
+    stroke: hsl(0, 0%, 0%);  
+    text {
+      fill: hsl(0, 0%, 100%);
+      stroke: none;
+    }
+  }
+  .output-true.output-probed {
+    stroke: hsl(240deg, 100%, 65%);
+    text {
+      stroke: none;
+    }
+  }
+  .output-false.output-probed {
+    stroke: hsl(240deg, 35%, 65%);
+    text {
+      stroke: none;
+    }
+  }
+}
+
+#controls-container {
+  vertical-align: middle;
+}

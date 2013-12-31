@@ -1,0 +1,572 @@
+%
+% 6.006 problem set 2
+%
+\documentclass[12pt,twoside]{article}
+
+\usepackage{amsmath}
+
+\input{macros}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+% Fill these in!
+\newcommand{\theproblemsetnum}{1}
+\newcommand{\releasedate}{September 8, 2011}
+\newcommand{\partaduedate}{Thursday, September 15}
+\newcommand{\tabUnit}{3ex}
+\newcommand{\tabT}{\hspace*{\tabUnit}}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}{\releasedate}
+
+\newif\ifsolution
+\solutiontrue
+\newcommand{\solution}{\textbf{Your Solution:}}
+
+\textbf{Both theory and programming questions} are due {\bf \partaduedate} at {\bf 11:59PM}.
+%
+Please download the .zip archive for this problem set, and refer to the
+\texttt{README.txt} file for instructions on preparing your solutions.
+%
+Remember, your goal is to communicate. Full credit will be given only
+to a correct solution which is described clearly. Convoluted and
+obtuse descriptions might receive low marks, even when they are
+correct. Also, aim for concise solutions, as it will save you time
+spent on write-ups, and also help you conceptualize the key idea of
+the problem.
+
+We will provide the solutions to the problem set 10 hours after the problem set
+is due, which you will use to find any errors in the proof that you submitted.
+You will need to submit a critique of your solutions by \textbf{Tuesday,
+September 20th, 11:59PM}. Your grade will be based on both your solutions and
+your critique of the solutions.
+
+\setlength{\parindent}{0pt}
+
+\medskip
+
+\hrulefill
+
+\textbf{Collaborators:}
+%%% COLLABORATORS START %%%
+Sashko Stubailo, Xinran Liu, Albert Wu, Alex Cole, Varun Ganesan
+%%% COLLABORATORS END %%%
+
+\begin{problems}
+
+\problem \points{15} \textbf{Asymptotic Practice}
+
+For each group of functions, sort the functions in increasing order of
+asymptotic (big-O) complexity:
+
+\begin{problemparts}
+
+\problempart \points{5} \textbf{Group 1:}
+
+$$
+\begin{array}{rcl}
+f_1(n) &=& n^{0.999999} \log n \\
+f_2(n) &=& 10000000 n \\
+f_3(n) &=& 1.000001^n \\
+f_4(n) &=& n^2
+\end{array}
+$$
+
+\ifsolution \solution{}
+%%% PROBLEM 1(a) SOLUTION START %%%
+1,2,4,3
+%%% PROBLEM 1(a) SOLUTION END %%%
+\fi
+
+\problempart \points{5} \textbf{Group 2:}
+
+$$
+\begin{array}{rcl}
+f_1(n) &=& 2^{2^{1000000}} \\
+f_2(n) &=& 2^{100000n} \\
+f_3(n) &=& \displaystyle \binom{n}{2} \\
+f_4(n) &=& n \sqrt{n}
+\end{array}
+$$
+
+\ifsolution \solution{}
+%%% PROBLEM 1(b) SOLUTION START %%%
+1,4,3,2
+%%% PROBLEM 1(b) SOLUTION END %%%
+\fi
+
+\problempart \points{5} \textbf{Group 3:}
+
+$$
+\begin{array}{rcl}
+f_1(n) &=& n^{\sqrt{n}} \\
+f_2(n) &=& 2^n \\
+f_3(n) &=& n^{10} \cdot 2^{n / 2} \\
+f_4(n) &=& \displaystyle\sum_{i = 1}^{n} (i + 1)
+\end{array}
+$$
+
+\ifsolution \solution{}
+%%% PROBLEM 1(c) SOLUTION START %%%
+4,1,3,2
+%%% PROBLEM 1(c) SOLUTION END %%%
+\fi
+
+\end{problemparts}
+
+\problem \points{15} \textbf{Recurrence Relation Resolution}
+
+For each of the following recurrence relations,
+pick the correct asymptotic runtime:
+
+\begin{problemparts}
+
+\problempart \points{5}
+Select the correct asymptotic complexity
+of an algorithm with runtime $T(n, n)$
+where 
+$$
+\begin{array}{rcll}
+T(x, c) &=& \Theta(x) & \textrm{ for $c \le 2$}, \\
+T(c, y) &=& \Theta(y) & \textrm{ for $c \le 2$, and} \\
+T(x, y) &=& \Theta(x + y) + T(x / 2, y / 2).
+\end{array}
+$$
+
+\begin{enumerate}
+\item $\Theta(\log n)$.
+\item $\Theta(n)$.
+\item $\Theta(n \log n)$.
+\item $\Theta(n \log^2 n)$.
+\item $\Theta(n^2)$.
+\item $\Theta(2^n)$.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 2(a) SOLUTION START %%%
+2
+%%% PROBLEM 2(a) SOLUTION END %%%
+\fi
+
+\problempart \points{5}
+Select the correct asymptotic complexity
+of an algorithm with runtime $T(n, n)$
+where 
+$$
+\begin{array}{rcll}
+T(x, c) &=& \Theta(x) & \textrm{ for $c \le 2$}, \\
+T(c, y) &=& \Theta(y) & \textrm{ for $c \le 2$, and} \\
+T(x, y) &=& \Theta(x) + T(x, y / 2).
+\end{array}
+$$
+
+\begin{enumerate}
+\item $\Theta(\log n)$.
+\item $\Theta(n)$.
+\item $\Theta(n \log n)$.
+\item $\Theta(n \log^2 n)$.
+\item $\Theta(n^2)$.
+\item $\Theta(2^n)$.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 2(b) SOLUTION START %%%
+3
+%%% PROBLEM 2(b) SOLUTION END %%%
+\fi
+
+\problempart \points{5}
+Select the correct asymptotic complexity
+of an algorithm with runtime $T(n, n)$
+where 
+$$
+\begin{array}{rcll}
+T(x, c) &=& \Theta(x) & \textrm{ for $c \le 2$}, \\
+T(x, y) &=& \Theta(x) + S(x, y / 2), \\
+S(c, y) &=& \Theta(y) & \textrm{ for $c \le 2$, and} \\
+S(x, y) &=& \Theta(y) + T(x / 2, y).
+\end{array}
+$$
+
+\begin{enumerate}
+\item $\Theta(\log n)$.
+\item $\Theta(n)$.
+\item $\Theta(n \log n)$.
+\item $\Theta(n \log^2 n)$.
+\item $\Theta(n^2)$.
+\item $\Theta(2^n)$.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 2(c) SOLUTION START %%%
+2
+%%% PROBLEM 2(c) SOLUTION END %%%
+\fi
+
+\end{problemparts}
+
+\section*{Peak-Finding}
+
+In Lecture 1,
+you saw the peak-finding problem.
+As a reminder,
+a \emph{peak} in a matrix
+is a location with the property that its four neighbors
+(north, south, east, and west)
+have value less than or equal to the value of the peak.
+We have posted Python code for solving this problem
+to the website in a file called \texttt{ps1.zip}.
+In the file \texttt{algorithms.py},
+there are four different algorithms
+which have been written
+to solve the peak-finding problem,
+only some of which are correct.
+Your goal is to figure out
+which of these algorithms are correct
+and which are efficient.
+
+\problem \points{16} \textbf{Peak-Finding Correctness}
+
+\begin{problemparts}
+
+\problempart \points{4} Is \texttt{algorithm1} correct?
+\begin{enumerate}
+\item Yes.
+\item No.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 3(a) SOLUTION START %%%
+1
+%%% PROBLEM 3(a) SOLUTION END %%%
+\fi
+
+\problempart \points{4} Is \texttt{algorithm2} correct?
+\begin{enumerate}
+\item Yes.
+\item No.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 3(b) SOLUTION START %%%
+1
+%%% PROBLEM 3(b) SOLUTION END %%%
+\fi
+
+\problempart \points{4} Is \texttt{algorithm3} correct?
+\begin{enumerate}
+\item Yes.
+\item No.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 3(c) SOLUTION START %%%
+2
+%%% PROBLEM 3(c) SOLUTION END %%%
+\fi
+
+\problempart \points{4} Is \texttt{algorithm4} correct?
+\begin{enumerate}
+\item Yes.
+\item No.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 3(d) SOLUTION START %%%
+1
+%%% PROBLEM 3(d) SOLUTION END %%%
+\fi
+
+\end{problemparts}
+
+\problem \points{16} \textbf{Peak-Finding Efficiency}
+
+\begin{problemparts}
+
+\problempart \points{4} What is the worst-case runtime of \texttt{algorithm1} on a problem of size $n \times n$?
+\begin{enumerate}
+\item $\Theta(\log n)$.
+\item $\Theta(n)$.
+\item $\Theta(n \log n)$.
+\item $\Theta(n \log^2 n)$.
+\item $\Theta(n^2)$.
+\item $\Theta(2^n)$.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 4(a) SOLUTION START %%%
+3
+%%% PROBLEM 4(a) SOLUTION END %%%
+\fi
+
+\problempart \points{4} What is the worst-case runtime of \texttt{algorithm2} on a problem of size $n \times n$?
+\begin{enumerate}
+\item $\Theta(\log n)$.
+\item $\Theta(n)$.
+\item $\Theta(n \log n)$.
+\item $\Theta(n \log^2 n)$.
+\item $\Theta(n^2)$.
+\item $\Theta(2^n)$.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 4(b) SOLUTION START %%%
+5
+%%% PROBLEM 4(b) SOLUTION END %%%
+\fi
+
+\problempart \points{4} What is the worst-case runtime of \texttt{algorithm3} on a problem of size $n \times n$?
+\begin{enumerate}
+\item $\Theta(\log n)$.
+\item $\Theta(n)$.
+\item $\Theta(n \log n)$.
+\item $\Theta(n \log^2 n)$.
+\item $\Theta(n^2)$.
+\item $\Theta(2^n)$.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 4(c) SOLUTION START %%%
+2
+%%% PROBLEM 4(c) SOLUTION END %%%
+\fi
+
+\problempart \points{4} What is the worst-case runtime of \texttt{algorithm4} on a problem of size $n \times n$?
+\begin{enumerate}
+\item $\Theta(\log n)$.
+\item $\Theta(n)$.
+\item $\Theta(n \log n)$.
+\item $\Theta(n \log^2 n)$.
+\item $\Theta(n^2)$.
+\item $\Theta(2^n)$.
+\end{enumerate}
+
+\ifsolution \solution{}
+%%% PROBLEM 4(d) SOLUTION START %%%
+2
+%%% PROBLEM 4(d) SOLUTION END %%%
+\fi
+
+\end{problemparts}
+
+\problem \points{19} \textbf{Peak-Finding Proof}
+
+Please modify the proof below to construct a proof of correctness
+for the \emph{most efficient correct algorithm}
+among \texttt{algorithm2}, \texttt{algorithm3}, and \texttt{algorithm4}.
+
+The following is the proof of correctness
+for \texttt{algorithm1},
+which was sketched in Lecture 1.
+
+\begin{quote}
+We wish to show that \texttt{algorithm1}
+will always return a peak,
+as long as the problem is not empty.
+To that end,
+we wish to prove the following two statements:
+
+{\bf 1. If the peak problem is not empty,
+then \texttt{algorithm1} will always return a location.}
+Say that we start with a problem of size $m \times n$.
+The recursive subproblem examined by \texttt{algorithm1}
+will have dimensions
+$m \times \lfloor n / 2 \rfloor$ or 
+$m \times \left(n - \lfloor n / 2 \rfloor - 1 \right)$.
+Therefore, the number of columns in the problem
+strictly decreases with each recursive call
+as long as $n > 0$.
+So \texttt{algorithm1} either returns a location at some point,
+or eventually examines a subproblem with a non-positive
+number of columns.
+The only way for the number of columns to become strictly negative,
+according to the formulas that determine the size of the subproblem,
+is to have $n = 0$ at some point.
+So if \texttt{algorithm1} doesn't return a location,
+it must eventually examine an empty subproblem.
+
+We wish to show that there is no way that this can occur.
+Assume, to the contrary,
+that \texttt{algorithm1} does examine an empty subproblem.
+Just prior to this,
+it must examine a subproblem of size
+$m \times 1$ or $m \times 2$.
+If the problem is of size $m \times 1$,
+then calculating the maximum of the central column
+is equivalent to calculating the maximum of the entire problem.
+Hence, the maximum that the algorithm finds must be a peak,
+and it will halt and return the location.
+If the problem has dimensions $m \times 2$,
+then there are two possibilities:
+either the maximum of the central column is a peak
+(in which case the algorithm will halt and return the location),
+or it has a strictly better neighbor in the other column
+(in which case the algorithm will recurse
+on the non-empty subproblem with dimensions $m \times 1$,
+thus reducing to the previous case).
+So \texttt{algorithm1} can never recurse into an empty subproblem,
+and therefore \texttt{algorithm1} must eventually return a location.
+
+{\bf 2. If \texttt{algorithm1} returns a location,
+it will be a peak in the original problem.}
+If \texttt{algorithm1} returns a location $(r_1, c_1)$,
+then that location must have the best value in column $c_1$,
+and must have been a peak within some recursive subproblem.
+Assume, for the sake of contradiction,
+that $(r_1, c_1)$ is not also a peak within the original problem.
+Then as the location $(r_1, c_1)$ is passed up the chain of recursive calls,
+it must eventually reach a level where it stops being a peak.
+At that level, the location $(r_1, c_1)$
+must be adjacent to the dividing column $c_2$ (where $|c_1 - c_2| = 1$),
+and the values must satisfy the inequality
+$val(r_1, c_1) < val(r_1, c_2)$.
+
+Let $(r_2, c_2)$ be
+the location of the maximum value found by \texttt{algorithm1}
+in the dividing column.
+As a result, it must be that $val(r_1, c_2) \le val(r_2, c_2)$.
+Because the algorithm chose to recurse
+on the half containing $(r_1, c_1)$,
+we know that $val(r_2, c_2) < val(r_2, c_1)$.
+Hence, we have the following chain of inequalities:
+$$val(r_1, c_1) < val(r_1, c_2) \le val(r_2, c_2) < val(r_2, c_1)$$
+But in order for \texttt{algorithm1} to return $(r_1, c_1)$ as a peak,
+the value at $(r_1, c_1)$ must have been the greatest in its column,
+making $val(r_1, c_1) \ge val(r_2, c_1)$.
+Hence, we have a contradiction.
+\end{quote}
+
+\ifsolution \solution{}
+%%% PROBLEM 5 SOLUTION START %%%
+\begin{quote}
+We wish to show that \texttt{algorithm4}
+will always return a peak,
+as long as the problem is not empty.
+To that end,
+we wish to prove the following two statements:
+
+{\bf 1. If the peak problem is not empty,
+then \texttt{algorithm4} will always return a location.}
+Say that we start with a problem of size $m \times n$.
+The recursive subproblem examined by \texttt{algorithm4}
+will have dimensions
+$m \times \lfloor n / 2 \rfloor$ or 
+$m \times \left(n - \lfloor n / 2 \rfloor - 1 \right)$, if \texttt{rowSplit = False}.
+If \texttt{rowSplit = True} then the recursive subproblem
+will have dimensions
+$\lfloor m / 2 \rfloor \times n$ or 
+$\left( m - \lfloor m/2 \rfloor - 1 \right) \times n$.  
+Therefore, the number of columns strictly decreases with every other recursive call
+as long as $n > 0$. The number of rows strictly decreases with every other 
+recursive call as long as $m > 0$. 
+So \texttt{algorithm4} either returns a location at some point,
+or eventually examines a subproblem with a non-positive
+number of columns or rows.
+The only way for the number of columns or rows to become strictly negative,
+according to the formulas that determine the size of the subproblem,
+is to have $n = 0$ or $m = 0$, respectively, at some point.
+So if \texttt{algorithm4} doesn't return a location,
+it must eventually examine an empty subproblem.
+
+We wish to show that there is no way that this can occur.
+Assume, to the contrary,
+that \texttt{algorithm4} does examine an empty subproblem. 
+Just prior to this,
+it must examine a subproblem of size $1 \times 1$, $2 \times 1$,
+or $1 \times 2$. If the subproblem is of size $1 \times 1$, 
+\texttt{algorithm4} will simply return the location of the 
+$1 \times 1$ square since it is larger than the null value of an
+empty subproblem. If the subproblem is of size $2 \times 1$ 
+or $1 \times 2$, then either the central column or row will be a peak,
+or it will have a strictly better neighbor. In each of these cases, the algorithm 
+will return a location inside the $1 \times 2$ or $2 \times 1$ subproblem
+and halt execution. Thus, we have shown that \texttt{algorithm4}
+must stop before it gets to an empty subproblem. Therefore,
+there is no way that we can arrive at an empty subproblem,
+and \texttt{algorithm4} must return a location.
+
+
+{\bf 2. If \texttt{algorithm4} returns a location,
+it will be a peak in the original problem.}
+We will prove this by showing that a location $(r_1, c_1)$ 
+returned by the algorithm (which we know exists from part 1)
+must be surrounded by points
+already directly observed by the algorithm. If all adjacent points 
+in the set $A = \{(r_2, c_1), (r_0, c_1), (r_1, c_2), (r_1, c_0) \}$ have
+been explicitly examined by \texttt{algorithm4}, then
+we know that $(r_1, c_1)$ must be a peak. To prove this,
+assume the contrary. This means that some location $(x,y) \in A$ 
+must be larger than $(r_1, c_1)$ so that $val(x,y) > val(r_1,c_1)$.
+ However, since the algorithm 
+always moves towards the \texttt{Best Seen} value, and
+will return the location with \texttt{Best Seen}, we must have
+$val(r_1, c_1) > val(x,y)$, which is a contradiction of 
+our earlier statement. Thus, if the returned location
+$(r_1, c_1)$ is surrounded by directly observed locations,
+then $(r_1, c_1)$ will be a peak.
+
+Thus, to prove the second statement,
+ it is sufficient to show that any location $(x,y) \in A$
+which is a neighbor of $(r_1, c_1)$ has already been observed
+by \texttt{algorithm4}. Assume by contradiction that this
+is not the case and there exists some location 
+$(a, b) \in A$ which has not been observed by the algorithm.
+In order for it to have been unobserved, there must
+exist some subproblem where $(a,b)$ does not exist. 
+The only way for this to occur,
+ since $(a,b)$ is adjacent to $(r_1,c_1)$, is for $(a,b)$
+to lie on a column or row that was used to divide 
+the problem into subproblems. However, if $(a,b)$ 
+lies on a row or column used to divide the problem into
+subproblems, then it has already been examined because
+\texttt{algorithm4} has already found the global max on that
+column or row. Hence, this is a contradiction, and all the
+locations $(x,y) \in A$ have been observed by 
+\texttt{algorithm4}. Since this is sufficient to show that $(r_1, c_1)$
+is a peak, we have completed our proof. 
+
+
+\end{quote}
+%%% PROBLEM 5 SOLUTION END %%%
+\fi
+
+\problem \points{19} \textbf{Peak-Finding Counterexamples}
+
+For each incorrect algorithm,
+upload a Python file giving a counterexample
+(i.e. a matrix for which the algorithm returns a location
+that is not a peak).
+
+\ifsolution \solution{}
+%%% PROBLEM 6 SOLUTION START %%%
+\begin{verbatim}
+
+problemMatrix = [
+    [0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 0],
+    [0, 0, 0, 1, 0, 0, 6],
+    [0, 0, 0, 1, 2, 5, 8],
+    [0, 0, 0, 5, 2, 1, 9],
+    [0, 0, 0, 5, 3, 2, 2],
+    [0, 0, 0, 1, 2, 2, 1]
+]
+
+problemMatrix = [
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0]
+]
+\end{verbatim}
+%%% PROBLEM 6 SOLUTION END %%%
+\fi
+
+\end{problems}
+
+\end{document}

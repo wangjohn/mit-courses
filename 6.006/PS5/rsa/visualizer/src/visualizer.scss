@@ -1,0 +1,56 @@
+@mixin flexbox($vertical: true) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  
+  @if $vertical {
+    -webkit-box-orient: block-axis;
+    -moz-box-orient: block-axis;
+    box-orient: block-axis;
+  } @else {
+    -webkit-box-orient: inline-axis;
+    -moz-box-orient: inline-axis;
+    box-orient: inline-axis;
+  }
+  
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+}
+@mixin flexchild {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+}
+@mixin ie-box-model {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+}
+body {
+  @include flexbox($vertical: false);
+  text-align: center;
+}
+
+section {
+  @include flexbox($vertical: true);
+  @include flexchild;
+}
+section .canvas-wrapper {
+  @include flexbox($vertical: true);
+  @include flexchild;
+  position: relative;
+}
+
+canvas {
+  @include flexchild;
+  display: block;
+}

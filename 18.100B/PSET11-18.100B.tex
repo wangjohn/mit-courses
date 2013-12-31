@@ -1,0 +1,410 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{18.100B\\
+Problem Set 11}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 7.2}
+
+\begin{thm}
+If $\{f_n \}$ and $\{ g_n \}$ converge uniformly on a set $E$, prove that $\{ f_n + g_n \}$ converges uniformly on $E$.
+\end{thm}
+
+\begin{proof}
+Since $\{ f_n \}$ converges uniformly to a limit, say $f$, then we see that for every $\epsilon > 0$, there exists an $N_1$ such that $|f_n(x) - f(x) | < \epsilon$ for all $n \geq N_1$ and $x \in E$. The same is true for $\{g_n \}$, namely that for every $\epsilon > 0$, there exists an $N_2$ such that $|g_n(x) - f(x) | < \epsilon$ for all $n \geq N_2$ and $x \in E$. Thus, there exists an $N = \max\{N_1, N_2 \}$ such that for every $n \geq N$ and every $\epsilon > 0$, we obtain:
+\begin{eqnarray}
+|f_n(x) - f(x) + g_n(x) - g(x)| = |(f_n(x) + g_n(x)) - (f(x) + g(x)) | < 2 \epsilon
+\end{eqnarray}
+
+Therefore, since $\epsilon$ was arbitrary, we see that $\{ f_n + g_n \}$ converges uniformly on $E$.
+\end{proof}
+
+\begin{thm}
+If, in addition, $\{ f_n \}$ and $\{ g_n \}$ are sequences of bounded functions, prove that $\{ f_n g_n \}$ converges uniformly on $E$.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Again, we know that there exists an $N_1$ such that for $n > N_1$, we obtain $|f_n(x) - f(x)| < \epsilon$ for all $x \in E$. There also exists an $N_2$ such that for $n > N_2$ we obtain $|g_n(x) - g(x)| < \epsilon$. Both these statements are true because $\{ f_n \} \to f$ and $\{g_n \} \to g$. Next, we will prove a lemma:
+
+\begin{lem}
+Every uniformly convergent sequence of bounded functions $\{h_n \}$ is uniformly bounded.
+\end{lem}
+
+\begin{proof}
+A sequence of bounded functions means that for every $n$, we have $|h_n(x)| < M_n$. Now pick $N$ so that for all $n > N$, $|h_n(x) - h(x)| < 1$ for all $x \in E$. Therefore, we see:
+\begin{eqnarray}
+|f_n(x)| \leq |f_n(x) - f(x)| + |f(x) - f_N(x)| + |f_N(x)| < 2 + M_N 
+\end{eqnarray}  
+
+Now pick $M = \max \{ M_1, \ldots, M_{N-1}, 2 + M_N \}$. It is clear that $|f_n(x)| < M$ for all $n \in \mathbb{N}$. Therefore, we have shown that $\{h_n \}$ is uniformly bounded.
+\end{proof}
+
+Now, we can use the above lemma and say that $|f_n(x)| < M$ and $|g_n(x)| < L$. Therefore, we see that for $n > N_2$, we have
+\begin{eqnarray}
+|g(x)| \leq |g(x) - g_n(x)| + |g_n(x)| < \epsilon + L
+\end{eqnarray}
+
+Thus, using the triangle inequality on $|f_n(x)g_n(x) - f(x) g(x)|$, we can obtain for $n > \max \{N_1, N_2 \}$:
+\begin{eqnarray}
+|f_n(x)g_n(x) - f(x) g(x)| &\leq& |f_n(x) g_n(x) - f_n(x) g(x)| + |f_n(x) g(x) - f(x) g(x)| \\
+&=& |f_n(x)| |g_n(x) - g(x)| + |g(x)| |f_n(x) - f(x)| \\
+&<& M \epsilon + (\epsilon + L) \epsilon
+\end{eqnarray}
+
+Since $\epsilon$ was arbitrary, we see that $\{ f_n g_n \}$ converges uniformly. 
+\end{proof}
+
+\section{Problem 7.3}
+
+\begin{thm}
+Construct sequences $\{ f_n\}, \{g_n\}$ which converge uniformly in some set $E$ but such that $\{f_n g_n \}$ does not converge uniformly on $E$. 
+\end{thm}
+
+\begin{proof}
+Consider the two sequences $f_n(x) = x + \frac{1}{n}$ and $g_n(x) = x + \frac{1}{n}$ for $x \in \mathbb{R}$. Then we see that $f_n(x) \to x$ and $g_n(x) \to x$ as $n \to \infty$. It is easy to see that $x+ \frac{1}{n}$ converges uniformly because $|x + \frac{1}{n} - x| = |\frac{1}{n}|$. Therefore, we use the Archimedean principle to pick an $N$ such that for all $n > N$, $\frac{1}{n} < \epsilon$. Therefore, both $\{f_n\}$ and $\{g_n\}$ converge uniformly.
+
+However, we see that $\{f_n g_n \}$ does not converge uniformly, even though it converges pointwise to $x^2$. We have $f_n (x) g_n (x) = (x + \frac{1}{n})^2$ for $x \in \mathbb{R}$. Next, we can see the following:
+\begin{eqnarray}
+\left| \left(x + \frac{1}{n}\right)^2 - x^2 \right| &=& \left|x^2 + \frac{2x}{n} + \frac{1}{n^2} - x^2 \right| \\
+&=& \left|\frac{2nx + 1}{n^2} \right|
+\end{eqnarray}
+
+However, we can pick $n = N$ and set $\epsilon = 1$. Since  we have $x \in \mathbb{R}$, we can choose $x = N$, which gives $|\frac{2N^2 + 1}{N^2}| = |2 + \frac{1}{N^2} | > \epsilon = 1$. Therefore, we see that $\{ f_n g_n \}$ does not converge uniformly.
+\end{proof}
+
+\section{Problem 7.4}
+
+\begin{thm}
+Consider $f(x) = \sum_{n=1}^\infty \frac{1}{1+n^2 x}$. For what values $x$ does the series converge absolutely?
+\end{thm}
+
+\begin{proof}
+The series diverges for $x = 0$, simply because the sequence of partial sums of $1$ does not converge to $0$. Also, the series is not defined for $x = -\frac{1}{n^2}$, so it does not converge absolutely. However, for all $x \in \mathbb{R}$ other than the ones mentioned above, the series converges absolutely. We can use comparison test to show the following:
+\begin{eqnarray}
+\sum_{n=1}^\infty \left| \frac{1}{1+n^2 x} \right| \leq \sum_{n=1}^\infty \left| \frac{1}{n^2 x} \right| = |x| \sum_{n=1}^\infty \frac{1}{n^2}
+\end{eqnarray}
+
+And since $\sum \frac{1}{n^2}$ converges by being a geometric series with $p = 2$, we see that the series on the left converges by comparison test. Therefore, the series $\sum_{n=1}^\infty \frac{1}{1+n^2 x}$ converges absolutely for all $x$ other than $x=0$ and $x = - \frac{1}{n^2}$. 
+\end{proof}
+
+\begin{thm}
+The series converges uniformly for all intervals $[a,b] \in E$ such that $a,b$ are the same sign and there does not exist a number $-\frac{1}{n^2}$ in the interval.
+\end{thm}
+
+\begin{proof}
+If the assumptions are satisfied, then we see that $\frac{1}{1+n^2 x}$ is either monotonically increasing or monotonically decreasing, depending on the sign of $x$. Therefore, we have either $|\frac{1}{1+n^2 x}|  \leq | \frac{1}{1+ n^2 a} |$ or we have $\frac{1}{1+n^2 x}| \leq |\frac{1}{1+n^2 b}|$. Since all of the terms well defined (by our assumption that there do not exist terms of the form $-\frac{1}{n^2}$), we see that $|f_n(x)| \leq M_n$ for all $x \in E$, where $M_n = | \frac{1}{1+ n^2 a} |$ or $M_n = | \frac{1}{1+ n^2 b} |$. Since we know that $\sum M_n$ converges for both $M_n$, we know that $\sum f_n$ also converges by a theorem in Rudin. 
+\end{proof}
+
+\begin{thm}
+$f$ is continuous wherever the series converges.
+\end{thm}
+
+\begin{proof}
+We see that $f_n(x) = \frac{1}{1+n^2 x}$ is continuous wherever $f(x)$ is defined. Since this corresponds to the intervals where $f(x)$ is uniformly convergent, we see that $f_n(x)$ is continuous on $E$, where $E$ is the set of $x$ for which $f(x)$ is uniformly convergent. Therefore, by a theorem in Rudin, since $\{ f_n \}$ is a sequence of continuous functions on $E$, and $f_n \to f$ uniformly on $E$, then we know that $f$ is continuous on $E$. 
+\end{proof}
+
+\begin{thm}
+$f$ is not bounded. 
+\end{thm}
+
+\begin{proof}
+Suppose by contradiction that $f$ is bounded by some number $M$ so that $|f(x)| < \frac{M}{2}$ for all $x \in E$. Then we can choose $x = \frac{1}{M^2}$ and see that 
+\begin{eqnarray}
+f\left(\frac{1}{M^2} \right) &=& \sum_{n=1}^\infty \frac{1}{1+\frac{n^2}{M^2}}\\
+&\geq& \frac{1}{1+ \frac{1}{M^2}} + \frac{1}{1+\frac{2^2}{M^2}} + \ldots + \frac{1}{1 + \frac{M^2}{M^2}} \\
+&\geq& \frac{1}{2} + \frac{1}{2} + \ldots + \frac{1}{2} \\
+&=& \frac{M}{2} 
+\end{eqnarray}
+
+Thus, we have found a number $x$ for which $|f(x)| \geq \frac{M}{2}$ which is a contradiction. Therefore, $f$ is not bounded. 
+\end{proof}
+
+\section{Problem 7.6}
+
+\begin{thm}
+Prove that the series $\sum_{n=1}^\infty (-1)^n \frac{x^2 + n}{n^2}$ converges uniformly in every bounded interval.
+\end{thm}
+
+\begin{proof}
+We need to show that the sequence $\{ s_i \}$ of partial sums converges uniformly on every closed interval $x \in [a,b]$. So let $s_i = \sum_{n=1}^i (-1)^n \frac{x^2 + n}{n^2}$ and fix $\epsilon > 0$. Now we want to show that there exists some $N$ such that for $i,j > N$ we have $|s_i(x) - s_j(x)| < \epsilon$ for all $x \in [a,b]$. Indeed, expanding this out, and assuming without loss of generality that $i > j > N$, we obtain the following:
+\begin{eqnarray}
+|s_i(x) - s_j(x) | &=& \left|\sum_{n=1}^i (-1)^n \frac{x^2 + n}{n^2} - \sum_{n=1}^j (-1)^n \frac{x^2 + n}{n^2} \right| \\
+&=& \left| \sum_{n=j}^i (-1)^n \frac{x^2+n}{n^2} \right| \\
+&=& \left| \sum_{n=j}^i (-1)^n \frac{x^2}{n^2} \right| + \left| \sum_{n=j}^i (-1)^n \frac{1}{n} \right|
+\end{eqnarray}
+
+Clearly, the series on the right converges uniformly on $x$ because it does not depend on $x$ and it also is an alternating series that converges.  The series on the left converges uniformly on some interval $[a,b]$ because we can let $M = \max \{a,b\}$ and get:
+\begin{eqnarray}
+\left|(-1)^n \frac{x^2}{n^2} \right| \leq \frac{M^2}{n^2}
+\end{eqnarray}
+\begin{eqnarray}
+\left| \sum_{n=j}^i (-1)^n \frac{x^2}{n^2} \right| \leq \sum_{n=j}^i \left| (-1)^n \frac{x^2}{n^2} \right| \leq \sum_{n=j}^i \frac{M^2}{n^2} 
+\end{eqnarray}
+
+Since the series $\sum \frac{M^2}{n^2}$ converges by begin a geometric series with $p = 2$, we see that $\sum (-1)^n \frac{x^2}{n^2}$ also converges by a theorem in Rudin. Therefore, $\{ s_i \}$ is the sum of two convergent series which, by problem 7.2, shows that $s_i$ converges uniformly and thus that the series $\sum_{n=1}^\infty (-1)^n \frac{x^2+n}{n^2}$ converges uniformly on every bounded interval $[a,b]$. 
+\end{proof}
+
+\begin{thm}
+The series  $\sum_{n=1}^\infty (-1)^n \frac{x^2 + n}{n^2}$ does not converge absolutely for any value of $x$. 
+\end{thm}
+
+\begin{proof}
+We must show that $\sum_{n=1}^\infty \left| (-1)^n \frac{x^2 + n}{n^2} \right| = \sum_{n=1}^\infty \left| \frac{x^2+n}{n^2} \right|$ does not converge for any $x$. Indeed, we see that the following is true:
+\begin{eqnarray}
+\sum_{n=1}^\infty \left| (-1)^n \frac{x^2 + n}{n^2} \right| &=& \sum_{n=1}^\infty \left| \frac{x^2+n}{n^2} \right| \\
+ &=& \sum_{n=1}^\infty \left| \frac{x^2}{n^2} \right| + \sum_{n=1}^\infty \frac{1}{n} 
+\end{eqnarray}
+
+Since the series on the right diverges by begin a geometric series with $p=1$, we can only hope for convergence if the series on the left is negative. However, we see that it will never be negative, so that the entire series diverges. Therefore, $\sum_{n=1}^\infty (-1)^n \frac{x^2 + n}{n^2}$ does not converge absolutely. 
+\end{proof}
+
+\section{Problem 7.7}
+
+\begin{thm}
+For $n \in \mathbb{N}$ and $x \in \mathbb{R}$, put $f_n(x) = \frac{x}{1+nx^2}$. Then $\{f_n\}$ converges uniformly to a function $f$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$ and $x \in \mathbb{R}$. Using the Cauchy criterion, all we must do is show that there exists an $N$ such that $|f_n(x) - f_m(x)| < \epsilon$ for $n,m > N$. Suppose $n > m$ without loss of generality. Now, we see that the following is true:
+\begin{eqnarray}
+\left| f_n(x) - f_m(x) \right| &=& \left| \frac{x}{1+nx^2} - \frac{x}{1+mx^2} \right| \\
+&=& \frac{x(1+mx^2) - x(1 + nx^2)}{(1+nx^2)(1+mx^2)} \\
+&=& \frac{x^3(m-n)}{1 +m x^2 + nx^2 + nm x^4} \\
+&\leq& \frac{x^3(m-n)}{nmx^4} \\
+&=& \frac{1}{n} - \frac{1}{m} 
+\end{eqnarray}
+
+Using the Archimedean principle, it is clear that we can select $N$ large enough with $n,m > N$ such that $\frac{1}{n} - \frac{1}{m} < \epsilon$. Therefore, we see that the series converges uniformly by the Cauchy criterion for all $x \in \mathbb{R}$.
+\end{proof}
+
+\begin{thm}
+The equation $f'(x) = \lim_{n \to \infty} f_n' (x)$ is correct if $x \neq 0$ but false for $x = 0$. 
+\end{thm}
+
+\begin{proof}
+We must show that $\{ f'_n \}$ converges uniformly for all $x \neq 0$. Then we can apply a theorem in Rudin because we know that $\{ f \}$ converges uniformly, and thus it converges pointwise at all $x_0 \in \mathbb{R} \setminus 0$. Therefore, let us examine $\{ f'_n \}$ using the quotient rule:
+\begin{eqnarray}
+f'_n(x) &=& \frac{d}{dx} \frac{x}{1+nx^2} \\
+&=& \frac{1 + nx^2 - x (2nx)}{(1+nx)^2} \\
+&=& \frac{1-nx^2}{(1+nx)^2}
+\end{eqnarray}
+
+Now we must show that $\{ f'_n \}$ converges uniformly for all $x \neq 0$. So, pick $x \in \mathbb{R} \setminus 0$ and fix $\epsilon > 0$. We can use Cauchy criterion and obtain for $n > m$:
+\begin{eqnarray}
+|f'_n(x) - f'_m(x)| &=& \left| \frac{1 - nx^2}{(1+nx)^2} - \frac{1-mx^2}{(1+mx)^2} \right| \\
+&\leq& \left| \frac{(1-nx^2)(1+mx)^2 - (1-mx^2) (1+nx)^2}{m^2 n^2 x^4} \right| \\
+&=& \left| \frac{2x(m-n) + x^2 (m^2 - n^2)}{m^2 n^2 x^4} \right| \\
+&=& \left| \frac{2}{mn^2 x^3} - \frac{2}{m^2 n x^3}\right|  + \left| \frac{1}{n^2 x^2} - \frac{1}{m^2 x^2} \right|
+\end{eqnarray}
+
+Thus, we can choose an $N$ with $n,m > N$ so that $|f'_n(x) - f'_m(x)| < \epsilon$. To see this, we note that the term on the right can be made arbitrarily small using the archimedean principle, say to less than $\epsilon/2$. Next, the term on the left can be made arbitrarily small as well. We see that $\frac{2}{x^3}$ is divided either $m n^2$ or $m^2 n$, and even if $x$ is negative, we can choose $m,n$ large enough so that the term becomes arbirarily small using the archimedean principle. Therefore, $|f'_n(x) - f'_m(x)| < \epsilon$ for $x \in \mathbb{R} \setminus 0$ implying uniform convergence on the same set. 
+
+This means we can apply the theorem in Rudin which states that for $\{ f_n \}$ differentiable on $[a,b]$, if $f_n(x_0)$ converges for some point $x_0 \in [a,b]$ and if $\{ f'_n \}$ converges unfiormly on $[a,b]$, then $f'(x) = \lim_{n \to \infty} f'_n(x)$. Thus, the first part of the problem is completed. We are left to show that this is false for $x=0$.
+
+This can be easily seen because $f'_n(0) = 1$ for all $n \in \mathbb{N}$. However, first we will show that $f(0) = 0$. It is clear that $f_n(0) = 0$. Therefore, we have $|f_n(0) - f(0)| = |0 - 0| = 0$. Moreover, $0 < \epsilon$ for all $\epsilon > 0$. Therefore, we see that $f(0) = 0$ by the uniform convergence we proved earlier. Moreover, $f'(0) = 0$. However, as we have seen, $f'_n(0) = 1$ for all $n \in \mathbb{N}$, which shows that $\lim_{n \to \infty} f'_n(0) = 1 \neq 0 = f'(0)$. 
+\end{proof}
+
+\section{Problem 7.10}
+
+\begin{thm}
+Letting $(x)$ denote the fractional part of the real number $x$, consider the function $f(x) = \sum_{n=1}^\infty \frac{(nx)}{n^2}$ for $x \in \mathbb{R}$. Find all the discontinuities of $f$ and show that they form a countable dense set. 
+\end{thm}
+
+\begin{proof}
+First, we will show that $f$ converges uniformly on $\mathbb{R}$. Let $f_k(x) = \sum_{n=1}^k \frac{(nx)}{n^2}$ be the partial sum of $f(x)$. We must show that the sequence $\{f_k \}$ converges uniformly for all $x \in \mathbb{R}$. We observe that $(nx) < 1$ for all numbers $nx \in \mathbb{R}$. Therefore, we have the following:
+\begin{eqnarray}
+\left| \frac{(nx)}{n^2} \right| \leq \frac{1}{n^2}
+\end{eqnarray}
+
+Since we know that $\sum \frac{1}{n^2}$ converges by being geometric with $p = 2$, we see that by a theorem in Rudin, $f(x)$ converges uniformly for all $x \in \mathbb{R}$. 
+
+Next, we will note that $g(x) = (x)$ is discontinuous for all $x \in \mathbb{Z}$. Now, let $g_n(x) = (nx)$. We see that $g_n(x)$ is discontinuous for all $nx \in \mathbb{Z}$. In other words, $g_n(x)$ is discontinuous for $x = \frac{m}{n}$ where $m,n \in \mathbb{Z}$. This means that $g_n(x)$ is discontinuous for all $x \in \mathbb{Q}$. Now, we will show that $f(x)$ is discontinuous for $x \in \mathbb{Q}$. If $x \in \mathbb{Q}$, we see the following:
+\begin{eqnarray}
+f_k(x) = \sum_{n=1}^k \frac{(nx)}{n^2} = \sum_{n=1}^k \frac{g_n(x)}{n^2}
+\end{eqnarray}
+
+Moreover, we see that $\lim_{t \to x^{-}} g_n(t) = 1$ and $\lim_{t \to x^{+}} g_n(t) = 0$. This holds for all $x$ and $n$, so that:
+\begin{eqnarray}
+\lim_{t \to x^{-}} g_n(t) \geq \lim_{t \to x^{+}} g_n(t)
+\end{eqnarray}
+
+Thus, we can take the limit that of $f_k(t)$ as $t \to x^{-}$ and $t \to x^{+}$:
+\begin{eqnarray}
+\lim_{t \to x^{+}} f_k(t) &=& \lim_{t \to x^{+}} \sum_{n=1}^k \frac{g_n(t)}{n^2} = \sum_{n=1}^k \lim_{t \to x^{+}} g_n(t) \frac{1}{n^2}= 0 \\
+\lim_{t \to x^{-}} f_k(t) &=& \lim_{t \to x^{-}} \sum_{n=1}^k \frac{g_n(t)}{n^2} =\sum_{n=1}^k \lim_{t \to x^{-}} g_n(t) \frac{1}{n^2} = \sum_{n=1}^k \frac{1}{n^2}
+\end{eqnarray}
+
+Since we know that $f_k(x) \to f(x)$ uniformly, a theorem in Rudin says that we can swap limits in the following way:
+\begin{eqnarray}
+\lim_{k \to \infty} \lim_{t \to x^{+}} f_k(t) &=& \lim_{t \to x^{+}} \lim_{k \to \infty} f_k(t) = \lim_{t \to x^{+}} f(t) \\
+\lim_{k \to \infty} \lim_{t \to x^{-}} f_k(t) &=& \lim_{t \to x^{-}} \lim_{k \to \infty} f_k(t) = \lim_{t \to x^{-}} f(t)
+\end{eqnarray}
+
+Moreover, we already know the expressions for the term on the left:
+\begin{eqnarray}
+\lim_{k \to \infty} \lim_{t \to x^{+}} f_k(t) &=& \lim_{k \to \infty} 0 = 0 \\
+\lim_{k \to \infty} \lim_{t \to x^{-}} f_k(t) &=& \lim_{k \to \infty} \sum_{n=1}^k \frac{1}{n^2} = \sum_{n=1}^\infty \frac{1}{n^2}
+\end{eqnarray}
+
+Thus, we have obtained expressions for the left and right limits of the function $f$ at $x \in \mathbb{Q}$:
+\begin{eqnarray}
+\lim_{t \to x^{+}} f(t) = 0 \hspace{1cm}  \lim_{t \to x^{-}} f(t) = \sum_{n=1}^\infty \frac{1}{n^2}
+\end{eqnarray}
+
+Therefore, we see that the left and right limits of $f(x)$ are not equal, so that the function is discontinuous at $x \in \mathbb{Q}$. Now we need only show that $f(x)$ is continuous at all $x \notin \mathbb{Q}$. Well, we know by problem 4.16 in a previous problem set that $(x)$ is continuous at all $x \notin \mathbb{N}$. Therefore, we see that $f_k(x)$ is continuous at all $x \notin \mathbb{Q}$. Since $f_k(x) \to f(x)$ uniformly, we see that $f(x)$ is continuous for all $x \notin \mathbb{Q}$ by a theorem in Rudin. Therefore, we have shown that the only points of discontinuity are $x \in \mathbb{Q}$.
+
+We know that $\mathbb{Q} \subset \mathbb{R}$ is a countable dense subset of $\mathbb{R}$. Therefore, we have shown that the points of discontinuities of $f(x)$ are a countable dense set, which completes the proof.
+\end{proof}
+
+\begin{thm}
+Show that $f$ is nevertheless Riemann-integrable on every bounded interval $[a,b]$.
+\end{thm}
+
+\begin{proof}
+We know that on any bounded interval $[a,b]$, we have only finitely many discontinuity points. In fact, we will have $n(b-a) + 1$ number of discontinuity points. Since $\alpha = x$ is continuous at every point in $[a,b]$, we see that $\alpha = x$ is continuous at every point for which $f_k(x) = \sum_{n=1}^k \frac{(nx)}{n^2}$ is discontinuous. Therefore, we can apply a theorem in Rudin and see that $f_k \in \mathscr{R}$. 
+
+Next, since we know that $f_k \to f$ uniformly and that $f_k \in \mathscr{R}$ on $[a,b]$, we also know that $f \in \mathscr{R}$ on $[a,b]$ by a theorem in Rudin. This completes the proof.
+\end{proof}
+
+\section{Problem 7.12}
+
+\begin{thm}
+Suppose $g$ and $f_n$ for $n \in \mathbb{N}$ are defined on $(0,\infty)$ and are Riemann-integrable on $[t,T]$ whenever $0 < t < T < \infty$, $|f_n| \leq g_n$, $f_n \to f$ uniformly on every compact subset of $(0,\infty)$, and $\int_0^\infty g(x) dx < \infty$. Prove that $\lim_{n \to \infty} \int_0^\infty f_n(x) dx = \int_0^\infty f(x) dx$. 
+\end{thm}
+
+\begin{proof}
+First, we will show that $f$ is integrable on $[0,\infty)$. We do this by noting that $f_n \to f$ uniformly and each $f_n \in \mathscr{R}$, which implies by a theorem in Rudin that $f \in \mathscr{R}$. Moreover, we can show that $\int_0^\infty$ is finite because we know that each $|f_n| \leq g$. Therefore, since $f_n$ is uniformly convergent, which implies pointwise convergence, we see that $|f(x)| \leq g(x)$ for all $x \in [0,\infty)$. Thus, for $n > m \in [0,\infty)$, we must have $|\int_m^n f(x) dx | \leq \int_n^m |f(x)| dx \leq \int_n^m g(x) dx$. 
+
+Since we have $\int_0^\infty g(x) dx < \infty$, we know that there exists an $J$ such that for all $j > J$, we have $\int_j^\infty g(x) dx < \epsilon$. To see why this is the case, we can assume the contrary. Then $\int_c^\infty g(x) > \epsilon$ for all $c \in [0,\infty)$. Thus, we would have:
+\begin{eqnarray}
+\lim_{d \to \infty} \int_0^d g(x) dx &=& \int_0^c g(x) dx + \lim_{d \to \infty} \int_c^d g(x) dx \\
+&\leq& \int_0^c g(x) dx + \lim_{d \to \infty} (d - c) \epsilon 
+\end{eqnarray}
+Since the integral term on the left is finite for a finite $c$, and the term on the right diverges, this would imply that $\int_0^\infty g(x) dx \nless \infty$, which is a contradiction of our assumption. Hence, there must exist a $J$ such that for $j > J$, we have $\int_j^\infty g(x) dx < \epsilon$.
+
+Moreover, since $f_n \to f$ uniformly, we can choose an $N$ such that for all $n > N$ and all $x \in [0,\infty)$, we have $|f_n(x) - f(x)| < \epsilon$. Therefore, we obtain the following:
+\begin{eqnarray}
+\left| \int_0^\infty f_n(x) - \int_0^\infty f(x) \right| &=& \int_0^j |f_n(x) - f(x)| dx + \int_j^\infty |f_n(x) - f(x)| dx \\
+&\leq& \int_0^j |f_n(x) - f(x)| dx + \int_j^\infty 2 g(x) dx \\
+&\leq& \epsilon (j - 0)  + 2 \epsilon \\
+&\leq& \epsilon( j + 2)
+\end{eqnarray}
+
+Since $\epsilon > 0$ was arbitrary and $j$ is a constant, we see that $\int_0^\infty f_n(x) \to \int_0^\infty f(x)$ as $n \to \infty$. 
+\end{proof}
+
+\section{Problem 7.14}
+
+\begin{thm}
+Let $f$ be a continuous real function on $\mathbb{R}^1$ with the following properties: $0 \leq f(t) \leq 1, f(t+2) = f(t)$ for every $t$, and
+\begin{eqnarray}
+f(t) = \left\{ \begin{array}{l l}
+0 & (0 \leq t \leq \frac{1}{3}) \\
+1 & (\frac{2}{3} \leq t \leq 1) \end{array} \right.
+\end{eqnarray}
+Put $\Phi (t) = (x(t), y(t))$ where $x(t) = \sum_{n=1}^\infty 2^{-n} f(3^{2n-1} t)$ and $y(t) = \sum_{n=1}^\infty 2^{-n} f(3^{2n} t)$. Prove that $\Phi$ is continuous and that $\Phi$ maps $I = [0,1]$ onto the unit square $I^2 \subset \mathbb{R}^2$. In fact, show that $\Phi$ maps the Cantor set onto $I^2$. 
+\end{thm}
+
+
+\begin{proof}
+First, we will show that $\Phi$ is continuous. To do this, it is enough to show that $x(t)$ and $y(t)$ are continuous. First, we know that $f$ is a continuous function by assumption of the real line. Moreover, we see that $x_i(t)$ and $y_i(t)$ are bounded:
+\begin{eqnarray}
+x_i(t) &=& \sum_{n=1}^i 2^{-n} f(3^{2n-1}t) \leq \sum_{n=1}^i |2^{-n} f(3^{2n-1}t)| \leq \sum_{n=1}^i 2^{-n} \\
+y_i(t) &=& \sum_{n=1}^i 2^{-n} f(3^{2n}t) \leq \sum_{n=1}^i |2^{-n} f(3^{2n}t)| \leq \sum_{n=1}^i 2^{-n} 
+\end{eqnarray}
+
+Since $\sum 2^{-n}$ converges, we see that $x_i \to x$ and $y_i \to y$ uniformly. Moreover, since each $x_i$ and $y_i$ is continuous, as it is a sum of multiples of a continuous function $f$, we see that $x$ and $y$ are continuous due to uniform convergence. Thus, we have shown that $\Phi$ is also continuous.
+
+Now we must show that $\Phi$ maps the Cantor set onto $I^2$. It is clear that we must have each $(x_0, y_0) \in I^2$ of the form 
+\begin{eqnarray}
+x_0 = \sum_{n=1}^\infty 2^{-n} a_{2n-1}, \hspace{1cm} y_0 = \sum_{n=1}^\infty 2^{-n} a_{2n}
+\end{eqnarray}
+
+Where each $a_i$ is either $0$ or $1$. It is clear then that $t_0 = \sum_{i=1}^\infty 3^{-i -1}(2 a_i)$ converges, since it is a geometric series, and moreover, it converges to a number in the range $[0,1]$ since $a_i$ can be either $0$ or $1$. Therefore, we can compute $3^k t_0$ in the following manner:
+\begin{eqnarray}
+3^k t_0 &=& \sum_{i=1}^\infty 3^{k-i-1} (2a_i) \\
+&=& 2 \sum_{i=1}^{k-1} 3^{k-1 - i} (a_i) + \sum_{j=0}^\infty 3^{-j-1} (2 a_{k+j}) \\
+&=& 2 N + \sum_{j=0}^\infty 3^{-j-1} (2 a_{k+j})
+\end{eqnarray}
+
+Here, $N$ is an integer. Since $f(x+2) = f(x)$, we see that $f(2N + x) = f(x)$ so that we obtain the following expression:
+\begin{equation}
+f(3^k t_0) = \sum_{j=0}^\infty 3^{-j-1} (2 a_{k+j})
+\end{equation}
+
+Now there are two options for $a_k$. We can either have $a_k = 0$, in which case we see that the first term with $j=0$ is $0$, so we get:
+\begin{eqnarray}
+\sum_{j=0}^\infty 3^{-j-1} (2 a_{j+k}) &=& \sum_{j=1}^\infty 3^{-j-1} 2 a_{j+k}
+\end{eqnarray}
+
+We can obtain a lower bound by assuming $a_i = 0$ for all $i > k$ and an upper bound by assuming $a_i = 1$ for all $i > k$. We see that the first series converges to $0$. The second series converges as follows:
+\begin{eqnarray}
+\sum_{j=1}^\infty 3^{-j-1} (2 a_{j+k}) &=& \frac{2}{3} \sum_{j=1}^\infty \frac{1}{3^j} \\
+&=& \frac{2}{3} \frac{ \frac{1}{3}}{1 - \frac{1}{3}} = \frac{1}{3}
+\end{eqnarray}
+
+Therefore, when $a_k = 0$, we see:
+\begin{eqnarray}
+0 \leq \sum_{j=0}^\infty 3^{-j-1} (2 a_{j+k}) \leq \frac{1}{3} \hspace{0.5cm} \Rightarrow \hspace{0.5cm} f(3^k t_0) = 0 = a_k
+\end{eqnarray}
+
+We can perform similar bounds for when $a_k = 1$. There, we see that the first term when $j=0$ is equal to $\frac{2}{3}$. Since we have already found the bounds for $\sum_{j=1}^\infty 3^{-j-1} 2 a_{j+k}$, we can just add them to $\frac{2}{3}$. Thus, we see that when $a_k = 1$, we have:
+\begin{eqnarray}
+\frac{2}{3} \leq \sum_{j=0}^\infty 3^{-j-1} (2 a_{j+k}) \leq 1 \hspace{0.5cm} \Rightarrow \hspace{0.5cm} f(3^k t_0) = 1 = a_k
+\end{eqnarray}
+
+By the definition of $x(t)$ and $y(t)$, we see that $\Phi(t_0) = (x_0, y_0)$, which implies that $\Phi$ is surjective. Moreover, the points $t_0$ are clearly the points appearing in the Cantor set. Thus, we have completed the proof.
+\end{proof}
+\end{document}

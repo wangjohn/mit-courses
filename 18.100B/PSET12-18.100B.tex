@@ -1,0 +1,360 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{18.100B PSET 12\\
+Problem Set }
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 7.15}
+
+\begin{thm}
+Suppose $f$ is a real continuous function on $\mathbb{R}^1$, $f_n(t) = f(nt)$ for $n \in \mathbb{N}$, and $\{ f_n \}$ is equicontinuous on $[0,1]$. Then $f$ is constant on $[0,\infty)$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. The equicontinuity condition implies that there exists a $\delta > 0$ such that $|f_n(x) - f_n(y)| < \epsilon$ whenever $|x - y| < \delta$ for all $x,y \in [0,1]$ and $f_n \in \{ f_n \}$. Therefore, let us pick any $t > 0$ and a corresponding $n$ such that $n > \frac{t}{\delta}$. Then we have $\delta > \frac{t}{n}$. Thus, we have the following expression:
+\begin{eqnarray}
+|f(t) - f(0)| &=& \left|f \left(t \frac{n}{n} \right) - f(0)\right| = \left| f_n \left(\frac{t}{n} \right) - f(0) \right| < \epsilon
+\end{eqnarray}
+Where the last inequality comes from the equicontinuity condition. Therefore, we see that for any arbitrary $t$, we have $|f(t) - f(0)| < \epsilon$. Moreover, since $\epsilon$ was arbitrary to begin with, we see that $f(t) = f(0)$ for all $t > 0$. We obtain $t>0$ because we have shown it possible to choose $n$ such that $\delta > \frac{t}{n}$, which means we can extend the notion of equicontinuity from $[0,1]$ to show that $f$ is constant on $[0,\infty)$.
+\end{proof}
+
+\section{Problem 7.16}
+
+\begin{thm}
+Suppose $\{ f_n \}$ is an equicontinuous sequence of functions on a compact set $K$, and $\{ f_n \}$ converges pointwise on $K$. Prove that $\{ f_n \}$ converges uniformly on $K$. 
+\end{thm}
+
+\begin{proof}
+First, we will show that $f$ is uniformly continuous. Since $\{ f_n \}$ converges pointwise on $K$, say to some function $f$, we can fix $\epsilon > 0$ and use the definition of pointwise convergence. We see that for all $x,y \in K$, there exists an $N = \max\{N_1, N_2 \}$ such that for $n > N$, we have $|f_n(x) - f(x)| < \epsilon$ and also $|f_n(y) - f(y)| < \epsilon$. Moreover, equicontinuity implies that there exists a $\delta > 0$ such that $|f_n(x) - f_n(y)| < \epsilon$ if $|x - y| < \delta$. This implies:
+\begin{eqnarray}
+|f(x) - f(y)| \leq |f(x) - f_n(x)| + |f_n(x) - f_n(y)| + |f_n(y) - f(y)| < 3 \epsilon
+\end{eqnarray} 
+
+For $x,y \in K$ and $| x - y| < \delta$. Therefore, we see that $f$ satisfies the conditions of uniformly continuity. Next, we will fix an $a \in K$ so that we may obtain the following inequality:
+\begin{eqnarray}
+|f_n(x) - f(x)| \leq |f_n(x) - f_n(a)| + |f_n(a) - f(a)| + |f(a) - f(x)|
+\end{eqnarray}
+
+First, we know that for each $a$ there exists an $M_a \in \mathbb{R}$ such that for all $n > M_a$, we have $|f_n(a) - f(a)| < \epsilon$ by the pointwise convergence of $\{ f_n \}$. Next, since we have already fixed $\delta > 0$, we know that $|f_n(x) - f_n(a)| < \epsilon$ for $x \in N_\delta(a)$ by equicontinuity. Finally, we have $|f(a) - f(x)| < \epsilon$ if $x \in N_\delta(a)$ by the uniform continuity of $f$. Therefore, $|f_n(x) - f(x)| < 3\epsilon$ if $x \in N_\delta(a)$ and $n > M_a$.
+
+Now, we can use compactness of $K$ to find finitely many points $a_1, \ldots, a_m$ such that $K \subset N_\delta(a_1) \cup \ldots \cup N_\delta(a_m)$. This can be done because every open cover has a finite cover in a compact set. Next define $M = \max\{ M_{a_1}, \ldots M_{a_m} \}$. Therefore, we can combine the inequalities we found for each $a$, and we see that $|f_n(x) - f(x)| < \epsilon$ for all $x \in K$ and all $n > M$. Since $\epsilon$ was arbitrary, we see that $\{ f_n \}$ converges uniformly in $K$. This completes the proof.
+\end{proof}
+
+\section{Problem 8.1}
+
+\begin{thm}
+Define $f(x) = e^{-1/x^2}$ if $x \neq 0$ and $f(x) = 0$ if $x = 0$. Prove that $f$ has derivatives of all orders at $x = 0$ and that $f^{(n)}(0) = 0$ for $n \in \mathbb{N}$.
+\end{thm}
+
+\begin{proof}
+Define $g(x) = e^{-1/x^2}$. We know that $e^{x}$ is differentiable by a theorem in Rudin. Moreover, we know that $- \frac{1}{x^2}$ is differentiable at every point except $x = 0$ because $x^2$ is differentiable. Thus, we see by the chain rule that $g(x) = e^{-1/x^2}$ is differentiable everywhere but at $x=0$. Moreover, the chain rule tells us that the derivative is given by $g'(x) = - \frac{2}{x^3} e^{-1/x^2} = -\frac{2}{x^3} g(x)$. We will use induction to find $g^(n)(x)$. First, we have already established the base case of $g'(x) = - \frac{2}{x^3} g(x)$. Assume that $g^{(n)}(x) = \sum_{k=1}^n c_k x^{-(2k + n)} g(x)$ where $c_k$ are constants. Then we have:
+\begin{eqnarray}
+g^{(n+1)}(x) &=& \frac{d}{dx} \sum_{k=1}^n c_k x^{-(2k + n)} g(x) \\
+&=& \sum_{k=1}^n -c_k (2k + n) x^{-(2k + n)-1} g(x) + \sum_{k=1}^n c_k x^{-(2k+n)} g'(x) \\
+&=& \sum_{k=1}^n c'_k x^{-(2k + (n+1))} g(x) + \sum_{k=1}^n c''_k x^{-(2k + n)- 3} g(x) \\
+&=& \sum_{k=1}^{n} c'_k x^{-(2k + (n+1))} g(x) + \sum_{k=1}^n c''_k x^{-(2(k+1)+(n+1))} g(x) \\
+&=& \sum_{k=1}^n c'_k x^{-(2k + (n+1))} g(x) + \sum_{k=2}^{n+1} c''_k x^{-(2k + (n+1))} g(x) \\
+&=& \sum_{k=1}^{n+1} \bar{c}_k x^{-(2k+(n+1))} g(x)
+\end{eqnarray}
+
+The last step comes from the fact that for indices $k=2$ through $k=n$, we have $(c'_k + c''_k) x^{-(2k+(n+1))}g(x)$, where $c'_k + c''_k$ is just another constant. Therefore, we have shown that $g^{(n)}(x) = \sum_{k=1}^n c_k x^{-(2k + n)} g(x)$ using mathematical induction. Therefore, since $f(x) = g(x)$ if $x \neq 0$, we see that $f(x)$ has derivatives of all order if $x \neq 0$, since we have already shown that $g(x)$ has derivatives of all orders. Now we are left to show that this still works at $x = 0$. 
+
+To do so, we will show that for any $r > 0$, we have $\lim_{x \to 0} x^{-r} g(x) = 0$. First, we note that for any $r \in \mathbb{R}$, we have $\lim_{h \to \infty} h^{r/2} e^{-h} = 0$ for $h > 1$ by a theorem in Rudin. Therefore, if we substitute $h = \frac{1}{x^2}$, we obtain:
+\begin{eqnarray}
+0 &=& \lim_{h \to \infty} h^{r/2} e^{-h} \\
+&=&  \lim_{\frac{1}{x^2} \to \infty} \frac{1}{x^r} e^{-\frac{1}{x^2}} \\
+&=& \lim_{x \to 0} x^{-r} g(x)
+\end{eqnarray}
+
+Thus, for every $n \in \mathbb{N}$, we have the following limit for the derivative of $g^{(n)}(0)$: 
+\begin{eqnarray}
+\lim_{x \to 0} g^{(n)}(x) &=& \lim_{x \to 0}  \sum_{k=1}^n c_k x^{-(2k + n)} g(x) \\
+&=& \sum_{k=1}^n c_k \lim_{x \to 0} x^{-(d_k)} g(x) \\
+&=& 0
+\end{eqnarray}
+
+Where we have replaced $(2k+n) = d_k$ as a positive constant. Since we have shown $\lim_{x \to 0} x^{-d_k} g(x) = 0$ for all positive constants $d_k$, we discover that $f^{(n)} (0) = 0 = \lim_{x \to 0} g^{(n)}(x)$. Therefore, for all $n \in \mathbb{N}$, we have shown that $f^{(n)}(0) = 0$ exists. This completes the proof.
+\end{proof}
+
+\section{Problem 8.2}
+
+\begin{thm}
+Let $a_{ij}$ be defined so that
+\begin{equation}
+a_{ij} = \left\{ \begin{array}{l l}
+0 & i < j \\
+-1 & i = j \\
+2^{j-i} &  i > j \end{array} \right. 
+\end{equation}
+Prove that $\sum_i \sum_j a_{ij} = -2$ and that $\sum_{j} \sum_i a_{ij} = 0$. 
+\end{thm}
+
+\begin{proof}
+First we will show that $\sum_i \sum_j a_{ij} = -2$. First pick $i \in \mathbb{N}$. The we have the following:
+\begin{eqnarray}
+\sum_{j} a_{ij} &=& \sum_{j=1}^i a_{ij} = -1 + \sum_{j=1}^{i-1} 2^{j-i}= -1 + \sum_{n=1}^{i-1} 2^{-n} = \frac{-1}{2^{i-1}}
+\end{eqnarray}
+
+Where we have made a substitution of $n = i - j$ and used the formula for computing geometric series. Thus, we find that when we sum over all $i \in \mathbb{N}$, we obtain:
+\begin{eqnarray}
+\sum_{i=1}^\infty \sum_{j=1}^\infty a_{ij} = \sum_{i=1}^\infty \frac{-1}{2^{i-1}} = \frac{1}{2} -4 = -2
+\end{eqnarray} 
+
+Next, we shall pick some $j \in \mathbb{N}$. Then we have the following:
+\begin{eqnarray}
+\sum_i a_{ij} &=& \sum_{i=j}^\infty a_{ij} = -1 + \sum_{i=j+1}^\infty 2^{j-i} = -1 + \sum_{n = 1}^\infty \frac{1}{2^n} = -1 + 1 = 0
+\end{eqnarray}
+
+Therefore, summing over all $j \in \mathbb{N}$, we find:
+\begin{eqnarray}
+\sum_{j=1}^\infty \sum_{i=1}^\infty a_{ij} = \sum_{j=1}^\infty 0 = 0 
+\end{eqnarray}
+
+This completes the proof.
+\end{proof}
+
+\section{Problem 8.4}
+
+\begin{thm}
+Prove that $\lim_{x \to 0} \frac{b^x - 1}{x} = \log b$ for $b> 0$. 
+\end{thm}
+
+\begin{proof}
+First assume that the derivative of $b^x$ for $b > 1$ is given by $b^x \ln b$. If this is the case, then we can use L'Hospital's Theorem to obtain the following: $\lim_{x \to 0} \frac{b^x - 1}{x} = \lim_{x \to 0} b^x \ln b = \ln b$. Thus, we only need to prove that $\frac{d}{dx} b^x = b^x \ln b$. 
+
+First, we note that for $b>0$, we have $b^x = e^{\ln b^x} = e^{ x \ln b}$. Now, we can use the chain rule to obtain the following:
+\begin{eqnarray}
+\frac{d}{dx} b^x &=& \frac{d}{dx} e^{x \ln b} \\
+&=& e^{x \ln b} \ln b  \\
+&=& b^x \ln b
+\end{eqnarray}
+
+Thus, we have completed the proof.
+\end{proof}
+
+\begin{thm}
+Prove that $\lim_{x \to 0} \frac{\ln(1+x)}{x} = 1$.
+\end{thm}
+
+\begin{proof}
+We can use L'Hospital's Theorem to obtain the following:
+\begin{eqnarray}
+\lim_{x \to 0} \frac{\ln(1+x)}{x} &=& \lim_{x \to 0} \frac{ \frac{1}{1+x}}{1} = \lim_{x \to 0} \frac{1}{1+x} = 1
+\end{eqnarray}
+
+This completes the proof. 
+\end{proof}
+
+\begin{thm}
+Prove that $\lim_{x \to 0} (1+x)^{1/x} = e$.
+\end{thm}
+
+\begin{proof}
+We will prove that $\lim_{x \to 0} (1+x)^{1/x} = e^{\lim_{x \to 0} \frac{1}{x} \ln (1+x)}$. Suppose that this is the case, then we have: 
+\begin{eqnarray}
+\lim_{x \to 0} (1+x)^{1/x} = e^{\lim_{x \to 0} \frac{1}{x} \ln(1+x)} = e^{\lim_{x \to 0} \frac{1}{1+x}} = e^1 = e
+\end{eqnarray}
+
+Thus, we only need to show that $\lim_{x \to 0} (1+x)^{1/x} = e^{\lim_{x \to 0} \frac{1}{x}\ln (1+x)}$. Well, a theorem in Rudin shows that that $y^{\alpha} = E(\alpha L(y)) = e^{\alpha \ln y}$ for any $\alpha \in \mathbb{Q}$ and $y > 0$. Therefore, substituting $y = (1+x)$ and $\alpha = 1/x$, we obtain $(1+x)^{1/x} = e^{\frac{1}{x} \ln(1+ x)}$. Next, we will show that the limit commutes. We have:
+\begin{eqnarray}
+\lim_{x \to 0} (1+x)^{1/x} &=& \lim_{x \to 0} e^{\frac{1}{x} \ln(1+ x)}
+\end{eqnarray}
+
+A theorem in Rudin says that if $f$ and $g$ are both continuous functions at $0$ and $f(0)$ respectively, then $h(x) = g(f(x))$ is continuous at $0$. Let $f(x) = \frac{1}{x} \ln(1+x)$ and $g(x) = e^x$. A theorem in Rudin says that $e^x$ is continuous for every $x \in \mathbb{R}$. Moreover, we can show that $f(x)$ is continuous at $0$. This is because the limit is well defined:
+\begin{eqnarray}
+\lim_{x \to 0} f(x) = \lim_{x \to 0} \frac{\ln(1+x)}{x} = \lim_{x \to 0} \frac{1}{1+x} = 1
+\end{eqnarray}
+
+Therefore, all the conditions are satisfied, and we know that $h(x) = g(f(x)) = (1+x)^{1/x}$ is continuous at $0$. Therefore, we can commute the limit by a theorem in Rudin so that $\lim_{x \to 0} h(x) = g( \lim_{x \to 0} f(x))$, which is what we wanted to show. Note that for later problems, it is possible to generalize this, and we will prove a lemma to which we will refer later.
+\end{proof}
+
+\begin{lem}
+If $p \in \bar{\mathbb{R}}$ and $\lim_{x \to p} g(x) = P$ is defined, then $\lim_{x \to p} g(x) = e^{\lim_{x \to p} \ln g(x)}$. 
+\end{lem}
+
+\begin{proof}
+We know that $g(x)$ is continuous at $p$. Now define $g(x) = e^x$. We know that $g(x)$ is continuous at all $x \in \mathbb{R}$ by a theorem in Rudin. Therefore, we can define $h(x) = g(f(x))$ and see that $h(x)$ is continuous at $p$ by a theorem in Rudin. Therefore, it is possible to commute the limit and have $\lim_{x \to p} h(x) = \lim_{x \to p} g(f(x)) = g(\lim{x \to p} f(x))$. Moreover, since we know that $e^{\ln f(x)} = f(x)$ is also continuous at $p$ by the fact that $\ln f(x)$ is continuous, we have the shown that $\lim_{x \to p} f(x) = \lim_{x \to p} e^{\ln f(x)} = e^{ \lim_{x \to p} \ln f(x)}$, which is what we wanted. 
+\end{proof}
+
+\begin{thm}
+Prove that $\lim_{n \to \infty} (1+ \frac{x}{n})^n = e^x$.
+\end{thm}
+
+\begin{proof}
+We will use L'Hospital's Theorem and a change of variable for $t = \frac{1}{n}$ to obtain:
+\begin{eqnarray}
+{\lim_{n \to \infty} \ln \left(1+ \frac{x}{n} \right)^n} &=& {\lim_{n \to \infty} n \ln \left(1+ \frac{x}{n} \right)} \\
+&=& \lim_{t \to 0} \frac{ \ln(1 + t x)}{t} \\
+&=& \lim_{t \to 0} \frac{x}{1+tx} \\
+&=& x
+\end{eqnarray}
+
+By lemma 5.8, we see that $\lim_{n \to \infty} (1+ \frac{x}{n})^n = e^{\lim_{n \to \infty} \ln(1 + \frac{x}{n})^n} = e^{-x}$, which is what we wanted. 
+\end{proof}
+
+\section{Problem 8.5}
+
+\begin{thm}
+Find $\lim_{x \to 0} \frac{ e - (1+x)^{1/x}}{x}$.
+\end{thm}
+
+\begin{proof}
+Using L'Hospital's Theorem and lemma 5.8 we obtain:
+\begin{eqnarray}
+\lim_{x \to 0} \frac{e - (1+x)^{1/x}}{x} &=& \lim_{x \to 0} \frac{e - e^{\frac{1}{x} \ln(1+x)}}{x} \\
+&=& \lim_{x \to 0} - e^{\frac{1}{x} \ln(1+x) } \left( \frac{1}{x(1+x)} - \frac{1}{x^2} \ln(1+x) \right) \\
+&=& \lim_{x \to 0} - (1+x)^{1/x} \left( \frac{x - (1+x)\ln(1+x)}{x^2(1+x)} \right) \\
+&=& -e \lim_{x \to 0}  \left( \frac{x - (1+x)\ln(1+x)}{x^2(1+x)} \right) \\
+&=& -e \lim_{x \to 0} \frac{1 - \frac{1}{1+x} - \ln(1+x) - \frac{x}{1+x}}{3x^2 + 2x} \\
+&=& -e \lim_{x \to 0} \frac{-\ln(1+x)}{3x^2 + 2x} \\
+&=& e \lim_{x \to 0} \frac{1}{(1+x) (6x + 2)} \\
+&=& \frac{e}{2}
+\end{eqnarray}
+\end{proof}
+
+\begin{thm}
+Find $\lim_{n \to \infty} \frac{n}{\ln n} (n^{1/n} - 1)$. 
+\end{thm}
+
+\begin{proof}
+Using L'Hospital's Theorem, lemma 5.8, and the theorem in Rudin stating $\lim_{n \to \infty} n^{1/n} = 1$, we find:
+\begin{eqnarray}
+\lim_{n \to \infty} \frac{n}{\ln n} (n^{1/n} -1) &=& \lim_{n \to \infty} \frac{n}{\ln n} (e^{\frac{1}{n} \ln n} - 1)\\
+&=&  \lim_{n \to \infty} \frac{ e^{\frac{1}{n} \ln n} - 1}{\frac{1}{n} \ln n} \\
+&=& \lim_{n \to \infty} \frac{ e^{\frac{1}{n} \ln n} \left( \frac{\ln n - 1}{n^2} \right) }{ \frac{\ln n - 1}{n^2}} \\
+&=& \lim_{n \to \infty} n^{1/n} \\
+&=& 1
+\end{eqnarray}
+\end{proof}
+
+\begin{thm}
+Find $\lim_{x \to 0} \frac{ \tan x - x}{x ( 1 - \cos x)}$. 
+\end{thm}
+
+\begin{proof}
+Using L'Hospital's Theorem and the trigonometric identities $\sec^2 x - 1 = \tan^2 x$ and the fact that $\frac{d}{dx} \tan x = \sec^2 x$, we obtain:
+\begin{eqnarray}
+\lim_{x \to 0} \frac{\tan x - x}{x(1 - \cos x)} &=& \lim_{x \to 0} \frac{ \sec^2 x - 1}{1 + x \sin x - \cos x} \\
+&=& \lim_{x \to 0} \frac{ \tan^2 x}{1 - \cos x + x \sin x} \\
+&=& \lim_{x \to 0} \frac{ 2 \tan x \sec^2 x}{2 \sin x + x \cos x} \\
+&=& \lim_{x \to 0} \frac{ 2 \tan x}{2 \cos^2 x \sin x + x \cos^3 x} \\
+&=& \lim_{x \to 0} \frac{-4 \sec^2 x}{\cos x (3 x \sin 2x - 7 \cos 2x + 1)} \\
+&=& \frac{-4}{ \lim_{x \to 0} \cos^3 x (3x \sin 2x - 7 \cos 2x + 1)} \\
+&=& \frac{-4}{-7 + 1} \\
+&=& \frac{2}{3}
+\end{eqnarray}
+\end{proof}
+
+\begin{thm}
+Find $\lim_{x \to 0} \frac{x - \sin x}{\tan x - x}$.
+\end{thm}
+
+\begin{proof}
+Using some common trigonometric identities, such as $\sin 2x = 2 \cos x \sin x$, $\sec^2 x - 1 = \tan^2 x$, and $\tan x = \frac{\sin x}{\cos x}$, as well as L'Hospital's Theorem, we obtain the following expression:
+\begin{eqnarray}
+\lim_{x \to 0} \frac{ x - \sin x}{\tan x - x} &=& \lim_{x \to 0} \frac{1 - \cos x}{\sec^2 x - 1} \\
+&=& \lim_{x \to 0} \frac{1 - \cos x}{\tan^2 x} \\
+&=& \lim_{x \to 0} \frac{(1 - \cos x) \cos^2 x}{ \sin^2 x} \\
+&=& \lim_{x \to 0} \frac{\sin x \cos x ( 3 \cos x - 2)}{\sin 2x} \\
+&=& \lim_{x \to 0} \frac{1}{2} \frac{\sin 2x}{ \sin 2x} (3 \cos x - 3) \\
+&=& \frac{1}{2} 
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 8.9}
+
+\begin{thm}
+Put $s_N = 1 + \frac{1}{2} + \ldots + \frac{1}{N}$. Prove that $\lim_{N \to \infty} (s_N - \ln N)$ exists. 
+\end{thm}
+
+\begin{proof}
+We let $\gamma = \lim_{N \to \infty} s_N - \ln N$ and note that we have the following telescoping sum:
+\begin{eqnarray}
+g(x) = \lim_{N \to \infty} \sum_{n=1}^N \frac{1}{n} - \ln( n+1) + \ln n = \lim_{N \to \infty} \sum_{n=1}^N \frac{1}{n} - \ln(N+1)
+\end{eqnarray}
+
+If we can show that $\lim_{N \to \infty} g_N (x)$ converges, then we can show that $\gamma$ converges as well. This is because $\ln(N+1)$ and $\ln(N)$ converge to the same thing. Formally, we have $\lim_{N \to \infty} \ln(N+1) - \ln N = \lim_{N \to \infty} \ln(1 + \frac{1}{N} ) = \ln 1 = 0$. Therefore, we only must show that $g(x)$ converges to show that $\gamma$ converges. By the properties of logarithms, we have:
+\begin{eqnarray}
+g(x) &=& \sum_{n=1}^\infty \frac{1}{n} - \ln(n+1) + \ln n \\
+&=& \sum_{n=1}^\infty \frac{1}{n} + \ln \left(1 + \frac{1}{n} \right) \\
+\end{eqnarray}
+
+Now, we will show that the summand is bounded by $x^2$. First we take the function $f(x) = x^2 - x - \ln( 1- x)$. We must show that for $x = \frac{1}{n}$, we always have $f(x) > 0$. First, we show that $f'(x) = 2x - 1 - \frac{1}{1-x}$ and $f''(x) = 2 + \frac{1}{(1-x)^2}$. We see that $f''(x) > 0$ for all $x \in \mathbb{R}$, and that $f'(0) = 0$. Therefore, $f'(x) > 0$ for all $x > 0$. Next, we see that $f(0) = 0$, which shows that $f(x) > 0$ for all $x > 0$. Thus, substituting $x = \frac{1}{n}$, we have discovered that $f(1/n) = \frac{1}{n^2} - \frac{1}{n} - \ln(1 - \frac{1}{n} ) > 0$. Rearranging, we have the following inequalities:
+\begin{eqnarray}
+0 < \frac{1}{n} + \ln \left(1 - \frac{1}{n} \right) < \frac{1}{n^2}
+\end{eqnarray}
+
+The lower bound of $0$ comes from the fact that $n \in \mathbb{N}$ must be positive and so $\ln(1 + \frac{1}{n}) > 0$. Therefore, taking sums and limits, we have:
+\begin{eqnarray}
+\lim_{N \to \infty} \sum_{n=1}^N g(x) < \lim_{N \to \infty} \sum_{n=1}^N \frac{1}{n^2} \hspace{0.5cm} \Rightarrow \hspace{0.5cm} \sum_{n=1}^\infty g(x) < \sum_{n=1}^\infty \frac{1}{n^2} 
+\end{eqnarray} 
+
+We know that $\sum \frac{1}{n^2}$ converges because it is a geometric series with $p = 2$, so by the comparison test, we know that $\sum g(x)$ also converges. Since we have shown above that the convergence of $g(x)$ implies the convergence of $\gamma$, we have completed our proof.
+\end{proof}
+
+\begin{thm}
+Roughly how large must $m$ be so that $N = 10^m$ satisfies $s_N > 100$? 
+\end{thm}
+
+\begin{proof}
+Since we know that $0 \leq s_N - \ln N \leq \sum \frac{1}{n^2}$ for all $N \in \mathbb{N}$, we have the following inequality for $s_N$:
+\begin{eqnarray}
+\ln N \leq s_N \leq \ln N + \frac{1}{n^2}
+\end{eqnarray}
+
+Therefore, in order for $s_N > 100$, we must have $\ln N > 100$. This implies that we need $\ln 10^m > 100$, which is the same as $e^{100} < 10^m$. Therefore, we want $m = \log_{10}( e^{100})$ in order for $s_N > 100$. 
+\end{proof}
+
+\end{document}

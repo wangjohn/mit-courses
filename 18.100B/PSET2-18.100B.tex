@@ -1,0 +1,90 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+%--------Meta Data: Fill in your info------
+\title{18.100B \\
+Problem Set 2}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\voffset = -10pt
+\textheight = 600pt
+
+\section{Problem 2.11}
+
+\begin{thm}
+The distance $d_1(x,y) = (x-y)^2$ is not a metric.
+\end{thm}
+
+\begin{proof}
+Here, the third requirement for a metric does not hold, namely that $d(x,y) \leq d(x,r) + d(r,y)$. This is because $d_1(x,y) = (x-y)^2 = x^2 - 2xy + y^2$ and $d_1(x,r) + d_1(r,y) = x^2 - 2xr + r^2 +r^2 - 2ry + y^2 = x^2 + y^2 + 2r^2 - 2xr - 2ry$. Thus, one must have $-2xy \leq 2r^2 - 2xr - 2ry$ for all $r \in \mathbb{R}^1$ for $d_1$ to be a metric. This is the same as $xy \geq r(x+y-r)$. However, if one sets $ x = 2$ and $ y = 0$, this inequality does not hold for all values of $r$. For instance, $ 0 \not\le 1 ( 2 - 1) = 1 $ which shows that $d_1$ is not a metric. 
+\end{proof}
+
+\begin{thm}
+The distance $d_2(x,y) = \sqrt{|x-y |}$ is a metric.
+\end{thm}
+
+\begin{proof}
+The first two properties of a metric are easy to prove. We know $d_2(x,y) > 0$ holds for all $x \neq y$ and $d_2(x,x) = 0$ because square roots of positive numbers are always positive. Next, $d_2(x,y) = d_2(y,x)$ because $|x - y| = |y-x|$. Finally, we have $ d_2(x,y) \leq d_2(x,r) + d_2(r,y)$ for all $r \in \mathbb{R}^1$. This is because the triangle inequality for absolute values states that $|x-y| \leq |x-r| + |r-y|$, which means $d_2(x,y) \leq \sqrt{|x-r| + |r-y|} = \sqrt{ d_2(x,r)^2 + d_2(r,y)^2}$. However, by the triangle equality, we know that $ \sqrt{ d_2(x,r)^2 + d_2(r,y)^2} \leq d_2(x,r) + d_2(r,y)$, and so that $d_2(x,y) \leq d_2(x,r) + d_2(r,y)$ for all $r \in \mathbb{R}^1$.  Thus, $d_2$ is a metric. 
+\end{proof}
+
+\begin{thm}
+The distance $d_3(x,y) = |x^2 - y^2|$ is not a metric.
+\end{thm}
+
+\begin{proof}
+The first property of metrics does not hold. For instance, if $x = 1$ and $y = -1$, then $x \neq y$, but $d_3(x,y) = 0$, which means $d_3$ is not a metric.
+\end{proof}
+
+\begin{thm}
+The distance $d_4(x,y) = |x-2y|$ is not a metric.
+\end{thm}
+
+\begin{proof}
+We know that a metric must have the property $d_4(x,y) > 0$ if $x \neq y$. However, this property does not hold for $x = 2$ and $y = 1$, where $d_4(x,y) = 0$ and $x \neq y$. Thus, $d_4$ is not a metric.
+\end{proof}
+
+\end{document}
+

@@ -1,0 +1,482 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdflatex 2011.3.25)  13 DEC 2011 23:25
+entering extended mode
+**C:/Users/John/Documents/MIT/Course*18/18.353/Final*Project/Final*Project2.tex
+
+("C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/Final Project2.tex
+"
+LaTeX2e <2009/09/24>
+Babel <v3.8l> and hyphenation patterns for english, dumylang, nohyphenation, ge
+rman, ngerman, german-x-2009-06-19, ngerman-x-2009-06-19, french, loaded.
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\IEEEtran.cls"
+Document Class: IEEEtran 2007/03/05 V1.7a by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen102
+\@IEEEtrantmpdimenB=\dimen103
+\@IEEEtrantmpcountA=\count79
+\@IEEEtrantmpcountB=\count80
+\@IEEEtrantmptoksA=\toks14
+-- Using IEEE Computer Society mode.
+LaTeX Font Info:    Try loading font information for OT1+ppl on input line 366.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\ot1ppl.fd"
+File: ot1ppl.fd 2001/06/04 font definitions for OT1/ppl.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen104
+-- This is a 12 point document.
+\CLASSINFOnormalsizebaselineskip=\dimen105
+\CLASSINFOnormalsizeunitybaselineskip=\dimen106
+\IEEEnormaljot=\dimen107
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <6> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <6> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <14> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <14> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <22> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <22> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ppl/b/n' tried instead on input line 724.
+LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ppl/b/it' tried instead on input line 724.
+\IEEEilabelindentA=\dimen108
+\IEEEilabelindentB=\dimen109
+\IEEEilabelindent=\dimen110
+\IEEEelabelindent=\dimen111
+\IEEEdlabelindent=\dimen112
+\IEEElabelindent=\dimen113
+\IEEEiednormlabelsep=\dimen114
+\IEEEiedmathlabelsep=\dimen115
+\IEEEiedtopsep=\skip41
+\c@section=\count81
+\c@subsection=\count82
+\c@subsubsection=\count83
+\c@paragraph=\count84
+\c@IEEEsubequation=\count85
+\abovecaptionskip=\skip42
+\belowcaptionskip=\skip43
+\c@figure=\count86
+\c@table=\count87
+\@IEEEeqnnumcols=\count88
+\@IEEEeqncolcnt=\count89
+\@IEEEtmpitemindent=\dimen116
+\c@IEEEbiography=\count90
+\@IEEEtranrubishbin=\box26
+) ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\oberdiek\pdflscape.sty"
+Package: pdflscape 2008/08/11 v0.10 Landscape pages in PDF (HO)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\lscape.sty"
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphics.sty"
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\trig.sty"
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\00miktex\graphics.cfg"
+File: graphics.cfg 2007/01/18 v1.5 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\pdftex-def\pdftex.def"
+File: pdftex.def 2010/02/14 v0.04n Graphics/color for pdfTeX
+\Gread@gobject=\count91
+)))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\generic\oberdiek\ifpdf.sty"
+Package: ifpdf 2010/01/28 v2.1 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in pdf mode detected.
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 77.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ifxetex\ifxetex.sty"
+Package: ifxetex 2009/01/23 v0.5 Provides ifxetex conditional
+))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\rotating\rotating.sty"
+Package: rotating 2009/03/28 v2.16a rotated objects in LaTeX
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\graphicx.sty"
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\graphics\keyval.sty"
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+\Gin@req@height=\dimen117
+\Gin@req@width=\dimen118
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\base\ifthen.sty"
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count92
+\rotFPtop=\skip44
+\rotFPbot=\skip45
+\rot@float@box=\box27
+\rot@mess@toks=\toks16
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\multirow\multirow.sty"
+\bigstrutjot=\dimen119
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\tools\dcolumn.sty"
+Package: dcolumn 2001/05/28 v1.06 decimal alignment package (DPC)
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\tools\array.sty"
+Package: array 2008/09/09 v2.4c Tabular extension package (FMi)
+\col@sep=\dimen120
+\extrarowheight=\dimen121
+\NC@list=\toks17
+\extratabsurround=\skip46
+\backup@length=\skip47
+))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\booktabs\booktabs.sty"
+Package: booktabs 2005/04/14 v1.61803 publication quality tables
+\heavyrulewidth=\dimen122
+\lightrulewidth=\dimen123
+\cmidrulewidth=\dimen124
+\belowrulesep=\dimen125
+\belowbottomsep=\dimen126
+\aboverulesep=\dimen127
+\abovetopsep=\dimen128
+\cmidrulesep=\dimen129
+\cmidrulekern=\dimen130
+\defaultaddspace=\dimen131
+\@cmidla=\count93
+\@cmidlb=\count94
+\@aboverulesep=\dimen132
+\@belowrulesep=\dimen133
+\@thisruleclass=\count95
+\@lastruleclass=\count96
+\@thisrulewidth=\dimen134
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsmath.sty"
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip48
+
+For additional information on amsmath, use the `?' option.
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amstext.sty"
+Package: amstext 2000/06/29 v2.01
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsgen.sty"
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks18
+\ex@=\dimen135
+))
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsbsy.sty"
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen136
+)
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\ams\math\amsopn.sty"
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count97
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count98
+\leftroot@=\count99
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count100
+\DOTSCASE@=\count101
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box28
+\strutbox@=\box29
+\big@size=\dimen137
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count102
+\c@MaxMatrixCols=\count103
+\dotsspace@=\muskip10
+\c@parentequation=\count104
+\dspbrk@lvl=\count105
+\tag@help=\toks19
+\row@=\count106
+\column@=\count107
+\maxfields@=\count108
+\andhelp@=\toks20
+\eqnshift@=\dimen138
+\alignsep@=\dimen139
+\tagshift@=\dimen140
+\tagwidth@=\dimen141
+\totwidth@=\dimen142
+\lineht@=\dimen143
+\@envbody=\toks21
+\multlinegap=\skip49
+\multlinetaggap=\skip50
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+)
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\Final Project2.aux
+")
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
+LaTeX Font Info:    ... okay on input line 14.
+ ("C:\Program Files (x86)\MiKTeX 2.8\tex\context\base\supp-pdf.tex"
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count109
+\scratchdimen=\dimen144
+\scratchbox=\box30
+\nofMPsegments=\count110
+\nofMParguments=\count111
+\everyMPshowfont=\toks23
+\MPscratchCnt=\count112
+\MPscratchDim=\dimen145
+\MPnumerator=\count113
+\everyMPtoPDFconversion=\toks24
+)
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 24.
+ ("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\ot1phv.fd"
+File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
+)
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <14> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 24.
+LaTeX Font Info:    Calculating math sizes for size <14> on input line 24.
+LaTeX Font Info:    Try loading font information for U+pzd on input line 24.
+
+("C:\Program Files (x86)\MiKTeX 2.8\tex\latex\psnfss\upzd.fd"
+File: upzd.fd 2001/06/04 font definitions for U/pzd.
+)
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 26.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 27.
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <14> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 30.
+LaTeX Font Info:    Font shape `OT1/phv/bx/sc' in size <14> not available
+(Font)              Font shape `OT1/phv/b/sc' tried instead on input line 30.
+
+Underfull \hbox (badness 2460) in paragraph at lines 32--33
+\OML/cmm/m/it/12 X; Y;$ \OT1/ppl/m/n/12 and $\OML/cmm/m/it/12 Z$ \OT1/ppl/m/n/1
+2 are the num-ber of scal-lops,
+ []
+
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <12> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 59.
+
+Underfull \hbox (badness 1990) in paragraph at lines 67--68
+\OT1/ppl/m/n/12 scal-lops and cownose rays are promi-nent,
+ []
+
+[1{C:/ProgramData/MiKTeX/2.8/pdftex/config/pdftex.map}
+
+
+]
+Overfull \hbox (5.82169pt too wide) in paragraph at lines 81--104
+ [][] 
+ []
+
+
+Overfull \hbox (5.06645pt too wide) in alignment at lines 109--119
+ [][][] []
+ []
+
+[2]
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <8> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 202.
+ [3] [4]
+Underfull \hbox (badness 4391) in paragraph at lines 259--260
+[]\OT1/ppl/m/n/12 Moreover, we can say some-thing even
+ []
+
+<attractor.png, id=34, 389.95688pt x 247.67531pt>
+File: attractor.png Graphic file (type png)
+ <use attractor.png>
+<noattractor.png, id=36, 393.72093pt x 256.70906pt>
+File: noattractor.png Graphic file (type png)
+ <use noattractor.png>
+[5 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/attractor.png> <
+C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/noattractor.png>]
+<pear.png, id=42, 389.95688pt x 249.93375pt>
+File: pear.png Graphic file (type png)
+ <use pear.png>
+<limitcycle.png, id=43, 383.93437pt x 249.18094pt>
+File: limitcycle.png Graphic file (type png)
+ <use limitcycle.png>
+<chaoscycle.png, id=44, 381.67593pt x 246.1697pt>
+File: chaoscycle.png Graphic file (type png)
+ <use chaoscycle.png>
+<chaosxt.png, id=45, 877.02657pt x 231.11343pt>
+File: chaosxt.png Graphic file (type png)
+ <use chaosxt.png>
+<map.png, id=46, 421.575pt x 316.18124pt>
+File: map.png Graphic file (type png)
+ <use map.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[6 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/pear.png> <C:/Us
+ers/John/Documents/MIT/Course 18/18.353/Final Project/limitcycle.png> <C:/Users
+/John/Documents/MIT/Course 18/18.353/Final Project/chaoscycle.png> <C:/Users/Jo
+hn/Documents/MIT/Course 18/18.353/Final Project/chaosxt.png (PNG copy)>]
+<fptransient.png, id=53, 900.36375pt x 304.13625pt>
+File: fptransient.png Graphic file (type png)
+ <use fptransient.png>
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 377--378
+ [][] 
+ []
+
+[7 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/map.png (PNG cop
+y)> <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/fptransient.png
+ (PNG copy)>] <fractaldimen.png, id=58, 767.86874pt x 310.91156pt>
+File: fractaldimen.png Graphic file (type png)
+
+<use fractaldimen.png> <naturaleco.png, id=59, 380.17032pt x 262.73157pt>
+File: naturaleco.png Graphic file (type png)
+
+<use naturaleco.png>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 4403) in paragraph at lines 424--425
+[]\OT1/ppl/m/n/12 The shark pop-u-la-tion ($\OML/cmm/m/it/12 z$ \OT1/ppl/m/n/12
+ co-or-di-nate) is
+ []
+
+<naturalecoxy.png, id=60, 828.84656pt x 242.40562pt>
+File: naturalecoxy.png Graphic file (type png)
+ <use naturalecoxy.png>
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 428--429
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[8 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/fractaldimen.png
+ (PNG copy)>]
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <12> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 437.
+ <longtermxt.png, id=64, 732.48656pt x 316.18124pt>
+File: longtermxt.png Graphic file (type png)
+
+<use longtermxt.png>
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 442--443
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<sharkdeath.png, id=65, 378.66469pt x 243.15843pt>
+File: sharkdeath.png Graphic file (type png)
+ <use sharkdeath.png>
+[9 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/naturaleco.png> 
+<C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/naturalecoxy.png (P
+NG copy)> <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/longtermx
+t.png (PNG copy)> <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/s
+harkdeath.png>] <doublefishing.png, id=71, 378.66469pt x 237.88875pt>
+File: doublefishing.png Graphic file (type png)
+
+<use doublefishing.png> <stablex2.png, id=72, 383.18156pt x 260.47313pt>
+File: stablex2.png Graphic file (type png)
+
+<use stablex2.png> <bansharkfishing.png, id=73, 849.1725pt x 316.18124pt>
+File: bansharkfishing.png Graphic file (type png)
+
+<use bansharkfishing.png>
+Overfull \hbox (4.55872pt too wide) in paragraph at lines 486--487
+ [][] 
+ []
+
+[10 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/doublefishing.p
+ng> <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/stablex2.png> <
+C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/bansharkfishing.png 
+(PNG copy)>] <pear2.png, id=79, 372.64218pt x 254.45062pt>
+File: pear2.png Graphic file (type png)
+ <use pear2.png>
+<peartrajectory.png, id=80, 877.77937pt x 316.18124pt>
+File: peartrajectory.png Graphic file (type png)
+
+<use peartrajectory.png>
+Overfull \hbox (4.55872pt too wide) in paragraph at lines 508--509
+ [][] 
+ []
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+[11 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/pear2.png> <C:/
+Users/John/Documents/MIT/Course 18/18.353/Final Project/peartrajectory.png (PNG
+ copy)>] <success.png, id=85, 880.03781pt x 316.18124pt>
+File: success.png Graphic file (type png)
+ <use success.png>
+Overfull \hbox (0.94499pt too wide) in paragraph at lines 540--541
+ [][] 
+ []
+
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\Final Project2.bbl
+") [12 <C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/success.png 
+(PNG copy)>]
+("C:\Users\John\Documents\MIT\Course 18\18.353\Final Project\Final Project2.aux
+") ) 
+Here is how much of TeX's memory you used:
+ 2727 strings out of 495285
+ 40260 string characters out of 3179830
+ 102473 words of memory out of 3000000
+ 5860 multiletter control sequences out of 15000+200000
+ 52358 words of font info for 106 fonts, out of 3000000 for 9000
+ 17 hyphenation exceptions out of 8191
+ 32i,10n,21p,1214b,299s stack positions out of 5000i,500n,10000p,200000b,50000s
+{C:/Program Files (x86)/MiKTeX 2.8/fonts/enc/dvips/fontname/8r.enc}<C:/Prog
+ram Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/Progra
+m Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Program 
+Files (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi6.pfb><C:/Program Fil
+es (x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi8.pfb><C:/Program Files 
+(x86)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmmi9.pfb><C:/Program Files (x8
+6)/MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files (x86)/
+MiKTeX 2.8/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files (x86)/MiKT
+eX 2.8/fonts/type1/public/amsfonts/cm/cmr6.pfb><C:/Program Files (x86)/MiKTeX 2
+.8/fonts/type1/public/amsfonts/cm/cmr8.pfb><C:/Program Files (x86)/MiKTeX 2.8/f
+onts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts
+/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/t
+ype1/public/amsfonts/cm/cmsy6.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type
+1/public/amsfonts/cm/cmsy8.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/p
+ublic/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/
+helvetic/uhvb8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/helvetic
+/uhvr8a.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/helvetic/uhvro8a
+.pfb><C:/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/palatino/uplb8a.pfb><C:
+/Program Files (x86)/MiKTeX 2.8/fonts/type1/urw/palatino/uplr8a.pfb><C:/Program
+ Files (x86)/MiKTeX 2.8/fonts/type1/urw/palatino/uplri8a.pfb><C:/Program Files 
+(x86)/MiKTeX 2.8/fonts/type1/urw/zapfding/uzdr.pfb>
+Output written on "Final Project2.pdf" (12 pages, 420742 bytes).
+PDF statistics:
+ 156 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 500000)
+ 96 words of extra memory for PDF output out of 10000 (max. 10000000)
+

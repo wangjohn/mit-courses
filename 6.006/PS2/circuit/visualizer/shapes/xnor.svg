@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="100%" width="100%" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 90.967 67.627">
+ <g stroke="#000" stroke-miterlimit="4" transform="translate(0.00442955,-984.738)">
+  <path stroke-width="0" fill="#FFF" d="m1.3,986.06c7.258,12.571,9.044,22.083,9.044,32.486,0,12.555-3.1508,22.307-9.044,32.514l8.5205-0.01c5.8932-10.207,9.044-19.959,9.044-32.514,0-10.403-1.786-19.915-9.044-32.486z" fill="none"/>
+  <path stroke-linejoin="miter" d="m9.8205,986.05c7.258,12.571,9.044,22.083,9.044,32.486,0,12.555-3.1508,22.307-9.044,32.514,22.786,0,57.7-10.868,70.465-31.835-12.892-19.49-48.044-33.15-70.464-33.15z" stroke-linecap="butt" stroke-width="2.5999999" fill="#FFF"/>
+  <path stroke-linejoin="round" stroke-linecap="round" d="m1.3,986.06c7.258,12.571,9.044,22.083,9.044,32.486,0,12.555-3.1508,22.307-9.044,32.514" stroke-width="2.5999999" fill="none"/>
+  <path stroke-linejoin="round" d="m262.64,439.45a1.7046,1.7678,0,1,1,-3.4093,0,1.7046,1.7678,0,1,1,3.4093,0z" transform="matrix(2.597113,0,0,2.597113,-592.4028,-122.29744)" stroke-dashoffset="0" stroke-linecap="butt" stroke-width="1" fill="#FFF"/>
+ </g>
+</svg>

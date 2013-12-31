@@ -1,0 +1,923 @@
+%
+% 6.006 problem set 5
+%
+\documentclass[12pt,twoside]{article}
+
+\input{macros}
+
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{mdwlist}
+\usepackage{graphicx}
+\usepackage{clrscode3e}
+\newcommand{\isnotequal}{\mathrel{\scalebox{0.8}[1]{!}\hspace*{1pt}\scalebox{0.8}[1]{=}}}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
+\usetikzlibrary{matrix}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{trees}
+
+\newcommand{\answer}{
+ \par\medskip
+ \textbf{Answer:}
+}
+
+\newcommand{\collaborators}{ \textbf{Collaborators:}
+%%% COLLABORATORS START %%%
+John Wang, Varun Ganesan, Albert Wu
+%%% COLLABORATORS END %%%
+}
+
+\newcommand{\answerIa}{ \answer
+%%% PROBLEM 1(a) ANSWER START %%%
+3
+%%% PROBLEM 1(a) ANSWER END %%%
+}
+
+\newcommand{\answerIb}{ \answer
+%%% PROBLEM 1(b) ANSWER START %%%
+3
+%%% PROBLEM 1(b) ANSWER END %%%
+}
+
+\newcommand{\answerIc}{ \answer
+%%% PROBLEM 1(c) ANSWER START %%%
+1
+%%% PROBLEM 1(c) ANSWER END %%%
+}
+
+\newcommand{\answerId}{ \answer
+%%% PROBLEM 1(d) ANSWER START %%%
+4
+%%% PROBLEM 1(d) ANSWER END %%%
+}
+\newcommand{\answerIe}{ \answer
+%%% PROBLEM 1(e) ANSWER START %%%
+3
+%%% PROBLEM 1(e) ANSWER END %%%
+}
+\newcommand{\answerIf}{ \answer
+%%% PROBLEM 1(f) ANSWER START %%%
+2
+%%% PROBLEM 1(f) ANSWER END %%%
+}
+\newcommand{\answerIg}{ \answer
+%%% PROBLEM 1(g) ANSWER START %%%
+3
+%%% PROBLEM 1(g) ANSWER END %%%
+}
+\newcommand{\answerIh}{ \answer
+%%% PROBLEM 1(h) ANSWER START %%%
+3
+%%% PROBLEM 1(h) ANSWER END %%%
+}
+\newcommand{\answerIi}{ \answer
+%%% PROBLEM 1(i) ANSWER START %%%
+4
+%%% PROBLEM 1(i) ANSWER END %%%
+}
+\newcommand{\answerIj}{ \answer
+%%% PROBLEM 1(j) ANSWER START %%%
+2
+%%% PROBLEM 1(j) ANSWER END %%%
+}
+\newcommand{\answerIk}{ \answer
+%%% PROBLEM 1(k) ANSWER START %%%
+4
+%%% PROBLEM 1(k) ANSWER END %%%
+}
+\newcommand{\answerIl}{ \answer
+%%% PROBLEM 1(l) ANSWER START %%%
+8
+%%% PROBLEM 1(l) ANSWER END %%%
+}
+\newcommand{\answerIm}{ \answer
+%%% PROBLEM 1(m) ANSWER START %%%
+6
+%%% PROBLEM 1(m) ANSWER END %%%
+}
+\newcommand{\answerIn}{ \answer
+%%% PROBLEM 1(n) ANSWER START %%%
+6
+%%% PROBLEM 1(n) ANSWER END %%%
+}
+\newcommand{\answerIo}{ \answer
+%%% PROBLEM 1(o) ANSWER START %%%
+7
+%%% PROBLEM 1(o) ANSWER END %%%
+}
+\newcommand{\answerIp}{ \answer
+%%% PROBLEM 1(p) ANSWER START %%%
+def kthroot(a,k,n):
+\par{} \hspace{0.5cm} minimum = 1
+\par{} \hspace{0.5cm} maximum = a
+\par{} \hspace{0.5cm} while():
+\par{} \hspace{1.0cm} middle = div(add(maximum, minimum, n), 2, n+1)
+\par{} \hspace{1.0cm} currentPow = middle
+\par{} \hspace{1.0cm} currentK = 1
+\par{} \hspace{1.0cm} while currentPow < a:
+\par{} \hspace{1.5cm} currentPow = multiply(currentPow, middle, currentK*n)
+\par{} \hspace{1.5cm} currentK += 1
+\par{} \hspace{1.0cm} if currentK == k:
+\par{} \hspace{1.5cm} return middle
+\par{} \hspace{1.0cm} elif currentK > k:
+\par{} \hspace{1.5cm} minimum = middle
+\par{} \hspace{1.0cm} else:
+\par{} \hspace{1.5cm} maximum = middle
+\par{} \hspace{0.5cm} return middle
+	
+
+%%% PROBLEM 1(p) ANSWER END %%%
+}
+
+\newcommand{\answerIIa}{ \answer
+%%% PROBLEM 2(a) ANSWER START %%%
+7
+%%% PROBLEM 2(a) ANSWER END %%%
+}
+\newcommand{\answerIIb}{ \answer
+%%% PROBLEM 2(b) ANSWER START %%%
+3
+%%% PROBLEM 2(b) ANSWER END %%%
+}
+\newcommand{\answerIIc}{ \answer
+%%% PROBLEM 2(c) ANSWER START %%%
+9
+%%% PROBLEM 2(c) ANSWER END %%%
+}
+\newcommand{\answerIId}{ \answer
+%%% PROBLEM 2(d) ANSWER START %%%
+1 2 6
+%%% PROBLEM 2(d) ANSWER END %%%
+}
+\newcommand{\answerIIe}{ \answer
+%%% PROBLEM 2(e) ANSWER START %%%
+1 4 5
+%%% PROBLEM 2(e) ANSWER END %%%
+}
+\newcommand{\answerIIf}{ \answer
+%%% PROBLEM 2(f) ANSWER START %%%
+2 3
+%%% PROBLEM 2(f) ANSWER END %%%
+}
+
+\newcommand{\answerIIIa}{ \answer 
+%%% PROBLEM 3(a) ANSWER START %%%
+\_\_fast\_mul\_\_
+%%% PROBLEM 3(a) ANSWER END %%%
+}
+\newcommand{\answerIIIb}{ \answer
+%%% PROBLEM 3(b) ANSWER START %%%
+93496
+%%% PROBLEM 3(b) ANSWER END %%%
+}
+\newcommand{\answerIIIc}{ \answer
+%%% PROBLEM 3(c) ANSWER START %%%
+1
+%%% PROBLEM 3(c) ANSWER END %%%
+}
+\newcommand{\answerIIId}{ \answer
+%%% PROBLEM 3(d) ANSWER START %%%
+4
+%%% PROBLEM 3(d) ANSWER END %%%
+}
+\newcommand{\answerIIIe}{ \answer
+%%% PROBLEM 3(e) ANSWER START %%%
+1, 2, 4
+%%% PROBLEM 3(e) ANSWER END %%%
+}
+\newcommand{\answerIIIf}{ \answer
+%%% PROBLEM 3(f) ANSWER START %%%
+1
+%%% PROBLEM 3(f) ANSWER END %%%
+}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+% Fill these in!
+\newcommand{\theproblemsetnum}{5}
+\newcommand{\releasedate}{October 24, 2011}
+\newcommand{\partaduedate}{Monday, October 31}
+\newcommand{\tabUnit}{3ex}
+\newcommand{\tabT}{\hspace*{\tabUnit}}
+
+\begin{document}
+
+\handout{Problem Set \theproblemsetnum}{\releasedate}
+
+\textbf{Both theory and programming questions} are due {\bf \partaduedate} at
+{\bf 11:59PM}.
+%
+Please download the .zip archive for this problem set, and refer to the
+\texttt{README.txt} file for instructions on preparing your solutions.
+
+We will provide the solutions to the problem set 10 hours after the problem set
+is due. You will have to read the solutions, and write a brief \textbf{grading
+explanation} to help your grader understand your write-up. You will need to
+submit the grading guide by \textbf{Thursday, November 3rd, 11:59PM}. Your grade
+will be based on both your solutions and the grading explanation.
+
+\medskip
+
+\hrulefill
+
+\begin{problems}
+
+\problem \points{35} \textbf{The Knight's Shield}
+
+The optimized circuit verifier that you developed on your Amdtel internship was
+a huge success and got you on a sure track to landing a sweet offer. You also
+got transferred to a research group that is working on the \textit{Knight's
+Shield (KS)}\footnote{The code name is Amdtel confidential information. Please
+refrain from leaking to TechCrunch.}, a high-stakes project to develop a massive
+multi-core chip aimed at the exploding secure cloud computing market.
+
+The KS chip packs $16{,}384$ cores in a die that's the same size as a regular
+CPU die. However, each core is very small, and can only do arithmetic operations
+using 8-bit or 16-bit unsigned integers (see Table~\ref{table:ks-opcodes}).
+Encryption algorithms typically use 2,048-bit integers, so the KS chip will ship
+with software that supports arithmetic on large integers. Your job is to help
+the KS team assess the efficiency of their software.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|c|c|c|l|}
+\hline
+Operation & R1 size & R2 size & Result size & Result \\
+\hline
+\texttt{ZERO} & & & 8 / 16 & 0 (zero) \\ 
+\hline
+\texttt{ONE} & & & 8 / 16 & 1 (one) \\ 
+\hline
+\texttt{LSB R1} & 16 & & 8 & R1 \% 256 (least significant byte) \\ 
+\hline
+\texttt{MSB R1} & 16 & & 8 & R1 / 256 (most significant byte) \\ 
+\hline
+\texttt{WORD R1} & 8 & & 16 & R1 (expanded to 16-bits) \\ 
+\hline
+\texttt{ADD R1, R2} & 8 / 16 & 8 / 16 & 16 & \texttt{R1} $+$ \texttt{R2} \\ 
+\hline
+\texttt{SUB R1, R2} & 8 / 16 & 8 / 16 & 16 & \texttt{R1} $-$ \texttt{R2} $\mod
+65536$\\
+\hline
+\texttt{MUL R1, R2} & 8 & 8 & 16 & \texttt{R1} $\cdot$ \texttt{R2} \\ 
+\hline
+\texttt{DIV R1, R2} & 16 & 8 & 8 & \texttt{R1} $\div$ \texttt{R2} $\mod 256$\\ 
+\hline
+\texttt{MOD R1, R2} & 16 & 8 & 8 & \texttt{R1} \% \texttt{R2} \\ 
+\hline
+\texttt{AND R1, R2} & 8 / 16 & 8 / 16 & 8 / 16 & \texttt{R1} \& \texttt{R2}
+(bitwise AND) \\
+\hline
+\texttt{OR R1, R2} & 8 / 16 & 8 / 16 & 8 / 16 & \texttt{R1} $\|$ \texttt{R2}
+(bitwise OR) \\
+\hline
+\texttt{XOR R1, R2} & 8 / 16 & 8 / 16 & 8 / 16 & \texttt{R1} \verb|^|
+\texttt{R2} (bitwise XOR) \\
+\hline
+\end{tabular}
+\caption{Arithmetic operations supported by the KS chip. All sizes are in bits.}
+\label{table:ks-opcodes}
+\end{table}
+
+The KS library supports arbitrarily large base-256 numbers. The base was chosen
+such that each digit is a byte, and two digits make up a 16-bit number. Numbers
+are stored as a little-endian sequence of bytes (the first byte of a number is
+the least significant digit, for example 65534 = 0xFFFE would be stored as
+[0xFE, 0xFF]). For the rest of the problem, assume all the input numbers have
+$N$ digits.
+
+Consider the following algorithm for computing $A + B$, assuming both inputs
+have $N$ digits.
+
+\begin{codebox}
+\Procname{$\proc{Add}(A, B, N)$}
+\li $C \gets \proc{Zero}(N + 1)$ \Comment{$\proc{Zero}(k)$ creates a $k$-digit
+number, with all digits set to 0s.}
+\li $\id{carry} \gets 0$
+\li \For $i \gets 1$ \To $N$ \label{li:add-for}
+\li   \Do
+        $\id{digit} \gets \proc{Word}(A[i]) + \proc{Word}(B[i]) +
+        \proc{Word}(\id{carry})$
+\li     $\id{C[i]} \gets \proc{Lsb}(\id{digit})$
+\li     $\id{carry} \gets \proc{Msb}(\id{digit})$
+      \End
+\li $C[N + 1] \gets \id{carry}$
+\li \Return $C$
+\end{codebox}
+
+\begin{problemparts}
+\problempart \points{1} What is the running time of \proc{Add}?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIa
+
+\problempart \points{1} What is the size of \proc{Add}'s output?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIb
+
+\problempart \points{1} \proc{Add}'s output size suggests an easy lower bound
+for the subroutine. Does the running time of \proc{Add} match this lower bound?
+\begin{enumerate}
+  \item Yes
+  \item No
+\end{enumerate}
+\answerIc
+
+\end{problemparts}
+
+Consider the following brute-force algorithm for computing $A \cdot B$, assuming
+both inputs have $N$ digits.
+
+\begin{codebox}
+\Procname{$\proc{Multiply}(A, B, N)$}
+\li $C \gets \proc{Zero}(2N)$
+\li \For $i \gets 1$ \To $N$ \label{li:mul-for1}
+\li   \Do
+        $\id{carry} \gets 0$
+\li     \For $j \gets 1$ \To $N$ \label{li:mul-for2}
+\li        \Do
+             $\id{digit} \gets \proc{Word}(A[i]) \cdot \proc{Word}(B[j]) +
+                               \proc{Word}(C[i + j - 1]) +
+                               \proc{Word}(\id{carry})$
+\li           $C[i + j - 1] \gets \proc{Lsb}(\id{digit})$
+\li           $\id{carry} \gets \proc{Msb}(\id{digit})$
+           \End
+\li     $\id{C[i + N]} \gets carry$
+      \End
+\li \Return $C$
+\end{codebox}
+
+\begin{problemparts}
+\problempart \points{1} What is the running time of \proc{Multiply}?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerId
+
+\problempart \points{1} What is the size of \proc{Multiply}'s output?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIe
+
+\problempart \points{1} \proc{Multiply}'s output size suggests an easy lower
+bound for the subroutine. Does the running time of \proc{Multiply} match this
+lower bound?
+\begin{enumerate}
+  \item Yes
+  \item No
+\end{enumerate}
+\answerIf
+
+\end{problemparts}
+
+Consider the following brute-force algorithm for computing $A \div B$ and $A
+\mod B$, assuming both inputs have $N$ digits. The algorithm uses a procedure
+$\proc{Copy}(A, N)$ that creates a copy of an $N$-digit number $A$, using
+$\Theta(N)$ time.
+
+\begin{codebox}
+\Procname{$\proc{DivMod}(A, B, N)$}
+\li $Q \gets \proc{Zero}(N)$ \Comment{quotient}
+\li $R \gets \proc{Copy}(A, N)$ \Comment{remainder}
+\li $S_0 \gets \proc{Copy}(B, N)$ \Comment{$S_i = B \cdot 2^i$}
+\li $i \gets 0$
+\li \Repeat \label{li:divmod-repeat}
+\li   $i \gets i + 1$
+\li   $\id{S_i} \gets \proc{Add}(\id{S_{i - 1}}, \id{S_{i - 1}}, N)$
+\li \Until $\id{S_i}[N] > 0$ or $\proc{Cmp}(S_i, A, N) \isequal \const{Greater}$
+\li \For $j \gets i - 1$ \Downto $0$ \label{li:divmod-for}
+\li   \Do
+        $Q \gets \proc{Add}(Q, Q)$
+\li     \If $\proc{Cmp}(R, \id{S_j}, N) \isnotequal \const{Smaller}$
+\li     \Then
+           $R \gets \proc{Subtract}(R, \id{S_j}, N)$
+\li        $Q[0] \gets Q[0] \| 1$ \Comment{Faster version of $Q \gets Q + 1$}
+        \End
+      \End
+\li \Return $(Q, R)$
+\end{codebox}
+
+\begin{problemparts}
+\problempart \points{1} $\proc{Cmp}(A, B, N)$ returns \const{Greater} if $A >
+B$, \const{Equal} if $A = B$, and \const{Smaller} if $A < B$, assuming both $A$
+and $B$ are $N$-digit numbers. What is the running time for an optimal
+$\proc{Cmp}$ implementation?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIg
+
+\problempart \points{1} $\proc{Subtract}(A, B, N)$ computes $A - B$, assuming
+$A$ and $B$ are $N$-digit numbers. What is the running time for an optimal
+$\proc{Subtract}$ implementation?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIh
+
+\problempart \points{1} What is the running time of $\proc{DivMod}$?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIi
+
+\end{problemparts}
+
+The KS library does not use the $\proc{DivMod}$ implementation above. Instead,
+it uses Newton's method to implement $\proc{Div}(A, B, N)$ which computes the
+division quotient $A \div B$, assuming both inputs have $N$ digits. $\proc{Div}$
+relies on the subroutines defined above. For example, it uses $\proc{Multiply}$
+to perform large-number multiplication and $\proc{Add}$ for large-number
+addition. $\proc{Mod}(A, B, N)$ is implemented using the identity $A \mod B = A
+- (A \div B) \cdot B$.
+
+\begin{problemparts}
+
+\problempart \points{1} How many times does \proc{Div} call $\proc{Multiply}$?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIj
+
+\problempart \points{1} What is the running time of $\proc{Mod}$?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIk
+
+\end{problemparts}
+
+Consider the following brute-force algorithm for computing $B^E \mod M$,
+assuming all the input numbers have $N$ digits.
+
+\begin{codebox}
+\Procname{$\proc{PowMod}(B, E, M, N)$}
+\li $R \gets \proc{One}(N)$ \Comment{result}
+\li $X \gets \proc{Copy}(B, N)$ \Comment{multiplier}
+\li \For $i \gets 1$ \To $N$ \label{li:exp-for1}
+\li   \Do
+        $\id{mask} \gets 1$
+\li     \For $\id{bit} \gets 1$ \To $8$ \label{li:exp-for2}
+\li       \Do
+            \If $E[i] \textrm{ \& } \id{mask} \isnotequal 0$
+\li         \Then
+              $R \gets \proc{Mod}(\proc{Multiply}(R, X, N), M, 2N)$
+              \label{li:exp-mulmod1}
+            \End
+\li         $X \gets \proc{Mod}(\proc{Multiply}(X, X, N), M, 2N)$
+            \label{li:exp-mulmod2}
+\li         $\id{mask} \gets \proc{Lsb}(\id{mask} \cdot 2)$
+          \End
+      \End
+\li \Return $R$
+\end{codebox}
+
+\begin{problemparts}
+
+\problempart \points{1} What is the running time for $\proc{PowMod}$?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIl
+
+\end{problemparts}
+
+Assume the KS library swaps out the brute-force $\proc{Multiply}$ with an
+implementation of Karatsuba's algorithm.
+
+\begin{problemparts}
+\problempart \points{1} What will the running time for $\proc{Multiply}$ be
+after the optimization?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIm
+
+\problempart \points{1} What will the running time for $\proc{Mod}$ be after
+the optimization?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIn
+
+\problempart \points{1} What will the running time for $\proc{PowMod}$ be after
+the optimization?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIo
+
+\problempart \points{20} Write pseudo-code for $\proc{KthRoot}(A, K, N)$, which
+computes $\lfloor \sqrt[K]{A} \rfloor$ using binary search. The running
+time for $\proc{KthRoot}(A, K, N)$ should be $\Theta(N^{2 + \log_2 3})$ 
+\answerIp
+
+\end{problemparts}
+
+\newpage
+
+\problem \points{23} \textbf{RSA Public-Key Encryption}
+
+The RSA (Rivest-Shamir-Adelman) public-key cryptosystem is a cornerstone of
+Internet security. It provides the ``S'' (security) in the HTTPS sessions used
+for e-commerce and cloud services that handle private information, such as
+e-mail. RSA secures SSH sessions (used to connect to Athena, for example), and
+MIT certificates used to log into Stellar. You figure that the KS chip must
+perform RSA efficiently, since RSA plays such an important role in cloud
+security. This problem will acquaint you with the encryption and decryption
+algorithms in RSA.
+
+RSA works as follows. Each user generates two large random primes $p$ and $q$,
+and sets his public modulus $m = p \cdot q$. The user then chooses a small prime
+number\footnote{65,537 is a popular choice nowadays} $e$, and computes $d =
+e^{-1} \mod (p - 1)(q - 1)$. The user announces his public key $(e, m)$ to the
+world, and keeps $d$ private. In order to send an encrypted message to our user,
+another user would encode the message as a number smaller than $n$, and encrypt
+it as $c = E(n) = n^e \mod m$. Our user would decode the message using $D(c) =
+c^d \mod m$. Assume that keys can be generated reasonably fast and that $D(E(n))
+= n$, for all but a negligible fraction of values of $n$.
+
+\begin{problemparts}
+\problempart \points{1} What is the running time of an implementation of $D(n)$
+that uses the KS library in Problem 1, with the optimized version of
+\proc{Multiply} (Karatsuba's algorithm), assuming that $n$, $d$ and $m$ are
+$N$-byte numbers?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(\log N)$
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIIa
+
+\end{problemparts}
+
+You're thinking of using RSA to encrypt important sensitive images, such as
+last night's picture of you doing a Keg stand. Formally, a picture has $R \times
+C$ pixels ($R$ rows, $C$ columns), and each pixel is represented as 3 bytes that
+are RGB color space coordinates\footnote{see
+\url{http://en.wikipedia.org/wiki/RGB_color_space}}. The RSA key is $(e, m)$,
+where $m$ is an $N$-byte number. An inefficient encryption method would process
+each row of pixel data as follows:
+\begin{enumerate}
+  \item Break the $3C$ bytes of pixel data into groups of $N-1$ bytes
+  \item Pad the last group with 0 bytes up to $N-1$ bytes
+  \item Encrypt each group of $N-1$ bytes to obtain an $N$-byte output
+  \item Concatenate the $N$-byte outputs 
+\end{enumerate}
+
+\begin {problemparts}
+\problempart \points{1} How many calls to the RSA encryption function $E(n)$
+are necessary to encrypt an $R \times C$-pixel image?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(R C)$
+  \item $\Theta(\frac{RC}{N})$
+  \item $\Theta(\frac{RN}{C})$
+  \item $\Theta(\frac{CN}{R})$
+\end{enumerate}
+\answerIIb
+
+\problempart \points{1} What is the running time for decrypting an $R \times
+C$-pixel image that was encrypted using the method above, using the KS library
+in Problem 1, with the optimized version of \proc{Multiply} (Karatsuba's
+algorithm)?
+\begin{enumerate}
+  \item $\Theta(N)$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^2 \log N)$
+  \item $\Theta(N^{\log_2 3})$
+  \item $\Theta(N^{\log_2 6})$
+  \item $\Theta(R C N)$
+  \item $\Theta(R C N^2)$
+  \item $\Theta(R C N^2 \log N)$
+  \item $\Theta(R C N^{\log_2 3})$
+  \item $\Theta(R C N^{\log_2 6})$
+  \item $\Theta(R N)$
+  \item $\Theta(R N^2)$
+  \item $\Theta(R N^2 \log N)$
+  \item $\Theta(R N^{\log_2 3})$
+  \item $\Theta(R N^{\log_2 6})$
+\end{enumerate}
+\answerIIc
+
+\problempart \points{5} A fixed point under RSA is a number $n$ such that $E(n)
+\equiv n \mod m$, so RSA does not encrypt the number at all. Which of the
+following numbers are fixed points under RSA? (True / False)
+\begin{enumerate}
+  \item $0$
+  \item $1$
+  \item $2$
+  \item $3$
+  \item $m - 2$
+  \item $m - 1$
+\end{enumerate}
+\answerIId
+  
+\problempart \points{5} What other weaknesses does the RSA algorithm have?
+(True / False)
+\begin{enumerate}
+  \item $E(-n) \equiv -E(n) \mod m$
+  \item $E(n_1) + E(n_2) \equiv E(n_1 + n_2) \mod m$
+  \item $E(n_1) - E(n_2) \equiv E(n_1 - n_2) \mod m$
+  \item $E(n_1) \cdot E(n_2) \equiv E(n_1 \cdot n_2) \mod m$
+  \item $E(n_1)^{n_2} \equiv E(n_1 ^ {n_2}) \mod m$
+\end{enumerate}
+\answerIIe
+
+\problempart \points{5} Amdtel plans to use RSA encryption to secretly tell
+Gopple when its latest smartphone CPU is ready to ship. Amdtel will send one
+message every day to Gopple, using Gopple's public key ($e_G$, $m_G$). The
+message will be \const{No} (the number 20079 when using ASCII), until the day
+the CPU is ready, then the message will change to \const{Yes} (the number
+5858675 when using ASCII). You pointed out to your manager that this security
+scheme is broken, because an attacker could look at the encrypted messages, and
+know that the CPU is ready when the daily encrypted message changes. This is a
+problem of deterministic encryption. If $E(20079)$ always takes the same value,
+an attacker can distinguish $E(20079)$ from $E(5858675)$. How can the problem of
+deterministic encryption be fixed? (True / False)
+
+\begin{enumerate}
+  \item Append the same long number (the equivalent of a string such as
+  'XXXPADDINGXXX') to each message, so the messages are bigger.
+  \item Append a random number to each message. All random numbers will have the
+  same size, so the receiver can recognize and discard them.
+  \item Use a different encryption key to encrypt each message, and use Gopple's
+  public exponent and modulus to encrypt the decryption key for each message.
+  \item Use an uncommon encoding, such as UTF-7, so that the attacker will not
+  know the contents of the original messages.
+  \item Share a ``secret'' key with Gopple, so that the attacker can't use the
+  knowledge on Gopple's public exponent and modulus.
+\end{enumerate}
+\answerIIf
+
+\end{problemparts}
+
+\newpage
+
+\problem \points{42} \textbf{Image Decryption}
+
+Your manager wants to show off the power of the Knight's Shield chip by
+decrypting a live video stream directly using the RSA public-key crypto-system.
+RSA is quite resource-intensive, so most systems only use it to encrypt the key
+of a faster algorithm. Decrypting live video would be an impressive technical
+feat!
+
+Unfortunately, the performance of the KS chip on RSA decryption doesn't come
+even close to what's needed for streaming video. The hardware engineers said the
+chip definitely has enough computing power, and blamed the problem on the
+RSA implementation. Your new manager has heard about your algorithmic chops, and
+has high hopes that you'll get the project back on track. The software engineers
+suggested that you benchmark the software using images because, after all, video
+is just a sequence of frames.
+
+The code is in the \texttt{rsa} directory in the zip file for this problem set.
+
+\begin{problemparts}
+\problempart \points{2} Run the code under the python profiler with the command
+below, and identify the method inside \texttt{bignum.py} that is most suitable
+for optimization. Look at the methods that take up the most CPU time, and
+choose the first method whose running time isn't proportional to the size of its
+output.
+
+\texttt{python -m cProfile -s time rsa.py < tests/1verdict\_32.in}
+
+\textit{Warning:} the command above can take 1-10 minutes to complete, and
+bring the CPU usage to 100\% on one of your cores. Plan accordingly. If
+you have installed PyPy successfully, you should replace \texttt{python} with
+\texttt{pypy} in the command above for a 2-10x speed improvement. 
+
+What is the name of the method with the highest CPU usage?
+\answerIIIa
+
+\problempart \points{1} How many times is the method called?
+\answerIIIb
+
+\problempart \points{1} The troublesome method is implementing a familiar
+arithmetic operation. What is the tightest asymptotic bound for the worst-case
+running time of the method that contains the bottleneck? Express your answer in
+terms of $N$, the number of digits in the input numbers.
+\begin{enumerate}
+  \item $\Theta(N)$.
+  \item $\Theta(N \log n)$
+  \item $\Theta(N \log^2 n)$
+  \item $\Theta(N^{\log_{2} 3})$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^{\log_{2} 7})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIIIc
+
+\problempart \points{1} What is the tightest asymptotic bound for the worst-case
+running time of division? Express your answer in terms of $N$, the number of
+digits in the input numbers.
+\begin{enumerate}
+  \item $\Theta(N)$.
+  \item $\Theta(N \log n)$
+  \item $\Theta(N \log^2 n)$
+  \item $\Theta(N^{\log_{2} 3})$
+  \item $\Theta(N^2)$
+  \item $\Theta(N^{\log_{2} 7})$
+  \item $\Theta(N^3)$
+\end{enumerate}
+\answerIIId
+
+\end{problemparts}
+
+We have implemented a visualizer for your image decryption output, to help you
+debug your code. The visualizer will also come in handy for answering the
+question below. To use the visualizer, first produce a trace.
+
+\texttt{TRACE=jsonp python rsa.py < tests/1verdict\_32.in > trace.jsonp}
+
+On Windows, use the following command instead.
+
+\texttt{rsa\_jsonp.bat < tests/1verdict\_32.in > trace.jsonp}
+
+Then use Google Chrome to open
+\texttt{visualizer/bin/visualizer.html}
+
+\begin{problemparts}
+\problempart \points{6} The test cases that we supply highlight the problems of
+RSA that we discussed above. Which of the following is true? (True / False)
+\begin{enumerate}
+  \item Test \texttt{1verdict\_32} shows that RSA has fixed points.
+  \item Test \texttt{1verdict\_32} shows that RSA is deterministic.
+  \item Test \texttt{2logo\_32} shows that RSA has fixed points.
+  \item Test \texttt{2logo\_32} shows that RSA is deterministic.
+  \item Test \texttt{5future\_1024} shows that RSA has fixed points.
+  \item Test \texttt{5future\_1024} shows that RSA is deterministic.
+\end{enumerate}
+\answerIIIe
+
+\problempart \points{1} Read the code in \texttt{rsa.py}. Given a decrypted
+image of $R \times C$ pixels ($R$ rows, $C$ columns), where all the pixels
+are white (all the image data bytes are 255), how many times will
+\texttt{powmod} be called during the decryption operation in
+\texttt{decrypt\_image}?
+\begin{enumerate}
+  \item $\Theta(1)$
+  \item $\Theta(R C)$
+  \item $\Theta(\frac{RC}{N})$
+  \item $\Theta(\frac{RN}{C})$
+  \item $\Theta(\frac{CN}{R})$
+\end{enumerate}
+\answerIIIf
+
+\problempart \points{30} The multiplication and division operations in
+\texttt{big\_num.py} are implemented using asymptotically efficient algorithms
+that we have discussed in class. However, the sizes of the numbers involved in
+RSA for typical key sizes aren't suitable for complex algorithms with high
+constant factors. Add new methods to \texttt{BigNum} implementing multiplication
+and division using straight-forward algorithms with low constant factors, and
+modify the main multiplication and division methods to use the simple algorithms
+if at least one of the inputs has 64 digits (bytes) or less. Please note that
+you are not allowed to import any additional Python libraries and our test will
+check this.
+\end{problemparts}
+
+The KS software testing team has put together a few tests to help you check your
+code's correctness and speed. \texttt{big\_num\_test.py} contains unit tests
+with small inputs for all \texttt{BigNum} public methods.
+\texttt{rsa\_test.py} runs the image decryption code on the test cases in the
+\texttt{tests/} directory.
+
+You can use the following command to run all the image decryption tests.
+
+\texttt{python rsa\_test.py}
+
+To work on a single test case, run the simulator on the test case with the
+following command.
+
+\texttt{python rsa.py < tests/1verdict\_32.in > out}
+
+Then compare your output with the correct output for the test case.
+
+\texttt{diff out tests/1verdict\_32.gold}
+
+For Windows, use \texttt{fc} to compare files.
+
+\texttt{fc out tests/1verdict\_32.gold}
+
+While debugging your code, you should open a new Terminal window (Command Prompt
+in Windows), and set the \texttt{KS\_DEBUG} environment variable (\texttt{export
+KS\_DEBUG=true}; on Windows, use \texttt{set KS\_DEBUG=true}) to use a slower
+version of our code that has more consistency checks.
+
+When your code passes all tests, and runs reasonably fast (the tests should
+complete in less than 90 seconds on any reasonably recent computer using PyPy,
+or less than 600 seconds when using CPython), upload your modified
+\texttt{big\_num.py} to the course submission site. Our automated grading code
+will use our versions of \texttt{test\_rsa.py}, \texttt{rsa.py} and
+\texttt{ks\_primitives.py} / \texttt{ks\_primitives\_unchecked.py}, so please do
+not modify these files.
+
+\end{problems}
+\end{document}

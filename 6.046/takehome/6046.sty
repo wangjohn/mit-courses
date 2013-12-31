@@ -1,0 +1,275 @@
+%%
+%% This is file `6046.sty'
+%%
+%% It includes math macros used for the CLRS book and 6.046 homework header.
+
+\def\fileversion{1.0}
+\def\filedate{2011/02/01}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{6046}[\filedate{} macros for 6.046]
+
+\usepackage{url}
+\usepackage{latexsym}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{verbatim}
+\usepackage{listings}
+\DeclareSymbolFont{largesymbols}{OMX}{cmex}{m}{n} % However for large sigmas we want the Computer Modern symbol
+\renewcommand{\ttdefault}{cmtt}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{clrscode4e}
+\usepackage{xspace} % xspace takes care of the \@ after a capitalized word before a period.
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+\setlength{\oddsidemargin}{0pt}
+\setlength{\evensidemargin}{0pt}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{0in}
+\setlength{\textheight}{8.5in}
+
+\setlength{\parskip}{1pc}
+\setlength{\parindent}{0pt}
+
+\let\@author\@empty
+\let\@problemset\@empty
+\let\@collab\@empty
+\newcommand{\problemset}[1]{\def\@problemset{#1}}
+\newcommand{\collab}[1]{\def\@collab{#1}}
+
+% Command to make the header box.
+\newcommand{\header}{
+  \begin{center}
+    \hspace*{-0.25in}\framebox[7in]{
+      \vbox{
+        \hbox to 6.25in { \@author \hfill \@date}
+        \vspace{1mm}
+        \hbox to 6.25in {\bf \hfill 6.046 Problem Set \@problemset\ \hfill}
+        \vspace{1mm}
+        \hbox to 6.25in { Collaborators: {\it \@collab} \hfill}
+      }
+    }
+  \end{center}
+}
+
+\AtBeginDocument{
+  \ifx \@author \@empty
+    \@latexerr{You must use \noexpand\author{name} for 6.046 homework}
+  \fi
+  \ifx \@problemset \@empty
+    \@latexerr{You must use \noexpand\problemset{number} for 6.046 homework}
+  \fi
+  \ifx \@collab \@empty
+    \@latexerr{You must use \noexpand\collab{names or none} for 6.046 homework}
+  \fi
+  \thispagestyle{plain}
+  \header
+  \lhead{\@author}
+  \rhead{\textbf{6.046 Problem Set \@problemset}}
+  \cfoot{\thepage}
+  \pagestyle{fancy}
+}
+
+
+% \newcommand{\handout}[1]{\thispagestyle{empty}
+%  \markboth{Handout \protect\ref{#1}: \protect\ref{#1-title}}{Handout \protect\ref{#1}: \protect\ref{#1-title}}
+%  \pagestyle{myheadings}\htitle{\protect\ref{#1}}{\protect\ref{#1-title}}{\protect\ref{#1-date}}}
+
+% Ignore hboxes overfull by 1 point or less.
+\hfuzz 1pt
+
+% Formatting parameters for floats.
+\setcounter{topnumber}{3}
+\renewcommand\topfraction{.7}
+\setcounter{bottomnumber}{1}
+\renewcommand\bottomfraction{.3}
+\setcounter{totalnumber}{5}
+\renewcommand\textfraction{.1}
+\renewcommand\floatpagefraction{.7}
+\setcounter{dbltopnumber}{2}
+\renewcommand\dbltopfraction{.7}
+\renewcommand\dblfloatpagefraction{.7}
+
+% % default style assignments
+% \def\UrlBreaks{\do\-\do\.\do\@\do\\\do\/\do\!\do\_\do\|\do\;\do\>\do\]%
+%  \do\)\do\,\do\?\do\'\do\+\do\=\do\#}%
+% \def\UrlBigBreaks{\do\:\do@url@hyp}%
+% \def\UrlNoBreaks{\do\(\do\[\do\{\do\<}%
+% % any ordinary characters that aren't usually:
+% \def\UrlOrds{\do\*\do\~\do\'\do\"}%
+% \def\UrlSpecials{\do\ {\Url@space}\do\%{\Url@percent}\do\^^M{\Url@space}%
+%    \Url@force@Tilde}% package option may force faked text-ascii-tilde
+
+
+% Some hacks to make HTML happier.
+\newcommand{\vskipargs}[1]{\vskip #1}
+\newcommand{\newproc}{\hrule\vskipargs{1ex plus 0.1ex minus 0.1ex}}
+
+% Tilde for webstuff
+\newcommand{\webtilde}{\raisebox{-.8ex}\~}
+
+% Comment out chunks.
+\newcommand{\punt}[1]{}
+
+% Footnote commands.
+\newcommand{\footnotenonumber}[1]{{\def\thempfn{}\footnotetext{#1}}}
+\newcommand{\footnotetight}[1]{\footnote{\renewcommand\baselinestretch{1}\footnotesize #1}}
+
+%% Math Stuff, Symbols
+
+% Number sets.
+\newcommand{\reals}         {\mathbf{R}}%\mathbbm{R}}    %% bbm seems to produce type 3 fonts
+\newcommand{\integers}      {\mathbf{Z}}
+\newcommand{\naturals}      {\mathbf{N}}
+\newcommand{\rationals}     {\mathbf{Q}}
+\newcommand{\complex}       {\mathbf{C}}
+
+% Useful shorthands.
+
+\newcommand{\lgg}       {\lg\lg}
+\newcommand{\lggg}      {\lg\lg\lg}
+\newcommand{\lgggg}     {\lg\lg\lg\lg}
+
+\newcommand{\lnn}       {\ln\ln}
+\newcommand{\lnnn}      {\ln\ln\ln}
+\newcommand{\lnnnn}      {\ln\ln\ln\ln}
+
+\newcommand{\norm}[1]       {\left\| #1\right\|}
+\newcommand{\set}[1]        {\left\{ #1 \right\}}
+\newcommand{\abs}[1]        {\left| #1\right|}
+\newcommand{\card}[1]       {\left| #1\right|}
+\newcommand{\floor}[1]      {\left\lfloor #1 \right\rfloor}
+\newcommand{\ceil}[1]       {\left\lceil #1 \right\rceil}
+\newcommand{\ang}[1]        {\ifmmode{\left\langle #1 \right\rangle}
+                 \else{$\left\langle${#1}$\right\rangle$\xspace}\fi}
+                        % the \if allows use outside mathmode,
+                    % but may swallow following space there!
+\newcommand{\sbrace}[1]{\left[#1\right]}
+\newcommand{\cbrace}[1]{\left\{#1\right\}}
+\newcommand{\paren}[1]      {\left( #1 \right)}
+\newcommand{\prob}[1]       {\Pr\left\{ #1 \right\}}
+\newcommand{\expect}[1]     {{\rm E}\left[ #1 \right]}
+\newcommand{\expectsq}[1]   {{\rm E}^2\left[ #1 \right]}
+\newcommand{\variance}[1]   {{\rm Var}\left[ #1 \right]}
+\renewcommand{\choose}[2]   {{\dbinom{#1}{#2}}}
+
+\newcommand{\goesto}     {\rightarrow}
+
+
+\def\pmod#1{\allowbreak\mkern12mu({\rm mod}\,\,#1)}
+
+\newcommand{\matx}[2]       {\left(\!\!\!\begin{array}{*{#1}{c}}#2\end{array}\!\!\!\right)}
+\newcommand{\Adj}       {\mathop{\rm Adj}\nolimits}
+\newcommand{\percent}[1]    {#1\%}
+
+\newtheorem{principle}{Principle}
+\newtheorem{theorem}        {Theorem}
+\newtheorem{lemma}[theorem] {Lemma}
+\newtheorem{corollary}[theorem] {Corollary}
+\newtheorem{xample}     {Example}
+
+\newenvironment{example}    {\begin{xample}\rm}{\end{xample}}
+
+\newenvironment{proof}      {\noindent\textsc{Proof.}\hspace{0.5em}}{\qed\par}
+\def\squarebox#1{\hbox to #1{\hfill\vbox to #1{\vfill}}}
+\newcommand{\qedbox}
+{\vbox{\hrule\hbox{\vrule\squarebox{.667em}\vrule}\hrule}}
+\newcommand{\qed}               {\nopagebreak\mbox{}\hfill\qedbox\smallskip}
+\newenvironment{proofsketch}    {\noindent\textsc{Proof Sketch.}\hspace{0.5em}}{\qed}
+
+\newenvironment{proofidea}    {\noindent\textsc{Proof Idea.}\hspace{0.5em}}
+
+
+\newcommand{\eqnref}[1]     {(\protect\ref{#1})}
+
+\newcommand{\transpose}     {^{\mbox{\scriptsize \sf T}}}
+\newcommand{\amortized}[1]  {\widehat{#1}}
+
+\renewcommand{\cases}[1]    {\left\{ \begin{array}{ll}#1\end{array}\right.}
+\newcommand{\cif}[1]        {\mbox{if $#1$}}
+\newcommand{\cwhen}[1]      {\mbox{when $#1$}}
+\newcommand{\cotherw}       {\mbox{otherwise}}
+
+%Narrow arrays
+\newlength{\savearraycolsep}
+\newcommand{\narrowarray}[1]{\setlength{\savearraycolsep}{\arraycolsep}\setlength{\arraycolsep}{#1\arraycolsep}}
+\newcommand{\normalarray}{\setlength{\arraycolsep}{\savearraycolsep}}
+
+% definitions and special styles
+
+\newcommand{\defn}[1]       {{\textit{\textbf{\boldmath #1}}}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% The Code environment %%%
+%% The following commands are so we can automatically number and symbolically reference
+%% lines.
+%% The ``codelinenumber'' counter counts the current line number
+%\newcounter{codelinenumber}
+%% The \zeroli command zeros the line number counter
+%\newcommand{\zeroli}{\setcounter{codelinenumber}0}
+%% The \li command bumps the counter, outputs it, and skips some space
+%% It also GLOBALLY sets the value of \@currentlabel, so that the \label
+%% commands on the same line work OK.  The problem otherwise is that Latex
+%% uses groups on each field of a line in tabbing mode, and this causes
+%% \@currentlabel to get reset as soon as a field ends (e.g. at the \').
+%% Now, the label can appear after the \\, as in
+%%  \li \>\>$x\gets y$ \\ \label{li:assign-x}
+%%
+
+\def\code{\lstinline[basicstyle=\ttfamily]}
+
+%% Labels
+\newcommand{\figlabel}[1]   {\label{fig:#1}}
+\newcommand{\tablabel}[1]   {\label{tab:#1}}
+\newcommand{\stlabel}[1]    {\label{st:#1}}
+\newcommand{\thmlabel}[1]   {\label{thm:#1}}
+\newcommand{\lemlabel}[1]   {\label{lem:#1}}
+\newcommand{\corlabel}[1]   {\label{cor:#1}}
+\newcommand{\eqlabel}[1]    {\label{eq:#1}}
+\newcommand{\ineqlabel}[1]  {\label{ineq:#1}}
+\newcommand{\caselabel}[1]  {\label{case:#1}}
+\newcommand{\lilabel}[1]    {\label{li:#1}}
+
+%% References
+
+\newcommand{\chapref}[1]    {Chapter~\ref{chap:#1}}
+\newcommand{\secref}[1]     {Section~\ref{sec:#1}}
+\newcommand{\secreftwo}[2]  {Sections \ref{sec:#1} and~\ref{sec:#2}}
+\newcommand{\secrefthree}[3]    {Sections \ref{sec:#1}, \ref{sec:#2}, and \ref{sec:#3}}
+\newcommand{\secreffour}[4] {Sections \ref{sec:#1}, \ref{sec:#2}, \ref{sec:#3}, and~\ref{sec:#4}}
+\newcommand{\appref}[1]     {Appendix~\ref{app:#1}}
+\newcommand{\figref}[1]     {Figure~\ref{fig:#1}}
+\newcommand{\figreftwo}[2]  {Figures \ref{fig:#1} and~\ref{fig:#2}}
+\newcommand{\tabref}[1]     {Table~\ref{tab:#1}}
+\newcommand{\stref}[1]      {Step~\ref{st:#1}}
+\newcommand{\strefs}[2]     {Steps~\ref{st:#1}--\ref{st:#2}}
+\newcommand{\streftwo}[2]   {Steps \ref{st:#1} and~\ref{st:#2}}
+\newcommand{\thmref}[1]     {Theorem~\ref{thm:#1}}
+\newcommand{\thmreftwo}[2]  {Theorems~\ref{thm:#1} and~\ref{thm:#2}}
+\newcommand{\lemref}[1]     {Lemma~\ref{lem:#1}}
+\newcommand{\lemreftwo}[2]  {Lemmas \ref{lem:#1} and~\ref{lem:#2}}
+\newcommand{\lemrefthree}[3]    {Lemmas \ref{lem:#1}, \ref{lem:#2}, and~\ref{lem:#3}}
+\newcommand{\corref}[1]     {Corollary~\ref{cor:#1}}
+\renewcommand{\eqref}[1]      {Equation~(\ref{eq:#1})}
+\newcommand{\eqreftwo}[2]   {Equations (\ref{eq:#1}) and~(\ref{eq:#2})}
+\newcommand{\ineqref}[1]    {Inequality~(\ref{ineq:#1})}
+\newcommand{\ineqreftwo}[2] {Inequalities (\ref{ineq:#1}) and~(\ref{ineq:#2})}
+\newcommand{\invref}[1]     {Invariant~\ref{inv:#1}}
+\newcommand{\invrefs}[2]    {Invariants \ref{inv:#1}--\ref{inv:#2}}
+\newcommand{\invreftwo}[2]  {Invariants \ref{inv:#1} and~\ref{inv:#2}}
+\newcommand{\defref}[1]     {Definition~\ref{def:#1}}
+\newcommand{\propref}[1]    {Property~\ref{prop:#1}}
+\newcommand{\caseref}[1]    {Case~\ref{case:#1}}
+\newcommand{\casereftwo}[2] {Cases \ref{case:#1} and~\ref{case:#2}}
+\newcommand{\liref}[1]      {line~\ref{li:#1}}
+\newcommand{\Liref}[1]      {Line~\ref{li:#1}}
+\newcommand{\lirefs}[2]     {lines \ref{li:#1}--\ref{li:#2}}
+\newcommand{\Lirefs}[2]     {Lines \ref{li:#1}--\ref{li:#2}}
+\newcommand{\lireftwo}[2]   {lines \ref{li:#1} and~\ref{li:#2}}
+\newcommand{\lirefthree}[3] {lines \ref{li:#1}, \ref{li:#2}, and~\ref{li:#3}}
+\newcommand{\exref}[1]      {Exercise~\ref{ex:#1}}
+\newcommand{\princref}[1]   {Principle~\ref{prop:#1}}

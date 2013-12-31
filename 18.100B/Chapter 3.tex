@@ -1,0 +1,569 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage[margin=1in]{geometry}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{Rudin Chapter 3\\
+Solutions }
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+
+
+\section{Problem 3.1}
+
+\begin{thm}
+The convergence of $\{ s_n \}$ implies the convergence of $\{ | s_n | \}$. The converse is not true, however.
+\end{thm}
+
+\begin{proof}
+We will assume that $\{ s_n \}$ is a convergent set in $\mathbb{R}$ because the norm is not defined in Rudin for any other metric space. Since $\{ s_n \}$ is a convergent sequence, it must be Cauchy. Therefore, there exists and $N$ such that $m,n \geq N$ implies that $d(s_m,s_n) < \epsilon$ for all $\epsilon > 0$. We can use the traingle inequality, then, to show the following:
+
+\begin{eqnarray}
+|s_n| &=& |(s_n + s_m) - s_m | \\
+& \leq & |(s_n + s_m) - s_n| + | s_n - s_m| \nonumber \\
+&=& |s_m | + d(s_n,s_m) \nonumber \\
+&<& |s_m| + \epsilon \nonumber
+\end{eqnarray}
+
+This shows that $|s_n| - |s_m| < \epsilon$, which further implies that $d(|s_n|,|s_m|) < \epsilon$ for $m,n \geq N$. Thus, we see that the sequence $\{ | s_n | \}$ is Cauchy, and since it is in $\mathbb{R}$, it converges.
+
+It is easy to show that the converse is not true, namely that the convergence of $\{ |s_n | \}$ does not imply the convergence of $\{ s_n \}$. Take the sequence defined by $s_n = (-1)^n$. Thus, we can see that $|s_n| = |(-1)^n| = 1$ is a constant sequence, and thus definitely converges. However, $s_n$ switches between $-1$ and $1$ and thus will never converge for any $n$. 
+ 
+\end{proof}
+
+\section{Problem 3.2}
+
+\begin{thm}
+We show that $\lim_{ n \to \infty} \sqrt{n^2 + n} - n = \frac{1}{2}$.
+\end{thm}
+
+\begin{proof}
+We multiply through by the conjugate to obtain the following:
+\begin{eqnarray}
+\lim_{ n \to \infty} \sqrt{n^2 + n} - n &=& \lim_{ n \to \infty} \sqrt{n^2 + n} - n \frac{\sqrt{n^2 + n} + n}{\sqrt{n^2 + n} + n} \\
+&=& \lim_{n \to \infty} \frac{n^2 + n - n^2}{\sqrt{n^2 + n} + n} \nonumber \\
+&=& \lim_{n \to \infty} \frac{n}{ n \sqrt{\frac{n^2 + n}{n^2} + n}} \nonumber \\
+&=& \lim_{n \to \infty} \frac{1}{ \sqrt{1 + \frac{1}{n}} + 1} \nonumber \\
+&=& \frac{1}{\sqrt{1} + 1} \nonumber \\
+&=& \frac{1}{2} \nonumber
+\end{eqnarray}
+\end{proof}
+
+\section{Problem 3.3}
+
+\begin{thm}
+If $s_1 = \sqrt{2}$ and $s_{n+1} = \sqrt{2 + \sqrt{s_n}}$ for $ n = 1,2,3, \ldots$ then $\{ s_n \}$ converges and $s_n < 2$ for all $n \in \mathbb{N}$. 
+\end{thm}
+
+\begin{proof}
+We know that $0 < \sqrt{2} < 2$, so we have $0 < s_1 < 2$. Moreover, if we add 2 to each side of the inequality, we obtain $2 < 2 + \sqrt{2} < 4$. Taking the square roots, we obtain $\sqrt{2} < \sqrt{2 + \sqrt{2}} < 2$. Adding 2 to each side of this, we obtain $2 + \sqrt{2} < 2 + \sqrt{2 + \sqrt{2}} < 4$. Taking square roots, we have $\sqrt{2} < \sqrt{ 2 + \sqrt{2 + \sqrt{2}}} < 2$. We can repeat the process infinitely many times and notice that $s_1 = \sqrt{2}, s_2 = \sqrt{2 + \sqrt{2}}, s_3 = \sqrt{2 + \sqrt{2 + \sqrt{2}}}, \ldots$. Thus, we see that $s_1 < s_2 < s_3 < \ldots < 2$. We have therefore shown that $\{ s_n \}$ is a monotonically increasing sequence that is bounded because $s_n < 2$ $ \forall n \in \mathbb{N}$. By a theorem in Rudin, we know that $\{ s_n \}$ must converge.
+\end{proof}
+
+\section{Problem 3.4}
+
+\begin{thm}
+Consider the sequence $\{ s_n \}$ defined by $s_1 = 0$ with $s_{2m} = \frac{s_{2m} - 1}{2}$ and $s_{2m+1} = \frac{1}{2} + s_{2m}$. The lower limit of the sequence is $\frac{1}{2}$ and the upper limit is $1$. 
+\end{thm}
+
+\begin{proof}
+If we compute the sequence, then we see the following, starting at $s_1 = 0$:
+
+\begin{equation}
+\{ s_n \} = 0, 0, \frac{1}{2}, \frac{1}{4}, \frac{3}{4}, \frac{3}{8}, \frac{7}{8}, \ldots
+\end{equation}
+
+We can use induction to derive the following formulas:
+
+\begin{equation*}
+\text{Even n} \rightarrow s_n = \frac{2^{\frac{n}{2}-1} - 1 }{2^{\frac{n}{2} -1}} = \frac{1}{2} - \frac{1}{2^{\frac{n}{2}-1}} \hspace{1cm} \text{Odd n} \rightarrow s_n = \frac{2^{\frac{n-1}{2}} - 1}{2^{\frac{n-1}{2}}} = 1 - \frac{1}{2^n}
+\end{equation*}
+
+We can see that for even $n$, we have $s_n < \frac{1}{2}$ and for odd $n$, we have $s_n < 1$. It is clear by inspection that they are subsequential limits. Moreover, we can show that these are the only two subsequential limits of $\{ s_{n} \}$. This is because each subsequence $\{ s_{n_k} \}$, in order to converge, must contain either a finite number of even terms or a finite number of odd terms. There must exist some $N$ such that $n_k \geq N$ implies that each subsequent $s_{n_k}$ is either all odd or all even. If this is not the case, and for $n_k \geq N$ we have $s_{n_k}$ odd (even) and $s_{n_{k+1}}$ even (odd), then $d(s_{n_k},s_{n_{k+1}}) = \frac{1}{2}$ because $s_{2m+1} - s_{2m} = \frac{1}{2}$. This would imply that the subsequence does not converge. Thus, it is clear that $\{\frac{1}{2},1 \}$ are the only two subsequential limits. Thus, we have that the upper bound $s^{*} = \sup \{ \frac{1}{2}, 1 \} = 1$ and the lower bound $s_{*} = \inf \{ \frac{1}{2},1 \} = \frac{1}{2}$. 
+
+\end{proof}
+
+\section{Problem 3.20}
+\begin{thm}
+Suppose $\{ p_n \}$ is a Cauchy sequence in a metric space $X$, and some subsequence $\{ p_{n_i} \}$ converges to a point $p \in X$. Then the full sequence $\{ p_n \}$ converges to $p$. 
+\end{thm}
+
+\begin{proof}
+Since we know that $\{ p_{n_i} \}$ converges, we know that there exits an $N_0$ such that $n_i \geq N_0$ implies $d(p_{n_i}, p) < \epsilon$ for all $\epsilon > 0$. Since the sequence $\{ p_n \}$ is Cauchy, there exists an $M$ such that $n \geq M$ and $m \geq M$ implies $d(p_n, p_m) < \epsilon$ for all $\epsilon > 0$. By the triangle inequality, we obtain for $n, n_i \geq \max \{ N_0, M \} $ that
+
+\begin{eqnarray}
+d(p_n,p) &\leq& d(p_n, p_{n_i}) + d(p_{n_i},p) \\
+&<& \epsilon + \epsilon = 2 \epsilon \nonumber
+\end{eqnarray}
+
+We know that $d(p_n, p_{n_i} ) < \epsilon$ by the fact that $\{ p_n \}$ is Cauchy, because $p_{n_i} \in \{ p_n \}$ as it $p_{n_i}$ part of a subsequence of $\{ p_n \}$. We obtain $d(p_{n_i},p) < \epsilon$ because the subsequence $\{ p_{n_i} \}$ converges to $p$. Thus, since $\epsilon$ is arbitrary, we obtain that the full sequence $\{ p_n \}$ converges to $p$.
+\end{proof}
+
+\section{Problem 3.21}
+\begin{thm}
+If $\{ E_n \}$ is a sequence of closed, nonempty, and bounded sets in a complete metric space $X$, if $E_n \supset E_{n+1}$, and if $\lim_{n \to \infty} \text{diam} E_n = 0$, then $\bigcap_1^\infty E_n$ consists of exactly one point. 
+\end{thm}
+
+\begin{proof}
+Suppose $\{ p_n \}$ is any sequence with $p_n \in E_n$. Then the assumption that $\lim_{n \to \infty} \text{diam} E_n = 0$ means that there exists an $N$ such that for all $\epsilon > 0$, we have $d(\text{diam} {E_n},0) < \epsilon$ for $n \geq N$. Thus, we have $\text{diam} E_n < \epsilon$. Moreover, since we have $E_m \supset E_n$ for $m \geq n \geq N$, we know that $ d(p_n, p_m) < \text{diam} E_n < \epsilon $ for $p_n \in E_n$ and $p_m \in E_m$. This implies that $\{ p_n \}$ is Cauchy, and since we have assumed that $X$ is complete, $\{ p_n \}$ must converge to some limit $p$ in $X$. Moreover, since $p$ is the limit of $\{ p_n \}$, it is also a limit point of $ E_n$. This is because for $n > N$, $ d(p_n, p) < \epsilon $ which implies that there exists a point $p_n \in E_n$ for every neighborhood of $p$. Since we assumed each $E_n$ is closed, we know that $p$ must be contained in each $E_n$. Thus, we know that $ p \in \bigcap_1^\infty E_n$.
+
+It is clear that there are no more elements in  $\bigcap_1^\infty E_n$. Assume by contradiction that there exists a $q \neq p$ such that $q \in \bigcap_1^\infty E_n $. Since $q \neq p$, we know that $d(p,q) > 0$ by definition of a metric space. Since both $p$ and $q$ belong to $E_1, E_2, \ldots$ we see that $ \sup d(p_n,q_n) > 0$ for $p_n, q_n \in E_n$. Thus, the diameter $\text{diam} E_n > 0$ for all $n$. Thus shows that $\lim_{n \to \infty} \text{diam} E_n \neq 0$, which is a contradiction of our assumption. Thus, the set $\bigcap_1^\infty E_n$ contains exactly one element.
+\end{proof}
+
+\section{Problem 3.23}
+
+\begin{thm}
+Suppose $\{ p_n \}$ and $\{ q_n \}$ are Cauchy sequences in a metric space $X$. Show that the sequence $\{ d(p_n, q_n) \}$ converges. 
+\end{thm}
+
+\begin{proof}
+Since $\{ p_n \}$ is a Cauchy sequence, we know that there exists some $N$ such that $d(p_n,p_m) < \epsilon$ for all $\epsilon > 0$ and $m,n \geq N$. Since $\{q_n \}$ is Cauchy, we know there exists some $M$ such that $d(q_n,q_m) < \epsilon$ for all $\epsilon > 0$ and $m,n \geq N$. Using the triangle inequality, we find that 
+
+\begin{eqnarray}
+d(p_n,q_n) &\leq& d(p_n, p_m) + d(p_m, q_n) \\
+&\leq& d(p_n,p_m) + d(p_m, q_m) + d(q_m, q_n) \nonumber \\
+&<& 2 \epsilon + d(p_m, q_m) \nonumber \\
+d(p_n,q_n) - d(p_m,q_m) &<& 2 \epsilon 
+\end{eqnarray}
+
+This implies that $d( d(p_n,q_n), d(p_m,q_m) ) = |d(p_n,q_n) - d(p_m, q_m) | < 2 \epsilon$ for all $\epsilon >0$ and $m,n \geq N$. Thus we know that $\{ d(p_n,q_n) \}$ is a Cauchy sequence. Since $\mathbb{R}$ is complete, we know that $\{ d(p_n,q_n) \}$ converges.
+\end{proof}
+
+
+\section{Problem 3.6}
+
+\begin{thm}
+The series $\sum a_n $ diverges if $a_n = \sqrt{n+1} - \sqrt{n}$. 
+\end{thm}
+
+\begin{proof}
+If we multiply $a_n$ by its conjugate, then we obtain the following:
+
+\begin{eqnarray}
+a_n &=& (\sqrt{n+1} - \sqrt{n}) \frac{\sqrt{n+1} + \sqrt{n}}{\sqrt{n+1} + \sqrt{n}} \\
+&=& \frac{1}{\sqrt{n+1} + \sqrt{n}}
+\end{eqnarray}
+
+Moreover, since we know that $\sqrt{n} \leq n$ for all $n \in \mathbb{N}$, we know that $\sqrt{n+1} + \sqrt{n} \leq (n + 1) + n = 2n + 1$. Thus, we can see that $a_n = \frac{1}{\sqrt{n+1}+\sqrt{n}} \geq \frac{1}{2n+1}$. Finally, the series $\sum \frac{1}{2n+1}$ diverges because it has $p = 1$. Using the comparison test, we can see that $\sum a_n$ also diverges because $a_n \geq \frac{1}{2n+1}$. 
+\end{proof}
+
+\begin{thm}
+The series $\sum a_n$ converges if $a_n = \frac{\sqrt{n+1} - \sqrt{n}}{n}$.
+\end{thm}
+
+\begin{proof}
+If we multiply $a_n$ by its conjugate, we will obtain:
+
+\begin{eqnarray}
+a_n &=& \frac{\sqrt{n+1} - \sqrt{n}}{n} \frac{\sqrt{n+1} + \sqrt{n}}{\sqrt{n+1}+\sqrt{n}} \\
+&=& \frac{1}{ n (\sqrt{n+1} + \sqrt{n})} \\
+&<& \frac{1}{ n \sqrt{n}} 
+\end{eqnarray}
+
+The last inequality comes from the fact that $\sqrt{n+1} + \sqrt{n} > \sqrt{n}$. Moreover, we knowt that $\sum \frac{1}{n \sqrt{n}}$ converges because it is has $p = \frac{3}{2}$. By the comparison test, we know that $\sum a_n$ also converges.
+\end{proof}
+
+\begin{thm}
+The series $\sum a_n$ converges if $a_n = (\sqrt[n]{n} - 1)^n$. 
+\end{thm}
+
+\begin{proof}
+If we perform the ratio test, then we obtain the following:
+
+\begin{eqnarray}
+\lim_{n \to \infty} \sqrt[n]{|a_n|} &=& \lim_{n \to \infty} \sqrt[n]{n} - 1 \\
+&=& 1 - 1 = 0
+\end{eqnarray}
+
+This is because $\lim_{n \to \infty} \sqrt[n]{n} = 1$ for $n>0$, as proved in Rudin. Thus, since $0 < 1$, the ratio test shows that $\sum a_n$ converges.
+\end{proof}
+
+\begin{thm}
+If $|z| \leq 1$ for $a_n = \frac{1}{1+z^n}$, then $\sum a_n$ diverges. If $|z| > 1$, then $\sum a_n$ converges. 
+\end{thm}
+
+\begin{proof}
+We will prove that if $|z| \leq 1$, then $\sum a_n$ diverges. This is because $|1 + z^n| \leq {1 + |z|^n} \leq {2}$. It is obvious that $\sum \frac{1}{2}$ diverges because its sequences do not converge to zero. Thus, since $\sum \frac{1}{1 + z^n} \geq \sum \frac{1}{2}$, we know that $\sum a_n$ diverges.
+
+Now, if $|z| > 1$, then we know that $\sum \frac{1}{z^n}$ converges by a theorem in Rudin. Since $1 + z^n > z^n$, we have $\frac{1}{1 + z^n} < \frac{1}{z^n}$. By the comparison test, we know that $\sum \frac{1}{1+z^n}$ converges as well. 
+\end{proof}
+
+\section{Problem 3.7}
+
+\begin{thm}
+The convergence of $\sum a_n$ implies the convergence of $\sum \frac{\sqrt{a_n}}{n}$ if $a_n \geq 0 $.
+\end{thm}
+
+\begin{proof}
+
+Using the Cauchy Swarchz Inequality, we have:
+
+\begin{eqnarray}
+\left| \sum \frac{\sqrt{a_n}}{n} \right|^2 &\leq& \sum |\sqrt{a_n}|^2 \sum \left|\frac{1}{n} \right|^2 \\
+&=& \sum a_n \sum \frac{1}{n^2}
+\end{eqnarray}
+
+For two given series $\sum b_n$ and $\sum c_n$ converging to $B$ and $C$ respectively, the Cauchy product is defined as $d_n = \sum b_n z^n \sum c_n z^n$ if one sets $z = 1$. A theorem in Rudin has shown that $\sum d_n = BC$ if $\sum b_n$ is absolutely convergent and $\sum c_n$ is convergent, which means that $\sum d_n$ and all the partial sums of $d_n$ are bounded. Since $\sum a_n$ is convergent by assumption and $\sum \frac{1}{n^2}$ is absolutely convergent by a theorem in Rudin, we know that $\sum a_n \sum \frac{1}{n^2}$ is bounded. Thus, we know that $\left| \sum \frac{\sqrt{a_n}}{n} \right|^2 $ is bounded, and hence, so is $\sum \frac{\sqrt{a_n}}{n}$. Since we assumed $a_n \geq 0$, we know that $\sum \frac{\sqrt{a_n}}{n}$ is monotonically increasing so it converges because it is also bounded.
+\end{proof}
+
+\section{Problem 3.9}
+
+\begin{thm}
+The radius of convergence is $R = 1$ for the power series $\sum n^3 z^n$. 
+\end{thm}
+
+\begin{proof}
+We know that $R = \frac{1}{\alpha}$, where $\alpha = \lim_{n \to \infty} \sup \sqrt[n]{|n^3|} = 1$ because if we let $x_n = \sqrt[n]{n^3} - 1$, then we have for $k > 0$ and $n > 2k$:
+
+\begin{equation}
+n^3 = (x_n + 1)^n > \left( \begin{array}{c}
+n \\
+k \end{array} \right) x_n^k = \frac{n(n-1)\ldots(n-k+1)}{k!} x_n^k > \frac{n^k x_n^k}{2^k k!}
+\end{equation}
+
+We obtain (3.2) by the binomial theorem and since $x_n$ cannot be negative for $ n \in \mathbb{N}$, we have:
+
+\begin{eqnarray}
+0 &\leq x_n^k <& \frac{n^3 2^k k!}{n^k} \\
+0 &\leq x_n <&  2 (k!)^{\frac{1}{k}} n^{\frac{3}{k} - 1} 
+\end{eqnarray}
+
+Since $\frac{3}{k} - 1 < 0$ for all $k > 3$, we have can take the limit of both sides of the final inequality and show that $\lim_{n \to \infty} x_n = 0$ by the squeeze law. Thus, we have shown that $\alpha = \lim_{n \to \infty} \sup \sqrt[n]{|n^3|} = 1$ and that $R = 1$. 
+
+\end{proof}
+
+\begin{thm}
+The radius of convergence is $R = + \infty $ for the power series $\sum \frac{2^n}{n!} z^n$. 
+\end{thm}
+
+\begin{proof}
+We must find $\alpha$ in order to find $R = \frac{1}{\alpha}$:
+
+\begin{eqnarray}
+\alpha &=& \lim_{n \to \infty} \sup \sqrt[n]{\frac{2^n}{n!}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{\sqrt[n]{n!}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{n^{\frac{1}{n}} (n-1)^{\frac{1}{n}} \ldots (1)^{\frac{1}{n}}} \\
+&<& \lim_{n \to \infty} \frac{2}{n (1)^{\frac{1}{n}}} 
+\end{eqnarray}
+
+Since we know that $\lim_{n \to \infty} (1)^{\frac{1}{n}} = 1$, we also know that $\lim_{n \to \infty} \frac{2}{n (1)^{\frac{1}{n}}} = 0$. Since we must have $\sqrt[n]{\frac{2^n}{n!}} > 0$ for all $n \in \mathbb{N}$, we have the following squeeze law:
+
+\begin{equation}
+0 \leq \lim_{n \to \infty} \sup \sqrt[n]{\frac{2^n}{n!}} < \lim_{n \to \infty} \frac{2}{n (1)^{\frac{1}{n}}} < 0
+\end{equation}
+
+This shows that $\alpha = 0$, and that $R = + \infty$ because all terms are positive. 
+\end{proof}
+
+\begin{thm}
+The radius of convergence is $R = \frac{1}{2} $ for the power series $\sum \frac{2^n}{n^2} z^n$. 
+\end{thm}
+
+\begin{proof}
+We must find $\alpha$, so we have the following
+
+\begin{eqnarray}
+\alpha &=&  \lim_{n \to \infty} \sup \sqrt[n]{\frac{2^n}{n^2}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{n^{\frac{2}{n}}} \\
+&=& \lim_{n \to \infty} \sup \frac{2}{(\sqrt[n]{n})^2} \\
+&=& 2
+\end{eqnarray}
+
+The final step comes from the fact that $\lim_{n \to \infty} \sqrt[n]{n} = 1$ according to a theorem in Rudin. Thus, we find that $ R = \frac{1}{\alpha} = \frac{1}{2}$. 
+\end{proof}
+
+\begin{thm}
+The radius of convergence is $R = 3 $ for the power series $\sum \frac{n^3}{3^n} z^n$. 
+\end{thm}
+
+\begin{proof}
+Using the same procedure as before, we shall calculate $\alpha$.
+
+\begin{eqnarray}
+\alpha &=& \lim_{n \to \infty} \sup \sqrt[n]{\frac{n^3}{3^n}} \\
+&=& \lim_{n \to \infty} \sup \frac{n^{\frac{3}{n}}}{3} \\
+&=& \lim_{n \to \infty} \sup \frac{(\sqrt[n]{n})^3}{3} \\
+&=& \frac{1}{3}
+\end{eqnarray}
+
+The final step comes from the same fact as before, namely that $\lim_{n \to \infty} \sqrt[n]{n} = 1$. Thus, we see that $R = \frac{1}{\alpha} = \frac{1}{3}$. 
+\end{proof}
+
+\section{Problem 3.13}
+
+\begin{thm}
+The Cauchy product of two absolutely convergent series converges absolutely.
+\end{thm}
+
+\begin{proof}
+Let $\sum a_n$ and $\sum b_n$ be two absolutely convergent series. This means that $\sum_{n=0}^{\infty} |a_n| = A$ and $\sum_{n=0}^{\infty} |b_n| = B$ are convergent series as well. Now define the Cauchy product as $\sum_{n=0}^{\infty} c_n = \sum_{n=0}^{\infty} \sum_{k=0}^{n} a_k b_{n-k}$. We will give the following definitions:
+
+\begin{equation}
+A_n = \sum_{k=0}^{n} |a_k|, \hspace{0.4cm} B_n = \sum_{k=0}^{n} |b_k|, \hspace{0.4cm} C_n = \sum_{k=0}^{n} |c_n|
+\end{equation}
+
+Thus, if we expand out the terms of $C_n$, we obtain the following:
+
+\begin{eqnarray}
+C_n &=& |a_0 b_0| + |a_0 b_1 + a_1 b_0| + \ldots + | a_0 b_n + \ldots + a_n b_0 | \\
+&\leq& |a_0| B_n + |a_1| B_{n-1} + \ldots + | a_n| B_0 \\
+&\leq& |a_0| B_n + |a_1| B_n + \ldots + |a_n| B_n \\
+&=& (|a_0| + \ldots + |a_n|) B_n \\
+&=& A_n B_n 
+\end{eqnarray}
+
+Thus we see that $C_n \leq A_n B_n$ and if we take the limits of both sides, then we have:
+
+\begin{eqnarray}
+\sum_{n=0}^{\infty} |c_n | &=& \lim_{n \to \infty} C_n \\
+&\leq& \lim_{n \to \infty} A_n B_n \\
+&=& AB
+\end{eqnarray}
+
+Thus, we can see that $\sum_{n=0}^{\infty} |c_n| $ is bounded. Moreover, since $|c_j| \geq 0$ for all $j \in \mathbb{Z}_{j \geq 0}$, we know that $\sum_{n=0}^{\infty} |c_n|$ is monotonically increasing. Thus, we know that $\sum_{n=0}^{\infty} |c_n|$ is both bounded and monotonically increasing, which shows that it is convergent. This means that the Cauchy product $\sum_{n=0}^{\infty} c_n$ is absolutely convergent. 
+
+\end{proof}
+
+\section{Problem 3.16}
+
+\begin{thm}
+Fix a positive number $\alpha$. Choose $x_1 > \sqrt{\alpha}$ and define $x_2,x_3,\ldots$ by the recursion formula $x_{n+1} = \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right)$. Then $\{ x_n \}$ is decreasing monotonically and has $\lim x_n = \sqrt{\alpha}$.
+\end{thm}
+
+\begin{proof}
+First, we will show that the sequence is decreasing monotonically. Note that $x_1 > 0$ because we fixed an $\alpha > 0 $. Next, take $x_{n+1} - x_n$:
+
+\begin{eqnarray}
+x_{n+1} - x_n &=& \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) - x_n \\
+&=& \frac{1}{2} \left( \frac{\alpha}{x_n} - x_n \right) \\
+&=& \frac{1}{2} \left( \frac{\alpha - x_n^2}{x_n} \right)
+\end{eqnarray}
+
+Thus, we must determine the sign of $\alpha - x_n^2$. To begin, we have assumed $\alpha - x_1^2 < 0$ because we set $x_1 > \sqrt{\alpha}$. Moreover, we can see that $x_n^2 \geq \alpha$ for all $n \in \mathbb{N}$ because as $\{ x_n \}$ approaches $\alpha$, we have $\alpha - x_n^2 << x_n$. If for some $n$, $x_n^2 = \alpha$, then $x_{n+1} - x_n = 0$ and the sequence will become constant. Thus because $\alpha - x_n^2 \leq 0$, we see that the sequence is monotonically decreasing. 
+
+To show the second part of the problem, we know that the series is decreasing monotonically and is bounded by $0$. This is because $x_1$ starts out positive, so we have $x_{n+1} = \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) > 0$ for all $n \in \mathbb{N}$. This show that $\{ x_n \}$ converges. Let us define $x$ as its limit: $\{ x_n \} \rightarrow x$. Then we have
+
+\begin{eqnarray}
+\lim_{n \to \infty} x_{n+1} &=& \lim_{n \to \infty} \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) \\
+x &=& \frac{1}{2} \left( x + \frac{\alpha}{x} \right) \\
+x^2 &=& \alpha
+\end{eqnarray}
+
+Since $\alpha > 0$ and also $x_n > 0$, we know that $x = \sqrt{\alpha}$ and thus we have shown that $\lim_{n \to \infty} x_n = \sqrt{\alpha}$. 
+ 
+\end{proof}
+
+\begin{thm}
+Put $\epsilon_n = x_n - \sqrt{\alpha}$ and show that $\epsilon_{n+1} = \frac{\epsilon_n^2}{2 x_n} < \frac{ \epsilon_n^2}{2 \sqrt{\alpha}}$ so that setting $\beta = 2 \sqrt{\alpha}$, we obtain $\epsilon_{n+1} < \beta \left(\frac{\epsilon_1}{\beta} \right)^{2^n}$ for $n = 1,2, \ldots$. 
+\end{thm}
+
+\begin{proof}
+We know that $\epsilon_n^2 = (x_n - \sqrt{\alpha})^2 = x_n^2 + \alpha - 2 x_n \sqrt{\alpha}$, so that $x_n^2 + \alpha = \epsilon_n^2 + 2 x_n \sqrt{\alpha}$. Then, we can use our recursive formulas to determine $\epsilon_{n+1}$:
+
+\begin{eqnarray}
+\epsilon_{n+1} &=& \frac{1}{2} \left( x_n + \frac{\alpha}{x_n} \right) - \sqrt{\alpha} \\
+&=& \frac{1}{2} \left( \frac{x_n^2 + \alpha - 2 x_n \sqrt{\alpha}}{x_n} \right) \\
+&=& \frac{1}{2} \frac{\epsilon_n^2}{x_n}
+\end{eqnarray}
+
+We have shown in the first part of the exercise that $x_n^2 > \alpha$ for all $n \in \mathbb{N}$, so we know that $\epsilon_{n+1} = \frac{ \epsilon_n^2}{2 x_n} < \frac{ \epsilon_n^2}{2 \sqrt{\alpha}}$. 
+
+Next, we will show that $\epsilon_{n+1} < \frac{ \epsilon_n^2}{\beta} = \beta \left( \frac{ \epsilon_n}{\beta} \right)^2.$ For $\epsilon_2$ we have $\epsilon_2 < \frac{ \epsilon_1^2}{\beta}$. Thus, we have the base case for our inductive argument. Next, we have
+
+\begin{eqnarray}
+\epsilon_{n+1} &=& \frac{\epsilon_n^2}{\beta} \\
+&<& \frac{1}{\beta} \left( \frac{\epsilon_{n-1}^2}{\beta} \right)^2 \\
+&<& \frac{1}{\beta} \frac{1}{\beta^2} {\left( \frac{\epsilon_{n-2}^2}{\beta} \right)^2}^{2} \\
+&\vdots& \\
+&<& \frac{1}{\beta} \frac{{{\epsilon_1}^2}^n}{{{\beta^2}^{n-1}}} \\
+&=& \beta {\left( \frac{\epsilon_1}{\beta} \right)^2}^n
+\end{eqnarray}
+
+This completes the proof, since we have shown $\epsilon_{n+1} < \beta { \left( \frac{\epsilon_1}{\beta} \right)^2}^n$.
+
+\end{proof}
+
+\begin{thm}
+If $\alpha = 3$ and $x_1 = 2$, then $\frac{\epsilon_1}{\beta} < \frac{1}{10}$ and therefore that $\epsilon_5 < 4 \times 10^{-16}$ and $\epsilon_6 < 4 \times 10^{-32}$. 
+\end{thm}
+
+\begin{proof}
+We know that $\epsilon_n = x_n - \sqrt{\alpha}$ so that $\epsilon_1 = x_1 - \sqrt{\alpha} = 2 - \sqrt{3}$. We also know that $\beta = 2 \sqrt{\alpha} = 2 \sqrt{3}$. Thus, we can multiply by the conjugate to obtain
+
+\begin{eqnarray}
+\frac{\epsilon_1}{\beta} &=& \frac{2 - \sqrt{3}}{2 \sqrt{3}} \frac{2 + \sqrt{3}}{2 + \sqrt{3}} \\
+&=& \frac{1}{2\sqrt{3} ( 2 + \sqrt{3})} \\
+&=& \frac{1}{4 \sqrt{3} + 6} 
+\end{eqnarray}
+
+We know that $1 < \sqrt{3}$ so that $4 < 4 \sqrt{3}$. This means that $\frac{\epsilon_1}{\beta} < \frac{1}{10}$. Next, we can approximate $\beta = 2 \sqrt{3} < 4 $ because we know that $\sqrt{3} < 2$, so we can obtain the following bounds for $\epsilon_5$ and $\epsilon_6$:
+
+\begin{eqnarray}
+\epsilon_5 &=& \beta {\left(\frac{\epsilon_1}{\beta} \right)^2}^4 \\ 
+\epsilon_5&<& 4 \times 10^{-16} \\
+\epsilon_6 &=& \beta {\left( \frac{\epsilon_1}{\beta} \right)^2}^5 \\
+\epsilon_6 &<& 4 \times 10^{-32}
+\end{eqnarray}
+
+Because we have $2^4 = 16$ and $2^5 = 32$. This completes the proof.
+\end{proof}
+
+\section{Problem 3.18}
+
+\begin{thm}
+Fix a positive integer $p$ and a positive number $\alpha$ and define $x_{n+1} = \frac{p-1}{p} x_n + \frac{\alpha}{p} x_n^{-p + 1}$. Then if $x_1 > \alpha^{\frac{1}{p}}$, the sequence decreases monotonically and has $\lim_{n \to \infty} x_n = \alpha^{\frac{1}{p}}$.
+\end{thm}
+
+\begin{proof}
+First, we must show that the sequence is monotonically decreasing if $x_1 > \alpha^{\frac{1}{p}}$. To do this, we observe the following:
+
+\begin{eqnarray}
+x_{n+1} - x_n &=& \frac{p-1}{p}x_n + \frac{\alpha}{p} x_n^{-p +1} - x_n \\
+&=& \frac{1}{p} \left( (p-1)x_n + \alpha x_n^{-p+1} - p x_n \right) \\
+&=& \frac{1}{p} \left( - x_n + \frac{\alpha}{x_n^{p - 1}} \right) \\
+&=& \frac{1}{p} \left( \frac{- x_n x_n^{p - 1} + \alpha}{x_n^{p-1}} \right) \\
+&=& \frac{1}{p} \left( \frac{ \alpha - x_n^p}{x_n^{p-1}} \right)
+\end{eqnarray}
+
+Since we have defined $x_1 > \alpha^{\frac{1}{p}}$, we know that $x_1^{p} > \alpha$ which gives $\alpha - x_1^p < 0$. Thus, we see that $x_{2} - x_1 < 0$. Using inductive reasoning, we can see that $x_n > \alpha^{\frac{1}{p}}$ for all $n \in \mathbb{N}$. The sequence is decreasing from $x_1$, but the sequence does not go below $\alpha^{\frac{1}{p}}$ because if for some $n$ we have $x_n = \alpha^{\frac{1}{p}}$, then $x_{n+1} - x_n = 0$. Thus, the sequence is monotonically decreasing since $x_{n+1} - x_n < 0$ for all $n \in \mathbb{N}$. Moreover, the sequence is bounded by zero because $p$ is a positive integer, so $x_{n+1} > \frac{\alpha}{p} x_n^{-p+1}$, and since we have defined $x_1 > 0$, we have that $x_{n+1}$ can never be negative. 
+
+Thus we have shown the sequence is bounded and monotonically decreasing, showing that it is convergent. Let $\lim_{n \to \infty} x_n = x$, then we have:
+
+\begin{eqnarray}
+\lim_{n \to \infty} x_{n+1} &=& \lim_{n \to \infty} \frac{p-1}{p} x_n + \frac{\alpha}{p} x_n^{-p + 1} \\
+x &=& \frac{p-1}{p} x + \frac{\alpha}{p} x^{-p + 1} \\
+x \left( 1 - \frac{p-1}{p} \right) &=& \frac{\alpha}{p} x^{-p} x \\
+\frac{p}{\alpha} \frac{1}{p} &=& x^{-p} \\
+x^p &=& \alpha \\
+x &=& \alpha^{\frac{1}{p}}
+\end{eqnarray} 
+
+We have thus shown that $\lim_{n \to \infty} x_n = \alpha^{\frac{1}{p}}$, which is what we wanted.
+\end{proof}
+
+\begin{thm}
+Let $\epsilon_n = x_n - \alpha^{\frac{1}{p}}$, then we have $\epsilon_{n+1} < \beta^{1-p} {(\beta \epsilon_1)^p}^n$.
+\end{thm}
+
+\begin{proof}
+First, we note that $\epsilon_n^p = (x_n - \alpha^{\frac{1}{p}})^p > {p \choose 1} x_n (\alpha^{\frac{1}{p}})^{p-1} > x_n \alpha^{\frac{p-1}{p}}$ by the binomial theorem and because $p \geq 1$. We do not have to worry about the negative sign in front of $\alpha$ because if $p$ is an odd integer, then $p-1$ is even so $\alpha^{\frac{p-1}{p}} > 0$ and if $p$ is an even integer then $p$ is even so that $\alpha^{\frac{p-1}{p}} > 0$ as well.  The binomial theorem also tells us that $\epsilon_n^{-p} = (x_n - \alpha^{\frac{1}{p}})^{-p} > x_n^{-p}$. Since $p$ is a positive integer, we can see that that $x_n < \epsilon_n^p \leq p \epsilon_n^p$. This gives us the following relationships:
+
+\begin{equation}
+x_n^{-p} < p \epsilon_n^{-p}, \hspace{1cm} x_n < \frac{\epsilon_n^{p}}{\alpha^{\frac{p-1}{p}}}
+\end{equation}
+
+Since these are true, we can then find a bound for $\epsilon_{n+1}$:
+
+\begin{eqnarray}
+\epsilon_{n+1} &=& x_{n+1} - \alpha^{\frac{1}{p}} \\
+&=& \frac{p-1}{p} x_n + \frac{\alpha}{p}x_n^{-p} x_n - \alpha^{\frac{1}{p}} \\
+&<& \frac{p-1}{p} \frac{\epsilon_n^p}{\alpha^{\frac{p-1}{p}}} + \frac{\alpha}{p} p \epsilon_n^{-p}\frac{\epsilon_n^p}{\alpha^{\frac{p-1}{p}}} - \alpha^{\frac{1}{p}} \\
+&=& \frac{p-1}{p} \frac{\epsilon_n^p}{\alpha^{\frac{p-1}{p}}} + \frac{\alpha p}{p \alpha^{\frac{p-1}{p}}} - \alpha^{\frac{1}{p}} \\
+&=& \frac{1}{p \alpha^{\frac{p-1}{p}}} \left( (p-1) \epsilon_n^p + \alpha p - \alpha^{\frac{1}{p}} p \alpha^{\frac{p-1}{p}} \right) \\
+&=& \frac{1}{p \alpha^{\frac{p-1}{p}}} \left( (p-1) \epsilon_n^p + \alpha p - \alpha^{\frac{1}{p}} p \alpha \alpha^{-\frac{1}{p}} \right) \\
+&=& \left( \frac{p-1}{p \alpha^{\frac{p-1}{p}}} \right) \epsilon_n^p
+\end{eqnarray}  
+
+If we define the following constant:
+
+\begin{equation}
+\beta = \frac{p-1}{p \alpha^{\frac{p-1}{p}}}
+\end{equation}
+
+Then we have found a relationship between $\epsilon_{n+1}$ and $\epsilon_n$.
+
+\begin{equation}
+\epsilon_{n+1} < \beta \epsilon_n^p
+\end{equation}
+
+Thus, we can use induction on the sequence $\{ \epsilon_n \}$.
+
+\begin{eqnarray}
+\epsilon_1 &<& \beta \epsilon_1^p \\
+\epsilon_2 &<& \beta ( \beta \epsilon_1^p )^p \\
+&\vdots& \\
+\epsilon_{n+1} &<& \beta (\beta^p)^{n-1} (\epsilon_1^p)^n
+\end{eqnarray}
+
+If we collect terms, then we have completed the proof:
+
+\begin{equation}
+\epsilon_{n+1} < \beta^{1-p} {(\beta \epsilon_1)^p}^n
+\end{equation}
+\end{proof}
+
+\begin{thm}
+This is a good algorithm for computing $n$th roots, especially for large values of $\alpha$. For example, if $\alpha = 9$, $p = 10$, and $x_1 = 3$, then we have $\beta \epsilon_1 < \frac{1}{10}$ with $\epsilon_5 < 10^{-9,991}$ and $\epsilon_6 < 10^{-99,991}$.
+\end{thm}
+
+\begin{proof}
+First, we can compute $\beta =\frac{p-1}{p \alpha^{\frac{p-1}{p}}} = \frac{9}{10 * 9^{\frac{9}{10}}}$. We know that $9^{\frac{9}{10}} < 9^1 < 9$ so we have $\beta < \frac{1}{10}$. We also have $\beta \epsilon_1 = \beta ( x_1 - \alpha^{\frac{1}{p}} )$. Since we know that $9 < 2^{10} = 1024 $, we have $9^{\frac{1}{10}} < 2$. This gives:
+
+\begin{eqnarray}
+\beta \epsilon_1 &=& \beta ( 3 - 9^{\frac{1}{10}} ) \\
+&<& \frac{1}{10} (3 - 2) \\
+&<& \frac{1}{10}
+\end{eqnarray}
+
+Therefore, we can use the bounds of $\beta < \frac{1}{10}$ and $\beta \epsilon < \frac{1}{10}$ to find bounds for $\epsilon_5$ and $\epsilon_6$ by using the formula $\epsilon_{n+1} < \beta^{1-p} {(\beta \epsilon_1)^p}^n$:
+
+\begin{eqnarray}
+\epsilon_5 &<& \left( \frac{1}{10} \right)^{-9} \left( \frac{1}{10} \right)^{10^4} \\
+\epsilon_5 &<& 10^{-9,991} \\
+\nonumber \\
+\epsilon_6 &<& \left( \frac{1}{10} \right)^{-9} \left( \frac{1}{10} \right)^{10^5} \\
+\epsilon_6 &<& 10^{-99,991}
+\end{eqnarray}
+
+It is clear that this algorithm converges extremely quickly for large values of $\alpha$ and $p$. 
+\end{proof}
+
+\end{document}

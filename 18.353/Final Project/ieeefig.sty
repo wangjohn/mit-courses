@@ -1,0 +1,205 @@
+% =====================================================================
+% ---------------------------------------------------------------------
+%
+%     XX                       XX  XX                  X
+%                             X  X                     X
+%     XX    XXX   XXX   XXX  XXX   XX   XXX      XXXX XXX   X   X
+%      X   X   X X   X X   X  X     X  X   X    X      X    X   X
+%      X   XXXXX XXXXX XXXXX  X     X  X   X     XXX   X    X   X
+%      X   X     X     X      X     X  X   X XX     X  X  X X   X
+%     XXX   XXX   XXX   XXX  XXX   XXX  XXXX XX XXXX    XX   XXXX
+%                                          X                    X
+%                                      XXXX                 XXXX 
+% ---------------------------------------------------------------------
+% =====================================================================
+% ieeefig.sty --- For managing figures in LaTeX2e documents.
+%             --- Written by Gregory Plett, Sept 1997
+% =====================================================================
+%  The following macros provide a systematic yet flexible method for
+%  incorporating figures in a LaTeX2e document. They are especially well
+%  suited for paper preparation using the ieee.cls and psfrag
+%  style. Each figure has its own .tex file. When used with psfrag, it
+%  will also have its own .eps file. In the main text,
+%	\figdef{figure}
+%  loads the file `figure.tex', which contains all the LaTeX commands 
+%  format that particular figure. (The figure will be centered)
+%  To insert an EPS file, `figure.tex' should contain the 
+%  \inserteps{figure.eps} command, and any psfrag commands required
+%  to format that figure.
+%  Options defined below control the formating of figures.
+%  If using psfrag, the figure.tex file will be of the form:
+%  	\begin{psfrags} \psfrag{xx}{yy} ... \inserteps{figure.eps}
+%	\end{psfrags}
+% =====================================================================
+% *********************************************************************
+% ******                          *************************************
+% *****   LaTeX2e INITIALIZATION   ************************************
+% ******                          *************************************
+% *********************************************************************
+\NeedsTeXFormat{LaTeX2e}[1993/11/11] % Oldest acceptable version of LaTeX2e
+\ProvidesPackage{ieeefig}[1996/01/26]   % Name of package provided, date
+
+%====================== Initial Code & Declaration of Options
+\newif\iffigdr@ft \figdr@ftfalse     % defines draft or regular mode.
+
+\newif\iffigframe \figframefalse     % if figures are framed, w/ labels
+\newif\ifshowfigs \showfigstrue      % if false, only figure name shown.
+\newif\ifdraftfigs \draftfigsfalse   % if true, blank space left for fig.
+\newif\ifsc@leoverride 		     % override scale when doing figs. 
+
+\DeclareOption{draft}{\figdr@fttrue\typeout{ieeefig: Draft option selected.}}
+\DeclareOption{final}{\figdr@ftfalse\typeout{ieeefig: Final option selected.}}
+\DeclareOption{blank}{\draftfigstrue\typeout{ieeefig: Blank option selected.}}
+\DeclareOption{noblank}{\draftfigsfalse\typeout{ieeefig: Blank option de-selected.}}
+\DeclareOption{hide}{\showfigsfalse\typeout{ieeefig: Hide option selected.}}
+\DeclareOption{show}{\showfigstrue\typeout{ieeefig: Show option selected.}}
+\DeclareOption{frame}{\figframetrue\typeout{ieeefig: Frame option selected.}}
+\DeclareOption{noframe}{\figframefalse\typeout{ieeefig: Frame option de-selected.}}
+
+\ProcessOptions
+\RequirePackage[final]{graphics}
+\RequirePackage{graphicx,ifthen}
+
+\newcommand{\figw@rning}[1]{\typeout{Warning: #1\space on page \thepage}}
+%======================================================================
+% LaTeX input file and is input by the figure commands. The figure can
+% be "larger than life" and these routines will scale the figures by
+% a constant amount to fit into the paper or book.
+%
+% \setfigscale{scale} Changes the scaling factor applied to each figure 
+%	    (which is initialized to 1). If changed inside the main LaTeX 
+%           code, then the new scale will apply to all figures from that 
+%           point on. If changed within the figure file, it will apply only 
+%           to that figure.
+%
+% \figdef[dim]{figname} This command inputs a figure
+%           TeX file of name "figname.tex". If the file "figname.tex" does 
+%           not exist, a warning is output and the figure name is displayed
+%           in a framed box. A warning is also output if an eps file of name 
+%           "figname.eps" does not exist. The optional dimension [dim] is
+%           the vertical space skipped when draftfigs is true.
+%
+% \scalefig[dim]{figname}{scale} This is the same as \figdef, except
+%           that it overrides any scaling in the "figname.tex" file. 
+%
+% \showfigsfalse This command will cause figdef to print the figure's
+%           name in a framed box instead of including the figure. Saves
+%	    time. Note that the figures are "short" since they are just
+%           the height of the text.
+% \showfigstrue (default) figdef returns to the regular mode of display-
+%	    ing the figures, not just the name.
+%
+% \figframetrue This command will cause figdef to draw a frame around 
+%           the figure so that you can adjust the bounding box. Also prints
+%           the figure name in the margin of the page.
+% \figframefalse (default) Turns off the figure framing.
+%
+% \draftfigstrue Leaves an empty space *of correct vertical dimension* 
+%           on the page for the figure. (speeds up LaTeX since it does not
+%           need to search for the figure on the disk).
+% \draftfigsfalse (default) Draws the figure instead.
+%
+% Use \renewcommand{\figfontsize}{\scriptsize}, for example, to change the
+% default font size for the figure labels. 
+% Using \renewcommand{\figfontstyle}{\sffamily}, for example, to change the
+% default figure font style to sans-serif.
+%======================================================================
+\newcommand{\setfigscale}[1]{\gdef\figsc@le{#1}}
+\setfigscale{1}
+\newsavebox{\figb@x}
+\newdimen\htpl@sdp
+\newif\ifdr@fteps
+\newdimen\b@xwidth 
+\def\figfontsize{\footnotesize}
+\def\figfontstyle{\rmfamily}
+
+\newcommand{\d@fig}[2]{\begingroup\figfontsize\reset@font\figfontstyle%
+\b@xwidth=\hsize \advance\b@xwidth by -9\arrayrulewidth
+\xdef\figh@ight{#2}%
+\xdef\figscales@ve{\figsc@le}% save the global scale factor.
+\IfFileExists{#1.tex}{%
+\ifsc@leoverride\xdef\figsc@le{\sc@lefig}\fi%
+%
+\ifshowfigs%
+% show figs true...
+\ifdraftfigs%
+% show figs true and draft figs true...
+\vspace*{-2\arrayrulewidth}\frame{\vbox to #2{\vss \hbox to \b@xwidth{\hfill #1 \hfill}\vss}}%
+\else%
+% show figs true and draft figs false...
+\iffigframe%
+% showfigstrue, draftfigsfalse, figframetrue...
+\vspace*{-2\arrayrulewidth}\hfill\frame{\let\par\relax\input{#1}}\hfill%
+\sbox{\figb@x}{\let\par\relax\input{#1}}% read box to get the height!
+\htpl@sdp=\ht\figb@x\advance\htpl@sdp by \dp\figb@x%
+\smash{\rlap{\vbox{\hbox{\footnotesize\quad\tt{ht=}\the\htpl@sdp\typeout{#1: \the\htpl@sdp}}%
+\hbox{\footnotesize \quad #1}}}}%
+\else%
+% showfigstrue, draftfigsfalse, figframefalse...
+\iffigdr@ft%
+% showfigstrue, draftfigsfalse, figframefalse, draft mode true...
+\hbox to \hsize{\hss\let\par\relax\input{#1}\hss\smash{\rlap{\footnotesize\quad#1}}}%
+\else%
+% showfigstrue, draftfigsfalse, figframefalse, draft mode false...
+%\hbox to \hsize{\hss\let\par\relax\input{#1}\hss\smash{\rlap{}}}%
+\noindent{\hfill\let\par\relax\input{#1}\hfill}%
+%\hbox to \hsize{\hss\let\par\relax\input{#1}\hss}%
+%\centerline{\let\par\relax\input{#1}}%
+\fi% end \iffigdr@ft
+\fi% end \iffigframe
+\fi% end \ifdraftfigs
+\else% 
+% show figs is false...
+\centerline{\fbox{#1}}%
+\fi% end \ifshowfigs
+}{%
+\figw@rning{#1.tex not found!}%
+\centerline{\frame{\vbox to #2{\vss\hbox{\hskip 1in\relax #1 (missing from disk!)\hskip 1in}\vss}}}%
+}% end IfFileExists #1.tex
+\xdef\figsc@le{\figscales@ve}
+\ifdr@fteps%
+\vspace*{0.05in}%
+\centerline{\large \bf This is a draft figure!}%
+\fi%
+\endgroup
+}%end \fgdf
+
+%======================================================================
+% \inserteps[options]{epsfilename}
+% The specified eps file will be inserted into a figdef environment 
+% (such as when using psfrag). If the file does not exist, a box is
+% left on the page, of height specified by the \figdef command, with
+% a warning message. The "options" can be any options supported by
+% the \includegraphics command.
+%
+% A recommended variant of this command is:
+% \inserteps[trim=a b c d]{filename.eps}. This is especially useful
+% when using \psfrags if the frags fall outside the original bounding
+% box of the eps file. The parameters a,b,c,d are the amount to trim 
+% from the left, bottom, right and top of the figure, respectively.
+% Their units are in points. To see if you need to modify the bounding
+% box in this way, use the \figframetrue command. (If the arguments a,b,
+% c, or d are negative, then the bounding box is expanded. This is 
+% probably the most common situation).
+%
+% \insertdrafteps{epsfilename}
+% The specified file is inserted just as above. Below the figure, and
+% centered on the page is a framed message stating that the figure is
+% a draft figure.
+%======================================================================
+\def\insert@eps[#1]#2{\IfFileExists{#2}{\ifsc@leoverride%
+\includegraphics[scale=\sc@lefig,#1,clip=]{#2}\else%
+\includegraphics[scale=\figsc@le,#1,clip=]{#2}\fi}{%
+\figw@rning{file #2 is missing!}\vspace*{-2\arrayrulewidth}%
+\frame{\vbox to \figh@ight{\vss \hbox{\mbox{\qquad #2
+(missing from disk)\qquad}}\vss}}}\global\dr@ftepsfalse}
+
+\def\inserteps{\@ifnextchar [{\insert@eps}{\insert@eps[angle=0]}}
+
+\newcommand{\insertdrafteps}[1]{\inserteps{#1}\global\dr@ftepstrue}
+
+\def\figdef{\@ifnextchar [{\figdefa}{\figdefa[0.5in]}}
+\def\figdefa[#1]#2{\sc@leoverridefalse\d@fig{#2}{#1}}
+\def\scalefig{\@ifnextchar [{\@scalefiga}{\@scalefiga[0.5in]}}
+\def\@scalefiga[#1]#2#3{\xdef\sc@lefig{#3}\sc@leoverridetrue\d@fig{#2}{#1}}
+

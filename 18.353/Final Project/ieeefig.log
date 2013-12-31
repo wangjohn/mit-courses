@@ -1,0 +1,15 @@
+This is pdfTeX, Version 3.1415926-1.40.10 (MiKTeX 2.8) (preloaded format=pdftex 2011.3.25)  10 DEC 2011 00:43
+entering extended mode
+**C:/Users/John/Documents/MIT/Course*18/18.353/Final*Project/ieeefig.sty
+("C:/Users/John/Documents/MIT/Course 18/18.353/Final Project/ieeefig.sty"
+! Undefined control sequence.
+l.39 \NeedsTeXFormat
+                    {LaTeX2e}[1993/11/11] % Oldest acceptable version of LaT...
+
+? 
+! Emergency stop.
+l.39 \NeedsTeXFormat
+                    {LaTeX2e}[1993/11/11] % Oldest acceptable version of LaT...
+End of file on the terminal!
+
+!  ==> Fatal error occurred, no output PDF file produced!

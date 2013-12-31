@@ -1,0 +1,7 @@
+wire cross1-v -50 -100 -50 90
+wire cross1-h -100 -50 90 -50
+wire cross2-v 0 -95 0 95
+wire cross2-h -95 0 95 0
+wire cross3-v 50 -90 50 100
+wire cross3-h -90 50 100 50
+done

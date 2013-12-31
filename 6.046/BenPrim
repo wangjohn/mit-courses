@@ -1,0 +1,24 @@
+BibFind(tree, 
+
+
+BenPrim(G, w, r):
+    T = []
+    for each u in G.vertices:
+        u.key = infty
+        u.parent = null
+    r.key = 0
+    struct = Structure()
+    for each u in G.vertices:
+        StructInsert(struct, u)
+    while StructMin(tree) != null:
+        u = StructMin(tree)
+        StructDelete(struct, u)
+        if u.parent != null:
+            T.append((u, u.parent)) 
+        for each v in G.Adj[u]:
+            if StructFind(struct, u) and w(u,v) < v.key:
+                StructDelete(tree, v)
+                v.parent = u
+                v.key = w(u,v)
+                StructInsert(tree, v)
+                

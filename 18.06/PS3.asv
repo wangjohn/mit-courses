@@ -1,0 +1,12 @@
+nlist = [1,5,10,15];
+reps = 1000;
+storage_mat = zeros(reps,size(nlist,2));
+
+for x = 1:size(nlist,2)
+    n = nlist(x);
+    for j = 1:reps
+        storage_mat(j,x) = rank(randi([0 1],n));
+    end
+end
+
+mean(storage_mat)

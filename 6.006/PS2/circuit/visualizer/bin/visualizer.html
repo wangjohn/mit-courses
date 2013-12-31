@@ -1,0 +1,495 @@
+<html>
+  <head>
+    <title>Circuit simulation visualization</title>
+    <style type="text/css">
+body {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: block-axis;
+  -moz-box-orient: block-axis;
+  box-orient: block-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch;
+  text-align: center; }
+
+#controls-container {
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: inline-axis;
+  -moz-box-orient: inline-axis;
+  box-orient: inline-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch; }
+  #controls-container #time-label {
+    display: block;
+    width: 5em;
+    text-align: right;
+    padding: 0 1em 0 0; }
+  #controls-container #start-time-label, #controls-container #end-time-label {
+    display: block;
+    padding: 0 2px 0 2px; }
+  #controls-container #timeline {
+    display: block;
+    -webkit-box-flex: 1;
+    -moz-box-flex: 1;
+    box-flex: 1; }
+  #controls-container #controls-buttons {
+    display: block;
+    padding: 0 1em 0 1em; }
+
+#svg-container {
+  margin: 0 20px;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  display: -webkit-box;
+  display: -moz-box;
+  display: box;
+  -webkit-box-orient: block-axis;
+  -moz-box-orient: block-axis;
+  box-orient: block-axis;
+  -webkit-box-align: stretch;
+  -moz-box-align: stretch;
+  box-align: stretch; }
+
+#svg-container > svg {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  width: auto;
+  height: auto;
+  display: block;
+  font-family: Tahoma, sans-serif; }
+  #svg-container > svg .output-true, #svg-container > svg .wire-true {
+    fill: #333333;
+    stroke: black; }
+    #svg-container > svg .output-true text, #svg-container > svg .wire-true text {
+      fill: white;
+      stroke: none; }
+  #svg-container > svg .output-false, #svg-container > svg .wire-false {
+    fill: #bfbfbf;
+    stroke: #a6a6a6; }
+    #svg-container > svg .output-false text, #svg-container > svg .wire-false text {
+      fill: black;
+      stroke: none; }
+  #svg-container > svg .output-true.output-probed {
+    stroke: #4d4dff; }
+    #svg-container > svg .output-true.output-probed text {
+      stroke: none; }
+  #svg-container > svg .output-false.output-probed {
+    stroke: #8787c5; }
+    #svg-container > svg .output-false.output-probed text {
+      stroke: none; }
+
+#controls-container {
+  vertical-align: middle; }
+
+    </style>
+
+    <script type="text/javascript">
+(function() {
+  var Circuit, LayoutView, Trace, Visualizer, simData;
+  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
+  Circuit = (function() {
+    function Circuit(circuitJson) {
+      var gate, jsonGate, outGate, outGateId, wire, _i, _len, _ref;
+      this.gatesById = {};
+      this.gates = (function() {
+        var _i, _len, _ref, _results;
+        _ref = circuitJson.gates;
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          jsonGate = _ref[_i];
+          gate = {
+            id: jsonGate.id,
+            tableId: jsonGate.table,
+            typeId: jsonGate.type,
+            probed: jsonGate.probed
+          };
+          this.gatesById[gate.id] = gate;
+          _results.push(gate);
+        }
+        return _results;
+      }).call(this);
+      this.wires = [];
+      _ref = circuitJson.gates;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        jsonGate = _ref[_i];
+        gate = this.gate(jsonGate.id);
+        gate.outWires = (function() {
+          var _j, _len2, _ref2, _results;
+          _ref2 = jsonGate.outputs;
+          _results = [];
+          for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+            outGateId = _ref2[_j];
+            outGate = this.gate(outGateId);
+            wire = {
+              from: gate,
+              to: outGate
+            };
+            this.wires.push(wire);
+            _results.push(wire);
+          }
+          return _results;
+        }).call(this);
+      }
+    }
+    Circuit.prototype.gate = function(gateId) {
+      return this.gatesById[gateId];
+    };
+    return Circuit;
+  })();
+  Trace = (function() {
+    function Trace(traceJson, circuit) {
+      var event, time, timeBag, _;
+      this.circuit = circuit;
+      timeBag = {
+        0: true
+      };
+      this.events = (function() {
+        var _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = traceJson.length; _i < _len; _i++) {
+          event = traceJson[_i];
+          timeBag[event[0]] = true;
+          _results.push({
+            time: event[0],
+            gate: this.circuit.gate(event[1]),
+            value: event[2]
+          });
+        }
+        return _results;
+      }).call(this);
+      this.endTime = this.events[this.events.length - 1].time;
+      this.times = (function() {
+        var _results;
+        _results = [];
+        for (time in timeBag) {
+          _ = timeBag[time];
+          _results.push(parseInt(time));
+        }
+        return _results;
+      })();
+      this.rewind();
+    }
+    Trace.prototype.rewind = function() {
+      var gate, _i, _len, _ref;
+      _ref = this.circuit.gates;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        gate = _ref[_i];
+        gate.value = false;
+      }
+      this.offset = 0;
+      while (this.events[this.offset] && this.events[this.offset].time === 0) {
+        this.events[this.offset].gate = this.events[this.offset].value;
+        this.offset += 1;
+      }
+      return this.time = 0;
+    };
+    Trace.prototype.stepForward = function(changeBag) {
+      var gate;
+      if (changeBag == null) {
+        changeBag = {};
+      }
+      if (this.events[this.offset] === null) {
+        return changeBag;
+      }
+      this.time = this.events[this.offset].time;
+      while (this.events[this.offset] && this.events[this.offset].time === this.time) {
+        gate = this.events[this.offset].gate;
+        changeBag[gate.id] = true;
+        gate.value = this.events[this.offset].value;
+        this.offset += 1;
+      }
+      return changeBag;
+    };
+    Trace.prototype.stepBack = function(changeBag) {
+      var gate;
+      if (changeBag == null) {
+        changeBag = {};
+      }
+      if (this.time === 0) {
+        return changeBag;
+      }
+      while (this.offset > 0 && this.events[this.offset - 1].time === this.time) {
+        this.offset -= 1;
+        gate = this.events[this.offset].gate;
+        changeBag[gate.id] = true;
+        gate.value = !this.events[this.offset].value;
+      }
+      this.time = this.offset > 0 ? this.events[this.offset - 1].time : 0;
+      return changeBag;
+    };
+    Trace.prototype.atBeginning = function() {
+      return this.time === 0;
+    };
+    Trace.prototype.atEnd = function() {
+      return this.time === this.endTime;
+    };
+    Trace.prototype.nearestEventTime = function(time) {
+      var distance, eventTime, minDistance, minTime, _i, _len, _ref;
+      minDistance = Math.abs(time);
+      minTime = 0;
+      _ref = this.times;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        eventTime = _ref[_i];
+        distance = Math.abs(time - eventTime);
+        if (distance < minDistance) {
+          minDistance = distance;
+          minTime = eventTime;
+        }
+      }
+      return minTime;
+    };
+    Trace.prototype.seek = function(time, changeBag) {
+      if (changeBag == null) {
+        changeBag = {};
+      }
+      while (this.time < time) {
+        this.stepForward(changeBag);
+      }
+      while (this.time > time) {
+        this.stepBack(changeBag);
+      }
+      return changeBag;
+    };
+    return Trace;
+  })();
+  LayoutView = (function() {
+    function LayoutView(svgContainer, svgLayoutString, trace) {
+      var gate, wire, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3;
+      this.trace = trace;
+      this.circuit = this.trace.circuit;
+      _ref = this.circuit.gates;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        gate = _ref[_i];
+        gate.view = {};
+      }
+      _ref2 = this.circuit.wires;
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        wire = _ref2[_j];
+        wire.view = {};
+      }
+      svgContainer.innerHTML = svgLayoutString;
+      this.svg = svgContainer.querySelector('svg');
+      this.postGraphviz();
+      _ref3 = this.circuit.gates;
+      for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+        gate = _ref3[_k];
+        this.updateGate(gate);
+      }
+      this.timeLabel = document.getElementById('time-label');
+      this.startTimeLabel = document.getElementById('start-time-label');
+      this.endTimeLabel = document.getElementById('end-time-label');
+      this.timeline = document.getElementById('timeline');
+      this.backButton = document.getElementById('back');
+      this.forwardButton = document.getElementById('forward');
+      this.seekStartButton = document.getElementById('seek-start');
+      this.seekEndButton = document.getElementById('seek-end');
+      this.playButton = document.getElementById('play');
+      this.updateTrace();
+    }
+    LayoutView.prototype.postGraphviz = function() {
+      var background, element, fontSize, fontSizeString, oldClass, _i, _j, _k, _len, _len2, _len3, _ref, _ref2, _ref3, _results;
+      this.svg.removeAttribute('width');
+      this.svg.removeAttribute('height');
+      background = this.svg.querySelector('polygon[fill="white"][stroke="white"]');
+      background.parentNode.removeChild(background);
+      _ref = this.svg.querySelectorAll('symbol [stroke="#000"],[stroke="black"]');
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        element = _ref[_i];
+        element.removeAttribute('stroke');
+        oldClass = element.getAttribute('class') || '';
+        element.setAttribute('class', 'gate-stroke ' + oldClass);
+      }
+      _ref2 = this.svg.querySelectorAll('symbol [fill="#FFF"],[fill="white"]');
+      for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+        element = _ref2[_j];
+        element.removeAttribute('fill');
+        oldClass = element.getAttribute('class') || '';
+        element.setAttribute('class', 'gate-fill ' + oldClass);
+      }
+      _ref3 = this.svg.querySelectorAll('text');
+      _results = [];
+      for (_k = 0, _len3 = _ref3.length; _k < _len3; _k++) {
+        element = _ref3[_k];
+        element.removeAttribute('font-family');
+        _results.push((fontSizeString = element.getAttribute('font-size')) ? (fontSize = Math.max(12, parseInt(fontSizeString) - 2), element.setAttribute('font-size', fontSize)) : void 0);
+      }
+      return _results;
+    };
+    LayoutView.prototype.gateElement = function(gate) {
+      var _base;
+      return (_base = gate.view).svg || (_base.svg = this.svg.getElementById('gate__' + gate.id));
+    };
+    LayoutView.prototype.wireElement = function(wire) {
+      var _base;
+      return (_base = wire.view).svg || (_base.svg = this.svg.getElementById('wire__' + wire.from.id + '__' + wire.to.id));
+    };
+    LayoutView.prototype.updateGate = function(gate) {
+      var klass, svg, wire, _i, _len, _ref, _results;
+      svg = this.gateElement(gate);
+      klass = gate.value ? 'output-true' : 'output-false';
+      if (gate.probed) {
+        klass += ' output-probed';
+      }
+      svg.setAttribute('class', klass);
+      _ref = gate.outWires;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        wire = _ref[_i];
+        _results.push(this.updateWire(wire));
+      }
+      return _results;
+    };
+    LayoutView.prototype.updateWire = function(wire) {
+      var klass, svg;
+      svg = this.wireElement(wire);
+      klass = wire.from.value ? 'wire-true' : 'wire-false';
+      return svg.setAttribute('class', klass);
+    };
+    LayoutView.prototype.updateTrace = function() {
+      this.timeLabel.innerHTML = this.trace.time;
+      this.startTimeLabel.innerHTML = 0;
+      this.timeline.setAttribute('min', 0);
+      this.endTimeLabel.innerHTML = this.trace.endTime;
+      this.timeline.setAttribute('max', this.trace.endTime);
+      this.timeline.value = this.trace.time;
+      this.seekStartButton.disabled = this.backButton.disabled = this.trace.atBeginning();
+      return this.seekEndButton.disabled = this.forwardButton.disabled = this.trace.atEnd();
+    };
+    LayoutView.prototype.updateAnimationState = function(state) {
+      return this.playButton.innerHTML = state ? 'Pause' : 'Play';
+    };
+    return LayoutView;
+  })();
+  Visualizer = (function() {
+    function Visualizer(svgContainer, simData) {
+      this.circuit = new Circuit(simData.circuit);
+      this.trace = new Trace(simData.trace, this.circuit);
+      this.view = new LayoutView(svgContainer, simData.layout, this.trace);
+      this.frameTimeout = null;
+      document.getElementById('forward').addEventListener('click', __bind(function() {
+        return this.onForwardClick();
+      }, this));
+      document.getElementById('back').addEventListener('click', __bind(function() {
+        return this.onBackClick();
+      }, this));
+      document.getElementById('seek-start').addEventListener('click', __bind(function() {
+        return this.onSeekStartClick();
+      }, this));
+      document.getElementById('seek-end').addEventListener('click', __bind(function() {
+        return this.onSeekEndClick();
+      }, this));
+      document.getElementById('play').addEventListener('click', __bind(function() {
+        return this.onPlayClick();
+      }, this));
+      this.timeline = document.getElementById('timeline');
+      this.timeline.addEventListener('change', __bind(function() {
+        return this.onTimelineChange();
+      }, this));
+    }
+    Visualizer.prototype.onForwardClick = function() {
+      return this.updateView(this.trace.stepForward());
+    };
+    Visualizer.prototype.onBackClick = function() {
+      return this.updateView(this.trace.stepBack());
+    };
+    Visualizer.prototype.onSeekEndClick = function() {
+      return this.updateView(this.trace.seek(this.trace.endTime));
+    };
+    Visualizer.prototype.onSeekStartClick = function() {
+      return this.updateView(this.trace.seek(0));
+    };
+    Visualizer.prototype.onPlayClick = function() {
+      if (this.frameTimeout) {
+        this.cancelAnimationFrame();
+      } else {
+        this.scheduleAnimationFrame();
+      }
+      return this.view.updateAnimationState(!!this.frameTimeout);
+    };
+    Visualizer.prototype.onTimelineChange = function() {
+      var newTime, value;
+      value = parseFloat(this.timeline.value);
+      if (this.trace.time === value) {
+        return;
+      }
+      newTime = this.trace.nearestEventTime(value);
+      return this.updateView(this.trace.seek(newTime));
+    };
+    Visualizer.prototype.updateView = function(changeBag) {
+      var gateId, _;
+      for (gateId in changeBag) {
+        _ = changeBag[gateId];
+        this.view.updateGate(this.circuit.gate(gateId));
+      }
+      return this.view.updateTrace();
+    };
+    Visualizer.prototype.scheduleAnimationFrame = function() {
+      if (!this.frameTimeout) {
+        return this.frameTimeout = window.setTimeout((__bind(function() {
+          return this.doAnimationFrame();
+        }, this)), 1000);
+      }
+    };
+    Visualizer.prototype.cancelAnimationFrame = function() {
+      if (this.frameTimeout) {
+        window.clearTimeout(this.frameTimeout);
+      }
+      return this.frameTimeout = false;
+    };
+    Visualizer.prototype.doAnimationFrame = function() {
+      this.frameTimeout = null;
+      this.onForwardClick();
+      if (this.trace.atEnd()) {
+        return this.view.updateAnimationState(false);
+      } else {
+        return this.scheduleAnimationFrame();
+      }
+    };
+    return Visualizer;
+  })();
+  simData = null;
+  window.onJsonp = function(data) {
+    return simData = data;
+  };
+  window.onload = function() {
+    var lodInput, svgContainer;
+    svgContainer = document.getElementById('svg-container');
+    window.visualizer = new Visualizer(svgContainer, simData);
+    simData = null;
+    return lodInput = document.querySelector('#lod');
+  };
+}).call(this);
+
+    </script>
+    <script src="../../circuit.jsonp" type="text/javascript"></script>
+  </head>
+  <body>
+    <div id="svg-container">
+    </div>
+
+    <p id="controls-container">
+      <span id="time-label">0</span>
+      <span id="start-time-label">0</span>
+      <input id="timeline" type="range" min="0" max="1" step="1" value="0" />
+      <span id="end-time-label">1</span>
+      
+      <span id="controls-buttons">
+        <button id="seek-start">&lt;&lt;</button>
+        <button id="back">&lt;</button>
+        <button id="play">Play</button>
+        <button id="forward">&gt;</button>
+        <button id="seek-end">&gt;&gt;</button>
+      </span>
+    </p>
+  </body>
+</html>

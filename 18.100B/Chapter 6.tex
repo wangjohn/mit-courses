@@ -1,0 +1,506 @@
+\documentclass[psamsfonts]{amsart}
+
+%-------Packages---------
+\usepackage{amssymb,amsfonts}
+\usepackage[all,arc]{xy}
+\usepackage{enumerate}
+\usepackage{mathrsfs}
+\usepackage{amsmath}
+\usepackage[margin=1in]{geometry}
+
+
+%--------Theorem Environments--------
+%theoremstyle{plain} --- default
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{quest}[thm]{Question}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{con}[thm]{Construction}
+\newtheorem{exmp}[thm]{Example}
+\newtheorem{exmps}[thm]{Examples}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{notns}[thm]{Notations}
+\newtheorem{addm}[thm]{Addendum}
+\newtheorem{exer}[thm]{Exercise}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem{rems}[thm]{Remarks}
+\newtheorem{warn}[thm]{Warning}
+\newtheorem{sch}[thm]{Scholium}
+
+\makeatletter
+\let\c@equation\c@thm
+\makeatother
+\numberwithin{equation}{section}
+
+\bibliographystyle{plain}
+
+\voffset = -10pt
+\headheight = 0pt
+\topmargin = -20pt
+\textheight = 690pt
+
+%--------Meta Data: Fill in your info------
+\title{Rudin Chapter 6\\
+Solutions}
+
+\author{John Wang}
+
+\begin{document}
+
+\maketitle
+
+\section{Problem 6.1}
+
+\begin{thm}
+Suppose $\alpha$ increases on $[a,b]$, $a \leq x_0 \leq b$, $\alpha$ is continuous at $x_0$, $f(x_0) = 1$, and $f(x) = 0$ if $x \neq x_0$. Prove that $f \in \mathbb{R}(\alpha)$. 
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. Since we know that $\alpha$ is continuous at $x_0$, we know that $|\alpha(x) - \alpha(x_0)| < \epsilon$ if $|x - x_0| < \delta$ for all $x \in [a,b]$. Thus, choose some partition $P = \{a = x_0 < \ldots < x_{i-1} < x_i < \ldots < x_n < b \}$ for $[a,b]$ and let $x_0 \in [x_{i-1},x_i]$ the be interval in which $x_0$ lies. We can choose a particular interval $[x_{i-1},x_i]$ such that $| x_{i-1} - x_0 | < \delta/2$ and $|x_i - x_0 | < \delta/2$. Moreover, we see that for this interval, we have:
+\begin{eqnarray}
+\sup_{x \in [x_{i-1},x_i]} f(x) = 1 \hspace{1cm} \inf_{x \in [x_{i-1},x_i]} f(x) = 0
+\end{eqnarray}
+
+Because we know that $f(x_0) = 1$ but at all other points in the interval $f(x) = 0$. Next, we see that for the other intervals, we have:
+\begin{equation}
+\sup_{x \in [x_{j-1},x_j]} f(x) = \inf_{x \in [x_{j-1},x_j]} f(x) = 0 \hspace{1cm} ( 0 \leq j \neq i\leq n )
+\end{equation}
+
+Therefore, we see that $m_j = \inf_{x \in [x_{j-1},x_j]} f(x) = M_j = \sup_{x \in [x_{j-1},x_j]} f(x)$. This means that $M_j - m_j = 0$ for all $j \neq i$ and $0 \leq j \leq n$. Thus, we have the following:
+\begin{eqnarray}
+U(P,f,\alpha) - L(P,f,\alpha) &=& \sum_{j = 0}^n (M_j - m_j) \Delta \alpha_j \\
+&=& \Delta \alpha_i \\
+&=& \alpha(x_i) - \alpha(x_{i-1}) 
+\end{eqnarray}
+
+By the triangle inequality, we know that $|\alpha(x_i) - \alpha(x_{i-1})|\leq |\alpha(x_i) - \alpha(x_0)| + |\alpha(x_0) - \alpha(x_{i-1}) |$. Since we have chosen $|x_{i-1} - x_0| < \delta/2$ and $|x_i - x_0| < \delta/2$, we have by continuity that $U(P,f,\alpha) - L(P,f,\alpha) < \epsilon/2 + \epsilon/2 = \epsilon$, which shows that $f \in \mathbb{R}(\alpha, [a,b])$. 
+\end{proof}
+
+\begin{thm}
+Prove that $\int f d \alpha = 0$. 
+\end{thm}
+
+\begin{proof}
+We know that we must have:
+\begin{equation}
+\int_{\underline{a}}^b f d \alpha = \int_{a}^{\overline{b}} f d \alpha
+\end{equation}
+
+Since we know the definition of each of these upper and lower integrals, we can write out the following:
+\begin{eqnarray}
+\int_{\underline{a}}^b f d \alpha = \inf U(P,f,\alpha) = 0 \\
+\int_{a}^{\overline{b}} f d \alpha = \sup L(P,f,\alpha) = 0
+\end{eqnarray}
+
+Therefore, since we know it exists, we see that $\int f d\alpha = 0$. 
+\end{proof}
+
+\section{Problem 6.2}
+
+\begin{thm}
+Suppose $f \geq 0$, $f$ is continuous on $[a,b]$, and $\int_{a}^b f(x) dx = 0$. Prove that $f(x) = 0$. 
+\end{thm}
+
+\begin{proof}
+Assume the contrary and fix $\epsilon > 0$. Then for some $x_0 \in [a,b]$, we have $f(x_0) > 0$ (since we have assumed $f(x) > 0$ as well). We know that $f$ is continuous, so that $|f(x) - f(x_0)| <  \epsilon$ if $0 < |x - x_0| < \delta$. Since $\int_a^b f(x) dx$ exists, we can choose any partition $P = \{ a = x_0 < \ldots < x_{i-1} < x_j < \ldots < x_n = b \}$ such that $0 < |x_{i-1} - x_0 | < \delta/2$ and $0 < |x_i - x_0 |  < \delta/2$. Moreover, we know the following must be true:
+\begin{equation}
+0 = \int_a^b f(x) dx = \int_{\underline{a}}^b f(x) dx = \int_a^{\overline{b}} f(x) dx
+\end{equation}
+
+This means that $0 = \sup L(P,f) = \inf U(P,f)$ over all the possible partitions $P$ of $[a,b]$. Thus, for every possible partition, we must have:
+\begin{eqnarray}
+0 = \sum_{j=1}^n M_j \Delta x_j = \sum_{j=1}^n m_j \Delta x_j
+\end{eqnarray}
+
+Particularly, since $M_j = \sup f(x)$ for $x_{j-1} \leq x \leq x_j$, and we know that $\sum_{j=1}^n \Delta x_j = a - b \neq 0$, we must have $M_j = 0$ for all $j$ such that $|x_{j-1} - x_j| \neq 0$. However, we have constructed a partition $P$ such that $0 < |x_{i-1} - x_i | < \delta$ and where $f(x_0) > 0$ for some $x_0 \in [x_{i-1},x_i]$, which means that $M_i = f(x_0) > 0$. This is a contradiction because we have shown all $M_j = 0$. Therefore, we must have $f(x) = 0$ for all $x \in [a,b]$. 
+\end{proof}
+
+\section{Problem 6.3}
+
+\begin{thm}
+Define three functions $\beta_1, \beta_2, \beta_3$ as follows: $\beta_j(x) = 0$ if $x < 0$, $\beta_j(x) = 1$ if $x > 0$ for $j = 1,2,3$; and $\beta_1(0) = 0, \beta_2(0) = 1, \beta_3(0) = \frac{1}{2}$. Let $f$ be a bounded function on $[-1,1]$. Prove that $f \in \mathbb{R}(\beta_1)$ if and only if $f(0+) = f(0)$ and that then $\int f d\beta_1 = f(0)$.
+\end{thm}
+
+\begin{proof}
+Consider the partition $P = \{ x_0, x_1, x_2, x_3 \}$ where $x_0 = -1$ and $x_1 = 0 < x_2 < x_3 = 1$. Then $U(P,f,\alpha) = M_2$ and $L(P,f,\alpha) = m_2$. Here, we denote $M_2 = \sup_{x \in [0,x_2]} f(x)$ and $m_2 = \inf_{x \in [0,x_2]} f(x)$. Thus, we only need to have knowledge of the interval $[0,x_2]$, which approaches $0$ from the right. If $f(0+) = f(0)$, then we see that $M_2, m_2 \to f(0)$ as $x_2 \to 0$. Therefore $f \in \mathbb{R}(\beta_1)$. 
+
+To prove the converse, assume the contrary. If $f(0+) \neq f(0)$, then either $M_2$ or $m_2$ does not converge to $f(0)$ as $x_2 \to 0$, which is a contradiction of the assumption that $f \in \mathbb{R}(\beta_1)$. Therefore, we must have $f(0+) = f(0)$. Finally, note that in the course of this proof, we have shown that $\int_{-1}^1 f d \beta_1 = f(0)$ because $M_2 = m_2 = f(0)$ as $x_2 \to 0$. 
+\end{proof}
+
+\begin{thm}
+Prove that $f \in \mathbb{R}(\beta_2)$ if and only if $f(0-) = f(0)$ and that then $\int f d \beta_2 = f(0)$. 
+\end{thm}
+
+\begin{proof}
+Take the partition $P = \{ x_0, x_1, x_2, x_3 \}$ where $-1 = x_0 < x_1 < x_2 = 0$ and $x_3 = 1$. Thus, it is clear that $\Delta \beta_{2,i} = 0$ for all $i$ except $i=2$. For $i=2$, we see that $\Delta \beta_{2,2} = \beta_{2}(x_2) - \beta_2(x_1) = 1$. Therefore $U(P,f,\beta_2) = M_2$ and $L(P,f,\beta_2) = m_2$. If $f(0-) = f(0)$, then $M_2,m_2 \to f(0)$ as $x_1 \to 0-$, which shows that $f \in \mathbb{R}(\beta_2)$. 
+
+To show the converse, we can assume the contrary, and we see that if $f(0-) \neq f(0)$, then either $M_2$ or $m_2$ does not converge to $f(0)$ as $x_1 \to 0-$. This is a contradiction because we assumed $f \in \mathbb{R}(\beta_2)$, so we must have $f(0-) = f(0)$. Like the above theorem, we have shown that $\int_{-1}^1 f d \beta_2 = f(0)$ because $M_2, m_2 \to f(0)$ as $x_2 \to 0$.
+\end{proof}
+
+\begin{thm}
+Prove that $f \in \mathbb{R}(\beta_3)$ if and only if $f$ is continuous at $0$.
+\end{thm}
+
+\begin{proof}
+Fix $\epsilon > 0$. If $f$ is continuous at $0$, then we have $|f(x) - f(0)| < \epsilon$ if $|x| < \delta$ for all $x \in [-1,1]$. Now take the partition $P = \{x_0, x_1, x_2, x_3, x_4 \}$ such that $-1 = x_0 < x_1 < x_2 = 0 < x_3 < x_4 = 1$. Thus, we see that the only two indices for which $\Delta \beta_{3,i} \neq 0$ are $i = 2,3$. We have $\Delta \beta_{3,2} = \beta_3(x_2) - \beta_3(x_1) = \Delta \beta_{3,3} = \beta_3(x_3) - \beta_3(x_2) = 1/2$. Therefore, we can see that $L(P,f,\beta_3) = (m_2 + m_3)/2$ and $U(P,f,\beta_3) = (M_2 + M_3) /2$. Since $f$ is continuous, we know that as $x_1 \to 0-$ and $x_3 \to 0+$, we have:
+\begin{eqnarray}
+U(P,f,\beta_3) - L(P,f,\beta_3) &=& \frac{1}{2} (M_2 - m_2)  + \frac{1}{2} ( M_3 - m_3) \\
+&=& \frac{1}{2} \left(\sup_{x \in [x_1,0]} f(x) - \inf_{x \in [x_1,0]} f(x) \right) + \frac{1}{2} \left( \sup_{x \in [0,x_3]} f(x) - \inf_{x \in [0,x_3]} f(x) \right) \\
+&<& \frac{1}{2} \epsilon + \frac{1}{2} \epsilon = \epsilon
+\end{eqnarray}
+
+Therefore, we see that $f \in \mathbb{R}(\beta_3)$. 
+
+Next, if we assume $f \in \mathbb{R}(\beta_3)$, we know that $U(P,f,\beta_3) - L(P,f,\beta_3) < \epsilon$. Considering the same partition as before, it is clear that must have $f(x) \to f(0)$ as $x \to 0$ as $x_1 \to 0 -$ and $x_3 \to 0 +$. This is because we can assume the contrary and say that either $f(0-) \neq f(0)$ or $f(0+) \neq f(0)$. Then we would see that either $M_2 - m_2$ or $M_3 - m_3$ does not converge to zero, so that $U(P,f,\beta_3) - L(P,f,\beta_3)$ does not converge to 0, which is a contradiction. 
+\end{proof}
+
+\begin{thm}
+If $f$ is continuous at $0$ prove that $\int f d \beta_1 = \int f d \beta_2 = \int f d \beta_3 = f(0)$. 
+\end{thm}
+
+\begin{proof}
+If $f$ is continuous at $0$, then $f(0) = f(0-) = f(0+) = \lim_{x \to 0} f(x)$. This means that $f \in \mathbb{R}(\beta_1)$ by part 1 and $f \in \mathbb{R}(\beta_2)$ by part 2. The third part shows that $f \in \mathbb{R}(\beta_3)$ by continuity of $f$ at $0$. Thus, all the above integrals exist. Moreover, parts 1 and 2 show that $\int f d \beta_1 = \int f d \beta_2 = f(0)$. We have seen that part 3 implies $f(0-) = f(0+) = f(0)$, which also shows that $U(P,f,\beta_3) = \frac{1}{2}(M_2 + M_3) \to f(0)$ and $U(P,f,\beta_3) = \frac{1}{2}(m_2 + m_3) \to f(0)$ as $x_1 \to 0-$ and $x_3 \to 0+$. Since we have:
+\begin{equation}
+L(P,f,\beta_3) \leq \int_{\underline{-1}}^{1} f d \beta_3 \leq \int_{{-1}}^{\overline{1}} f d \beta_3 \leq U(P,f,\beta_3)
+\end{equation}
+
+We know that as $x_1 \to 0-$ and $x_3 \to 0+$, we must have $\int_{-1}^1 f d \beta_3 = f(0)$. 
+\end{proof}
+
+
+\section{Problem 6.7}
+
+\begin{thm}
+Suppose $f$ is a real function on $(0,1]$ and $f \in \mathscr{R}$ on $[c,1]$ for every $c > 0$. Define $\int_0^1 f(x) dx = \lim_{c \to 0} \int_c^1 f(x) dx$ if this limit exists and is finite. If $f \in \mathscr{R}$ on $[0,1]$, then the above definition of the integral agrees with the definition in Rudin.
+\end{thm}
+
+\begin{proof}
+We must show that $f \in \mathscr{R}$ implies $\int_0^1 f(x) dx = \lim_{c \to 0} \int_c^1 f(x) d(x)$. We know that $f \in \mathscr{R}$ on $[0,c]$ and $[c,1]$ because $f$ is Riemann integrable on the entire interval $[0,1]$. Next, we know that $f$ is bounded on $[0,1]$ by the definition of Riemann integral. Therefore, we have $|f(x)| < M$ for all $x \in[0,1]$ and some $M \in \mathbb{R}$. Thus, we have the following:
+\begin{eqnarray}
+\left| \int_0^1 f(x) dx - \int_c^1 f(x) dx \right|  = \left| \int_0^c f(x) dx \right| 
+\end{eqnarray}
+
+Since we know by a theorem in Rudin that $|\int_a^b f(x) dx| \leq \int_a^b |f(x)| dx$, we obtain:
+\begin{eqnarray}
+\left| \int_0^c f(x) dx \right| \leq \int_0^c |f(x)| dx \leq c M
+\end{eqnarray}
+
+Since we know that $\lim_{c \to 0} c M = 0$ since $M$ is finite, we know that $\lim_{c \to 0} | \int_0^1 f(x) dx - \int_c^1 f(x) dx| = 0$. This implies the following:
+\begin{eqnarray}
+\int_0^1 f(x) dx = \lim_{c \to 0} \int_c^1 f(x) dx 
+\end{eqnarray}
+
+Which is what we wanted to show.
+\end{proof}
+
+\begin{thm}
+It is possible to construct a function $f$ for which the above limit exists, but fails to exist for $|f|$ in place of $f$.
+\end{thm}
+
+\begin{proof}
+Define $n(x)=\lfloor{\frac{1}{x}}\rfloor$ as the floor function for $\frac{1}{x}$. Now take $f(x) = (-1)^{n(x)} n(x)$. We shall show that $\int_c^1 f(x) dx$ exists for $c \to 0$, but that $\int_c^1 |f(x)| dx$ does not exist as $c \to 0$. First notice that $f$ is constant on the interval $(\frac{1}{n+1}, \frac{1}{n}]$, and thus for $(c,1]$ for $0 < c < 1$, we have finitely many discontinuities. Moreover, we can therefore up the integral of $\int_c^1 f(x) dx$ into finitely many integrals:
+\begin{eqnarray}
+\int_c^1 f(x) dx &=& \int_{c}^{\frac{1}{n(c)}} f(x) dx + \int_{\frac{1}{n(c)}}^{\frac{1}{n(c)-1}} f(x) dx + \ldots + \int_{\frac{1}{2}}^{\frac{1}{1}} f(x) dx \\
+&=&\int_{c}^{\frac{1}{n(c)}} f(x) dx + \sum_{i=1}^{n(c)-1} \int_{\frac{1}{i+1}}^{\frac{1}{i}} f(x) dx
+\end{eqnarray}
+
+Now each function is constant on all but one endpoint for each interval $[\frac{1}{i+1}, \frac{1}{i} ]$. Moreover, we know the value is $f(x) = i (-1)^i$, and so the integral is the following:
+\begin{eqnarray}
+\int_{\frac{1}{i+1}}^{\frac{1}{i}} f(x) dx &=& \left( \frac{1}{i} - \frac{1}{i+1} \right) i (-1)^i \\
+&=& \left(\frac{1}{i(i+1)} \right) i (-1)^i \\
+&=& \frac{(-1)^i}{i+1}
+\end{eqnarray}
+
+Taking the limit as $c \to 0$, we find the following:
+\begin{eqnarray}
+\lim_{c \to 0} \int_c^1 f(x) dx &=& \lim_{c \to 0}  \left( \int_{c}^{\frac{1}{n(c)}} f(x) dx + \int_{\frac{1}{n(c)}}^{\frac{1}{n(c)-1}} f(x) dx + \ldots + \int_{\frac{1}{2}}^{\frac{1}{1}} f(x) dx \right)\\
+&=& \lim_{c \to 0} \left(  \int_{c}^{\frac{1}{n(c)}} f(x) dx + \sum_{i=1}^{n(c)-1} \frac{(-1)^i}{i+1} \right)\\
+&=& \lim_{c \to 0} \lim_{d \to 0}\left(  \int_c^d f(x) dx \right) + \sum_{i=1}^\infty \frac{(-1)^i}{i+1} \\
+&=& \sum_{i=1}^\infty \frac{(-1)^i}{i+1} 
+\end{eqnarray}
+
+Since this sum is a geometric series, we know it converges, and hence, the integral also converges. Applying the same argument to $|f(x)|$, we see that we arrive at the same sum, but with $|(-1)^i|$ replaced with $(-1)^i$. Thus, we have
+\begin{eqnarray}
+\lim_{c \to 0} \int_c^1 f(x) dx &=& \sum_{i=1}^\infty \frac{|(-1)^i|}{i+1} \\
+&=& \sum_{i=1}^\infty \frac{1}{i+1} 
+\end{eqnarray}
+
+We know this sum diverges by being a geometric series. Thus, we have shown that $\lim_{c \to 0} \int_c^1 f dx$ converges, but does not converge absolutely. 
+\end{proof}
+
+\section{Problem 6.8}
+
+\begin{thm}
+Suppose $f \in \mathscr{R}$ on $[a,b]$ for every $b>a$ where $a$ is fixed. Define $\int_a^\infty f(x)dx = \lim_{b \to \infty} \int_a^b f(x) dx$ if this limit exists and is finite. In that case, we say the integral on the left converges. If it also converges after $f$ is replaced by $|f|$, it is said to be absolutely convergent. Assume that $f(x) \geq 0$ and that $f$ decreases monotonically on $[1,\infty)$. Prove that $\int_1^\infty f(x) dx$ converges if and only if $\sum_{n=1}^\infty f(n)$ converges.
+\end{thm}
+
+\begin{proof}
+First we will show that if $\int_1^\infty f(x) dx$ converges, then $\sum_{n=1}^\infty f(n)$ converges. Now, it is clear that the following inequalities are true:
+\begin{eqnarray}
+\sum_{n=1}^k f(n) &=& f(1) + \sum_{n=1}^{k-1} f(n+1) \\
+&\leq& f(1) + \int_1^{k-1} f(x+1) dx \\
+&\leq& f(1) + \int_1^{k-1} f(x) dx
+\end{eqnarray}
+
+The last inequality comes from the fact that $f$ is monotonically decreasing. This implies that $f(n+1) \leq f(n)$ for all $n \in [1, \infty)$. Taking the limit as $k \to \infty$, we see that $\sum_{n=1}^\infty f(n) \leq f(1) + \int_1^\infty f(x) dx$. Since $\int_1^\infty f(x) dx$ converges, and $f(x) \geq 0$ for all $x$, $\sum_{n=1}^\infty f(n)$ must converge as well due to the above inequality. 
+
+To show the converse, we begin by assuming that $\sum_{n=1}^\infty f(n)$ converges. We must show that $\int_1^\infty f(x) dx$ converges. We see that $\int_1^k f(x) dx \leq \sum_{n=1}^{k-1} f(n)$ because $f$ is monotonically decreasing, and because we can pick a partition $P = \{ x_n \}$ such that $x_n = n$ for all $n \in \mathbb{N}$. In other words, we know that $f(n) \geq f(x)$ for all $x \in [n,n+1]$, so that $\sum_{n=1}^{k-1} f(n) \geq \int_{1}^k f(x) dx$. Taking limits we see the following:
+\begin{eqnarray}
+\lim_{k \to \infty} \int_{1}^k f(x) dx &\leq& \lim_{k \to \infty} \sum_{n = 1}^k f(n) \\
+\int_1^\infty f(x) dx &\leq& \sum_{n=1}^\infty f(n)
+\end{eqnarray}
+
+Since we know that $f(x) \geq 0$ for all $x$, and we know that the right side of the inequality converges, we must have $\int_1^\infty f(x) dx$ converge as well.
+\end{proof}
+
+\section{Problem 6.9}
+
+\begin{thm}
+Suppose $F$ and $G$ are differentiable functions on $[a,\infty)$, $F' = f \in \mathscr{R}$ and $G' = g \in \mathscr{R}$. Suppose further that $\int_a^\infty f dx$ and $\int_a^\infty g dx$ exist and that $F(x)g(x)$ is continuous. Then $\int_a^\infty F(x) g(x) dx = \lim_{c \to \infty} F(c) G(c) - F(a) G(a) - \int_a^\infty f(x) G(x) dx$.
+\end{thm}
+
+\begin{proof}
+Note that if $\int_a^\infty f dx$ and $\int_a^\infty g dx$ exist, then the limit of $\lim_{c \to \infty} \int_a^c f dx$ and $\lim_{c \to \infty} \int_a^c g dx$ also exist. Moreover, since $F(x)g(x)$ is continuous, we can prove the fundamental theorem of calculus works for $F(x)g(x)$ on an unbounded interval with our assumptions.
+
+\begin{lem}
+If $h \in \mathscr{R}$ on $[a, \infty)$ and if there is a differentiable function $H$ on $[a,\infty)$ such that $H' = h$, then $\int_a^\infty h(x) dx = \lim_{c \to \infty} H(c) - H(a)$, where improper integral is defined as in the last question. 
+\end{lem}
+
+\begin{proof}
+This is because the fundamental theorem of calculus holds for a function $h$ with the above assumptions on every closed interval $[a,c]$. Then, since we have assumed the limit exists, we know that for every $\epsilon > 0$, there exists a $\delta > 0$ such that $|\int_a^c h dx - q| < \epsilon$ for all points in which $0 < |q - \int_a^c | < \delta$, where $q = \int_a^\infty h dx$. Thus choosing a partition $P = \{x_0, \ldots, x_n \}$ of $[a,c]$ so that $U(P,h) - L(P,h) < \epsilon$, the mean value theorem furnishes points $t_i \in [x_{i-1}, x_i]$ such that $H(x_i) - H(x_{i-1}) = h(t_i) \Delta x_i$ for $i = 1,\ldots,n$. Therefore we see that $\sum_{i=1}^n h(t_i) \Delta x_i = H(c) - H(a)$. From a theorem in Rudin, we see that $|H(c) - H(a) - \int_a^c f(x) dx | < \epsilon$. However, since we know that $|\int_a^c f(x) dx - q | < \epsilon$, we can use the triangle inequality to find that:
+\begin{eqnarray}
+|H(c) - H(a) - q| \leq \left|H(c) - H(a) - \int_a^c h (x) dx \right| + \left| \int_a^c h(x) dx - q \right| < 2 \epsilon
+\end{eqnarray}
+
+Since $\epsilon > 0$ was arbitrary, we see that $\int_a^\infty h(x) dx = \lim_{c \to \infty} H(c) - H(a)$. 
+\end{proof}
+
+Now the proof of integration by parts for improper integrals is a straightforward application of the fundamental theorem of calculus. Let $J(x) = F(x)G(x)$ and apply the above lemma to $J$ and its derivative. Noting that $J' \in \mathscr{R}$, we see that $J'(x) = f(x)G(x) + F(x)g(x)$ and the lemma above shows that 
+\begin{eqnarray}
+\lim_{c \to \infty} \int_a^c f(x)G(x) + F(x)g(x) &=& \lim_{c \to \infty} \left( F(c)G(c) - F(a)G(a) \right) \\
+\lim_{c \to \infty} \int_a^c F(x)g(x) dx &=& \lim_{c \to \infty} \left( F(c)G(c) - F(a)G(a) - \int_a^c f(x)G(x) dx \right)
+\end{eqnarray}
+
+Since we have defined the limit of the integrals, we can change notation to get the following:
+\begin{equation}
+\int_a^\infty F(x)g(x) dx = \lim_{c \to \infty} F(c)G(c) - F(a)G(a) - \int_a^\infty f(x)G(x) dx
+\end{equation}
+
+This completes the prof.
+\end{proof}
+
+\begin{thm}
+We will show that $\int_0^\infty \frac{\sin x}{(1+x)^2} dx$ converges absolutely but $\int_0^\infty \frac{\cos x}{1 + x} dx$ does not.
+\end{thm}
+
+\begin{proof}
+First, we will show that $\int_0^\infty \frac{\sin{x}}{(1+x)^2} dx$ converges absolutely. To do this, we must show that $\int_0^\infty \left| \frac{\sin(x)}{(1+x)^2} \right| dx$ convergs. From the above theorem, it is sufficient to show that $\sum_{n=0}^\infty |\frac{\sin(n)}{(1+n)^2}|$ converges. We can place a bound on the sum by noting that $|\sin(n)| \leq 1$. Therefore, we have the following:
+\begin{eqnarray}
+\sum_{n=0}^\infty \left| \frac{\sin(n)}{(1+n)^2} \right| \leq \sum_{n=0}^\infty \frac{1}{|(1+n)^2|} &\leq& \sum_{n=0}^\infty \frac{1}{(1+n)^2} \leq \sum_{n=0}^\infty \frac{1}{n^2}
+\end{eqnarray}
+Since $\sum \frac{1}{n^2}$ converges by being a geometric series, we see that the sum on the left must converge as well. Therefore, we see that $\int \frac{\sin(x)}{(1+x)^2} dx$ converges using the theorem we just derived in problem 6.8. 
+
+To show that $\int_0^\infty \frac{\cos x}{1+x} dx$ does not converge absolutely, we will use integration by parts. First, we note that we can break the integral of the absolute value up into the following:
+\begin{eqnarray}
+\int_0^\infty \left| \frac{\cos (x)}{1+x} \right| dx = \left| \cos(x) \ln(1+x) \right|_0^\infty + \int_0^\infty |\sin(x) \ln (1+x) | dx
+\end{eqnarray}
+
+Since both of these terms are positive, we only must show that one of them diverges in order to show that the integral also diverges. We shall consider the integral term on the right and use the test developed in problem 6.8. We know that the integral converges if and only if the sum also converges. Thus, we look at the following:
+\begin{eqnarray}
+\sum_{n=0}^\infty |\sin(n)| |\ln(1+n)| 
+\end{eqnarray}
+
+We know that the sum will converge only if the terms of the sequence converge to $0$ as $n \to \infty$. However, we see that this is not the case. First, since $sin(n) \neq 0$ for $n \in \mathbb{N}$, we see that $|\sin(n)| |\ln(1+n)| \to \infty$ as $n \to \infty$ because $\ln(1+n) \to \infty$. Therefore, we see that the sum does not converge, and hence that $\int_0^\infty \frac{\cos x}{1+x} dx$ does not converge absolutely.  
+\end{proof}
+
+\section{Problem 6.10}
+
+\begin{thm}
+Let $p$ and $q$ be positive real numbers such that $\frac{1}{p} + \frac{1}{q} = 1$. If $u \geq 0$ and $v \geq 0$, then $uv \leq \frac{u^p}{p} + \frac{v^q}{q}$. Equality holds if and only if $u^p = v^q$. 
+\end{thm}
+
+\begin{proof}
+We need to show that $\frac{u^p}{p} + \frac{v^q}{q} - uv \geq 0$. We also know, since $q = \frac{p}{p-1}$ and $p = \frac{q}{q-1}$ and $p,q > 0$, that $p,q \in (1,\infty)$. Therefore, we can divide the expression by $u^p$ without changing the sign. We now want to show $\frac{1}{p} + \frac{v^q}{q u^p} - v u^{1-p} \geq 0$. Let $a = \frac{v^q}{u^p}$, then we have: 
+\begin{eqnarray}
+v u^{1-p} &=& \frac{v}{u^{p-1}} = \frac{v}{u^{\frac{p}{q}}} = \left( \frac{v^q}{u^p} \right)^{\frac{1}{q}} = a^{\frac{1}{q}}
+\end{eqnarray}
+
+Since $q = \frac{p}{p-1}$ which implies $p-1 = \frac{p}{q}$. Thus, we will define the following function:
+\begin{eqnarray}
+f(a) = \frac{1}{p} + \frac{1}{q} a - a^{\frac{1}{q}}
+\end{eqnarray}
+
+If we show $f(a)$ is positive for all positive values of $a$, then we have proven the inequality. First, consider $f(0) = \frac{1}{p} > 0$. Thus, the function starts out positive for $a=0$. Next, we will show that at its minimum value, $f$ is still positive. In order to find the minimum, we take the derivative and set it equal to zero, so $0 = f'(a) = \frac{1}{q} - \frac{1}{q} a^{\frac{1}{q} - 1}$ which implies $a = 1$ at the minimum value of $f$. We see that $f(1) = \frac{1}{p} + \frac{1}{q} - 1 = 0$ by assumption. Therefore, $f(a)$ is non-negative on $a \in (0,\infty)$. This shows that the inequality holds for all $u,v \geq 0$ and $p,q$ defined as above. 
+
+Next, to see when equality holds, we want to see when $f(a) = 0$. Thus, we find:
+\begin{eqnarray}
+a^{\frac{1}{q}}&=& \frac{1}{p} + \frac{1}{q} a \\
+a &=& \left( \frac{1}{p} + \frac{1}{q}a \right)^q
+\end{eqnarray}
+
+It is clear that this only occurs for one value, $a=1$, when $\frac{1}{p} + \frac{1}{q}a = 1$. Thus, $f(a) = 0$ if and only if $a =1$. Moreover, $a=1$ implies that $1 = \frac{v^q}{u^p}$ and $v^q = u^p$. Thus, equality holds if and only if $v^q = u^p$. 
+\end{proof}
+
+\begin{thm}
+If $f \in \mathscr{R}(\alpha), g \in\mathscr{R}(\alpha), f \geq 0, g \geq 0$, and $\int_a^b f^p d \alpha = 1 = \int_a^b g^q d \alpha$, then $\int_a^b f g d \alpha \leq 1$. 
+\end{thm}
+
+\begin{proof}
+We will use the theorem we have just derived above. Since we know that $f \geq 0$ and $g \geq 0$, the functions $f(x) = u$ and $g(x) = v$ satisfy all the conditions to use the above inequality for all $x$. Thus, for every $x$, we have:
+\begin{eqnarray}
+f(x) g(x) \leq \frac{f(x)^p}{p} + \frac{g(x)^q}{q}
+\end{eqnarray}
+ Since this holds for all $x$, we can integrate both sides to see that:
+\begin{eqnarray}
+\int_a^b fg d \alpha &\leq& \frac{1}{p}\int_a^b f^p d \alpha + \frac{1}{q} \int_a^b g^q d \alpha \\
+& = & \frac{1}{p} + \frac{1}{q} = 1
+\end{eqnarray}
+
+Therefore, we see that $\int_a^b fg d \alpha \leq 1$. 
+\end{proof}
+
+\begin{thm}
+If $f$ and $g$ are complex functions in $\mathscr{R}(\alpha)$, then $|\int_a^b fg d \alpha| \leq \{ \int_a^b |f|^p d \alpha \}^{1/p} \{ \int_a^b |g|^q d \alpha \}^{1/q}$.
+\end{thm}
+
+\begin{proof}
+If $f$ and $g$ are complex functions, then $|f|$ and $|g|$ are both non-negative and in $\mathscr{R}(\alpha)$. Moreover, $|f|^p$ and $|g|^q$ are also elements in $\mathscr{R}(\alpha)$ by a theorem in Rudin. If either $f$ or $g$ are identically zero, then the inequality is trivial. Thus, we can assume $\int_a^b |f| d \alpha \neq 0$ and $\int_a^b |g| d \alpha \neq 0$. By the inequality we just derived in part b, let us examine the following functions:
+\begin{eqnarray}
+\frac{ \int_a^b |f| d \alpha}{ \left( \int_a^b |f|^p d \alpha \right)^{\frac{1}{p}}} = 1 = \frac{ \int_a^b |g| d \alpha }{ \left( \int_a^b |g|^q d \alpha \right)^{\frac{1}{q}} }
+\end{eqnarray}
+
+Using the theorem derived in part b, we see that the following is true:
+\begin{eqnarray}
+\frac{\int_a^b |f| |g| d \alpha}{\left( \int_a^b |f|^p d \alpha \right)^{\frac{1}{p}}\left( \int_a^b |g|^q d \alpha \right)^{\frac{1}{q}}} \leq 1
+\end{eqnarray}
+
+Since we know that $\int_a^b|f||g| d \alpha = \int_a^b |fg| d \alpha \geq | \int_a^b f g d \alpha |$ by a theorem in Rudin, we obtain the following:
+\begin{eqnarray}
+\left| \int_a^b f g d \alpha \right| \leq \left( \int_a^b |f|^p d \alpha \right)^{\frac{1}{p}}\left( \int_a^b |g|^q d \alpha \right)^{\frac{1}{q}}
+\end{eqnarray}
+
+Thus, the proof of Holder's inequality is complete. 
+\end{proof}
+
+\begin{thm}
+Holder's inequality is also true for improper integrals. Namely: $|\int_a^\infty f g d \alpha | \leq ( \int_a^\infty |f|^p d \alpha )^{1/p} (\int_a^\infty |g|^q d \alpha)^{1/q}$. 
+\end{thm}
+
+\begin{proof}
+Take the limit of both sides of Holder's inequality as $b \to \infty$. Then we have:
+\begin{eqnarray}
+\lim_{b \to \infty} \left| \int_a^b f g d \alpha \right| &\leq& \lim_{b \to \infty} \left( \int_a^b |f|^p d \alpha \right)^{\frac{1}{p}}\left( \int_a^b |g|^q d \alpha \right)^{\frac{1}{q}} \\
+&=& \left(\lim_{b \to \infty} \int_a^b |f|^p d \alpha \right)^{\frac{1}{p}}\left( \lim_{b \to \infty}\int_a^b |g|^q d \alpha \right)^{\frac{1}{q}} \\
+&=& \left( \int_a^\infty |f|^p d \alpha \right)^{\frac{1}{p}}\left( \int_a^\infty |g|^q d \alpha \right)^{\frac{1}{q}}
+\end{eqnarray}
+
+Since we know that $\lim_{b \to \infty} | \int_a^b f g d \alpha | = \int_a^\infty f g d \alpha$, we have proven Holder's inequality for improper integrals.
+\end{proof}
+
+\section{Problem 6.13}
+
+\begin{thm}
+Define $f(x) = \int_x^{x+1} \sin (t^2) dt$. Prove that $|f(x)| < \frac{1}{x}$ if $x > 0$. 
+\end{thm}
+
+\begin{proof}
+Let $t^2 = u$ and use the theorem in Rudin for change of variable and integration by parts. We obtain:
+\begin{eqnarray}
+f(x) &=& \int_{x^2}^{(x+1)^2} \frac{\sin(u)}{2 u^{\frac{1}{2}}} du \\
+&=& \left. -\frac{1}{2} u^{-\frac{1}{2}} \cos u \right|_{x^2}^{(x+1)^2} - \int_{x^2}^{(x+1)^2} \frac{1}{4} u^{-\frac{3}{2}} \cos u du \\
+&=& -\frac{\cos[(x+1)^2]}{2(x+1)} + \frac{\cos(x^2)}{2 x} - \int_{x^2}^{(x+1)^2} \frac{\cos u}{4 u^{\frac{3}{2}}} du
+\end{eqnarray}
+
+The maximum value of the integral occurs when $\cos u = 1$ and the minimum occurs when $\cos u = -1$. Thus, we have:
+\begin{eqnarray}
+\left|  \int_{x^2}^{(x+1)^2} \frac{\cos u}{4 u^{\frac{3}{2}}} du \right| &\leq&  \left| \int_{x^2}^{(x+1)^2} \frac{-1}{4 u^{\frac{3}{2}}} du \right| \\
+&=& \left|\frac{1}{2} u^{-\frac{1}{2}} \right|_{x^2}^{(x+1)^2} \\
+&=& \left| \frac{1}{2x(x+1)} \right|
+\end{eqnarray}
+
+Now, finding the bounds for $|f(x)|$ if $x > 0$ can be done by noting that $\max |\cos(x)| = 1$. We thus obtain:
+\begin{eqnarray}
+|f(x)| &\leq& \left| \frac{\cos(x^2)}{2x} - \frac{ \cos[(x+1)^2]}{2(x+1)} \right| + \left| \frac{1}{2x(x+1)} \right|\\
+&\leq& \left|\frac{1}{2x} + \frac{1}{2(x+1)} + \frac{1}{2x(x+1)} \right| \\
+&=& \frac{1}{x}
+\end{eqnarray}
+\end{proof}
+
+\begin{thm}
+Prove that $2x f(x) = \cos x^2 - \cos (x+1)^2 + r(x)$ where $|r(x)| < c/x$ and $c$ is a constant.
+\end{thm}
+
+\begin{proof}
+Multiply $f(x)$ by $2x$ and use the change of variables and integration by parts used above to find:
+\begin{eqnarray}
+2x f(x) &=& 2x \int_{x}^{x+1} \sin t^2 dt \\
+&=& 2x \left[ \frac{\cos x^2}{2x} - \frac{\cos(x+1)^2}{2(x+1)} - \int_{x^2}^{(x+1)^2} \frac{\cos u}{4 u^{\frac{3}{2}}} du \right] \\
+&=& \cos x^2 - \frac{x}{x+1} \cos (x+1)^2 - 2x \int_{x^2}^{(x+1)^2} \frac{\cos u}{4 u^{\frac{3}{2}}} du 
+\end{eqnarray}
+
+Since we can expand $\frac{x}{x+1} = \frac{1}{x+1} - \frac{x+1}{x+1}$, we get the following:
+\begin{eqnarray}
+r(x) &:=& \frac{1}{x+1} \cos(x+1)^2 - 2x \int_{x^2}^{(x+1)^2} \frac{\cos u}{4 u^{\frac{3}{2}}} du \\
+2xf(x) &=& \cos x^2 - \cos(x+1)^2 + r(x)
+\end{eqnarray}
+
+Now, also that is left to show is that $|r(x)| < \frac{c}{x}$ where $c$ is a constant. We can prove this by noting that $\max |\cos(x+1)^2| = 1$. Similarly to the proof above, we can choose $\cos u = -1$ to obtain the minimum value of the integral. This gives:
+\begin{eqnarray}
+|r(x)| &\leq& \frac{1}{x+1} - 2x \int_{x^2}^{(x+1)^2} \frac{-1}{4 u^\frac{3}{2}} du \\
+&\leq& \frac{1}{x+1} + \frac{2x}{2x(x+1)} \\
+&\leq& \frac{1}{x} + \frac{1}{x} \\
+&\leq& \frac{2}{x}
+\end{eqnarray}
+
+Therefore, we can choose $c =2$ such that $|r(x)| < c/x$. This proves the theorem.
+\end{proof}
+
+\begin{thm}
+The upper limit of $x f(x)$ as $x \to \infty$ is $1$ and the lower limit is $-1$. 
+\end{thm}
+
+\begin{proof}
+We will use the function we just derived from above. Thus, we have $xf(x) = \frac{1}{2} \cos x^2 - \frac{1}{2} \cos(x+1)^2 + \frac{1}{2} r(x)$. We need to find $\lim \sup$ and $\lim \inf$ of $x f(x)$. We know that as $x \to \infty$, we have $r(x) \to 0$ because $|r(x)| < c/x$ and $c/x \to 0$ as $x \to \infty$. Therefore, we need to find infimum and supremum of the set of subsequential limits of $\frac{1}{2} ( \cos x^2 - \cos (x+1)^2 )$.
+
+First, we know that $-1 \leq \cos x^2 \leq 1$ and $-1 \leq \cos (x+1)^2 \leq 1$. Therefore, we see that $-2 \leq \cos x^2 - \cos (x+1)^2 \leq 2$ can be used as a bound. This would imply that an upper bound for $\frac{1}{2} (\cos x^2 - \cos (x+1)^2 )$ would be 1 and a lower bound would be -1. Now consider when $\cos x^2 = 1$ and $\cos (x+1)^2 = -1$. The first set is given by $ \{\sqrt{2 k \pi} \}_{k \in \mathbb{N}}$ and the second set is given by $\{ \sqrt{\pi + 2 k \pi} - 1 \}_{k \in \mathbb{N}}$ by solving for $x$. 
+
+Moreover, we can choose the subsequence $x \in \{ \sqrt{\pi + 2k \pi} -1 \}_{k \in \mathbb{N}}$ and see that its subsequential limit is 2. This is because $\lim_{x \to \infty} \cos x^2 = 1$ for $x \in \{\sqrt{\pi + 2k \pi} -1  \}_{k \in \mathbb{N}}$ because and $\lim_{x \to \infty} \cos (x+1)^2 = \lim_{x \to \infty} \cos x^2 = 1$ for $x \in \{\sqrt{\pi + 2k \pi} -1  \}_{k \in \mathbb{N}}$. We see this because for $x \in \{\sqrt{\pi + 2k \pi} -1 \}_{k \in \mathbb{N}}$:
+\begin{eqnarray}
+\lim_{x \to \infty} \cos x^2 &=& \lim_{k \to \infty} \cos (\sqrt{\pi + 2 k \pi} - 1)^2 = \lim_{k \to \infty} \cos (2 k \pi) = 1 \\
+\lim_{x \to \infty} \cos (x+1)^2 &=& \lim_{k \to \infty} \cos (\sqrt{\pi + 2 k \pi})^2 = \lim_{k \to \infty} \cos(\pi + 2k\pi) = -1
+\end{eqnarray}
+
+Since this subsequence has a limit for $\cos x^2 - \cos(x+1)^2$ of $2$, we see that this must be the upper limit because we have a bound of $2 x f(x) \leq 2$. Therefore, the upper limit of $x f(x)$ is $1$. By a similar argument, we can construct a subsequence whose limit is $-1$. Therefore, we have shown that the upper and lower limits of $x f(x)$ are $1$ and $-$1 respectively. 
+\end{proof}
+
+\begin{thm}
+The integral $\int_0^\infty \sin t^2 dt$ does converge. 
+\end{thm}
+
+\begin{proof}
+We can show this by letting $g(y) = \int_x^y \sin(t^2) dt$. Now, we will show that $|g(y)| \to c$ where $c$ is a constant as $y \to \infty$. To do this, we proceed as in part a. Using the change of variable trick for $t^2 = u$ and integration by parts, we see the following:
+\begin{eqnarray}
+|g(x)| &\leq & \left| \frac{\cos x^2}{2x} - \frac{ \cos (x+1)^2}{2(x+1)}  \right| + \left| \int_{x^2}^{y^2} \frac{-1}{4 u^{\frac{3}{2}}} du \right| \\
+&\leq& \frac{1}{2x} + \frac{1}{2(x+1)} + \frac{1}{2y} - \frac{1}{2x} \\
+&\leq& \frac{1}{2(x+1)} + \frac{1}{2y}
+\end{eqnarray}
+
+Thus, we can take the limit as $y \to \infty$ and fix $x = \epsilon > 0$ (we have only proven the above inequality for $x > 0$). We therefore obtain the following:
+\begin{eqnarray}
+\lim_{y \to \infty} |g(y)| &=& \lim_{y \to \infty} \int_\epsilon^{\infty} \sin(t^2) dt \\
+&\leq& \frac{1}{2(\epsilon + 1)}  
+\end{eqnarray}
+
+Since $\int_0^\epsilon \sin t^2 dt$ is finite, we see that $\int_0^\infty \sin t^2 dt = \int_0^\epsilon \sin t^2 dt + \int_\epsilon^\infty \sin t^2 dt$ is finite because both terms converge. Therefore, the integral $\int_0^\infty \sin t^2 dt$ converges. 
+
+\end{proof}
+
+\end{document}
