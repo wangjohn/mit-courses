@@ -49,6 +49,8 @@
 # >>> isinstance(Sum([1,2,3]), Expression) # Sums and Products are both Expressions
 # True
 
+from depth import depth
+
 class Expression:
     "This abstract class does nothing on its own."
     pass
@@ -77,7 +79,7 @@ class Sum(list, Expression):
         """
         terms = self.flatten()
         if len(terms) == 1:
-            return simplify_if_possible(terms[0])
+            return simplify_if_possible(terms)
         else:
             return Sum([simplify_if_possible(term) for term in terms]).flatten()
 
@@ -113,9 +115,14 @@ class Product(list, Expression):
                 factors += list(factor)
             else:
                 factors.append(factor)
-        result = Product([1])
-        for factor in factors:
-            result = multiply(result, simplify_if_possible(factor))
+        result = factors[0]
+        #for factor in factors:
+        n =0
+        while n < len(factors) -1:
+            n += 1
+            result = multiply(simplify_if_possible(result), simplify_if_possible(factors[n]))
+        #if depth(result) > 1:
+          #  self.simplify(result)
         return result.flatten()
 
     def flatten(self):
@@ -173,21 +180,76 @@ def do_multiply(expr1, expr2):
     Look above for details on the Sum and Product classes. The Python operator
     '*' will not help you.
     """
+    if isinstance(expr1, Sum) and isinstance(expr2, Product): #Sum * Product
+        result = do_multiply(expr2, expr1)
 
-    if isinstance(expr1, Product) and isinstance(expr2, Product):
-        output = Product(expr1 + expr2)
     elif isinstance(expr1, Product) and isinstance(expr2, Sum):
-        new_terms = []
-        for term in expr2:
-            new_terms.append(Product([term] + expr1))
-        output = Sum(new_terms)
-    elif isinstance(expr1, Sum) and isinstance(expr2, Product):
-        output = do_multiply(expr2, expr1)
-    else:
-        new_terms = []
-        for term1 in expr1:
-            for term2 in expr2:
-                new_terms.append(Product([term1] + [term2]))
-        output = Sum(new_terms)
-    return output
+        result = []
+        for e2 in expr2:
+            result.append(Product([e2] + expr1))
+        result = Sum(result)
 
+    elif isinstance(expr1, Product) and isinstance(expr2, Product):
+        result = Product(expr1 + expr2)
+    else: #isinstance(expr1, Sum) and isinstance(expr2, Sum): #Sum * Sum
+        result = []
+        for e1 in expr1:
+            for e2 in expr2:
+                result.append(Product([e1] + [e2]))
+        result = Sum(result)
+
+
+    return result #use depth. depth 2 for products, depth 1 sums. or len(1)?    
+
+    # Replace this with your solution.
+    #raise NotImplementedError
+
+if __name__ == "__main__":
+    
+    """
+    e1 = Sum([1, 2, Sum([3, 4, 5])])
+    print(e1)
+    e1 = e1.simplify()
+    print(e1)
+    
+    expr = Sum([1, Sum([2, 3])])
+    expr = expr.simplify()
+    print(expr)
+
+    
+    p1 = Product([Sum([1, 2]), Sum([3, 4])])
+    p1 = p1.simplify()
+    print(p1, "\n")
+    """
+    p2 = Product([Sum([3, 5]), Sum([10, 20])])
+    p2 = p2.simplify()
+    print("\n", p2)
+
+    p3 = Product([Sum([2, 4]), Sum([20, 40]), Sum([200, 300])])
+    p3 = p3.simplify()
+    print("\n", p3)
+
+    #returns correct answer, except with a 1 added at the beginning.
+    p4 = Product([Product([10, 100]), Product([2, 4]), Product([50, 500])])
+    p4 = p4.simplify()
+    print("\n", p4)
+    
+    """
+    p2 = Product([Sum([100, 10]), Sum([2, 20]), Sum([2, 4])])
+    p2=p2.simplify()
+    print("\n", p2, "\n")
+    """
+    """
+    p3 = [1, 2, 3]
+    p4 = [4, 5, 6]
+    print("\n\n", Sum(p3))
+    print(Product(p3))
+    print(Sum([p3, p4]))
+    print(Product([p3, p4]))
+    print(p3 + p4)
+    p5 = []
+    p5.append(p3)
+    p5.append(p4)
+    p5=Product(p5)
+    print(p5)
+    """
