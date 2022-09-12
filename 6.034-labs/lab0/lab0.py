@@ -37,20 +37,13 @@ def factorial(x):
     return (x*factorial(x-1) if x > 1 else 1)
 
 def count_pattern(pattern, lst):
-    hashed_patterns = {}
-    for i in xrange(len(pattern)):
-        for j in xrange(len(lst)):
-            if lst[j] == pattern[i]:
-                if (j-i) in hashed_patterns:
-                    hashed_patterns[j-i] += [pattern[i]]
-                else:
-                    hashed_patterns[j-i] = [pattern[i]]
-    pattern_length = len(pattern)
-    counter = 0
-    for key, value in hashed_patterns.items():
-        if len(value) >= pattern_length and value == pattern:
-            counter += 1
-    return counter
+    counter = 0; 
+    pattlen = len(pattern);
+
+    for idx, x in enumerate(lst):
+        if(lst[idx:pattlen+idx]==pattern):
+            counter = counter +1
+    return counter;
 
 # Problem 2.2: Expression depth
 
